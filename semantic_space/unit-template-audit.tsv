@@ -1,0 +1,101 @@
+unit_id	kind	templates	count
+deployment.runtime_mode_binding	obligation		0
+deployment.effective_configuration	obligation		0
+deployment.configuration_admissibility	obligation		0
+response.valid	composite	text_generation | segmented_prefill | prefix_reuse | structured_json_response | tool_call_response | image_request | adapter_switch | service_load | task_quality_eval | speculative_greedy | tensor_parallel_generation | disaggregated_generation | video_request	13
+input.multimodal_binding	obligation	image_request | video_request	2
+input.text_token_roundtrip	obligation		0
+input.text_tokenization	obligation		0
+input.chat_template_tokenization	obligation	tool_call_response	1
+input.error_response_classification	obligation		0
+request.admission	obligation	text_generation | segmented_prefill | prefix_reuse | cancel_running_request | structured_json_response | tool_call_response | image_request | adapter_switch | service_load | task_quality_eval | embedding_request | speculative_greedy | tensor_parallel_generation | disaggregated_generation | video_request	15
+input.context_length_admissibility	obligation		0
+input.modality_count_admissibility	obligation		0
+input.logprob_token_id_admissibility	obligation		0
+request.access_control	obligation		0
+request.prefill_token_view	obligation		0
+schedule.progress	obligation	text_generation | segmented_prefill | prefix_reuse | cancel_running_request | structured_json_response | image_request | adapter_switch | service_load | embedding_request | speculative_greedy | tensor_parallel_generation | disaggregated_generation | video_request	13
+schedule.segment_continuity	obligation	segmented_prefill	1
+schedule.work_distribution	obligation		0
+cache.safe_reuse	composite	prefix_reuse	1
+cache.namespace	obligation	prefix_reuse	1
+cache.eviction_priority	obligation		0
+cache.hash_order_sensitivity	obligation		0
+cache.hash_bigram_equivalence	obligation		0
+cache.hit_accounting	obligation	prefix_reuse	1
+cache.lifetime	obligation	prefix_reuse	1
+cache.state_invariants	obligation		0
+cache.eviction_outcome	obligation		0
+cache.tier_transfer_content	obligation		0
+cache.result_relation	obligation	prefix_reuse	1
+compute.operator_reference_relation	obligation		0
+model.reference_relation	obligation	text_generation | segmented_prefill | prefix_reuse | structured_json_response | image_request | adapter_switch | service_load | task_quality_eval | speculative_greedy | tensor_parallel_generation | disaggregated_generation | video_request	12
+model.parameter_binding	obligation		0
+model.execution_variant_relation	obligation		0
+model.adapter_binding	obligation	adapter_switch	1
+sampling.temperature_finiteness	obligation		0
+sampling.top_p_range	obligation		0
+sampling.numeric_parameter_bounds	obligation		0
+sampling.zero_temperature_mode	obligation		0
+sampling.valid_parameter_acceptance	obligation	text_generation | segmented_prefill | prefix_reuse | structured_json_response | image_request | adapter_switch | service_load | speculative_greedy | tensor_parallel_generation | disaggregated_generation | video_request	11
+sampling.policy	obligation	text_generation | segmented_prefill | prefix_reuse | structured_json_response | image_request | adapter_switch | service_load | speculative_greedy | tensor_parallel_generation | disaggregated_generation | video_request	11
+sampling.per_request_modifier_binding	obligation		0
+tool.constraint_schema_construction	obligation	tool_call_response	1
+sampling.structured_constraint	obligation	structured_json_response | tool_call_response	2
+output.tool_argument_type_binding	obligation	tool_call_response	1
+output.finalization	obligation	text_generation | segmented_prefill | prefix_reuse | structured_json_response | image_request | adapter_switch | service_load | task_quality_eval | speculative_greedy | tensor_parallel_generation | disaggregated_generation | video_request	12
+output.token_buffer_search	obligation		0
+output.marker_sequence_search	obligation		0
+response.delivery	obligation	text_generation | segmented_prefill | prefix_reuse | structured_json_response | tool_call_response | image_request | adapter_switch | service_load | task_quality_eval | speculative_greedy | tensor_parallel_generation | disaggregated_generation | video_request	13
+response.usage_accounting	obligation		0
+response.logprob_identity	obligation		0
+response.logprob_value	obligation		0
+response.logprob_text_decoding	obligation		0
+service.performance	obligation	service_load	1
+service.concurrent_request_isolation	obligation		0
+quality.task_score	obligation	task_quality_eval	1
+abort.safe	composite	cancel_running_request	1
+abort.no_late_output	obligation	cancel_running_request	1
+abort.cleanup	obligation	cancel_running_request	1
+abort.inflight_release	obligation	cancel_running_request	1
+embedding.valid	composite	embedding_request	1
+embedding.reference_relation	obligation	embedding_request	1
+embedding.delivery	obligation	embedding_request	1
+spec.target_semantics	composite	speculative_greedy	1
+spec.acceptance	obligation	speculative_greedy	1
+spec.output_relation	obligation	speculative_greedy	1
+distributed.logical_execution	composite	tensor_parallel_generation	1
+distributed.partition_binding	obligation	tensor_parallel_generation	1
+distributed.reduce_relation	obligation	tensor_parallel_generation	1
+disagg.logical_continuation	composite	disaggregated_generation	1
+disagg.request_binding	obligation	disaggregated_generation	1
+disagg.kv_mapping	obligation	disaggregated_generation	1
+disagg.transfer_gate	obligation	disaggregated_generation	1
+input.video_frame_selection	obligation	video_request	1
+request.parallel_child_binding	obligation		0
+request.batch_field_binding	obligation		0
+quality.sample_semantic_expectation	obligation		0
+distributed.message_delivery	obligation		0
+distributed.queue_wait_shutdown	obligation		0
+shared_resource.object_handle_identity	obligation		0
+shared_resource.buffer_slot_integrity	obligation		0
+shared_resource.lifetime	obligation		0
+distributed.resource_fallback_agreement	obligation		0
+deployment.shared_memory_capacity_admission	obligation		0
+distributed.remote_endpoint_binding	obligation		0
+distributed.tensor_transport_selection	obligation		0
+shared_resource.attachment_failure_handling	obligation		0
+distributed.payload_transport_selection	obligation		0
+cache.transfer_address_registration	obligation		0
+cache.transfer_registration_failure_cleanup	obligation		0
+cache.backup_rank_write_suppression	obligation		0
+cache.storage_existence_accounting	obligation		0
+cache.storage_io_mode_binding	obligation		0
+cache.storage_key_placement	obligation		0
+sampling.parameter_normalization	obligation		0
+sampling.cross_parameter_admissibility	obligation		0
+sampling.stop_condition_normalization	obligation		0
+sampling.stop_regex_buffer_bound	obligation		0
+output.stop_match_selection	obligation		0
+output.stop_boundary	obligation		0
+request.effective_sampling_parameters	obligation		0

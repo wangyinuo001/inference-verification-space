@@ -1,0 +1,23 @@
+{
+  "entries": 31968,
+  "linked_contract_candidates": 9427,
+  "unlinked_triaged": 22541,
+  "supplemental_unlinked_candidates": 971,
+  "source_route_candidates": 10827,
+  "helper_chain_candidates": 1902,
+  "contract_v2_statuses": {
+    "needs_review": 8006,
+    "abstain": 430,
+    "mechanical_candidate": 991
+  },
+  "evidence_levels": {
+    "triage_only": 20991,
+    "prior_source_review": 609,
+    "static_call_oracle_candidate": 9005,
+    "supplemental_static_candidate": 957,
+    "source_property_confirmed": 353,
+    "source_out_of_request_scope": 52,
+    "source_candidate": 1
+  },
+  "interpretation": "All entries are routed for review; only source_property_confirmed records have a newly checked local property, and none imply runtime execution."
+}

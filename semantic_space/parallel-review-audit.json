@@ -1,0 +1,11 @@
+{
+  "inventory_entries": 31968,
+  "reviewed_entries": 406,
+  "status_counts": {
+    "not_reviewed": 31562,
+    "source_confirmed": 353,
+    "out_of_scope": 52,
+    "candidate": 1
+  },
+  "interpretation": "source_confirmed means the cited source supports the stated local property; it is not runtime or cross-framework proof."
+}

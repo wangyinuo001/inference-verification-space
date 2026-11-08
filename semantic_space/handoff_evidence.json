@@ -1,0 +1,449 @@
+{
+  "status": "static source handoffs; no end-to-end execution identity or composition proof claimed",
+  "handoffs": [
+    {
+      "id": "generation.admission_to_scheduler",
+      "path_template": "text_generation",
+      "from_unit": "request.admission",
+      "to_unit": "schedule.progress",
+      "transferred": [
+        "request ID",
+        "normalized input",
+        "sampling parameters"
+      ],
+      "execution_profile": "vLLM offline LLMEngine; SGLang online normal event loop",
+      "source_refs": {
+        "vllm": [
+          {
+            "path": "vllm/v1/engine/llm_engine.py",
+            "line": 297
+          },
+          {
+            "path": "vllm/v1/engine/llm_engine.py",
+            "line": 299
+          },
+          {
+            "path": "vllm/v1/engine/core.py",
+            "line": 600
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/managers/tokenizer_manager.py",
+            "line": 620
+          },
+          {
+            "path": "python/sglang/srt/managers/tokenizer_manager.py",
+            "line": 1325
+          },
+          {
+            "path": "python/sglang/srt/managers/scheduler.py",
+            "line": 1998
+          }
+        ]
+      },
+      "remaining_check": "Compare the accepted request identity and normalized parameters with the scheduler's actual request record."
+    },
+    {
+      "id": "generation.scheduler_to_model",
+      "path_template": "text_generation",
+      "from_unit": "schedule.progress",
+      "to_unit": "model.reference_relation",
+      "transferred": [
+        "scheduled request IDs",
+        "token positions",
+        "model batch"
+      ],
+      "execution_profile": "vLLM EngineCore.step; SGLang non-overlap generation branch",
+      "source_refs": {
+        "vllm": [
+          {
+            "path": "vllm/v1/engine/core.py",
+            "line": 719
+          },
+          {
+            "path": "vllm/v1/engine/core.py",
+            "line": 720
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/managers/scheduler.py",
+            "line": 1523
+          },
+          {
+            "path": "python/sglang/srt/managers/scheduler.py",
+            "line": 3270
+          }
+        ]
+      },
+      "remaining_check": "Bind each model batch row and token position to the scheduler request; source calls alone do not establish numerical correctness."
+    },
+    {
+      "id": "generation.model_to_output",
+      "path_template": "text_generation",
+      "from_unit": "model.reference_relation",
+      "to_unit": "output.finalization",
+      "transferred": [
+        "sampled token IDs",
+        "request ID",
+        "finish state"
+      ],
+      "execution_profile": "vLLM EngineCore.step; SGLang non-overlap decode",
+      "source_refs": {
+        "vllm": [
+          {
+            "path": "vllm/v1/engine/core.py",
+            "line": 733
+          },
+          {
+            "path": "vllm/v1/core/sched/scheduler.py",
+            "line": 2599
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/managers/scheduler.py",
+            "line": 3375
+          },
+          {
+            "path": "python/sglang/srt/managers/scheduler_components/batch_result_processor.py",
+            "line": 691
+          }
+        ]
+      },
+      "remaining_check": "Observe the token sequence and finish state after sampling for the same request and model invocation."
+    },
+    {
+      "id": "generation.output_to_api",
+      "path_template": "text_generation",
+      "from_unit": "output.finalization",
+      "to_unit": "response.delivery",
+      "transferred": [
+        "request ID",
+        "token IDs",
+        "text",
+        "finish reason"
+      ],
+      "execution_profile": "vLLM offline LLMEngine; SGLang online detokenizer-to-tokenizer return",
+      "source_refs": {
+        "vllm": [
+          {
+            "path": "vllm/v1/engine/llm_engine.py",
+            "line": 340
+          },
+          {
+            "path": "vllm/v1/engine/output_processor.py",
+            "line": 762
+          },
+          {
+            "path": "vllm/v1/engine/output_processor.py",
+            "line": 852
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/managers/scheduler_components/output_streamer.py",
+            "line": 163
+          },
+          {
+            "path": "python/sglang/srt/managers/detokenizer_manager.py",
+            "line": 404
+          },
+          {
+            "path": "python/sglang/srt/managers/tokenizer_manager.py",
+            "line": 1850
+          }
+        ]
+      },
+      "remaining_check": "Compare internal token IDs and terminal status with the final client-visible response, including streamed chunks when enabled."
+    },
+    {
+      "id": "cache.request_to_key",
+      "path_template": "prefix_reuse",
+      "from_unit": "request.admission",
+      "to_unit": "cache.namespace",
+      "transferred": [
+        "request token prefix",
+        "cache isolation key",
+        "cacheable boundary"
+      ],
+      "execution_profile": "local prefix cache in both frameworks",
+      "source_refs": {
+        "vllm": [
+          {
+            "path": "vllm/v1/core/sched/scheduler.py",
+            "line": 1169
+          },
+          {
+            "path": "vllm/v1/core/sched/scheduler.py",
+            "line": 693
+          },
+          {
+            "path": "vllm/v1/core/kv_cache_utils.py",
+            "line": 672
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/managers/schedule_batch.py",
+            "line": 1166
+          },
+          {
+            "path": "python/sglang/srt/managers/schedule_batch.py",
+            "line": 1170
+          }
+        ]
+      },
+      "remaining_check": "Check that token content, adapter or media identity, and cache-specific metadata all enter the lookup key for the concrete request."
+    },
+    {
+      "id": "cache.hit_to_model_input",
+      "path_template": "prefix_reuse",
+      "from_unit": "cache.hit_accounting",
+      "to_unit": "model.reference_relation",
+      "transferred": [
+        "matched prefix length",
+        "cached block or index mapping",
+        "uncached token suffix"
+      ],
+      "execution_profile": "local prefix cache in both frameworks",
+      "source_refs": {
+        "vllm": [
+          {
+            "path": "vllm/v1/core/sched/scheduler.py",
+            "line": 1169
+          },
+          {
+            "path": "vllm/v1/core/sched/scheduler.py",
+            "line": 1259
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/managers/schedule_batch.py",
+            "line": 1180
+          },
+          {
+            "path": "python/sglang/srt/managers/schedule_batch.py",
+            "line": 2017
+          }
+        ]
+      },
+      "remaining_check": "Connect reused cache state to the exact model input and compare output with a cold run under the same request conditions."
+    },
+    {
+      "id": "abort.command_to_scheduler",
+      "path_template": "cancel_running_request",
+      "from_unit": "request.admission",
+      "to_unit": "abort.cleanup",
+      "transferred": [
+        "request ID",
+        "abort event",
+        "request phase"
+      ],
+      "execution_profile": "vLLM AsyncLLM; SGLang online tokenizer manager",
+      "source_refs": {
+        "vllm": [
+          {
+            "path": "vllm/v1/engine/async_llm.py",
+            "line": 969
+          },
+          {
+            "path": "vllm/v1/engine/async_llm.py",
+            "line": 970
+          },
+          {
+            "path": "vllm/v1/engine/core.py",
+            "line": 611
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/managers/tokenizer_manager.py",
+            "line": 1666
+          },
+          {
+            "path": "python/sglang/srt/managers/scheduler.py",
+            "line": 3774
+          }
+        ]
+      },
+      "remaining_check": "Track the abort ID across processes and distinguish waiting, running, and in-flight work."
+    },
+    {
+      "id": "abort.cleanup_to_late_output",
+      "path_template": "cancel_running_request",
+      "from_unit": "abort.cleanup",
+      "to_unit": "abort.no_late_output",
+      "transferred": [
+        "request-state removal",
+        "late output request ID"
+      ],
+      "execution_profile": "vLLM AsyncLLM; SGLang online tokenizer manager",
+      "source_refs": {
+        "vllm": [
+          {
+            "path": "vllm/v1/engine/output_processor.py",
+            "line": 636
+          },
+          {
+            "path": "vllm/v1/engine/output_processor.py",
+            "line": 762
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/managers/tokenizer_manager.py",
+            "line": 1850
+          },
+          {
+            "path": "python/sglang/srt/managers/tokenizer_manager.py",
+            "line": 2714
+          }
+        ]
+      },
+      "remaining_check": "Exercise an abort that races with an already-running model step and check no later client-visible output is delivered."
+    },
+    {
+      "id": "abort.cleanup_to_resource_release",
+      "path_template": "cancel_running_request",
+      "from_unit": "abort.cleanup",
+      "to_unit": "abort.inflight_release",
+      "transferred": [
+        "request status",
+        "cache ownership",
+        "pending GPU or transfer work"
+      ],
+      "execution_profile": "vLLM scheduler; SGLang scheduler running-batch branch",
+      "source_refs": {
+        "vllm": [
+          {
+            "path": "vllm/v1/core/sched/scheduler.py",
+            "line": 3188
+          },
+          {
+            "path": "vllm/v1/core/sched/scheduler.py",
+            "line": 3223
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/managers/scheduler.py",
+            "line": 3884
+          },
+          {
+            "path": "python/sglang/srt/managers/scheduler_components/batch_result_processor.py",
+            "line": 868
+          }
+        ]
+      },
+      "remaining_check": "Observe resource ownership through the actual GPU-step or transfer completion before asserting timely and safe release."
+    },
+    {
+      "id": "disagg.request_to_transfer_identity",
+      "path_template": "disaggregated_generation",
+      "from_unit": "request.admission",
+      "to_unit": "disagg.request_binding",
+      "transferred": [
+        "logical request ID",
+        "same prompt and sampling parameters on both workers",
+        "transfer ID or bootstrap room"
+      ],
+      "execution_profile": "vLLM Mooncake proxy to separate workers; SGLang scheduler to prefill/decode receiver",
+      "source_refs": {
+        "vllm": [
+          {
+            "path": "examples/disaggregated/mooncake_connector/mooncake_connector_proxy.py",
+            "line": 255
+          },
+          {
+            "path": "examples/disaggregated/mooncake_connector/mooncake_connector_proxy.py",
+            "line": 295
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/managers/scheduler.py",
+            "line": 2035
+          },
+          {
+            "path": "python/sglang/srt/disaggregation/decode.py",
+            "line": 541
+          }
+        ]
+      },
+      "remaining_check": "Record both worker requests and match identity, input and transfer metadata; matching field names in source do not prove a runtime pairing."
+    },
+    {
+      "id": "disagg.identity_to_kv_mapping",
+      "path_template": "disaggregated_generation",
+      "from_unit": "disagg.request_binding",
+      "to_unit": "disagg.kv_mapping",
+      "transferred": [
+        "transfer ID or bootstrap room",
+        "source rank and destination rank",
+        "KV block and token positions"
+      ],
+      "execution_profile": "vLLM connector topology mapping; SGLang decode receiver and transfer metadata",
+      "source_refs": {
+        "vllm": [
+          {
+            "path": "examples/disaggregated/mooncake_connector/mooncake_connector_proxy.py",
+            "line": 300
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/nixl/tp_mapping.py",
+            "line": 84
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/disaggregation/decode.py",
+            "line": 510
+          },
+          {
+            "path": "python/sglang/srt/disaggregation/decode.py",
+            "line": 1061
+          }
+        ]
+      },
+      "remaining_check": "Join one request to its actual source and destination KV placement, including all ranks and token positions."
+    },
+    {
+      "id": "disagg.transfer_to_decode",
+      "path_template": "disaggregated_generation",
+      "from_unit": "disagg.transfer_gate",
+      "to_unit": "model.reference_relation",
+      "transferred": [
+        "transfer completion event",
+        "ready KV and metadata",
+        "request state entering decode"
+      ],
+      "execution_profile": "vLLM asynchronous remote KV wait and completion; SGLang decode transfer queue",
+      "source_refs": {
+        "vllm": [
+          {
+            "path": "vllm/v1/core/sched/scheduler.py",
+            "line": 3685
+          },
+          {
+            "path": "vllm/v1/core/sched/scheduler.py",
+            "line": 3733
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/disaggregation/decode.py",
+            "line": 1687
+          },
+          {
+            "path": "python/sglang/srt/disaggregation/decode.py",
+            "line": 1695
+          }
+        ]
+      },
+      "remaining_check": "Observe the same request at completion and first decode step; inspect failure and stale-metadata branches separately."
+    }
+  ]
+}

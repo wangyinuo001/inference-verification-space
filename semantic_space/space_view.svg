@@ -1,0 +1,753 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 1324" role="img" aria-label="推理系统的验证单元、层次和依赖">
+<style>text{font-family:Arial,"PingFang SC","Noto Sans CJK SC",sans-serif}.heading{font-size:23px;font-weight:700;fill:#222}.sub{font-size:12px;fill:#62616a}.phase{font-size:13px;font-weight:700;fill:#34313a}.node-label{font-size:14px;font-weight:600;fill:#27222d}.composite-label{font-size:14px;font-weight:700;fill:#632b77}.legend{font-size:12px;fill:#4b4752}.edge{fill:none;stroke-width:1.5}.unit{cursor:pointer}</style>
+<rect width="1280" height="1324" fill="#fff"/>
+<text x="32" y="38" class="heading">推理系统的验证单元</text>
+<text x="32" y="60" class="sub">横向为请求流程；部署条件位于请求进入前。</text>
+<text x="32" y="110" class="phase">部署条件与组合性质</text>
+<line x1="32" y1="290" x2="1245" y2="290" stroke="#ddd9e0"/>
+<text x="85" y="317" text-anchor="middle" class="phase phase-heading" data-phase="ingress">请求进入</text>
+<line x1="85" y1="328" x2="85" y2="1246" stroke="#eeeaf0"/>
+<text x="225" y="317" text-anchor="middle" class="phase phase-heading" data-phase="scheduling">调度</text>
+<line x1="225" y1="328" x2="225" y2="1246" stroke="#eeeaf0"/>
+<text x="365" y="317" text-anchor="middle" class="phase phase-heading" data-phase="cache">缓存</text>
+<line x1="365" y1="328" x2="365" y2="1246" stroke="#eeeaf0"/>
+<text x="505" y="317" text-anchor="middle" class="phase phase-heading" data-phase="transfer">远程传输</text>
+<line x1="505" y1="328" x2="505" y2="1246" stroke="#eeeaf0"/>
+<text x="645" y="317" text-anchor="middle" class="phase phase-heading" data-phase="model_execution">模型计算</text>
+<line x1="645" y1="328" x2="645" y2="1246" stroke="#eeeaf0"/>
+<text x="785" y="317" text-anchor="middle" class="phase phase-heading" data-phase="sampling">采样</text>
+<line x1="785" y1="328" x2="785" y2="1246" stroke="#eeeaf0"/>
+<text x="925" y="317" text-anchor="middle" class="phase phase-heading" data-phase="output">结果返回</text>
+<line x1="925" y1="328" x2="925" y2="1246" stroke="#eeeaf0"/>
+<text x="1065" y="317" text-anchor="middle" class="phase phase-heading" data-phase="service">服务运行</text>
+<line x1="1065" y1="328" x2="1065" y2="1246" stroke="#eeeaf0"/>
+<text x="1205" y="317" text-anchor="middle" class="phase phase-heading" data-phase="abort">取消</text>
+<line x1="1205" y1="328" x2="1205" y2="1246" stroke="#eeeaf0"/>
+<path class="edge" data-parent="distributed.message_delivery" data-child="shared_resource.buffer_slot_integrity" d="M 1065.0 604.0 C 1065.0 669.5, 1065.0 669.5, 1065.0 735.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: the chosen local channel stores an in-flight message in a reusable shared-memory ring slot</title></path>
+<path class="edge" data-parent="distributed.queue_wait_shutdown" data-child="distributed.message_delivery" d="M 1065.0 640.0 L 1065.0 582.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a waiting reader is awakened by a newly delivered message</title></path>
+<path class="edge" data-parent="shared_resource.object_handle_identity" data-child="shared_resource.buffer_slot_integrity" d="M 1065.0 720.0 C 1065.0 727.5, 1065.0 727.5, 1065.0 735.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a handle refers to a buffer slot that can be reused under a new generation</title></path>
+<path class="edge" data-parent="shared_resource.buffer_slot_integrity" data-child="shared_resource.lifetime" d="M 1065.0 778.0 C 1065.0 785.5, 1065.0 785.5, 1065.0 793.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: the shared memory object must remain attached while a reader consumes an allocated slot</title></path>
+<path class="edge" data-parent="distributed.resource_fallback_agreement" data-child="deployment.runtime_mode_binding" d="M 645.0 814.0 L 85.0 145.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: fallback is coordinated among initialized process-group members</title></path>
+<path class="edge" data-parent="distributed.resource_fallback_agreement" data-child="shared_resource.lifetime" d="M 645.0 814.0 L 1065.0 814.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: the fallback creates a replacement shared resource whose lifetime must be managed</title></path>
+<path class="edge" data-parent="deployment.runtime_mode_binding" data-child="deployment.effective_configuration" d="M 85.0 167.0 C 85.0 173.5, 85.0 173.5, 85.0 180.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: process-wide execution policy is initialized from the effective mode and worker layout</title></path>
+<path class="edge" data-parent="deployment.configuration_admissibility" data-child="deployment.effective_configuration" d="M 85.0 257.0 L 85.0 201.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: admissibility depends on merged defaults, platform-specific backend selection or normalized aliases</title></path>
+<path class="edge" data-parent="request.admission" data-child="input.modality_count_admissibility" d="M 85.0 662.0 C 85.0 698.5, 85.0 698.5, 85.0 735.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: the request contains one or more media items under a per-modality count limit</title></path>
+<path class="edge" data-parent="request.admission" data-child="input.logprob_token_id_admissibility" d="M 85.0 662.0 C 85.0 727.5, 85.0 727.5, 85.0 793.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a request specifies token IDs for logprob queries and the API supports that field</title></path>
+<path class="edge" data-parent="request.admission" data-child="input.context_length_admissibility" d="M 85.0 662.0 C 85.0 669.5, 85.0 669.5, 85.0 677.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a request enters execution under a finite effective context limit</title></path>
+<path class="edge" data-parent="request.admission" data-child="input.text_token_roundtrip" d="M 85.0 640.0 L 85.0 408.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a text request is encoded to token IDs and the API also exposes decoding under the same tokenizer policy</title></path>
+<path class="edge" data-parent="request.admission" data-child="deployment.configuration_admissibility" d="M 85.0 640.0 L 85.0 257.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: the request uses a feature subject to a deployment capability constraint</title></path>
+<path class="edge" data-parent="response.valid" data-child="request.admission" d="M 560.0 152.0 C 560.0 385.5, 85.0 385.5, 85.0 619.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: all responses</title></path>
+<path class="edge" data-parent="response.valid" data-child="service.concurrent_request_isolation" d="M 560.0 152.0 C 560.0 269.5, 1065.0 269.5, 1065.0 387.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: multiple requests execute concurrently with shared service state</title></path>
+<path class="edge" data-parent="request.admission" data-child="request.access_control" d="M 85.0 662.0 C 85.0 756.5, 85.0 756.5, 85.0 851.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: request admission is protected by an access policy</title></path>
+<path class="edge" data-parent="response.valid" data-child="schedule.progress" d="M 560.0 152.0 C 560.0 269.5, 225.0 269.5, 225.0 387.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: all responses</title></path>
+<path class="edge" data-parent="response.valid" data-child="model.reference_relation" d="M 560.0 152.0 C 560.0 269.5, 645.0 269.5, 645.0 387.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: generation response</title></path>
+<path class="edge" data-parent="model.reference_relation" data-child="model.execution_variant_relation" d="M 645.0 430.0 C 645.0 466.5, 645.0 466.5, 645.0 503.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: candidate and reference use different compiled or captured execution modes</title></path>
+<path class="edge" data-parent="response.valid" data-child="sampling.policy" d="M 560.0 152.0 C 560.0 385.5, 785.0 385.5, 785.0 619.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: generation response</title></path>
+<path class="edge" data-parent="sampling.policy" data-child="sampling.valid_parameter_acceptance" d="M 785.0 640.0 L 785.0 582.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: generation request supplies sampling parameters to the validation step</title></path>
+<path class="edge" data-parent="response.valid" data-child="output.finalization" d="M 560.0 152.0 C 560.0 269.5, 925.0 269.5, 925.0 387.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: generation response</title></path>
+<path class="edge" data-parent="cache.safe_reuse" data-child="cache.namespace" d="M 365.0 242.0 C 365.0 285.5, 365.0 285.5, 365.0 329.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: cache enabled</title></path>
+<path class="edge" data-parent="cache.safe_reuse" data-child="cache.hash_order_sensitivity" d="M 365.0 242.0 C 365.0 343.5, 365.0 343.5, 365.0 445.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: SGLang token-key hashing is used</title></path>
+<path class="edge" data-parent="cache.safe_reuse" data-child="cache.hash_bigram_equivalence" d="M 365.0 242.0 C 365.0 372.5, 365.0 372.5, 365.0 503.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: SGLang bigram token-key hashing is used</title></path>
+<path class="edge" data-parent="cache.safe_reuse" data-child="cache.lifetime" d="M 365.0 242.0 C 365.0 430.5, 365.0 430.5, 365.0 619.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: cache enabled</title></path>
+<path class="edge" data-parent="cache.safe_reuse" data-child="cache.eviction_outcome" d="M 365.0 242.0 C 365.0 488.5, 365.0 488.5, 365.0 735.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: memory pressure can evict cached blocks while requests still reference cache state</title></path>
+<path class="edge" data-parent="cache.safe_reuse" data-child="cache.state_invariants" d="M 365.0 242.0 C 365.0 459.5, 365.0 459.5, 365.0 677.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: cache blocks are inserted, shared, evicted, or released</title></path>
+<path class="edge" data-parent="cache.safe_reuse" data-child="cache.tier_transfer_content" d="M 365.0 242.0 C 365.0 517.5, 365.0 517.5, 365.0 793.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: offloaded cache content is restored or reused</title></path>
+<path class="edge" data-parent="abort.safe" data-child="abort.no_late_output" d="M 1205.0 152.0 C 1205.0 240.5, 1205.0 240.5, 1205.0 329.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: abort requested</title></path>
+<path class="edge" data-parent="abort.safe" data-child="abort.cleanup" d="M 1205.0 152.0 C 1205.0 269.5, 1205.0 269.5, 1205.0 387.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: abort requested</title></path>
+<path class="edge" data-parent="response.valid" data-child="cache.safe_reuse" d="M 560.0 152.0 C 560.0 175.5, 365.0 175.5, 365.0 199.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: cache hit is used</title></path>
+<path class="edge" data-parent="model.reference_relation" data-child="cache.safe_reuse" d="M 645.0 408.0 L 365.0 220.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: cached context is used</title></path>
+<path class="edge" data-parent="model.reference_relation" data-child="model.parameter_binding" d="M 645.0 430.0 C 645.0 437.5, 645.0 437.5, 645.0 445.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: weights are loaded or updated for the checked model execution</title></path>
+<path class="edge" data-parent="output.finalization" data-child="sampling.policy" d="M 925.0 430.0 C 925.0 524.5, 785.0 524.5, 785.0 619.0" stroke="#a1a0a5" stroke-opacity="0.28" stroke-dasharray="4 4"><title>consumes_result_of: generation response</title></path>
+<path class="edge" data-parent="abort.safe" data-child="cache.lifetime" d="M 1205.0 152.0 C 1205.0 385.5, 365.0 385.5, 365.0 619.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: aborted request holds cached state</title></path>
+<path class="edge" data-parent="response.valid" data-child="response.delivery" d="M 560.0 152.0 C 560.0 356.5, 925.0 356.5, 925.0 561.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: API response</title></path>
+<path class="edge" data-parent="response.valid" data-child="response.usage_accounting" d="M 560.0 152.0 C 560.0 385.5, 925.0 385.5, 925.0 619.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: API response reports prompt, completion or total token usage</title></path>
+<path class="edge" data-parent="response.valid" data-child="sampling.structured_constraint" d="M 560.0 152.0 C 560.0 443.5, 785.0 443.5, 785.0 735.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: format constraint requested</title></path>
+<path class="edge" data-parent="cache.safe_reuse" data-child="cache.result_relation" d="M 365.0 242.0 C 365.0 546.5, 365.0 546.5, 365.0 851.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: cache hit is used</title></path>
+<path class="edge" data-parent="abort.safe" data-child="abort.inflight_release" d="M 1205.0 152.0 C 1205.0 298.5, 1205.0 298.5, 1205.0 445.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: asynchronous execution or transfer in flight</title></path>
+<path class="edge" data-parent="response.delivery" data-child="output.finalization" d="M 925.0 582.0 L 925.0 408.0" stroke="#a1a0a5" stroke-opacity="0.28" stroke-dasharray="4 4"><title>consumes_result_of: API response</title></path>
+<path class="edge" data-parent="response.delivery" data-child="output.tool_argument_type_binding" d="M 925.0 582.0 L 925.0 350.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: the delivered response contains a parsed tool call with declared argument types</title></path>
+<path class="edge" data-parent="sampling.structured_constraint" data-child="sampling.policy" d="M 785.0 756.0 L 785.0 640.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: format constraint requested</title></path>
+<path class="edge" data-parent="sampling.structured_constraint" data-child="tool.constraint_schema_construction" d="M 785.0 778.0 C 785.0 843.5, 85.0 843.5, 85.0 909.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a tool request is translated into a schema used by constrained sampling</title></path>
+<path class="edge" data-parent="response.valid" data-child="input.multimodal_binding" d="M 560.0 152.0 C 560.0 240.5, 85.0 240.5, 85.0 329.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: multimodal request</title></path>
+<path class="edge" data-parent="request.admission" data-child="input.multimodal_binding" d="M 85.0 640.0 L 85.0 350.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: multimodal request</title></path>
+<path class="edge" data-parent="response.valid" data-child="model.adapter_binding" d="M 560.0 152.0 C 560.0 356.5, 645.0 356.5, 645.0 561.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: adapter request</title></path>
+<path class="edge" data-parent="model.reference_relation" data-child="model.adapter_binding" d="M 645.0 430.0 C 645.0 495.5, 645.0 495.5, 645.0 561.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: adapter request</title></path>
+<path class="edge" data-parent="embedding.valid" data-child="request.admission" d="M 860.0 152.0 C 860.0 385.5, 85.0 385.5, 85.0 619.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: embedding request</title></path>
+<path class="edge" data-parent="embedding.valid" data-child="schedule.progress" d="M 860.0 152.0 C 860.0 269.5, 225.0 269.5, 225.0 387.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: embedding request</title></path>
+<path class="edge" data-parent="embedding.valid" data-child="embedding.reference_relation" d="M 860.0 152.0 C 860.0 385.5, 645.0 385.5, 645.0 619.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: embedding request with numerical reference</title></path>
+<path class="edge" data-parent="embedding.valid" data-child="embedding.delivery" d="M 860.0 152.0 C 860.0 501.5, 925.0 501.5, 925.0 851.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: embedding API response</title></path>
+<path class="edge" data-parent="embedding.delivery" data-child="embedding.reference_relation" d="M 925.0 872.0 L 645.0 640.0" stroke="#a1a0a5" stroke-opacity="0.28" stroke-dasharray="4 4"><title>consumes_result_of: embedding API response</title></path>
+<path class="edge" data-parent="spec.target_semantics" data-child="spec.acceptance" d="M 785.0 242.0 C 785.0 517.5, 785.0 517.5, 785.0 793.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: speculative decoding enabled</title></path>
+<path class="edge" data-parent="spec.target_semantics" data-child="spec.output_relation" d="M 785.0 242.0 C 785.0 575.5, 925.0 575.5, 925.0 909.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: speculative decoding enabled</title></path>
+<path class="edge" data-parent="response.valid" data-child="spec.target_semantics" d="M 560.0 152.0 C 560.0 175.5, 785.0 175.5, 785.0 199.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: generation with speculative decoding</title></path>
+<path class="edge" data-parent="spec.output_relation" data-child="spec.acceptance" d="M 925.0 930.0 L 785.0 814.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: speculative decoding enabled</title></path>
+<path class="edge" data-parent="spec.output_relation" data-child="sampling.policy" d="M 925.0 930.0 L 785.0 640.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: target sampling policy is applied</title></path>
+<path class="edge" data-parent="distributed.logical_execution" data-child="distributed.partition_binding" d="M 645.0 242.0 C 645.0 459.5, 645.0 459.5, 645.0 677.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: tensor parallel execution</title></path>
+<path class="edge" data-parent="distributed.logical_execution" data-child="distributed.reduce_relation" d="M 645.0 242.0 C 645.0 488.5, 645.0 488.5, 645.0 735.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: tensor parallel execution with reduction</title></path>
+<path class="edge" data-parent="distributed.logical_execution" data-child="model.reference_relation" d="M 645.0 242.0 C 645.0 314.5, 645.0 314.5, 645.0 387.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: tensor parallel generation with model reference</title></path>
+<path class="edge" data-parent="model.reference_relation" data-child="distributed.partition_binding" d="M 645.0 430.0 C 645.0 553.5, 645.0 553.5, 645.0 677.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: tensor parallel execution</title></path>
+<path class="edge" data-parent="model.reference_relation" data-child="distributed.reduce_relation" d="M 645.0 430.0 C 645.0 582.5, 645.0 582.5, 645.0 735.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: tensor parallel path uses all-reduce</title></path>
+<path class="edge" data-parent="response.valid" data-child="distributed.logical_execution" d="M 560.0 152.0 C 560.0 175.5, 645.0 175.5, 645.0 199.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: tensor parallel generation</title></path>
+<path class="edge" data-parent="cache.safe_reuse" data-child="cache.hit_accounting" d="M 365.0 242.0 C 365.0 401.5, 365.0 401.5, 365.0 561.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: claim that a cached prefix was reused</title></path>
+<path class="edge" data-parent="response.valid" data-child="schedule.segment_continuity" d="M 560.0 152.0 C 560.0 298.5, 225.0 298.5, 225.0 445.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: input prefill is processed in multiple segments</title></path>
+<path class="edge" data-parent="model.reference_relation" data-child="schedule.segment_continuity" d="M 645.0 430.0 C 645.0 437.5, 225.0 437.5, 225.0 445.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: model output is compared under segmented prefill</title></path>
+<path class="edge" data-parent="response.valid" data-child="disagg.logical_continuation" d="M 560.0 152.0 C 560.0 175.5, 505.0 175.5, 505.0 199.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: generation uses separate prefill and decode workers</title></path>
+<path class="edge" data-parent="disagg.logical_continuation" data-child="disagg.request_binding" d="M 505.0 242.0 C 505.0 285.5, 505.0 285.5, 505.0 329.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: request crosses prefill/decode boundary</title></path>
+<path class="edge" data-parent="disagg.logical_continuation" data-child="disagg.kv_mapping" d="M 505.0 242.0 C 505.0 314.5, 505.0 314.5, 505.0 387.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: KV crosses prefill/decode boundary</title></path>
+<path class="edge" data-parent="disagg.logical_continuation" data-child="disagg.transfer_gate" d="M 505.0 242.0 C 505.0 343.5, 505.0 343.5, 505.0 445.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: decode waits on remote KV</title></path>
+<path class="edge" data-parent="disagg.logical_continuation" data-child="model.reference_relation" d="M 505.0 242.0 C 505.0 314.5, 645.0 314.5, 645.0 387.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: compare output after the transferred context is consumed</title></path>
+<path class="edge" data-parent="disagg.logical_continuation" data-child="response.delivery" d="M 505.0 242.0 C 505.0 401.5, 925.0 401.5, 925.0 561.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: final result belongs to the same request</title></path>
+<path class="edge" data-parent="disagg.kv_mapping" data-child="disagg.request_binding" d="M 505.0 408.0 L 505.0 350.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a transfer mapping is meaningful for an identified request</title></path>
+<path class="edge" data-parent="disagg.transfer_gate" data-child="disagg.kv_mapping" d="M 505.0 466.0 L 505.0 408.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: readiness concerns the mapped KV state and metadata</title></path>
+<path class="edge" data-parent="input.multimodal_binding" data-child="input.video_frame_selection" d="M 85.0 372.0 C 85.0 669.5, 85.0 669.5, 85.0 967.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: video modality is parsed and selected frames become model features</title></path>
+<path class="edge" data-parent="response.valid" data-child="request.parallel_child_binding" d="M 560.0 152.0 C 560.0 588.5, 85.0 588.5, 85.0 1025.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: generation request asks for more than one sample</title></path>
+<path class="edge" data-parent="response.valid" data-child="request.batch_field_binding" d="M 560.0 152.0 C 560.0 617.5, 85.0 617.5, 85.0 1083.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: one request contains multiple input items or fields are broadcast to them</title></path>
+<path class="edge" data-parent="request.parallel_child_binding" data-child="request.batch_field_binding" d="M 85.0 1068.0 C 85.0 1075.5, 85.0 1075.5, 85.0 1083.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: each input item expands into multiple generation samples</title></path>
+<path class="edge" data-parent="response.valid" data-child="response.logprob_identity" d="M 560.0 152.0 C 560.0 414.5, 925.0 414.5, 925.0 677.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: response includes token probability information</title></path>
+<path class="edge" data-parent="response.valid" data-child="response.logprob_value" d="M 560.0 152.0 C 560.0 443.5, 925.0 443.5, 925.0 735.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: response includes token probability values</title></path>
+<path class="edge" data-parent="response.valid" data-child="response.logprob_text_decoding" d="M 560.0 152.0 C 560.0 472.5, 925.0 472.5, 925.0 793.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: response includes decoded text for probability tokens</title></path>
+<path class="edge" data-parent="response.valid" data-child="sampling.per_request_modifier_binding" d="M 560.0 152.0 C 560.0 414.5, 785.0 414.5, 785.0 677.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: generation uses request-specific logit bias, allowed tokens or a custom logit processor in sequential or mixed requests</title></path>
+<path class="edge" data-parent="response.logprob_value" data-child="response.logprob_identity" d="M 925.0 756.0 L 925.0 698.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: numeric comparison needs the reported token identity for alignment</title></path>
+<path class="edge" data-parent="response.logprob_text_decoding" data-child="response.logprob_identity" d="M 925.0 814.0 L 925.0 698.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: decoded text must be associated with the intended token ID</title></path>
+<path class="edge" data-parent="request.admission" data-child="input.text_tokenization" d="M 85.0 640.0 L 85.0 466.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a text request is encoded into token IDs before scheduling</title></path>
+<path class="edge" data-parent="request.admission" data-child="input.chat_template_tokenization" d="M 85.0 640.0 L 85.0 524.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a chat request is rendered using a selected chat template before scheduling</title></path>
+<path class="edge" data-parent="quality.task_score" data-child="quality.sample_semantic_expectation" d="M 1065.0 488.0 C 1065.0 495.5, 1065.0 495.5, 1065.0 503.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: the task metric aggregates per-sample semantic judgements</title></path>
+<path class="edge" data-parent="distributed.tensor_transport_selection" data-child="distributed.payload_transport_selection" d="M 1065.0 1010.0 C 1065.0 1046.5, 1065.0 1046.5, 1065.0 1083.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a tensor-specific arena is used within a message queue whose local or remote channel is selected by the generic transport rule</title></path>
+<path class="edge" data-parent="output.finalization" data-child="output.stop_boundary" d="M 925.0 430.0 C 925.0 727.5, 925.0 727.5, 925.0 1025.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a request has a configured stop string or stop regex and a stop condition is reached</title></path>
+<path class="edge" data-parent="output.stop_boundary" data-child="output.stop_match_selection" d="M 925.0 1046.0 L 925.0 988.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: several stop candidates match a single appended step</title></path>
+<path class="edge" data-parent="output.stop_boundary" data-child="sampling.stop_condition_normalization" d="M 925.0 1046.0 L 785.0 988.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a string or regex stop condition is provided</title></path>
+<path class="edge" data-parent="sampling.stop_condition_normalization" data-child="request.effective_sampling_parameters" d="M 785.0 1010.0 C 785.0 1075.5, 85.0 1075.5, 85.0 1141.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: stop settings originate from a public request combined with model or service defaults</title></path>
+<g class="unit" data-unit="deployment.runtime_mode_binding" data-phase="preflight" data-level="unit" tabindex="0">
+<rect x="17.0" y="123.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="85.0" y="149.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="85.0" dy="0">进程模式绑定</tspan>
+</text>
+<title>初始化后，进程内共享的执行策略或通信组与生效配置一致；跨进程使用时，各工作进程应建立对应的策略和成员关系。</title></g>
+<g class="unit" data-unit="deployment.effective_configuration" data-phase="preflight" data-level="unit" tabindex="0">
+<rect x="17.0" y="179.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
+<text x="85.0" y="205.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="85.0" dy="0">配置解析结果</tspan>
+</text>
+<title>配置文件、命令行和显式覆盖经解析、默认策略与别名规范化后，得到预期的生效字段及派生启动参数，包括进程通信地址和资源容量上界。</title></g>
+<g class="unit" data-unit="deployment.configuration_admissibility" data-phase="preflight" data-level="unit" tabindex="0">
+<rect x="17.0" y="235.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
+<text x="85.0" y="261.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="85.0" dy="0">部署配置约束</tspan>
+</text>
+<title>在启动前接受声明支持的模型、硬件、精度、并行与后端组合，并拒绝不支持的组合。</title></g>
+<g class="unit" data-unit="response.valid" data-phase="whole_request" data-level="goal" tabindex="0">
+<rect x="492.0" y="108.0" width="136" height="44" rx="8" fill="#fff" stroke="#75348b" stroke-width="2"/>
+<text x="560.0" y="134.8" text-anchor="middle" class="composite-label" style="font-size:14px">
+<tspan x="560.0" dy="0">有效响应</tspan>
+</text>
+<title>响应对应原请求；内容、停止原因和交付状态满足请求语义。</title></g>
+<g class="unit" data-unit="input.multimodal_binding" data-phase="ingress" data-level="unit" tabindex="0">
+<rect x="17.0" y="328.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="85.0" y="354.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="85.0" dy="0">多模态输入对应</tspan>
+</text>
+<title>多模态项目的数量和顺序与提示词中的占位位置对应；预先给定 token ID 的非媒体部分在处理后保持其输入语义。</title></g>
+<g class="unit" data-unit="input.text_token_roundtrip" data-phase="ingress" data-level="unit" tabindex="0">
+<rect x="17.0" y="386.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="85.0" y="404.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="85.0" dy="0">文本与 token 往返</tspan>
+<tspan x="85.0" dy="16">保持</tspan>
+</text>
+<title>在指定模型分词器和特殊 token 处理策略下，可表示的文本经编码再解码后保持原文本。</title></g>
+<g class="unit" data-unit="input.text_tokenization" data-phase="ingress" data-level="unit" tabindex="0">
+<rect x="17.0" y="444.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="85.0" y="470.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="85.0" dy="0">文本编码对应</tspan>
+</text>
+<title>文本输入在指定分词器和特殊 token 策略下得到对应的 token ID 序列；返回数量及可选的 token 文本与该序列一致。</title></g>
+<g class="unit" data-unit="input.chat_template_tokenization" data-phase="ingress" data-level="unit" tabindex="0">
+<rect x="17.0" y="502.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="85.0" y="528.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="85.0" dy="0">聊天模板编码</tspan>
+</text>
+<title>消息、工具和模板控制参数按声明的聊天模板生成 token 序列；返回的 token ID 与数量对应同一组输入与模板条件。</title></g>
+<g class="unit" data-unit="input.error_response_classification" data-phase="ingress" data-level="unit" tabindex="0">
+<rect x="17.0" y="560.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="85.0" y="586.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="85.0" dy="0">输入错误分类</tspan>
+</text>
+<title>接口对无效输入、未知资源和内部故障分别返回与声明契约一致的状态、错误类型及相关字段，使调用者能够区分失败来源。</title></g>
+<g class="unit" data-unit="request.admission" data-phase="ingress" data-level="unit" tabindex="0">
+<rect x="17.0" y="618.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="85.0" y="644.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="85.0" dy="0">输入绑定</tspan>
+</text>
+<title>调度端收到与入口请求对应的身份、规范化输入及该任务的执行参数。</title></g>
+<g class="unit" data-unit="input.context_length_admissibility" data-phase="ingress" data-level="unit" tabindex="0">
+<rect x="17.0" y="676.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="85.0" y="702.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="85.0" dy="0">请求长度准入</tspan>
+</text>
+<title>按实际生效的上下文预算检查规范化后的输入长度与请求的输出长度上限；包含媒体时计入展开产生的 token，并按生成任务的策略为输出保留空间，合法请求进入执行，超限请求被拒绝。</title></g>
+<g class="unit" data-unit="input.modality_count_admissibility" data-phase="ingress" data-level="unit" tabindex="0">
+<rect x="17.0" y="734.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="85.0" y="760.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="85.0" dy="0">媒体数量准入</tspan>
+</text>
+<title>按模态分别计算单次请求包含的媒体项目数，接受不超过生效上限的请求并拒绝超限请求。</title></g>
+<g class="unit" data-unit="input.logprob_token_id_admissibility" data-phase="ingress" data-level="unit" tabindex="0">
+<rect x="17.0" y="792.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="85.0" y="818.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="85.0" dy="0">概率 ID 准入</tspan>
+</text>
+<title>请求指定的概率查询 token ID 在每个规范化后的子请求中是平坦整数列表，且每个 ID 位于当前模型词表范围内；合法值被接受，非法形状或越界值被拒绝。</title></g>
+<g class="unit" data-unit="request.access_control" data-phase="ingress" data-level="unit" tabindex="0">
+<rect x="17.0" y="850.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="85.0" y="876.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="85.0" dy="0">请求鉴权</tspan>
+</text>
+<title>请求路径、方法和凭据按照声明的访问策略得到允许或拒绝的判定及相应状态码。</title></g>
+<g class="unit" data-unit="request.prefill_token_view" data-phase="scheduling" data-level="unit" tabindex="0">
+<rect x="157.0" y="328.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="225.0" y="354.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="225.0" dy="0">请求 token 对应</tspan>
+</text>
+<title>尚未生成输出时复用提示词 token 缓冲区；追加输出后读取包含提示词和输出的完整 token 缓冲区。</title></g>
+<g class="unit" data-unit="schedule.progress" data-phase="scheduling" data-level="unit" tabindex="0">
+<rect x="157.0" y="386.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="225.0" y="412.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="225.0" dy="0">调度进度</tspan>
+</text>
+<title>选中请求在可用预算和缓存资源内推进；未完成请求保留可恢复的进度。</title></g>
+<g class="unit" data-unit="schedule.segment_continuity" data-phase="scheduling" data-level="unit" tabindex="0">
+<rect x="157.0" y="444.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="225.0" y="470.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="225.0" dy="0">分段进度连续</tspan>
+</text>
+<title>输入分段处理时，同一请求的计算位置连续推进，跨段状态保持到后续段，并在完成输入处理后进入生成或结束状态。</title></g>
+<g class="unit" data-unit="schedule.work_distribution" data-phase="scheduling" data-level="unit" tabindex="0">
+<rect x="157.0" y="502.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="225.0" y="528.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="225.0" dy="0">工作分配</tspan>
+</text>
+<title>多工作节点运行时，连接或请求的分配结果符合所声明的选择策略和可用节点状态。</title></g>
+<g class="unit" data-unit="cache.safe_reuse" data-phase="cache" data-level="unit" tabindex="0">
+<rect x="297.0" y="198.0" width="136" height="44" rx="8" fill="#fff" stroke="#75348b" stroke-width="2"/>
+<text x="365.0" y="224.8" text-anchor="middle" class="composite-label" style="font-size:14px">
+<tspan x="365.0" dy="0">缓存安全复用</tspan>
+</text>
+<title>复用的状态属于当前请求的有效前缀，且不受其他请求的覆盖或过早释放。</title></g>
+<g class="unit" data-unit="cache.namespace" data-phase="cache" data-level="unit" tabindex="0">
+<rect x="297.0" y="328.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="365.0" y="354.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="365.0" dy="0">缓存键隔离</tspan>
+</text>
+<title>仅 token 前缀及相关隔离元数据均匹配时共享缓存。</title></g>
+<g class="unit" data-unit="cache.eviction_priority" data-phase="cache" data-level="unit" tabindex="0">
+<rect x="297.0" y="386.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="365.0" y="412.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="365.0" dy="0">缓存淘汰优先级</tspan>
+</text>
+<title>选定淘汰策略根据节点的访问、创建、命中或显式优先级状态，返回相应的比较键。</title></g>
+<g class="unit" data-unit="cache.hash_order_sensitivity" data-phase="cache" data-level="unit" tabindex="0">
+<rect x="297.0" y="444.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="365.0" y="470.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="365.0" dy="0">token 顺序哈希</tspan>
+</text>
+<title>SGLang 对 token 多重集合相同而顺序不同的缓存键输入计算出不同哈希。</title></g>
+<g class="unit" data-unit="cache.hash_bigram_equivalence" data-phase="cache" data-level="unit" tabindex="0">
+<rect x="297.0" y="502.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="365.0" y="528.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="365.0" dy="0">bigram 哈希对应</tspan>
+</text>
+<title>SGLang 对相同 token 内容的平铺表示与 bigram 表示计算出相同哈希。</title></g>
+<g class="unit" data-unit="cache.hit_accounting" data-phase="cache" data-level="unit" tabindex="0">
+<rect x="297.0" y="560.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="365.0" y="586.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="365.0" dy="0">命中数量</tspan>
+</text>
+<title>报告的已复用 token 数不超过请求可复用前缀，且与块或页对齐规则一致。</title></g>
+<g class="unit" data-unit="cache.lifetime" data-phase="cache" data-level="unit" tabindex="0">
+<rect x="297.0" y="618.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="365.0" y="644.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="365.0" dy="0">缓存生命周期</tspan>
+</text>
+<title>请求仍使用缓存时保持其有效；若存在访问该缓存的在途工作，资源不能在该工作完成前重用，完成后按所有权状态释放。</title></g>
+<g class="unit" data-unit="cache.state_invariants" data-phase="cache" data-level="unit" tabindex="0">
+<rect x="297.0" y="676.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="365.0" y="702.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="365.0" dy="0">资源计数一致</tspan>
+</text>
+<title>缓存块的持有关系、引用状态、可回收量及空闲量与当前实际存活的缓存状态一致；索引结构不指向已释放或不可用的块。</title></g>
+<g class="unit" data-unit="cache.eviction_outcome" data-phase="cache" data-level="unit" tabindex="0">
+<rect x="297.0" y="734.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="365.0" y="760.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="365.0" dy="0">淘汰结果与保护</tspan>
+</text>
+<title>缓存回收时，仍被请求引用的块保持可用；可回收块按声明的策略与容量要求释放，重新分配不会覆盖仍在使用的块。</title></g>
+<g class="unit" data-unit="cache.tier_transfer_content" data-phase="cache" data-level="unit" tabindex="0">
+<rect x="297.0" y="792.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="365.0" y="818.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="365.0" dy="0">跨层数据保持</tspan>
+</text>
+<title>跨存储层迁移完成后，目的地对应逻辑块和缓存组件的内容与迁移前的源内容一致。</title></g>
+<g class="unit" data-unit="cache.result_relation" data-phase="cache" data-level="unit" tabindex="0">
+<rect x="297.0" y="850.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="365.0" y="876.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="365.0" dy="0">复用结果对照</tspan>
+</text>
+<title>在相同有效输入与生成设置下，缓存命中路径的输出与无命中重算路径满足指定的数值或分布关系。</title></g>
+<g class="unit" data-unit="compute.operator_reference_relation" data-phase="model_execution" data-level="unit" tabindex="0">
+<rect x="577.0" y="328.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
+<text x="645.0" y="354.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="645.0" dy="0">算子结果对照</tspan>
+</text>
+<title>在声明的形状、精度、布局及执行后端下，算子输出的形状、数据类型和数值符合指定参考计算。</title></g>
+<g class="unit" data-unit="model.reference_relation" data-phase="model_execution" data-level="unit" tabindex="0">
+<rect x="577.0" y="386.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="645.0" y="412.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="645.0" dy="0">模型计算对照</tspan>
+</text>
+<title>选中计算路径的生成结果或数值量符合明确指定的参考和容差。</title></g>
+<g class="unit" data-unit="model.parameter_binding" data-phase="model_execution" data-level="unit" tabindex="0">
+<rect x="577.0" y="444.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="645.0" y="470.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="645.0" dy="0">模型参数绑定</tspan>
+</text>
+<title>加载或更新权重后，目标参数及其分片与声明的权重来源、形状和映射对应；被拒绝的更新保留原参数状态。</title></g>
+<g class="unit" data-unit="model.execution_variant_relation" data-phase="model_execution" data-level="unit" tabindex="0">
+<rect x="577.0" y="502.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="645.0" y="528.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="645.0" dy="0">执行模式结果对照</tspan>
+</text>
+<title>同一模型、权重、请求与解码参数在声明的执行模式之间保持规定的输出或数值关系。</title></g>
+<g class="unit" data-unit="model.adapter_binding" data-phase="model_execution" data-level="unit" tabindex="0">
+<rect x="577.0" y="560.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="645.0" y="586.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="645.0" dy="0">适配器绑定</tspan>
+</text>
+<title>带 LoRA 的请求在模型执行时使用请求指定的适配器权重，切换或重新加载适配器后不混用其他请求的权重。</title></g>
+<g class="unit" data-unit="sampling.temperature_finiteness" data-phase="sampling" data-level="unit" tabindex="0">
+<rect x="717.0" y="328.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="785.0" y="354.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="785.0" dy="0">非有限温度拒绝</tspan>
+</text>
+<title>NaN 与正负无穷大的温度参数应在采样前被拒绝。</title></g>
+<g class="unit" data-unit="sampling.top_p_range" data-phase="sampling" data-level="unit" tabindex="0">
+<rect x="717.0" y="386.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="785.0" y="412.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="785.0" dy="0">top_p 越界拒绝</tspan>
+</text>
+<title>top_p 不属于 (0, 1] 时，在采样前拒绝该请求。</title></g>
+<g class="unit" data-unit="sampling.numeric_parameter_bounds" data-phase="sampling" data-level="unit" tabindex="0">
+<rect x="717.0" y="444.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="785.0" y="470.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="785.0" dy="0">数值参数越界拒绝</tspan>
+</text>
+<title>温度、top_k、min_p、惩罚参数、输出长度及 logit_bias token ID 违反各自界限时，在采样前被拒绝；界限可以依赖词表大小。</title></g>
+<g class="unit" data-unit="sampling.zero_temperature_mode" data-phase="sampling" data-level="unit" tabindex="0">
+<rect x="717.0" y="502.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="785.0" y="528.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="785.0" dy="0">零温度贪心</tspan>
+</text>
+<title>温度位于实现定义的低温区间时进入贪心模式；阈值边界及规范化字段按各框架规则判定。</title></g>
+<g class="unit" data-unit="sampling.valid_parameter_acceptance" data-phase="sampling" data-level="unit" tabindex="0">
+<rect x="717.0" y="560.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="785.0" y="578.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="785.0" dy="0">合法采样参数通过</tspan>
+<tspan x="785.0" dy="16">校验</tspan>
+</text>
+<title>参数值处于该任务与配置支持的范围内时，采样参数校验过程接受该参数组合。</title></g>
+<g class="unit" data-unit="sampling.policy" data-phase="sampling" data-level="unit" tabindex="0">
+<rect x="717.0" y="618.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="785.0" y="644.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="785.0" dy="0">采样参数</tspan>
+</text>
+<title>采样输出满足给定温度、允许 token 等参数的约束；确定性要求另受数值和运行条件限制。</title></g>
+<g class="unit" data-unit="sampling.per_request_modifier_binding" data-phase="sampling" data-level="unit" tabindex="0">
+<rect x="717.0" y="676.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="785.0" y="702.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="785.0" dy="0">修饰参数绑定</tspan>
+</text>
+<title>每个请求或批内行只应用该请求声明的 logit 修饰参数；前一请求及其他行的修饰状态不改变它的 logits 或采样结果。</title></g>
+<g class="unit" data-unit="tool.constraint_schema_construction" data-phase="ingress" data-level="unit" tabindex="0">
+<rect x="17.0" y="908.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="85.0" y="926.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="85.0" dy="0">工具选择生成的约</tspan>
+<tspan x="85.0" dy="16">束模式与请求一致</tspan>
+</text>
+<title>给定工具声明与选择方式，生成的约束模式按其表示形式限定允许的工具调用及实参结构，并处理调用数限制和冲突的共享定义。</title></g>
+<g class="unit" data-unit="sampling.structured_constraint" data-phase="sampling" data-level="unit" tabindex="0">
+<rect x="717.0" y="734.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="785.0" y="760.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="785.0" dy="0">格式约束</tspan>
+</text>
+<title>带格式约束的请求在允许位置选择符合约束的 token，最终内容满足请求的格式条件。</title></g>
+<g class="unit" data-unit="output.tool_argument_type_binding" data-phase="output" data-level="unit" tabindex="0">
+<rect x="857.0" y="328.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="346.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="925.0" dy="0">工具调用实参与声</tspan>
+<tspan x="925.0" dy="16">明类型对应</tspan>
+</text>
+<title>工具调用输出经解析后，实参的值与类型符合所支持的工具声明；无法转换或不完整的值按明确的回退及流式输出规则处理。</title></g>
+<g class="unit" data-unit="output.finalization" data-phase="output" data-level="unit" tabindex="0">
+<rect x="857.0" y="386.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="412.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="925.0" dy="0">输出与停止</tspan>
+</text>
+<title>生成 token、返回文本、停止原因及终止状态对应同一请求和配置。</title></g>
+<g class="unit" data-unit="output.token_buffer_search" data-phase="output" data-level="unit" tabindex="0">
+<rect x="857.0" y="444.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="470.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="925.0" dy="0">TokenBuffer 搜索</tspan>
+</text>
+<title>vLLM 的 TokenBuffer 搜索在相同 token、目标集合和搜索窗口下，与普通列表路径返回相同的最后匹配位置。</title></g>
+<g class="unit" data-unit="output.marker_sequence_search" data-phase="output" data-level="unit" tabindex="0">
+<rect x="857.0" y="502.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="528.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="925.0" dy="0">标记序列搜索</tspan>
+</text>
+<title>vLLM 在给定 token 序列、标记集合和搜索边界时返回测试指定的最新匹配位置与标记序号。</title></g>
+<g class="unit" data-unit="response.delivery" data-phase="output" data-level="unit" tabindex="0">
+<rect x="857.0" y="560.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="586.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="925.0" dy="0">接口结果交付</tspan>
+</text>
+<title>非流式响应的选择项与结束原因对应请求；流式分块按序组成完整文本并交付终止状态或错误。</title></g>
+<g class="unit" data-unit="response.usage_accounting" data-phase="output" data-level="unit" tabindex="0">
+<rect x="857.0" y="618.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="644.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="925.0" dy="0">token 用量对应</tspan>
+</text>
+<title>响应报告的提示词、生成及总 token 数分别对应实际处理后的输入、生成结果与两者之和；模型处理器、媒体展开及输出模式构成判定条件。</title></g>
+<g class="unit" data-unit="response.logprob_identity" data-phase="output" data-level="unit" tabindex="0">
+<rect x="857.0" y="676.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="702.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="925.0" dy="0">概率 token 对应</tspan>
+</text>
+<title>返回的 token 概率项与请求指定及实际采样的 token 身份对应，token 字段的表示遵守请求选项，候选列表的数量和顺序遵守接口约定。</title></g>
+<g class="unit" data-unit="response.logprob_value" data-phase="output" data-level="unit" tabindex="0">
+<rect x="857.0" y="734.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="760.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="925.0" dy="0">概率数值对照</tspan>
+</text>
+<title>给定模型输出、token 身份及采样变换，报告的 logprob 数值与指定参考计算在声明容差内一致。</title></g>
+<g class="unit" data-unit="response.logprob_text_decoding" data-phase="output" data-level="unit" tabindex="0">
+<rect x="857.0" y="792.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="818.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="925.0" dy="0">概率 token 文本</tspan>
+</text>
+<title>每项返回的概率 token 文本按声明的解码策略由该 token ID 及允许的历史上下文得到；同一位置的候选 token 各自使用相同的已采样上下文，不能互作上下文。</title></g>
+<g class="unit" data-unit="service.performance" data-phase="service" data-level="unit" tabindex="0">
+<rect x="997.0" y="328.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="1065.0" y="354.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="1065.0" dy="0">吞吐与延迟</tspan>
+</text>
+<title>在声明的模型、硬件、请求分布和并发条件下，成功请求的吞吐与延迟满足给定目标或版本对照规则。</title></g>
+<g class="unit" data-unit="service.concurrent_request_isolation" data-phase="service" data-level="unit" tabindex="0">
+<rect x="997.0" y="386.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="1065.0" y="412.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="1065.0" dy="0">并发请求隔离</tspan>
+</text>
+<title>并发执行的请求各自获得属于本请求的身份和输出，结束后相关运行状态正确释放。</title></g>
+<g class="unit" data-unit="quality.task_score" data-phase="service" data-level="unit" tabindex="0">
+<rect x="997.0" y="444.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="1065.0" y="470.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="1065.0" dy="0">任务质量得分</tspan>
+</text>
+<title>在指定任务、样本、提示格式和评分规则下，系统输出的汇总任务指标达到声明门槛。</title></g>
+<g class="unit" data-unit="abort.safe" data-phase="abort" data-level="goal" tabindex="0">
+<rect x="1137.0" y="108.0" width="136" height="44" rx="8" fill="#fff" stroke="#75348b" stroke-width="2"/>
+<text x="1205.0" y="134.8" text-anchor="middle" class="composite-label" style="font-size:14px">
+<tspan x="1205.0" dy="0">安全取消</tspan>
+</text>
+<title>取消请求不再产生无效交付，其资源按所处阶段清理，其他请求继续运行。</title></g>
+<g class="unit" data-unit="abort.no_late_output" data-phase="abort" data-level="unit" tabindex="0">
+<rect x="1137.0" y="328.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="1205.0" y="354.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="1205.0" dy="0">迟到输出</tspan>
+</text>
+<title>取消生效后的迟到计算结果不作为正常响应交付。</title></g>
+<g class="unit" data-unit="abort.cleanup" data-phase="abort" data-level="unit" tabindex="0">
+<rect x="1137.0" y="386.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="1205.0" y="412.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="1205.0" dy="0">状态清理</tspan>
+</text>
+<title>等待、运行和传输阶段占用的请求状态及缓存资源按各自生命周期回收。</title></g>
+<g class="unit" data-unit="abort.inflight_release" data-phase="abort" data-level="unit" tabindex="0">
+<rect x="1137.0" y="444.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="1205.0" y="470.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="1205.0" dy="0">在途资源释放</tspan>
+</text>
+<title>请求取消、重置或结束后，其资源在最后一个可能访问它的在途工作完成前不可重用，之后能够释放；其他请求的在途工作不延迟该资源的释放。</title></g>
+<g class="unit" data-unit="embedding.valid" data-phase="whole_request" data-level="goal" tabindex="0">
+<rect x="792.0" y="108.0" width="136" height="44" rx="8" fill="#fff" stroke="#75348b" stroke-width="2"/>
+<text x="860.0" y="134.8" text-anchor="middle" class="composite-label" style="font-size:14px">
+<tspan x="860.0" dy="0">有效向量响应</tspan>
+</text>
+<title>每个输入获得对应的向量结果，数值关系、输出顺序和接口字段分别满足指定契约。</title></g>
+<g class="unit" data-unit="embedding.reference_relation" data-phase="model_execution" data-level="unit" tabindex="0">
+<rect x="577.0" y="618.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="645.0" y="644.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="645.0" dy="0">向量数值对照</tspan>
+</text>
+<title>给定模型、输入和向量维度，输出向量与参考实现满足明确的相似度关系。</title></g>
+<g class="unit" data-unit="embedding.delivery" data-phase="output" data-level="unit" tabindex="0">
+<rect x="857.0" y="850.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="876.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="925.0" dy="0">向量结果交付</tspan>
+</text>
+<title>批量输入的向量按输入顺序逐项交付，条目数、维度、索引及用量字段满足接口契约。</title></g>
+<g class="unit" data-unit="spec.target_semantics" data-phase="whole_request" data-level="unit" tabindex="0">
+<rect x="717.0" y="198.0" width="136" height="44" rx="8" fill="#fff" stroke="#75348b" stroke-width="2"/>
+<text x="785.0" y="224.8" text-anchor="middle" class="composite-label" style="font-size:14px">
+<tspan x="785.0" dy="0">推测解码目标行为</tspan>
+</text>
+<title>草稿经目标模型验证后，最终输出遵守目标模型及请求采样参数的语义；贪心路径与随机路径使用不同判定。</title></g>
+<g class="unit" data-unit="spec.acceptance" data-phase="sampling" data-level="unit" tabindex="0">
+<rect x="717.0" y="792.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="785.0" y="818.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="785.0" dy="0">草稿接受与恢复</tspan>
+</text>
+<title>按草稿与目标模型的概率或贪心目标 token 判定接受前缀；拒绝后从目标相关分布恢复，且输出次序与占位位置正确。</title></g>
+<g class="unit" data-unit="spec.output_relation" data-phase="output" data-level="unit" tabindex="0">
+<rect x="857.0" y="908.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="934.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="925.0" dy="0">最终输出关系</tspan>
+</text>
+<title>贪心配置下与同条件非推测目标输出对照；随机配置下检验目标分布关系，不要求逐次 token 相同。</title></g>
+<g class="unit" data-unit="distributed.logical_execution" data-phase="whole_request" data-level="unit" tabindex="0">
+<rect x="577.0" y="198.0" width="136" height="44" rx="8" fill="#fff" stroke="#75348b" stroke-width="2"/>
+<text x="645.0" y="224.8" text-anchor="middle" class="composite-label" style="font-size:14px">
+<tspan x="645.0" dy="0">分布式逻辑执行</tspan>
+</text>
+<title>各 rank 的分片、通信与聚合共同形成与所声明逻辑模型相符的请求结果。</title></g>
+<g class="unit" data-unit="distributed.partition_binding" data-phase="model_execution" data-level="unit" tabindex="0">
+<rect x="577.0" y="676.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="645.0" y="702.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="645.0" dy="0">分片对应</tspan>
+</text>
+<title>在给定张量并行配置下，每个 rank 消费约定的输入切片，并按分片次序产生局部输出。</title></g>
+<g class="unit" data-unit="distributed.reduce_relation" data-phase="model_execution" data-level="unit" tabindex="0">
+<rect x="577.0" y="734.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="645.0" y="760.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="645.0" dy="0">跨卡归约</tspan>
+</text>
+<title>分布式归约后的张量与相同 rank 输入上的参考归约满足规定的数值关系。</title></g>
+<g class="unit" data-unit="disagg.logical_continuation" data-phase="whole_request" data-level="unit" tabindex="0">
+<rect x="437.0" y="198.0" width="136" height="44" rx="8" fill="#fff" stroke="#75348b" stroke-width="2"/>
+<text x="505.0" y="224.8" text-anchor="middle" class="composite-label" style="font-size:14px">
+<tspan x="505.0" dy="0">分离式请求延续</tspan>
+</text>
+<title>Decode 使用与该请求 Prefill 对应的 KV 状态，随后完成预定的模型与输出检查。</title></g>
+<g class="unit" data-unit="disagg.request_binding" data-phase="transfer" data-level="unit" tabindex="0">
+<rect x="437.0" y="328.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="505.0" y="354.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="505.0" dy="0">跨节点请求绑定</tspan>
+</text>
+<title>Prefill 生成的传输元数据只能绑定到同一逻辑请求的 Decode，不把其他请求的结果作为本请求上下文。</title></g>
+<g class="unit" data-unit="disagg.kv_mapping" data-phase="transfer" data-level="unit" tabindex="0">
+<rect x="437.0" y="386.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="505.0" y="412.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="505.0" dy="0">KV 分片对应</tspan>
+</text>
+<title>接收的 KV 按请求 token 位置、层及实际并行拓扑对应到 Decode 所读取的位置。</title></g>
+<g class="unit" data-unit="disagg.transfer_gate" data-phase="transfer" data-level="unit" tabindex="0">
+<rect x="437.0" y="444.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="505.0" y="470.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="505.0" dy="0">传输就绪门禁</tspan>
+</text>
+<title>Decode 在目标请求的 KV 与元数据就绪后进入计算；失败或取消时不把未就绪的状态交给模型，并释放关联资源。</title></g>
+<g class="unit" data-unit="input.video_frame_selection" data-phase="ingress" data-level="unit" tabindex="0">
+<rect x="17.0" y="966.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="85.0" y="992.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="85.0" dy="0">视频帧选择</tspan>
+</text>
+<title>从输入视频选出的帧数量、索引与顺序符合该模型及配置声明的采样规则，并与后续媒体占位保持对应。</title></g>
+<g class="unit" data-unit="request.parallel_child_binding" data-phase="ingress" data-level="unit" tabindex="0">
+<rect x="17.0" y="1024.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="85.0" y="1042.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="85.0" dy="0">并行采样子请求与</tspan>
+<tspan x="85.0" dy="16">原输入对应</tspan>
+</text>
+<title>一个输入扩展为多个候选请求时，每个子请求的文本或 token、媒体项目及会话元数据仍对应原输入，展开数量符合请求的 n。</title></g>
+<g class="unit" data-unit="request.batch_field_binding" data-phase="ingress" data-level="unit" tabindex="0">
+<rect x="17.0" y="1082.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="85.0" y="1100.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="85.0" dy="0">批量请求字段保持</tspan>
+<tspan x="85.0" dy="16">逐项对应</tspan>
+</text>
+<title>批量请求拆分或规范化后，每个请求项继续携带其原始输入及逐项参数；声明共享的字段按该接口的规则广播，数量和顺序与请求项保持对应。</title></g>
+<g class="unit" data-unit="quality.sample_semantic_expectation" data-phase="service" data-level="unit" tabindex="0">
+<rect x="997.0" y="502.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="1065.0" y="528.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="1065.0" dy="0">单样本语义预期</tspan>
+</text>
+<title>对给定媒体、提示词、模型与生成配置，回答满足预先声明的样本级语义条件。</title></g>
+<g class="unit" data-unit="distributed.message_delivery" data-phase="service" data-level="unit" tabindex="0">
+<rect x="997.0" y="560.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="1065.0" y="586.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="1065.0" dy="0">消息交付保持</tspan>
+</text>
+<title>发送者发布的消息按声明的接收者和顺序交付；接收值保持对象结构、张量数值与数据类型，后续队列槽位复用不改变已交付的值或其可写性，并在消息超过本地共享内存容量时按实现约定走可用的传输路径。</title></g>
+<g class="unit" data-unit="distributed.queue_wait_shutdown" data-phase="service" data-level="unit" tabindex="0">
+<rect x="997.0" y="618.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="1065.0" y="644.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="1065.0" dy="0">等待与关闭</tspan>
+</text>
+<title>空队列等待在超时时返回可区分的失败，消息到达后唤醒并交付；读者处于忙等或空闲等待时执行关闭，挂起的读取都应结束并报告取消状态。</title></g>
+<g class="unit" data-unit="shared_resource.object_handle_identity" data-phase="service" data-level="unit" tabindex="0">
+<rect x="997.0" y="676.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="1065.0" y="702.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="1065.0" dy="0">共享句柄绑定</tspan>
+</text>
+<title>共享对象句柄仅可定位其签发时的键、地址和代次；重复键或伪造句柄被拒绝，清空后尚未重用的旧数据可供在途消费者读取，而槽位重用后旧句柄不能指向新数据。</title></g>
+<g class="unit" data-unit="shared_resource.buffer_slot_integrity" data-phase="service" data-level="unit" tabindex="0">
+<rect x="997.0" y="734.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="1065.0" y="760.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="1065.0" dy="0">共享槽位隔离</tspan>
+</text>
+<title>共享缓冲区只在容量允许时分配槽位；读者仍持有原张量或其视图、或异步读取尚未完成时，槽位不被复用。全部读者完成后才可回收；回绕与释放后重新分配的槽位不覆盖仍有效的数据，读回值对应原写入。</title></g>
+<g class="unit" data-unit="shared_resource.lifetime" data-phase="service" data-level="unit" tabindex="0">
+<rect x="997.0" y="792.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="1065.0" y="818.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="1065.0" dy="0">共享资源生命周期</tspan>
+</text>
+<title>被多个进程或请求使用的资源在仍有有效消费者时保持可访问；正常释放、部分初始化失败或失去所有者后，按环境和所有权规则撤销映射、注册与命名资源。</title></g>
+<g class="unit" data-unit="distributed.resource_fallback_agreement" data-phase="model_execution" data-level="unit" tabindex="0">
+<rect x="577.0" y="792.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="645.0" y="818.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="645.0" dy="0">资源回退一致</tspan>
+</text>
+<title>共享资源不足或初始化失败时，参与进程得到同一回退决策，并在回退后继续使用一致的资源布局与数据。</title></g>
+<g class="unit" data-unit="deployment.shared_memory_capacity_admission" data-phase="service" data-level="unit" tabindex="0">
+<rect x="997.0" y="850.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="1065.0" y="868.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="1065.0" dy="0">共享内存分配前检</tspan>
+<tspan x="1065.0" dy="16">查可用容量</tspan>
+</text>
+<title>创建共享内存段之前，按实际后备文件系统的可用容量与所需字节数判定是否可分配；容量不足时明确拒绝，后备路径不存在时按实现约定跳过该文件系统检查，并单独调用 cgroup 可用内存检查。</title></g>
+<g class="unit" data-unit="distributed.remote_endpoint_binding" data-phase="service" data-level="unit" tabindex="0">
+<rect x="997.0" y="908.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="1065.0" y="926.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="1065.0" dy="0">并发远端写者绑定</tspan>
+<tspan x="1065.0" dy="16">唯一可连通地址</tspan>
+</text>
+<title>并发创建的远端写者各自取得唯一且与实际 socket 绑定一致的地址；读者使用发布的地址可以连接并接收消息。</title></g>
+<g class="unit" data-unit="distributed.tensor_transport_selection" data-phase="service" data-level="unit" tabindex="0">
+<rect x="997.0" y="966.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="1065.0" y="979.1" text-anchor="middle" class="node-label" style="font-size:12px">
+<tspan x="1065.0" dy="0">张量按适用条件选</tspan>
+<tspan x="1065.0" dy="13">择传输路径并保持</tspan>
+<tspan x="1065.0" dy="13">值</tspan>
+</text>
+<title>满足共享 arena 准入条件且有空闲槽位的张量通过共享存储重建；不满足大小、布局、类型或可表示性条件时走可用的回退编码路径。各路径均保持张量值、dtype、形状及声明保留的类型属性，零拷贝路径还保持接收值与共享槽位的存储别名。</title></g>
+<g class="unit" data-unit="shared_resource.attachment_failure_handling" data-phase="service" data-level="unit" tabindex="0">
+<rect x="997.0" y="1024.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="1065.0" y="1042.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="1065.0" dy="0">共享段附着失败保</tspan>
+<tspan x="1065.0" dy="16">持资源状态可辨</tspan>
+</text>
+<title>消费者根据句柄附着共享段失败时，初始化路径按实现约定记录不可用状态，且不把未附着的资源登记为可用；此状态与实际成功附着区分。</title></g>
+<g class="unit" data-unit="distributed.payload_transport_selection" data-phase="service" data-level="unit" tabindex="0">
+<rect x="997.0" y="1082.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="1065.0" y="1095.1" text-anchor="middle" class="node-label" style="font-size:12px">
+<tspan x="1065.0" dy="0">消息按容量与接收</tspan>
+<tspan x="1065.0" dy="13">者位置选择传输路</tspan>
+<tspan x="1065.0" dy="13">径</tspan>
+</text>
+<title>针对本地接收者，消息能装入共享槽位时经槽位交付，超出容量时经溢出通道交付；远端接收者使用可达的远端通道。各路径都应保持消息值与接收者对应关系。</title></g>
+<g class="unit" data-unit="cache.transfer_address_registration" data-phase="cache" data-level="unit" tabindex="0">
+<rect x="297.0" y="908.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="365.0" y="926.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="365.0" dy="0">缓存迁移地址落在</tspan>
+<tspan x="365.0" dy="16">有效注册区间</tspan>
+</text>
+<title>发起缓存页迁移时，传输描述符引用的主机地址区间被当前有效的内存注册覆盖；零拷贝和拷贝路径均遵守各自的注册地址。</title></g>
+<g class="unit" data-unit="cache.transfer_registration_failure_cleanup" data-phase="cache" data-level="unit" tabindex="0">
+<rect x="297.0" y="966.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="365.0" y="979.1" text-anchor="middle" class="node-label" style="font-size:12px">
+<tspan x="365.0" dy="0">缓存注册失败后关</tspan>
+<tspan x="365.0" dy="13">闭已取得的文件句</tspan>
+<tspan x="365.0" dy="13">柄</tspan>
+</text>
+<title>存储侧内存注册失败时，传输描述符不被当作可用结果，先前打开的文件描述符在退出上下文时关闭。</title></g>
+<g class="unit" data-unit="cache.backup_rank_write_suppression" data-phase="cache" data-level="unit" tabindex="0">
+<rect x="297.0" y="1024.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="365.0" y="1042.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="365.0" dy="0">备份并行角色遵守</tspan>
+<tspan x="365.0" dy="16">缓存写入策略</tspan>
+</text>
+<title>被配置为跳过写入的备份 rank 在初始化主机注册池之前返回每个逻辑键的跳过结果，不执行实际存储写入。</title></g>
+<g class="unit" data-unit="cache.storage_existence_accounting" data-phase="cache" data-level="unit" tabindex="0">
+<rect x="297.0" y="1082.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="365.0" y="1100.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="365.0" dy="0">跨层缓存存在数量</tspan>
+<tspan x="365.0" dy="16">按逻辑页计数</tspan>
+</text>
+<title>查询物理存储键后，存在数量按逻辑缓存页报告；一个逻辑页对应单个或成对的物理键时分别使用相应分母。</title></g>
+<g class="unit" data-unit="cache.storage_io_mode_binding" data-phase="cache" data-level="unit" tabindex="0">
+<rect x="297.0" y="1140.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="365.0" y="1153.1" text-anchor="middle" class="node-label" style="font-size:12px">
+<tspan x="365.0" dy="0">缓存文件读写模式</tspan>
+<tspan x="365.0" dy="13">按配置与对齐条件</tspan>
+<tspan x="365.0" dy="13">生效</tspan>
+</text>
+<title>启用文件直写时文件描述符含直写标志；关闭直写时不含该标志。直写所需的页对齐条件未满足时，原拟使用零拷贝的主机池改用已注册的拷贝缓冲区。</title></g>
+<g class="unit" data-unit="cache.storage_key_placement" data-phase="cache" data-level="unit" tabindex="0">
+<rect x="297.0" y="1198.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="365.0" y="1216.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="365.0" dy="0">缓存逻辑键稳定映</tspan>
+<tspan x="365.0" dy="16">射到存储目录</tspan>
+</text>
+<title>同一逻辑键与磁盘集合决定稳定的磁盘序号和桶目录；文件操作使用该映射定位路径，清空时移除嵌套桶中的旧文件。</title></g>
+<g class="unit" data-unit="sampling.parameter_normalization" data-phase="sampling" data-level="unit" tabindex="0">
+<rect x="717.0" y="850.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="785.0" y="868.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="785.0" dy="0">采样参数构造后的</tspan>
+<tspan x="785.0" dy="16">表示</tspan>
+</text>
+<title>采样参数对象按该实现的规则规范化默认值、top_k 和停止 token 集合，同时保留需要由后续校验拒绝的非法值。</title></g>
+<g class="unit" data-unit="sampling.cross_parameter_admissibility" data-phase="sampling" data-level="unit" tabindex="0">
+<rect x="717.0" y="908.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="785.0" y="926.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="785.0" dy="0">采样参数组合的可</tspan>
+<tspan x="785.0" dy="16">接受性</tspan>
+</text>
+<title>参数之间的约束得到执行：最小输出长度不超过有限最大长度；互斥的语法约束不能同时启用。</title></g>
+<g class="unit" data-unit="sampling.stop_condition_normalization" data-phase="sampling" data-level="unit" tabindex="0">
+<rect x="717.0" y="966.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="785.0" y="984.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="785.0" dy="0">停止条件的规范化</tspan>
+<tspan x="785.0" dy="16">表示</tspan>
+</text>
+<title>实现支持的停止条件被规范化为后续匹配使用的表示；需要保留停止模式及缓冲长度的计量单位。</title></g>
+<g class="unit" data-unit="sampling.stop_regex_buffer_bound" data-phase="sampling" data-level="unit" tabindex="0">
+<rect x="717.0" y="1024.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="785.0" y="1042.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="785.0" dy="0">正则停止模式的缓</tspan>
+<tspan x="785.0" dy="16">冲上界</tspan>
+</text>
+<title>模式长度估算为有限模式提供上界，对无界或未支持的模式返回保守上界。</title></g>
+<g class="unit" data-unit="output.stop_match_selection" data-phase="output" data-level="unit" tabindex="0">
+<rect x="857.0" y="966.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="984.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="925.0" dy="0">停止条件的匹配选</tspan>
+<tspan x="925.0" dy="16">择</tspan>
+</text>
+<title>同一生成步中有多个停止候选时，命中的停止条件按照实现约定的优先次序确定，并保留具体命中对象。</title></g>
+<g class="unit" data-unit="output.stop_boundary" data-phase="output" data-level="unit" tabindex="0">
+<rect x="857.0" y="1024.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="1042.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="925.0" dy="0">停止位置与输出截</tspan>
+<tspan x="925.0" dy="16">断</tspan>
+</text>
+<title>停止条件命中后，停止原因、有效输出边界和对外文本按同一请求的停止规则对应；多 token 接受时不返回边界之后的内容。</title></g>
+<g class="unit" data-unit="request.effective_sampling_parameters" data-phase="ingress" data-level="unit" tabindex="0">
+<rect x="17.0" y="1140.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="85.0" y="1158.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="85.0" dy="0">入口请求的有效采</tspan>
+<tspan x="85.0" dy="16">样参数</tspan>
+</text>
+<title>入口请求、模型或服务默认参数以及预处理结果按该字段与接口声明的规则形成最终执行参数，并保留需要的停止条件。</title></g>
+<line x1="33" y1="1296" x2="67" y2="1296" stroke="#8c6b9a" stroke-width="2"/><text x="74" y="1300" class="legend">分解</text>
+<line x1="157" y1="1296" x2="191" y2="1296" stroke="#70988c" stroke-width="2" stroke-dasharray="4 4"/><text x="198" y="1300" class="legend">前提依赖</text>
+<rect x="302" y="1284" width="30" height="22" rx="5" fill="#f3edf5" stroke="#bca6c7"/><text x="339" y="1300" class="legend">单请求状态</text>
+<rect x="482" y="1284" width="30" height="22" rx="5" fill="#e9f2ee" stroke="#8bb6a6"/><text x="519" y="1300" class="legend">跨请求／进程状态</text>
+<rect x="662" y="1284" width="30" height="22" rx="5" fill="#f0f0f2" stroke="#a9a9ae"/><text x="699" y="1300" class="legend">局部计算／部署条件</text>
+</svg>
