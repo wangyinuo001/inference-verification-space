@@ -121,6 +121,8 @@
 <path class="edge" data-parent="response.valid" data-child="response.stream_payload_consistency" d="M 560.0 152.0 C 560.0 414.5, 925.0 414.5, 925.0 677.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: Responses API request with streaming output</title></path>
 <path class="edge" data-parent="response.delivery" data-child="response.stream_event_lifecycle" d="M 925.0 604.0 C 925.0 611.5, 925.0 611.5, 925.0 619.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: streamed API response</title></path>
 <path class="edge" data-parent="response.delivery" data-child="response.stream_payload_consistency" d="M 925.0 604.0 C 925.0 640.5, 925.0 640.5, 925.0 677.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: streamed API response</title></path>
+<path class="edge" data-parent="response.valid" data-child="tool.call_parse_relation" d="M 560.0 152.0 C 560.0 675.5, 925.0 675.5, 925.0 1199.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: response contains generated tool-call syntax</title></path>
+<path class="edge" data-parent="response.delivery" data-child="tool.call_parse_relation" d="M 925.0 604.0 C 925.0 901.5, 925.0 901.5, 925.0 1199.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a parsed tool call is delivered</title></path>
 <g class="unit" data-unit="deployment.runtime_mode_binding" data-phase="preflight" data-level="unit" tabindex="0">
 <rect x="17.0" y="123.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
 <text x="85.0" y="149.8" text-anchor="middle" class="node-label" style="font-size:14px">
@@ -761,6 +763,12 @@
 <tspan x="85.0" dy="16">样参数</tspan>
 </text>
 <title>入口请求、模型或服务默认参数以及预处理结果按该字段与接口声明的规则形成最终执行参数，并保留需要的停止条件。</title></g>
+<g class="unit" data-unit="tool.call_parse_relation" data-phase="output" data-level="unit" tabindex="0">
+<rect x="857.0" y="1198.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="1224.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="925.0" dy="0">工具调用解析</tspan>
+</text>
+<title>按声明的工具格式和解析策略，模型输出中的普通文本、工具调用顺序、名称及参数被正确分离；跨块的不完整调用在完成前保留，不产生伪调用；无有效调用时遵循声明的回退策略。</title></g>
 <line x1="33" y1="1296" x2="67" y2="1296" stroke="#8c6b9a" stroke-width="2"/><text x="74" y="1300" class="legend">分解</text>
 <line x1="157" y1="1296" x2="191" y2="1296" stroke="#70988c" stroke-width="2" stroke-dasharray="4 4"/><text x="198" y="1300" class="legend">前提依赖</text>
 <rect x="302" y="1284" width="30" height="22" rx="5" fill="#f3edf5" stroke="#bca6c7"/><text x="339" y="1300" class="legend">单请求状态</text>

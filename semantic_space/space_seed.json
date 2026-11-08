@@ -868,6 +868,22 @@
       ],
       "observed_values": [],
       "constraint": "Event and payload checks are tied to the emitted content kinds, fragment boundaries, terminal condition, and number of tool calls; each field may vary independently."
+    },
+    {
+      "id": "tool_parse_profile",
+      "type": "structured",
+      "fields": [
+        "syntax",
+        "parse_mode",
+        "chunk_partition",
+        "surrounding_text_policy",
+        "sentinel_policy",
+        "unknown_tool_policy",
+        "failure_policy",
+        "argument_shape"
+      ],
+      "observed_values": [],
+      "constraint": "The accepted syntax, treatment of surrounding text and sentinel tokens, incomplete chunks, unknown tool names, parser failures and argument shapes must be bound before comparing expected parse results across implementations."
     }
   ],
   "applicability_rules": [
@@ -7241,6 +7257,75 @@
           }
         ]
       }
+    },
+    {
+      "id": "tool.call_parse_relation",
+      "name": "工具调用解析保留文本、名称与实参关系",
+      "kind": "obligation",
+      "phase": "output",
+      "state_scope": "request",
+      "conditions": [
+        "request_api_kind",
+        "output_mode",
+        "tool_parse_profile",
+        "tool_output_parse_mode"
+      ],
+      "property": "按声明的工具格式和解析策略，模型输出中的普通文本、工具调用顺序、名称及参数被正确分离；跨块的不完整调用在完成前保留，不产生伪调用；无有效调用时遵循声明的回退策略。",
+      "observable": [
+        "normal_text",
+        "tool_call_names",
+        "tool_call_arguments",
+        "tool_call_order",
+        "buffered_fragment",
+        "parse_error_outcome"
+      ],
+      "oracle": "对完整输出和不同分块输入分别建立预期文本与有序工具调用，逐项核对名称和结构化参数；对不完整、无调用及解析失败输入，按声明的策略核对缓冲与回退。比较前绑定支持的包围文本、特殊标记和未知工具处理策略。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/tool_parsers/pythonic_tool_parser.py",
+            "line": 68,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/tool_parsers/pythonic_tool_parser.py",
+            "line": 114,
+            "kind": "source"
+          },
+          {
+            "path": "tests/tool_parsers/test_pythonic_tool_parser.py",
+            "line": 167,
+            "kind": "existing_test"
+          },
+          {
+            "path": "tests/tool_parsers/test_pythonic_tool_parser.py",
+            "line": 185,
+            "kind": "existing_oracle"
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/function_call/pythonic_detector.py",
+            "line": 52,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/function_call/pythonic_detector.py",
+            "line": 159,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/function_call/test_function_call_parser.py",
+            "line": 91,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/registered/unit/function_call/test_function_call_parser.py",
+            "line": 105,
+            "kind": "existing_oracle"
+          }
+        ]
+      }
     }
   ],
   "relations": [
@@ -7831,6 +7916,18 @@
       "child": "response.stream_payload_consistency",
       "type": "requires",
       "when": "streamed API response"
+    },
+    {
+      "parent": "response.valid",
+      "child": "tool.call_parse_relation",
+      "type": "refines",
+      "when": "response contains generated tool-call syntax"
+    },
+    {
+      "parent": "response.delivery",
+      "child": "tool.call_parse_relation",
+      "type": "requires",
+      "when": "a parsed tool call is delivered"
     }
   ],
   "traces": [

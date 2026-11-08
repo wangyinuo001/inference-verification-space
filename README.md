@@ -14,7 +14,7 @@
 
 ## 当前材料
 
-候选空间包含 **102 个验证单元、72 个条件维度、16 类代表性路径**。Explorer 索引覆盖 4,673 个测试相关源码文件及约三万个源码测试入口。[空间定义](semantic_space/space_seed.json)和[测试目录索引](semantic_space/test_catalog.json)可以分别检查验证需求及原仓库入口。
+候选空间包含 **103 个验证单元、73 个条件维度、16 类代表性路径**。Explorer 索引覆盖 4,673 个测试相关源码文件及约三万个源码测试入口。[空间定义](semantic_space/space_seed.json)和[测试目录索引](semantic_space/test_catalog.json)可以分别检查验证需求及原仓库入口。
 
 [全量审查台账](semantic_space/master-review-index.tsv)将 31,968 条测试定义、继承候选、Rust 测试及待解析文件记录分流，并保存每条记录的证据等级与下一步核查项。其中 9,427 条存在静态调用与断言关联候选，22,541 条按缺失关联的原因继续分诊。源码候选只用于安排阅读，不意味着已确认它检查了对应性质。对自动关联的[留出样本核查](semantic_space/agent_contract_holdout.md)发现输入构造与被测操作容易混淆；修订规则会把这类关联降为待审查。
 
@@ -23,6 +23,8 @@
 当前正在逐项回读测试、调用路径与断言，并用确认的共性和实现差异修订空间单元。目标是据此为独立验证仓库设计测试，而不是将 vLLM、SGLang 的现有测试直接拼接为新测试集。[源码对照摘要](docs/source-comparison.md)说明两个框架如何映射到同一验证需求。
 
 [流式响应测试规格](docs/stream-response.md)区分事件开闭顺序与分段内容对最终结果的一致性，逐项源码记录见 [vLLM](semantic_space/vllm-response-stream-source-review.tsv) 和 [SGLang](semantic_space/sglang-response-stream-source-review.tsv)。
+
+[工具调用解析测试规格](docs/tool-call-parse.md)记录生成文本、工具名称和实参之间的共同验证目标及框架适用条件，逐项源码记录见 [vLLM](semantic_space/vllm-pythonic-tool-source-review.tsv) 和 [SGLang](semantic_space/sglang-pythonic-tool-source-review.tsv)。
 
 ## 文件
 
