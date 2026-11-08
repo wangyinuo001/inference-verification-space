@@ -7,7 +7,6 @@ body{margin:0;background:#fbfafb;color:#26212a;font-family:Arial,'PingFang SC','
 .explorer{position:sticky;top:0;height:100dvh;display:flex;flex-direction:column;box-sizing:border-box;min-width:0;padding:12px 8px;border-right:1px solid #e1dce3;background:#f6f4f7}
 .explorer h2{margin:2px 8px 10px;font-size:16px}
 .explorer input{box-sizing:border-box;width:100%;margin-bottom:8px;padding:8px;border:1px solid #cfc6d4;border-radius:6px;background:#fff;font:inherit;font-size:12px}
-.catalog-note{margin:0 7px 8px;color:#625c65;font-size:11px;line-height:1.4}
 .tree{flex:1;min-height:0;overflow:auto;font-size:12px}
 .tree summary{cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:4px 5px;border-radius:4px}
 .tree summary:hover,.test-entry:hover,.file-entry:hover{background:#ebe4ef}
@@ -52,7 +51,7 @@ button[aria-pressed=true]{background:#75348b;color:white;border-color:#75348b}
 .edge.dimmed{opacity:.08}
 @media(max-width:760px){.workspace{grid-template-columns:205px minmax(0,1fr)}.explorer{padding:8px 4px}main{padding:0 5px}}
 </style></head><body>
-<div class="workspace"><aside class="explorer"><h2>测试 Explorer</h2><input id="test-search" type="search" placeholder="搜索文件或测试函数" aria-label="搜索测试"><p class="catalog-note" id="catalog-note"></p><div class="tree" id="test-tree"></div><div class="tree" id="test-search-results" hidden></div></aside><main>
+<div class="workspace"><aside class="explorer"><h2>测试 Explorer</h2><input id="test-search" type="search" placeholder="搜索文件或测试函数" aria-label="搜索测试"><div class="tree" id="test-tree"></div><div class="tree" id="test-search-results" hidden></div></aside><main>
 <div class="toolbar" id="trace-filters"><button type="button" data-trace="all" aria-pressed="true">全部单元</button><button type="button" data-trace="text_generation" aria-pressed="false">文本生成</button><button type="button" data-trace="segmented_prefill" aria-pressed="false">分段 Prefill</button><button type="button" data-trace="prefix_reuse" aria-pressed="false">前缀复用</button><button type="button" data-trace="cancel_running_request" aria-pressed="false">运行中取消</button><button type="button" data-trace="structured_json_response" aria-pressed="false">约束生成</button><button type="button" data-trace="tool_call_response" aria-pressed="false">tool_call_response</button><button type="button" data-trace="image_request" aria-pressed="false">图像输入</button><button type="button" data-trace="adapter_switch" aria-pressed="false">适配器切换</button><button type="button" data-trace="service_load" aria-pressed="false">服务负载</button><button type="button" data-trace="task_quality_eval" aria-pressed="false">任务质量</button><button type="button" data-trace="embedding_request" aria-pressed="false">向量请求</button><button type="button" data-trace="speculative_greedy" aria-pressed="false">推测解码</button><button type="button" data-trace="tensor_parallel_generation" aria-pressed="false">张量并行生成</button><button type="button" data-trace="disaggregated_generation" aria-pressed="false">分离式生成</button><button type="button" data-trace="video_request" aria-pressed="false">视频请求</button></div>
 <div class="selection-banner" id="selection-banner"></div><div class="aux-scopes" id="aux-scopes"><span>其他验证对象</span><div class="aux-scope" data-area="configuration">配置与部署</div><div class="aux-scope" data-area="security">认证与访问控制</div><div class="aux-scope" data-area="diagnostics">调试与测试基础设施</div><div class="aux-scope" data-area="runtime_support">通用运行组件</div><div class="aux-scope" data-area="data_structure">核心数据结构</div><div class="aux-scope" data-area="image_generation">图像生成系统</div><div class="aux-scope" data-area="training">训练与 RL</div></div><div class="layout"><div class="plot" id="graph-drop-zone"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 1324" role="img" aria-label="推理系统的验证单元、层次和依赖">
 <style>text{font-family:Arial,"PingFang SC","Noto Sans CJK SC",sans-serif}.heading{font-size:23px;font-weight:700;fill:#222}.sub{font-size:12px;fill:#62616a}.phase{font-size:13px;font-weight:700;fill:#34313a}.node-label{font-size:14px;font-weight:600;fill:#27222d}.composite-label{font-size:14px;font-weight:700;fill:#632b77}.legend{font-size:12px;fill:#4b4752}.edge{fill:none;stroke-width:1.5}.unit{cursor:pointer}</style>
@@ -39138,19 +39137,6 @@ button[aria-pressed=true]{background:#75348b;color:white;border-color:#75348b}
       cursor.files.push({name: parts.at(-1), ...fileRecord});
     }
   }
-
-  const counts = catalog.counts;
-  const remainingFileRecords = records.filter(record =>
-    record.item.kind === 'source_test_file_unresolved').length;
-  const evidenceCounts = runtime.counts || {};
-  document.getElementById('catalog-note').textContent =
-    `${counts.source_files.toLocaleString()} 个源码文件，${(counts.test_entries - counts.source_test_file_unresolved).toLocaleString()} 个 test 命名源码定义（其中 ${collectionExceptions.length.toLocaleString()} 个 Python 定义需核对收集身份）、${inheritedRows.length.toLocaleString()} 个继承方法候选及 ${remainingFileRecords.toLocaleString()} 个仍按文件展示的记录；` +
-    `${dynamicRows.length.toLocaleString()} 个有限动态配置与方法组合候选；` +
-    `${(counts.ambiguous_test_entries ?? 0).toLocaleString()} 条类别并列待核查。` +
-    `${(evidenceCounts.executed_source_entries ?? 0).toLocaleString()} 个入口有运行追踪` +
-    `（${(evidenceCounts.executed_instances ?? runtime.entries.length).toLocaleString()} 个参数实例），` +
-    `${(evidenceCounts.oracle_linked_source_entries ?? 0).toLocaleString()} 个入口` +
-    `（${(evidenceCounts.oracle_linked_instances ?? 0).toLocaleString()} 个实例）关联了具体断言。`;
 
   function testButton(record) {
     const role = record.collection?.source_role;

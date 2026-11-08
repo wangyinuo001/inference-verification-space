@@ -140,19 +140,6 @@
     }
   }
 
-  const counts = catalog.counts;
-  const remainingFileRecords = records.filter(record =>
-    record.item.kind === 'source_test_file_unresolved').length;
-  const evidenceCounts = runtime.counts || {};
-  document.getElementById('catalog-note').textContent =
-    `${counts.source_files.toLocaleString()} 个源码文件，${(counts.test_entries - counts.source_test_file_unresolved).toLocaleString()} 个 test 命名源码定义（其中 ${collectionExceptions.length.toLocaleString()} 个 Python 定义需核对收集身份）、${inheritedRows.length.toLocaleString()} 个继承方法候选及 ${remainingFileRecords.toLocaleString()} 个仍按文件展示的记录；` +
-    `${dynamicRows.length.toLocaleString()} 个有限动态配置与方法组合候选；` +
-    `${(counts.ambiguous_test_entries ?? 0).toLocaleString()} 条类别并列待核查。` +
-    `${(evidenceCounts.executed_source_entries ?? 0).toLocaleString()} 个入口有运行追踪` +
-    `（${(evidenceCounts.executed_instances ?? runtime.entries.length).toLocaleString()} 个参数实例），` +
-    `${(evidenceCounts.oracle_linked_source_entries ?? 0).toLocaleString()} 个入口` +
-    `（${(evidenceCounts.oracle_linked_instances ?? 0).toLocaleString()} 个实例）关联了具体断言。`;
-
   function testButton(record) {
     const role = record.collection?.source_role;
     const roleLabel = role === 'fixture' ? '〔fixture〕' :
