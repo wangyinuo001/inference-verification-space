@@ -6,7 +6,7 @@
 
 [在线打开交互页面](https://wangyinuo001.github.io/inference-verification-space/semantic_space/space_view.html)，也可以下载本目录后在浏览器中打开 [离线页面](semantic_space/space_view.html)。页面包含所需数据，无需安装两个推理框架。文件较大，首次打开需要等待加载。
 
-- 顶部选择文本生成、前缀复用、运行中取消、分布式生成等十五类代表性路径，查看相关验证性质及其依赖。
+- 顶部选择文本生成、流式响应、前缀复用、运行中取消、分布式生成等十六类代表性路径，查看相关验证性质及其依赖。
 - 左侧展开或搜索原仓库测试文件，点击测试入口，查看源码归类、已定位的调用和断言线索，以及对应的空间单元。图上标亮的具体证据等级以详情为准；静态归属不能代替运行和断言核查。
 - 点击单元可查看要检查的性质、输入与状态条件，以及固定版本源码位置。紫色和绿色区分验证对象涉及的状态范围，不表示测试等价。
 
@@ -14,13 +14,15 @@
 
 ## 当前材料
 
-候选空间包含 **100 个验证单元、71 个条件维度、15 类代表性路径**。Explorer 索引覆盖 4,673 个测试相关源码文件及约三万个源码测试入口。[空间定义](semantic_space/space_seed.json)和[测试目录索引](semantic_space/test_catalog.json)可以分别检查验证需求及原仓库入口。
+候选空间包含 **102 个验证单元、72 个条件维度、16 类代表性路径**。Explorer 索引覆盖 4,673 个测试相关源码文件及约三万个源码测试入口。[空间定义](semantic_space/space_seed.json)和[测试目录索引](semantic_space/test_catalog.json)可以分别检查验证需求及原仓库入口。
 
 [全量审查台账](semantic_space/master-review-index.tsv)将 31,968 条测试定义、继承候选、Rust 测试及待解析文件记录分流，并保存每条记录的证据等级与下一步核查项。其中 9,427 条存在静态调用与断言关联候选，22,541 条按缺失关联的原因继续分诊。源码候选只用于安排阅读，不意味着已确认它检查了对应性质。对自动关联的[留出样本核查](semantic_space/agent_contract_holdout.md)发现输入构造与被测操作容易混淆；修订规则会把这类关联降为待审查。
 
 对没有直接产品调用链接的 HTTP／SDK 测试，[进一步分诊](semantic_space/agent_http_boundary.md)已定位 914 个入口的请求调用和断言线索，其中 777 个有源码级候选关联。这些记录已进入全量台账，仍需逐项确认请求条件、实际执行和检查性质。
 
 当前正在逐项回读测试、调用路径与断言，并用确认的共性和实现差异修订空间单元。目标是据此为独立验证仓库设计测试，而不是将 vLLM、SGLang 的现有测试直接拼接为新测试集。[源码对照摘要](docs/source-comparison.md)说明两个框架如何映射到同一验证需求。
+
+[流式响应测试规格](docs/stream-response.md)区分事件开闭顺序与分段内容对最终结果的一致性，逐项源码记录见 [vLLM](semantic_space/vllm-response-stream-source-review.tsv) 和 [SGLang](semantic_space/sglang-response-stream-source-review.tsv)。
 
 ## 文件
 

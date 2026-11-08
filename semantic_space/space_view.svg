@@ -60,7 +60,7 @@
 <path class="edge" data-parent="output.finalization" data-child="sampling.policy" d="M 925.0 430.0 C 925.0 524.5, 785.0 524.5, 785.0 619.0" stroke="#a1a0a5" stroke-opacity="0.28" stroke-dasharray="4 4"><title>consumes_result_of: generation response</title></path>
 <path class="edge" data-parent="abort.safe" data-child="cache.lifetime" d="M 1205.0 152.0 C 1205.0 385.5, 365.0 385.5, 365.0 619.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: aborted request holds cached state</title></path>
 <path class="edge" data-parent="response.valid" data-child="response.delivery" d="M 560.0 152.0 C 560.0 356.5, 925.0 356.5, 925.0 561.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: API response</title></path>
-<path class="edge" data-parent="response.valid" data-child="response.usage_accounting" d="M 560.0 152.0 C 560.0 385.5, 925.0 385.5, 925.0 619.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: API response reports prompt, completion or total token usage</title></path>
+<path class="edge" data-parent="response.valid" data-child="response.usage_accounting" d="M 560.0 152.0 C 560.0 443.5, 925.0 443.5, 925.0 735.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: API response reports prompt, completion or total token usage</title></path>
 <path class="edge" data-parent="response.valid" data-child="sampling.structured_constraint" d="M 560.0 152.0 C 560.0 443.5, 785.0 443.5, 785.0 735.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: format constraint requested</title></path>
 <path class="edge" data-parent="cache.safe_reuse" data-child="cache.result_relation" d="M 365.0 242.0 C 365.0 546.5, 365.0 546.5, 365.0 851.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: cache hit is used</title></path>
 <path class="edge" data-parent="abort.safe" data-child="abort.inflight_release" d="M 1205.0 152.0 C 1205.0 298.5, 1205.0 298.5, 1205.0 445.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: asynchronous execution or transfer in flight</title></path>
@@ -75,13 +75,13 @@
 <path class="edge" data-parent="embedding.valid" data-child="request.admission" d="M 860.0 152.0 C 860.0 385.5, 85.0 385.5, 85.0 619.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: embedding request</title></path>
 <path class="edge" data-parent="embedding.valid" data-child="schedule.progress" d="M 860.0 152.0 C 860.0 269.5, 225.0 269.5, 225.0 387.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: embedding request</title></path>
 <path class="edge" data-parent="embedding.valid" data-child="embedding.reference_relation" d="M 860.0 152.0 C 860.0 385.5, 645.0 385.5, 645.0 619.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: embedding request with numerical reference</title></path>
-<path class="edge" data-parent="embedding.valid" data-child="embedding.delivery" d="M 860.0 152.0 C 860.0 501.5, 925.0 501.5, 925.0 851.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: embedding API response</title></path>
-<path class="edge" data-parent="embedding.delivery" data-child="embedding.reference_relation" d="M 925.0 872.0 L 645.0 640.0" stroke="#a1a0a5" stroke-opacity="0.28" stroke-dasharray="4 4"><title>consumes_result_of: embedding API response</title></path>
+<path class="edge" data-parent="embedding.valid" data-child="embedding.delivery" d="M 860.0 152.0 C 860.0 559.5, 925.0 559.5, 925.0 967.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: embedding API response</title></path>
+<path class="edge" data-parent="embedding.delivery" data-child="embedding.reference_relation" d="M 925.0 988.0 L 645.0 640.0" stroke="#a1a0a5" stroke-opacity="0.28" stroke-dasharray="4 4"><title>consumes_result_of: embedding API response</title></path>
 <path class="edge" data-parent="spec.target_semantics" data-child="spec.acceptance" d="M 785.0 242.0 C 785.0 517.5, 785.0 517.5, 785.0 793.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: speculative decoding enabled</title></path>
-<path class="edge" data-parent="spec.target_semantics" data-child="spec.output_relation" d="M 785.0 242.0 C 785.0 575.5, 925.0 575.5, 925.0 909.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: speculative decoding enabled</title></path>
+<path class="edge" data-parent="spec.target_semantics" data-child="spec.output_relation" d="M 785.0 242.0 C 785.0 633.5, 925.0 633.5, 925.0 1025.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: speculative decoding enabled</title></path>
 <path class="edge" data-parent="response.valid" data-child="spec.target_semantics" d="M 560.0 152.0 C 560.0 175.5, 785.0 175.5, 785.0 199.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: generation with speculative decoding</title></path>
-<path class="edge" data-parent="spec.output_relation" data-child="spec.acceptance" d="M 925.0 930.0 L 785.0 814.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: speculative decoding enabled</title></path>
-<path class="edge" data-parent="spec.output_relation" data-child="sampling.policy" d="M 925.0 930.0 L 785.0 640.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: target sampling policy is applied</title></path>
+<path class="edge" data-parent="spec.output_relation" data-child="spec.acceptance" d="M 925.0 1046.0 L 785.0 814.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: speculative decoding enabled</title></path>
+<path class="edge" data-parent="spec.output_relation" data-child="sampling.policy" d="M 925.0 1046.0 L 785.0 640.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: target sampling policy is applied</title></path>
 <path class="edge" data-parent="distributed.logical_execution" data-child="distributed.partition_binding" d="M 645.0 242.0 C 645.0 459.5, 645.0 459.5, 645.0 677.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: tensor parallel execution</title></path>
 <path class="edge" data-parent="distributed.logical_execution" data-child="distributed.reduce_relation" d="M 645.0 242.0 C 645.0 488.5, 645.0 488.5, 645.0 735.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: tensor parallel execution with reduction</title></path>
 <path class="edge" data-parent="distributed.logical_execution" data-child="model.reference_relation" d="M 645.0 242.0 C 645.0 314.5, 645.0 314.5, 645.0 387.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: tensor parallel generation with model reference</title></path>
@@ -103,20 +103,24 @@
 <path class="edge" data-parent="response.valid" data-child="request.parallel_child_binding" d="M 560.0 152.0 C 560.0 588.5, 85.0 588.5, 85.0 1025.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: generation request asks for more than one sample</title></path>
 <path class="edge" data-parent="response.valid" data-child="request.batch_field_binding" d="M 560.0 152.0 C 560.0 617.5, 85.0 617.5, 85.0 1083.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: one request contains multiple input items or fields are broadcast to them</title></path>
 <path class="edge" data-parent="request.parallel_child_binding" data-child="request.batch_field_binding" d="M 85.0 1068.0 C 85.0 1075.5, 85.0 1075.5, 85.0 1083.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: each input item expands into multiple generation samples</title></path>
-<path class="edge" data-parent="response.valid" data-child="response.logprob_identity" d="M 560.0 152.0 C 560.0 414.5, 925.0 414.5, 925.0 677.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: response includes token probability information</title></path>
-<path class="edge" data-parent="response.valid" data-child="response.logprob_value" d="M 560.0 152.0 C 560.0 443.5, 925.0 443.5, 925.0 735.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: response includes token probability values</title></path>
-<path class="edge" data-parent="response.valid" data-child="response.logprob_text_decoding" d="M 560.0 152.0 C 560.0 472.5, 925.0 472.5, 925.0 793.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: response includes decoded text for probability tokens</title></path>
+<path class="edge" data-parent="response.valid" data-child="response.logprob_identity" d="M 560.0 152.0 C 560.0 472.5, 925.0 472.5, 925.0 793.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: response includes token probability information</title></path>
+<path class="edge" data-parent="response.valid" data-child="response.logprob_value" d="M 560.0 152.0 C 560.0 501.5, 925.0 501.5, 925.0 851.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: response includes token probability values</title></path>
+<path class="edge" data-parent="response.valid" data-child="response.logprob_text_decoding" d="M 560.0 152.0 C 560.0 530.5, 925.0 530.5, 925.0 909.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: response includes decoded text for probability tokens</title></path>
 <path class="edge" data-parent="response.valid" data-child="sampling.per_request_modifier_binding" d="M 560.0 152.0 C 560.0 414.5, 785.0 414.5, 785.0 677.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: generation uses request-specific logit bias, allowed tokens or a custom logit processor in sequential or mixed requests</title></path>
-<path class="edge" data-parent="response.logprob_value" data-child="response.logprob_identity" d="M 925.0 756.0 L 925.0 698.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: numeric comparison needs the reported token identity for alignment</title></path>
-<path class="edge" data-parent="response.logprob_text_decoding" data-child="response.logprob_identity" d="M 925.0 814.0 L 925.0 698.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: decoded text must be associated with the intended token ID</title></path>
+<path class="edge" data-parent="response.logprob_value" data-child="response.logprob_identity" d="M 925.0 872.0 L 925.0 814.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: numeric comparison needs the reported token identity for alignment</title></path>
+<path class="edge" data-parent="response.logprob_text_decoding" data-child="response.logprob_identity" d="M 925.0 930.0 L 925.0 814.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: decoded text must be associated with the intended token ID</title></path>
 <path class="edge" data-parent="request.admission" data-child="input.text_tokenization" d="M 85.0 640.0 L 85.0 466.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a text request is encoded into token IDs before scheduling</title></path>
 <path class="edge" data-parent="request.admission" data-child="input.chat_template_tokenization" d="M 85.0 640.0 L 85.0 524.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a chat request is rendered using a selected chat template before scheduling</title></path>
 <path class="edge" data-parent="quality.task_score" data-child="quality.sample_semantic_expectation" d="M 1065.0 488.0 C 1065.0 495.5, 1065.0 495.5, 1065.0 503.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: the task metric aggregates per-sample semantic judgements</title></path>
 <path class="edge" data-parent="distributed.tensor_transport_selection" data-child="distributed.payload_transport_selection" d="M 1065.0 1010.0 C 1065.0 1046.5, 1065.0 1046.5, 1065.0 1083.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a tensor-specific arena is used within a message queue whose local or remote channel is selected by the generic transport rule</title></path>
-<path class="edge" data-parent="output.finalization" data-child="output.stop_boundary" d="M 925.0 430.0 C 925.0 727.5, 925.0 727.5, 925.0 1025.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a request has a configured stop string or stop regex and a stop condition is reached</title></path>
-<path class="edge" data-parent="output.stop_boundary" data-child="output.stop_match_selection" d="M 925.0 1046.0 L 925.0 988.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: several stop candidates match a single appended step</title></path>
-<path class="edge" data-parent="output.stop_boundary" data-child="sampling.stop_condition_normalization" d="M 925.0 1046.0 L 785.0 988.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a string or regex stop condition is provided</title></path>
+<path class="edge" data-parent="output.finalization" data-child="output.stop_boundary" d="M 925.0 430.0 C 925.0 785.5, 925.0 785.5, 925.0 1141.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a request has a configured stop string or stop regex and a stop condition is reached</title></path>
+<path class="edge" data-parent="output.stop_boundary" data-child="output.stop_match_selection" d="M 925.0 1162.0 L 925.0 1104.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: several stop candidates match a single appended step</title></path>
+<path class="edge" data-parent="output.stop_boundary" data-child="sampling.stop_condition_normalization" d="M 925.0 1162.0 L 785.0 988.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a string or regex stop condition is provided</title></path>
 <path class="edge" data-parent="sampling.stop_condition_normalization" data-child="request.effective_sampling_parameters" d="M 785.0 1010.0 C 785.0 1075.5, 85.0 1075.5, 85.0 1141.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: stop settings originate from a public request combined with model or service defaults</title></path>
+<path class="edge" data-parent="response.valid" data-child="response.stream_event_lifecycle" d="M 560.0 152.0 C 560.0 385.5, 925.0 385.5, 925.0 619.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: Responses API request with streaming output</title></path>
+<path class="edge" data-parent="response.valid" data-child="response.stream_payload_consistency" d="M 560.0 152.0 C 560.0 414.5, 925.0 414.5, 925.0 677.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: Responses API request with streaming output</title></path>
+<path class="edge" data-parent="response.delivery" data-child="response.stream_event_lifecycle" d="M 925.0 604.0 C 925.0 611.5, 925.0 611.5, 925.0 619.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: streamed API response</title></path>
+<path class="edge" data-parent="response.delivery" data-child="response.stream_payload_consistency" d="M 925.0 604.0 C 925.0 640.5, 925.0 640.5, 925.0 677.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: streamed API response</title></path>
 <g class="unit" data-unit="deployment.runtime_mode_binding" data-phase="preflight" data-level="unit" tabindex="0">
 <rect x="17.0" y="123.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
 <text x="85.0" y="149.8" text-anchor="middle" class="node-label" style="font-size:14px">
@@ -409,27 +413,39 @@
 <tspan x="925.0" dy="0">接口结果交付</tspan>
 </text>
 <title>非流式响应的选择项与结束原因对应请求；流式分块按序组成完整文本并交付终止状态或错误。</title></g>
-<g class="unit" data-unit="response.usage_accounting" data-phase="output" data-level="unit" tabindex="0">
+<g class="unit" data-unit="response.stream_event_lifecycle" data-phase="output" data-level="unit" tabindex="0">
 <rect x="857.0" y="618.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
 <text x="925.0" y="644.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="925.0" dy="0">流式事件开闭</tspan>
+</text>
+<title>一次流式响应中的创建、内容项开启、增量、内容项结束和请求终止事件按协议顺序出现；同一内容项的标识与索引保持一致，事件序号连续。</title></g>
+<g class="unit" data-unit="response.stream_payload_consistency" data-phase="output" data-level="unit" tabindex="0">
+<rect x="857.0" y="676.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="702.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="925.0" dy="0">流式内容对应</tspan>
+</text>
+<title>对同一请求、同一内容项，按序接收的文本或工具实参增量与其结束事件及最终响应内容一致；不同字段的片段不混入目标内容。</title></g>
+<g class="unit" data-unit="response.usage_accounting" data-phase="output" data-level="unit" tabindex="0">
+<rect x="857.0" y="734.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="760.8" text-anchor="middle" class="node-label" style="font-size:14px">
 <tspan x="925.0" dy="0">token 用量对应</tspan>
 </text>
 <title>响应报告的提示词、生成及总 token 数分别对应实际处理后的输入、生成结果与两者之和；模型处理器、媒体展开及输出模式构成判定条件。</title></g>
 <g class="unit" data-unit="response.logprob_identity" data-phase="output" data-level="unit" tabindex="0">
-<rect x="857.0" y="676.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
-<text x="925.0" y="702.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<rect x="857.0" y="792.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="818.8" text-anchor="middle" class="node-label" style="font-size:14px">
 <tspan x="925.0" dy="0">概率 token 对应</tspan>
 </text>
 <title>返回的 token 概率项与请求指定及实际采样的 token 身份对应，token 字段的表示遵守请求选项，候选列表的数量和顺序遵守接口约定。</title></g>
 <g class="unit" data-unit="response.logprob_value" data-phase="output" data-level="unit" tabindex="0">
-<rect x="857.0" y="734.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
-<text x="925.0" y="760.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<rect x="857.0" y="850.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="876.8" text-anchor="middle" class="node-label" style="font-size:14px">
 <tspan x="925.0" dy="0">概率数值对照</tspan>
 </text>
 <title>给定模型输出、token 身份及采样变换，报告的 logprob 数值与指定参考计算在声明容差内一致。</title></g>
 <g class="unit" data-unit="response.logprob_text_decoding" data-phase="output" data-level="unit" tabindex="0">
-<rect x="857.0" y="792.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
-<text x="925.0" y="818.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<rect x="857.0" y="908.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="934.8" text-anchor="middle" class="node-label" style="font-size:14px">
 <tspan x="925.0" dy="0">概率 token 文本</tspan>
 </text>
 <title>每项返回的概率 token 文本按声明的解码策略由该 token ID 及允许的历史上下文得到；同一位置的候选 token 各自使用相同的已采样上下文，不能互作上下文。</title></g>
@@ -488,8 +504,8 @@
 </text>
 <title>给定模型、输入和向量维度，输出向量与参考实现满足明确的相似度关系。</title></g>
 <g class="unit" data-unit="embedding.delivery" data-phase="output" data-level="unit" tabindex="0">
-<rect x="857.0" y="850.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
-<text x="925.0" y="876.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<rect x="857.0" y="966.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="992.8" text-anchor="middle" class="node-label" style="font-size:14px">
 <tspan x="925.0" dy="0">向量结果交付</tspan>
 </text>
 <title>批量输入的向量按输入顺序逐项交付，条目数、维度、索引及用量字段满足接口契约。</title></g>
@@ -506,8 +522,8 @@
 </text>
 <title>按草稿与目标模型的概率或贪心目标 token 判定接受前缀；拒绝后从目标相关分布恢复，且输出次序与占位位置正确。</title></g>
 <g class="unit" data-unit="spec.output_relation" data-phase="output" data-level="unit" tabindex="0">
-<rect x="857.0" y="908.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
-<text x="925.0" y="934.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<rect x="857.0" y="1024.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="1050.8" text-anchor="middle" class="node-label" style="font-size:14px">
 <tspan x="925.0" dy="0">最终输出关系</tspan>
 </text>
 <title>贪心配置下与同条件非推测目标输出对照；随机配置下检验目标分布关系，不要求逐次 token 相同。</title></g>
@@ -725,15 +741,15 @@
 </text>
 <title>模式长度估算为有限模式提供上界，对无界或未支持的模式返回保守上界。</title></g>
 <g class="unit" data-unit="output.stop_match_selection" data-phase="output" data-level="unit" tabindex="0">
-<rect x="857.0" y="966.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
-<text x="925.0" y="984.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<rect x="857.0" y="1082.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="1100.4" text-anchor="middle" class="node-label" style="font-size:13px">
 <tspan x="925.0" dy="0">停止条件的匹配选</tspan>
 <tspan x="925.0" dy="16">择</tspan>
 </text>
 <title>同一生成步中有多个停止候选时，命中的停止条件按照实现约定的优先次序确定，并保留具体命中对象。</title></g>
 <g class="unit" data-unit="output.stop_boundary" data-phase="output" data-level="unit" tabindex="0">
-<rect x="857.0" y="1024.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
-<text x="925.0" y="1042.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<rect x="857.0" y="1140.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="1158.4" text-anchor="middle" class="node-label" style="font-size:13px">
 <tspan x="925.0" dy="0">停止位置与输出截</tspan>
 <tspan x="925.0" dy="16">断</tspan>
 </text>

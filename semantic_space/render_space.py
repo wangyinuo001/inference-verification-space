@@ -91,6 +91,8 @@ DISPLAY_NAMES = {
     "output.token_buffer_search": "TokenBuffer 搜索",
     "output.marker_sequence_search": "标记序列搜索",
     "response.delivery": "接口结果交付",
+    "response.stream_event_lifecycle": "流式事件开闭",
+    "response.stream_payload_consistency": "流式内容对应",
     "response.usage_accounting": "token 用量对应",
     "embedding.delivery": "向量结果交付",
     "spec.output_relation": "最终输出关系",
@@ -105,6 +107,7 @@ DISPLAY_NAMES = {
 }
 TRACE_NAMES = {
     "text_generation": "文本生成",
+    "streamed_response": "流式响应",
     "segmented_prefill": "分段 Prefill",
     "prefix_reuse": "前缀复用",
     "cancel_running_request": "运行中取消",

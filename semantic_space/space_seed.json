@@ -856,6 +856,18 @@
         "routed_experts_prompt_start"
       ],
       "constraint": "The field being assembled determines which request/default/processed-input source rule applies."
+    },
+    {
+      "id": "stream_fragment_profile",
+      "type": "structured",
+      "fields": [
+        "content_kind_order",
+        "chunk_partition",
+        "termination_kind",
+        "tool_call_count"
+      ],
+      "observed_values": [],
+      "constraint": "Event and payload checks are tied to the emitted content kinds, fragment boundaries, terminal condition, and number of tool calls; each field may vary independently."
     }
   ],
   "applicability_rules": [
@@ -4118,6 +4130,156 @@
           {
             "path": "test/registered/unit/entrypoints/openai/test_serving_chat.py",
             "line": 1677,
+            "kind": "existing_oracle"
+          }
+        ]
+      }
+    },
+    {
+      "id": "response.stream_event_lifecycle",
+      "name": "流式事件按内容类型和请求状态正确开闭",
+      "kind": "obligation",
+      "phase": "output",
+      "state_scope": "request",
+      "conditions": [
+        "output_mode",
+        "request_api_kind",
+        "stream_fragment_profile"
+      ],
+      "property": "一次流式响应中的创建、内容项开启、增量、内容项结束和请求终止事件按协议顺序出现；同一内容项的标识与索引保持一致，事件序号连续。",
+      "observable": [
+        "event_types",
+        "event_sequence_numbers",
+        "item_ids",
+        "output_indices",
+        "terminal_event"
+      ],
+      "oracle": "对同一请求收集事件；按内容类型检查允许的开闭顺序、项标识与索引以及唯一终止事件。序号字段存在时检查连续；不将单个事件出现等同于完整响应。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/entrypoints/openai/responses/streaming_events.py",
+            "line": 1222,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/entrypoints/openai/responses/streaming_events.py",
+            "line": 1254,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/entrypoints/openai/responses/serving.py",
+            "line": 1359,
+            "kind": "source"
+          },
+          {
+            "path": "tests/entrypoints/openai/responses/test_streaming_events.py",
+            "line": 61,
+            "kind": "existing_test"
+          },
+          {
+            "path": "tests/entrypoints/openai/responses/test_streaming_events.py",
+            "line": 72,
+            "kind": "existing_oracle"
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/entrypoints/openai/serving_responses.py",
+            "line": 1716,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/entrypoints/openai/serving_responses.py",
+            "line": 1733,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/entrypoints/openai/test_serving_responses_stream.py",
+            "line": 63,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/registered/unit/entrypoints/openai/test_serving_responses_stream.py",
+            "line": 93,
+            "kind": "existing_oracle"
+          }
+        ]
+      }
+    },
+    {
+      "id": "response.stream_payload_consistency",
+      "name": "流式增量与最终内容保持一致",
+      "kind": "obligation",
+      "phase": "output",
+      "state_scope": "request",
+      "conditions": [
+        "output_mode",
+        "request_api_kind",
+        "stream_fragment_profile",
+        "tool_output_parse_mode"
+      ],
+      "property": "对同一请求、同一内容项，按序接收的文本或工具实参增量与其结束事件及最终响应内容一致；不同字段的片段不混入目标内容。",
+      "observable": [
+        "stream_deltas",
+        "assembled_content",
+        "done_content",
+        "final_response_items",
+        "item_ids"
+      ],
+      "oracle": "分别按文本、推理内容和工具实参重建流式内容，核对结束事件与最终响应；在不同切分位置和混合内容顺序下检查不丢失、不重复及不串入其他字段。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/entrypoints/openai/responses/streaming_events.py",
+            "line": 894,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/entrypoints/openai/responses/streaming_events.py",
+            "line": 915,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/entrypoints/openai/responses/streaming_events.py",
+            "line": 1154,
+            "kind": "source"
+          },
+          {
+            "path": "tests/entrypoints/openai/responses/test_streaming_events.py",
+            "line": 223,
+            "kind": "existing_test"
+          },
+          {
+            "path": "tests/entrypoints/openai/responses/test_streaming_events.py",
+            "line": 251,
+            "kind": "existing_oracle"
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/entrypoints/openai/serving_responses.py",
+            "line": 2026,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/entrypoints/openai/serving_responses.py",
+            "line": 2113,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/entrypoints/openai/serving_responses.py",
+            "line": 2254,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/entrypoints/openai/test_serving_responses_stream.py",
+            "line": 141,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/registered/unit/entrypoints/openai/test_serving_responses_stream.py",
+            "line": 204,
             "kind": "existing_oracle"
           }
         ]
@@ -7645,6 +7807,30 @@
       "child": "request.effective_sampling_parameters",
       "type": "requires",
       "when": "stop settings originate from a public request combined with model or service defaults"
+    },
+    {
+      "parent": "response.valid",
+      "child": "response.stream_event_lifecycle",
+      "type": "refines",
+      "when": "Responses API request with streaming output"
+    },
+    {
+      "parent": "response.valid",
+      "child": "response.stream_payload_consistency",
+      "type": "refines",
+      "when": "Responses API request with streaming output"
+    },
+    {
+      "parent": "response.delivery",
+      "child": "response.stream_event_lifecycle",
+      "type": "requires",
+      "when": "streamed API response"
+    },
+    {
+      "parent": "response.delivery",
+      "child": "response.stream_payload_consistency",
+      "type": "requires",
+      "when": "streamed API response"
     }
   ],
   "traces": [
@@ -8029,6 +8215,38 @@
       "unmapped_observations": [
         "The example profile follows one SGLang frame-selection case; the vLLM test suite checks other configurations and backend-specific behavior",
         "Selected frame indices and prompt feature ranges still need to be joined for the same actual request"
+      ],
+      "trace_type": "path_template"
+    },
+    {
+      "id": "streamed_response",
+      "conditions": {
+        "request_kind": "generation",
+        "input_form": "text",
+        "sampling_mode": "greedy",
+        "cache_state": "disabled",
+        "output_mode": "streaming",
+        "request_api_kind": "responses",
+        "stream_fragment_profile": {
+          "content_kind_order": "text or text-tool-text",
+          "chunk_partition": "multiple engine chunks",
+          "termination_kind": "completed",
+          "tool_call_count": "0 or 1"
+        }
+      },
+      "steps": [
+        "response.valid",
+        "request.admission",
+        "schedule.progress",
+        "model.reference_relation",
+        "sampling.policy",
+        "output.finalization",
+        "response.stream_event_lifecycle",
+        "response.stream_payload_consistency",
+        "response.delivery"
+      ],
+      "unmapped_observations": [
+        "The cited unit tests feed scripted engine chunks; a live request trace is still needed to join model output to the emitted event stream."
       ],
       "trace_type": "path_template"
     }
