@@ -6,6 +6,7 @@
   "source_route_candidates": 10827,
   "helper_chain_candidates": 1902,
   "http_boundary_entries": 914,
+  "batch_review_entries": 601,
   "http_request_oracle_candidates": 777,
   "contract_v2_statuses": {
     "needs_review": 8006,
@@ -13,14 +14,18 @@
     "mechanical_candidate": 991
   },
   "evidence_levels": {
-    "triage_only": 20250,
-    "prior_source_review": 609,
-    "static_call_oracle_candidate": 9005,
+    "triage_only": 20220,
+    "prior_source_review": 42,
+    "static_call_oracle_candidate": 9001,
     "supplemental_static_candidate": 957,
+    "batch_source_property_mapped": 469,
+    "batch_source_review_needs_refinement": 112,
+    "source_out_of_request_scope": 63,
     "http_static_request_oracle_candidate": 741,
     "source_property_confirmed": 353,
-    "source_out_of_request_scope": 52,
-    "source_candidate": 1
+    "batch_source_oracle_unresolved": 3,
+    "source_candidate": 1,
+    "batch_source_skipped_by_class": 6
   },
-  "interpretation": "All entries are routed for review; only source_property_confirmed records have a newly checked local property, and none imply runtime execution."
+  "interpretation": "All entries have a review route. source_property_confirmed and batch_source_property_mapped carry checked source-level properties; other review outcomes remain distinct. Source review does not imply runtime execution or confirm every generated test configuration."
 }
