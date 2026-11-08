@@ -473,6 +473,25 @@
       "constraint": "Adapter identity, loaded weights and cache key need to agree; the valid adapter set may change at runtime."
     },
     {
+      "id": "adapter_residency_profile",
+      "type": "structured",
+      "fields": [
+        "registered_capacity",
+        "active_slot_capacity",
+        "resident_adapters",
+        "requested_adapters",
+        "eligible_victims",
+        "pinned_adapters",
+        "inflight_protection_policy",
+        "access_history",
+        "eviction_policy",
+        "base_model_residency",
+        "slot_layout"
+      ],
+      "observed_values": [],
+      "constraint": "The expected victim and resident set depend on capacity, eligible candidates, pinning, access history and policy. SGLang excludes adapters needed by the current batch; vLLM may reassign active slots and must refresh the token-to-slot mapping."
+    },
+    {
       "id": "routing_profile",
       "type": "structured",
       "fields": [
@@ -3147,6 +3166,83 @@
           {
             "path": "python/sglang/test/lora_utils.py",
             "line": 628,
+            "kind": "existing_oracle"
+          }
+        ]
+      }
+    },
+    {
+      "id": "adapter.residency_policy",
+      "name": "适配器驻留与淘汰符合声明策略",
+      "kind": "obligation",
+      "phase": "model_execution",
+      "state_scope": "shared",
+      "conditions": [
+        "adapter_mode",
+        "adapter_residency_profile",
+        "execution_layout"
+      ],
+      "property": "当适配器的注册或活动槽位达到容量时，新增、复用、移除和固定操作按声明的策略更新驻留集合；淘汰对象属于可淘汰集合，被固定的适配器受到相应保护。是否保护当前批次所需适配器、以及槽位重排后如何更新请求映射，由运行条件分别规定。",
+      "observable": [
+        "selected_victim",
+        "registered_adapter_ids",
+        "active_slot_adapter_ids",
+        "pinned_adapter_ids",
+        "operation_outcome"
+      ],
+      "oracle": "给定容量、访问顺序、可淘汰集合和固定状态，计算预期淘汰对象及操作后驻留集合；同时检查注册表和活动槽位身份。策略单测只支持淘汰对象的局部结论，槽位和请求权重绑定需用管理器及执行检查。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/lora/model_manager.py",
+            "line": 65,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/lora/model_manager.py",
+            "line": 1441,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/lora/model_manager.py",
+            "line": 1417,
+            "kind": "source"
+          },
+          {
+            "path": "tests/lora/test_lora_manager.py",
+            "line": 727,
+            "kind": "existing_test"
+          },
+          {
+            "path": "tests/lora/test_lora_manager.py",
+            "line": 766,
+            "kind": "existing_oracle"
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/lora/eviction_policy.py",
+            "line": 47,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/lora/mem_pool.py",
+            "line": 724,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/lora/mem_pool.py",
+            "line": 696,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/lora/test_lora_eviction_policy.py",
+            "line": 65,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/registered/lora/test_lora_eviction_policy.py",
+            "line": 59,
             "kind": "existing_oracle"
           }
         ]
@@ -7928,6 +8024,12 @@
       "child": "tool.call_parse_relation",
       "type": "requires",
       "when": "a parsed tool call is delivered"
+    },
+    {
+      "parent": "model.adapter_binding",
+      "child": "adapter.residency_policy",
+      "type": "requires",
+      "when": "adapter can be added, evicted, pinned or reassigned while requests use it"
     }
   ],
   "traces": [
@@ -8116,6 +8218,7 @@
         "response.valid",
         "request.admission",
         "schedule.progress",
+        "adapter.residency_policy",
         "model.adapter_binding",
         "model.reference_relation",
         "sampling.policy",

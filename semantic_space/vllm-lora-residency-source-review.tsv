@@ -1,0 +1,28 @@
+snapshot	path	test_name	line	status	checked_property	unit_ids	oracle_lines	direct_oracle_count	candidate_config_count	supporting_sources	applicability_note
+vllm	tests/lora/test_lora_manager.py	test_reject_fused_moe_lora_before_registration	58	pending_source_review				4	0	[]	
+vllm	tests/lora/test_lora_manager.py	test_moe_format_validation_allows_supported_layouts	95	pending_source_review				0	0	[]	
+vllm	tests/lora/test_lora_manager.py	test_from_lora_tensors	118	pending_source_review				9	0	[]	
+vllm	tests/lora/test_lora_manager.py	test_text_only_lora_binds_to_multimodal_language_model	161	pending_source_review				3	0	[]	
+vllm	tests/lora/test_lora_manager.py	test_replace_submodules	223	pending_source_review				4	0	[]	
+vllm	tests/lora/test_lora_manager.py	test_wrap_replicated_linear_subclasses	245	pending_source_review				1	0	[]	
+vllm	tests/lora/test_lora_manager.py	test_wrap_gate_linear	271	pending_source_review				1	0	[]	
+vllm	tests/lora/test_lora_manager.py	test_dedup_shared_module_across_paths	292	pending_source_review				5	0	[]	
+vllm	tests/lora/test_lora_manager.py	test_lm_head_exempt_from_dedup	350	pending_source_review				3	0	[]	
+vllm	tests/lora/test_lora_manager.py	test_skip_unsupported_matched_modules	388	pending_source_review				2	0	[]	
+vllm	tests/lora/test_lora_manager.py	test_target_modules_fail_closed_on_unsupported_matched_modules	416	pending_source_review				1	0	[]	
+vllm	tests/lora/test_lora_manager.py	test_get_dummy_lora_warmup_rank_for_fully_sharded_moe	445	pending_source_review				1	0	[]	
+vllm	tests/lora/test_lora_manager.py	test_pin_memory_for_packed_lora	499	pending_source_review				1	0	[]	
+vllm	tests/lora/test_lora_manager.py	test_3d_moe_lora_pinned_once	511	pending_source_review				2	0	[]	
+vllm	tests/lora/test_lora_manager.py	test_dummy_3d_moe_lora_is_sized_by_global_experts	541	pending_source_review				2	0	[]	
+vllm	tests/lora/test_lora_manager.py	test_lora_model_manager	567	mapped	固定容量管理器的注册、活动槽位占用、重复添加、满槽拒绝和移除后的槽位身份符合预期。	adapter.residency_policy	588;594;600;602;603;605;610;611;614;618	38	0	"[{""path"": ""vllm/lora/model_manager.py"", ""line"": 1389}]"	非 LRU 管理器；两个活动槽位；参数化设备列表，不据此断言请求输出正确。
+vllm	tests/lora/test_lora_manager.py	test_lora_lru_cache_model_manager	634	mapped	LRU 管理器在槽位满时替换旧适配器，固定适配器后保留其槽位；全固定时的新增或固定操作被拒绝。	adapter.residency_policy	669;670;671;691;695;696;705;707;708;709;714;715	66	0	"[{""path"": ""vllm/lora/model_manager.py"", ""line"": 1441}]"	两个活动槽位；设备参数化；同时检查注册及活动缓存部分状态。
+vllm	tests/lora/test_lora_manager.py	test_lru_lora_model_manager	727	mapped	注册缓存与活动槽位的 LRU 淘汰、显式移除和固定适配器保护之后，成员集合与槽位身份符合预期。	adapter.residency_policy	756;766;767;768;777;778;779;799;800;801;837;838;839;840;842;845	73	0	"[{""path"": ""vllm/lora/model_manager.py"", ""line"": 65}, {""path"": ""vllm/lora/model_manager.py"", ""line"": 1441}]"	两个注册容量及两个活动槽位；检查管理器状态，不直接比较推理输出。
+vllm	tests/lora/test_lora_manager.py	test_set_adapter_mapping_refreshes_after_slot_reassignment	854	mapped	同一批请求的适配器 ID 不变、槽位重新分配后，token 到槽位索引的映射由 [0,1] 更新为 [1,0]。	model.adapter_binding;adapter.residency_policy	882;886;895;899;902;903	14	0	"[{""path"": ""vllm/lora/model_manager.py"", ""line"": 1417}]"	检查运行前的映射元数据及清理；没有执行含这些 LoRA 权重的生成输出比较。
+vllm	tests/lora/test_lora_manager.py	test_lru_cache_worker_adapter_manager	907	pending_source_review				27	0	[]	
+vllm	tests/lora/test_lora_manager.py	test_worker_adapter_manager	1022	pending_source_review				22	0	[]	
+vllm	tests/lora/test_lora_manager.py	test_packed_loras	1129	pending_source_review				19	0	[]	
+vllm	tests/lora/test_lora_manager.py	test_packed_loras_layer_override	1196	pending_source_review				5	0	[]	
+vllm	tests/lora/test_lora_manager.py	test_target_modules_config	1263	pending_source_review				0	0	[]	
+vllm	tests/lora/test_lora_manager.py	test_target_modules_multiple	1282	pending_source_review				0	0	[]	
+vllm	tests/lora/test_lora_manager.py	test_target_modules_none_uses_all	1300	pending_source_review				0	0	[]	
+vllm	tests/lora/test_lora_manager.py	test_target_modules_match_packed_runtime_modules	1320	pending_source_review				0	0	[]	

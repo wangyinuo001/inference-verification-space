@@ -27,8 +27,8 @@
 <path class="edge" data-parent="distributed.queue_wait_shutdown" data-child="distributed.message_delivery" d="M 1065.0 640.0 L 1065.0 582.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a waiting reader is awakened by a newly delivered message</title></path>
 <path class="edge" data-parent="shared_resource.object_handle_identity" data-child="shared_resource.buffer_slot_integrity" d="M 1065.0 720.0 C 1065.0 727.5, 1065.0 727.5, 1065.0 735.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a handle refers to a buffer slot that can be reused under a new generation</title></path>
 <path class="edge" data-parent="shared_resource.buffer_slot_integrity" data-child="shared_resource.lifetime" d="M 1065.0 778.0 C 1065.0 785.5, 1065.0 785.5, 1065.0 793.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: the shared memory object must remain attached while a reader consumes an allocated slot</title></path>
-<path class="edge" data-parent="distributed.resource_fallback_agreement" data-child="deployment.runtime_mode_binding" d="M 645.0 814.0 L 85.0 145.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: fallback is coordinated among initialized process-group members</title></path>
-<path class="edge" data-parent="distributed.resource_fallback_agreement" data-child="shared_resource.lifetime" d="M 645.0 814.0 L 1065.0 814.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: the fallback creates a replacement shared resource whose lifetime must be managed</title></path>
+<path class="edge" data-parent="distributed.resource_fallback_agreement" data-child="deployment.runtime_mode_binding" d="M 645.0 872.0 L 85.0 145.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: fallback is coordinated among initialized process-group members</title></path>
+<path class="edge" data-parent="distributed.resource_fallback_agreement" data-child="shared_resource.lifetime" d="M 645.0 872.0 L 1065.0 814.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: the fallback creates a replacement shared resource whose lifetime must be managed</title></path>
 <path class="edge" data-parent="deployment.runtime_mode_binding" data-child="deployment.effective_configuration" d="M 85.0 167.0 C 85.0 173.5, 85.0 173.5, 85.0 180.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: process-wide execution policy is initialized from the effective mode and worker layout</title></path>
 <path class="edge" data-parent="deployment.configuration_admissibility" data-child="deployment.effective_configuration" d="M 85.0 257.0 L 85.0 201.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: admissibility depends on merged defaults, platform-specific backend selection or normalized aliases</title></path>
 <path class="edge" data-parent="request.admission" data-child="input.modality_count_admissibility" d="M 85.0 662.0 C 85.0 698.5, 85.0 698.5, 85.0 735.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: the request contains one or more media items under a per-modality count limit</title></path>
@@ -74,19 +74,19 @@
 <path class="edge" data-parent="model.reference_relation" data-child="model.adapter_binding" d="M 645.0 430.0 C 645.0 495.5, 645.0 495.5, 645.0 561.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: adapter request</title></path>
 <path class="edge" data-parent="embedding.valid" data-child="request.admission" d="M 860.0 152.0 C 860.0 385.5, 85.0 385.5, 85.0 619.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: embedding request</title></path>
 <path class="edge" data-parent="embedding.valid" data-child="schedule.progress" d="M 860.0 152.0 C 860.0 269.5, 225.0 269.5, 225.0 387.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: embedding request</title></path>
-<path class="edge" data-parent="embedding.valid" data-child="embedding.reference_relation" d="M 860.0 152.0 C 860.0 385.5, 645.0 385.5, 645.0 619.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: embedding request with numerical reference</title></path>
+<path class="edge" data-parent="embedding.valid" data-child="embedding.reference_relation" d="M 860.0 152.0 C 860.0 414.5, 645.0 414.5, 645.0 677.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: embedding request with numerical reference</title></path>
 <path class="edge" data-parent="embedding.valid" data-child="embedding.delivery" d="M 860.0 152.0 C 860.0 559.5, 925.0 559.5, 925.0 967.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: embedding API response</title></path>
-<path class="edge" data-parent="embedding.delivery" data-child="embedding.reference_relation" d="M 925.0 988.0 L 645.0 640.0" stroke="#a1a0a5" stroke-opacity="0.28" stroke-dasharray="4 4"><title>consumes_result_of: embedding API response</title></path>
+<path class="edge" data-parent="embedding.delivery" data-child="embedding.reference_relation" d="M 925.0 988.0 L 645.0 698.0" stroke="#a1a0a5" stroke-opacity="0.28" stroke-dasharray="4 4"><title>consumes_result_of: embedding API response</title></path>
 <path class="edge" data-parent="spec.target_semantics" data-child="spec.acceptance" d="M 785.0 242.0 C 785.0 517.5, 785.0 517.5, 785.0 793.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: speculative decoding enabled</title></path>
 <path class="edge" data-parent="spec.target_semantics" data-child="spec.output_relation" d="M 785.0 242.0 C 785.0 633.5, 925.0 633.5, 925.0 1025.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: speculative decoding enabled</title></path>
 <path class="edge" data-parent="response.valid" data-child="spec.target_semantics" d="M 560.0 152.0 C 560.0 175.5, 785.0 175.5, 785.0 199.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: generation with speculative decoding</title></path>
 <path class="edge" data-parent="spec.output_relation" data-child="spec.acceptance" d="M 925.0 1046.0 L 785.0 814.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: speculative decoding enabled</title></path>
 <path class="edge" data-parent="spec.output_relation" data-child="sampling.policy" d="M 925.0 1046.0 L 785.0 640.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: target sampling policy is applied</title></path>
-<path class="edge" data-parent="distributed.logical_execution" data-child="distributed.partition_binding" d="M 645.0 242.0 C 645.0 459.5, 645.0 459.5, 645.0 677.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: tensor parallel execution</title></path>
-<path class="edge" data-parent="distributed.logical_execution" data-child="distributed.reduce_relation" d="M 645.0 242.0 C 645.0 488.5, 645.0 488.5, 645.0 735.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: tensor parallel execution with reduction</title></path>
+<path class="edge" data-parent="distributed.logical_execution" data-child="distributed.partition_binding" d="M 645.0 242.0 C 645.0 488.5, 645.0 488.5, 645.0 735.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: tensor parallel execution</title></path>
+<path class="edge" data-parent="distributed.logical_execution" data-child="distributed.reduce_relation" d="M 645.0 242.0 C 645.0 517.5, 645.0 517.5, 645.0 793.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: tensor parallel execution with reduction</title></path>
 <path class="edge" data-parent="distributed.logical_execution" data-child="model.reference_relation" d="M 645.0 242.0 C 645.0 314.5, 645.0 314.5, 645.0 387.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: tensor parallel generation with model reference</title></path>
-<path class="edge" data-parent="model.reference_relation" data-child="distributed.partition_binding" d="M 645.0 430.0 C 645.0 553.5, 645.0 553.5, 645.0 677.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: tensor parallel execution</title></path>
-<path class="edge" data-parent="model.reference_relation" data-child="distributed.reduce_relation" d="M 645.0 430.0 C 645.0 582.5, 645.0 582.5, 645.0 735.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: tensor parallel path uses all-reduce</title></path>
+<path class="edge" data-parent="model.reference_relation" data-child="distributed.partition_binding" d="M 645.0 430.0 C 645.0 582.5, 645.0 582.5, 645.0 735.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: tensor parallel execution</title></path>
+<path class="edge" data-parent="model.reference_relation" data-child="distributed.reduce_relation" d="M 645.0 430.0 C 645.0 611.5, 645.0 611.5, 645.0 793.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: tensor parallel path uses all-reduce</title></path>
 <path class="edge" data-parent="response.valid" data-child="distributed.logical_execution" d="M 560.0 152.0 C 560.0 175.5, 645.0 175.5, 645.0 199.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: tensor parallel generation</title></path>
 <path class="edge" data-parent="cache.safe_reuse" data-child="cache.hit_accounting" d="M 365.0 242.0 C 365.0 401.5, 365.0 401.5, 365.0 561.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: claim that a cached prefix was reused</title></path>
 <path class="edge" data-parent="response.valid" data-child="schedule.segment_continuity" d="M 560.0 152.0 C 560.0 298.5, 225.0 298.5, 225.0 445.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: input prefill is processed in multiple segments</title></path>
@@ -123,6 +123,7 @@
 <path class="edge" data-parent="response.delivery" data-child="response.stream_payload_consistency" d="M 925.0 604.0 C 925.0 640.5, 925.0 640.5, 925.0 677.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: streamed API response</title></path>
 <path class="edge" data-parent="response.valid" data-child="tool.call_parse_relation" d="M 560.0 152.0 C 560.0 675.5, 925.0 675.5, 925.0 1199.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: response contains generated tool-call syntax</title></path>
 <path class="edge" data-parent="response.delivery" data-child="tool.call_parse_relation" d="M 925.0 604.0 C 925.0 901.5, 925.0 901.5, 925.0 1199.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a parsed tool call is delivered</title></path>
+<path class="edge" data-parent="model.adapter_binding" data-child="adapter.residency_policy" d="M 645.0 604.0 C 645.0 611.5, 645.0 611.5, 645.0 619.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: adapter can be added, evicted, pinned or reassigned while requests use it</title></path>
 <g class="unit" data-unit="deployment.runtime_mode_binding" data-phase="preflight" data-level="unit" tabindex="0">
 <rect x="17.0" y="123.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
 <text x="85.0" y="149.8" text-anchor="middle" class="node-label" style="font-size:14px">
@@ -328,6 +329,12 @@
 <tspan x="645.0" dy="0">适配器绑定</tspan>
 </text>
 <title>带 LoRA 的请求在模型执行时使用请求指定的适配器权重，切换或重新加载适配器后不混用其他请求的权重。</title></g>
+<g class="unit" data-unit="adapter.residency_policy" data-phase="model_execution" data-level="unit" tabindex="0">
+<rect x="577.0" y="618.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="645.0" y="644.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="645.0" dy="0">适配器驻留与淘汰</tspan>
+</text>
+<title>当适配器的注册或活动槽位达到容量时，新增、复用、移除和固定操作按声明的策略更新驻留集合；淘汰对象属于可淘汰集合，被固定的适配器受到相应保护。是否保护当前批次所需适配器、以及槽位重排后如何更新请求映射，由运行条件分别规定。</title></g>
 <g class="unit" data-unit="sampling.temperature_finiteness" data-phase="sampling" data-level="unit" tabindex="0">
 <rect x="717.0" y="328.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
 <text x="785.0" y="354.8" text-anchor="middle" class="node-label" style="font-size:14px">
@@ -500,8 +507,8 @@
 </text>
 <title>每个输入获得对应的向量结果，数值关系、输出顺序和接口字段分别满足指定契约。</title></g>
 <g class="unit" data-unit="embedding.reference_relation" data-phase="model_execution" data-level="unit" tabindex="0">
-<rect x="577.0" y="618.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
-<text x="645.0" y="644.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<rect x="577.0" y="676.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="645.0" y="702.8" text-anchor="middle" class="node-label" style="font-size:14px">
 <tspan x="645.0" dy="0">向量数值对照</tspan>
 </text>
 <title>给定模型、输入和向量维度，输出向量与参考实现满足明确的相似度关系。</title></g>
@@ -536,14 +543,14 @@
 </text>
 <title>各 rank 的分片、通信与聚合共同形成与所声明逻辑模型相符的请求结果。</title></g>
 <g class="unit" data-unit="distributed.partition_binding" data-phase="model_execution" data-level="unit" tabindex="0">
-<rect x="577.0" y="676.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
-<text x="645.0" y="702.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<rect x="577.0" y="734.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="645.0" y="760.8" text-anchor="middle" class="node-label" style="font-size:14px">
 <tspan x="645.0" dy="0">分片对应</tspan>
 </text>
 <title>在给定张量并行配置下，每个 rank 消费约定的输入切片，并按分片次序产生局部输出。</title></g>
 <g class="unit" data-unit="distributed.reduce_relation" data-phase="model_execution" data-level="unit" tabindex="0">
-<rect x="577.0" y="734.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
-<text x="645.0" y="760.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<rect x="577.0" y="792.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="645.0" y="818.8" text-anchor="middle" class="node-label" style="font-size:14px">
 <tspan x="645.0" dy="0">跨卡归约</tspan>
 </text>
 <title>分布式归约后的张量与相同 rank 输入上的参考归约满足规定的数值关系。</title></g>
@@ -628,8 +635,8 @@
 </text>
 <title>被多个进程或请求使用的资源在仍有有效消费者时保持可访问；正常释放、部分初始化失败或失去所有者后，按环境和所有权规则撤销映射、注册与命名资源。</title></g>
 <g class="unit" data-unit="distributed.resource_fallback_agreement" data-phase="model_execution" data-level="unit" tabindex="0">
-<rect x="577.0" y="792.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
-<text x="645.0" y="818.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<rect x="577.0" y="850.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="645.0" y="876.8" text-anchor="middle" class="node-label" style="font-size:14px">
 <tspan x="645.0" dy="0">资源回退一致</tspan>
 </text>
 <title>共享资源不足或初始化失败时，参与进程得到同一回退决策，并在回退后继续使用一致的资源布局与数据。</title></g>
