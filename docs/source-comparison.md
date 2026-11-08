@@ -11,3 +11,5 @@
 | 工具调用遵守指定函数和参数约束 | [工具 schema 构造](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/tool_parsers/utils.py#L382) | [工具 schema 构造](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/python/sglang/srt/function_call/utils.py#L368) | 强制指定工具时，vLLM 生成参数对象 schema，SGLang 生成工具调用数组 schema；测试需按输出表示分别适配。 |
 
 下一步将以源码审阅、具体输入与断言确定每项测试实际完成的检查，再为两套框架共有的性质设计独立测试。文件路径或测试名称只提供归类线索，不代替这种核对。
+
+[vLLM 请求结束与 KV 释放测试的逐项审阅](../semantic_space/agent_vllm_review_5.md)进一步区分了两种状态：原请求仍有可能访问其块的步骤在途时延迟释放；只有其他请求的步骤在途时，原请求的块可以立即归还。这一差异已进入空间中的 `inflight_resource_profile` 条件。SGLang 按分段请求、批次与传输队列处理同类生命周期问题，独立测试需观察资源所属请求和最后一次使用事件。

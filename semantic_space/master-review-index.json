@@ -5,16 +5,19 @@
   "supplemental_unlinked_candidates": 971,
   "source_route_candidates": 10827,
   "helper_chain_candidates": 1902,
+  "http_boundary_entries": 914,
+  "http_request_oracle_candidates": 777,
   "contract_v2_statuses": {
     "needs_review": 8006,
     "abstain": 430,
     "mechanical_candidate": 991
   },
   "evidence_levels": {
-    "triage_only": 20991,
+    "triage_only": 20250,
     "prior_source_review": 609,
     "static_call_oracle_candidate": 9005,
     "supplemental_static_candidate": 957,
+    "http_static_request_oracle_candidate": 741,
     "source_property_confirmed": 353,
     "source_out_of_request_scope": 52,
     "source_candidate": 1
