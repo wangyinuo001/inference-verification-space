@@ -22,6 +22,8 @@
 
 新增加的[批量调用—断言关联](semantic_space/bulk_call_oracle_links.py)在约 17 秒内扫描了 9,427 条已有产品调用候选，得到 3,540 条直接源码关联，其中 2,549 条超出此前的机械候选。它们在台账中单列为 `source_call_oracle_link_candidate`，仍需确认输入、状态及具体检查性质。对新增关联抽取的 80 条留出样本逐项回看，发现 1 条参考值误连；规则修订后，保留的 79 条局部关联均成立。[SGLang 核查](semantic_space/agent_bulk_sglang_holdout.md)与 [vLLM 核查](semantic_space/agent_vllm_bulk_holdout_review.md)保存逐项依据。
 
+[全量快速初筛](semantic_space/fast-pass-report-20261109.md)已将 31,968 条索引记录逐项分流，保存候选领域、证据等级、风险与下一步核查动作；[逐项结果](semantic_space/fast-pass-all-tests.tsv)和[分组队列](semantic_space/fast-pass-review-families.tsv)可用于继续审查。两套框架各 80 条弱证据领域归类的源码抽查发现，名称和目录会将部分测试归错对象或漏掉跨领域性质，因此页面中的候选归类不能直接当成已确认的验证覆盖。当前源码级性质核查记录为 1,191 条，其中 838 条已映射空间单元。
+
 对没有直接产品调用链接的 HTTP／SDK 测试，[进一步分诊](semantic_space/agent_http_boundary.md)已定位 914 个入口的请求调用和断言线索，其中 777 个有源码级候选关联。这些记录已进入全量台账，仍需逐项确认请求条件、实际执行和检查性质。
 
 当前正在逐项回读测试、调用路径与断言，并用确认的共性和实现差异修订空间单元。目标是据此为独立验证仓库设计测试，而不是将 vLLM、SGLang 的现有测试直接拼接为新测试集。[源码对照摘要](docs/source-comparison.md)说明两个框架如何映射到同一验证需求。

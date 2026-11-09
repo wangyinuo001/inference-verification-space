@@ -1,0 +1,47 @@
+{
+  "indexed_entries": 31968,
+  "candidate_area_entries": 31968,
+  "inherited_area_candidates": 1366,
+  "superseded_file_placeholders": 150,
+  "entries_without_area_candidate": 0,
+  "triage_buckets": {
+    "locate_checked_operation": 9422,
+    "resolve_file_level_test": 93,
+    "inspect_rust_test_body": 626,
+    "refine_space_or_oracle": 472,
+    "expand_helper_or_callback": 1849,
+    "bind_input_and_property": 3294,
+    "locate_indirect_oracle": 5930,
+    "check_call_oracle_role": 5639,
+    "verify_collection_role": 24,
+    "check_indirect_source_link": 955,
+    "find_helper_oracle": 125,
+    "resolve_helper_definition": 243,
+    "reviewed_property": 1191,
+    "outside_or_skipped": 78,
+    "check_http_request_oracle": 741,
+    "bind_inherited_test_context": 1261,
+    "resolve_definition_location": 25
+  },
+  "claim_levels": {
+    "unresolved": 19598,
+    "source_review_incomplete": 472,
+    "source_relation_candidate": 3294,
+    "static_candidate": 7335,
+    "source_property_checked": 1191,
+    "source_scope_checked": 78
+  },
+  "risk_flags": {
+    "area_inferred_from_name_or_path": 24582,
+    "route_origin_not_checked_operation": 6871,
+    "definition_not_exactly_located": 748,
+    "collection_identity_unconfirmed": 1754,
+    "oracle_not_directly_visible": 540,
+    "area_ambiguous": 2211,
+    "input_value_unresolved": 2290,
+    "inherited_class_context_needs_review": 1366
+  },
+  "review_families": 3706,
+  "largest_review_family": 718,
+  "interpretation": "Every indexed entry receives a review route. A source link is not a verified semantic unit, and candidate areas are not confirmed request coverage."
+}
