@@ -1,0 +1,10 @@
+{
+  "entries": 31968,
+  "status": {
+    "no_conservative_helper_result_link": 31447,
+    "helper_result_reaches_assertion": 450,
+    "multiple_helper_results_need_review": 71
+  },
+  "from_third_pass_helper_clues": 8467,
+  "interpretation": "Direct helper return-to-assertion source links only; no execution, input/state binding or semantic unit claim."
+}
