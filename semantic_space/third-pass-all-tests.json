@@ -1,0 +1,12 @@
+{
+  "entries": 31968,
+  "oracle_link_status": {
+    "unbound_source_assertions": 23819,
+    "no_source_assertion": 4609,
+    "linked_to_product_call": 3540
+  },
+  "entries_with_same_file_helper_product_clue": 8467,
+  "entries_with_oracle_form": 27359,
+  "entries_with_source_review": 62,
+  "interpretation": "Oracle forms are syntax only; helper links show possible source calls, not execution or verified properties."
+}

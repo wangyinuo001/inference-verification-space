@@ -26,6 +26,10 @@
 
 [第二轮源码扫描](semantic_space/second-pass-report-20261109.md)继续逐条检查实际产品调用和调用结果到断言的关联，为 9,800 条入口补充源码模块线索，并列出 1,129 条与初步领域不同的候选供核查。已逐项核查其中 62 条直接关联冲突，发现有些应修正初步归类，有些只是产品模块位置与检查性质不同；[逐项扫描表](semantic_space/second-pass-all-tests.tsv)把原标签、模块线索和审查结论分栏保存。脚本与输入数据均在 `semantic_space/` 目录，运行 `python second_pass_source_checks.py` 可重建结果。第二轮没有把未审查的候选自动升为确定的验证单元。
 
+[第三轮全量扫描](semantic_space/third-pass-report-20261109.md)逐项补充断言形式与同文件辅助调用线索：31,968 条均有记录，8,467 条发现辅助函数中的产品调用，其中 4,773 条此前没有直接产品调用记录。[逐项表](semantic_space/third-pass-all-tests.tsv)保留断言是否已与被测调用关联的区别；辅助调用本身尚未确认运行路径或验证性质。重建脚本为 [`third_pass_full_scan.py`](semantic_space/third_pass_full_scan.py)，需将两个固定源码快照放在 `experiments/third_party/reference_repos`，或设置 `VERIFICATION_REFERENCE_REPOS` 指向该目录。
+
+[本周研究图](docs/figures/verification-space-weekly-20261109.png)以缓存复用为例，展示如何从两个框架的实现提炼共同的验证性质，再将现有测试的具体断言映射到相应单元；[SVG 版本](docs/figures/verification-space-weekly-20261109.svg)可放入报告。
+
 对没有直接产品调用链接的 HTTP／SDK 测试，[进一步分诊](semantic_space/agent_http_boundary.md)已定位 914 个入口的请求调用和断言线索，其中 777 个有源码级候选关联。这些记录已进入全量台账，仍需逐项确认请求条件、实际执行和检查性质。
 
 当前正在逐项回读测试、调用路径与断言，并用确认的共性和实现差异修订空间单元。目标是据此为独立验证仓库设计测试，而不是将 vLLM、SGLang 的现有测试直接拼接为新测试集。[源码对照摘要](docs/source-comparison.md)说明两个框架如何映射到同一验证需求。
