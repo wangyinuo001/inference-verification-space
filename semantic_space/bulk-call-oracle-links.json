@@ -1,0 +1,10 @@
+{
+  "entries": 9427,
+  "source_linked": 3540,
+  "newly_linked": 2549,
+  "needs_review": 5353,
+  "abstain": 534,
+  "literal_inputs": 1180,
+  "symbolic_inputs": 2360,
+  "scope": "direct source call-to-assertion relation only; semantic unit and runtime conditions remain unconfirmed"
+}

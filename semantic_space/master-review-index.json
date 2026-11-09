@@ -6,7 +6,8 @@
   "source_route_candidates": 10827,
   "helper_chain_candidates": 1902,
   "http_boundary_entries": 914,
-  "batch_review_entries": 746,
+  "batch_review_entries": 1293,
+  "bulk_source_link_candidates": 3540,
   "http_request_oracle_candidates": 777,
   "contract_v2_statuses": {
     "needs_review": 8006,
@@ -14,18 +15,19 @@
     "mechanical_candidate": 991
   },
   "evidence_levels": {
-    "triage_only": 20095,
+    "triage_only": 19598,
     "prior_source_review": 42,
-    "static_call_oracle_candidate": 8981,
-    "supplemental_static_candidate": 957,
-    "batch_source_property_mapped": 606,
-    "batch_source_review_needs_refinement": 114,
-    "source_out_of_request_scope": 68,
+    "source_call_oracle_link_candidate": 3294,
+    "static_call_oracle_candidate": 5639,
+    "supplemental_static_candidate": 955,
+    "batch_source_property_mapped": 838,
+    "batch_source_review_needs_refinement": 425,
+    "source_out_of_request_scope": 72,
     "http_static_request_oracle_candidate": 741,
     "source_property_confirmed": 353,
     "batch_source_oracle_unresolved": 4,
     "source_candidate": 1,
     "batch_source_skipped_by_class": 6
   },
-  "interpretation": "All entries have a review route. source_property_confirmed and batch_source_property_mapped carry checked source-level properties; other review outcomes remain distinct. Source review does not imply runtime execution or confirm every generated test configuration."
+  "interpretation": "All entries have a review route. source_property_confirmed and batch_source_property_mapped carry checked source-level properties; bulk source links carry only a local call-to-assertion candidate; other review outcomes remain distinct. Source review does not imply runtime execution or confirm every generated test configuration."
 }

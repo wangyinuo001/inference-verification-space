@@ -1,28 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 1556" role="img" aria-label="推理系统的验证单元、层次和依赖">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 1614" role="img" aria-label="推理系统的验证单元、层次和依赖">
 <style>text{font-family:Arial,"PingFang SC","Noto Sans CJK SC",sans-serif}.heading{font-size:23px;font-weight:700;fill:#222}.sub{font-size:12px;fill:#62616a}.phase{font-size:13px;font-weight:700;fill:#34313a}.node-label{font-size:14px;font-weight:600;fill:#27222d}.composite-label{font-size:14px;font-weight:700;fill:#632b77}.legend{font-size:12px;fill:#4b4752}.edge{fill:none;stroke-width:1.5}.unit{cursor:pointer}</style>
-<rect width="1280" height="1556" fill="#fff"/>
+<rect width="1280" height="1614" fill="#fff"/>
 <text x="32" y="38" class="heading">推理系统的验证单元</text>
 <text x="32" y="60" class="sub">横向为请求流程；部署条件位于请求进入前。</text>
 <text x="32" y="110" class="phase">部署条件与组合性质</text>
 <line x1="32" y1="290" x2="1245" y2="290" stroke="#ddd9e0"/>
 <text x="85" y="317" text-anchor="middle" class="phase phase-heading" data-phase="ingress">请求进入</text>
-<line x1="85" y1="328" x2="85" y2="1478" stroke="#eeeaf0"/>
+<line x1="85" y1="328" x2="85" y2="1536" stroke="#eeeaf0"/>
 <text x="225" y="317" text-anchor="middle" class="phase phase-heading" data-phase="scheduling">调度</text>
-<line x1="225" y1="328" x2="225" y2="1478" stroke="#eeeaf0"/>
+<line x1="225" y1="328" x2="225" y2="1536" stroke="#eeeaf0"/>
 <text x="365" y="317" text-anchor="middle" class="phase phase-heading" data-phase="cache">缓存</text>
-<line x1="365" y1="328" x2="365" y2="1478" stroke="#eeeaf0"/>
+<line x1="365" y1="328" x2="365" y2="1536" stroke="#eeeaf0"/>
 <text x="505" y="317" text-anchor="middle" class="phase phase-heading" data-phase="transfer">远程传输</text>
-<line x1="505" y1="328" x2="505" y2="1478" stroke="#eeeaf0"/>
+<line x1="505" y1="328" x2="505" y2="1536" stroke="#eeeaf0"/>
 <text x="645" y="317" text-anchor="middle" class="phase phase-heading" data-phase="model_execution">模型计算</text>
-<line x1="645" y1="328" x2="645" y2="1478" stroke="#eeeaf0"/>
+<line x1="645" y1="328" x2="645" y2="1536" stroke="#eeeaf0"/>
 <text x="785" y="317" text-anchor="middle" class="phase phase-heading" data-phase="sampling">采样</text>
-<line x1="785" y1="328" x2="785" y2="1478" stroke="#eeeaf0"/>
+<line x1="785" y1="328" x2="785" y2="1536" stroke="#eeeaf0"/>
 <text x="925" y="317" text-anchor="middle" class="phase phase-heading" data-phase="output">结果返回</text>
-<line x1="925" y1="328" x2="925" y2="1478" stroke="#eeeaf0"/>
+<line x1="925" y1="328" x2="925" y2="1536" stroke="#eeeaf0"/>
 <text x="1065" y="317" text-anchor="middle" class="phase phase-heading" data-phase="service">服务运行</text>
-<line x1="1065" y1="328" x2="1065" y2="1478" stroke="#eeeaf0"/>
+<line x1="1065" y1="328" x2="1065" y2="1536" stroke="#eeeaf0"/>
 <text x="1205" y="317" text-anchor="middle" class="phase phase-heading" data-phase="abort">取消</text>
-<line x1="1205" y1="328" x2="1205" y2="1478" stroke="#eeeaf0"/>
+<line x1="1205" y1="328" x2="1205" y2="1536" stroke="#eeeaf0"/>
 <path class="edge" data-parent="distributed.message_delivery" data-child="shared_resource.buffer_slot_integrity" d="M 1065.0 604.0 C 1065.0 669.5, 1065.0 669.5, 1065.0 735.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: the chosen local channel stores an in-flight message in a reusable shared-memory ring slot</title></path>
 <path class="edge" data-parent="distributed.queue_wait_shutdown" data-child="distributed.message_delivery" d="M 1065.0 640.0 L 1065.0 582.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a waiting reader is awakened by a newly delivered message</title></path>
 <path class="edge" data-parent="shared_resource.object_handle_identity" data-child="shared_resource.buffer_slot_integrity" d="M 1065.0 720.0 C 1065.0 727.5, 1065.0 727.5, 1065.0 735.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a handle refers to a buffer slot that can be reused under a new generation</title></path>
@@ -131,6 +131,8 @@
 <path class="edge" data-parent="output.channel_event_relation" data-child="output.structured_marker_boundary" d="M 925.0 1336.0 L 925.0 1278.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: the output grammar uses explicit structural markers</title></path>
 <path class="edge" data-parent="output.channel_event_relation" data-child="output.incremental_parse_relation" d="M 925.0 1358.0 C 925.0 1365.5, 925.0 1365.5, 925.0 1373.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: output is received in multiple chunks</title></path>
 <path class="edge" data-parent="output.channel_event_relation" data-child="output.parser_format_selection" d="M 925.0 1358.0 C 925.0 1394.5, 925.0 1394.5, 925.0 1431.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: the parser selects between structured and fallback grammars</title></path>
+<path class="edge" data-parent="cache.eviction_outcome" data-child="cache.eviction_candidate_order" d="M 365.0 778.0 C 365.0 1133.5, 365.0 1133.5, 365.0 1489.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: memory pressure chooses among currently evictable cached items</title></path>
+<path class="edge" data-parent="cache.eviction_candidate_order" data-child="cache.eviction_priority" d="M 365.0 1510.0 L 365.0 408.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: the implementation ranks candidates by a strategy comparison key</title></path>
 <g class="unit" data-unit="deployment.runtime_mode_binding" data-phase="preflight" data-level="unit" tabindex="0">
 <rect x="17.0" y="123.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
 <text x="85.0" y="149.8" text-anchor="middle" class="node-label" style="font-size:14px">
@@ -839,9 +841,16 @@
 <tspan x="925.0" dy="16">与回退</tspan>
 </text>
 <title>解析器依据已获得的输入识别结构化格式或文本回退格式；信息不足时延迟选择，待后续输入到达后使用相应规则。</title></g>
-<line x1="33" y1="1528" x2="67" y2="1528" stroke="#8c6b9a" stroke-width="2"/><text x="74" y="1532" class="legend">分解</text>
-<line x1="157" y1="1528" x2="191" y2="1528" stroke="#70988c" stroke-width="2" stroke-dasharray="4 4"/><text x="198" y="1532" class="legend">前提依赖</text>
-<rect x="302" y="1516" width="30" height="22" rx="5" fill="#f3edf5" stroke="#bca6c7"/><text x="339" y="1532" class="legend">单请求状态</text>
-<rect x="482" y="1516" width="30" height="22" rx="5" fill="#e9f2ee" stroke="#8bb6a6"/><text x="519" y="1532" class="legend">跨请求／进程状态</text>
-<rect x="662" y="1516" width="30" height="22" rx="5" fill="#f0f0f2" stroke="#a9a9ae"/><text x="699" y="1532" class="legend">局部计算／部署条件</text>
+<g class="unit" data-unit="cache.eviction_candidate_order" data-phase="cache" data-level="unit" tabindex="0">
+<rect x="297.0" y="1488.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="365.0" y="1506.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="365.0" dy="0">可淘汰缓存项的候</tspan>
+<tspan x="365.0" dy="16">选次序</tspan>
+</text>
+<title>候选缓存项在加入、移除和重新排列后保持声明的淘汰次序，队列或策略比较键对应同一组可淘汰项。</title></g>
+<line x1="33" y1="1586" x2="67" y2="1586" stroke="#8c6b9a" stroke-width="2"/><text x="74" y="1590" class="legend">分解</text>
+<line x1="157" y1="1586" x2="191" y2="1586" stroke="#70988c" stroke-width="2" stroke-dasharray="4 4"/><text x="198" y="1590" class="legend">前提依赖</text>
+<rect x="302" y="1574" width="30" height="22" rx="5" fill="#f3edf5" stroke="#bca6c7"/><text x="339" y="1590" class="legend">单请求状态</text>
+<rect x="482" y="1574" width="30" height="22" rx="5" fill="#e9f2ee" stroke="#8bb6a6"/><text x="519" y="1590" class="legend">跨请求／进程状态</text>
+<rect x="662" y="1574" width="30" height="22" rx="5" fill="#f0f0f2" stroke="#a9a9ae"/><text x="699" y="1590" class="legend">局部计算／部署条件</text>
 </svg>

@@ -7866,6 +7866,64 @@
       "framework_scope": [
         "sglang"
       ]
+    },
+    {
+      "id": "cache.eviction_candidate_order",
+      "name": "可淘汰缓存项的候选次序",
+      "kind": "obligation",
+      "phase": "cache",
+      "state_scope": "shared",
+      "conditions": [
+        "cache_eviction_policy_profile"
+      ],
+      "property": "候选缓存项在加入、移除和重新排列后保持声明的淘汰次序，队列或策略比较键对应同一组可淘汰项。",
+      "observable": [
+        "ordered_candidate_ids",
+        "free_candidate_count",
+        "queue_links"
+      ],
+      "oracle": "构造可识别的候选项和操作序列，比较完整候选次序、数量及双向链接；再按声明的策略检查优先级。不以候选次序替代实际资源释放检查。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/core/kv_cache_utils.py",
+            "line": 262,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/core/kv_cache_utils.py",
+            "line": 315,
+            "kind": "source"
+          },
+          {
+            "path": "tests/v1/core/test_kv_cache_utils.py",
+            "line": 525,
+            "kind": "existing_test"
+          },
+          {
+            "path": "tests/v1/core/test_kv_cache_utils.py",
+            "line": 533,
+            "kind": "existing_oracle"
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/mem_cache/evict_policy.py",
+            "line": 18,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/mem_cache/test_evict_policy.py",
+            "line": 188,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/registered/unit/mem_cache/test_evict_policy.py",
+            "line": 197,
+            "kind": "existing_oracle"
+          }
+        ]
+      }
     }
   ],
   "relations": [
@@ -8516,6 +8574,18 @@
       "child": "output.parser_format_selection",
       "type": "requires",
       "when": "the parser selects between structured and fallback grammars"
+    },
+    {
+      "parent": "cache.eviction_outcome",
+      "child": "cache.eviction_candidate_order",
+      "type": "requires",
+      "when": "memory pressure chooses among currently evictable cached items"
+    },
+    {
+      "parent": "cache.eviction_candidate_order",
+      "child": "cache.eviction_priority",
+      "type": "requires",
+      "when": "the implementation ranks candidates by a strategy comparison key"
     }
   ],
   "traces": [
