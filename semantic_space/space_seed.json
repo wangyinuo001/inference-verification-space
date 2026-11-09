@@ -903,6 +903,55 @@
       ],
       "observed_values": [],
       "constraint": "The accepted syntax, treatment of surrounding text and sentinel tokens, incomplete chunks, unknown tool names, parser failures and argument shapes must be bound before comparing expected parse results across implementations."
+    },
+    {
+      "id": "cache_eviction_policy_profile",
+      "type": "structured",
+      "fields": [
+        "strategy",
+        "eligible_items",
+        "last_access_time",
+        "creation_time",
+        "hit_count",
+        "protected_threshold",
+        "explicit_priority",
+        "tie_break"
+      ],
+      "observed_values": [],
+      "constraint": "Compare policy keys and chosen victims only for the same eligible items, strategy, state values, threshold and tie-break. A strategy-key unit does not establish actual resource release."
+    },
+    {
+      "id": "cache_event_profile",
+      "type": "structured",
+      "fields": [
+        "operation",
+        "source_request_state",
+        "token_span",
+        "block_hash_chain",
+        "kv_group",
+        "block_granularity",
+        "cache_tier",
+        "locality",
+        "self_description",
+        "ownership",
+        "pending_operation"
+      ],
+      "observed_values": [],
+      "constraint": "An event is interpreted against its source cache transition, chunk/group representation, storage tier, locality and metadata availability."
+    },
+    {
+      "id": "output_parse_profile",
+      "type": "structured",
+      "fields": [
+        "grammar",
+        "input_chunks",
+        "channel",
+        "recipient",
+        "flush_boundary",
+        "parser_selection"
+      ],
+      "observed_values": [],
+      "constraint": "Parse output relative to a declared grammar and chunk schedule; event content, order, token boundaries and retained suffix are distinct observations."
     }
   ],
   "applicability_rules": [
@@ -2326,7 +2375,9 @@
       "kind": "obligation",
       "phase": "cache",
       "state_scope": "shared",
-      "conditions": [],
+      "conditions": [
+        "cache_eviction_policy_profile"
+      ],
       "framework_scope": [
         "sglang"
       ],
@@ -7422,6 +7473,399 @@
           }
         ]
       }
+    },
+    {
+      "id": "cache.eviction_policy_configuration",
+      "name": "缓存淘汰策略参数生效",
+      "kind": "obligation",
+      "phase": "cache",
+      "state_scope": "shared",
+      "conditions": [
+        "cache_eviction_policy_profile"
+      ],
+      "property": "显式设置与默认的缓存淘汰策略参数决定后续优先级计算使用的阈值和排序方式。",
+      "observable": [
+        "effective_policy",
+        "effective_threshold"
+      ],
+      "oracle": "分别检查默认配置与显式覆盖后的有效参数；另用边界节点检查其对比较键的影响。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/mem_cache/evict_policy.py",
+            "line": 53,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/mem_cache/test_evict_policy.py",
+            "line": 180,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/registered/unit/mem_cache/test_evict_policy.py",
+            "line": 182,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ]
+    },
+    {
+      "id": "cache.event_payload_binding",
+      "name": "缓存事件与状态变化对应",
+      "kind": "obligation",
+      "phase": "cache",
+      "state_scope": "shared",
+      "conditions": [
+        "cache_event_profile"
+      ],
+      "property": "缓存存储、移除与清空事件对应实际发生的缓存状态变化；事件中的块标识、前驱、有效 token、组别和介质依所声明粒度与模式确定。",
+      "observable": [
+        "event_type",
+        "block_hashes",
+        "parent_hash",
+        "token_ids",
+        "group",
+        "medium",
+        "locality"
+      ],
+      "oracle": "执行受控缓存变化并逐项比较事件类型、顺序及字段与源请求、缓存块和存储层状态；仅检查事件类型不能证明载荷内容。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/offloading/events.py",
+            "line": 410,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/offloading/events.py",
+            "line": 522,
+            "kind": "source"
+          },
+          {
+            "path": "tests/v1/kv_connector/unit/offloading_connector/test_events.py",
+            "line": 446,
+            "kind": "existing_test"
+          },
+          {
+            "path": "tests/v1/kv_connector/unit/offloading_connector/test_events.py",
+            "line": 457,
+            "kind": "existing_oracle"
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/mem_cache/events.py",
+            "line": 34,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/mem_cache/events.py",
+            "line": 72,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/mem_cache/test_radix_cache_unit.py",
+            "line": 490,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/registered/unit/mem_cache/test_radix_cache_unit.py",
+            "line": 516,
+            "kind": "existing_oracle"
+          }
+        ]
+      }
+    },
+    {
+      "id": "cache.event_metadata_lifetime",
+      "name": "事件元数据跨层与重试生命周期",
+      "kind": "obligation",
+      "phase": "cache",
+      "state_scope": "shared",
+      "conditions": [
+        "cache_event_profile"
+      ],
+      "property": "产生缓存事件所需的元数据在跨层驻留、待完成写入和同键重试期间保留，并在最后相关状态释放或重置后清除。",
+      "observable": [
+        "retained_metadata",
+        "event_payload_after_retry",
+        "metadata_after_remove"
+      ],
+      "oracle": "构造存储、失败、重试、移除和重置序列，比较每一步的事件载荷及侧表状态。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/offloading/events.py",
+            "line": 234,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/offloading/events.py",
+            "line": 277,
+            "kind": "source"
+          },
+          {
+            "path": "tests/v1/kv_connector/unit/offloading_connector/test_events.py",
+            "line": 948,
+            "kind": "existing_test"
+          },
+          {
+            "path": "tests/v1/kv_connector/unit/offloading_connector/test_events.py",
+            "line": 963,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "vllm"
+      ]
+    },
+    {
+      "id": "cache.event_configuration",
+      "name": "缓存事件及存储层配置解析",
+      "kind": "obligation",
+      "phase": "cache",
+      "state_scope": "shared",
+      "conditions": [
+        "cache_event_profile"
+      ],
+      "property": "缓存事件的自描述模式和分层背压参数按照顶层默认值与单层覆盖规则解析，并控制相应事件载荷。",
+      "observable": [
+        "effective_event_mode",
+        "effective_backpressure",
+        "placeholder_payload"
+      ],
+      "oracle": "构造顶层与单层配置组合，检查解析结果；再在受控缓存变更中检查事件模式。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/kv_offload/tiering/spec.py",
+            "line": 350,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/kv_offload/base.py",
+            "line": 779,
+            "kind": "source"
+          },
+          {
+            "path": "tests/v1/kv_connector/unit/offloading_connector/test_events.py",
+            "line": 1137,
+            "kind": "existing_test"
+          },
+          {
+            "path": "tests/v1/kv_connector/unit/offloading_connector/test_events.py",
+            "line": 1155,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "vllm"
+      ]
+    },
+    {
+      "id": "output.structured_marker_boundary",
+      "name": "结构化输出标记及字符边界",
+      "kind": "obligation",
+      "phase": "output",
+      "state_scope": "request",
+      "conditions": [
+        "output_parse_profile"
+      ],
+      "property": "声明语法中的结构标记和普通文本按原输入边界识别，不完整标记前缀保留到后续输入。",
+      "observable": [
+        "marker_type",
+        "source_span",
+        "retained_suffix"
+      ],
+      "oracle": "对空输入、完整标记、未知标记和跨块前缀检查识别类型、起止位置及保留后缀。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/parser/harmony_parser.py",
+            "line": 24,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/parser/harmony_parser.py",
+            "line": 46,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/parser/test_harmony_parser.py",
+            "line": 51,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/registered/unit/parser/test_harmony_parser.py",
+            "line": 54,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/parser/test_harmony_parser.py",
+            "line": 84,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/registered/unit/parser/test_harmony_parser.py",
+            "line": 88,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ]
+    },
+    {
+      "id": "output.channel_event_relation",
+      "name": "输出通道与语义事件对应",
+      "kind": "obligation",
+      "phase": "output",
+      "state_scope": "request",
+      "conditions": [
+        "output_parse_profile"
+      ],
+      "property": "结构化或回退格式的推理、正文和工具调用片段转换为对应的语义事件，保留被断言的内容及顺序。",
+      "observable": [
+        "event_kind",
+        "event_content",
+        "event_order",
+        "remaining_input"
+      ],
+      "oracle": "给定完整的分通道输出，逐项检查事件类别、内容和顺序；对只检查子串存在的样本只记录其实际断言粒度。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/parser/harmony_parser.py",
+            "line": 137,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/parser/test_harmony_parser.py",
+            "line": 173,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/registered/unit/parser/test_harmony_parser.py",
+            "line": 179,
+            "kind": "existing_oracle"
+          }
+        ],
+        "vllm": [
+          {
+            "path": "vllm/parser/harmony.py",
+            "line": 179,
+            "kind": "source"
+          },
+          {
+            "path": "tests/parser/test_harmony.py",
+            "line": 248,
+            "kind": "existing_test"
+          },
+          {
+            "path": "tests/parser/test_harmony.py",
+            "line": 260,
+            "kind": "existing_oracle"
+          }
+        ]
+      }
+    },
+    {
+      "id": "output.incremental_parse_relation",
+      "name": "分块解析与完整输入的内容关系",
+      "kind": "obligation",
+      "phase": "output",
+      "state_scope": "request",
+      "conditions": [
+        "output_parse_profile"
+      ],
+      "property": "分块输入时保留未完成结构，已输出内容和最终合并内容遵守声明的语法与终止条件。",
+      "observable": [
+        "emitted_content",
+        "remaining_buffer",
+        "final_merged_content"
+      ],
+      "oracle": "以相同输出构造不同分块，比较每块已发内容和剩余缓冲区；若只比较拼接文本，不推断事件边界相同。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/parser/harmony_parser.py",
+            "line": 514,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/parser/test_harmony_parser.py",
+            "line": 473,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/registered/unit/parser/test_harmony_parser.py",
+            "line": 504,
+            "kind": "existing_oracle"
+          }
+        ],
+        "vllm": [
+          {
+            "path": "vllm/parser/harmony.py",
+            "line": 237,
+            "kind": "source"
+          },
+          {
+            "path": "tests/parser/test_harmony.py",
+            "line": 511,
+            "kind": "existing_test"
+          },
+          {
+            "path": "tests/parser/test_harmony.py",
+            "line": 530,
+            "kind": "existing_oracle"
+          }
+        ]
+      }
+    },
+    {
+      "id": "output.parser_format_selection",
+      "name": "输出解析格式选择与回退",
+      "kind": "obligation",
+      "phase": "output",
+      "state_scope": "request",
+      "conditions": [
+        "output_parse_profile"
+      ],
+      "property": "解析器依据已获得的输入识别结构化格式或文本回退格式；信息不足时延迟选择，待后续输入到达后使用相应规则。",
+      "observable": [
+        "selected_format",
+        "emitted_content",
+        "remaining_buffer"
+      ],
+      "oracle": "构造结构化、文本和首块不确定的输入，检查格式选择时机、缓冲内容与后续解析结果。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/parser/harmony_parser.py",
+            "line": 514,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/parser/test_harmony_parser.py",
+            "line": 461,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/registered/unit/parser/test_harmony_parser.py",
+            "line": 465,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ]
     }
   ],
   "relations": [
@@ -8030,6 +8474,48 @@
       "child": "adapter.residency_policy",
       "type": "requires",
       "when": "adapter can be added, evicted, pinned or reassigned while requests use it"
+    },
+    {
+      "parent": "cache.eviction_outcome",
+      "child": "cache.eviction_priority",
+      "type": "requires",
+      "when": "a configured priority strategy is used to choose eligible eviction victims"
+    },
+    {
+      "parent": "cache.eviction_priority",
+      "child": "cache.eviction_policy_configuration",
+      "type": "requires",
+      "when": "the strategy uses configurable thresholds or policy parameters"
+    },
+    {
+      "parent": "cache.event_payload_binding",
+      "child": "cache.event_metadata_lifetime",
+      "type": "requires",
+      "when": "an event is emitted after cross-tier transition, pending write or retry"
+    },
+    {
+      "parent": "cache.event_payload_binding",
+      "child": "cache.event_configuration",
+      "type": "requires",
+      "when": "event self-description or tier configuration controls the emitted fields"
+    },
+    {
+      "parent": "output.channel_event_relation",
+      "child": "output.structured_marker_boundary",
+      "type": "requires",
+      "when": "the output grammar uses explicit structural markers"
+    },
+    {
+      "parent": "output.channel_event_relation",
+      "child": "output.incremental_parse_relation",
+      "type": "requires",
+      "when": "output is received in multiple chunks"
+    },
+    {
+      "parent": "output.channel_event_relation",
+      "child": "output.parser_format_selection",
+      "type": "requires",
+      "when": "the parser selects between structured and fallback grammars"
     }
   ],
   "traces": [

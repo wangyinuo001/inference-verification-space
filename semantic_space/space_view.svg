@@ -1,28 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 1324" role="img" aria-label="推理系统的验证单元、层次和依赖">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 1556" role="img" aria-label="推理系统的验证单元、层次和依赖">
 <style>text{font-family:Arial,"PingFang SC","Noto Sans CJK SC",sans-serif}.heading{font-size:23px;font-weight:700;fill:#222}.sub{font-size:12px;fill:#62616a}.phase{font-size:13px;font-weight:700;fill:#34313a}.node-label{font-size:14px;font-weight:600;fill:#27222d}.composite-label{font-size:14px;font-weight:700;fill:#632b77}.legend{font-size:12px;fill:#4b4752}.edge{fill:none;stroke-width:1.5}.unit{cursor:pointer}</style>
-<rect width="1280" height="1324" fill="#fff"/>
+<rect width="1280" height="1556" fill="#fff"/>
 <text x="32" y="38" class="heading">推理系统的验证单元</text>
 <text x="32" y="60" class="sub">横向为请求流程；部署条件位于请求进入前。</text>
 <text x="32" y="110" class="phase">部署条件与组合性质</text>
 <line x1="32" y1="290" x2="1245" y2="290" stroke="#ddd9e0"/>
 <text x="85" y="317" text-anchor="middle" class="phase phase-heading" data-phase="ingress">请求进入</text>
-<line x1="85" y1="328" x2="85" y2="1246" stroke="#eeeaf0"/>
+<line x1="85" y1="328" x2="85" y2="1478" stroke="#eeeaf0"/>
 <text x="225" y="317" text-anchor="middle" class="phase phase-heading" data-phase="scheduling">调度</text>
-<line x1="225" y1="328" x2="225" y2="1246" stroke="#eeeaf0"/>
+<line x1="225" y1="328" x2="225" y2="1478" stroke="#eeeaf0"/>
 <text x="365" y="317" text-anchor="middle" class="phase phase-heading" data-phase="cache">缓存</text>
-<line x1="365" y1="328" x2="365" y2="1246" stroke="#eeeaf0"/>
+<line x1="365" y1="328" x2="365" y2="1478" stroke="#eeeaf0"/>
 <text x="505" y="317" text-anchor="middle" class="phase phase-heading" data-phase="transfer">远程传输</text>
-<line x1="505" y1="328" x2="505" y2="1246" stroke="#eeeaf0"/>
+<line x1="505" y1="328" x2="505" y2="1478" stroke="#eeeaf0"/>
 <text x="645" y="317" text-anchor="middle" class="phase phase-heading" data-phase="model_execution">模型计算</text>
-<line x1="645" y1="328" x2="645" y2="1246" stroke="#eeeaf0"/>
+<line x1="645" y1="328" x2="645" y2="1478" stroke="#eeeaf0"/>
 <text x="785" y="317" text-anchor="middle" class="phase phase-heading" data-phase="sampling">采样</text>
-<line x1="785" y1="328" x2="785" y2="1246" stroke="#eeeaf0"/>
+<line x1="785" y1="328" x2="785" y2="1478" stroke="#eeeaf0"/>
 <text x="925" y="317" text-anchor="middle" class="phase phase-heading" data-phase="output">结果返回</text>
-<line x1="925" y1="328" x2="925" y2="1246" stroke="#eeeaf0"/>
+<line x1="925" y1="328" x2="925" y2="1478" stroke="#eeeaf0"/>
 <text x="1065" y="317" text-anchor="middle" class="phase phase-heading" data-phase="service">服务运行</text>
-<line x1="1065" y1="328" x2="1065" y2="1246" stroke="#eeeaf0"/>
+<line x1="1065" y1="328" x2="1065" y2="1478" stroke="#eeeaf0"/>
 <text x="1205" y="317" text-anchor="middle" class="phase phase-heading" data-phase="abort">取消</text>
-<line x1="1205" y1="328" x2="1205" y2="1246" stroke="#eeeaf0"/>
+<line x1="1205" y1="328" x2="1205" y2="1478" stroke="#eeeaf0"/>
 <path class="edge" data-parent="distributed.message_delivery" data-child="shared_resource.buffer_slot_integrity" d="M 1065.0 604.0 C 1065.0 669.5, 1065.0 669.5, 1065.0 735.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: the chosen local channel stores an in-flight message in a reusable shared-memory ring slot</title></path>
 <path class="edge" data-parent="distributed.queue_wait_shutdown" data-child="distributed.message_delivery" d="M 1065.0 640.0 L 1065.0 582.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a waiting reader is awakened by a newly delivered message</title></path>
 <path class="edge" data-parent="shared_resource.object_handle_identity" data-child="shared_resource.buffer_slot_integrity" d="M 1065.0 720.0 C 1065.0 727.5, 1065.0 727.5, 1065.0 735.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a handle refers to a buffer slot that can be reused under a new generation</title></path>
@@ -124,6 +124,13 @@
 <path class="edge" data-parent="response.valid" data-child="tool.call_parse_relation" d="M 560.0 152.0 C 560.0 675.5, 925.0 675.5, 925.0 1199.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: response contains generated tool-call syntax</title></path>
 <path class="edge" data-parent="response.delivery" data-child="tool.call_parse_relation" d="M 925.0 604.0 C 925.0 901.5, 925.0 901.5, 925.0 1199.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a parsed tool call is delivered</title></path>
 <path class="edge" data-parent="model.adapter_binding" data-child="adapter.residency_policy" d="M 645.0 604.0 C 645.0 611.5, 645.0 611.5, 645.0 619.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: adapter can be added, evicted, pinned or reassigned while requests use it</title></path>
+<path class="edge" data-parent="cache.eviction_outcome" data-child="cache.eviction_priority" d="M 365.0 756.0 L 365.0 408.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a configured priority strategy is used to choose eligible eviction victims</title></path>
+<path class="edge" data-parent="cache.eviction_priority" data-child="cache.eviction_policy_configuration" d="M 365.0 430.0 C 365.0 843.5, 365.0 843.5, 365.0 1257.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: the strategy uses configurable thresholds or policy parameters</title></path>
+<path class="edge" data-parent="cache.event_payload_binding" data-child="cache.event_metadata_lifetime" d="M 365.0 1358.0 C 365.0 1365.5, 365.0 1365.5, 365.0 1373.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: an event is emitted after cross-tier transition, pending write or retry</title></path>
+<path class="edge" data-parent="cache.event_payload_binding" data-child="cache.event_configuration" d="M 365.0 1358.0 C 365.0 1394.5, 365.0 1394.5, 365.0 1431.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: event self-description or tier configuration controls the emitted fields</title></path>
+<path class="edge" data-parent="output.channel_event_relation" data-child="output.structured_marker_boundary" d="M 925.0 1336.0 L 925.0 1278.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: the output grammar uses explicit structural markers</title></path>
+<path class="edge" data-parent="output.channel_event_relation" data-child="output.incremental_parse_relation" d="M 925.0 1358.0 C 925.0 1365.5, 925.0 1365.5, 925.0 1373.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: output is received in multiple chunks</title></path>
+<path class="edge" data-parent="output.channel_event_relation" data-child="output.parser_format_selection" d="M 925.0 1358.0 C 925.0 1394.5, 925.0 1394.5, 925.0 1431.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: the parser selects between structured and fallback grammars</title></path>
 <g class="unit" data-unit="deployment.runtime_mode_binding" data-phase="preflight" data-level="unit" tabindex="0">
 <rect x="17.0" y="123.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
 <text x="85.0" y="149.8" text-anchor="middle" class="node-label" style="font-size:14px">
@@ -776,9 +783,65 @@
 <tspan x="925.0" dy="0">工具调用解析</tspan>
 </text>
 <title>按声明的工具格式和解析策略，模型输出中的普通文本、工具调用顺序、名称及参数被正确分离；跨块的不完整调用在完成前保留，不产生伪调用；无有效调用时遵循声明的回退策略。</title></g>
-<line x1="33" y1="1296" x2="67" y2="1296" stroke="#8c6b9a" stroke-width="2"/><text x="74" y="1300" class="legend">分解</text>
-<line x1="157" y1="1296" x2="191" y2="1296" stroke="#70988c" stroke-width="2" stroke-dasharray="4 4"/><text x="198" y="1300" class="legend">前提依赖</text>
-<rect x="302" y="1284" width="30" height="22" rx="5" fill="#f3edf5" stroke="#bca6c7"/><text x="339" y="1300" class="legend">单请求状态</text>
-<rect x="482" y="1284" width="30" height="22" rx="5" fill="#e9f2ee" stroke="#8bb6a6"/><text x="519" y="1300" class="legend">跨请求／进程状态</text>
-<rect x="662" y="1284" width="30" height="22" rx="5" fill="#f0f0f2" stroke="#a9a9ae"/><text x="699" y="1300" class="legend">局部计算／部署条件</text>
+<g class="unit" data-unit="cache.eviction_policy_configuration" data-phase="cache" data-level="unit" tabindex="0">
+<rect x="297.0" y="1256.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="365.0" y="1274.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="365.0" dy="0">缓存淘汰策略参数</tspan>
+<tspan x="365.0" dy="16">生效</tspan>
+</text>
+<title>显式设置与默认的缓存淘汰策略参数决定后续优先级计算使用的阈值和排序方式。</title></g>
+<g class="unit" data-unit="cache.event_payload_binding" data-phase="cache" data-level="unit" tabindex="0">
+<rect x="297.0" y="1314.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="365.0" y="1332.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="365.0" dy="0">缓存事件与状态变</tspan>
+<tspan x="365.0" dy="16">化对应</tspan>
+</text>
+<title>缓存存储、移除与清空事件对应实际发生的缓存状态变化；事件中的块标识、前驱、有效 token、组别和介质依所声明粒度与模式确定。</title></g>
+<g class="unit" data-unit="cache.event_metadata_lifetime" data-phase="cache" data-level="unit" tabindex="0">
+<rect x="297.0" y="1372.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="365.0" y="1390.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="365.0" dy="0">事件元数据跨层与</tspan>
+<tspan x="365.0" dy="16">重试生命周期</tspan>
+</text>
+<title>产生缓存事件所需的元数据在跨层驻留、待完成写入和同键重试期间保留，并在最后相关状态释放或重置后清除。</title></g>
+<g class="unit" data-unit="cache.event_configuration" data-phase="cache" data-level="unit" tabindex="0">
+<rect x="297.0" y="1430.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="365.0" y="1448.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="365.0" dy="0">缓存事件及存储层</tspan>
+<tspan x="365.0" dy="16">配置解析</tspan>
+</text>
+<title>缓存事件的自描述模式和分层背压参数按照顶层默认值与单层覆盖规则解析，并控制相应事件载荷。</title></g>
+<g class="unit" data-unit="output.structured_marker_boundary" data-phase="output" data-level="unit" tabindex="0">
+<rect x="857.0" y="1256.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="1274.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="925.0" dy="0">结构化输出标记及</tspan>
+<tspan x="925.0" dy="16">字符边界</tspan>
+</text>
+<title>声明语法中的结构标记和普通文本按原输入边界识别，不完整标记前缀保留到后续输入。</title></g>
+<g class="unit" data-unit="output.channel_event_relation" data-phase="output" data-level="unit" tabindex="0">
+<rect x="857.0" y="1314.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="1332.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="925.0" dy="0">输出通道与语义事</tspan>
+<tspan x="925.0" dy="16">件对应</tspan>
+</text>
+<title>结构化或回退格式的推理、正文和工具调用片段转换为对应的语义事件，保留被断言的内容及顺序。</title></g>
+<g class="unit" data-unit="output.incremental_parse_relation" data-phase="output" data-level="unit" tabindex="0">
+<rect x="857.0" y="1372.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="1390.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="925.0" dy="0">分块解析与完整输</tspan>
+<tspan x="925.0" dy="16">入的内容关系</tspan>
+</text>
+<title>分块输入时保留未完成结构，已输出内容和最终合并内容遵守声明的语法与终止条件。</title></g>
+<g class="unit" data-unit="output.parser_format_selection" data-phase="output" data-level="unit" tabindex="0">
+<rect x="857.0" y="1430.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="1448.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="925.0" dy="0">输出解析格式选择</tspan>
+<tspan x="925.0" dy="16">与回退</tspan>
+</text>
+<title>解析器依据已获得的输入识别结构化格式或文本回退格式；信息不足时延迟选择，待后续输入到达后使用相应规则。</title></g>
+<line x1="33" y1="1528" x2="67" y2="1528" stroke="#8c6b9a" stroke-width="2"/><text x="74" y="1532" class="legend">分解</text>
+<line x1="157" y1="1528" x2="191" y2="1528" stroke="#70988c" stroke-width="2" stroke-dasharray="4 4"/><text x="198" y="1532" class="legend">前提依赖</text>
+<rect x="302" y="1516" width="30" height="22" rx="5" fill="#f3edf5" stroke="#bca6c7"/><text x="339" y="1532" class="legend">单请求状态</text>
+<rect x="482" y="1516" width="30" height="22" rx="5" fill="#e9f2ee" stroke="#8bb6a6"/><text x="519" y="1532" class="legend">跨请求／进程状态</text>
+<rect x="662" y="1516" width="30" height="22" rx="5" fill="#f0f0f2" stroke="#a9a9ae"/><text x="699" y="1532" class="legend">局部计算／部署条件</text>
 </svg>

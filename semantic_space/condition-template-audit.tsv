@@ -1,7 +1,7 @@
 dimension	kind	value_or_field	templates	count
-request_kind	enum_value	generation	text_generation | segmented_prefill | prefix_reuse | cancel_running_request | structured_json_response | tool_call_response | image_request | adapter_switch | service_load | task_quality_eval | speculative_greedy | tensor_parallel_generation | disaggregated_generation | video_request	14
+request_kind	enum_value	generation	text_generation | segmented_prefill | prefix_reuse | cancel_running_request | structured_json_response | tool_call_response | image_request | adapter_switch | service_load | task_quality_eval | speculative_greedy | tensor_parallel_generation | disaggregated_generation | video_request | streamed_response	15
 request_kind	enum_value	embedding	embedding_request	1
-input_form	enum_value	text	text_generation | segmented_prefill | structured_json_response | tool_call_response | adapter_switch | embedding_request | speculative_greedy | disaggregated_generation | video_request	9
+input_form	enum_value	text	text_generation | segmented_prefill | structured_json_response | tool_call_response | adapter_switch | embedding_request | speculative_greedy | disaggregated_generation | video_request | streamed_response	10
 input_form	enum_value	token_ids	prefix_reuse | image_request	2
 input_form	enum_value	embeddings		0
 tokenization_profile	structured_field	tokenizer_and_revision		0
@@ -55,7 +55,7 @@ request_phase	enum_value	waiting		0
 request_phase	enum_value	running	cancel_running_request	1
 request_phase	enum_value	finishing		0
 request_phase	enum_value	aborted		0
-cache_state	enum_value	disabled	text_generation | segmented_prefill	2
+cache_state	enum_value	disabled	text_generation | segmented_prefill | streamed_response	3
 cache_state	enum_value	miss		0
 cache_state	enum_value	partial_hit	cancel_running_request	1
 cache_state	enum_value	hit	prefix_reuse	1
@@ -72,7 +72,7 @@ cache_storage_transition	structured_field	destination_tier		0
 cache_storage_transition	structured_field	cache_component		0
 cache_storage_transition	structured_field	block_mapping		0
 cache_storage_transition	structured_field	completion_event		0
-sampling_mode	enum_value	greedy	text_generation | segmented_prefill | prefix_reuse | adapter_switch | speculative_greedy | tensor_parallel_generation | disaggregated_generation | video_request	8
+sampling_mode	enum_value	greedy	text_generation | segmented_prefill | prefix_reuse | adapter_switch | speculative_greedy | tensor_parallel_generation | disaggregated_generation | video_request | streamed_response	9
 sampling_mode	enum_value	stochastic		0
 logit_modifier_profile	structured_field	modifier_kind		0
 logit_modifier_profile	structured_field	per_request_parameters		0
@@ -97,7 +97,7 @@ sampling_parameter_kind	enum_value	min_new_tokens		0
 sampling_parameter_kind	enum_value	max_new_tokens		0
 sampling_parameter_kind	enum_value	logit_bias_token_id		0
 output_mode	enum_value	final	text_generation | segmented_prefill | structured_json_response | image_request | adapter_switch | embedding_request | speculative_greedy | tensor_parallel_generation | disaggregated_generation | video_request	10
-output_mode	enum_value	streaming	service_load	1
+output_mode	enum_value	streaming	service_load | streamed_response	2
 execution_layout	enum_value	single_worker		0
 execution_layout	enum_value	tensor_parallel	tensor_parallel_generation	1
 execution_layout	enum_value	disaggregated	disaggregated_generation	1
@@ -189,6 +189,17 @@ modality	enum_value	video	video_request	1
 modality	enum_value	mixed		0
 adapter_mode	enum_value	base		0
 adapter_mode	enum_value	lora	adapter_switch	1
+adapter_residency_profile	structured_field	registered_capacity		0
+adapter_residency_profile	structured_field	active_slot_capacity		0
+adapter_residency_profile	structured_field	resident_adapters		0
+adapter_residency_profile	structured_field	requested_adapters		0
+adapter_residency_profile	structured_field	eligible_victims		0
+adapter_residency_profile	structured_field	pinned_adapters		0
+adapter_residency_profile	structured_field	inflight_protection_policy		0
+adapter_residency_profile	structured_field	access_history		0
+adapter_residency_profile	structured_field	eviction_policy		0
+adapter_residency_profile	structured_field	base_model_residency		0
+adapter_residency_profile	structured_field	slot_layout		0
 routing_profile	structured_field	assignment_unit		0
 routing_profile	structured_field	policy		0
 routing_profile	structured_field	worker_count		0
@@ -334,7 +345,7 @@ stop_inclusion	enum_value	include_match		0
 stop_inclusion	enum_value	exclude_match		0
 request_api_kind	enum_value	chat_completion		0
 request_api_kind	enum_value	completion		0
-request_api_kind	enum_value	responses		0
+request_api_kind	enum_value	responses	streamed_response	1
 parameter_source_rule	enum_value	user_override		0
 parameter_source_rule	enum_value	model_or_server_default		0
 parameter_source_rule	enum_value	ordered_union		0
@@ -346,3 +357,40 @@ effective_parameter_kind	enum_value	temperature		0
 effective_parameter_kind	enum_value	max_new_tokens		0
 effective_parameter_kind	enum_value	min_new_tokens		0
 effective_parameter_kind	enum_value	routed_experts_prompt_start		0
+stream_fragment_profile	structured_field	content_kind_order	streamed_response	1
+stream_fragment_profile	structured_field	chunk_partition	streamed_response	1
+stream_fragment_profile	structured_field	termination_kind	streamed_response	1
+stream_fragment_profile	structured_field	tool_call_count	streamed_response	1
+tool_parse_profile	structured_field	syntax		0
+tool_parse_profile	structured_field	parse_mode		0
+tool_parse_profile	structured_field	chunk_partition		0
+tool_parse_profile	structured_field	surrounding_text_policy		0
+tool_parse_profile	structured_field	sentinel_policy		0
+tool_parse_profile	structured_field	unknown_tool_policy		0
+tool_parse_profile	structured_field	failure_policy		0
+tool_parse_profile	structured_field	argument_shape		0
+cache_eviction_policy_profile	structured_field	strategy		0
+cache_eviction_policy_profile	structured_field	eligible_items		0
+cache_eviction_policy_profile	structured_field	last_access_time		0
+cache_eviction_policy_profile	structured_field	creation_time		0
+cache_eviction_policy_profile	structured_field	hit_count		0
+cache_eviction_policy_profile	structured_field	protected_threshold		0
+cache_eviction_policy_profile	structured_field	explicit_priority		0
+cache_eviction_policy_profile	structured_field	tie_break		0
+cache_event_profile	structured_field	operation		0
+cache_event_profile	structured_field	source_request_state		0
+cache_event_profile	structured_field	token_span		0
+cache_event_profile	structured_field	block_hash_chain		0
+cache_event_profile	structured_field	kv_group		0
+cache_event_profile	structured_field	block_granularity		0
+cache_event_profile	structured_field	cache_tier		0
+cache_event_profile	structured_field	locality		0
+cache_event_profile	structured_field	self_description		0
+cache_event_profile	structured_field	ownership		0
+cache_event_profile	structured_field	pending_operation		0
+output_parse_profile	structured_field	grammar		0
+output_parse_profile	structured_field	input_chunks		0
+output_parse_profile	structured_field	channel		0
+output_parse_profile	structured_field	recipient		0
+output_parse_profile	structured_field	flush_boundary		0
+output_parse_profile	structured_field	parser_selection		0
