@@ -1,0 +1,5 @@
+direct B1 out.detok                equivalence  conditions=stream
+direct B1 out.stop                 contract     conditions=stop_config,stream
+upward B3 out.finish_reason        contract     conditions=stop_config,abort_timing
+upward B3 out.stream_parity        equivalence  conditions=stream,n,parser,stop_config
+unmapped v:v1/attention/backends/flash_attn.py: no unit cites this file; scope is unknown, not empty
