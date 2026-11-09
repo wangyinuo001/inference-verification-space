@@ -1,0 +1,14 @@
+{
+  "entries": 31968,
+  "direct_source_links": 3540,
+  "entries_with_module_hint": 9800,
+  "entries_with_source_review": 62,
+  "area_relations": {
+    "no_module_hint": 22168,
+    "primary_area_supported_by_module": 8258,
+    "unlinked_call_crosses_area_candidate": 972,
+    "primary_area_among_multiple_module_hints": 413,
+    "linked_call_crosses_area_candidate": 157
+  },
+  "interpretation": "Module-prefix areas are review hints. A linked call reaches an assertion, but its module does not by itself determine the checked property or request-level scope."
+}
