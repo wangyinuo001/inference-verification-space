@@ -30,6 +30,8 @@
 
 [第四轮全量扫描](semantic_space/fourth-pass-report-20261109.md)进一步追踪辅助函数的返回值是否进入测试断言，在 31,968 条入口中找到 450 条可定位源码行的静态关联，其中 446 条此前没有直接的产品调用结果关联。另有 71 条多候选入口保留待核对。[逐项结果](semantic_space/fourth-pass-all-tests.tsv)与[脚本](semantic_space/fourth_pass_helper_dataflow.py)分别保存证据和提取规则；这些关联尚需结合输入、状态和执行路径判断具体验证性质。
 
+[第五轮全量扫描](semantic_space/fifth-pass-report-20261109.md)处理预期异常检查，建立 1,004 条直接被测调用与异常上下文的源码关联；与前三轮去重后新增 750 条。257 条含多调用或嵌套操作的入口保留待核对。[审查分组](semantic_space/fifth-pass-review-groups.tsv)按调用目标和异常类型组织；同组的非法输入条件仍需分别确认。
+
 [本周研究图](docs/figures/verification-space-weekly-20261109.png)以缓存复用为例，展示如何从两个框架的实现提炼共同的验证性质，再将现有测试的具体断言映射到相应单元；[SVG 版本](docs/figures/verification-space-weekly-20261109.svg)可放入报告。
 
 对没有直接产品调用链接的 HTTP／SDK 测试，[进一步分诊](semantic_space/agent_http_boundary.md)已定位 914 个入口的请求调用和断言线索，其中 777 个有源码级候选关联。这些记录已进入全量台账，仍需逐项确认请求条件、实际执行和检查性质。

@@ -1,0 +1,11 @@
+{
+  "entries": 31968,
+  "status": {
+    "no_direct_exception_link": 30707,
+    "direct_product_exception_link": 1004,
+    "multiple_or_ambiguous_exception_contexts": 257
+  },
+  "interpretation": "Direct product call inside one expected-exception context; no execution or semantic unit claim.",
+  "review_groups": 620,
+  "entries_in_multi_member_groups": 542
+}
