@@ -9,6 +9,8 @@ from pathlib import Path
 
 from build_stage_placement import main as build_stage_placement
 from build_confirmed_crosswalk import main as build_confirmed_crosswalk
+from resolve_inherited_methods import ROOTS, main as resolve_inherited_methods
+from build_inherited_property_crosswalk import main as build_inherited_property_crosswalk
 
 
 HERE = Path(__file__).resolve().parent
@@ -26,7 +28,8 @@ def key(row: dict[str, str]) -> tuple[str, str, str, str]:
     return tuple(row[field] for field in KEY)
 
 
-def category(scan: dict[str, str], review: dict[str, str], placement: dict[str, str], confirmed: bool = False) -> str:
+def category(scan: dict[str, str], review: dict[str, str], placement: dict[str, str],
+             confirmed: bool = False, inherited_source: bool = False) -> str:
     status = review["source_review_status"]
     if confirmed:
         return "g"
@@ -34,6 +37,8 @@ def category(scan: dict[str, str], review: dict[str, str], placement: dict[str, 
         return "g"  # Source-reviewed property mapped to the earlier candidate space.
     if status in {"needs_refinement", "sample_reviewed", "oracle_unresolved"}:
         return "r"
+    if inherited_source:
+        return "i"
     route = scan["scan_route"]
     if route == "reviewed_out_of_request_scope":
         return "o"
@@ -59,10 +64,18 @@ def category(scan: dict[str, str], review: dict[str, str], placement: dict[str, 
 def main() -> None:
     build_stage_placement()
     build_confirmed_crosswalk()
+    if all((root / ("vllm" if name == "vllm" else "python/sglang")).is_dir() for name, root in ROOTS.items()):
+        resolve_inherited_methods()
+    elif not (HERE / "inherited-method-sources.tsv").is_file():
+        raise FileNotFoundError("Provide the checked inherited-method-sources.tsv or full source checkouts")
+    build_inherited_property_crosswalk()
     scan = read(HERE / "full-scan-index.tsv")
     review = {key(row): row for row in read(SPACE / "oracle-review-queue.tsv")}
     placement = {key(row): row for row in read(HERE / "stage-placement-all.tsv")}
     confirmed = {key(row): row for row in read(HERE / "confirmed-property-crosswalk.tsv")}
+    inherited_properties = {key(row): row for row in read(HERE / "inherited-property-crosswalk.tsv")}
+    assert not (confirmed.keys() & inherited_properties.keys())
+    inherited = {key(row): row for row in read(HERE / "inherited-method-sources.tsv")}
     unit_names = {unit["id"]: unit.get("title") or unit.get("property", "")
                   for unit in json.loads((SPACE / "space_seed.json").read_text(encoding="utf-8"))["units"]}
     assert len(scan) == len(review) == len(placement) == 31968
@@ -77,14 +90,16 @@ def main() -> None:
         item_key = key(row)
         observed = review[item_key]
         placed = placement[item_key]
-        checked = confirmed.get(item_key)
+        checked = confirmed.get(item_key) or inherited_properties.get(item_key)
+        inherited_origin = inherited.get(item_key)
         stage_count += bool(placed["stage"])
         linked_stage_count += placed["placement_status"] in {"linked_stage", "linked_domain_stage"}
         file_key = (row["snapshot"], row["path"])
         if file_key not in file_ids:
             file_ids[file_key] = len(files)
             files.append(list(file_key))
-        status = category(row, observed, placed, checked is not None)
+        status = category(row, observed, placed, checked is not None,
+                          bool(inherited_origin and inherited_origin["status"] == "resolved_unique"))
         counts[status] += 1
         framework_counts[row["snapshot"]][status] += 1
         units = (checked["unit_id"] if checked else observed["source_reviewed_units"]) if status == "g" else (
@@ -98,6 +113,9 @@ def main() -> None:
             placed["input_binding"],
             checked["property"] if checked else observed["source_reviewed_property"] if status == "g" else "",
             checked["oracle_source"] if checked else observed["oracle_sites_preview"] if status == "g" else "",
+            inherited_origin["source_path"] if inherited_origin and inherited_origin["status"] == "resolved_unique" else "",
+            int(inherited_origin["source_line"]) if inherited_origin and inherited_origin["status"] == "resolved_unique" else 0,
+            checked["conditions"] if checked else "",
         ])
     assert sum(counts.values()) == len(entries) == len({key(row) for row in scan})
     payload = json.dumps({

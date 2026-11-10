@@ -76,12 +76,12 @@
           <button type="button" data-framework="all" class="active">全部</button><button type="button" data-framework="vllm">vLLM</button><button type="button" data-framework="sglang">SGLang</button>
         </div>
         <input id="search" type="search" placeholder="搜索文件或测试名" aria-label="搜索文件或测试名">
-        <select id="statusFilter" aria-label="按检查进度筛选"><option value="all">全部状态</option><option value="g">已确认检查内容</option><option value="l">找到被测函数和检查</option><option value="h">找到检查，位置待核</option><option value="r">已读源码，还需细分</option><option value="s">找到相关函数</option><option value="m">找到相关代码</option><option value="p">大致找到所属环节</option><option value="x">涉及多处，待核对</option><option value="a">框架周边功能</option><option value="d">其他信息</option><option value="u">还没找到检查位置</option><option value="o">暂不属于推理验证</option></select>
+        <select id="statusFilter" aria-label="按检查进度筛选"><option value="all">全部状态</option><option value="g">已确认检查内容</option><option value="i">找到继承来的测试代码</option><option value="l">找到被测函数和检查</option><option value="h">找到检查，位置待核</option><option value="r">已读源码，还需细分</option><option value="s">找到相关函数</option><option value="m">找到相关代码</option><option value="p">大致找到所属环节</option><option value="x">涉及多处，待核对</option><option value="a">框架周边功能</option><option value="d">其他信息</option><option value="u">还没找到检查位置</option><option value="o">暂不属于推理验证</option></select>
         <span class="match-count" id="matchCount"></span>
       </div>
       <div class="canvas-wrap" id="canvasWrap"><canvas id="grid" role="img" aria-label="按仓库和文件排列的三万余个测试入口状态方格"></canvas></div>
       <div class="legend" aria-label="颜色说明">
-        <span><i style="background:#2e8b57"></i>已确认检查内容</span><span><i style="background:#278f9a"></i>找到被测函数和检查</span><span><i style="background:#69b4bc"></i>找到检查，位置待核</span><span><i style="background:#d6a345"></i>已读源码，还需细分</span><span><i style="background:#76418c"></i>找到相关函数</span><span><i style="background:#b9a0c9"></i>找到相关代码</span><span><i style="background:#a8c7da"></i>大致找到所属环节</span><span><i style="background:#d7c6a6"></i>涉及多处，待核对</span><span><i style="background:#d1d1d6"></i>框架周边功能</span><span><i style="background:#df9475"></i>还没找到检查位置</span><span><i style="background:#f0f0f1;border:1px solid #d4d4d8"></i>暂不属于推理验证</span>
+        <span><i style="background:#2e8b57"></i>已确认检查内容</span><span><i style="background:#558da9"></i>找到继承来的测试代码</span><span><i style="background:#278f9a"></i>找到被测函数和检查</span><span><i style="background:#69b4bc"></i>找到检查，位置待核</span><span><i style="background:#d6a345"></i>已读源码，还需细分</span><span><i style="background:#76418c"></i>找到相关函数</span><span><i style="background:#b9a0c9"></i>找到相关代码</span><span><i style="background:#a8c7da"></i>大致找到所属环节</span><span><i style="background:#d7c6a6"></i>涉及多处，待核对</span><span><i style="background:#d1d1d6"></i>框架周边功能</span><span><i style="background:#df9475"></i>还没找到检查位置</span><span><i style="background:#f0f0f1;border:1px solid #d4d4d8"></i>暂不属于推理验证</span>
       </div>
     </section>
     <aside class="panel" id="details" aria-live="polite">
@@ -91,20 +91,22 @@
       <div id="detailContent" hidden>
         <div class="detail-name" id="detailName"></div><span class="detail-state" id="detailState"></span>
         <div class="detail-row"><b>源码位置</b><div class="detail-path" id="detailPath"></div><a id="sourceLink" target="_blank" rel="noopener">打开源码</a></div>
+        <div class="detail-row" id="inheritedSourceRow" hidden><b>实际执行的测试方法</b><div class="detail-path" id="inheritedSourcePath"></div><a id="inheritedSourceLink" target="_blank" rel="noopener">打开方法源码</a></div>
         <div class="detail-row"><b>目前对应的检查</b><div class="detail-value" id="detailUnits"></div></div>
         <div class="detail-row"><b>具体检查内容</b><div class="detail-value" id="detailProperty"></div></div>
+        <div class="detail-row"><b>适用条件</b><div class="detail-value" id="detailConditions"></div></div>
         <div class="detail-row"><b>所属环节与依据</b><div class="detail-value" id="detailStage"></div></div>
         <div class="detail-row"><b>检查方式</b><div class="detail-value" id="detailOracle"></div></div>
         <div class="detail-row"><b>源码中的检查位置</b><div class="detail-value" id="detailSubject"></div></div>
       </div>
-      <p class="footnote">绿色已核对测试源码、检查内容和图中的对应位置。其他颜色表示目前只找到部分信息，还没有确认它具体检查什么。</p>
+      <p class="footnote">绿色已核对测试源码、检查内容和图中的对应位置。蓝色的继承测试已找到实际方法源码，仍需核对它的输入和检查内容。其他颜色表示目前只找到部分信息。</p>
     </aside>
   </div>
 </div>
 <script>
 const DATA = /*__DATA__*/;
-const COLORS = {g:'#2e8b57',l:'#278f9a',h:'#69b4bc',r:'#d6a345',s:'#76418c',m:'#b9a0c9',p:'#a8c7da',x:'#d7c6a6',a:'#d1d1d6',d:'#e5e1e7',u:'#df9475',o:'#f0f0f1'};
-const LABELS = {g:'已确认检查内容',l:'找到被测函数和检查',h:'找到检查，位置待核',r:'已读源码，还需细分',s:'找到相关函数',m:'找到相关代码',p:'大致找到所属环节',x:'涉及多处，待核对',a:'框架周边功能',d:'其他信息',u:'还没找到检查位置',o:'暂不属于推理验证'};
+const COLORS = {g:'#2e8b57',i:'#558da9',l:'#278f9a',h:'#69b4bc',r:'#d6a345',s:'#76418c',m:'#b9a0c9',p:'#a8c7da',x:'#d7c6a6',a:'#d1d1d6',d:'#e5e1e7',u:'#df9475',o:'#f0f0f1'};
+const LABELS = {g:'已确认检查内容',i:'找到继承来的测试代码',l:'找到被测函数和检查',h:'找到检查，位置待核',r:'已读源码，还需细分',s:'找到相关函数',m:'找到相关代码',p:'大致找到所属环节',x:'涉及多处，待核对',a:'框架周边功能',d:'其他信息',u:'还没找到检查位置',o:'暂不属于推理验证'};
 const EVIDENCE={object_candidates:'根据测试所在领域判断',direct_product_result_to_assertion:'被测函数的结果进入检查语句',domain_with_direct_call_oracle_link:'找到调用和检查，所属环节根据测试内容判断',source_target_disagrees_with_domain:'被测函数与测试名称指向不同环节，需核对'};
 const CHECKS={comparison:'比较结果',predicate:'检查条件',other_assertion:'其他断言',equality_call:'检查相等',expected_exception:'预期报错',numeric_close:'检查数值误差',other_oracle:'其他检查',explicit_failure:'明确标记失败',mock_call:'检查模拟调用'};
 const STAGES={deployment_preflight:'部署配置',request_entry:'请求进入',scheduling:'调度',cache:'缓存',transport:'远程传输',distributed_execution:'分布式执行',model_compute:'模型计算',sampling:'采样',response:'结果返回',service_behavior:'服务行为',cancellation:'取消',resource_lifecycle:'资源生命周期',task_quality:'任务质量'};
@@ -123,7 +125,7 @@ document.getElementById('greenCaption').textContent=`已确认检查内容，占
 document.getElementById('progressBar').style.width=((DATA.counts.g||0)/entries.length*100)+'%';
 document.getElementById('vllmGreen').textContent=fmt(DATA.frameworkCounts.vllm.g||0);
 document.getElementById('sglangGreen').textContent=fmt(DATA.frameworkCounts.sglang.g||0);
-for(const status of ['g','l','h','r','s','m','p','x','a','d','u','o']){
+for(const status of ['g','i','l','h','r','s','m','p','x','a','d','u','o']){
   const row=document.createElement('div');row.className='breakdown-row';
   const name=document.createElement('span'),dot=document.createElement('i'),count=document.createElement('b');
   dot.style.background=COLORS[status];name.append(dot,document.createTextNode(LABELS[status]));
@@ -187,9 +189,16 @@ function show(index){
     ?'https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/'
     :'https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/';
   document.getElementById('sourceLink').href=sourceRoot+f[1].split('/').map(encodeURIComponent).join('/')+'#L'+e[2];
+  const inheritedRow=document.getElementById('inheritedSourceRow');
+  inheritedRow.hidden=!e[13];
+  if(e[13]){
+    document.getElementById('inheritedSourcePath').textContent=`${e[13]}:${e[14]}`;
+    document.getElementById('inheritedSourceLink').href=sourceRoot+e[13].split('/').map(encodeURIComponent).join('/')+'#L'+e[14];
+  }
   const names=e[3]==='g'?e[4].split(/[;,]/).filter(Boolean).map(id=>DATA.unitNames[id]||id):[];
   document.getElementById('detailUnits').textContent=names.length?names.join('；'):'尚未确认对应哪项检查';
   document.getElementById('detailProperty').textContent=e[11]||'还未逐项确认检查内容';
+  document.getElementById('detailConditions').textContent=e[15]||'尚未逐项确认输入与运行条件';
   document.getElementById('detailStage').textContent=e[7]?`${STAGES[e[7]]||e[7]}：${EVIDENCE[e[8]]||'仍需核对'}${e[9]?'；被测函数 '+e[9]:''}`:'尚未确定单一环节';
   document.getElementById('detailOracle').textContent=e[5]?e[5].split(',').map(x=>CHECKS[x]||'其他检查').join('、'):'尚未找到检查语句';
   document.getElementById('detailSubject').textContent=e[12]||e[6]||'尚未找到';
