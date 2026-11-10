@@ -187,7 +187,7 @@ function show(index){
     ?'https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/'
     :'https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/';
   document.getElementById('sourceLink').href=sourceRoot+f[1].split('/').map(encodeURIComponent).join('/')+'#L'+e[2];
-  const names=e[4].split(/[;,]/).filter(Boolean).map(id=>DATA.unitNames[id]||id);
+  const names=e[3]==='g'?e[4].split(/[;,]/).filter(Boolean).map(id=>DATA.unitNames[id]||id):[];
   document.getElementById('detailUnits').textContent=names.length?names.join('；'):'尚未确认对应哪项检查';
   document.getElementById('detailProperty').textContent=e[11]||'还未逐项确认检查内容';
   document.getElementById('detailStage').textContent=e[7]?`${STAGES[e[7]]||e[7]}：${EVIDENCE[e[8]]||'仍需核对'}${e[9]?'；被测函数 '+e[9]:''}`:'尚未确定单一环节';
