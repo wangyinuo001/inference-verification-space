@@ -10,7 +10,7 @@ from sync_inherited_space_view import VIEW, main
 class InheritedSpaceViewTest(unittest.TestCase):
     def test_embedded_rows_match_explorer_and_sync_is_idempotent(self):
         before = VIEW.read_bytes()
-        self.assertEqual(main()["reviewed_inherited"], 677)
+        self.assertEqual(main()["reviewed_inherited"], 891)
         self.assertEqual(VIEW.read_bytes(), before)
         body = before.decode("utf-8")
 
@@ -32,7 +32,7 @@ class InheritedSpaceViewTest(unittest.TestCase):
         }
         for row in checked:
             self.assertIn((row["snapshot"], row["path"], row["test_name"], row["line"]), keys)
-        self.assertEqual(len(checked), 677)
+        self.assertEqual(len(checked), 891)
         self.assertEqual(body.count('id="inherited-property-crosswalk"'), 1)
 
 

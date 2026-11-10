@@ -228,6 +228,139 @@ RULES.update({
          "固定图像和演讲音频；第 225 行人物词判断恒真；不验证跨模态位置绑定或两段内容的相互独立性。", "vlm_image_audio_answer"),
 })
 
+_UNIFIED = "python/sglang/test/kits/unified_radix_cache_kit.py"
+_MULTITURN = "python/sglang/test/kl_multiturn_utils.py"
+RULES.update({
+    (_UNIFIED, "test_gsm8k"):
+        ("quality.task_score", "10-shot GSM8K 评测准确率不低于测试类门槛。", f"{_UNIFIED}:55",
+         "题数、模型、缓存部署和门槛由继承类决定；只检查评测汇总准确率。", "unified_gsm8k_score"),
+    (_UNIFIED, "test_mmlu"):
+        ("quality.task_score", "MMLU 评测汇总分数不低于测试类门槛。", f"{_UNIFIED}:73",
+         "64 个样本、32 并发；模型、缓存部署和门槛由继承类决定。", "unified_mmlu_score"),
+    (_UNIFIED, "test_multiturn_logprobs_match"):
+        ("response.logprob_value", "三轮请求最后一轮的输出 logprob 与清缓存重算的输入 logprob 满足平均近似 KL 门槛。",
+         f"{_UNIFIED}:81;{_MULTITURN}:274;python/sglang/test/kl_test_utils.py:114",
+         "四个输入、两轮随机 token 后缀；只在继承类提供 decode_cache_assert 时额外核对命中数，不能据此普遍断言发生缓存命中。", "unified_multiturn_kl"),
+    (_UNIFIED, "test_multiturn_prefill_cache_hit_branching"):
+        ("cache.hit_accounting;cache.result_relation", "前缀分支请求的命中数经默认或类指定断言检查，最后一轮输出 logprob 与清缓存重算的输入 logprob 满足 KL 门槛。",
+         f"{_UNIFIED}:108;{_MULTITURN}:365;{_MULTITURN}:393;{_MULTITURN}:408;python/sglang/test/kl_test_utils.py:114",
+         "三组前缀、每组三分支、两轮后缀；具体命中下界可由继承类覆盖；KL 只比较最后一轮。", "unified_prefill_branch_kl"),
+    (_UNIFIED, "test_multiturn_decode_cache_hit_branching"):
+        ("cache.hit_accounting;cache.result_relation", "多分支三轮生成核对 Decode 命中数，最后一轮输出 logprob 与清缓存重算的输入 logprob 满足 KL 门槛。",
+         f"{_UNIFIED}:135;{_MULTITURN}:506;python/sglang/test/kl_test_utils.py:114",
+         "三组前缀、每组三分支；命中判定与批量延迟可由继承类配置；KL 只比较最后一轮。", "unified_decode_branch_kl"),
+})
+
+_REASON = "python/sglang/test/kits/reasoning_kit.py"
+RULES.update({
+    (_REASON, "test_reasoning_tokens_thinking"):
+        ("response.usage_accounting", "开启思考的非流式响应报告正数 reasoning_tokens，且小于 completion_tokens。",
+         f"{_REASON}:70;{_REASON}:72;{_REASON}:73", "模型和推理解析器由继承类设置；不独立重算 token 数。", "reason_thinking_usage"),
+    (_REASON, "test_reasoning_tokens_non_thinking"):
+        ("response.usage_accounting", "关闭思考的非流式响应报告 reasoning_tokens 为零。",
+         f"{_REASON}:77;{_REASON}:78", "模型和推理解析器由继承类设置；不检查正文 token 计数。", "reason_non_thinking_usage"),
+    (_REASON, "test_reasoning_tokens_thinking_stream"):
+        ("response.usage_accounting", "开启思考的流式响应含 usage，reasoning_tokens 为正且小于 completion_tokens。",
+         f"{_REASON}:82;{_REASON}:84;{_REASON}:85;{_REASON}:86", "只读取最后一个带 usage 的流式事件；模型由继承类设置。", "reason_thinking_stream_usage"),
+    (_REASON, "test_reasoning_tokens_non_thinking_stream"):
+        ("response.usage_accounting", "关闭思考的流式响应含 usage，reasoning_tokens 为零。",
+         f"{_REASON}:90;{_REASON}:92;{_REASON}:93", "只读取最后一个带 usage 的流式事件；模型由继承类设置。", "reason_non_thinking_stream_usage"),
+    (_REASON, "test_reasoning_tokens_generate_exact_count"):
+        ("response.usage_accounting", "原生 generate 报告的 reasoning_tokens 等于输出 ID 中首个思考结束标记的位置加一。",
+         f"{_REASON}:111;{_REASON}:114;{_REASON}:115", "模型分词器、思考结束 ID 和解析器由继承类设置；标记不存在时测试会失败。", "reason_exact_count"),
+})
+
+_DETERMINISTIC = "python/sglang/test/test_deterministic_utils.py"
+RULES.update({
+    (_DETERMINISTIC, "test_single"):
+        ("sampling.policy", "同一提示词在所选批大小的 20 次试验中返回一种文本结果。",
+         f"{_DETERMINISTIC}:58;{_DETERMINISTIC}:61;python/sglang/test/test_deterministic.py:471",
+         "启用 deterministic inference 的继承类；第 59 行设置 temperature=0.5 晚于调用，对本次检查无效。", "deterministic_single_text"),
+    (_DETERMINISTIC, "test_prefix_with_logprobs"):
+        ("sampling.policy", "四种前缀长度在不同批大小下各自仅产生一种输出文本。",
+         f"{_DETERMINISTIC}:72;{_DETERMINISTIC}:74;python/sglang/test/test_deterministic.py:509",
+         "temperature=0.5 且请求 logprob；辅助函数只打印 logprob 比较结果，外层只断言文本唯一数为一。", "deterministic_prefix_text"),
+})
+
+_SESSION = "python/sglang/test/kits/streaming_session_kit.py"
+RULES.update({
+    (_SESSION, "test_kv_cache_inheritance"):
+        ("cache.hit_accounting", "流式会话首轮无命中，后续两轮的 cached_tokens 等于上一轮总 token 数加类允许的偏移。",
+         f"{_SESSION}:75;{_SESSION}:80;{_SESSION}:92", "会话跨三轮；偏移由继承类配置；只核对报告数，不直接检查 KV 内容。", "session_kv_inheritance"),
+    (_SESSION, "test_first_mid_abort_recovery"):
+        ("abort.terminal_status;abort.safe", "首轮中途取消返回 abort 状态，随后同一会话可生成且 prompt_tokens 只含新输入。",
+         f"{_SESSION}:291;{_SESSION}:294;{_SESSION}:296;{_SESSION}:317;{_SESSION}:319;{_SESSION}:330",
+         "会话流式模式；通过 abort_all 取消；重试至多 20 次；未比较后续生成文本。", "session_first_abort_recovery"),
+    (_SESSION, "test_nth_mid_abort_recovery"):
+        ("abort.terminal_status;abort.safe", "已有一轮会话后取消第二轮，响应标记 abort；第三轮 prompt_tokens 回到首轮上下文加新输入。",
+         f"{_SESSION}:204;{_SESSION}:207;{_SESSION}:209;{_SESSION}:230;{_SESSION}:235;{_SESSION}:247",
+         "会话流式模式；通过 abort_all 取消；第三轮最多重试 20 次；不直接核对 KV 内容。", "session_nth_abort_recovery"),
+    (_SESSION, "test_preabort_recovery"):
+        ("abort.safe", "偏移参数被预先拒绝或返回后，下一轮会话 prompt_tokens 仍等于首轮总数加新输入。",
+         f"{_SESSION}:379;{_SESSION}:392;{_SESSION}:396;{_SESSION}:407",
+         "第二轮允许 200 或 400，未断言其 finish_reason；只核对后续上下文计数和健康状态。", "session_preabort_recovery"),
+})
+
+_SPEC = "python/sglang/test/kits/spec_server_kits.py"
+RULES.update({
+    (_SPEC, "test_constrained_decoding"):
+        ("sampling.structured_constraint", "推测解码聊天接口返回单个选择项，其 content 能解析为 JSON 对象。",
+         f"{_SPEC}:564;{_SPEC}:566;{_SPEC}:567;{_SPEC}:573;{_SPEC}:574",
+         "response_format=json_object；未检查对象字段或完整 Schema。", "spec_json_object"),
+    (_SPEC, "test_logprob_start_len"):
+        ("response.logprob_identity", "报告的 prompt 与 completion token 数及输入、输出 logprob 列表长度满足指定 start_len 和生成长度。",
+         f"{_SPEC}:281;{_SPEC}:285;{_SPEC}:286",
+         "两条提示词、start_len=4、新 token 数=4；仅检查数量，不比较 logprob 数值或 token ID。", "spec_logprob_lengths"),
+    (_SPEC, "test_logprob_match"):
+        ("response.logprob_value", "推测解码输出 logprob 与同 token 序列的新 prefill 重算值的最大绝对差低于类门槛。",
+         f"{_SPEC}:337;{_SPEC}:353;{_SPEC}:355",
+         "单提示词、temperature=1、max_new_tokens=512；以服务自身 prefill 为参考，不是独立 FP32 数值真值。", "spec_logprob_rescore"),
+    (_SPEC, "test_logprob_mixed"):
+        ("response.logprob_identity", "多种输入输出长度、start_len 和 top-k 配置下，报告的 token 数及各 logprob 列表长度满足请求字段。",
+         f"{_SPEC}:380;python/sglang/test/test_utils.py:1950;python/sglang/test/test_utils.py:1955;python/sglang/test/test_utils.py:1962;python/sglang/test/test_utils.py:1969",
+         "随机顺序并行执行；只对配置要求的列表作长度和零温度 top-1 项检查，不与独立数值参考比较。", "spec_logprob_mixed_lengths"),
+    (_SPEC, "test_logprob_spec_v2_match"):
+        ("response.logprob_value", "Spec V2 Decode 与 prefill 重算的采样、共同 top-k 和指定 token ID 的 logprob 在类容差内一致。",
+         f"{_SPEC}:445;{_SPEC}:451;{_SPEC}:457;{_SPEC}:459;{_SPEC}:467;{_SPEC}:469",
+         "两条提示词、32 个生成 token、top_k=5；top-k 仅比较交集 token，指定 ID 列表比较全集。", "spec_v2_logprob_rescore"),
+    (_SPEC, "test_token_ids_logprob_ragged"):
+        ("response.delivery", "并发发送不同长度的 token_ids_logprob 列表后，每个实际返回的响应包含 text 字段。",
+         f"{_SPEC}:499;{_SPEC}:502",
+         "八个并发输入；不检查返回的 logprob 列表内容、请求数量或数值。", "spec_ragged_response"),
+    (_SPEC, "test_eos_token"):
+        ("output.stop_boundary", "返回文本重新编码后的 token 序列不包含 tokenizer 的 EOS ID。",
+         f"{_SPEC}:98;{_SPEC}:99;{_SPEC}:100",
+         "temperature=0.1、max_new_tokens=1024、skip_special_tokens=False；不直接断言 finish_reason 或原始 output_ids。", "spec_eos_absent_text"),
+    (_SPEC, "test_first_token_finish"):
+        ("response.delivery", "短输出上限批量请求的每个实际返回项包含 text 字段。",
+         f"{_SPEC}:112;{_SPEC}:116;{_SPEC}:117",
+         "八条提示词各设置 1–3 token 上限；未断言返回项数量，空列表可绕过逐项检查。", "spec_first_token_response"),
+    (_SPEC, "test_batch_generation"):
+        ("response.delivery", "批量请求的实际返回项包含 text；若报告验证次数为正，接受长度超过类门槛。",
+         f"{_SPEC}:75;{_SPEC}:76;{_SPEC}:80;{_SPEC}:83",
+         "四条提示词、零温度；未断言返回项数量，验证次数为零时不检查接受长度。", "spec_batch_response"),
+    (_SPEC, "test_grammar_structured_output_no_trailing_tokens"):
+        ("sampling.structured_constraint", "推测语法生成的文本可解析为 JSON，含四个指定键，去空白后以右花括号结尾。",
+         f"{_SPEC}:661;{_SPEC}:663;{_SPEC}:674;{_SPEC}:676;{_SPEC}:677",
+         "要求 spec_verify_ct>0；未按 JSON Schema 验证字段类型、模式或额外字段。", "spec_grammar_json_keys"),
+    (_SPEC, "test_grammar_logprob_count_matches_completion_tokens"):
+        ("response.logprob_identity", "推测语法生成的输出 logprob 数等于完成 token 数，文本可解析为 JSON。",
+         f"{_SPEC}:661;{_SPEC}:663;{_SPEC}:687;{_SPEC}:693",
+         "要求 spec_verify_ct>0；只检查数量，不校对每项 token ID 或 logprob 数值。", "spec_grammar_logprob_count"),
+    (_SPEC, "test_parity_vs_reference"):
+        ("spec.output_relation", "四条固定提示词的零温度推测解码文本逐条等于先前非推测服务的文本。",
+         f"{_SPEC}:167;{_SPEC}:178;{_SPEC}:179",
+         "同模型、后端、dtype、page_size=1；参考服务与推测服务串行启动；只比较最终文本。", "spec_greedy_parity"),
+})
+
+_SPEC_SPEED = "python/sglang/test/kits/spec_decoding_kit.py"
+RULES[(_SPEC_SPEED, "test_bs_1_speed")] = (
+    "service.performance", "单请求吞吐与推测接受长度均超过继承类设定的门槛。",
+    f"{_SPEC_SPEED}:17;{_SPEC_SPEED}:31;{_SPEC_SPEED}:32",
+    "最多尝试三次，成功即停止；若均未达标，只按最后一次测量判定；不是与非推测路径的配对加速比。",
+    "spec_single_request_speed",
+)
+
 
 def main() -> dict[str, int]:
     if all((root / ("vllm" if name == "vllm" else "python/sglang")).is_dir() for name, root in ROOTS.items()):
