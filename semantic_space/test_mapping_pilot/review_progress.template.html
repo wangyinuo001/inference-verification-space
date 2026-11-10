@@ -65,7 +65,7 @@
   </header>
   <div class="metrics">
     <div class="metric green"><strong id="greenCount">—</strong><span id="greenCaption">已核对性质并归入早期候选空间</span><div class="progress"><i id="progressBar"></i></div></div>
-    <div class="metric"><strong id="linkedCount">—</strong><span>源码调用结果连到断言，并定位推理环节</span></div>
+    <div class="metric"><strong id="linkedCount">—</strong><span>源码调用结果连到断言，且有单一环节线索</span></div>
     <div class="metric"><strong id="stageCount">—</strong><span>具有单一推理环节线索，含上述源码关联</span></div>
     <div class="metric"><strong id="totalCount">—</strong><span>入口已完成全量源码扫描</span></div>
   </div>
@@ -76,12 +76,12 @@
           <button type="button" data-framework="all" class="active">全部</button><button type="button" data-framework="vllm">vLLM</button><button type="button" data-framework="sglang">SGLang</button>
         </div>
         <input id="search" type="search" placeholder="搜索文件或测试名" aria-label="搜索文件或测试名">
-        <select id="statusFilter" aria-label="按证据状态筛选"><option value="all">全部状态</option><option value="g">已核对性质</option><option value="l">调用与断言关联</option><option value="r">已读待细分</option><option value="s">符号候选</option><option value="m">模块候选</option><option value="p">环节候选</option><option value="x">多环节或冲突</option><option value="a">相邻领域</option><option value="d">其他线索</option><option value="u">需定位</option><option value="o">范围外</option></select>
+        <select id="statusFilter" aria-label="按证据状态筛选"><option value="all">全部状态</option><option value="g">已核对性质</option><option value="l">源码目标与断言关联</option><option value="h">领域与断言关联</option><option value="r">已读待细分</option><option value="s">符号候选</option><option value="m">模块候选</option><option value="p">环节候选</option><option value="x">多环节或冲突</option><option value="a">相邻领域</option><option value="d">其他线索</option><option value="u">需定位</option><option value="o">范围外</option></select>
         <span class="match-count" id="matchCount"></span>
       </div>
       <div class="canvas-wrap" id="canvasWrap"><canvas id="grid" role="img" aria-label="按仓库和文件排列的三万余个测试入口状态方格"></canvas></div>
       <div class="legend" aria-label="颜色说明">
-        <span><i style="background:#2e8b57"></i>已核对性质</span><span><i style="background:#278f9a"></i>调用与断言关联</span><span><i style="background:#d6a345"></i>已读待细分</span><span><i style="background:#76418c"></i>符号候选</span><span><i style="background:#b9a0c9"></i>模块候选</span><span><i style="background:#a8c7da"></i>环节候选</span><span><i style="background:#d7c6a6"></i>多环节或冲突</span><span><i style="background:#d1d1d6"></i>相邻领域</span><span><i style="background:#df9475"></i>需定位</span><span><i style="background:#f0f0f1;border:1px solid #d4d4d8"></i>范围外</span>
+        <span><i style="background:#2e8b57"></i>已核对性质</span><span><i style="background:#278f9a"></i>源码目标与断言关联</span><span><i style="background:#69b4bc"></i>领域与断言关联</span><span><i style="background:#d6a345"></i>已读待细分</span><span><i style="background:#76418c"></i>符号候选</span><span><i style="background:#b9a0c9"></i>模块候选</span><span><i style="background:#a8c7da"></i>环节候选</span><span><i style="background:#d7c6a6"></i>多环节或冲突</span><span><i style="background:#d1d1d6"></i>相邻领域</span><span><i style="background:#df9475"></i>需定位</span><span><i style="background:#f0f0f1;border:1px solid #d4d4d8"></i>范围外</span>
       </div>
     </section>
     <aside class="panel" id="details" aria-live="polite">
@@ -96,14 +96,14 @@
         <div class="detail-row"><b>断言形式</b><div class="detail-value" id="detailOracle"></div></div>
         <div class="detail-row"><b>被观察的表达式</b><div class="detail-value" id="detailSubject"></div></div>
       </div>
-      <p class="footnote">绿色表示具体检查性质已核对并映射到早期候选空间；青色表示源码调用结果进入断言且已定位大致环节。其他颜色记录不同强度的归类线索。</p>
+      <p class="footnote">绿色表示具体检查性质已核对；深青色表示直接调用目标及其结果断言支持环节定位，浅青色表示调用结果进入断言但环节仍依据测试领域判断。其他颜色记录不同强度的线索。</p>
     </aside>
   </div>
 </div>
 <script>
 const DATA = /*__DATA__*/;
-const COLORS = {g:'#2e8b57',l:'#278f9a',r:'#d6a345',s:'#76418c',m:'#b9a0c9',p:'#a8c7da',x:'#d7c6a6',a:'#d1d1d6',d:'#e5e1e7',u:'#df9475',o:'#f0f0f1'};
-const LABELS = {g:'已核对性质',l:'调用与断言关联',r:'已读待细分',s:'符号候选',m:'模块候选',p:'环节候选',x:'多环节或冲突',a:'相邻领域',d:'其他线索',u:'需定位',o:'范围外'};
+const COLORS = {g:'#2e8b57',l:'#278f9a',h:'#69b4bc',r:'#d6a345',s:'#76418c',m:'#b9a0c9',p:'#a8c7da',x:'#d7c6a6',a:'#d1d1d6',d:'#e5e1e7',u:'#df9475',o:'#f0f0f1'};
+const LABELS = {g:'已核对性质',l:'源码目标与断言关联',h:'领域与断言关联',r:'已读待细分',s:'符号候选',m:'模块候选',p:'环节候选',x:'多环节或冲突',a:'相邻领域',d:'其他线索',u:'需定位',o:'范围外'};
 const STAGES={deployment_preflight:'部署配置',request_entry:'请求进入',scheduling:'调度',cache:'缓存',transport:'远程传输',distributed_execution:'分布式执行',model_compute:'模型计算',sampling:'采样',response:'结果返回',service_behavior:'服务行为',cancellation:'取消',resource_lifecycle:'资源生命周期',task_quality:'任务质量'};
 const COLS=320, CELL=4, GAP_ROWS=5;
 const canvas=document.getElementById('grid'), wrap=document.getElementById('canvasWrap'), ctx=canvas.getContext('2d');
@@ -120,7 +120,7 @@ document.getElementById('greenCaption').textContent=`已核对归类，占全部
 document.getElementById('progressBar').style.width=((DATA.counts.g||0)/entries.length*100)+'%';
 document.getElementById('vllmGreen').textContent=fmt(DATA.frameworkCounts.vllm.g||0);
 document.getElementById('sglangGreen').textContent=fmt(DATA.frameworkCounts.sglang.g||0);
-for(const status of ['g','l','r','s','m','p','x','a','d','u','o']){
+for(const status of ['g','l','h','r','s','m','p','x','a','d','u','o']){
   const row=document.createElement('div');row.className='breakdown-row';
   const name=document.createElement('span'),dot=document.createElement('i'),count=document.createElement('b');
   dot.style.background=COLORS[status];name.append(dot,document.createTextNode(LABELS[status]));

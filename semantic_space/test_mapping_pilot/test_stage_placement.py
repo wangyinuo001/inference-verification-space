@@ -41,6 +41,17 @@ class StagePlacementTest(unittest.TestCase):
         self.assertEqual(item["stage"], "")
         self.assertEqual(item["placement_status"], "cross_stage_review")
 
+    def test_direct_link_with_unknown_namespace_keeps_domain_as_candidate(self):
+        linked = {
+            "bulk_status": "source_linked", "product_calls_json":
+                '[{"target":"sglang.lang.choices.token_length_normalized"}]',
+            "input_binding": "symbolic",
+        }
+        item = route(self.row("sampling"), self.review(), linked)
+        self.assertEqual(item["stage"], "sampling")
+        self.assertEqual(item["placement_status"], "linked_domain_stage")
+        self.assertEqual(item["stage_source"], "domain_with_direct_call_oracle_link")
+
     def test_adjacent_domain_is_not_a_request_stage(self):
         item = route(self.row("diagnostics"), self.review(), None)
         self.assertEqual(item["stage"], "")

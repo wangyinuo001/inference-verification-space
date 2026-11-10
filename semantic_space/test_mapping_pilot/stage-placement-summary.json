@@ -1,10 +1,11 @@
 {
   "entries": 31968,
   "placement_status": {
-    "domain_stage_candidate": 24673,
+    "domain_stage_candidate": 23529,
     "adjacent_domain": 3269,
     "multiple_stage_candidates": 2385,
     "linked_stage": 1371,
+    "linked_domain_stage": 1144,
     "cross_stage_review": 191,
     "unresolved": 79
   },
@@ -23,7 +24,8 @@
     "distributed_execution": 1061,
     "transport": 2124
   },
-  "source_linked_stage": 1371,
+  "source_linked_stage": 2515,
+  "source_target_stage": 1371,
   "property_mapped": 838,
-  "interpretation": "A stage is a coarse routing location. Only property_mapped has a reviewed specific verification property; linked_stage has a checked direct source call-to-assertion relation, with symbolic inputs still unresolved where indicated."
+  "interpretation": "A stage is a coarse routing location. Only property_mapped has a reviewed specific verification property. Both linked statuses have a checked direct source call-to-assertion relation; linked_stage additionally has a matching source namespace, while linked_domain_stage uses a domain hint. Symbolic inputs remain unresolved where indicated."
 }

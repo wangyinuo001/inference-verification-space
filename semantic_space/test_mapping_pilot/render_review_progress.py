@@ -36,6 +36,8 @@ def category(scan: dict[str, str], review: dict[str, str], placement: dict[str, 
         return "o"
     if placement["placement_status"] == "linked_stage":
         return "l"
+    if placement["placement_status"] == "linked_domain_stage":
+        return "h"
     if route == "source_model_symbol_candidate":
         return "s"
     if route == "source_model_module_candidate":
@@ -69,7 +71,7 @@ def main() -> None:
         observed = review[item_key]
         placed = placement[item_key]
         stage_count += bool(placed["stage"])
-        linked_stage_count += placed["placement_status"] == "linked_stage"
+        linked_stage_count += placed["placement_status"] in {"linked_stage", "linked_domain_stage"}
         file_key = (row["snapshot"], row["path"])
         if file_key not in file_ids:
             file_ids[file_key] = len(files)

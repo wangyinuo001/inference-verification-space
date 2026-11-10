@@ -112,6 +112,9 @@ def route(scan: dict[str, str], review: dict[str, str],
                     result["stage"] = source_stage
                     result["placement_status"] = "linked_stage"
                     result["stage_source"] = "direct_product_result_to_assertion"
+            elif len(stages) == 1:
+                result["placement_status"] = "linked_domain_stage"
+                result["stage_source"] = "domain_with_direct_call_oracle_link"
     if review["source_review_status"] == "mapped" and review["source_reviewed_units"]:
         result["property_review_status"] = "mapped"
     return result
@@ -135,9 +138,10 @@ def main() -> dict:
         "entries": len(rows),
         "placement_status": dict(Counter(row["placement_status"] for row in rows)),
         "stages": dict(Counter(row["stage"] for row in rows if row["stage"])),
-        "source_linked_stage": sum(row["placement_status"] == "linked_stage" for row in rows),
+        "source_linked_stage": sum(row["placement_status"] in {"linked_stage", "linked_domain_stage"} for row in rows),
+        "source_target_stage": sum(row["placement_status"] == "linked_stage" for row in rows),
         "property_mapped": sum(row["property_review_status"] == "mapped" for row in rows),
-        "interpretation": "A stage is a coarse routing location. Only property_mapped has a reviewed specific verification property; linked_stage has a checked direct source call-to-assertion relation, with symbolic inputs still unresolved where indicated.",
+        "interpretation": "A stage is a coarse routing location. Only property_mapped has a reviewed specific verification property. Both linked statuses have a checked direct source call-to-assertion relation; linked_stage additionally has a matching source namespace, while linked_domain_stage uses a domain hint. Symbolic inputs remain unresolved where indicated.",
     }
     (HERE / "stage-placement-summary.json").write_text(
         json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
