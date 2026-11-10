@@ -22,7 +22,7 @@
   .progress > i { display:block; height:100%; background:var(--green); }
   .main { display:grid; grid-template-columns:minmax(0,1fr) 280px; gap:12px; min-height:0; }
   .panel { min-height:0; background:white; border:1px solid var(--line); border-radius:10px; }
-  .matrix-panel { display:grid; grid-template-rows:auto minmax(0,1fr) auto; padding:11px 12px 10px; }
+  .matrix-panel { display:grid; grid-template-columns:minmax(0,1fr); grid-template-rows:auto minmax(0,1fr) auto; min-width:0; overflow:hidden; padding:11px 12px 10px; }
   .controls { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
   .segmented { display:flex; border:1px solid #d8d4dc; border-radius:7px; overflow:hidden; }
   button { font:inherit; cursor:pointer; }
@@ -32,8 +32,8 @@
   input, select { height:32px; border:1px solid #d8d4dc; border-radius:7px; background:white; color:var(--ink); font:inherit; padding:4px 9px; }
   input { width:min(300px,30vw); }
   .match-count { color:var(--muted); font-size:12px; margin-left:auto; font-variant-numeric:tabular-nums; }
-  .canvas-wrap { min-height:0; display:flex; align-items:center; justify-content:center; padding:6px 0; }
-  canvas { display:block; image-rendering:pixelated; cursor:crosshair; }
+  .canvas-wrap { min-width:0; width:100%; min-height:0; overflow:hidden; display:flex; align-items:center; justify-content:center; padding:6px 0; }
+  canvas { display:block; max-width:100%; image-rendering:pixelated; cursor:crosshair; }
   .legend { display:flex; flex-wrap:wrap; align-items:center; gap:7px 15px; border-top:1px solid var(--line); padding-top:9px; font-size:11px; color:#504d56; }
   .legend span { display:inline-flex; align-items:center; gap:6px; white-space:nowrap; }
   .legend i { width:10px; height:10px; border-radius:2px; display:inline-block; }
@@ -143,7 +143,8 @@ function buildLayout(){
   sizeCanvas();draw();
 }
 function sizeCanvas(){
-  const width=Math.min(COLS*CELL,wrap.clientWidth,wrap.clientHeight*(COLS*CELL/logicalHeight));
+  const panelWidth=document.querySelector('.matrix-panel').clientWidth-24;
+  const width=Math.min(COLS*CELL,panelWidth,wrap.clientWidth,wrap.clientHeight*(COLS*CELL/logicalHeight));
   canvas.style.width=Math.max(1,width)+'px';canvas.style.height=Math.max(1,width*logicalHeight/(COLS*CELL))+'px';
 }
 function matches(index){
