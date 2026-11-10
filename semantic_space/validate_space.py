@@ -231,6 +231,18 @@ def validate() -> dict[str, int]:
                 assert lines[ref["line"] - 1].strip(), (source, ref["line"])
                 handoff_refs += 1
 
+    contract_data = json.loads((HERE / "handoff_contracts.json").read_text(encoding="utf-8"))
+    assert contract_data["status"].startswith("proposed observation contracts")
+    contract_ids: set[str] = set()
+    for contract in contract_data["contracts"]:
+        contract_id = contract["id"]
+        assert contract_id in handoff_ids and contract_id not in contract_ids, contract_id
+        contract_ids.add(contract_id)
+        assert contract["applicability"] and contract["join_key"]
+        assert contract["required_observations"] and contract["decision"]
+        assert set(contract["framework_translation"]) == set(roots), contract_id
+        assert all(contract["framework_translation"].values()), contract_id
+
     return {
         "snapshots": len(roots),
         "dimensions": len(dimensions),
@@ -240,6 +252,7 @@ def validate() -> dict[str, int]:
         "composition_cases": len(composition_ids),
         "applicability_rules": len(rule_ids),
         "source_handoffs": len(handoff_ids),
+        "observation_contracts": len(contract_ids),
         "handoff_source_locations": handoff_refs,
         "evidence_locations": refs,
     }

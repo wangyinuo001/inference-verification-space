@@ -1,0 +1,82 @@
+{
+  "status": "proposed observation contracts grounded in static source; no runtime handoff has been verified",
+  "contracts": [
+    {
+      "id": "generation.admission_to_scheduler",
+      "applicability": "single text request, greedy decoding, one completion",
+      "join_key": "logical request identity",
+      "framework_translation": {
+        "vllm": "OutputProcessor records external_req_id to internal request_id; EngineCore receives the internal request_id",
+        "sglang": "TokenizerManager records rid and sends the tokenized request with that rid to Scheduler"
+      },
+      "required_observations": ["admitted request ID", "scheduler request ID", "normalized token IDs", "sampling parameters"],
+      "decision": "The scheduler record belongs to the admitted request and preserves its normalized input and sampling parameters."
+    },
+    {
+      "id": "generation.scheduler_to_model",
+      "applicability": "single scheduled request and one completion; batch-row association must be recorded if batching is enabled",
+      "join_key": "request ID plus scheduled token position",
+      "framework_translation": {
+        "vllm": "SchedulerOutput is passed to the model executor in EngineCore.step",
+        "sglang": "Scheduler constructs the forward batch and invokes model_worker.forward_batch_generation"
+      },
+      "required_observations": ["scheduler request ID", "model batch row", "scheduled token positions", "model input token IDs"],
+      "decision": "The model row and positions correspond to the scheduler decision for the same request."
+    },
+    {
+      "id": "generation.model_to_output",
+      "applicability": "one completion and final response",
+      "join_key": "request ID plus model-step sequence",
+      "framework_translation": {
+        "vllm": "EngineCore updates scheduler state from the model output before returning EngineCoreOutputs",
+        "sglang": "Batch result processing emits per-request output rows after the model worker returns"
+      },
+      "required_observations": ["model step ID", "request ID for each output row", "sampled token IDs", "finish state"],
+      "decision": "The output token and finish state originate from the model step of the same request."
+    },
+    {
+      "id": "generation.output_to_api",
+      "applicability": "non-streaming final response; streaming chunks require an additional ordering contract",
+      "join_key": "internal request ID mapped to client-visible request ID",
+      "framework_translation": {
+        "vllm": "RequestState maps internal request_id to external_req_id; RequestOutput exposes external_req_id",
+        "sglang": "Batch output retains rid through detokenization; TokenizerManager looks up rid_to_state[rid]"
+      },
+      "required_observations": ["internal request ID", "client-visible request ID", "ordered token IDs", "decoded text", "finish reason"],
+      "decision": "The client response is the final output of the admitted request, with the expected token order and terminal reason."
+    },
+    {
+      "id": "abort.command_to_scheduler",
+      "applicability": "request is running when cancellation is accepted",
+      "join_key": "cancel target identity plus accepted-cancel event order",
+      "framework_translation": {
+        "vllm": "External ID can identify several internal requests; EngineCore processes queued aborts before updating the completed model step",
+        "sglang": "TokenizerManager forwards rid; Scheduler marks running request to_finish=FINISH_ABORT and may execute one further decode step"
+      },
+      "required_observations": ["cancel target ID", "internal request IDs", "request phase", "cancel-accepted event", "scheduler terminal transition"],
+      "decision": "The accepted cancellation targets the intended running request; normal completion that precedes cancellation is recorded separately."
+    },
+    {
+      "id": "abort.cleanup_to_late_output",
+      "applicability": "cancellation accepted before an in-flight model result is returned",
+      "join_key": "cancelled request identity plus event order",
+      "framework_translation": {
+        "vllm": "OutputProcessor ignores EngineCoreOutput when request_states no longer contains its internal ID",
+        "sglang": "TokenizerManager ignores a batch output whose rid is absent from rid_to_state"
+      },
+      "required_observations": ["cancel-accepted event", "in-flight result arrival", "request-state removal", "client-visible output events"],
+      "decision": "After effective cancellation, the in-flight result produces no later normal client-visible response for that request."
+    },
+    {
+      "id": "abort.cleanup_to_resource_release",
+      "applicability": "running request owns resources while work may still be in flight",
+      "join_key": "request identity plus resource identity and last-use event",
+      "framework_translation": {
+        "vllm": "Scheduler can defer block freeing until the step that may use it completes",
+        "sglang": "Running-request abort can execute one further decode forward before normal KV cleanup"
+      },
+      "required_observations": ["resource owner", "last in-flight use", "release event", "first reuse by another request"],
+      "decision": "A resource is not reused before its last possible use and is released once outstanding uses and references end."
+    }
+  ]
+}

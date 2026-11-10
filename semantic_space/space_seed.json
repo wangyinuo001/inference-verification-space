@@ -8701,7 +8701,11 @@
         "input_form": "text",
         "sampling_mode": "greedy",
         "cache_state": "disabled",
-        "output_mode": "final"
+        "output_mode": "final",
+        "request_batch_profile": {
+          "batch_size": 1,
+          "parallel_sample_count": 1
+        }
       },
       "steps": [
         "response.valid",

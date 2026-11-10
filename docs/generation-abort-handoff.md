@@ -1,0 +1,16 @@
+# 文本生成与取消的跨环节验证条件
+
+本次沿一条单请求文本生成路径和一条运行中取消路径，对照 vLLM `76a0ccc` 与 SGLang 0.5.14 `49e384c` 的源码。这里要检查的不是两个函数是否连通，而是同一请求的输入、模型批次、输出及终止事件能否在环节之间对应。结构化的[交接条件](../semantic_space/handoff_contracts.json)与[源码位置](../semantic_space/handoff_evidence.json)分别保存；前者定义应观察什么，后者记录现有实现中的传递位置。现阶段源码只支持定义这些条件，尚未取得完整的跨环节运行记录。
+
+文本生成模板现明确限定一次请求、一个生成候选、贪心采样和非流式最终响应。这个边界使单条请求身份可以贯穿四处交接；批量请求、并行采样和流式分块需要另外记录“批次行→请求”“子请求→父请求”和“分块序号→最终输出”的关系。四处交接如下。
+
+| 交接 | 共同验证要求 | 两套实现中需要转换的身份 |
+| --- | --- | --- |
+| 请求接纳→调度 | 调度记录保留同一请求的规范化 token 和采样参数 | vLLM [LLMEngine](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/v1/engine/llm_engine.py#L285)把处理后的请求交给 EngineCore，并由 [OutputProcessor](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/v1/engine/output_processor.py#L694)记录对外 ID 到内部 ID 的对应；SGLang [TokenizerManager](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/python/sglang/srt/managers/tokenizer_manager.py#L620)以 `rid` 记录请求，并向 Scheduler 发送分词后的请求。 |
+| 调度→模型计算 | 调度的请求、token 位置和模型批次行相互对应 | vLLM [EngineCore.step](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/v1/engine/core.py#L719)把调度结果传给执行器；SGLang [Scheduler](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/python/sglang/srt/managers/scheduler.py#L3270)把批次传给模型 worker。运行记录需逐行绑定请求 ID 与位置。 |
+| 模型计算→输出组装 | 采样 token 与结束状态对应同一请求和模型步骤 | vLLM [EngineCore.step](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/v1/engine/core.py#L733)用模型结果更新调度状态；SGLang [批次结果处理器](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/python/sglang/srt/managers/scheduler_components/batch_result_processor.py#L691)按请求处理输出。 |
+| 输出组装→客户端 | 返回的 token 顺序、文本和结束原因属于被接纳的请求 | vLLM [RequestState](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/v1/engine/output_processor.py#L405)把内部请求结果转为对外 ID；SGLang [DetokenizerManager](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/python/sglang/srt/managers/detokenizer_manager.py#L412)保留批次 `rids`，随后 [TokenizerManager](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/python/sglang/srt/managers/tokenizer_manager.py#L1848)按 `rid` 查找待返回状态。 |
+
+取消路径需要把事件顺序纳入条件。统一判定应区分“正常完成先于取消”和“取消已生效而模型结果随后到达”。在后者中，客户端不应再次收到该请求的正常结果；资源也应等最后可能使用它的在途工作完成后才能交给其他请求。vLLM [EngineCore](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/v1/engine/core.py#L729)在处理当前模型结果前先处理排队的取消，[OutputProcessor](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/v1/engine/output_processor.py#L762)跳过已经没有请求状态的输出。SGLang [Scheduler](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/python/sglang/srt/managers/scheduler.py#L3884)可让被取消的运行中请求再执行一次 decode，以沿原路径清理 KV；[TokenizerManager](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/python/sglang/srt/managers/tokenizer_manager.py#L1850)跳过没有请求状态的批次输出。两种执行顺序不同，但可检查的客户端结果与资源所有权性质相同。
+
+独立验证仓库可按事件记录 `logical_request_id`、框架内部 ID、批次行、token 位置、取消受理、模型结果到达、输出交付、资源最后使用与释放。适配器分别把两套框架的 ID 和状态字段映射到这些观察项。一个请求的生成检查由四处交接共同组成；取消检查还需将迟到输出、其他请求进度和资源释放分别判定。当前所列测试尚未将这些事件连成同一次端到端记录，因此这一文档给出的是验证规格和插桩位置，不是已经通过的结果。

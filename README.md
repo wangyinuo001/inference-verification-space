@@ -44,6 +44,7 @@
 | [交互页面](https://wangyinuo001.github.io/inference-verification-space/semantic_space/space_view.html) | 按 16 类请求路径浏览早期候选空间，左侧可反查两套仓库的测试；文件约 49 MB，首次加载较慢 |
 | [本周示意图](docs/figures/verification-space-weekly-20261109.png) | 以前缀缓存为例：两个框架的实现、共同验证需求与测试映射（[SVG](docs/figures/verification-space-weekly-20261109.svg)） |
 | [四条路径校准](docs/four-path-calibration.md) | 文本生成、前缀复用、运行中取消与张量并行的共同性质、已有断言及仍缺少的路径条件 |
+| [文本生成与取消的跨环节校准](docs/generation-abort-handoff.md) | 请求身份、批次行、token 位置、取消事件和资源释放的观察条件；对应的[结构化规格](semantic_space/handoff_contracts.json) |
 | [张量并行分片测试规格](docs/tensor-parallel-binding-spec.md) | 逐 rank 的输入、权重与局部输出绑定，以及归约后结果的判定 |
 
 交互页面基于早期的候选空间（115 个候选单元，[space_seed.json](semantic_space/space_seed.json)），尚未改为由源码模型生成。
