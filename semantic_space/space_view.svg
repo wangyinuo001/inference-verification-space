@@ -52,8 +52,10 @@
 <path class="edge" data-parent="cache.safe_reuse" data-child="cache.eviction_outcome" d="M 365.0 242.0 C 365.0 488.5, 365.0 488.5, 365.0 735.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: memory pressure can evict cached blocks while requests still reference cache state</title></path>
 <path class="edge" data-parent="cache.safe_reuse" data-child="cache.state_invariants" d="M 365.0 242.0 C 365.0 459.5, 365.0 459.5, 365.0 677.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: cache blocks are inserted, shared, evicted, or released</title></path>
 <path class="edge" data-parent="cache.safe_reuse" data-child="cache.tier_transfer_content" d="M 365.0 242.0 C 365.0 517.5, 365.0 517.5, 365.0 793.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: offloaded cache content is restored or reused</title></path>
-<path class="edge" data-parent="abort.safe" data-child="abort.no_late_output" d="M 1205.0 152.0 C 1205.0 240.5, 1205.0 240.5, 1205.0 329.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: abort requested</title></path>
-<path class="edge" data-parent="abort.safe" data-child="abort.cleanup" d="M 1205.0 152.0 C 1205.0 269.5, 1205.0 269.5, 1205.0 387.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: abort requested</title></path>
+<path class="edge" data-parent="abort.safe" data-child="abort.terminal_status" d="M 1205.0 152.0 C 1205.0 240.5, 1205.0 240.5, 1205.0 329.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: abort requested</title></path>
+<path class="edge" data-parent="abort.safe" data-child="abort.other_requests_progress" d="M 1205.0 152.0 C 1205.0 269.5, 1205.0 269.5, 1205.0 387.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: one request is aborted while other requests remain active</title></path>
+<path class="edge" data-parent="abort.safe" data-child="abort.no_late_output" d="M 1205.0 152.0 C 1205.0 298.5, 1205.0 298.5, 1205.0 445.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: abort requested</title></path>
+<path class="edge" data-parent="abort.safe" data-child="abort.cleanup" d="M 1205.0 152.0 C 1205.0 327.5, 1205.0 327.5, 1205.0 503.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: abort requested</title></path>
 <path class="edge" data-parent="response.valid" data-child="cache.safe_reuse" d="M 560.0 152.0 C 560.0 175.5, 365.0 175.5, 365.0 199.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: cache hit is used</title></path>
 <path class="edge" data-parent="model.reference_relation" data-child="cache.safe_reuse" d="M 645.0 408.0 L 365.0 220.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: cached context is used</title></path>
 <path class="edge" data-parent="model.reference_relation" data-child="model.parameter_binding" d="M 645.0 430.0 C 645.0 437.5, 645.0 437.5, 645.0 445.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: weights are loaded or updated for the checked model execution</title></path>
@@ -63,7 +65,7 @@
 <path class="edge" data-parent="response.valid" data-child="response.usage_accounting" d="M 560.0 152.0 C 560.0 443.5, 925.0 443.5, 925.0 735.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: API response reports prompt, completion or total token usage</title></path>
 <path class="edge" data-parent="response.valid" data-child="sampling.structured_constraint" d="M 560.0 152.0 C 560.0 443.5, 785.0 443.5, 785.0 735.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: format constraint requested</title></path>
 <path class="edge" data-parent="cache.safe_reuse" data-child="cache.result_relation" d="M 365.0 242.0 C 365.0 546.5, 365.0 546.5, 365.0 851.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: cache hit is used</title></path>
-<path class="edge" data-parent="abort.safe" data-child="abort.inflight_release" d="M 1205.0 152.0 C 1205.0 298.5, 1205.0 298.5, 1205.0 445.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: asynchronous execution or transfer in flight</title></path>
+<path class="edge" data-parent="abort.safe" data-child="abort.inflight_release" d="M 1205.0 152.0 C 1205.0 356.5, 1205.0 356.5, 1205.0 561.0" stroke="#8c6b9a" stroke-opacity="0.28"><title>refines: asynchronous execution or transfer in flight</title></path>
 <path class="edge" data-parent="response.delivery" data-child="output.finalization" d="M 925.0 582.0 L 925.0 408.0" stroke="#a1a0a5" stroke-opacity="0.28" stroke-dasharray="4 4"><title>consumes_result_of: API response</title></path>
 <path class="edge" data-parent="response.delivery" data-child="output.tool_argument_type_binding" d="M 925.0 582.0 L 925.0 350.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: the delivered response contains a parsed tool call with declared argument types</title></path>
 <path class="edge" data-parent="sampling.structured_constraint" data-child="sampling.policy" d="M 785.0 756.0 L 785.0 640.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: format constraint requested</title></path>
@@ -491,21 +493,35 @@
 <tspan x="1205.0" dy="0">安全取消</tspan>
 </text>
 <title>取消请求不再产生无效交付，其资源按所处阶段清理，其他请求继续运行。</title></g>
-<g class="unit" data-unit="abort.no_late_output" data-phase="abort" data-level="unit" tabindex="0">
+<g class="unit" data-unit="abort.terminal_status" data-phase="abort" data-level="unit" tabindex="0">
 <rect x="1137.0" y="328.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
-<text x="1205.0" y="354.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<text x="1205.0" y="346.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="1205.0" dy="0">取消请求的结束状</tspan>
+<tspan x="1205.0" dy="16">态正确</tspan>
+</text>
+<title>已取消请求按取消原因结束，不被标记为正常完成。</title></g>
+<g class="unit" data-unit="abort.other_requests_progress" data-phase="abort" data-level="unit" tabindex="0">
+<rect x="1137.0" y="386.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="1205.0" y="404.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="1205.0" dy="0">取消单个请求后其</tspan>
+<tspan x="1205.0" dy="16">他请求继续</tspan>
+</text>
+<title>选择性取消只影响目标请求，其他已接纳请求的运行资格和进度不被错误清除。</title></g>
+<g class="unit" data-unit="abort.no_late_output" data-phase="abort" data-level="unit" tabindex="0">
+<rect x="1137.0" y="444.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="1205.0" y="470.8" text-anchor="middle" class="node-label" style="font-size:14px">
 <tspan x="1205.0" dy="0">迟到输出</tspan>
 </text>
 <title>取消生效后的迟到计算结果不作为正常响应交付。</title></g>
 <g class="unit" data-unit="abort.cleanup" data-phase="abort" data-level="unit" tabindex="0">
-<rect x="1137.0" y="386.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
-<text x="1205.0" y="412.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<rect x="1137.0" y="502.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="1205.0" y="528.8" text-anchor="middle" class="node-label" style="font-size:14px">
 <tspan x="1205.0" dy="0">状态清理</tspan>
 </text>
 <title>等待、运行和传输阶段占用的请求状态及缓存资源按各自生命周期回收。</title></g>
 <g class="unit" data-unit="abort.inflight_release" data-phase="abort" data-level="unit" tabindex="0">
-<rect x="1137.0" y="444.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
-<text x="1205.0" y="470.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<rect x="1137.0" y="560.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="1205.0" y="586.8" text-anchor="middle" class="node-label" style="font-size:14px">
 <tspan x="1205.0" dy="0">在途资源释放</tspan>
 </text>
 <title>请求取消、重置或结束后，其资源在最后一个可能访问它的在途工作完成前不可重用，之后能够释放；其他请求的在途工作不延迟该资源的释放。</title></g>

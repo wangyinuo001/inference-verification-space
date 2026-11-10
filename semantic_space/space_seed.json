@@ -4879,6 +4879,114 @@
       "evidence": {}
     },
     {
+      "id": "abort.terminal_status",
+      "name": "取消请求的结束状态正确",
+      "kind": "obligation",
+      "phase": "abort",
+      "state_scope": "request",
+      "conditions": [
+        "request_phase",
+        "output_mode"
+      ],
+      "property": "已取消请求按取消原因结束，不被标记为正常完成。",
+      "observable": [
+        "request_id",
+        "finish_reason",
+        "terminal_status"
+      ],
+      "oracle": "在指定取消时机检查同一请求的最终结束原因；最后一步与取消并发时仍以实际先后顺序判定。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/engine/output_processor.py",
+            "line": 649,
+            "kind": "source"
+          },
+          {
+            "path": "tests/v1/engine/test_abort_final_step.py",
+            "line": 144,
+            "kind": "existing_test"
+          },
+          {
+            "path": "tests/v1/engine/test_abort_final_step.py",
+            "line": 302,
+            "kind": "existing_oracle"
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/managers/tokenizer_manager.py",
+            "line": 2682,
+            "kind": "source"
+          },
+          {
+            "path": "test/manual/entrypoints/http_server/test_abort_request.py",
+            "line": 93,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/manual/entrypoints/http_server/test_abort_request.py",
+            "line": 129,
+            "kind": "existing_oracle"
+          }
+        ]
+      }
+    },
+    {
+      "id": "abort.other_requests_progress",
+      "name": "取消单个请求后其他请求继续",
+      "kind": "obligation",
+      "phase": "abort",
+      "state_scope": "shared",
+      "conditions": [
+        "request_phase",
+        "concurrent_request_profile"
+      ],
+      "property": "选择性取消只影响目标请求，其他已接纳请求的运行资格和进度不被错误清除。",
+      "observable": [
+        "aborted_request_id",
+        "other_request_ids",
+        "other_request_statuses"
+      ],
+      "oracle": "同批运行目标请求和未取消请求，检查目标结束原因及其他请求的调度进度；有最终结果时再检查其正常结束。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/core/sched/scheduler.py",
+            "line": 3124,
+            "kind": "source"
+          },
+          {
+            "path": "tests/v1/engine/test_engine_core.py",
+            "line": 176,
+            "kind": "existing_test"
+          },
+          {
+            "path": "tests/v1/engine/test_engine_core.py",
+            "line": 182,
+            "kind": "existing_oracle"
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/managers/scheduler.py",
+            "line": 3876,
+            "kind": "source"
+          },
+          {
+            "path": "test/manual/entrypoints/http_server/test_abort_request.py",
+            "line": 133,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/manual/entrypoints/http_server/test_abort_request.py",
+            "line": 199,
+            "kind": "existing_oracle"
+          }
+        ]
+      }
+    },
+    {
       "id": "abort.no_late_output",
       "name": "取消后不交付迟到输出",
       "kind": "obligation",
@@ -4899,25 +5007,15 @@
         "vllm": [
           {
             "path": "vllm/v1/engine/output_processor.py",
-            "line": 731,
+            "line": 764,
             "kind": "source"
-          },
-          {
-            "path": "tests/v1/engine/test_output_processor.py",
-            "line": 1811,
-            "kind": "existing_test"
           }
         ],
         "sglang": [
           {
-            "path": "python/sglang/srt/managers/scheduler.py",
-            "line": 3774,
+            "path": "python/sglang/srt/managers/tokenizer_manager.py",
+            "line": 1850,
             "kind": "source"
-          },
-          {
-            "path": "test/manual/entrypoints/http_server/test_abort_request.py",
-            "line": 95,
-            "kind": "existing_test"
           }
         ]
       }
@@ -4959,11 +5057,6 @@
             "path": "python/sglang/srt/managers/scheduler.py",
             "line": 3774,
             "kind": "source"
-          },
-          {
-            "path": "test/manual/entrypoints/http_server/test_abort_request.py",
-            "line": 135,
-            "kind": "existing_test"
           }
         ]
       }
@@ -8103,6 +8196,18 @@
     },
     {
       "parent": "abort.safe",
+      "child": "abort.terminal_status",
+      "type": "refines",
+      "when": "abort requested"
+    },
+    {
+      "parent": "abort.safe",
+      "child": "abort.other_requests_progress",
+      "type": "refines",
+      "when": "one request is aborted while other requests remain active"
+    },
+    {
+      "parent": "abort.safe",
       "child": "abort.no_late_output",
       "type": "refines",
       "when": "abort requested"
@@ -8674,18 +8779,24 @@
       "conditions": {
         "request_kind": "generation",
         "request_phase": "running",
-        "cache_state": "partial_hit"
+        "cache_state": "partial_hit",
+        "concurrent_request_profile": {
+          "request_count": 3
+        }
       },
       "steps": [
         "abort.safe",
         "request.admission",
         "schedule.progress",
+        "abort.terminal_status",
+        "abort.other_requests_progress",
         "abort.no_late_output",
         "abort.cleanup",
         "abort.inflight_release"
       ],
       "unmapped_observations": [
-        "Cancellation, GPU-step and remote-transfer interleavings need direct end-to-end observation"
+        "Cancellation, GPU-step and remote-transfer interleavings need direct end-to-end observation",
+        "The cited cancellation tests do not bind the partial cache hit condition"
       ],
       "trace_type": "path_template"
     },
@@ -9136,6 +9247,8 @@
       "id": "abort_to_resource_release",
       "target": "abort.safe",
       "components": [
+        "abort.terminal_status",
+        "abort.other_requests_progress",
         "abort.no_late_output",
         "abort.cleanup",
         "abort.inflight_release"
@@ -9144,12 +9257,13 @@
       "join_observations": [
         "request identity",
         "abort event",
+        "terminal reason and unaffected request progress",
         "in-flight GPU step or transfer",
         "late output event",
         "resource ownership and release event"
       ],
       "status": "composition_requirement_unverified",
-      "needed_check": "Observe one abort interleaving across request output and resource lifetime; assert no late response and no premature or missing release."
+      "needed_check": "Observe one abort interleaving across terminal status, other requests, output and resource lifetime; assert the abort reason, unaffected progress, no late normal response and no premature or missing release."
     },
     {
       "id": "disagg_request_continuation",

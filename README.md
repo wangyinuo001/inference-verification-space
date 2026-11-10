@@ -43,8 +43,9 @@
 | [验证单元表](source_model/units.md) | 69 个单元按层次排列，源码位置链接到固定 commit |
 | [交互页面](https://wangyinuo001.github.io/inference-verification-space/semantic_space/space_view.html) | 按 16 类请求路径浏览早期候选空间，左侧可反查两套仓库的测试；文件约 49 MB，首次加载较慢 |
 | [本周示意图](docs/figures/verification-space-weekly-20261109.png) | 以前缀缓存为例：两个框架的实现、共同验证需求与测试映射（[SVG](docs/figures/verification-space-weekly-20261109.svg)） |
+| [四条路径校准](docs/four-path-calibration.md) | 文本生成、前缀复用、运行中取消与张量并行的共同性质、已有断言及仍缺少的路径条件 |
 
-交互页面基于早期的候选空间（113 个候选单元，[space_seed.json](semantic_space/space_seed.json)），尚未改为由源码模型生成。
+交互页面基于早期的候选空间（115 个候选单元，[space_seed.json](semantic_space/space_seed.json)），尚未改为由源码模型生成。
 
 ## 证据来源
 

@@ -206,7 +206,7 @@ routing_profile	structured_field	worker_count		0
 routing_profile	structured_field	worker_state		0
 routing_profile	structured_field	arrival_pattern		0
 routing_profile	structured_field	load_metric		0
-concurrent_request_profile	structured_field	request_count		0
+concurrent_request_profile	structured_field	request_count	cancel_running_request	1
 concurrent_request_profile	structured_field	input_relation		0
 concurrent_request_profile	structured_field	arrival_pattern		0
 concurrent_request_profile	structured_field	session_identifier		0

@@ -58,6 +58,8 @@ service.performance	obligation	service_load	1
 service.concurrent_request_isolation	obligation		0
 quality.task_score	obligation	task_quality_eval	1
 abort.safe	composite	cancel_running_request	1
+abort.terminal_status	obligation	cancel_running_request	1
+abort.other_requests_progress	obligation	cancel_running_request	1
 abort.no_late_output	obligation	cancel_running_request	1
 abort.cleanup	obligation	cancel_running_request	1
 abort.inflight_release	obligation	cancel_running_request	1
@@ -111,3 +113,4 @@ output.structured_marker_boundary	obligation		0
 output.channel_event_relation	obligation		0
 output.incremental_parse_relation	obligation		0
 output.parser_format_selection	obligation		0
+cache.eviction_candidate_order	obligation		0
