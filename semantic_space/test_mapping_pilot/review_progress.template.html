@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>测试归类进度</title>
+<style>
+  :root { --ink:#24232a; --muted:#68646f; --line:#e7e4e9; --paper:#fbfafc; --green:#2e8b57; --purple:#76418c; }
+  * { box-sizing:border-box; }
+  html, body { margin:0; height:100%; overflow:hidden; background:var(--paper); color:var(--ink); font:14px/1.4 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif; }
+  #app { height:100vh; display:grid; grid-template-rows:auto auto minmax(0,1fr); gap:12px; padding:16px 18px; }
+  header { display:flex; align-items:end; justify-content:space-between; gap:18px; }
+  h1 { margin:0; font-size:22px; letter-spacing:.01em; }
+  .subtitle { margin:3px 0 0; color:var(--muted); font-size:12px; }
+  .stamp { color:var(--muted); font-size:12px; white-space:nowrap; }
+  .metrics { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; }
+  .metric { background:white; border:1px solid var(--line); border-radius:10px; padding:10px 14px; min-height:78px; }
+  .metric strong { display:block; font-size:25px; line-height:1.15; font-variant-numeric:tabular-nums; }
+  .metric span { display:block; margin-top:4px; color:var(--muted); font-size:12px; }
+  .metric.green strong { color:var(--green); }
+  .progress { height:5px; background:#e8eee9; border-radius:5px; margin-top:8px; overflow:hidden; }
+  .progress > i { display:block; height:100%; background:var(--green); }
+  .main { display:grid; grid-template-columns:minmax(0,1fr) 280px; gap:12px; min-height:0; }
+  .panel { min-height:0; background:white; border:1px solid var(--line); border-radius:10px; }
+  .matrix-panel { display:grid; grid-template-columns:minmax(0,1fr); grid-template-rows:auto minmax(0,1fr) auto; min-width:0; overflow:hidden; padding:11px 12px 10px; }
+  .controls { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .segmented { display:flex; border:1px solid #d8d4dc; border-radius:7px; overflow:hidden; }
+  button { font:inherit; cursor:pointer; }
+  .segmented button { border:0; background:white; color:var(--ink); padding:5px 10px; }
+  .segmented button+button { border-left:1px solid #ddd8e0; }
+  .segmented button.active { background:var(--purple); color:white; }
+  input, select { height:32px; border:1px solid #d8d4dc; border-radius:7px; background:white; color:var(--ink); font:inherit; padding:4px 9px; }
+  input { width:min(300px,30vw); }
+  .match-count { color:var(--muted); font-size:12px; margin-left:auto; font-variant-numeric:tabular-nums; }
+  .canvas-wrap { min-width:0; width:100%; min-height:0; overflow:hidden; display:flex; align-items:center; justify-content:center; padding:6px 0; }
+  canvas { display:block; max-width:100%; image-rendering:pixelated; cursor:crosshair; }
+  .legend { display:flex; flex-wrap:wrap; align-items:center; gap:7px 15px; border-top:1px solid var(--line); padding-top:9px; font-size:11px; color:#504d56; }
+  .legend span { display:inline-flex; align-items:center; gap:6px; white-space:nowrap; }
+  .legend i { width:10px; height:10px; border-radius:2px; display:inline-block; }
+  aside { padding:14px; overflow:auto; }
+  aside h2 { font-size:15px; margin:0 0 10px; }
+  .breakdown { border-bottom:1px solid var(--line); padding-bottom:11px; margin-bottom:12px; }
+  .breakdown-title { font-size:12px; font-weight:650; margin-bottom:7px; }
+  .breakdown-row { display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:12px; padding:3px 0; }
+  .breakdown-row b { font-variant-numeric:tabular-nums; }
+  .breakdown-row i { width:8px; height:8px; border-radius:2px; display:inline-block; margin-right:6px; }
+  .small { font-size:12px; color:var(--muted); }
+  .detail-state { display:inline-block; padding:3px 7px; border-radius:5px; color:white; font-size:11px; margin:3px 0 10px; }
+  .detail-name { font-size:13px; font-weight:650; overflow-wrap:anywhere; margin-bottom:8px; }
+  .detail-path, .detail-value { overflow-wrap:anywhere; font-size:12px; line-height:1.48; }
+  .detail-row { border-top:1px solid var(--line); padding:9px 0; }
+  .detail-row b { display:block; font-size:11px; color:var(--muted); font-weight:500; margin-bottom:3px; }
+  .detail-row a { color:var(--purple); text-decoration:none; }
+  .detail-row a:hover { text-decoration:underline; }
+  #emptyDetail { color:var(--muted); font-size:12px; }
+  .footnote { font-size:11px; color:var(--muted); margin-top:10px; }
+  @media (max-width:850px) { .main { grid-template-columns:minmax(0,1fr) 210px; } .metric strong { font-size:20px; } .legend { gap:5px 9px; } }
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div><h1>测试归类进度</h1><p class="subtitle">每个小方格对应一个源码级测试入口；按仓库与文件排列。</p></div>
+    <div class="stamp">2026-11-10 · vLLM 76a0ccc · SGLang 0.5.14</div>
+  </header>
+  <div class="metrics">
+    <div class="metric green"><strong id="greenCount">—</strong><span id="greenCaption">已核对性质并归入早期候选空间</span><div class="progress"><i id="progressBar"></i></div></div>
+    <div class="metric"><strong id="linkedCount">—</strong><span>源码调用结果连到断言，并定位推理环节</span></div>
+    <div class="metric"><strong id="stageCount">—</strong><span>具有单一推理环节线索，含上述源码关联</span></div>
+    <div class="metric"><strong id="totalCount">—</strong><span>入口已完成全量源码扫描</span></div>
+  </div>
+  <div class="main">
+    <section class="panel matrix-panel" aria-label="测试入口状态矩阵">
+      <div class="controls">
+        <div class="segmented" id="frameworkButtons" aria-label="选择仓库">
+          <button type="button" data-framework="all" class="active">全部</button><button type="button" data-framework="vllm">vLLM</button><button type="button" data-framework="sglang">SGLang</button>
+        </div>
+        <input id="search" type="search" placeholder="搜索文件或测试名" aria-label="搜索文件或测试名">
+        <select id="statusFilter" aria-label="按证据状态筛选"><option value="all">全部状态</option><option value="g">已核对性质</option><option value="l">调用与断言关联</option><option value="r">已读待细分</option><option value="s">符号候选</option><option value="m">模块候选</option><option value="p">环节候选</option><option value="x">多环节或冲突</option><option value="a">相邻领域</option><option value="d">其他线索</option><option value="u">需定位</option><option value="o">范围外</option></select>
+        <span class="match-count" id="matchCount"></span>
+      </div>
+      <div class="canvas-wrap" id="canvasWrap"><canvas id="grid" role="img" aria-label="按仓库和文件排列的三万余个测试入口状态方格"></canvas></div>
+      <div class="legend" aria-label="颜色说明">
+        <span><i style="background:#2e8b57"></i>已核对性质</span><span><i style="background:#278f9a"></i>调用与断言关联</span><span><i style="background:#d6a345"></i>已读待细分</span><span><i style="background:#76418c"></i>符号候选</span><span><i style="background:#b9a0c9"></i>模块候选</span><span><i style="background:#a8c7da"></i>环节候选</span><span><i style="background:#d7c6a6"></i>多环节或冲突</span><span><i style="background:#d1d1d6"></i>相邻领域</span><span><i style="background:#df9475"></i>需定位</span><span><i style="background:#f0f0f1;border:1px solid #d4d4d8"></i>范围外</span>
+      </div>
+    </section>
+    <aside class="panel" id="details" aria-live="polite">
+      <div class="breakdown"><div class="breakdown-title">绿色入口按仓库</div><div class="breakdown-row"><span>vLLM</span><b id="vllmGreen"></b></div><div class="breakdown-row"><span>SGLang 0.5.14</span><b id="sglangGreen"></b></div></div>
+      <div class="breakdown" id="statusBreakdown"><div class="breakdown-title">全部入口的证据状态</div></div>
+      <h2>入口详情</h2><div id="emptyDetail">移动鼠标或点击方格查看测试、当前归类和源码依据。搜索会在原分布中突出匹配项。</div>
+      <div id="detailContent" hidden>
+        <div class="detail-name" id="detailName"></div><span class="detail-state" id="detailState"></span>
+        <div class="detail-row"><b>源码位置</b><div class="detail-path" id="detailPath"></div><a id="sourceLink" target="_blank" rel="noopener">打开源码</a></div>
+        <div class="detail-row"><b>验证单元或候选</b><div class="detail-value" id="detailUnits"></div></div>
+        <div class="detail-row"><b>推理环节与依据</b><div class="detail-value" id="detailStage"></div></div>
+        <div class="detail-row"><b>断言形式</b><div class="detail-value" id="detailOracle"></div></div>
+        <div class="detail-row"><b>被观察的表达式</b><div class="detail-value" id="detailSubject"></div></div>
+      </div>
+      <p class="footnote">绿色表示具体检查性质已核对并映射到早期候选空间；青色表示源码调用结果进入断言且已定位大致环节。其他颜色记录不同强度的归类线索。</p>
+    </aside>
+  </div>
+</div>
+<script>
+const DATA = /*__DATA__*/;
+const COLORS = {g:'#2e8b57',l:'#278f9a',r:'#d6a345',s:'#76418c',m:'#b9a0c9',p:'#a8c7da',x:'#d7c6a6',a:'#d1d1d6',d:'#e5e1e7',u:'#df9475',o:'#f0f0f1'};
+const LABELS = {g:'已核对性质',l:'调用与断言关联',r:'已读待细分',s:'符号候选',m:'模块候选',p:'环节候选',x:'多环节或冲突',a:'相邻领域',d:'其他线索',u:'需定位',o:'范围外'};
+const STAGES={deployment_preflight:'部署配置',request_entry:'请求进入',scheduling:'调度',cache:'缓存',transport:'远程传输',distributed_execution:'分布式执行',model_compute:'模型计算',sampling:'采样',response:'结果返回',service_behavior:'服务行为',cancellation:'取消',resource_lifecycle:'资源生命周期',task_quality:'任务质量'};
+const COLS=320, CELL=4, GAP_ROWS=5;
+const canvas=document.getElementById('grid'), wrap=document.getElementById('canvasWrap'), ctx=canvas.getContext('2d');
+const search=document.getElementById('search'), statusFilter=document.getElementById('statusFilter');
+const files=DATA.files, entries=DATA.entries;
+let framework='all', shown=[], layout=[], logicalHeight=0, pinned=-1, hover=-1;
+let cellByPosition=new Map(), positionByEntry=new Map();
+const fmt=n=>n.toLocaleString('zh-CN');
+document.getElementById('greenCount').textContent=fmt(DATA.counts.g||0);
+document.getElementById('totalCount').textContent=fmt(entries.length);
+document.getElementById('linkedCount').textContent=fmt(DATA.linkedStageCount||0);
+document.getElementById('stageCount').textContent=fmt(DATA.stageCount||0);
+document.getElementById('greenCaption').textContent=`已核对归类，占全部入口 ${((DATA.counts.g||0)/entries.length*100).toFixed(1)}%`;
+document.getElementById('progressBar').style.width=((DATA.counts.g||0)/entries.length*100)+'%';
+document.getElementById('vllmGreen').textContent=fmt(DATA.frameworkCounts.vllm.g||0);
+document.getElementById('sglangGreen').textContent=fmt(DATA.frameworkCounts.sglang.g||0);
+for(const status of ['g','l','r','s','m','p','x','a','d','u','o']){
+  const row=document.createElement('div');row.className='breakdown-row';
+  const name=document.createElement('span'),dot=document.createElement('i'),count=document.createElement('b');
+  dot.style.background=COLORS[status];name.append(dot,document.createTextNode(LABELS[status]));
+  count.textContent=fmt(DATA.counts[status]||0);row.append(name,count);document.getElementById('statusBreakdown').append(row);
+}
+function buildLayout(){
+  shown=[]; layout=[]; cellByPosition=new Map(); positionByEntry=new Map();
+  for(let i=0;i<entries.length;i++) if(framework==='all'||files[entries[i][0]][0]===framework) shown.push(i);
+  const first=[],second=[];
+  for(const i of shown) (files[entries[i][0]][0]==='vllm'?first:second).push(i);
+  let row=0;
+  for(const group of [first,second]){
+    if(!group.length) continue;
+    if(row) row+=GAP_ROWS;
+    group.forEach((index,j)=>{
+      const col=j%COLS, cellRow=row+Math.floor(j/COLS), cell={index,x:col*CELL,y:cellRow*CELL};
+      layout.push(cell);cellByPosition.set(cellRow*COLS+col,index);positionByEntry.set(index,cell);
+    });
+    row+=Math.ceil(group.length/COLS);
+  }
+  logicalHeight=Math.max(CELL,row*CELL);
+  canvas.width=COLS*CELL*2;canvas.height=logicalHeight*2;
+  ctx.setTransform(2,0,0,2,0,0);
+  sizeCanvas();draw();
+}
+function sizeCanvas(){
+  const panelWidth=document.querySelector('.matrix-panel').clientWidth-24;
+  const width=Math.min(COLS*CELL,panelWidth,wrap.clientWidth,wrap.clientHeight*(COLS*CELL/logicalHeight));
+  canvas.style.width=Math.max(1,width)+'px';canvas.style.height=Math.max(1,width*logicalHeight/(COLS*CELL))+'px';
+}
+function matches(index){
+  const e=entries[index],file=files[e[0]],q=search.value.trim().toLowerCase(),filter=statusFilter.value;
+  return (filter==='all'||e[3]===filter)&&(!q||(file[1]+' '+e[1]).toLowerCase().includes(q));
+}
+function draw(){
+  const width=COLS*CELL;ctx.clearRect(0,0,width,logicalHeight);ctx.fillStyle='#fff';ctx.fillRect(0,0,width,logicalHeight);
+  const active=!!search.value.trim()||statusFilter.value!=='all';let found=0;
+  for(const cell of layout){
+    const e=entries[cell.index],match=matches(cell.index);if(match) found++;
+    ctx.globalAlpha=active&&!match?0.12:1;ctx.fillStyle=COLORS[e[3]];
+    ctx.fillRect(cell.x+.35,cell.y+.35,CELL-.7,CELL-.7);
+  }
+  ctx.globalAlpha=1;
+  if(pinned>=0){const cell=positionByEntry.get(pinned);if(cell){ctx.strokeStyle='#17151b';ctx.lineWidth=1.5;ctx.strokeRect(cell.x-.7,cell.y-.7,CELL+1.4,CELL+1.4);}}
+  document.getElementById('matchCount').textContent=active?`匹配 ${fmt(found)} / ${fmt(shown.length)}`:`显示 ${fmt(shown.length)} 个入口`;
+}
+function hit(event){
+  const rect=canvas.getBoundingClientRect(),x=(event.clientX-rect.left)*COLS*CELL/rect.width,y=(event.clientY-rect.top)*logicalHeight/rect.height;
+  const col=Math.floor(x/CELL),row=Math.floor(y/CELL);
+  if(col<0||col>=COLS||row<0)return -1;
+  return cellByPosition.get(row*COLS+col)??-1;
+}
+function show(index){
+  if(index<0){document.getElementById('emptyDetail').hidden=false;document.getElementById('detailContent').hidden=true;return;}
+  const e=entries[index],f=files[e[0]],label=LABELS[e[3]];
+  document.getElementById('emptyDetail').hidden=true;document.getElementById('detailContent').hidden=false;
+  document.getElementById('detailName').textContent=e[1];
+  const state=document.getElementById('detailState');state.textContent=label;state.style.background=COLORS[e[3]];state.style.color=e[3]==='o'?'#24232a':'white';
+  document.getElementById('detailPath').textContent=`${f[0]}/${f[1]}:${e[2]}`;
+  const sourceRoot=f[0]==='vllm'
+    ?'https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/'
+    :'https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/';
+  document.getElementById('sourceLink').href=sourceRoot+f[1].split('/').map(encodeURIComponent).join('/')+'#L'+e[2];
+  document.getElementById('detailUnits').textContent=e[4]||'尚无已核对的单元对应';
+  document.getElementById('detailStage').textContent=e[7]?`${STAGES[e[7]]||e[7]} · ${e[8]||'线索'}${e[9]?' · '+e[9]:''}${e[10]?' · 输入 '+e[10]:''}`:'尚无单一验证环节';
+  document.getElementById('detailOracle').textContent=e[5]||'尚未解析';
+  document.getElementById('detailSubject').textContent=e[6]||'尚未解析';
+}
+canvas.addEventListener('mousemove',event=>{const index=hit(event);if(index!==hover){hover=index;if(pinned<0)show(index);}});
+canvas.addEventListener('mouseleave',()=>{hover=-1;if(pinned<0)show(-1);});
+canvas.addEventListener('click',event=>{const index=hit(event);if(index>=0){pinned=pinned===index?-1:index;show(pinned>=0?pinned:index);draw();}});
+document.getElementById('frameworkButtons').addEventListener('click',event=>{const button=event.target.closest('button[data-framework]');if(!button)return;framework=button.dataset.framework;pinned=-1;document.querySelectorAll('#frameworkButtons button').forEach(b=>b.classList.toggle('active',b===button));buildLayout();show(-1);});
+let searchTimer;search.addEventListener('input',()=>{clearTimeout(searchTimer);searchTimer=setTimeout(draw,90);});
+statusFilter.addEventListener('change',draw);
+new ResizeObserver(()=>{sizeCanvas();}).observe(wrap);
+buildLayout();
+</script>
+</body>
+</html>

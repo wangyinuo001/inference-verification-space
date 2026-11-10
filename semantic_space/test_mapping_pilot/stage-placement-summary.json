@@ -1,0 +1,29 @@
+{
+  "entries": 31968,
+  "placement_status": {
+    "domain_stage_candidate": 24673,
+    "adjacent_domain": 3269,
+    "multiple_stage_candidates": 2385,
+    "linked_stage": 1371,
+    "cross_stage_review": 191,
+    "unresolved": 79
+  },
+  "stages": {
+    "task_quality": 762,
+    "request_entry": 2923,
+    "response": 4324,
+    "deployment_preflight": 1245,
+    "cancellation": 37,
+    "scheduling": 687,
+    "cache": 1906,
+    "service_behavior": 885,
+    "resource_lifecycle": 99,
+    "model_compute": 8235,
+    "sampling": 1756,
+    "distributed_execution": 1061,
+    "transport": 2124
+  },
+  "source_linked_stage": 1371,
+  "property_mapped": 838,
+  "interpretation": "A stage is a coarse routing location. Only property_mapped has a reviewed specific verification property; linked_stage has a checked direct source call-to-assertion relation, with symbolic inputs still unresolved where indicated."
+}

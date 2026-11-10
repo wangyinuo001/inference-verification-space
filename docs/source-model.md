@@ -4,6 +4,8 @@
 
 本文从 vLLM 与 SGLang 的源码出发，整理推理系统需要验证的功能、行为与性质，并据此提出分层 Verification Space。分析对象是两个固定快照：vLLM `76a0ccc`（[`vllm-20261105`](https://github.com/vllm-project/vllm/tree/76a0ccc209343971c6f4b56f6380a76202428385)）与 SGLang 0.5.14（[`sglang-v0.5.14-complete`](https://github.com/sgl-project/sglang/tree/49e384ce9d304648e9959666ecb8ce8cd98d0deb)）。结构化模型与校验脚本在 [`source_model/`](../source_model/)，逐单元列表见 [`units.md`](../source_model/units.md)。
 
+本文记录 11 月 9 日的 71 单元版本。最新结构化模型补充了启动配置、缓存淘汰次序及共享槽位等性质，共 76 单元；以 [`space_model.json`](../source_model/space_model.json) 和 [`units.md`](../source_model/units.md) 为准。
+
 ## 1. 调研方式
 
 此前的工作从现有测试出发：逐条阅读测试入口，判断它检查了什么，再归入空间。这条路线要处理三万余个入口，进展慢；而且得到的是“现有测试检查了什么”，不是“系统需要保证什么”。

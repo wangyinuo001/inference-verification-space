@@ -1,6 +1,6 @@
 """Build the source-derived Verification Space model (space_model.json).
 
-Every unit is abstracted from the six source traces in ``traces/``; ``trace``
+Every unit is abstracted from the source traces in ``traces/``; ``trace``
 fields point to the record numbers there. Sites use ``v:`` (relative to the
 vLLM package root) and ``s:`` (relative to ``sglang/srt``).
 """
@@ -20,6 +20,7 @@ SNAPSHOTS = {
 }
 
 STAGES = {
+    "S0_preflight": "服务启动前的配置解析、默认值确定与能力检查",
     "S1_ingress": "API 解析、校验与采样参数规范化",
     "S2_render": "对话模板、分词与多模态预处理",
     "S3_schedule": "准入、批组成、分块、抢占、取消与结束",
@@ -50,9 +51,16 @@ BOUNDARIES = {
 }
 
 CONDITIONS = {
+    "config_source": ["structured", "cli", "file"],
+    "config_resolution": ["explicit", "default", "alias"],
+    "capability": ["model", "hardware", "dtype", "parallel", "backend"],
+    "shared_buffer_kind": ["object_store", "message_ring"],
+    "reader_count": ["one", "multiple"],
+    "buffer_wraparound": ["no", "yes"],
     "cache_granularity": ["block_full_with_cow", "token_radix_page_aligned"],
     "page_size": ["1", ">1"],
     "cache_state": ["cold", "partial_hit", "full_hit", "evicted", "offloaded_restore"],
+    "eviction_policy": ["queue_order", "lru", "lfu", "fifo", "mru", "filo", "priority", "slru"],
     "hit_bound": ["n_minus_1", "prompt_logprob_start"],
     "forward_mode": ["prefill", "extend", "decode", "mixed", "target_verify"],
     "chunk_size": ["none", "smaller_than_prompt"],
@@ -106,6 +114,26 @@ def unit(uid, stage, kind, boundary, prop, oracle, conditions, sites, trace,
         "perturbation": perturbation, "divergence": divergence,
         "status": status, "sites": sites, "trace": trace,
     })
+
+
+# ---- S0 deployment preflight -------------------------------------------------
+unit("deploy.effective_config", "S0_preflight", "contract", "B0",
+     "给定配置来源、显式值与平台条件，服务启动前的生效字段符合解析、默认值和别名规则；显式值不会被默认值覆盖。",
+     "对相同输入配置构造生效配置，比较关键字段及派生值；分别覆盖显式值、默认值和别名。",
+     ["config_source", "config_resolution", "parallel"],
+     {"vllm": ["v:config/vllm.py:1120-1147", "v:config/vllm.py:1997-2000"],
+      "sglang": ["s:server_args.py:2456-2483", "s:server_args.py:2630-2647"]},
+     ["preflight#1", "preflight#2"],
+     divergence="vLLM 在 VllmConfig 中按优化级别设置默认项；SGLang 的 ServerArgs 将 PD 模式映射为不同的默认负载均衡方法。")
+unit("deploy.admissible", "S0_preflight", "contract", "B0",
+     "服务配置在声明的模型、平台、精度、并行和后端能力范围内被接受；不满足约束的组合在启动前被拒绝并给出原因。",
+     "给定目标版本与平台的能力约束表，检查合法组合的配置结果及非法组合的拒绝原因。",
+     ["capability", "parallel", "dtype_quant", "graph"],
+     {"vllm": ["v:config/vllm.py:2027-2045", "v:config/model.py:1559-1578"],
+      "sglang": ["s:server_args.py:6630-6679"]},
+     ["preflight#3", "preflight#4"],
+     depends=["deploy.effective_config"],
+     divergence="两套框架支持的组合与拒绝位置不同，能力约束应按具体版本及平台填入。")
 
 
 # ---- S1/S2 ingress and rendering -------------------------------------------
@@ -257,12 +285,28 @@ unit("kv.no_shared_write", "S4_state", "resource", "B1",
      divergence="vLLM 对非对齐本地命中预留写时复制块；SGLang 通过节点分裂暴露精确 token 边界，物理页仍受对齐约束。")
 unit("kv.ref_protect", "S4_state", "resource", "B1",
      "被使用的块/节点不被驱逐；每次获取恰好对应一次释放；驱逐同时移除查找元数据。",
-     "交错的锁定、释放、驱逐序列（属性测试），并覆盖各驱逐策略。",
+     "交错的锁定、释放、驱逐序列（属性测试），检查在用块安全和引用计数。",
      ["cache_state"],
      {"vllm": ["v:v1/core/block_pool.py:767-832"],
       "sglang": ["s:mem_cache/radix_cache.py:632-671", "s:mem_cache/evict_policy.py:16-62"]},
      ["kv#7", "kv#8"],
      divergence="vLLM 直接对物理块计数；SGLang 从终端节点向根传播 lock_ref，并支持 LRU/LFU/SLRU/优先级策略。")
+unit("kv.eviction_priority", "S4_state", "contract", "B1",
+     "给定可回收项的访问、命中与显式优先级状态，所选策略产生规定的先后关系。",
+     "构造可回收项并比较队列位置或策略键；不以策略键检查代替实际驱逐。",
+     ["eviction_policy"],
+     {"vllm": ["v:v1/core/block_pool.py:791-839"],
+      "sglang": ["s:mem_cache/evict_policy.py:12-63"]},
+     ["kv#8"],
+     divergence="vLLM 用空闲队列的前插/后追加表达顺序；SGLang 为叶节点计算 LRU、LFU、FIFO、MRU、FILO、优先级或 SLRU 策略键。")
+unit("kv.eviction_order", "S4_state", "contract", "B1",
+     "给定可驱逐块或叶节点的访问与优先级状态，回收顺序符合所选策略；优先级相同时遵守实现定义的次序。",
+     "构造有不同访问时间、命中次数和显式优先级的可驱逐项，比较实际回收次序与该实现的策略键。",
+     ["eviction_policy", "cache_state"],
+     {"vllm": ["v:v1/core/block_pool.py:791-839", "v:v1/core/block_pool.py:696-705"],
+      "sglang": ["s:mem_cache/evict_policy.py:12-63", "s:mem_cache/radix_cache.py:558-580"]},
+     ["kv#8"], depends=["kv.ref_protect", "kv.eviction_priority"],
+     divergence="vLLM 通过空闲队列的前插/后追加控制可复用块次序；SGLang 从可驱逐叶节点按配置策略键构建最小堆。")
 unit("kv.release_terminal", "S4_state", "resource", "B1",
      "请求结束或取消后，其独占引用归零；仍被缓存持有的前缀引用保持有效；最后一个调度步之前不释放。",
      "生命周期序列结束后核对分配器与缓存所有权。",
@@ -607,6 +651,16 @@ unit("eq.tier_restore", "S4_state", "equivalence", "B3",
      gap="异步写回尚未完成时设备副本已被驱逐，属于时序问题，单独的所有权与数值检查都不能覆盖。")
 
 # ---- S9 topology -----------------------------------------------------------------------------
+unit("topo.shared_slot", "S9_topology", "resource", "B5",
+     "共享内存槽位在写者发布后交付原值；仍被读者使用的槽位不被复用，全部读者完成后才可回收；回绕不覆盖有效数据。",
+     "用不同容量、读者数量和读者完成顺序驱动写入/读取/回绕，逐次核对槽位身份、读回值与可复用状态。",
+     ["shared_buffer_kind", "reader_count", "buffer_wraparound"],
+     {"vllm": ["v:distributed/device_communicators/shm_object_storage.py:218-318",
+                "v:distributed/device_communicators/shm_broadcast.py:732-804"],
+      "sglang": ["s:distributed/device_communicators/shm_broadcast.py:32-85",
+                 "s:distributed/device_communicators/shm_broadcast.py:339-432"]},
+     ["transport#1", "transport#2"],
+     divergence="vLLM 的对象存储用单调 ID、内存区间和可回收回调管理变长数据；SGLang 的消息环用固定槽及每个读者的完成标志。")
 unit("topo.groups", "S9_topology", "contract", "B0",
      "给定 world size 与 TP/PP/DP/EP 配置，各进程组成员集合互不重叠且符合预期排布；每个进程的组内秩一致。",
      "纯函数枚举：无需 GPU，对所有小规模配置计算组成员。",

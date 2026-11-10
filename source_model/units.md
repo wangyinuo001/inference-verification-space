@@ -4,14 +4,39 @@
 
 | 层 | 名称 | 需要真实运行的部分 | 单元数 |
 |---|---|---|---|
-| B0 | 纯函数 | 单个函数/算子，无系统状态 | 12 |
-| B1 | 单组件状态机 | 一个带状态的组件（分配器、基数树、调度器、增量解码器、解析器） | 27 |
+| B0 | 纯函数 | 单个函数/算子，无系统状态 | 14 |
+| B1 | 单组件状态机 | 一个带状态的组件（分配器、基数树、调度器、增量解码器、解析器） | 29 |
 | B2 | 单步引擎 | 调度结果+状态+一次真实前向（含图/填充） | 11 |
 | B3 | 单请求多步 | 单引擎实例上一个请求的完整生成 | 14 |
 | B4 | 多请求并发 | 同一实例上多个请求的批组成与相互干扰 | 2 |
-| B5 | 多进程拓扑 | TP/PP/DP/EP/PD 多进程与通信 | 5 |
+| B5 | 多进程拓扑 | TP/PP/DP/EP/PD 多进程与通信 | 6 |
 
 ## B0 纯函数
+
+### `deploy.admissible`
+
+服务配置在声明的模型、平台、精度、并行和后端能力范围内被接受；不满足约束的组合在启动前被拒绝并给出原因。
+
+- 阶段：服务启动前的配置解析、默认值确定与能力检查；类型：contract
+- 判定：给定目标版本与平台的能力约束表，检查合法组合的配置结果及非法组合的拒绝原因。
+- 条件：`capability`, `parallel`, `dtype_quant`, `graph`
+- 依赖：`deploy.effective_config`
+- 框架差异：两套框架支持的组合与拒绝位置不同，能力约束应按具体版本及平台填入。
+- vLLM：[config/vllm.py:2027-2045](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/config/vllm.py#L2027-L2045)；[config/model.py:1559-1578](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/config/model.py#L1559-L1578)
+- SGLang：[server_args.py:6630-6679](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/python/sglang/srt/server_args.py#L6630-L6679)
+- 调研记录：preflight#3, preflight#4
+
+### `deploy.effective_config`
+
+给定配置来源、显式值与平台条件，服务启动前的生效字段符合解析、默认值和别名规则；显式值不会被默认值覆盖。
+
+- 阶段：服务启动前的配置解析、默认值确定与能力检查；类型：contract
+- 判定：对相同输入配置构造生效配置，比较关键字段及派生值；分别覆盖显式值、默认值和别名。
+- 条件：`config_source`, `config_resolution`, `parallel`
+- 框架差异：vLLM 在 VllmConfig 中按优化级别设置默认项；SGLang 的 ServerArgs 将 PD 模式映射为不同的默认负载均衡方法。
+- vLLM：[config/vllm.py:1120-1147](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/config/vllm.py#L1120-L1147)；[config/vllm.py:1997-2000](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/config/vllm.py#L1997-L2000)
+- SGLang：[server_args.py:2456-2483](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/python/sglang/srt/server_args.py#L2456-L2483)；[server_args.py:2630-2647](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/python/sglang/srt/server_args.py#L2630-L2647)
+- 调研记录：preflight#1, preflight#2
 
 ### `op.attention`
 
@@ -329,6 +354,31 @@ logits 处理按声明顺序作用：白名单/禁用词 → 影响 argmax 的�
 - SGLang：[mem_cache/radix_cache.py:467-610](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/python/sglang/srt/mem_cache/radix_cache.py#L467-L610)；[mem_cache/radix_cache_cpp.py:45-47](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/python/sglang/srt/mem_cache/radix_cache_cpp.py#L45-L47)
 - 调研记录：kv#14
 
+### `kv.eviction_order`
+
+给定可驱逐块或叶节点的访问与优先级状态，回收顺序符合所选策略；优先级相同时遵守实现定义的次序。
+
+- 阶段：KV/前缀缓存、适配器槽位、语法状态等跨步状态；类型：contract
+- 判定：构造有不同访问时间、命中次数和显式优先级的可驱逐项，比较实际回收次序与该实现的策略键。
+- 条件：`eviction_policy`, `cache_state`
+- 依赖：`kv.ref_protect`, `kv.eviction_priority`
+- 框架差异：vLLM 通过空闲队列的前插/后追加控制可复用块次序；SGLang 从可驱逐叶节点按配置策略键构建最小堆。
+- vLLM：[v1/core/block_pool.py:791-839](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/v1/core/block_pool.py#L791-L839)；[v1/core/block_pool.py:696-705](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/v1/core/block_pool.py#L696-L705)
+- SGLang：[mem_cache/evict_policy.py:12-63](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/python/sglang/srt/mem_cache/evict_policy.py#L12-L63)；[mem_cache/radix_cache.py:558-580](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/python/sglang/srt/mem_cache/radix_cache.py#L558-L580)
+- 调研记录：kv#8
+
+### `kv.eviction_priority`
+
+给定可回收项的访问、命中与显式优先级状态，所选策略产生规定的先后关系。
+
+- 阶段：KV/前缀缓存、适配器槽位、语法状态等跨步状态；类型：contract
+- 判定：构造可回收项并比较队列位置或策略键；不以策略键检查代替实际驱逐。
+- 条件：`eviction_policy`
+- 框架差异：vLLM 用空闲队列的前插/后追加表达顺序；SGLang 为叶节点计算 LRU、LFU、FIFO、MRU、FILO、优先级或 SLRU 策略键。
+- vLLM：[v1/core/block_pool.py:791-839](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/v1/core/block_pool.py#L791-L839)
+- SGLang：[mem_cache/evict_policy.py:12-63](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/python/sglang/srt/mem_cache/evict_policy.py#L12-L63)
+- 调研记录：kv#8
+
 ### `kv.hit_extent`
 
 返回的物理映射长度等于报告的命中长度，且命中粒度符合配置（块对齐或页对齐）。
@@ -382,7 +432,7 @@ logits 处理按声明顺序作用：白名单/禁用词 → 影响 argmax 的�
 被使用的块/节点不被驱逐；每次获取恰好对应一次释放；驱逐同时移除查找元数据。
 
 - 阶段：KV/前缀缓存、适配器槽位、语法状态等跨步状态；类型：resource
-- 判定：交错的锁定、释放、驱逐序列（属性测试），并覆盖各驱逐策略。
+- 判定：交错的锁定、释放、驱逐序列（属性测试），检查在用块安全和引用计数。
 - 条件：`cache_state`
 - 框架差异：vLLM 直接对物理块计数；SGLang 从终端节点向根传播 lock_ref，并支持 LRU/LFU/SLRU/优先级策略。
 - vLLM：[v1/core/block_pool.py:767-832](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/v1/core/block_pool.py#L767-L832)
@@ -876,6 +926,18 @@ PD 分离中解码端收到的 KV 等于本地计算的 KV；传输失败被检�
 - vLLM：[distributed/kv_transfer/kv_transfer_state.py:19-93](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/distributed/kv_transfer/kv_transfer_state.py#L19-L93)
 - SGLang：[disaggregation/base/conn.py:97-213](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/python/sglang/srt/disaggregation/base/conn.py#L97-L213)
 - 调研记录：dist#14
+
+### `topo.shared_slot`
+
+共享内存槽位在写者发布后交付原值；仍被读者使用的槽位不被复用，全部读者完成后才可回收；回绕不覆盖有效数据。
+
+- 阶段：并行拓扑、通信、权重加载/更新、PD 分离；类型：resource
+- 判定：用不同容量、读者数量和读者完成顺序驱动写入/读取/回绕，逐次核对槽位身份、读回值与可复用状态。
+- 条件：`shared_buffer_kind`, `reader_count`, `buffer_wraparound`
+- 框架差异：vLLM 的对象存储用单调 ID、内存区间和可回收回调管理变长数据；SGLang 的消息环用固定槽及每个读者的完成标志。
+- vLLM：[distributed/device_communicators/shm_object_storage.py:218-318](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/distributed/device_communicators/shm_object_storage.py#L218-L318)；[distributed/device_communicators/shm_broadcast.py:732-804](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/distributed/device_communicators/shm_broadcast.py#L732-L804)
+- SGLang：[distributed/device_communicators/shm_broadcast.py:32-85](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/python/sglang/srt/distributed/device_communicators/shm_broadcast.py#L32-L85)；[distributed/device_communicators/shm_broadcast.py:339-432](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/python/sglang/srt/distributed/device_communicators/shm_broadcast.py#L339-L432)
+- 调研记录：transport#1, transport#2
 
 ### `topo.weight_update`（扩展）
 
