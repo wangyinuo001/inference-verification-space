@@ -5,9 +5,9 @@
 | 层 | 名称 | 需要真实运行的部分 | 单元数 |
 |---|---|---|---|
 | B0 | 纯函数 | 单个函数/算子，无系统状态 | 12 |
-| B1 | 单组件状态机 | 一个带状态的组件（分配器、基数树、调度器、增量解码器、解析器） | 26 |
+| B1 | 单组件状态机 | 一个带状态的组件（分配器、基数树、调度器、增量解码器、解析器） | 27 |
 | B2 | 单步引擎 | 调度结果+状态+一次真实前向（含图/填充） | 11 |
-| B3 | 单请求多步 | 单引擎实例上一个请求的完整生成 | 13 |
+| B3 | 单请求多步 | 单引擎实例上一个请求的完整生成 | 14 |
 | B4 | 多请求并发 | 同一实例上多个请求的批组成与相互干扰 | 2 |
 | B5 | 多进程拓扑 | TP/PP/DP/EP/PD 多进程与通信 | 5 |
 
@@ -200,14 +200,27 @@ logits 处理按声明顺序作用：白名单/禁用词 → 影响 argmax 的�
 
 ### `sched.abort`
 
-取消幂等；被取消请求最终从等待、运行、分块、挂起各结构中移除，只产生一个终止结果，并释放其独占资源。
+取消幂等；被取消请求最终从等待、运行、分块、挂起各结构中移除，并释放其独占资源。
 
 - 阶段：准入、批组成、分块、抢占、取消与结束；类型：protocol
-- 判定：伪模型下在等待/运行/分块中途三种时刻取消，检查结构与资源。
+- 判定：伪模型下在等待/运行/分块中途取消，检查目标请求的结构与资源。
 - 条件：`abort_timing`, `chunk_size`, `overlap`
 - 框架差异：SGLang 对分块中的请求延迟取消（_pending_chunked_abort_req）；vLLM 在 EngineCore 步边界处理取消队列。只能要求最终清理，不能要求同步生效。
 - vLLM：[v1/engine/core.py:606-612](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/v1/engine/core.py#L606-L612)；[v1/engine/core.py:869-877](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/v1/engine/core.py#L869-L877)
 - SGLang：[managers/scheduler.py:3774-3815](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/python/sglang/srt/managers/scheduler.py#L3774-L3815)；[managers/scheduler.py:2464-2510](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/python/sglang/srt/managers/scheduler.py#L2464-L2510)
+- 调研记录：sched#11, sched#12
+
+### `sched.abort_unaffected`
+
+选择性取消一个请求时，其他已接纳请求的运行资格和调度进度保持有效。
+
+- 阶段：准入、批组成、分块、抢占、取消与结束；类型：protocol
+- 判定：同一批中取消目标请求，逐步检查其他请求仍在队列或继续执行；有最终输出时再检查正常结束。
+- 条件：`abort_timing`, `batch_shape`
+- 依赖：`sched.abort`
+- 框架差异：vLLM 的固定测试检查另外两个请求仍在运行队列；SGLang 的 HTTP 测试检查另外两个请求最终正常完成。
+- vLLM：[v1/core/sched/scheduler.py:3124-3165](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/v1/core/sched/scheduler.py#L3124-L3165)
+- SGLang：[managers/scheduler.py:3874-3885](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/python/sglang/srt/managers/scheduler.py#L3874-L3885)
 - 调研记录：sched#11, sched#12
 
 ### `sched.budget`
@@ -741,6 +754,19 @@ n>1 时返回恰好 n 个带正确索引的选项；所有选项结束后才结�
 - vLLM：[v1/engine/output_processor.py:70-84](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/v1/engine/output_processor.py#L70-L84)；[v1/engine/output_processor.py:184-257](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/v1/engine/output_processor.py#L184-L257)
 - SGLang：[managers/tokenizer_manager.py:1839-1950](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/python/sglang/srt/managers/tokenizer_manager.py#L1839-L1950)
 - 调研记录：reqio#7
+
+### `out.no_late_output`
+
+取消生效后到达的旧计算结果不得作为正常响应交付。
+
+- 阶段：增量解码、停止、流式组装、解析、用量；类型：protocol
+- 判定：使取消与已启动计算交叠，记录请求身份、取消事件和随后到达的结果，检查无迟到正常交付。
+- 条件：`abort_timing`, `overlap`, `stream`
+- 依赖：`sched.abort`
+- 组合缺口：请求状态已删除的局部跳过逻辑仍需与实际取消事件、在途输出和客户端交付组成同一次序列。
+- vLLM：[v1/engine/output_processor.py:762-767](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/v1/engine/output_processor.py#L762-L767)
+- SGLang：[managers/tokenizer_manager.py:1848-1858](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/python/sglang/srt/managers/tokenizer_manager.py#L1848-L1858)
+- 调研记录：reqio#14, sched#11
 
 ### `out.stream_parity`
 

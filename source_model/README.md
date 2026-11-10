@@ -4,7 +4,7 @@
 
 | 文件 | 内容 |
 |---|---|
-| `space_model.json` | 模型本体：维度、条件、约束、执行扰动、69 个单元 |
+| `space_model.json` | 模型本体：维度、条件、约束、执行扰动、71 个单元 |
 | `units.md` | 按判定层次列出的单元表，源码位置链接到固定 commit |
 | `build_model.py` | 模型定义，运行后生成 `space_model.json` |
 | `check_model.py` | 校验模型；`--changed` 查询改动文件影响的单元范围 |

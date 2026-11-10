@@ -592,8 +592,8 @@
    "stage": "S3_schedule",
    "kind": "protocol",
    "boundary": "B1",
-   "property": "取消幂等；被取消请求最终从等待、运行、分块、挂起各结构中移除，只产生一个终止结果，并释放其独占资源。",
-   "oracle": "伪模型下在等待/运行/分块中途三种时刻取消，检查结构与资源。",
+   "property": "取消幂等；被取消请求最终从等待、运行、分块、挂起各结构中移除，并释放其独占资源。",
+   "oracle": "伪模型下在等待/运行/分块中途取消，检查目标请求的结构与资源。",
    "conditions": [
     "abort_timing",
     "chunk_size",
@@ -612,6 +612,37 @@
     "sglang": [
      "s:managers/scheduler.py:3774-3815",
      "s:managers/scheduler.py:2464-2510"
+    ]
+   },
+   "trace": [
+    "sched#11",
+    "sched#12"
+   ]
+  },
+  {
+   "id": "sched.abort_unaffected",
+   "stage": "S3_schedule",
+   "kind": "protocol",
+   "boundary": "B1",
+   "property": "选择性取消一个请求时，其他已接纳请求的运行资格和调度进度保持有效。",
+   "oracle": "同一批中取消目标请求，逐步检查其他请求仍在队列或继续执行；有最终输出时再检查正常结束。",
+   "conditions": [
+    "abort_timing",
+    "batch_shape"
+   ],
+   "depends_on": [
+    "sched.abort"
+   ],
+   "composition_gap": null,
+   "perturbation": null,
+   "divergence": "vLLM 的固定测试检查另外两个请求仍在运行队列；SGLang 的 HTTP 测试检查另外两个请求最终正常完成。",
+   "status": "common",
+   "sites": {
+    "vllm": [
+     "v:v1/core/sched/scheduler.py:3124-3165"
+    ],
+    "sglang": [
+     "s:managers/scheduler.py:3874-3885"
     ]
    },
    "trace": [
@@ -1745,6 +1776,38 @@
    },
    "trace": [
     "reqio#14"
+   ]
+  },
+  {
+   "id": "out.no_late_output",
+   "stage": "S8_output",
+   "kind": "protocol",
+   "boundary": "B3",
+   "property": "取消生效后到达的旧计算结果不得作为正常响应交付。",
+   "oracle": "使取消与已启动计算交叠，记录请求身份、取消事件和随后到达的结果，检查无迟到正常交付。",
+   "conditions": [
+    "abort_timing",
+    "overlap",
+    "stream"
+   ],
+   "depends_on": [
+    "sched.abort"
+   ],
+   "composition_gap": "请求状态已删除的局部跳过逻辑仍需与实际取消事件、在途输出和客户端交付组成同一次序列。",
+   "perturbation": null,
+   "divergence": null,
+   "status": "common",
+   "sites": {
+    "vllm": [
+     "v:v1/engine/output_processor.py:762-767"
+    ],
+    "sglang": [
+     "s:managers/tokenizer_manager.py:1848-1858"
+    ]
+   },
+   "trace": [
+    "reqio#14",
+    "sched#11"
    ]
   },
   {

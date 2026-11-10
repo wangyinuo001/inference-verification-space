@@ -199,13 +199,21 @@ unit("sched.preempt_state", "S3_schedule", "resource", "B1",
      ["sched#9"],
      divergence="vLLM 用 PREEMPTED 状态枚举；SGLang 通过队列/批重组表达回撤，不存在等价枚举，应检查重新入队语义而非状态值。")
 unit("sched.abort", "S3_schedule", "protocol", "B1",
-     "取消幂等；被取消请求最终从等待、运行、分块、挂起各结构中移除，只产生一个终止结果，并释放其独占资源。",
-     "伪模型下在等待/运行/分块中途三种时刻取消，检查结构与资源。",
+     "取消幂等；被取消请求最终从等待、运行、分块、挂起各结构中移除，并释放其独占资源。",
+     "伪模型下在等待/运行/分块中途取消，检查目标请求的结构与资源。",
      ["abort_timing", "chunk_size", "overlap"],
      {"vllm": ["v:v1/engine/core.py:606-612", "v:v1/engine/core.py:869-877"],
       "sglang": ["s:managers/scheduler.py:3774-3815", "s:managers/scheduler.py:2464-2510"]},
      ["sched#11", "sched#12"],
      divergence="SGLang 对分块中的请求延迟取消（_pending_chunked_abort_req）；vLLM 在 EngineCore 步边界处理取消队列。只能要求最终清理，不能要求同步生效。")
+unit("sched.abort_unaffected", "S3_schedule", "protocol", "B1",
+     "选择性取消一个请求时，其他已接纳请求的运行资格和调度进度保持有效。",
+     "同一批中取消目标请求，逐步检查其他请求仍在队列或继续执行；有最终输出时再检查正常结束。",
+     ["abort_timing", "batch_shape"],
+     {"vllm": ["v:v1/core/sched/scheduler.py:3124-3165"],
+      "sglang": ["s:managers/scheduler.py:3874-3885"]},
+     ["sched#11", "sched#12"], depends=["sched.abort"],
+     divergence="vLLM 的固定测试检查另外两个请求仍在运行队列；SGLang 的 HTTP 测试检查另外两个请求最终正常完成。")
 
 # ---- S4 state -------------------------------------------------------------------
 unit("kv.conservation", "S4_state", "resource", "B1",
@@ -492,6 +500,14 @@ unit("out.finish_reason", "S8_output", "contract", "B3",
      ["stop_config", "abort_timing"],
      {"vllm": ["v:v1/engine/output_processor.py:425-532"], "sglang": ["s:managers/tokenizer_manager.py:1381-1424"]},
      ["reqio#14"], depends=["out.stop", "sched.abort"])
+unit("out.no_late_output", "S8_output", "protocol", "B3",
+     "取消生效后到达的旧计算结果不得作为正常响应交付。",
+     "使取消与已启动计算交叠，记录请求身份、取消事件和随后到达的结果，检查无迟到正常交付。",
+     ["abort_timing", "overlap", "stream"],
+     {"vllm": ["v:v1/engine/output_processor.py:762-767"],
+      "sglang": ["s:managers/tokenizer_manager.py:1848-1858"]},
+     ["reqio#14", "sched#11"], depends=["sched.abort"],
+     gap="请求状态已删除的局部跳过逻辑仍需与实际取消事件、在途输出和客户端交付组成同一次序列。")
 unit("out.stream_parity", "S8_output", "equivalence", "B3",
      "同一请求流式各选项增量的拼接，与非流式最终响应在文本、工具调用、logprob、用量上等价。",
      "同种子同配置两次执行比较。",
