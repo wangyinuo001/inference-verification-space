@@ -124,6 +124,110 @@ for _name, _line in _EBNF_CASES.items():
         f"ebnf_{_name}",
     )
 
+# Request-behavior methods reviewed at their shared definition and delegated
+# assertion sites.  These describe only what the assertions check; a source
+# location or method name alone never promotes an inherited entry to green.
+RULES.update({
+    ("python/sglang/test/kits/matched_stop_kit.py", "test_finish_stop_str"):
+        ("output.stop_boundary", "补全和聊天接口对换行停止均返回 stop 原因与匹配的换行符。",
+         "python/sglang/test/kits/matched_stop_kit.py:48;python/sglang/test/kits/matched_stop_kit.py:52;python/sglang/test/kits/matched_stop_kit.py:92;python/sglang/test/kits/matched_stop_kit.py:96",
+         "两种接口、零温度、换行 stop；只检查停止元数据，不断言返回文本的截断边界。", "stop_string_metadata"),
+    ("python/sglang/test/kits/matched_stop_kit.py", "test_finish_stop_regex_str"):
+        ("output.stop_boundary", "补全和聊天接口对声明的正则停止返回 stop 原因与该正则；聊天接口另检查句末正则。",
+         "python/sglang/test/kits/matched_stop_kit.py:48;python/sglang/test/kits/matched_stop_kit.py:52;python/sglang/test/kits/matched_stop_kit.py:92;python/sglang/test/kits/matched_stop_kit.py:96",
+         "零温度；and|or 与句末正则；只检查元数据，未检查实际命中位置、文本边界或多个候选的优先级。", "stop_regex_metadata"),
+    ("python/sglang/test/kits/matched_stop_kit.py", "test_finish_stop_eos"):
+        ("output.stop_boundary", "Llama 格式输入及聊天请求停止时，返回 stop 原因，匹配对象属于给定 EOS token ID 列表。",
+         "python/sglang/test/kits/matched_stop_kit.py:48;python/sglang/test/kits/matched_stop_kit.py:52;python/sglang/test/kits/matched_stop_kit.py:92;python/sglang/test/kits/matched_stop_kit.py:96",
+         "测试类模型与 EOS 列表相关；只检查元数据，不检查文本边界。", "stop_eos_metadata"),
+    ("python/sglang/test/kits/matched_stop_kit.py", "test_finish_length"):
+        ("output.stop_boundary", "最大输出长度为五时，两种接口返回 length 原因且 matched_stop 为空。",
+         "python/sglang/test/kits/matched_stop_kit.py:48;python/sglang/test/kits/matched_stop_kit.py:52;python/sglang/test/kits/matched_stop_kit.py:92;python/sglang/test/kits/matched_stop_kit.py:96",
+         "零温度、max_tokens=5；未断言实际生成 token 数或文本长度。", "length_stop_metadata"),
+    ("python/sglang/test/kits/kl_divergence_kit.py", "test_input_output_logprobs_match_prefill_cache_hit"):
+        ("cache.result_relation", "对实际前缀缓存命中的样本，将生成时的输出 logprob 与清缓存后重算的输入 logprob 比较平均近似 KL。",
+         "python/sglang/test/kl_test_utils.py:245;python/sglang/test/kl_test_utils.py:256;python/sglang/test/kl_test_utils.py:264;python/sglang/test/kl_test_utils.py:114",
+         "radix cache 未关闭；只比较命中样本；默认要求命中数超过一半，但环境变量可跳过该断言；阈值、模型和样本数由继承类给定。", "prefill_hit_kl"),
+    ("python/sglang/test/kits/kl_divergence_kit.py", "test_input_output_logprobs_match_decode_cache_hit"):
+        ("cache.result_relation", "对实际 Decode 缓存命中的样本，将第二轮生成 logprob 与清缓存后重算的输入 logprob 比较平均近似 KL。",
+         "python/sglang/test/kl_test_utils.py:314;python/sglang/test/kl_test_utils.py:325;python/sglang/test/kl_test_utils.py:333;python/sglang/test/kl_test_utils.py:114",
+         "radix cache 未关闭；只比较命中样本；默认要求命中数超过一半，但环境变量可跳过该断言；阈值、模型和样本数由继承类给定。", "decode_hit_kl"),
+    ("python/sglang/test/kits/prefix_cache_branching_kit.py", "test_prefix_cache_branching"):
+        ("cache.hit_accounting", "相同前缀的三条分支请求依次报告 0、0、按缓存块大小对齐的前缀命中 token 数。",
+         "python/sglang/test/kits/prefix_cache_branching_kit.py:44;python/sglang/test/kits/prefix_cache_branching_kit.py:48",
+         "先清缓存；三个顺序请求的共同前缀为 257 次 hi；块大小由继承类设置；只核对 cached_tokens，不比较输出。", "prefix_branch_hit_count"),
+})
+
+_TOOL = "tests/tool_parsers/common_tests.py"
+RULES.update({
+    (_TOOL, "test_no_tool_calls"):
+        ("tool.call_parse_relation", "纯文本解析后保持原文，工具调用列表为空。", f"{_TOOL}:152;{_TOOL}:155",
+         "解析器、输入和流式模式来自子类 fixture；部分组合可标记 xfail。", "tool_plain_text"),
+    (_TOOL, "test_single_tool_call_simple_args"):
+        ("tool.call_parse_relation", "解析出一个函数调用，并核对类型、名称及预期参数键值；仅配置了期望正文时才比较正文。",
+         f"{_TOOL}:174;{_TOOL}:177;{_TOOL}:178;{_TOOL}:179;{_TOOL}:183",
+         "解析器、输入、期望值和流式模式来自子类 fixture；参数只逐项检查配置中列出的键；部分组合可标记 xfail。", "tool_single_call"),
+    (_TOOL, "test_parallel_tool_calls"):
+        ("tool.call_parse_relation", "核对并行调用的数量、顺序中的函数名与调用 ID 唯一性。",
+         f"{_TOOL}:205;{_TOOL}:212;{_TOOL}:213;{_TOOL}:217",
+         "期望数量与名称由子类 fixture 设置；不比较参数内容或正文；部分流式组合可标记 xfail。", "tool_parallel_calls"),
+    (_TOOL, "test_various_data_types"):
+        ("tool.call_parse_relation", "解析出一个调用，参数 JSON 包含七类预期字段；启用类型检查时逐项核对精确类型。",
+         f"{_TOOL}:236;{_TOOL}:250;{_TOOL}:255",
+         "是否核对类型由子类 supports_typed_arguments 决定；不比较所有字段的具体值；部分组合可标记 xfail。", "tool_argument_types"),
+    (_TOOL, "test_empty_arguments"):
+        ("tool.call_parse_relation", "解析出一个调用，参数是空字符串或空 JSON 对象的允许形式。",
+         f"{_TOOL}:275;{_TOOL}:279;{_TOOL}:281",
+         "允许形式由子类 allow_empty_or_json_empty_args 决定；部分组合可标记 xfail。", "tool_empty_args"),
+    (_TOOL, "test_surrounding_text"):
+        ("tool.call_parse_relation", "带正文的输入至少解析出一个工具调用。", f"{_TOOL}:298",
+         "输入由子类 fixture 设置；不比较保留的正文、名称、参数或顺序；部分组合可标记 xfail。", "tool_surrounding_count"),
+    (_TOOL, "test_escaped_strings"):
+        ("tool.call_parse_relation", "解析出一个调用，其参数可作为非空 JSON 对象解析。",
+         f"{_TOOL}:317;{_TOOL}:322",
+         "转义输入由子类 fixture 设置；不逐字符比较转义结果；部分组合可标记 xfail。", "tool_escaped_parseable"),
+    (_TOOL, "test_streaming_reconstruction"):
+        ("tool.call_parse_relation", "同一输入的流式与非流式解析正文及工具数量相等；若有调用，只核对首项名称与参数。",
+         f"{_TOOL}:366;{_TOOL}:367;{_TOOL}:369;{_TOOL}:370",
+         "解析器和输入由子类 fixture 设置；不比较后续调用或 ID；流式组合可标记 xfail。", "tool_stream_reconstruction"),
+})
+
+_VLM = "python/sglang/test/vlm_utils.py"
+RULES.update({
+    (_VLM, "test_single_image_chat_completion"):
+        ("quality.sample_semantic_expectation", "图像回答包含车辆和熨衣或持衣相关关键词，并检查响应字段及 token 用量为正。",
+         f"{_VLM}:219;{_VLM}:227;{_VLM}:235;{_VLM}:238;{_VLM}:240",
+         "固定熨衣图像、继承类模型与服务；第 225 行的 `or 'person'` 恒真，不构成人物识别检查；关键词仅为样本级条件。", "vlm_single_image"),
+    (_VLM, "test_multi_turn_chat_completion"):
+        ("quality.sample_semantic_expectation", "图像对话的后续回答包含 man 或 cab，并检查响应字段及 token 用量为正。",
+         f"{_VLM}:313;{_VLM}:315;{_VLM}:316;{_VLM}:319;{_VLM}:321",
+         "固定图像、先前 assistant 文本和复述请求；模型与服务由继承类设置；不验证图像在内部的绑定。", "vlm_multi_turn"),
+    (_VLM, "test_multi_images_chat_completion"):
+        ("quality.sample_semantic_expectation", "双图回答分别包含车辆类与 logo 类关键词，并检查响应字段及 token 用量为正。",
+         f"{_VLM}:355;{_VLM}:357;{_VLM}:361;{_VLM}:368;{_VLM}:371;{_VLM}:373",
+         "固定两图及提示词；模型与服务由继承类设置；不直接检查图像占位位置或顺序。", "vlm_two_images"),
+    (_VLM, "test_video_images_chat_completion"):
+        ("quality.sample_semantic_expectation", "抽帧后的视频回答命中设备、人物和动作三组关键词且非空。",
+         f"{_VLM}:441;{_VLM}:451;{_VLM}:465;{_VLM}:476;{_VLM}:477",
+         "固定视频预抽取十帧作为图像输入；只检查样本级词组，不核对帧选择正确性。", "vlm_video_frames_answer"),
+    (_VLM, "test_video_chat_completion"):
+        ("quality.sample_semantic_expectation", "原生 video_url 请求的回答命中设备、人物、动作和颜色四组关键词且非空。",
+         f"{_VLM}:520;{_VLM}:526;{_VLM}:534;{_VLM}:540;{_VLM}:543;{_VLM}:544",
+         "固定视频及提示词；继承类模型与服务；只检查样本级词组，不核对视频帧时序。", "vlm_video_answer"),
+    (_VLM, "test_audio_speech_completion"):
+        ("quality.sample_semantic_expectation", "语音转写回答非空，并包含五个预期短语。",
+         f"{_VLM}:147;{_VLM}:148;{_VLM}:98",
+         "固定演讲音频、英文转写提示和零温度；模型与服务由继承类设置。", "vlm_speech_answer"),
+    (_VLM, "test_audio_ambient_completion"):
+        ("quality.sample_semantic_expectation", "环境声音回答非空，且包含 bird。",
+         f"{_VLM}:147;{_VLM}:148;{_VLM}:168",
+         "固定鸟鸣音频、英文转写提示和零温度；模型与服务由继承类设置。", "vlm_bird_answer"),
+    (_VLM, "test_mixed_modality_chat_completion"):
+        ("quality.sample_semantic_expectation", "图像加语音回答满足车辆或熨衣相关词组及五个语音短语检查。",
+         f"{_VLM}:585;{_VLM}:98;{_VLM}:227;{_VLM}:235",
+         "固定图像和演讲音频；第 225 行人物词判断恒真；不验证跨模态位置绑定或两段内容的相互独立性。", "vlm_image_audio_answer"),
+})
+
 
 def main() -> dict[str, int]:
     if all((root / ("vllm" if name == "vllm" else "python/sglang")).is_dir() for name, root in ROOTS.items()):
