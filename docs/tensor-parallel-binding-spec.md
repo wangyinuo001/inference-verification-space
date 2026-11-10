@@ -1,0 +1,9 @@
+# 张量并行分片绑定的验证规格
+
+验证对象是逻辑线性层在 TP 配置下的逐 rank 执行，而不是某个框架的类名。给定逻辑输入 (X)、权重 (W)、可选偏置 (b) 和 rank 到分片的映射，记录每个 rank 实际接收的输入切片、加载的权重切片和局部输出，再检查它们能否按声明的规则重建 (XW^T+b)。vLLM 的[行并行实现](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/model_executor/layers/linear.py#L1836)与 SGLang 的[对应实现](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/python/sglang/srt/layers/linear.py#L1519)都在输入尚未分片时按最后一维切分，选取本 rank 的切片；局部线性输出经跨卡归约。两者的[列并行路径](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/model_executor/layers/linear.py#L623)则产生输出分片，并可选择汇集。
+
+第一组检查使用 TP=2、可区分位置和值的输入与权重。行并行路径分别检查 rank 0 和 rank 1 消费的输入列区间、对应权重列区间、局部输出，以及归约后的结果；偏置只计入一次。列并行路径检查每个 rank 产生的输出列区间，并在启用汇集时检查拼接顺序与逻辑输出。输入元素与权重行列均采用不同值，使交换 rank、错位切片和重复偏置能在结果中区分。判定使用同一次模型调用的分片映射、权重版本和逻辑输入；数值容差随精度与计算内核记录。
+
+第二组改变 `input_is_parallel`、`reduce_results`、`gather_output`、精度和权重加载方式，分别检查各分支的适用条件。SGLang 的[DP attention 归约和量化归约分支](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/python/sglang/srt/layers/linear.py#L1533)作为扩展配置单独记录；vLLM 的[列并行权重加载](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/vllm/model_executor/layers/linear.py#L595)及 SGLang 的[按 rank 加载](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/python/sglang/srt/layers/linear.py#L450)需要与执行时使用的权重切片对应。空间中的 `distributed.partition_binding` 承担逐 rank 绑定检查，`distributed.reduce_relation` 承担通信结果检查，`model.reference_relation` 承担最终模型结果对照；三者由同一调用身份、输入和权重版本连接。
+
+当前两套源码均有分片实现，已定位的[vLLM 通信测试](https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/tests/distributed/test_custom_all_reduce.py#L850)与[SGLang 通信测试](https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/test/registered/jit/test_custom_all_reduce.py#L181)主要比较归约结果。逐 rank 的输入、权重与局部输出绑定是独立验证仓库首先需要补出的检查。
