@@ -60,14 +60,14 @@
 <body>
 <div id="app">
   <header>
-    <div><h1>测试归类进度</h1><p class="subtitle">每个小方格对应一个源码级测试入口；按仓库与文件排列。</p></div>
+    <div><h1>测试归类进度</h1><p class="subtitle">每个小方格代表一个测试。颜色显示我们已经查清它到哪一步；测试按仓库和文件排列。</p></div>
     <div class="stamp">2026-11-10 · vLLM 76a0ccc · SGLang 0.5.14</div>
   </header>
   <div class="metrics">
-    <div class="metric green"><strong id="greenCount">—</strong><span id="greenCaption">已核对性质并归入早期候选空间</span><div class="progress"><i id="progressBar"></i></div></div>
-    <div class="metric"><strong id="linkedCount">—</strong><span>源码调用结果连到断言，且有单一环节线索</span></div>
-    <div class="metric"><strong id="stageCount">—</strong><span>具有单一推理环节线索，含上述源码关联</span></div>
-    <div class="metric"><strong id="totalCount">—</strong><span>入口已完成全量源码扫描</span></div>
+    <div class="metric green"><strong id="greenCount">—</strong><span id="greenCaption">已确认测试检查什么</span><div class="progress"><i id="progressBar"></i></div></div>
+    <div class="metric"><strong id="linkedCount">—</strong><span>找到被测函数和检查语句</span></div>
+    <div class="metric"><strong id="stageCount">—</strong><span>大致知道属于哪个推理环节</span></div>
+    <div class="metric"><strong id="totalCount">—</strong><span>收录的测试</span></div>
   </div>
   <div class="main">
     <section class="panel matrix-panel" aria-label="测试入口状态矩阵">
@@ -76,34 +76,37 @@
           <button type="button" data-framework="all" class="active">全部</button><button type="button" data-framework="vllm">vLLM</button><button type="button" data-framework="sglang">SGLang</button>
         </div>
         <input id="search" type="search" placeholder="搜索文件或测试名" aria-label="搜索文件或测试名">
-        <select id="statusFilter" aria-label="按证据状态筛选"><option value="all">全部状态</option><option value="g">已核对性质</option><option value="l">源码目标与断言关联</option><option value="h">领域与断言关联</option><option value="r">已读待细分</option><option value="s">符号候选</option><option value="m">模块候选</option><option value="p">环节候选</option><option value="x">多环节或冲突</option><option value="a">相邻领域</option><option value="d">其他线索</option><option value="u">需定位</option><option value="o">范围外</option></select>
+        <select id="statusFilter" aria-label="按检查进度筛选"><option value="all">全部状态</option><option value="g">已确认检查内容</option><option value="l">找到被测函数和检查</option><option value="h">找到检查，位置待核</option><option value="r">已读源码，还需细分</option><option value="s">找到相关函数</option><option value="m">找到相关代码</option><option value="p">大致找到所属环节</option><option value="x">涉及多处，待核对</option><option value="a">框架周边功能</option><option value="d">其他信息</option><option value="u">还没找到检查位置</option><option value="o">暂不属于推理验证</option></select>
         <span class="match-count" id="matchCount"></span>
       </div>
       <div class="canvas-wrap" id="canvasWrap"><canvas id="grid" role="img" aria-label="按仓库和文件排列的三万余个测试入口状态方格"></canvas></div>
       <div class="legend" aria-label="颜色说明">
-        <span><i style="background:#2e8b57"></i>已核对性质</span><span><i style="background:#278f9a"></i>源码目标与断言关联</span><span><i style="background:#69b4bc"></i>领域与断言关联</span><span><i style="background:#d6a345"></i>已读待细分</span><span><i style="background:#76418c"></i>符号候选</span><span><i style="background:#b9a0c9"></i>模块候选</span><span><i style="background:#a8c7da"></i>环节候选</span><span><i style="background:#d7c6a6"></i>多环节或冲突</span><span><i style="background:#d1d1d6"></i>相邻领域</span><span><i style="background:#df9475"></i>需定位</span><span><i style="background:#f0f0f1;border:1px solid #d4d4d8"></i>范围外</span>
+        <span><i style="background:#2e8b57"></i>已确认检查内容</span><span><i style="background:#278f9a"></i>找到被测函数和检查</span><span><i style="background:#69b4bc"></i>找到检查，位置待核</span><span><i style="background:#d6a345"></i>已读源码，还需细分</span><span><i style="background:#76418c"></i>找到相关函数</span><span><i style="background:#b9a0c9"></i>找到相关代码</span><span><i style="background:#a8c7da"></i>大致找到所属环节</span><span><i style="background:#d7c6a6"></i>涉及多处，待核对</span><span><i style="background:#d1d1d6"></i>框架周边功能</span><span><i style="background:#df9475"></i>还没找到检查位置</span><span><i style="background:#f0f0f1;border:1px solid #d4d4d8"></i>暂不属于推理验证</span>
       </div>
     </section>
     <aside class="panel" id="details" aria-live="polite">
-      <div class="breakdown"><div class="breakdown-title">绿色入口按仓库</div><div class="breakdown-row"><span>vLLM</span><b id="vllmGreen"></b></div><div class="breakdown-row"><span>SGLang 0.5.14</span><b id="sglangGreen"></b></div></div>
-      <div class="breakdown" id="statusBreakdown"><div class="breakdown-title">全部入口的证据状态</div></div>
-      <h2>入口详情</h2><div id="emptyDetail">移动鼠标或点击方格查看测试、当前归类和源码依据。搜索会在原分布中突出匹配项。</div>
+      <div class="breakdown"><div class="breakdown-title">已确认检查内容的测试</div><div class="breakdown-row"><span>vLLM</span><b id="vllmGreen"></b></div><div class="breakdown-row"><span>SGLang 0.5.14</span><b id="sglangGreen"></b></div></div>
+      <div class="breakdown" id="statusBreakdown"><div class="breakdown-title">全部测试的检查进度</div></div>
+      <h2>测试详情</h2><div id="emptyDetail">移动鼠标或点击方格，查看测试所在源码、目前查到的内容和依据。</div>
       <div id="detailContent" hidden>
         <div class="detail-name" id="detailName"></div><span class="detail-state" id="detailState"></span>
         <div class="detail-row"><b>源码位置</b><div class="detail-path" id="detailPath"></div><a id="sourceLink" target="_blank" rel="noopener">打开源码</a></div>
-        <div class="detail-row"><b>验证单元或候选</b><div class="detail-value" id="detailUnits"></div></div>
-        <div class="detail-row"><b>推理环节与依据</b><div class="detail-value" id="detailStage"></div></div>
-        <div class="detail-row"><b>断言形式</b><div class="detail-value" id="detailOracle"></div></div>
-        <div class="detail-row"><b>被观察的表达式</b><div class="detail-value" id="detailSubject"></div></div>
+        <div class="detail-row"><b>目前对应的检查</b><div class="detail-value" id="detailUnits"></div></div>
+        <div class="detail-row"><b>具体检查内容</b><div class="detail-value" id="detailProperty"></div></div>
+        <div class="detail-row"><b>所属环节与依据</b><div class="detail-value" id="detailStage"></div></div>
+        <div class="detail-row"><b>检查方式</b><div class="detail-value" id="detailOracle"></div></div>
+        <div class="detail-row"><b>源码中的检查位置</b><div class="detail-value" id="detailSubject"></div></div>
       </div>
-      <p class="footnote">绿色表示具体检查性质已核对；深青色表示直接调用目标及其结果断言支持环节定位，浅青色表示调用结果进入断言但环节仍依据测试领域判断。其他颜色记录不同强度的线索。</p>
+      <p class="footnote">绿色已核对测试源码、检查内容和图中的对应位置。其他颜色表示目前只找到部分信息，还没有确认它具体检查什么。</p>
     </aside>
   </div>
 </div>
 <script>
 const DATA = /*__DATA__*/;
 const COLORS = {g:'#2e8b57',l:'#278f9a',h:'#69b4bc',r:'#d6a345',s:'#76418c',m:'#b9a0c9',p:'#a8c7da',x:'#d7c6a6',a:'#d1d1d6',d:'#e5e1e7',u:'#df9475',o:'#f0f0f1'};
-const LABELS = {g:'已核对性质',l:'源码目标与断言关联',h:'领域与断言关联',r:'已读待细分',s:'符号候选',m:'模块候选',p:'环节候选',x:'多环节或冲突',a:'相邻领域',d:'其他线索',u:'需定位',o:'范围外'};
+const LABELS = {g:'已确认检查内容',l:'找到被测函数和检查',h:'找到检查，位置待核',r:'已读源码，还需细分',s:'找到相关函数',m:'找到相关代码',p:'大致找到所属环节',x:'涉及多处，待核对',a:'框架周边功能',d:'其他信息',u:'还没找到检查位置',o:'暂不属于推理验证'};
+const EVIDENCE={object_candidates:'根据测试所在领域判断',direct_product_result_to_assertion:'被测函数的结果进入检查语句',domain_with_direct_call_oracle_link:'找到调用和检查，所属环节根据测试内容判断',source_target_disagrees_with_domain:'被测函数与测试名称指向不同环节，需核对'};
+const CHECKS={comparison:'比较结果',predicate:'检查条件',other_assertion:'其他断言',equality_call:'检查相等',expected_exception:'预期报错',numeric_close:'检查数值误差',other_oracle:'其他检查',explicit_failure:'明确标记失败',mock_call:'检查模拟调用'};
 const STAGES={deployment_preflight:'部署配置',request_entry:'请求进入',scheduling:'调度',cache:'缓存',transport:'远程传输',distributed_execution:'分布式执行',model_compute:'模型计算',sampling:'采样',response:'结果返回',service_behavior:'服务行为',cancellation:'取消',resource_lifecycle:'资源生命周期',task_quality:'任务质量'};
 const COLS=320, CELL=4, GAP_ROWS=5;
 const canvas=document.getElementById('grid'), wrap=document.getElementById('canvasWrap'), ctx=canvas.getContext('2d');
@@ -116,7 +119,7 @@ document.getElementById('greenCount').textContent=fmt(DATA.counts.g||0);
 document.getElementById('totalCount').textContent=fmt(entries.length);
 document.getElementById('linkedCount').textContent=fmt(DATA.linkedStageCount||0);
 document.getElementById('stageCount').textContent=fmt(DATA.stageCount||0);
-document.getElementById('greenCaption').textContent=`已核对归类，占全部入口 ${((DATA.counts.g||0)/entries.length*100).toFixed(1)}%`;
+document.getElementById('greenCaption').textContent=`已确认检查内容，占全部测试 ${((DATA.counts.g||0)/entries.length*100).toFixed(1)}%`;
 document.getElementById('progressBar').style.width=((DATA.counts.g||0)/entries.length*100)+'%';
 document.getElementById('vllmGreen').textContent=fmt(DATA.frameworkCounts.vllm.g||0);
 document.getElementById('sglangGreen').textContent=fmt(DATA.frameworkCounts.sglang.g||0);
@@ -184,10 +187,12 @@ function show(index){
     ?'https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/'
     :'https://github.com/sgl-project/sglang/blob/49e384ce9d304648e9959666ecb8ce8cd98d0deb/';
   document.getElementById('sourceLink').href=sourceRoot+f[1].split('/').map(encodeURIComponent).join('/')+'#L'+e[2];
-  document.getElementById('detailUnits').textContent=e[4]||'尚无已核对的单元对应';
-  document.getElementById('detailStage').textContent=e[7]?`${STAGES[e[7]]||e[7]} · ${e[8]||'线索'}${e[9]?' · '+e[9]:''}${e[10]?' · 输入 '+e[10]:''}`:'尚无单一验证环节';
-  document.getElementById('detailOracle').textContent=e[5]||'尚未解析';
-  document.getElementById('detailSubject').textContent=e[6]||'尚未解析';
+  const names=e[4].split(/[;,]/).filter(Boolean).map(id=>DATA.unitNames[id]||id);
+  document.getElementById('detailUnits').textContent=names.length?names.join('；'):'尚未确认对应哪项检查';
+  document.getElementById('detailProperty').textContent=e[11]||'还未逐项确认检查内容';
+  document.getElementById('detailStage').textContent=e[7]?`${STAGES[e[7]]||e[7]}：${EVIDENCE[e[8]]||'仍需核对'}${e[9]?'；被测函数 '+e[9]:''}`:'尚未确定单一环节';
+  document.getElementById('detailOracle').textContent=e[5]?e[5].split(',').map(x=>CHECKS[x]||'其他检查').join('、'):'尚未找到检查语句';
+  document.getElementById('detailSubject').textContent=e[12]||e[6]||'尚未找到';
 }
 canvas.addEventListener('mousemove',event=>{const index=hit(event);if(index!==hover){hover=index;if(pinned<0)show(index);}});
 canvas.addEventListener('mouseleave',()=>{hover=-1;if(pinned<0)show(-1);});
