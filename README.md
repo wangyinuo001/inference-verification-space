@@ -42,6 +42,7 @@
 | [源码调研与分层模型](docs/source-model.md) | 执行路径对照、单元抽象、分层依据、跨层依赖、框架差异 |
 | [验证单元表](source_model/units.md) | 71 个单元按层次排列，源码位置链接到固定 commit |
 | [交互页面](https://wangyinuo001.github.io/inference-verification-space/semantic_space/space_view.html) | 按 16 类请求路径浏览早期候选空间，左侧可反查两套仓库的测试；文件约 49 MB，首次加载较慢 |
+| [测试归类进度](https://wangyinuo001.github.io/inference-verification-space/review_progress/) | 独立页面；一个方格对应一个测试入口，绿色表示已核对检查性质并映射到早期候选空间，可按仓库与状态筛选 |
 | [本周示意图](docs/figures/verification-space-weekly-20261109.png) | 以前缀缓存为例：两个框架的实现、共同验证需求与测试映射（[SVG](docs/figures/verification-space-weekly-20261109.svg)） |
 | [四条路径校准](docs/four-path-calibration.md) | 文本生成、前缀复用、运行中取消与张量并行的共同性质、已有断言及仍缺少的路径条件 |
 | [文本生成与取消的跨环节校准](docs/generation-abort-handoff.md) | 请求身份、批次行、token 位置、取消事件和资源释放的观察条件；对应的[结构化规格](semantic_space/handoff_contracts.json) |
@@ -70,6 +71,7 @@
 docs/              研究说明、分专题测试规格、示意图
 source_model/      源码派生的空间模型、校验与范围查询脚本、调研记录
 semantic_space/    早期候选空间、交互页面、测试索引与逐轮扫描结果
+review_progress/   独立的测试归类进度页面
 third_party/       源码快照说明（完整快照不随仓库发布）
 ```
 
