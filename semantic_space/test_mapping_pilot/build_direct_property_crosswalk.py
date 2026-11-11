@@ -12,6 +12,8 @@ import hashlib
 import json
 from pathlib import Path
 
+from build_core_direct_cases import PATH_HASHES as CORE_SOURCE_HASHES, reviewed_cases as core_reviewed_cases
+
 HERE = Path(__file__).resolve().parent
 PROJECT = HERE.parents[3]
 REPOS = PROJECT / "experiments/third_party/reference_repos"
@@ -948,6 +950,7 @@ CASES = {
     STRUCTURAL_TAG_KEY: {},
     CHAT_PARSING_KEY: {},
 }
+CASES.update({("vllm", path): {} for path in CORE_SOURCE_HASHES})
 
 CONDITIONS = {
     "configuration": "Pinned vLLM snapshot; parametrized model, platform, environment and config inputs are fixed in the linked test definition. Local config result only; no server start.",
@@ -972,6 +975,7 @@ CONDITIONS = {
     "vllm_parser_family_review": "Pinned vLLM snapshot; model-specific parser grammar, mocked tokenizer and exact text/token/chunk inputs at the linked definition. Parser output only; no model generation.",
     "round5_source_review": "Pinned framework snapshot; exact constructor, input text/chunks or sampling parameters and assertions are at the linked source definition. Local parser or parameter behavior only; no model generation or server run.",
     "round6_source_review": "Pinned vLLM snapshot; exact API message, parser template, tool grammar, model output and assertion inputs are in the linked definition. Local conversion, grammar or parsing behavior only; no model generation or server run.",
+    "core_source_review": "Pinned vLLM snapshot; requests, block layouts, transfer mocks, budgets and exact assertions are at the linked test definition. This is a local state or protocol check, not a GPU tensor-content or end-to-end model run.",
 }
 
 
@@ -1009,6 +1013,15 @@ def main() -> dict[str, int]:
     with (HERE / "stage-placement-all.tsv").open(encoding="utf-8", newline="") as f:
         index = {(r["snapshot"], r["path"], r["test_name"]): r for r in csv.DictReader(f, delimiter="\t")}
     units = {u["id"] for u in json.loads((HERE.parent / "space_seed.json").read_text())["units"]}
+    prior: dict[tuple[str, str], set[tuple[str, str]]] = {}
+    for filename in ("confirmed-property-crosswalk.tsv", "inherited-property-crosswalk.tsv"):
+        with (HERE / filename).open(encoding="utf-8", newline="") as stream:
+            for row in csv.DictReader(stream, delimiter="\t"):
+                prior.setdefault((row["snapshot"], row["path"]), set()).add((row["test_name"], row["line"]))
+    with (HERE.parent / "oracle-review-queue.tsv").open(encoding="utf-8", newline="") as stream:
+        for row in csv.DictReader(stream, delimiter="\t"):
+            if row["source_review_status"] == "mapped" and row["source_reviewed_units"]:
+                prior.setdefault((row["snapshot"], row["path"]), set()).add((row["test_name"], row["line"]))
     rows = []
     for (snapshot, path), cases in CASES.items():
         source = ROOTS[snapshot] / path
@@ -1024,6 +1037,8 @@ def main() -> dict[str, int]:
             cases = round5_cases((snapshot, path), source)
         elif (snapshot, path) in ROUND6_HASHES:
             cases = round6_cases((snapshot, path), source)
+        elif snapshot == "vllm" and path in CORE_SOURCE_HASHES:
+            cases = core_reviewed_cases(path, source, prior.get((snapshot, path), set()))
         nodes = test_nodes(ast.parse(source.read_text(encoding="utf-8")))
         for name, (unit, prop, rule) in cases.items():
             node = nodes[name]
