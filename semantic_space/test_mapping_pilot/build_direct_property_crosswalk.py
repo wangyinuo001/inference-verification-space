@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import ast
 import csv
+import hashlib
 import json
 from pathlib import Path
 
@@ -90,6 +91,27 @@ ENV = {
     "test_case_insensitive_validation": "Case-insensitive collection validation accepts mixed-case listed options.",
     "test_duplicate_values_preserved": "List parsing preserves duplicate allowed environment values.",
     "test_duplicate_values_deduped": "Set parsing removes duplicate allowed environment values.",
+}
+ENV_OTHER = {
+    "test_getattr_without_cache": ("deployment.effective_configuration", "Without the env cache, host and port settings reflect changed environment values."),
+    "test_p2p_side_channel_defaults_and_override": ("deployment.effective_configuration", "P2P host and port use declared defaults and accept environment overrides."),
+    "test_p2p_resource_limit_defaults_and_override": ("deployment.effective_configuration", "P2P peer and timeout limits use declared defaults and accept overrides."),
+    "test_getattr_with_cache": ("deployment.effective_configuration", "Enabling the env cache decorates lookup and records hits for host and port reads."),
+    "test_getattr_with_reset": ("deployment.effective_configuration", "Disabling the env cache restores visibility of changed host environment values."),
+    "test_is_envs_cache_enabled": ("deployment.effective_configuration", "Repeated env-cache enables are cleared by one disable call."),
+    "test_precompiled_install_flags_are_orthogonal": ("deployment.runtime_mode_binding", "Rust-frontend and C-extension precompiled flags are parsed independently."),
+    "test_rust_bench_auto_path_missing_fails_fast": ("deployment.configuration_admissibility", "Requesting the Rust bench frontend without its binary raises FileNotFoundError."),
+    "test_gdn_decode_kernel_env": ("deployment.effective_configuration", "GDN decode kernel defaults to CUDA, accepts CUDA/Triton and rejects unsupported values."),
+}
+ENV_LOGGING = {
+    "test_configure_logging_defaults_to_true": "Logging configuration defaults to boolean true when unset.",
+    "test_configure_logging_with_zero_string": "Logging configuration parses environment string '0' as boolean false.",
+    "test_configure_logging_with_one_string": "Logging configuration parses environment string '1' as boolean true.",
+    "test_configure_logging_with_invalid_value_raises_error": "Logging configuration rejects a nonnumeric environment string.",
+}
+ENV_MAX_N = {
+    "test_default_value": "The effective maximum number of sequences defaults to 16384, as asserted by the source test.",
+    "test_custom_value": "The effective maximum number of sequences accepts environment override 128.",
 }
 
 RESPONSE_HARMONY = {
@@ -248,6 +270,351 @@ RESPONSES_UTILS = {
     "TestConstructInputMessagesInstructionsLeak::test_no_prev_msg": "Without prior messages, the new instructions and user input become the two input messages.",
 }
 
+REASONING_KEY = ("sglang", "test/registered/unit/parser/test_reasoning_parser.py")
+REASONING_SHA256 = "56b4f38839ef1b6c8cbe19ec6fcb733f926e56abb383b2e79a4a5f4462be53ef"
+# We reviewed each class's test assertions. The excluded entries only check
+# result-container initialization, detector constructor fields, or a marker
+# insertion path that does not establish the selected channel-parse relation.
+REASONING_EXCLUDE = {
+    "TestStreamingParseResult": {"test_init_default", "test_init_with_values"},
+    "TestBaseReasoningFormatDetector": {"test_init"},
+    "TestDeepSeekR1Detector": {"test_init", "test_init_no_stream_reasoning"},
+    "TestQwen3Detector": {"test_init"},
+    "TestQwen3ForcedReasoningDetector": {"test_init"},
+    "TestKimiDetector": {"test_init"},
+    "TestKimiK2Detector": {"test_init"},
+    "TestGlm45Detector": {"test_init"},
+    "TestHunyuanDetector": {"test_init"},
+    "TestNemotron3Detector": {"test_init"},
+    "TestGemma4Detector": {"test_init"},
+    "TestReasoningParser": {"test_stream_reasoning_parameter"},
+    "TestMiniMaxAppendThinkDetector": {
+        "test_detect_and_parse_prepends_think", "test_streaming_first_chunk_prepends_think",
+        "test_streaming_second_chunk_no_prepend",
+    },
+    "TestReasoningParserAdvanced": {
+        "test_continue_final_message_with_request",
+        "test_force_nonempty_content_via_chat_template_kwargs",
+    },
+}
+REASONING_SELECTION_CLASSES = {
+    "TestBaseReasoningFormatDetector", "TestDeepSeekR1Detector", "TestQwen3Detector",
+    "TestQwen3ForcedReasoningDetector", "TestKimiDetector", "TestKimiK2Detector",
+    "TestGlm45Detector", "TestHunyuanDetector", "TestNemotron3Detector",
+    "TestGemma4Detector", "TestReasoningParser", "TestIntegrationScenarios",
+    "TestBufferLossBugFix", "TestGptOssDetector", "TestReasoningParserAdvanced",
+    "TestContinueFinalMessage", "TestGptOssDetectorToolCall", "TestPoolsideV1Registered",
+}
+
+CONFIG_KEY = ("vllm", "tests/test_config.py")
+CONFIG_SHA256 = "66339ade2425d76e68ca643a6aafb081265c5ea17e7b0975b160a7ee77a100e3"
+# These remaining functions check formatting, log messages, hashes or paths
+# outside the present configuration units, or have no asserted result.
+CONFIG_EXTRA_EXCLUDE = {
+    "test_dspark_adaptive_verification_separates_graph_cache",
+    "test_compile_config_repr_succeeds",
+    "test_v2_frontend_config_can_be_created_without_triton",
+    "test_engram_hash_tracks_execution_options",
+    "test_get_field",
+    "test_validate_mamba_align_subblock_prefill",
+    "test_target_only_gumbel_allows_speculative_decoding",
+    "test_speculative_watermarking_without_context_dedup_does_not_warn",
+    "test_speculative_context_dedup_logs_no_unsupported_warning",
+    "test_dual_key_gumbel_warns_that_configured_alpha_is_unused",
+    "test_dual_key_gumbel_alpha_warning_is_not_emitted",
+    "test_dual_key_gumbel_supports_probabilistic_speculative_decoding",
+    "test_gumbel_watermark_allows_unwatermarked_beam_search",
+    "test_watermark_key_is_excluded_from_serialization",
+    "test_mtp_draft_uses_model_weights_not_local_cache",
+    "test_qwen3_omni_dspark_checkpoint_contract_is_accepted",
+    "test_qwen3_omni_dspark_allows_draft_only_noise_token_row",
+    "test_qwen3_omni_dspark_allows_smaller_input_vocabulary",
+    "test_ir_op_platform_defaults_support_sparse_gelu",
+    "test_ir_op_priority_ctx",
+}
+
+PARSER_ENGINE_KEY = ("vllm", "tests/parser/engine/test_parser_engine.py")
+PARSER_ENGINE_SHA256 = "8326dd91459d65665f86285ebf2862066fbc8adb3a5a3e03885336673c12d10f"
+PARSER_ENGINE_EXCLUDE = {"TestReasoningEndTokenIds", "TestValuePostprocessorRemoved"}
+PARSER_ENGINE_TOP_EXCLUDE = {"test_implicit_reasoning_end_of_parsers"}
+
+DEEPSEEK_V4_KEY = ("vllm", "tests/parser/engine/test_deepseek_v4.py")
+QWEN3_TOOL_KEY = ("vllm", "tests/parser/engine/test_qwen3.py")
+QWEN3_REASONING_KEY = ("vllm", "tests/parser/engine/test_qwen3_reasoning.py")
+ENGINE_CORE_KEY = ("vllm", "tests/parser/engine/test_engine.py")
+ENGINE_FROZEN_HASHES = {
+    DEEPSEEK_V4_KEY: "160c33dbc50fc4cbd726d882b1f04292a30e8261f8c4636f428baa3b84a47daf",
+    QWEN3_TOOL_KEY: "5aecbeeec62ba98e9fa576503ba5311cc68a8d4c036e0013f14d4457cc724daa",
+    QWEN3_REASONING_KEY: "bd5c0613536e48a414bc31b603b99f0ba3a7228e4c40313c3a714de02f550f44",
+    ENGINE_CORE_KEY: "788c71ae1314fd5d1658fc361c8d92e09711af0660925bad49040791f949e1a8",
+}
+ENGINE_REVIEW_EXCLUDED = {
+    DEEPSEEK_V4_KEY: set(),
+    QWEN3_TOOL_KEY: {
+        "TestArgValueExtender::test_conversions_do_not_grow_with_argument_length",
+        "TestArgValueExtender::test_closed_params_are_parsed_once",
+    },
+    QWEN3_REASONING_KEY: set(),
+    ENGINE_CORE_KEY: {
+        "TestReasoningTokenCounts::test_counts_reasoning_and_excludes_boundaries_and_content",
+        "TestReasoningTokenCounts::test_counts_tokens_after_final_deferred_start_terminal",
+        "TestReasoningTokenCounts::test_deferred_reasoning_tokens_stay_before_next_end_terminal",
+        "TestNoUnusedTokenizerAttr::test_no_tokenizer_attribute",
+        "TestRegexTerminalInfraRemoved::test_terminal_def_no_priority",
+        "TestRegexTerminalInfraRemoved::test_lexer_shape_no_regex_terminals",
+        "TestSkipToolParsing::test_reset_preserves_skip_tool_parsing",
+    },
+}
+ENGINE_REVIEW_COUNTS = {DEEPSEEK_V4_KEY: 78, QWEN3_TOOL_KEY: 62, QWEN3_REASONING_KEY: 63, ENGINE_CORE_KEY: 37}
+
+
+def family_parser_unit(key: tuple[str, str], class_name: str, name: str) -> str:
+    streamed = "stream" in name and "non_stream" not in name
+    if key == DEEPSEEK_V4_KEY:
+        if class_name == "TestArgConverter":
+            return "output.tool_argument_type_binding"
+        if class_name == "TestThinkingModeConfig" and name in {
+            "test_thinking_true_starts_in_reasoning", "test_thinking_false_starts_in_content",
+            "test_parser_thinking_mode_matches_tokenizer_default",
+            "test_reasoning_effort_none_overrides_enable_thinking",
+        }:
+            return "output.parser_format_selection"
+        if name == "test_reasoning_end_token_ids_drop_multi_token_tool_opener":
+            return "output.structured_marker_boundary"
+        if class_name in {"TestThinkTagAbsorption"} or "reasoning" in name and "tool" not in name:
+            return "output.incremental_parse_relation" if streamed else "output.channel_event_relation"
+        if class_name in {"TestArgValueExtender", "TestDelegatingParserLargeDelta"} or streamed:
+            return "output.incremental_parse_relation"
+        return "tool.call_parse_relation"
+    if key == QWEN3_TOOL_KEY:
+        if class_name in {
+            "TestSchemaAwareTypeCoercion", "TestAnyOfTypeCoercion", "TestSchemaCoercionBoolNumberNull",
+            "TestNestedSchemaCoercion",
+        }:
+            return "output.tool_argument_type_binding"
+        if class_name in {"TestStreaming", "TestArgValueExtender"}:
+            return "output.incremental_parse_relation"
+        return "tool.call_parse_relation"
+    if key == QWEN3_REASONING_KEY:
+        if class_name in {
+            "TestIsReasoningEnd", "TestIsReasoningEndTurnBoundaries", "TestDelegatingPromptDetection",
+        }:
+            return "output.structured_marker_boundary"
+        if class_name == "TestIsReasoningEndDerivedFromGrammar":
+            return "output.parser_format_selection" if "wait_for_reasoning" in name else "output.structured_marker_boundary"
+        if class_name == "TestThinkingDisabled" and "initial_state" in name:
+            return "output.parser_format_selection"
+        return "output.incremental_parse_relation" if "stream" in name and "non_stream" not in name else "output.channel_event_relation"
+    if class_name in {"TestNonStreaming", "TestLexerBufferFlush", "TestSkipToolParsingFromMessageHeader"}:
+        return "output.channel_event_relation"
+    if class_name in {"TestTokenIdFiltering", "TestTextOnlyFallbackFiltering", "TestTerminalAliases", "TestRegexTerminalInfraRemoved"}:
+        return "output.structured_marker_boundary"
+    if class_name == "TestSkipToolParsing":
+        return "tool.call_parse_relation"
+    return "output.incremental_parse_relation"
+
+
+def family_parser_cases(key: tuple[str, str], source: Path) -> dict[str, tuple[str, str, str]]:
+    raw = source.read_bytes()
+    assert hashlib.sha256(raw).hexdigest() == ENGINE_FROZEN_HASHES[key], source
+    body = raw.decode("utf-8")
+    selected = {}
+    for outer in ast.parse(body).body:
+        if isinstance(outer, ast.ClassDef):
+            members = [(f"{outer.name}::{node.name}", outer.name, node) for node in outer.body
+                       if isinstance(node, ast.FunctionDef) and node.name.startswith("test_")]
+        elif isinstance(outer, ast.FunctionDef) and outer.name.startswith("test_"):
+            members = [(outer.name, "", outer)]
+        else:
+            continue
+        for name, class_name, node in members:
+            if name in ENGINE_REVIEW_EXCLUDED[key]:
+                continue
+            checks = []
+            for child in ast.walk(node):
+                if isinstance(child, ast.Assert) or (
+                    isinstance(child, ast.Call) and isinstance(child.func, ast.Attribute)
+                    and child.func.attr.startswith("assert")
+                ):
+                    fragment = ast.get_source_segment(body, child)
+                    assert fragment
+                    checks.append((child.lineno, " ".join(fragment.split())))
+                elif isinstance(child, ast.With):
+                    for item in child.items:
+                        fragment = ast.get_source_segment(body, item.context_expr)
+                        if fragment and "raises" in fragment:
+                            checks.append((child.lineno, " ".join(fragment.split())))
+            checks = [fragment for _, fragment in sorted(set(checks))]
+            assert checks, name
+            summary = (ast.get_docstring(node) or node.name.replace("test_", "").replace("_", " ")).splitlines()[0]
+            selected[name] = (
+                family_parser_unit(key, class_name, node.name),
+                f"{summary}. Direct checks for the test's parser input: {'; '.join(checks)}",
+                "vllm_parser_family_review",
+            )
+    assert len(selected) == ENGINE_REVIEW_COUNTS[key], (key, len(selected))
+    return selected
+
+
+def parser_engine_unit(class_name: str, name: str) -> str:
+    if class_name in {"TestFixArgTypes", "TestCoercionInstabilityRegression"}:
+        return "output.tool_argument_type_binding"
+    if class_name == "TestArgDeltaWithConverter" and "type_coercion" in name:
+        return "output.tool_argument_type_binding"
+    if class_name in {"TestEngineBasedPath", "TestToolAdapterForwardsKwargs"} and (
+        "engine_based" in name or "kwargs" in name
+    ):
+        return "output.parser_format_selection"
+    if name.startswith("test_parser_manager_preserves_"):
+        return "output.parser_format_selection"
+    if class_name in {"TestDropSpecialTokens", "TestExtractContentIdsNoEmptyReturn"}:
+        return "output.structured_marker_boundary"
+    if class_name in {"TestEventsToDelta", "TestThinkMarkupWithoutReasoningParser"}:
+        return "output.channel_event_relation"
+    if class_name in {
+        "TestCoalesceToolCallDeltas", "TestBuildExtractedResult", "TestParseTokenIdPassthrough",
+        "TestSkipToolSpanForwarding", "TestTruncatedToolOpenerStreamParity",
+    }:
+        return "tool.call_parse_relation"
+    return "output.incremental_parse_relation"
+
+
+def parser_engine_cases(source: Path) -> dict[str, tuple[str, str, str]]:
+    raw = source.read_bytes()
+    assert hashlib.sha256(raw).hexdigest() == PARSER_ENGINE_SHA256, source
+    body = raw.decode("utf-8")
+    selected = {}
+    tree = ast.parse(body)
+    for outer in tree.body:
+        if isinstance(outer, ast.ClassDef):
+            if outer.name in PARSER_ENGINE_EXCLUDE:
+                continue
+            members = [(f"{outer.name}::{node.name}", outer.name, node) for node in outer.body
+                       if isinstance(node, ast.FunctionDef) and node.name.startswith("test_")]
+        elif isinstance(outer, ast.FunctionDef) and outer.name.startswith("test_"):
+            members = [] if outer.name in PARSER_ENGINE_TOP_EXCLUDE else [(outer.name, "", outer)]
+        else:
+            continue
+        for name, class_name, node in members:
+            checks = []
+            for child in ast.walk(node):
+                if isinstance(child, ast.Assert) or (
+                    isinstance(child, ast.Call) and isinstance(child.func, ast.Attribute)
+                    and child.func.attr.startswith("assert")
+                ):
+                    fragment = ast.get_source_segment(body, child)
+                    assert fragment
+                    checks.append((child.lineno, " ".join(fragment.split())))
+                elif isinstance(child, ast.With):
+                    for item in child.items:
+                        fragment = ast.get_source_segment(body, item.context_expr)
+                        if fragment and "raises" in fragment:
+                            checks.append((child.lineno, " ".join(fragment.split())))
+            checks = [fragment for _, fragment in sorted(set(checks))]
+            assert checks, name
+            summary = (ast.get_docstring(node) or node.name.replace("test_", "").replace("_", " ")).splitlines()[0]
+            selected[name] = (
+                parser_engine_unit(class_name, node.name),
+                f"{summary}. Direct checks under the test's parser configuration: {'; '.join(checks)}",
+                "vllm_parser_engine_review",
+            )
+    assert len(selected) == 90, len(selected)
+    return selected
+
+
+def reviewed_config_cases(source: Path, existing: set[str]) -> dict[str, tuple[str, str, str]]:
+    raw = source.read_bytes()
+    assert hashlib.sha256(raw).hexdigest() == CONFIG_SHA256, source
+    body = raw.decode("utf-8")
+    selected = {}
+    for node in ast.parse(body).body:
+        if not isinstance(node, ast.FunctionDef) or not node.name.startswith("test_"):
+            continue
+        if node.name in existing or node.name in CONFIG_EXTRA_EXCLUDE:
+            continue
+        checks = []
+        for child in ast.walk(node):
+            if isinstance(child, ast.Assert) or (
+                isinstance(child, ast.Call) and isinstance(child.func, ast.Attribute)
+                and child.func.attr.startswith("assert")
+            ):
+                fragment = ast.get_source_segment(body, child)
+                assert fragment
+                checks.append((child.lineno, " ".join(fragment.split())))
+            elif isinstance(child, ast.With):
+                for item in child.items:
+                    fragment = ast.get_source_segment(body, item.context_expr)
+                    if fragment and "raises" in fragment:
+                        checks.append((child.lineno, " ".join(fragment.split())))
+        checks = [fragment for _, fragment in sorted(set(checks))]
+        assert checks, node.name
+        if any("raises(" in check or "assertRaises" in check for check in checks) or any(
+            word in node.name for word in ("reject", "requires", "validation", "unsupported", "support")
+        ):
+            unit = "deployment.configuration_admissibility"
+        else:
+            unit = "deployment.effective_configuration"
+        summary = (ast.get_docstring(node) or node.name.replace("test_", "").replace("_", " ")).splitlines()[0]
+        selected[node.name] = (
+            unit, f"{summary}. Direct checks in the constructed configuration: {'; '.join(checks)}",
+            "vllm_config_source_review",
+        )
+    assert len(selected) == 110, len(selected)
+    return selected
+
+
+def reasoning_unit(class_name: str, name: str) -> str:
+    if class_name in {"TestReasoningParserAdvanced", "TestPoolsideV1Registered"}:
+        return "output.parser_format_selection"
+    if class_name == "TestReasoningParser" and name in {
+        "test_init_valid_model", "test_init_invalid_model", "test_init_no_model",
+        "test_case_insensitive_model_type",
+    }:
+        return "output.parser_format_selection"
+    if "non_stream" in name:
+        return "output.channel_event_relation"
+    if class_name in {"TestBufferLossBugFix", "TestContinueFinalMessage"} or (
+        "stream" in name or "partial" in name
+    ):
+        return "output.incremental_parse_relation"
+    return "output.channel_event_relation"
+
+
+def reasoning_cases(source: Path) -> dict[str, tuple[str, str, str]]:
+    raw = source.read_bytes()
+    assert hashlib.sha256(raw).hexdigest() == REASONING_SHA256, source
+    body = raw.decode("utf-8")
+    selected = {}
+    observed_classes = set()
+    for outer in ast.parse(body).body:
+        if not isinstance(outer, ast.ClassDef) or outer.name not in REASONING_SELECTION_CLASSES:
+            continue
+        observed_classes.add(outer.name)
+        for node in outer.body:
+            if not isinstance(node, ast.FunctionDef) or not node.name.startswith("test_"):
+                continue
+            if node.name in REASONING_EXCLUDE.get(outer.name, set()):
+                continue
+            checks = []
+            for child in ast.walk(node):
+                if isinstance(child, ast.Assert) or (
+                    isinstance(child, ast.Call) and isinstance(child.func, ast.Attribute)
+                    and child.func.attr.startswith("assert")
+                ):
+                    fragment = ast.get_source_segment(body, child)
+                    assert fragment
+                    checks.append((child.lineno, " ".join(fragment.split())))
+            checks = [fragment for _, fragment in sorted(checks)]
+            assert checks, (outer.name, node.name)
+            summary = (ast.get_docstring(node) or "Poolside parser selection").splitlines()[0]
+            unit = reasoning_unit(outer.name, node.name)
+            selected[f"{outer.name}::{node.name}"] = (
+                unit, f"{summary} Direct checks: {'; '.join(checks)}", "reasoning_parser_review"
+            )
+    assert observed_classes == REASONING_SELECTION_CLASSES
+    assert len(selected) == 105, len(selected)
+    return selected
+
 CASES = {
     ("vllm", "tests/test_config.py"): {name: (*value, "configuration") for name, value in CONFIG.items()},
     ("sglang", "test/registered/unit/mem_cache/test_mem_cache_utils.py"): {
@@ -260,6 +627,11 @@ CASES = {
                "TestEnvListWithChoices": ("test_default_list_returned_when_env_not_set", "test_empty_default_list_returned_when_env_not_set", "test_single_valid_value_parsed_correctly", "test_multiple_valid_values_parsed_correctly", "test_values_with_whitespace_trimmed", "test_empty_values_filtered_out", "test_empty_string_returns_default", "test_only_commas_returns_default", "test_case_insensitive_validation", "test_callable_choices_resolved_correctly", "test_duplicate_values_preserved"),
                "TestEnvSetWithChoices": ("test_default_list_returned_when_env_not_set", "test_empty_default_list_returned_when_env_not_set", "test_single_valid_value_parsed_correctly", "test_multiple_valid_values_parsed_correctly", "test_values_with_whitespace_trimmed", "test_empty_values_filtered_out", "test_empty_string_returns_default", "test_only_commas_returns_default", "test_case_insensitive_validation", "test_callable_choices_resolved_correctly", "test_duplicate_values_deduped"),
            }.items() for name in names for prop in (ENV[name],)},
+        **{name: (unit, prop, "environment_effective") for name, (unit, prop) in ENV_OTHER.items()},
+        **{f"TestVllmConfigureLogging::{name}": ("deployment.effective_configuration", prop, "logging_environment")
+           for name, prop in ENV_LOGGING.items()},
+        **{f"TestVllmMaxNSequences::{name}": ("deployment.effective_configuration", prop, "max_sequences_environment")
+           for name, prop in ENV_MAX_N.items()},
     },
     ("vllm", "tests/entrypoints/openai/responses/test_response_input_to_harmony.py"): {
         f"TestResponseInputToHarmonyMessage::{name}": ("request.admission", prop, "responses_harmony_input")
@@ -292,12 +664,21 @@ CASES = {
         name: ("request.admission", prop, "responses_history_binding")
         for name, prop in RESPONSES_UTILS.items()
     },
+    REASONING_KEY: {},
+    PARSER_ENGINE_KEY: {},
+    DEEPSEEK_V4_KEY: {},
+    QWEN3_TOOL_KEY: {},
+    QWEN3_REASONING_KEY: {},
+    ENGINE_CORE_KEY: {},
 }
 
 CONDITIONS = {
     "configuration": "Pinned vLLM snapshot; parametrized model, platform, environment and config inputs are fixed in the linked test definition. Local config result only; no server start.",
     "eviction_policy": "Pinned SGLang snapshot; strategy factory called with the policy name in the linked test. Class selection only; no runtime eviction sequence.",
     "environment_choice": "Pinned vLLM snapshot; patched TEST_ENV or absent environment variable and declared allowed choices in the linked test. Parsing only; no service start.",
+    "environment_effective": "Pinned vLLM snapshot; patched environment, cache state or binary-path mock in the linked test. Local setting resolution only.",
+    "logging_environment": "Pinned vLLM snapshot; VLLM_CONFIGURE_LOGGING environment value and cache clear in the linked test. No logging emission measured.",
+    "max_sequences_environment": "Pinned vLLM snapshot; VLLM_MAX_N_SEQUENCES unset or overridden in the linked test. Checks the effective value only.",
     "responses_harmony_input": "Pinned vLLM snapshot; Response item and prior-call fixtures in the linked test. Local Harmony input conversion only; no scheduler or generation.",
     "harmony_input_or_schema": "Pinned vLLM snapshot; constructed Harmony/Chat input or tool definition in the linked test. Local conversion only; no tokenizer execution.",
     "gemma4_argument_parse": "Pinned vLLM snapshot; Gemma4 argument text and partial flag in the linked test. Parser output only; no model generation.",
@@ -308,6 +689,10 @@ CONDITIONS = {
     "custom_tool_choice": "Pinned vLLM snapshot; named Responses custom-tool choice and mocked tokenizer in the linked test. Request adjustment only.",
     "sampling_batch_binding": "Pinned SGLang snapshot; CPU tensors or mocked scheduled requests in the linked test. Checks batch construction, not sampled tokens.",
     "responses_history_binding": "Pinned vLLM snapshot; listed Response item statuses or previous-message chain in the linked test. Input helper result only.",
+    "reasoning_parser_review": "Pinned SGLang snapshot; detector/model type and exact text or chunk sequence in the linked test. Source-level parser output or selection only; no model generation.",
+    "vllm_config_source_review": "Pinned vLLM snapshot; model/platform/parameter combinations and mocks in the linked definition. Local configuration fields or rejection only; no deployed model run.",
+    "vllm_parser_engine_review": "Pinned vLLM snapshot; mocked tokenizer, declared parser transitions and input events/chunks in the linked test. Local parser/adaptor assertions only.",
+    "vllm_parser_family_review": "Pinned vLLM snapshot; model-specific parser grammar, mocked tokenizer and exact text/token/chunk inputs at the linked definition. Parser output only; no model generation.",
 }
 
 
@@ -348,6 +733,14 @@ def main() -> dict[str, int]:
     rows = []
     for (snapshot, path), cases in CASES.items():
         source = ROOTS[snapshot] / path
+        if (snapshot, path) == REASONING_KEY:
+            cases = reasoning_cases(source)
+        elif (snapshot, path) == CONFIG_KEY:
+            cases = {**cases, **reviewed_config_cases(source, set(cases))}
+        elif (snapshot, path) == PARSER_ENGINE_KEY:
+            cases = parser_engine_cases(source)
+        elif (snapshot, path) in ENGINE_FROZEN_HASHES:
+            cases = family_parser_cases((snapshot, path), source)
         nodes = test_nodes(ast.parse(source.read_text(encoding="utf-8")))
         for name, (unit, prop, rule) in cases.items():
             node = nodes[name]
