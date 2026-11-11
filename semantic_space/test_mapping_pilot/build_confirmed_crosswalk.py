@@ -20,6 +20,39 @@ FIELDS = (*KEY, "unit_id", "property", "oracle_source", "conditions", "rule_id")
 
 def target(row: dict[str, str]) -> tuple[str, str] | None:
     path, name = row["path"], row["test_name"]
+    if path == "test/registered/unit/entrypoints/openai/test_serving_chat.py":
+        if name in {
+            "ServingChatTestCase::test_kimi_tool_call_keeps_default_reasoning",
+            "ServingChatTestCase::test_kimi_tool_call_keeps_explicit_reasoning",
+            "ServingChatTestCase::test_kimi_tool_call_respects_explicit_reasoning_disable",
+            "ServingChatTestCase::test_jinja_rejects_non_object_tool_call_arguments",
+            "ServingChatTestCase::test_jinja_accepts_object_tool_call_arguments_string",
+            "ServingChatTestCase::test_dsv_encoders_reject_non_object_tool_call_arguments",
+        } or name.startswith("TestNormalizeToolContent::"):
+            return "request.admission", "chat_input_binding"
+        if name in {
+            "ServingChatTestCase::test_jinja_uses_openai_tool_schema_first",
+            "ServingChatTestCase::test_jinja_tool_schema_fallback_to_flat_function",
+            "ServingChatTestCase::test_xgrammar_tag_omits_reasoning_when_parser_owns_it",
+        }:
+            return "tool.constraint_schema_construction", "chat_tool_constraint"
+        if name.startswith("ServingChatTestCase::test_unstreamed_tool_args_"):
+            return "response.stream_payload_consistency", "streamed_tool_arguments"
+        if name.startswith("TestProcessToolCallsWithRequiredToolChoice::"):
+            return "tool.call_parse_relation", "required_tool_parse"
+    if path == "test/registered/unit/entrypoints/openai/test_serving_responses.py":
+        if name == "ChatToolForwardingTestCase::test_required_tool_choice_without_function_tool_returns_400" or name == "InputItemNormalizationTestCase::test_unknown_input_item_type_raises":
+            return "input.error_response_classification", "responses_invalid_input"
+        if name.startswith("InputItemNormalizationTestCase::") or name == "ChatToolForwardingTestCase::test_make_request_passes_function_tools_to_chat_processing":
+            return "request.admission", "responses_input_normalization"
+        if name.startswith("OutputItemsTestCase::"):
+            return "tool.call_parse_relation", "responses_tool_output"
+    if path == "test/registered/utils/test_network_address.py":
+        if name.startswith("TestPortArgsIPv6::"):
+            return ("deployment.configuration_admissibility" if "invalid" in name or "malformed" in name
+                    else "deployment.effective_configuration"), "distributed_endpoint"
+        if name.startswith("TestServerArgsIPv6Url::"):
+            return "deployment.effective_configuration", "server_url"
     exact_files = {
         "tests/tool_parsers/test_utils.py": ("output.tool_argument_type_binding", "tool_schema_coercion"),
         "test/registered/unit/function_call/test_normalize_json_schema_types.py": ("tool.constraint_schema_construction", "schema_normalization"),
@@ -84,7 +117,7 @@ def main() -> None:
     keys = [tuple(row[field] for field in KEY) for row in accepted]
     assert len(keys) == len(set(keys))
     with OUTPUT.open("w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=FIELDS, delimiter="\t")
+        writer = csv.DictWriter(f, fieldnames=FIELDS, delimiter="\t", lineterminator="\n")
         writer.writeheader()
         writer.writerows(accepted)
     print(json.dumps({"mapped": len(accepted), "output": str(OUTPUT)}, ensure_ascii=False))

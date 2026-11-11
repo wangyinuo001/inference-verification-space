@@ -17,6 +17,7 @@ HERE = Path(__file__).resolve().parent
 VIEW = HERE.parent / "space_view.html"
 DATA = HERE / "inherited-property-crosswalk.tsv"
 TAG = '<script type="application/json" id="inherited-property-crosswalk">'
+REVIEWED_TAG = '<script type="application/json" id="reviewed-property-crosswalk">'
 NEXT_TAG = '<script type="application/json" id="helper-chain-catalog">'
 
 INSERTIONS = (
@@ -63,6 +64,48 @@ INSERTIONS = (
     ),
 )
 
+DIRECT_INSERTIONS = (
+    (
+        "  const helperRows = JSON.parse(document.getElementById('helper-chain-catalog').textContent);",
+        "  const reviewedPropertyRows = JSON.parse(document.getElementById('reviewed-property-crosswalk').textContent);\n"
+        "  const reviewedPropertyByTest = new Map(reviewedPropertyRows.map(row =>\n"
+        "    [`${row.snapshot}:${row.path}:${row.test_name}:${row.line}`, row]));\n"
+        "  const helperRows = JSON.parse(document.getElementById('helper-chain-catalog').textContent);",
+    ),
+    (
+        "    const assessed = reviewed && spaceAssessment[String(reviewed.sample_index)];",
+        "    const sourceChecked = reviewedPropertyByTest.get(\n"
+        "      `${record.snapshot}:${record.path}:${record.item.name}:${record.item.line}`);\n"
+        "    const assessed = reviewed && spaceAssessment[String(reviewed.sample_index)];",
+    ),
+    (
+        "      assessed ? assessed.unit_ids : batchReviewed ? batchReviewed.unit_ids.split(';').filter(Boolean) : null);",
+        "      sourceChecked ? sourceChecked.unit_id.split(';').filter(Boolean)\n"
+        "      : assessed ? assessed.unit_ids : batchReviewed ? batchReviewed.unit_ids.split(';').filter(Boolean) : null);",
+    ),
+    (
+        "    matchResult.innerHTML = `<h2>${escapeHtml(record.item.name)}</h2>` +\n"
+        "      `<p>${sourceLink(record.snapshot, record.path, record.item.line)}</p>` +",
+        "    const sourceCheckedEvidence = sourceChecked\n"
+        "      ? `<p>已核对的局部检查：${escapeHtml(sourceChecked.property)}</p>` +\n"
+        "        `<p>候选单元：${escapeHtml(sourceChecked.unit_id)}；适用条件：${escapeHtml(sourceChecked.conditions)}</p>` +\n"
+        "        `<p>断言源码：${sourceChecked.oracle_source.split(';').map(location => {\n"
+        "          const cut = location.lastIndexOf(':');\n"
+        "          return sourceLink(record.snapshot, location.slice(0, cut), Number(location.slice(cut + 1)));\n"
+        "        }).join('、')}。这不代表已运行或整个单元已证明。</p>`\n"
+        "      : '';\n"
+        "    matchResult.innerHTML = `<h2>${escapeHtml(record.item.name)}</h2>` +\n"
+        "      `<p>${sourceLink(record.snapshot, record.path, record.item.line)}</p>` +",
+    ),
+    (
+        "      reviewedEvidence +\n"
+        "      batchReviewedEvidence +",
+        "      sourceCheckedEvidence +\n"
+        "      reviewedEvidence +\n"
+        "      batchReviewedEvidence +",
+    ),
+)
+
 
 def replace_once(body: str, before: str, after: str) -> str:
     if after in body:
@@ -80,6 +123,14 @@ def main() -> dict[str, int]:
     if len(keys) != len(set(keys)):
         raise ValueError("Duplicate inherited crosswalk keys")
     payload = json.dumps(rows, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+    reviewed_rows = []
+    for name in ("confirmed-property-crosswalk.tsv", "direct-property-crosswalk.tsv"):
+        with (HERE / name).open(encoding="utf-8", newline="") as stream:
+            reviewed_rows.extend(csv.DictReader(stream, delimiter="\t"))
+    reviewed_keys = [(r["snapshot"], r["path"], r["test_name"], r["line"]) for r in reviewed_rows]
+    if len(reviewed_keys) != len(set(reviewed_keys)) or set(reviewed_keys) & set(keys):
+        raise ValueError("Duplicate reviewed crosswalk keys")
+    reviewed_payload = json.dumps(reviewed_rows, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     body = VIEW.read_text(encoding="utf-8")
     block = TAG + payload + "</script>\n"
     pattern = re.compile(re.escape(TAG) + r".*?</script>\n", re.S)
@@ -87,10 +138,18 @@ def main() -> dict[str, int]:
         body = pattern.sub(lambda _: block, body, count=1)
     else:
         body = replace_once(body, NEXT_TAG, block + NEXT_TAG)
+    reviewed_block = REVIEWED_TAG + reviewed_payload + "</script>\n"
+    reviewed_pattern = re.compile(re.escape(REVIEWED_TAG) + r".*?</script>\n", re.S)
+    if reviewed_pattern.search(body):
+        body = reviewed_pattern.sub(lambda _: reviewed_block, body, count=1)
+    else:
+        body = replace_once(body, NEXT_TAG, reviewed_block + NEXT_TAG)
     for before, after in INSERTIONS:
         body = replace_once(body, before, after)
+    for before, after in DIRECT_INSERTIONS:
+        body = replace_once(body, before, after)
     VIEW.write_text(body, encoding="utf-8")
-    result = {"reviewed_inherited": len(rows), "bytes": VIEW.stat().st_size}
+    result = {"reviewed_inherited": len(rows), "reviewed_direct": len(reviewed_rows), "bytes": VIEW.stat().st_size}
     print(json.dumps(result, ensure_ascii=False))
     return result
 

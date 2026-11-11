@@ -12,11 +12,13 @@ def test_confirmed_crosswalk():
     main()
     with (HERE / "confirmed-property-crosswalk.tsv").open(encoding="utf-8", newline="") as f:
         rows = list(csv.DictReader(f, delimiter="\t"))
-    assert len(rows) == 204
+    assert len(rows) == 244
     assert all(row["property"] and row["oracle_source"] and row["unit_id"] for row in rows)
     assert len({(row["snapshot"], row["path"], row["test_name"], row["line"]) for row in rows}) == len(rows)
-    assert not any("test_network_address.py" in row["path"] for row in rows)
+    assert sum("test_network_address.py" in row["path"] for row in rows) == 8
     assert not any("test_video.py" in row["path"] for row in rows)
+    assert sum("test_serving_chat.py" in row["path"] for row in rows) == 22
+    assert sum("test_serving_responses.py" in row["path"] for row in rows) == 10
     assert sum("test_deferred_block_free.py" in row["path"] for row in rows) == 12
     assert next(row for row in rows if row["test_name"] == "TestHunyuanDetectorStreaming::test_streaming_typed_args_coerced")["unit_id"] == "output.tool_argument_type_binding"
     assert target({"path": "test/registered/unit/utils/test_auth.py", "test_name": "TestAuthDecision::test_frozen"}) is None

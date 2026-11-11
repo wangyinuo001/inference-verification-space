@@ -24,6 +24,7 @@ class InheritedSpaceViewTest(unittest.TestCase):
 
         inherited = embedded("inherited-catalog")
         checked = embedded("inherited-property-crosswalk")
+        reviewed = embedded("reviewed-property-crosswalk")
         keys = {
             (row["snapshot"], row["test_path"],
              row["test_class"] + "::" + row["method"],
@@ -33,7 +34,9 @@ class InheritedSpaceViewTest(unittest.TestCase):
         for row in checked:
             self.assertIn((row["snapshot"], row["path"], row["test_name"], row["line"]), keys)
         self.assertEqual(len(checked), 891)
+        self.assertEqual(len(reviewed), 325)
         self.assertEqual(body.count('id="inherited-property-crosswalk"'), 1)
+        self.assertEqual(body.count('id="reviewed-property-crosswalk"'), 1)
 
 
 if __name__ == "__main__":

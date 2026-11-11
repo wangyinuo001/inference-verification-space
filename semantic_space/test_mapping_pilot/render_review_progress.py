@@ -73,8 +73,11 @@ def main() -> None:
     review = {key(row): row for row in read(SPACE / "oracle-review-queue.tsv")}
     placement = {key(row): row for row in read(HERE / "stage-placement-all.tsv")}
     confirmed = {key(row): row for row in read(HERE / "confirmed-property-crosswalk.tsv")}
+    direct_properties = {key(row): row for row in read(HERE / "direct-property-crosswalk.tsv")}
     inherited_properties = {key(row): row for row in read(HERE / "inherited-property-crosswalk.tsv")}
-    assert not (confirmed.keys() & inherited_properties.keys())
+    assert not ((confirmed.keys() & inherited_properties.keys()) |
+                (confirmed.keys() & direct_properties.keys()) |
+                (direct_properties.keys() & inherited_properties.keys()))
     inherited = {key(row): row for row in read(HERE / "inherited-method-sources.tsv")}
     unit_names = {unit["id"]: unit.get("title") or unit.get("property", "")
                   for unit in json.loads((SPACE / "space_seed.json").read_text(encoding="utf-8"))["units"]}
@@ -90,7 +93,7 @@ def main() -> None:
         item_key = key(row)
         observed = review[item_key]
         placed = placement[item_key]
-        checked = confirmed.get(item_key) or inherited_properties.get(item_key)
+        checked = confirmed.get(item_key) or direct_properties.get(item_key) or inherited_properties.get(item_key)
         inherited_origin = inherited.get(item_key)
         stage_count += bool(placed["stage"])
         linked_stage_count += placed["placement_status"] in {"linked_stage", "linked_domain_stage"}
