@@ -367,6 +367,274 @@ ENGINE_REVIEW_EXCLUDED = {
 }
 ENGINE_REVIEW_COUNTS = {DEEPSEEK_V4_KEY: 78, QWEN3_TOOL_KEY: 62, QWEN3_REASONING_KEY: 63, ENGINE_CORE_KEY: 37}
 
+FUNCTION_CALL_KEY = ("sglang", "test/registered/unit/function_call/test_function_call_parser.py")
+HARMONY_PARSER_KEY = ("sglang", "test/registered/unit/parser/test_harmony_parser.py")
+SAMPLING_PARAMS_KEY = ("sglang", "test/registered/unit/sampling/test_sampling_params.py")
+GEMMA_REASONING_KEY = ("vllm", "tests/parser/engine/test_gemma4_streaming_reasoning.py")
+INKLING_KEY = ("vllm", "tests/parser/engine/test_inkling.py")
+ROUND5_HASHES = {
+    FUNCTION_CALL_KEY: "be0f71dcec16267a8125f77727d99fe48e98afbe53aa08988866254090e7ecd6",
+    HARMONY_PARSER_KEY: "a6469086cd57299782c889d28f3bdc301fe5440350189ee4fbb83e57ba3a5663",
+    SAMPLING_PARAMS_KEY: "1a8969753168c8abfd97b1165854b4b683890b6e94bc72c7693833898a126939",
+    GEMMA_REASONING_KEY: "69328a95c3f53ffc34a8f5398aedd37e441669925c574847571d9bbf9a9d3a28",
+    INKLING_KEY: "10a2e8a09b9bd9087013a0484a379248758b953f8a5164a206501d6d8ca0549e",
+}
+ROUND5_EXCLUDED = {
+    FUNCTION_CALL_KEY: {
+        "TestBaseFormatDetector::test_current_tool_id_increment_on_completion",
+        "TestKimiK2Detector::test_tool_call_completion",
+        "TestQwen3CoderDetector::test_incomplete_tool_call",
+        "TestQwen3CoderDetector::test_supports_structural_tag",
+        "TestGlm4MoeDetector::test_tool_call_id",
+        "TestGlm47MoeDetector::test_tool_call_id",
+        "TestJsonArrayParser::test_json_detector_has_no_ebnf",
+        "TestJsonArrayParser::test_parse_streaming_increment_malformed_json",
+        "TestJsonArrayParser::test_parse_streaming_increment_whitespace_handling",
+        "TestJsonArrayParser::test_parse_streaming_increment_nested_objects",
+        "TestJsonArrayParser::test_separator_in_separate_chunk",
+        "TestJsonArrayParser::test_incomplete_json_across_chunks",
+        "TestJsonArrayParser::test_malformed_json_recovery",
+        "TestJsonArrayParser::test_empty_objects",
+        "TestJsonArrayParser::test_whitespace_handling",
+        "TestLfm2Detector::test_supports_structural_tag",
+        "TestGetStructureConstraint::test_default_thinking_mode_is_false",
+    },
+    HARMONY_PARSER_KEY: {
+        "TestEvent::test_init", "TestToken::test_init",
+        "TestCanonicalStrategy::test_init", "TestTextStrategy::test_init",
+        "TestHarmonyParser::test_init",
+        "TestAdditionalEdgeCases::test_canonical_standalone_structural_token_filtered",
+        "TestAdditionalEdgeCases::test_canonical_return_without_final",
+    },
+    SAMPLING_PARAMS_KEY: set(),  # Eleven no-assert acceptance tests are skipped below.
+    GEMMA_REASONING_KEY: {
+        "TestAdapterExtractReasoning::test_skip_tool_parsing_restored_after_extraction",
+        "TestGemma4ArgValueExtender::test_conversions_do_not_grow_with_value_length",
+        "TestGemma4ArgValueExtender::test_factory_declines_without_open_last_string_value",
+    },
+    INKLING_KEY: {
+        "TestPromptSeededState::test_prompt_ending_in_thinking_starts_reasoning",
+        "TestPromptSeededState::test_prompt_ending_in_text_starts_content",
+        "TestPromptSeededState::test_generation_prompt_tail_starts_message_header",
+        "TestRegisteredAdapters::test_adapters_resolve",
+    },
+}
+ROUND5_COUNTS = {
+    FUNCTION_CALL_KEY: 193, HARMONY_PARSER_KEY: 66, SAMPLING_PARAMS_KEY: 57,
+    GEMMA_REASONING_KEY: 63, INKLING_KEY: 61,
+}
+
+COHERE_CONVERSION_KEY = ("vllm", "tests/entrypoints/cohere/test_serving_conversion.py")
+ANTHROPIC_CONVERSION_KEY = ("vllm", "tests/entrypoints/anthropic/test_anthropic_messages_conversion.py")
+STRUCTURAL_TAG_KEY = ("vllm", "tests/tool_parsers/test_structural_tag_registry.py")
+CHAT_PARSING_KEY = ("vllm", "tests/parser/test_chat_parsing.py")
+ROUND6_HASHES = {
+    COHERE_CONVERSION_KEY: "8c1da6b4b7a9d883c9f9c1296c2fb5d3c30bae71d73417c6ff6fc54b0c3c3820",
+    ANTHROPIC_CONVERSION_KEY: "7f8ef99054fb6f07fb3e4b31241b183c8bed8b69f3c92ce7f1d8760e705313be",
+    STRUCTURAL_TAG_KEY: "cd6e6b52fc8d981fdbf16ab326918293bb122eebf777a3254d0fcd6a72e868d7",
+    CHAT_PARSING_KEY: "503d3e7f6ce404a101c215dd8aea5dce9ced251b2274dd44d4fcae58372c11ac",
+}
+ROUND6_EXCLUDED = {
+    COHERE_CONVERSION_KEY: {
+        "TestMapFinishReason::test_finish_reason_map_is_complete",
+        "TestEngineChatTemplateKwargs::test_all_internal_keys_dropped",
+    },
+    ANTHROPIC_CONVERSION_KEY: set(),
+    STRUCTURAL_TAG_KEY: {
+        "test_supported_structural_tag_models_include_vllm_builtins",
+        "test_plamo3_registered_as_vllm_structural_tag_model",
+        "test_kimi_k3_registered_as_vllm_builtin",
+        "test_tool_parsers_declare_matching_xgrammar_builtin_model",
+        "test_tool_parsers_without_structural_tag_support_required_and_named",
+    },
+    CHAT_PARSING_KEY: {
+        # Already retained in the separate confirmed-property crosswalk.
+        "ToolArgCoercionTest::test_tools_is_a_noop_for_typed_json_tool_calls",
+        "ToolArgCoercionTest::test_merge_duplicates_arguments_are_cast_element_wise",
+        "ToolArgCoercionTest::test_coercion_never_reworks_already_typed_values",
+        "ToolArgCoercionTest::test_kv_lines_string_args_are_coerced",
+        "ToolArgCoercionTest::test_union_with_container_still_keeps_scalar_text",
+        "ToolArgCoercionTest::test_non_tool_call_regions_are_untouched",
+        "ToolArgCoercionTest::test_qwen3_tools_coerces_strings_left_by_value_parser",
+        "ToolArgCoercionTest::test_parse_response_tools_coerces_xml_inline_string_args",
+        "ToolArgCoercionTest::test_parse_response_tools_coerces_one_of_string_args",
+    },
+}
+ROUND6_COUNTS = {
+    COHERE_CONVERSION_KEY: 104, ANTHROPIC_CONVERSION_KEY: 87,
+    STRUCTURAL_TAG_KEY: 73, CHAT_PARSING_KEY: 66,
+}
+
+
+def round6_unit(key: tuple[str, str], class_name: str, name: str) -> str:
+    if key == COHERE_CONVERSION_KEY:
+        if class_name == "TestMapFinishReason":
+            return "output.finalization"
+        if class_name == "TestBuildUsage":
+            return "response.usage_accounting"
+        if class_name in {"TestChatCompletionToV2", "TestExtractCitations"}:
+            return "response.delivery"
+        if class_name == "TestCreateErrorResponse":
+            return "input.error_response_classification"
+        if not class_name and "watermarking" in name:
+            return "request.effective_sampling_parameters"
+        return "request.admission"
+    if key == ANTHROPIC_CONVERSION_KEY:
+        if class_name == "TestBuildAnthropicUsage":
+            return "response.usage_accounting"
+        if class_name in {"TestMessagesFullConverter", "TestStopSequenceReason", "TestToolUseStopReason"}:
+            return "response.delivery"
+        if class_name == "TestClientErrorResponses" or name == "test_empty_cache_salt_returns_bad_request":
+            return "input.error_response_classification"
+        if class_name == "TestWatermarking":
+            return "request.effective_sampling_parameters"
+        return "request.admission"
+    if key == STRUCTURAL_TAG_KEY:
+        return "tool.constraint_schema_construction"
+    if class_name == "ToolArgCoercionTest":
+        return "output.tool_argument_type_binding"
+    if class_name == "PrefixAndTruncationTest":
+        return "output.structured_marker_boundary"
+    if class_name == "ResponseEventStreamTest":
+        return "output.incremental_parse_relation"
+    if "validation" in name or "rejected" in name or "raises" in name:
+        return "output.parser_format_selection"
+    return "tool.call_parse_relation" if "tool" in name else "output.channel_event_relation"
+
+
+def round6_cases(key: tuple[str, str], source: Path) -> dict[str, tuple[str, str, str]]:
+    raw = source.read_bytes()
+    assert hashlib.sha256(raw).hexdigest() == ROUND6_HASHES[key], source
+    body = raw.decode("utf-8")
+    selected = {}
+    for outer in ast.parse(body).body:
+        if isinstance(outer, ast.ClassDef):
+            members, class_name = outer.body, outer.name
+        elif isinstance(outer, ast.FunctionDef):
+            members, class_name = [outer], ""
+        else:
+            continue
+        for node in members:
+            if not isinstance(node, ast.FunctionDef) or not node.name.startswith("test_"):
+                continue
+            name = f"{class_name}::{node.name}" if class_name else node.name
+            if name in ROUND6_EXCLUDED[key]:
+                continue
+            if not oracle_lines(node):
+                continue
+            checks = []
+            for child in ast.walk(node):
+                if isinstance(child, ast.Assert) or (
+                    isinstance(child, ast.Call) and isinstance(child.func, ast.Attribute)
+                    and child.func.attr.startswith("assert")
+                ):
+                    checks.append((child.lineno, " ".join(ast.unparse(child).split())))
+                elif isinstance(child, ast.With):
+                    for item in child.items:
+                        if isinstance(item.context_expr, ast.Call) and isinstance(item.context_expr.func, ast.Attribute) and item.context_expr.func.attr == "raises":
+                            checks.append((child.lineno, " ".join(ast.unparse(item.context_expr).split())))
+            checks = [item for _, item in sorted(set(checks))]
+            assert checks, name
+            summary = (ast.get_docstring(node) or node.name.replace("test_", "").replace("_", " ")).splitlines()[0]
+            selected[name] = (
+                round6_unit(key, class_name, node.name),
+                f"{summary}. Direct checks for the source test's input: {'; '.join(checks)}",
+                "round6_source_review",
+            )
+    assert len(selected) == ROUND6_COUNTS[key], (key, len(selected))
+    return selected
+
+
+def round5_unit(key: tuple[str, str], class_name: str, name: str) -> str:
+    if key == FUNCTION_CALL_KEY:
+        if class_name == "TestGetStructureConstraint" or "structural_tag" in name or name == "test_structure_info":
+            return "tool.constraint_schema_construction"
+        return "tool.call_parse_relation"
+    if key == HARMONY_PARSER_KEY:
+        if class_name in {"TestPrefixHold", "TestIterTokens"} or name.startswith(("test_prefix_hold", "test_iter_tokens")):
+            return "output.structured_marker_boundary"
+        if class_name == "TestHarmonyParser" and name.startswith("test_strategy_selection"):
+            return "output.parser_format_selection"
+        return "output.channel_event_relation"
+    if key == SAMPLING_PARAMS_KEY:
+        if class_name == "TestRegexMaxLength":
+            return "sampling.stop_regex_buffer_bound"
+        if class_name == "TestSamplingParamsNormalize":
+            return "sampling.stop_condition_normalization"
+        if class_name == "TestSamplingParamsInit":
+            return "sampling.zero_temperature_mode" if "temperature" in name and "greedy" in name else "sampling.parameter_normalization"
+        if "nan_temperature" in name or "inf_temperature" in name:
+            return "sampling.temperature_finiteness"
+        if "top_p" in name:
+            return "sampling.top_p_range"
+        if "min_exceeds_max" in name or "grammar" in name:
+            return "sampling.cross_parameter_admissibility"
+        return "sampling.numeric_parameter_bounds"
+    if key == GEMMA_REASONING_KEY:
+        if "Schema" in class_name:
+            return "output.tool_argument_type_binding"
+        if class_name == "TestGemma4IsReasoningEnd":
+            return "output.structured_marker_boundary"
+        if class_name == "TestGemma4ArgValueExtender":
+            return "output.incremental_parse_relation"
+        if "Reasoning" in class_name or class_name in {"TestBareThoughtWithoutChannelOpener", "TestAdapterExtractReasoning"}:
+            return "output.channel_event_relation"
+        return "tool.call_parse_relation"
+    if class_name == "TestArgConverter":
+        return "output.tool_argument_type_binding"
+    if class_name == "TestPromptSeededState":
+        return "output.parser_format_selection"
+    if class_name == "TestRegisteredAdapters":
+        return "tool.call_parse_relation"
+    return "output.incremental_parse_relation" if "Streaming" in class_name or "streaming" in name else "output.channel_event_relation"
+
+
+def round5_cases(key: tuple[str, str], source: Path) -> dict[str, tuple[str, str, str]]:
+    raw = source.read_bytes()
+    assert hashlib.sha256(raw).hexdigest() == ROUND5_HASHES[key], source
+    body = raw.decode("utf-8")
+    selected = {}
+    for outer in ast.parse(body).body:
+        if isinstance(outer, ast.ClassDef):
+            members = outer.body
+            class_name = outer.name
+        elif key == INKLING_KEY and isinstance(outer, ast.FunctionDef):
+            members = [outer]
+            class_name = ""
+        else:
+            continue
+        for node in members:
+            if not isinstance(node, ast.FunctionDef) or not node.name.startswith("test_"):
+                continue
+            name = f"{class_name}::{node.name}" if class_name else node.name
+            if name in ROUND5_EXCLUDED[key]:
+                continue
+            sites = oracle_lines(node)
+            if key == SAMPLING_PARAMS_KEY and not sites:
+                continue
+            assert sites, name
+            checks = []
+            for child in ast.walk(node):
+                if isinstance(child, ast.Assert) or (
+                    isinstance(child, ast.Call) and isinstance(child.func, ast.Attribute)
+                    and child.func.attr.startswith("assert")
+                ):
+                    checks.append((child.lineno, " ".join(ast.unparse(child).split())))
+                elif isinstance(child, ast.With):
+                    for item in child.items:
+                        if isinstance(item.context_expr, ast.Call) and isinstance(item.context_expr.func, ast.Attribute) and item.context_expr.func.attr == "raises":
+                            checks.append((child.lineno, " ".join(ast.unparse(item.context_expr).split())))
+            checks = [item for _, item in sorted(set(checks))]
+            assert checks, name
+            summary = (ast.get_docstring(node) or node.name.replace("test_", "").replace("_", " ")).splitlines()[0]
+            selected[name] = (
+                round5_unit(key, class_name, node.name),
+                f"{summary}. Direct checks for the source test's input: {'; '.join(checks)}",
+                "round5_source_review",
+            )
+    assert len(selected) == ROUND5_COUNTS[key], (key, len(selected))
+    return selected
+
 
 def family_parser_unit(key: tuple[str, str], class_name: str, name: str) -> str:
     streamed = "stream" in name and "non_stream" not in name
@@ -670,6 +938,15 @@ CASES = {
     QWEN3_TOOL_KEY: {},
     QWEN3_REASONING_KEY: {},
     ENGINE_CORE_KEY: {},
+    FUNCTION_CALL_KEY: {},
+    HARMONY_PARSER_KEY: {},
+    SAMPLING_PARAMS_KEY: {},
+    GEMMA_REASONING_KEY: {},
+    INKLING_KEY: {},
+    COHERE_CONVERSION_KEY: {},
+    ANTHROPIC_CONVERSION_KEY: {},
+    STRUCTURAL_TAG_KEY: {},
+    CHAT_PARSING_KEY: {},
 }
 
 CONDITIONS = {
@@ -693,6 +970,8 @@ CONDITIONS = {
     "vllm_config_source_review": "Pinned vLLM snapshot; model/platform/parameter combinations and mocks in the linked definition. Local configuration fields or rejection only; no deployed model run.",
     "vllm_parser_engine_review": "Pinned vLLM snapshot; mocked tokenizer, declared parser transitions and input events/chunks in the linked test. Local parser/adaptor assertions only.",
     "vllm_parser_family_review": "Pinned vLLM snapshot; model-specific parser grammar, mocked tokenizer and exact text/token/chunk inputs at the linked definition. Parser output only; no model generation.",
+    "round5_source_review": "Pinned framework snapshot; exact constructor, input text/chunks or sampling parameters and assertions are at the linked source definition. Local parser or parameter behavior only; no model generation or server run.",
+    "round6_source_review": "Pinned vLLM snapshot; exact API message, parser template, tool grammar, model output and assertion inputs are in the linked definition. Local conversion, grammar or parsing behavior only; no model generation or server run.",
 }
 
 
@@ -741,6 +1020,10 @@ def main() -> dict[str, int]:
             cases = parser_engine_cases(source)
         elif (snapshot, path) in ENGINE_FROZEN_HASHES:
             cases = family_parser_cases((snapshot, path), source)
+        elif (snapshot, path) in ROUND5_HASHES:
+            cases = round5_cases((snapshot, path), source)
+        elif (snapshot, path) in ROUND6_HASHES:
+            cases = round6_cases((snapshot, path), source)
         nodes = test_nodes(ast.parse(source.read_text(encoding="utf-8")))
         for name, (unit, prop, rule) in cases.items():
             node = nodes[name]
