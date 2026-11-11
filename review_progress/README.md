@@ -21,4 +21,4 @@ cp review_progress.html ../../review_progress/index.html
 
 这一页面与[验证空间交互页](../semantic_space/space_view.html)分别展示测试归类进度和推理系统的验证需求。当前展示的验证需求仍在持续核对与修订。
 
-交互页的测试 Explorer 同步显示上述 891 条继承公共方法检查和 3,957 条单独的源码确认映射；用 [`sync_inherited_space_view.py`](../semantic_space/test_mapping_pilot/sync_inherited_space_view.py) 将交叉映射嵌入生成后的 `space_view.html`。显式跳过的测试类仍不在图中标亮候选单元，详情中说明其源码检查未执行。交互页仍使用早期候选空间，这一步不将映射自动转移到 76 单元的源码派生模型。
+交互页的测试 Explorer 按需读取上述 891 条继承公共方法检查和 3,957 条单独的源码确认映射；用 [`sync_inherited_space_view.py`](../semantic_space/test_mapping_pilot/sync_inherited_space_view.py) 将交叉映射写入 `explorer_extra.json`。归类页的绿色单元名称可打开图中对应节点；图节点也可筛出归入它的已确认测试。显式跳过的测试类仍不在图中标亮候选单元，详情中说明其源码检查未执行。交互页仍使用早期候选空间，这一步不将映射自动转移到 76 单元的源码派生模型。

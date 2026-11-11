@@ -14,6 +14,7 @@
   h1 { margin:0; font-size:22px; letter-spacing:.01em; }
   .subtitle { margin:3px 0 0; color:var(--muted); font-size:12px; }
   .stamp { color:var(--muted); font-size:12px; white-space:nowrap; }
+  .stamp a { color:var(--purple); }
   .metrics { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; }
   .metric { background:white; border:1px solid var(--line); border-radius:10px; padding:10px 14px; min-height:78px; }
   .metric strong { display:block; font-size:25px; line-height:1.15; font-variant-numeric:tabular-nums; }
@@ -35,6 +36,8 @@
   input { width:min(300px,30vw); }
   .match-count { color:var(--muted); font-size:12px; margin-left:auto; font-variant-numeric:tabular-nums; }
   .view-hint { margin:7px 0 0; color:var(--muted); font-size:11px; }
+  .unit-context { margin:5px 0 0; font-size:12px; color:var(--purple); }
+  .unit-context a { margin-left:8px; color:var(--purple); }
   .canvas-wrap { min-width:0; width:100%; min-height:0; overflow:hidden; display:flex; align-items:center; justify-content:center; padding:6px 0; position:relative; }
   canvas { display:block; max-width:100%; image-rendering:pixelated; cursor:crosshair; }
   canvas:focus-visible { outline:2px solid var(--purple); outline-offset:3px; }
@@ -83,7 +86,7 @@
 <div id="app">
   <header>
     <div><h1>测试归类进度</h1><p class="subtitle">每格对应一个测试定义；颜色表示源码审查进度，不表示测试通过。下方四项统计互有交叠，不能相加。</p></div>
-    <div class="stamp">固定源码：vLLM 76a0ccc · SGLang 0.5.14</div>
+    <div class="stamp"><a href="../semantic_space/space_view.html">查看验证空间图</a><br>固定源码：vLLM 76a0ccc · SGLang 0.5.14</div>
   </header>
   <div class="metrics">
     <div class="metric green"><strong id="greenCount">—</strong><span id="greenCaption">已确认测试检查什么</span><div class="progress"><i id="progressBar"></i></div></div>
@@ -101,6 +104,7 @@
         <select id="statusFilter" aria-label="按检查进度筛选"><option value="all">全部状态</option><option value="g">已确认检查内容</option><option value="i">继承方法已定位，性质待核</option><option value="l">找到被测函数和检查</option><option value="h">找到检查，位置待核</option><option value="r">已读源码，还需细分</option><option value="s">找到相关函数</option><option value="m">找到相关代码</option><option value="p">大致找到所属环节</option><option value="x">涉及多处，待核对</option><option value="a">框架周边功能</option><option value="d">其他信息</option><option value="u">还没找到检查位置</option><option value="o">暂不属于推理验证</option></select>
         <span class="match-count" id="matchCount" aria-live="polite"></span>
         <p class="view-hint" id="viewHint">方格颜色是互斥的当前状态。总览按仓库和文件路径排列；搜索或筛选后收拢匹配入口，聚焦图后可用方向键浏览。</p>
+        <p class="unit-context" id="unitContext" hidden></p>
       </div>
       <div class="canvas-wrap" id="canvasWrap"><canvas id="grid" role="group" tabindex="0" aria-describedby="viewHint" aria-label="按仓库和文件排列的测试入口状态方格；可用方向键逐格查看"></canvas><div class="empty-matrix" id="emptyMatrix" hidden>没有匹配的测试。可调整搜索词或状态筛选。</div></div>
       <details class="legend" aria-label="颜色说明"><summary>绿色已确认；其他颜色表示不同的待核状态（展开查看全部 13 类）</summary><div class="legend-items">
@@ -135,6 +139,8 @@ const STAGES={deployment_preflight:'部署配置',request_entry:'请求进入',s
 const OVERVIEW_COLS=320, CELL=4, GAP_ROWS=5;
 const canvas=document.getElementById('grid'), wrap=document.getElementById('canvasWrap'), ctx=canvas.getContext('2d');
 const search=document.getElementById('search'), statusFilter=document.getElementById('statusFilter');
+const unitFilter=new URLSearchParams(location.search).get('unit');
+if(unitFilter){const box=document.getElementById('unitContext');box.hidden=false;box.textContent=`单元：${DATA.unitNames[unitFilter]||unitFilter} · 仅显示已确认关联的测试。`;const clear=document.createElement('a');clear.href=location.pathname;clear.textContent='清除单元筛选';box.append(clear);}
 const files=DATA.files, entries=DATA.entries;
 let framework='all', shown=[], layout=[], logicalHeight=0, cols=OVERVIEW_COLS, baseCount=0, pinned=-1, hover=-1;
 let cellByPosition=new Map(), positionByEntry=new Map();
@@ -155,13 +161,14 @@ for(const status of ['g','i','l','h','r','s','m','p','x','a','d','u','o']){
 }
 function buildLayout(){
   shown=[]; layout=[]; hover=-1; cellByPosition=new Map(); positionByEntry=new Map();
-  const q=search.value.trim().toLowerCase(), filter=statusFilter.value, active=!!q||filter!=='all';
+  const q=search.value.trim().toLowerCase(), filter=statusFilter.value, active=!!q||filter!=='all'||!!unitFilter;
   baseCount=0;
   for(let i=0;i<entries.length;i++){
     const e=entries[i], file=files[e[0]];
     if(framework!=='all'&&file[0]!==framework)continue;
     baseCount++;
-    if((filter==='all'||e[3]===filter)&&(!q||(file[1]+' '+e[1]).toLowerCase().includes(q)))shown.push(i);
+    if((filter==='all'||e[3]===filter)&&(!q||(file[1]+' '+e[1]).toLowerCase().includes(q))&&
+       (!unitFilter||(e[3]==='g'&&e[4].split(/[;,]/).includes(unitFilter))))shown.push(i);
   }
   const aspect=Math.max(1,wrap.clientWidth)/Math.max(1,wrap.clientHeight);
   cols=active?Math.min(OVERVIEW_COLS,Math.max(1,Math.ceil(Math.sqrt(shown.length*aspect)))):OVERVIEW_COLS;
@@ -185,7 +192,7 @@ function buildLayout(){
   sizeCanvas();draw();
 }
 function sizeCanvas(){
-  const active=!!search.value.trim()||statusFilter.value!=='all';
+  const active=!!search.value.trim()||statusFilter.value!=='all'||!!unitFilter;
   const target=active?(shown.length<=100?26:shown.length<=800?18:shown.length<=5000?11:9):4;
   const rows=logicalHeight/CELL;
   const displayCell=Math.max(1,Math.min(target,(wrap.clientWidth-12)/cols,(wrap.clientHeight-12)/rows));
@@ -199,7 +206,7 @@ function draw(){
     ctx.fillRect(cell.x+.35,cell.y+.35,CELL-.7,CELL-.7);
   }
   if(pinned>=0){const cell=positionByEntry.get(pinned);if(cell){ctx.strokeStyle='#17151b';ctx.lineWidth=1.5;ctx.strokeRect(cell.x-.7,cell.y-.7,CELL+1.4,CELL+1.4);}}
-  const active=!!search.value.trim()||statusFilter.value!=='all';
+  const active=!!search.value.trim()||statusFilter.value!=='all'||!!unitFilter;
   document.getElementById('matchCount').textContent=active?`匹配 ${fmt(shown.length)} / ${fmt(baseCount)}`:`显示 ${fmt(shown.length)} 个入口`;
 }
 function hit(event){
@@ -226,8 +233,10 @@ function show(index){
     document.getElementById('inheritedSourcePath').textContent=`${e[13]}:${e[14]}`;
     document.getElementById('inheritedSourceLink').href=sourceRoot+e[13].split('/').map(encodeURIComponent).join('/')+'#L'+e[14];
   }
-  const names=e[3]==='g'?e[4].split(/[;,]/).filter(Boolean).map(id=>DATA.unitNames[id]||id):[];
-  document.getElementById('detailUnits').textContent=names.length?names.join('；'):'尚未确认对应哪项检查';
+  const ids=e[3]==='g'?e[4].split(/[;,]/).filter(Boolean):[];
+  const units=document.getElementById('detailUnits');units.replaceChildren();
+  if(ids.length){ids.forEach((id,i)=>{if(i)units.append(document.createTextNode('；'));const link=document.createElement('a');link.href='../semantic_space/space_view.html#unit='+encodeURIComponent(id);link.textContent=DATA.unitNames[id]||id;link.title=id;units.append(link);});}
+  else units.textContent='尚未确认对应哪项检查';
   document.getElementById('detailProperty').textContent=e[11]||'还未逐项确认检查内容';
   document.getElementById('detailConditions').textContent=e[15]||'尚未逐项确认输入与运行条件';
   document.getElementById('detailStage').textContent=e[7]?`${STAGES[e[7]]||e[7]}：${EVIDENCE[e[8]]||'仍需核对'}${e[9]?'；被测函数 '+e[9]:''}`:'尚未确定单一环节';
@@ -250,6 +259,7 @@ document.getElementById('frameworkButtons').addEventListener('click',event=>{con
 let searchTimer;search.addEventListener('input',()=>{clearTimeout(searchTimer);searchTimer=setTimeout(()=>{pinned=-1;buildLayout();show(-1);},90);});
 statusFilter.addEventListener('change',()=>{pinned=-1;buildLayout();show(-1);});
 new ResizeObserver(()=>{sizeCanvas();}).observe(wrap);
+search.value=new URLSearchParams(location.search).get('q')||'';
 buildLayout();
 </script>
 </body>

@@ -1,26 +1,53 @@
-/* Browse pinned tests; illuminate only units observed in a runtime trace. */
+/* Load pinned test evidence only when requested; keep the space graph fast. */
 (() => {
-  const catalog = JSON.parse(document.getElementById('test-catalog').textContent);
+  const loadButton = document.getElementById('load-explorer');
+  const loadStatus = document.getElementById('explorer-status');
+  loadButton.addEventListener('click', async () => {
+    loadButton.disabled = true;
+    loadStatus.textContent = '正在加载测试索引与证据…';
+    try {
+      const [catalogResponse, extraResponse] = await Promise.all([
+        fetch('test_catalog.json'), fetch('explorer_extra.json')
+      ]);
+      if (!catalogResponse.ok || !extraResponse.ok) throw new Error('资料文件未能取得');
+      const [catalog, extra] = await Promise.all([catalogResponse.json(), extraResponse.json()]);
+      startExplorer(catalog, extra);
+      loadButton.hidden = true;
+      document.getElementById('test-search').disabled = false;
+      loadStatus.textContent = '测试索引已加载。可搜索文件或测试函数。';
+    } catch (error) {
+      loadButton.disabled = false;
+      loadStatus.textContent = `加载失败：${error.message}。可重试。`;
+    }
+  });
+
+  function startExplorer(catalog, extra) {
   if (!catalog) return;
-  const inheritedRows = JSON.parse(document.getElementById('inherited-catalog').textContent);
-  const helperRows = JSON.parse(document.getElementById('helper-chain-catalog').textContent);
+  const inheritedRows = extra.inherited;
+  const inheritedPropertyRows = extra.inheritedProperty || [];
+  const inheritedPropertyByTest = new Map(inheritedPropertyRows.map(row =>
+    [`${row.snapshot}:${row.path}:${row.test_name}:${row.line}`, row]));
+  const reviewedPropertyRows = extra.reviewedProperty || [];
+  const reviewedPropertyByTest = new Map(reviewedPropertyRows.map(row =>
+    [`${row.snapshot}:${row.path}:${row.test_name}:${row.line}`, row]));
+  const helperRows = extra.helper;
   const helperByTest = new Map(helperRows.map(row =>
     [`${row.snapshot}:${row.test_path}:${row.test_name}:${row.test_line}`, row]));
-  const callOracleRows = JSON.parse(document.getElementById('call-oracle-catalog').textContent);
-  const collectionExceptions = JSON.parse(document.getElementById('collectability-catalog').textContent);
+  const callOracleRows = extra.callOracle;
+  const collectionExceptions = extra.collectability;
   const collectionByTest = new Map(collectionExceptions.map(row =>
     [`${row.snapshot}:${row.path}:${row.test_name}:${row.line}`, row]));
-  const dynamicRows = JSON.parse(document.getElementById('dynamic-catalog').textContent);
-  const nonstandardRows = JSON.parse(document.getElementById('nonstandard-catalog').textContent);
+  const dynamicRows = extra.dynamic;
+  const nonstandardRows = extra.nonstandard;
   const nonstandardByTest = new Map(nonstandardRows.map(row =>
     [`${row.snapshot}:${row.path}:${row.test_name}:${row.line}`, row]));
-  const sourceReviewRows = JSON.parse(document.getElementById('source-review-catalog').textContent);
-  const batchSourceReviewRows = JSON.parse(document.getElementById('batch-source-review-catalog').textContent);
+  const sourceReviewRows = extra.sourceReview;
+  const batchSourceReviewRows = extra.batchSourceReview;
   const batchSourceReviewByTest = new Map(batchSourceReviewRows.map(row =>
     [`${row.snapshot}:${row.path}:${row.test_name}:${row.line}`, row]));
   const batchSourceReviewByName = new Map(batchSourceReviewRows.map(row =>
     [`${row.snapshot}:${row.path}:${row.test_name}`, row]));
-  const spaceAssessment = JSON.parse(document.getElementById('space-assessment-catalog').textContent).assessments;
+  const spaceAssessment = extra.spaceAssessment.assessments;
   const sourceReviewByTest = new Map(sourceReviewRows.map(row =>
     [`${row.snapshot}:${row.path}:${row.name}:${row.line}`, row]));
   const callOracleByTest = new Map();
@@ -42,7 +69,7 @@
     dynamicByFile.get(key).push(row);
   }
   const space = JSON.parse(document.getElementById('space-data').textContent);
-  const runtime = JSON.parse(document.getElementById('runtime-index').textContent);
+  const runtime = extra.runtime;
   const runtimeByTest = new Map();
   for (const entry of runtime.entries) {
     const key = `${entry.snapshot}:${entry.path}:${entry.name}`;
@@ -262,6 +289,11 @@
     return `<a href="${url}" target="_blank" rel="noopener">${escapeHtml(snapshot + '/' + path + ':' + line)}</a>`;
   }
 
+  function progressLink(record) {
+    const query = record.path + (record.item ? ' ' + record.item.name : '');
+    return `<p><a href="../review_progress/?q=${encodeURIComponent(query)}">在归类进度页查找此${record.item ? '测试' : '文件'}</a></p>`;
+  }
+
   function helperEvidence(record) {
     const item = record.item;
     const row = helperByTest.get(`${record.snapshot}:${record.path}:${item.name}:${item.line}`);
@@ -280,6 +312,8 @@
   }
 
   function showPlacement(entries, areas = [], selectionLabel = '', reviewedUnitIds = null) {
+    document.getElementById('details').hidden = true;
+    document.querySelector('.inspector').scrollTop = 0;
     document.querySelectorAll('#trace-filters button').forEach(button =>
       button.setAttribute('aria-pressed', 'false'));
     const active = new Set(entries.flatMap(entry => Object.keys(entry.observed_units)));
@@ -295,12 +329,13 @@
     document.querySelectorAll('.unit').forEach(node => {
       node.classList.toggle('active', active.has(node.dataset.unit));
       node.classList.toggle('confirmed', confirmed.has(node.dataset.unit));
-      const candidate = active.size === 0 && (sourceReviewedUnits !== null
-        ? sourceReviewedUnits.has(node.dataset.unit)
-        : candidatePhases.has(node.dataset.phase));
+      const reviewed = sourceReviewedUnits?.has(node.dataset.unit) || false;
+      node.classList.toggle('reviewed', reviewed && !confirmed.has(node.dataset.unit));
+      const candidate = active.size === 0 && sourceReviewedUnits === null &&
+        candidatePhases.has(node.dataset.phase);
       node.classList.toggle('candidate', candidate);
-      node.classList.toggle('dimmed', (active.size > 0 && !active.has(node.dataset.unit)) ||
-        (active.size === 0 && (sourceReviewedUnits !== null || candidatePhases.size > 0) && !candidate));
+      node.classList.toggle('dimmed', (active.size > 0 || sourceReviewedUnits !== null || candidatePhases.size > 0) &&
+        !active.has(node.dataset.unit) && !reviewed && !candidate);
     });
     document.querySelectorAll('.edge').forEach(node => {
       node.classList.remove('active');
@@ -317,7 +352,6 @@
         : `验证对象候选：${areas.map(area => area.label).join('、') || '待核查'}；实际执行命中 ${active.size} 个源码锚点，其中 ${confirmed.size} 个已关联到具体判定。`);
     banner.classList.add('visible');
     matchResult.classList.add('visible');
-    window.dispatchEvent(new Event('resize'));
   }
 
   function selectTest(record) {
@@ -350,7 +384,7 @@
         `生成类的循环：${sourceLink(record.snapshot, record.path, Number(record.dynamic.loop_line))}</p>` +
         reviewedEvidence +
         `<p>候选生成表达式：${escapeHtml(record.dynamic.class_name_expression)}。` +
-        `生成后的类名、参数实例和运行判定另行核对。</p>`;
+        `生成后的类名、参数实例和运行判定另行核对。</p>` + progressLink(record);
       return;
     }
     if (record.collection && !['collection_review', 'script_test'].includes(record.collection.source_role)) {
@@ -360,7 +394,7 @@
       const review = record.collection.review_evidence?.split(':');
       const reviewLink = review?.length === 2
         ? `<p>用途证据：${sourceLink(record.snapshot, review[0], Number(review[1]))}</p>` : '';
-      matchResult.innerHTML = `<h2>${escapeHtml(record.item.name)}</h2><p>源码位置：${sourceLink(record.snapshot, record.path, record.item.line)}</p><p>收集身份：${escapeHtml(record.collection.status)}；该定义作为其他测试的基类或辅助调用使用。</p>` + reviewLink;
+      matchResult.innerHTML = `<h2>${escapeHtml(record.item.name)}</h2><p>源码位置：${sourceLink(record.snapshot, record.path, record.item.line)}</p><p>收集身份：${escapeHtml(record.collection.status)}；该定义作为其他测试的基类或辅助调用使用。</p>` + reviewLink + progressLink(record);
       return;
     }
     const fileRecord = fileByKey.get(`${record.snapshot}:${record.path}`);
@@ -370,6 +404,8 @@
       `${record.snapshot}:${record.path}:${record.item.name}:${record.item.line}`);
     const batchReviewed = batchSourceReviewByTest.get(
       `${record.snapshot}:${record.path}:${record.item.name}:${record.item.line}`);
+    const sourceChecked = reviewedPropertyByTest.get(
+      `${record.snapshot}:${record.path}:${record.item.name}:${record.item.line}`);
     const assessed = reviewed && spaceAssessment[String(reviewed.sample_index)];
     const areas = reviewed
       ? reviewed.reviewed_areas.map(area => areaIndex.get(area)).filter(Boolean)
@@ -377,7 +413,8 @@
     const entries = runtimeFor(record);
     markSelected(record, record.item.line);
     showPlacement(entries, areas, record.item.name,
-      assessed ? assessed.unit_ids : batchReviewed ? batchReviewed.unit_ids.split(';').filter(Boolean) : null);
+      sourceChecked ? sourceChecked.unit_id.split(';').filter(Boolean)
+      : assessed ? assessed.unit_ids : batchReviewed ? batchReviewed.unit_ids.split(';').filter(Boolean) : null);
     if (batchReviewed && entries.length === 0) {
       banner.textContent = `${record.item.name}｜方法体断言已审阅；${batchReviewed.status === 'mapped'
         ? '相关验证单元已定位' : batchReviewed.status === 'needs_refinement'
@@ -459,9 +496,18 @@
         (assessed.remaining ? `；${escapeHtml(assessed.remaining)}` : '') +
         '。这是单元边界审阅，不代表运行覆盖或完整单元证明。</p>'
       : '';
+    const sourceCheckedEvidence = sourceChecked
+      ? `<p>已核对的局部检查：${escapeHtml(sourceChecked.property)}</p>` +
+        `<p>候选单元：${escapeHtml(sourceChecked.unit_id)}；适用条件：${escapeHtml(sourceChecked.conditions)}</p>` +
+        `<p>断言源码：${sourceChecked.oracle_source.split(';').map(location => {
+          const cut = location.lastIndexOf(':');
+          return sourceLink(record.snapshot, location.slice(0, cut), Number(location.slice(cut + 1)));
+        }).join('、')}。这不代表已运行或整个单元已证明。</p>`
+      : '';
     matchResult.innerHTML = `<h2>${escapeHtml(record.item.name)}</h2>` +
       `<p>${sourceLink(record.snapshot, record.path, record.item.line)}</p>` +
       (record.item.kind === 'source_test_file_unresolved' ? '<p>该条是文件级待解析记录，尚未识别为可执行的测试函数。</p>' : '') +
+      sourceCheckedEvidence +
       reviewedEvidence +
       batchReviewedEvidence +
       spaceEvidence +
@@ -482,7 +528,7 @@
       (anchors.length ? `<p>执行到已登记的判定锚点：${escapeHtml(anchors.join('、'))}。</p>` : '') +
       (sites.length ? `<p>断言例：${escapeHtml(sites.slice(0, 3).map(site => `${site.path}:${site.line} ${site.expression}`).join('；'))}</p>` : '') +
       (evidence.length ? `<p>静态名称线索：${escapeHtml([...new Set(evidence)].join('、'))}。</p>` : '') +
-      '<p>未标为“检查结果已关联”的性质仍待核查；原生代码及子进程不在这份 Python 追踪中。</p>';
+      '<p>未标为“检查结果已关联”的性质仍待核查；原生代码及子进程不在这份 Python 追踪中。</p>' + progressLink(record);
   }
 
   function selectInheritedTest(record) {
@@ -491,9 +537,11 @@
     const areas = item.classification.areas || fileRecord?.file.areas || [];
     const review = batchSourceReviewByTest.get(
       `${record.snapshot}:${record.path}:${item.name}:${item.line}`);
-    const reviewedUnits = review
-      ? (review.status === 'skipped_by_class' ? [] : review.unit_ids.split(';').filter(Boolean))
-      : null;
+    const checked = inheritedPropertyByTest.get(
+      `${record.snapshot}:${record.path}:${item.name}:${item.line}`);
+    const reviewedUnits = review?.status === 'skipped_by_class' ? []
+      : checked ? checked.unit_id.split(';').filter(Boolean)
+      : review ? review.unit_ids.split(';').filter(Boolean) : null;
     markSelected(record, item.line);
     showPlacement([], areas, item.name, reviewedUnits);
     if (review) banner.textContent = review.status === 'skipped_by_class'
@@ -501,7 +549,16 @@
       : `${item.name}｜继承方法及具体类的源码已核对；收集、执行与运行判定仍待确认。`;
     const assertions = item.oracle_evidence.slice(0, 8).map(site =>
       `${sourceLink(record.snapshot, item.definition_path, site.line)} ${escapeHtml(site.expression)}`).join('；');
-    const reviewedEvidence = review
+    const checkedEvidence = checked
+      ? `<p>公共方法中已核对的局部检查：${escapeHtml(checked.property)}</p>` +
+        `<p>候选单元：${escapeHtml(checked.unit_id)}；适用条件：${escapeHtml(checked.conditions)}</p>` +
+        `<p>断言或辅助判定源码：${checked.oracle_source.split(';').map(location => {
+          const cut = location.lastIndexOf(':');
+          return sourceLink(record.snapshot, location.slice(0, cut), Number(location.slice(cut + 1)));
+        }).join('、')}。</p>` +
+        (review?.status === 'skipped_by_class' ? '<p>具体测试类被显式跳过；这条源码检查未执行。</p>' : '')
+      : '';
+    const reviewedEvidence = review && !checked
       ? `<p>已核对的检查：${escapeHtml(review.checked_property)}</p>` +
         `<p>空间对照：${escapeHtml({mapped: '可放入当前验证单元', needs_refinement: '当前空间需要细化', outside_request_verification: '位于当前请求空间之外', skipped_by_class: '测试类显式跳过'}[review.status] || review.status)}；相关单元：${escapeHtml(review.unit_ids || '尚未建立')}。</p>` +
         `<p>条件与边界：${escapeHtml(review.applicability_note)}</p>` +
@@ -512,9 +569,10 @@
     matchResult.innerHTML = `<h2>${escapeHtml(item.name)}</h2>` +
       `<p>具体测试类：${sourceLink(record.snapshot, record.path, item.line)}；继承方法：${sourceLink(record.snapshot, item.definition_path, item.definition_line)}。</p>` +
       `<p>静态继承链：${escapeHtml(item.base_chain)}。</p>` +
-      reviewedEvidence +
+      checkedEvidence + reviewedEvidence +
       (assertions ? `<p>方法体的断言源码：${assertions}</p>` : helperEvidence(record)) +
-      '<p>这是继承方法的源码候选；具体 pytest 收集、执行路径和判定关系尚待核对。</p>';
+      (checked ? '<p>这是源码级局部断言记录；具体 pytest 收集、执行路径和运行判定另行核对。</p>'
+        : '<p>这是继承方法的源码候选；具体 pytest 收集、执行路径和判定关系尚待核对。</p>') + progressLink(record);
   }
 
   function selectFile(record) {
@@ -531,6 +589,7 @@
     matchResult.innerHTML = `<h2>${escapeHtml(record.path.split('/').at(-1))}</h2>` +
       `<p>${sourceLink(record.snapshot, record.path, 1)}</p><p>${status} 已追踪 ${entries.length} 个运行实例。</p>` +
       areaBasis +
-      '<p>图中只标亮追踪到的源码锚点；断言性质仍需逐项关联。</p>';
+      '<p>图中只标亮追踪到的源码锚点；断言性质仍需逐项关联。</p>' + progressLink(record);
+  }
   }
 })();
