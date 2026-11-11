@@ -7,6 +7,7 @@
 <style>
   :root { --ink:#24232a; --muted:#68646f; --line:#e7e4e9; --paper:#fbfafc; --green:#2e8b57; --purple:#76418c; }
   * { box-sizing:border-box; }
+  [hidden] { display:none!important; }
   html, body { margin:0; height:100%; overflow:hidden; background:var(--paper); color:var(--ink); font:14px/1.4 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif; }
   #app { height:100vh; display:grid; grid-template-rows:auto auto minmax(0,1fr); gap:12px; padding:16px 18px; }
   header { display:flex; align-items:end; justify-content:space-between; gap:18px; }
@@ -24,6 +25,7 @@
   .panel { min-height:0; background:white; border:1px solid var(--line); border-radius:10px; }
   .matrix-panel { display:grid; grid-template-columns:minmax(0,1fr); grid-template-rows:auto minmax(0,1fr) auto; min-width:0; overflow:hidden; padding:11px 12px 10px; }
   .controls { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .view-hint { flex-basis:100%; }
   .segmented { display:flex; border:1px solid #d8d4dc; border-radius:7px; overflow:hidden; }
   button { font:inherit; cursor:pointer; }
   .segmented button { border:0; background:white; color:var(--ink); padding:5px 10px; }
@@ -32,15 +34,21 @@
   input, select { height:32px; border:1px solid #d8d4dc; border-radius:7px; background:white; color:var(--ink); font:inherit; padding:4px 9px; }
   input { width:min(300px,30vw); }
   .match-count { color:var(--muted); font-size:12px; margin-left:auto; font-variant-numeric:tabular-nums; }
-  .canvas-wrap { min-width:0; width:100%; min-height:0; overflow:hidden; display:flex; align-items:center; justify-content:center; padding:6px 0; }
+  .view-hint { margin:7px 0 0; color:var(--muted); font-size:11px; }
+  .canvas-wrap { min-width:0; width:100%; min-height:0; overflow:hidden; display:flex; align-items:center; justify-content:center; padding:6px 0; position:relative; }
   canvas { display:block; max-width:100%; image-rendering:pixelated; cursor:crosshair; }
-  .legend { display:flex; flex-wrap:wrap; align-items:center; gap:7px 15px; border-top:1px solid var(--line); padding-top:9px; font-size:11px; color:#504d56; }
+  canvas:focus-visible { outline:2px solid var(--purple); outline-offset:3px; }
+  .empty-matrix { position:absolute; padding:14px; color:var(--muted); text-align:center; font-size:13px; }
+  .legend { border-top:1px solid var(--line); padding-top:8px; font-size:11px; color:#504d56; }
+  .legend summary { cursor:pointer; font-weight:600; }
+  .legend-items { display:flex; flex-wrap:wrap; align-items:center; gap:7px 15px; padding-top:9px; }
   .legend span { display:inline-flex; align-items:center; gap:6px; white-space:nowrap; }
   .legend i { width:10px; height:10px; border-radius:2px; display:inline-block; }
   aside { padding:14px; overflow:auto; }
   aside h2 { font-size:15px; margin:0 0 10px; }
   .breakdown { border-bottom:1px solid var(--line); padding-bottom:11px; margin-bottom:12px; }
   .breakdown-title { font-size:12px; font-weight:650; margin-bottom:7px; }
+  summary.breakdown-title { cursor:pointer; }
   .breakdown-row { display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:12px; padding:3px 0; }
   .breakdown-row b { font-variant-numeric:tabular-nums; }
   .breakdown-row i { width:8px; height:8px; border-radius:2px; display:inline-block; margin-right:6px; }
@@ -55,41 +63,54 @@
   #emptyDetail { color:var(--muted); font-size:12px; }
   .footnote { font-size:11px; color:var(--muted); margin-top:10px; }
   @media (max-width:850px) { .main { grid-template-columns:minmax(0,1fr) 210px; } .metric strong { font-size:20px; } .legend { gap:5px 9px; } }
+  @media (max-width:700px) {
+    html,body { height:auto; min-height:100%; overflow:auto; }
+    #app { height:auto; min-height:100vh; grid-template-rows:auto auto auto; padding:12px; }
+    header { align-items:start; flex-wrap:wrap; gap:4px; }
+    .stamp { white-space:normal; }
+    .metrics { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .metric { min-height:72px; padding:9px 10px; }
+    .main { grid-template-columns:minmax(0,1fr); }
+    .matrix-panel { min-height:440px; grid-template-rows:auto minmax(280px,1fr) auto; }
+    .controls { gap:6px; }
+    input { width:min(100%,260px); flex:1 1 150px; }
+    .match-count { margin-left:0; }
+    aside { overflow:visible; }
+  }
 </style>
 </head>
 <body>
 <div id="app">
   <header>
-    <div><h1>测试归类进度</h1><p class="subtitle">每个小方格代表一个测试。颜色显示我们已经查清它到哪一步；测试按仓库和文件排列。</p></div>
-    <div class="stamp">2026-11-10 · vLLM 76a0ccc · SGLang 0.5.14</div>
+    <div><h1>测试归类进度</h1><p class="subtitle">每格对应一个测试定义；颜色表示源码审查进度，不表示测试通过。下方四项统计互有交叠，不能相加。</p></div>
+    <div class="stamp">固定源码：vLLM 76a0ccc · SGLang 0.5.14</div>
   </header>
   <div class="metrics">
     <div class="metric green"><strong id="greenCount">—</strong><span id="greenCaption">已确认测试检查什么</span><div class="progress"><i id="progressBar"></i></div></div>
-    <div class="metric"><strong id="linkedCount">—</strong><span>找到被测函数和检查语句</span></div>
-    <div class="metric"><strong id="stageCount">—</strong><span>大致知道属于哪个推理环节</span></div>
+    <div class="metric"><strong id="linkedCount">—</strong><span>被测函数结果关联到检查语句</span></div>
+    <div class="metric"><strong id="stageCount">—</strong><span>初步定位推理环节</span></div>
     <div class="metric"><strong id="totalCount">—</strong><span>收录的测试</span></div>
   </div>
   <div class="main">
     <section class="panel matrix-panel" aria-label="测试入口状态矩阵">
       <div class="controls">
         <div class="segmented" id="frameworkButtons" aria-label="选择仓库">
-          <button type="button" data-framework="all" class="active">全部</button><button type="button" data-framework="vllm">vLLM</button><button type="button" data-framework="sglang">SGLang</button>
+          <button type="button" data-framework="all" class="active" aria-pressed="true">全部</button><button type="button" data-framework="vllm" aria-pressed="false">vLLM</button><button type="button" data-framework="sglang" aria-pressed="false">SGLang</button>
         </div>
         <input id="search" type="search" placeholder="搜索文件或测试名" aria-label="搜索文件或测试名">
-        <select id="statusFilter" aria-label="按检查进度筛选"><option value="all">全部状态</option><option value="g">已确认检查内容</option><option value="i">找到继承来的测试代码</option><option value="l">找到被测函数和检查</option><option value="h">找到检查，位置待核</option><option value="r">已读源码，还需细分</option><option value="s">找到相关函数</option><option value="m">找到相关代码</option><option value="p">大致找到所属环节</option><option value="x">涉及多处，待核对</option><option value="a">框架周边功能</option><option value="d">其他信息</option><option value="u">还没找到检查位置</option><option value="o">暂不属于推理验证</option></select>
-        <span class="match-count" id="matchCount"></span>
+        <select id="statusFilter" aria-label="按检查进度筛选"><option value="all">全部状态</option><option value="g">已确认检查内容</option><option value="i">继承方法已定位，性质待核</option><option value="l">找到被测函数和检查</option><option value="h">找到检查，位置待核</option><option value="r">已读源码，还需细分</option><option value="s">找到相关函数</option><option value="m">找到相关代码</option><option value="p">大致找到所属环节</option><option value="x">涉及多处，待核对</option><option value="a">框架周边功能</option><option value="d">其他信息</option><option value="u">还没找到检查位置</option><option value="o">暂不属于推理验证</option></select>
+        <span class="match-count" id="matchCount" aria-live="polite"></span>
+        <p class="view-hint" id="viewHint">方格颜色是互斥的当前状态。总览按仓库和文件路径排列；搜索或筛选后收拢匹配入口，聚焦图后可用方向键浏览。</p>
       </div>
-      <div class="canvas-wrap" id="canvasWrap"><canvas id="grid" role="img" aria-label="按仓库和文件排列的三万余个测试入口状态方格"></canvas></div>
-      <div class="legend" aria-label="颜色说明">
-        <span><i style="background:#2e8b57"></i>已确认检查内容</span><span><i style="background:#558da9"></i>找到继承来的测试代码</span><span><i style="background:#278f9a"></i>找到被测函数和检查</span><span><i style="background:#69b4bc"></i>找到检查，位置待核</span><span><i style="background:#d6a345"></i>已读源码，还需细分</span><span><i style="background:#76418c"></i>找到相关函数</span><span><i style="background:#b9a0c9"></i>找到相关代码</span><span><i style="background:#a8c7da"></i>大致找到所属环节</span><span><i style="background:#d7c6a6"></i>涉及多处，待核对</span><span><i style="background:#d1d1d6"></i>框架周边功能</span><span><i style="background:#df9475"></i>还没找到检查位置</span><span><i style="background:#f0f0f1;border:1px solid #d4d4d8"></i>暂不属于推理验证</span>
-      </div>
+      <div class="canvas-wrap" id="canvasWrap"><canvas id="grid" role="group" tabindex="0" aria-describedby="viewHint" aria-label="按仓库和文件排列的测试入口状态方格；可用方向键逐格查看"></canvas><div class="empty-matrix" id="emptyMatrix" hidden>没有匹配的测试。可调整搜索词或状态筛选。</div></div>
+      <details class="legend" aria-label="颜色说明"><summary>绿色已确认；其他颜色表示不同的待核状态（展开查看全部 13 类）</summary><div class="legend-items">
+        <span><i style="background:#2e8b57"></i>已确认检查内容</span><span><i style="background:#558da9"></i>继承方法已定位，性质待核</span><span><i style="background:#278f9a"></i>找到被测函数和检查</span><span><i style="background:#69b4bc"></i>找到检查，位置待核</span><span><i style="background:#d6a345"></i>已读源码，还需细分</span><span><i style="background:#76418c"></i>找到相关函数</span><span><i style="background:#b9a0c9"></i>找到相关代码</span><span><i style="background:#a8c7da"></i>大致找到所属环节</span><span><i style="background:#d7c6a6"></i>涉及多处，待核对</span><span><i style="background:#d1d1d6"></i>框架周边功能</span><span><i style="background:#e5e1e7"></i>其他信息</span><span><i style="background:#df9475"></i>还没找到检查位置</span><span><i style="background:#f0f0f1;border:1px solid #d4d4d8"></i>暂不属于推理验证</span>
+      </div></details>
     </section>
-    <aside class="panel" id="details" aria-live="polite">
-      <div class="breakdown"><div class="breakdown-title">已确认检查内容的测试</div><div class="breakdown-row"><span>vLLM</span><b id="vllmGreen"></b></div><div class="breakdown-row"><span>SGLang 0.5.14</span><b id="sglangGreen"></b></div></div>
-      <div class="breakdown" id="statusBreakdown"><div class="breakdown-title">全部测试的检查进度</div></div>
-      <h2>测试详情</h2><div id="emptyDetail">移动鼠标或点击方格，查看测试所在源码、目前查到的内容和依据。</div>
+    <aside class="panel" id="details">
+      <h2>测试详情</h2><div id="emptyDetail">移动鼠标、点击方格，或聚焦方格后用方向键，查看测试源码与检查依据。</div>
       <div id="detailContent" hidden>
-        <div class="detail-name" id="detailName"></div><span class="detail-state" id="detailState"></span>
+        <div class="detail-name" id="detailName" aria-live="polite"></div><span class="detail-state" id="detailState"></span>
         <div class="detail-row"><b>源码位置</b><div class="detail-path" id="detailPath"></div><a id="sourceLink" target="_blank" rel="noopener">打开源码</a></div>
         <div class="detail-row" id="inheritedSourceRow" hidden><b>实际执行的测试方法</b><div class="detail-path" id="inheritedSourcePath"></div><a id="inheritedSourceLink" target="_blank" rel="noopener">打开方法源码</a></div>
         <div class="detail-row"><b>目前对应的检查</b><div class="detail-value" id="detailUnits"></div></div>
@@ -99,22 +120,23 @@
         <div class="detail-row"><b>检查方式</b><div class="detail-value" id="detailOracle"></div></div>
         <div class="detail-row"><b>源码中的检查位置</b><div class="detail-value" id="detailSubject"></div></div>
       </div>
-      <p class="footnote">绿色已核对测试源码、检查内容和图中的对应位置。蓝色的继承测试已找到实际方法源码，仍需核对它的输入和检查内容。其他颜色表示目前只找到部分信息。</p>
+      <p class="footnote">绿色表示固定源码中的局部检查已对应到候选空间；不表示测试已运行或完整验证义务已覆盖。</p>
+      <details class="breakdown"><summary class="breakdown-title">状态分布与仓库数量</summary><div id="statusBreakdown"><div class="breakdown-title">全部测试的互斥状态</div></div><div class="breakdown-title">其中已确认入口按仓库</div><div class="breakdown-row"><span>vLLM</span><b id="vllmGreen"></b></div><div class="breakdown-row"><span>SGLang</span><b id="sglangGreen"></b></div></details>
     </aside>
   </div>
 </div>
 <script>
 const DATA = /*__DATA__*/;
 const COLORS = {g:'#2e8b57',i:'#558da9',l:'#278f9a',h:'#69b4bc',r:'#d6a345',s:'#76418c',m:'#b9a0c9',p:'#a8c7da',x:'#d7c6a6',a:'#d1d1d6',d:'#e5e1e7',u:'#df9475',o:'#f0f0f1'};
-const LABELS = {g:'已确认检查内容',i:'找到继承来的测试代码',l:'找到被测函数和检查',h:'找到检查，位置待核',r:'已读源码，还需细分',s:'找到相关函数',m:'找到相关代码',p:'大致找到所属环节',x:'涉及多处，待核对',a:'框架周边功能',d:'其他信息',u:'还没找到检查位置',o:'暂不属于推理验证'};
+const LABELS = {g:'已确认检查内容',i:'继承方法已定位，性质待核',l:'找到被测函数和检查',h:'找到检查，位置待核',r:'已读源码，还需细分',s:'找到相关函数',m:'找到相关代码',p:'大致找到所属环节',x:'涉及多处，待核对',a:'框架周边功能',d:'其他信息',u:'还没找到检查位置',o:'暂不属于推理验证'};
 const EVIDENCE={object_candidates:'根据测试所在领域判断',direct_product_result_to_assertion:'被测函数的结果进入检查语句',domain_with_direct_call_oracle_link:'找到调用和检查，所属环节根据测试内容判断',source_target_disagrees_with_domain:'被测函数与测试名称指向不同环节，需核对'};
 const CHECKS={comparison:'比较结果',predicate:'检查条件',other_assertion:'其他断言',equality_call:'检查相等',expected_exception:'预期报错',numeric_close:'检查数值误差',other_oracle:'其他检查',explicit_failure:'明确标记失败',mock_call:'检查模拟调用'};
 const STAGES={deployment_preflight:'部署配置',request_entry:'请求进入',scheduling:'调度',cache:'缓存',transport:'远程传输',distributed_execution:'分布式执行',model_compute:'模型计算',sampling:'采样',response:'结果返回',service_behavior:'服务行为',cancellation:'取消',resource_lifecycle:'资源生命周期',task_quality:'任务质量'};
-const COLS=320, CELL=4, GAP_ROWS=5;
+const OVERVIEW_COLS=320, CELL=4, GAP_ROWS=5;
 const canvas=document.getElementById('grid'), wrap=document.getElementById('canvasWrap'), ctx=canvas.getContext('2d');
 const search=document.getElementById('search'), statusFilter=document.getElementById('statusFilter');
 const files=DATA.files, entries=DATA.entries;
-let framework='all', shown=[], layout=[], logicalHeight=0, pinned=-1, hover=-1;
+let framework='all', shown=[], layout=[], logicalHeight=0, cols=OVERVIEW_COLS, baseCount=0, pinned=-1, hover=-1;
 let cellByPosition=new Map(), positionByEntry=new Map();
 const fmt=n=>n.toLocaleString('zh-CN');
 document.getElementById('greenCount').textContent=fmt(DATA.counts.g||0);
@@ -132,8 +154,17 @@ for(const status of ['g','i','l','h','r','s','m','p','x','a','d','u','o']){
   count.textContent=fmt(DATA.counts[status]||0);row.append(name,count);document.getElementById('statusBreakdown').append(row);
 }
 function buildLayout(){
-  shown=[]; layout=[]; cellByPosition=new Map(); positionByEntry=new Map();
-  for(let i=0;i<entries.length;i++) if(framework==='all'||files[entries[i][0]][0]===framework) shown.push(i);
+  shown=[]; layout=[]; hover=-1; cellByPosition=new Map(); positionByEntry=new Map();
+  const q=search.value.trim().toLowerCase(), filter=statusFilter.value, active=!!q||filter!=='all';
+  baseCount=0;
+  for(let i=0;i<entries.length;i++){
+    const e=entries[i], file=files[e[0]];
+    if(framework!=='all'&&file[0]!==framework)continue;
+    baseCount++;
+    if((filter==='all'||e[3]===filter)&&(!q||(file[1]+' '+e[1]).toLowerCase().includes(q)))shown.push(i);
+  }
+  const aspect=Math.max(1,wrap.clientWidth)/Math.max(1,wrap.clientHeight);
+  cols=active?Math.min(OVERVIEW_COLS,Math.max(1,Math.ceil(Math.sqrt(shown.length*aspect)))):OVERVIEW_COLS;
   const first=[],second=[];
   for(const i of shown) (files[entries[i][0]][0]==='vllm'?first:second).push(i);
   let row=0;
@@ -141,49 +172,49 @@ function buildLayout(){
     if(!group.length) continue;
     if(row) row+=GAP_ROWS;
     group.forEach((index,j)=>{
-      const col=j%COLS, cellRow=row+Math.floor(j/COLS), cell={index,x:col*CELL,y:cellRow*CELL};
-      layout.push(cell);cellByPosition.set(cellRow*COLS+col,index);positionByEntry.set(index,cell);
+      const col=j%cols, cellRow=row+Math.floor(j/cols), cell={index,x:col*CELL,y:cellRow*CELL};
+      layout.push(cell);cellByPosition.set(cellRow*cols+col,index);positionByEntry.set(index,cell);
     });
-    row+=Math.ceil(group.length/COLS);
+    row+=Math.ceil(group.length/cols);
   }
   logicalHeight=Math.max(CELL,row*CELL);
-  canvas.width=COLS*CELL*2;canvas.height=logicalHeight*2;
+  canvas.width=cols*CELL*2;canvas.height=logicalHeight*2;
   ctx.setTransform(2,0,0,2,0,0);
+  canvas.hidden=!shown.length;
+  document.getElementById('emptyMatrix').hidden=!!shown.length;
   sizeCanvas();draw();
 }
 function sizeCanvas(){
-  const panelWidth=document.querySelector('.matrix-panel').clientWidth-24;
-  const width=Math.min(COLS*CELL,panelWidth,wrap.clientWidth,wrap.clientHeight*(COLS*CELL/logicalHeight));
-  canvas.style.width=Math.max(1,width)+'px';canvas.style.height=Math.max(1,width*logicalHeight/(COLS*CELL))+'px';
-}
-function matches(index){
-  const e=entries[index],file=files[e[0]],q=search.value.trim().toLowerCase(),filter=statusFilter.value;
-  return (filter==='all'||e[3]===filter)&&(!q||(file[1]+' '+e[1]).toLowerCase().includes(q));
+  const active=!!search.value.trim()||statusFilter.value!=='all';
+  const target=active?(shown.length<=100?26:shown.length<=800?18:shown.length<=5000?11:9):4;
+  const rows=logicalHeight/CELL;
+  const displayCell=Math.max(1,Math.min(target,(wrap.clientWidth-12)/cols,(wrap.clientHeight-12)/rows));
+  canvas.style.width=Math.max(1,cols*displayCell)+'px';
+  canvas.style.height=Math.max(1,rows*displayCell)+'px';
 }
 function draw(){
-  const width=COLS*CELL;ctx.clearRect(0,0,width,logicalHeight);ctx.fillStyle='#fff';ctx.fillRect(0,0,width,logicalHeight);
-  const active=!!search.value.trim()||statusFilter.value!=='all';let found=0;
+  const width=cols*CELL;ctx.clearRect(0,0,width,logicalHeight);ctx.fillStyle='#fff';ctx.fillRect(0,0,width,logicalHeight);
   for(const cell of layout){
-    const e=entries[cell.index],match=matches(cell.index);if(match) found++;
-    ctx.globalAlpha=active&&!match?0.12:1;ctx.fillStyle=COLORS[e[3]];
+    const e=entries[cell.index];ctx.fillStyle=COLORS[e[3]];
     ctx.fillRect(cell.x+.35,cell.y+.35,CELL-.7,CELL-.7);
   }
-  ctx.globalAlpha=1;
   if(pinned>=0){const cell=positionByEntry.get(pinned);if(cell){ctx.strokeStyle='#17151b';ctx.lineWidth=1.5;ctx.strokeRect(cell.x-.7,cell.y-.7,CELL+1.4,CELL+1.4);}}
-  document.getElementById('matchCount').textContent=active?`匹配 ${fmt(found)} / ${fmt(shown.length)}`:`显示 ${fmt(shown.length)} 个入口`;
+  const active=!!search.value.trim()||statusFilter.value!=='all';
+  document.getElementById('matchCount').textContent=active?`匹配 ${fmt(shown.length)} / ${fmt(baseCount)}`:`显示 ${fmt(shown.length)} 个入口`;
 }
 function hit(event){
-  const rect=canvas.getBoundingClientRect(),x=(event.clientX-rect.left)*COLS*CELL/rect.width,y=(event.clientY-rect.top)*logicalHeight/rect.height;
+  const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return -1;
+  const x=(event.clientX-rect.left)*cols*CELL/rect.width,y=(event.clientY-rect.top)*logicalHeight/rect.height;
   const col=Math.floor(x/CELL),row=Math.floor(y/CELL);
-  if(col<0||col>=COLS||row<0)return -1;
-  return cellByPosition.get(row*COLS+col)??-1;
+  if(col<0||col>=cols||row<0||y>=logicalHeight)return -1;
+  return cellByPosition.get(row*cols+col)??-1;
 }
 function show(index){
   if(index<0){document.getElementById('emptyDetail').hidden=false;document.getElementById('detailContent').hidden=true;return;}
   const e=entries[index],f=files[e[0]],label=LABELS[e[3]];
   document.getElementById('emptyDetail').hidden=true;document.getElementById('detailContent').hidden=false;
   document.getElementById('detailName').textContent=e[1];
-  const state=document.getElementById('detailState');state.textContent=label;state.style.background=COLORS[e[3]];state.style.color=e[3]==='o'?'#24232a':'white';
+  const state=document.getElementById('detailState');state.textContent=label;state.style.background=COLORS[e[3]];state.style.color=['g','i','l','s'].includes(e[3])?'white':'#24232a';
   document.getElementById('detailPath').textContent=`${f[0]}/${f[1]}:${e[2]}`;
   const sourceRoot=f[0]==='vllm'
     ?'https://github.com/vllm-project/vllm/blob/76a0ccc209343971c6f4b56f6380a76202428385/'
@@ -205,10 +236,19 @@ function show(index){
 }
 canvas.addEventListener('mousemove',event=>{const index=hit(event);if(index!==hover){hover=index;if(pinned<0)show(index);}});
 canvas.addEventListener('mouseleave',()=>{hover=-1;if(pinned<0)show(-1);});
-canvas.addEventListener('click',event=>{const index=hit(event);if(index>=0){pinned=pinned===index?-1:index;show(pinned>=0?pinned:index);draw();}});
-document.getElementById('frameworkButtons').addEventListener('click',event=>{const button=event.target.closest('button[data-framework]');if(!button)return;framework=button.dataset.framework;pinned=-1;document.querySelectorAll('#frameworkButtons button').forEach(b=>b.classList.toggle('active',b===button));buildLayout();show(-1);});
-let searchTimer;search.addEventListener('input',()=>{clearTimeout(searchTimer);searchTimer=setTimeout(draw,90);});
-statusFilter.addEventListener('change',draw);
+canvas.addEventListener('click',event=>{const index=hit(event);if(index>=0){pinned=pinned===index?-1:index;show(pinned);draw();}});
+canvas.addEventListener('keydown',event=>{
+  const step={ArrowLeft:-1,ArrowRight:1,ArrowUp:-cols,ArrowDown:cols}[event.key];
+  if(event.key==='Escape'){pinned=-1;show(-1);draw();return;}
+  if(!shown.length||step===undefined&&event.key!=='Home'&&event.key!=='End')return;
+  event.preventDefault();
+  const current=shown.indexOf(pinned);
+  const next=event.key==='Home'?0:event.key==='End'?shown.length-1:Math.max(0,Math.min(shown.length-1,(current<0?0:current)+step));
+  pinned=shown[next];show(pinned);draw();
+});
+document.getElementById('frameworkButtons').addEventListener('click',event=>{const button=event.target.closest('button[data-framework]');if(!button)return;framework=button.dataset.framework;pinned=-1;document.querySelectorAll('#frameworkButtons button').forEach(b=>{b.classList.toggle('active',b===button);b.setAttribute('aria-pressed',String(b===button));});buildLayout();show(-1);});
+let searchTimer;search.addEventListener('input',()=>{clearTimeout(searchTimer);searchTimer=setTimeout(()=>{pinned=-1;buildLayout();show(-1);},90);});
+statusFilter.addEventListener('change',()=>{pinned=-1;buildLayout();show(-1);});
 new ResizeObserver(()=>{sizeCanvas();}).observe(wrap);
 buildLayout();
 </script>

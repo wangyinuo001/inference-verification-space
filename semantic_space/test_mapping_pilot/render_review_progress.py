@@ -70,6 +70,7 @@ def main() -> None:
         raise FileNotFoundError("Provide the checked inherited-method-sources.tsv or full source checkouts")
     build_inherited_property_crosswalk()
     scan = read(HERE / "full-scan-index.tsv")
+    scan.sort(key=lambda row: (row["snapshot"], row["path"], int(row["line"]), row["test_name"]))
     review = {key(row): row for row in read(SPACE / "oracle-review-queue.tsv")}
     placement = {key(row): row for row in read(HERE / "stage-placement-all.tsv")}
     confirmed = {key(row): row for row in read(HERE / "confirmed-property-crosswalk.tsv")}
@@ -79,7 +80,7 @@ def main() -> None:
                 (confirmed.keys() & direct_properties.keys()) |
                 (direct_properties.keys() & inherited_properties.keys()))
     inherited = {key(row): row for row in read(HERE / "inherited-method-sources.tsv")}
-    unit_names = {unit["id"]: unit.get("title") or unit.get("property", "")
+    unit_names = {unit["id"]: unit.get("name") or unit.get("title") or unit.get("property", "")
                   for unit in json.loads((SPACE / "space_seed.json").read_text(encoding="utf-8"))["units"]}
     assert len(scan) == len(review) == len(placement) == 31968
     files: list[list[str]] = []
