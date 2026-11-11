@@ -12,11 +12,11 @@ class DirectPropertyCrosswalkTest(unittest.TestCase):
         if not all((ROOTS[snapshot] / path).is_file() for snapshot, path in CASES):
             self.skipTest("Pinned source snapshots are outside the public preview repository")
         before = OUTPUT.read_bytes()
-        self.assertEqual(main()["reviewed_direct"], 2647)
+        self.assertEqual(main()["reviewed_direct"], 3713)
         self.assertEqual(OUTPUT.read_bytes(), before)
         with OUTPUT.open(encoding="utf-8", newline="") as stream:
             rows = list(csv.DictReader(stream, delimiter="\t"))
-        self.assertEqual(len(rows), 2647)
+        self.assertEqual(len(rows), 3713)
         for row in rows:
             lines = (ROOTS[row["snapshot"]] / row["path"]).read_text(encoding="utf-8").splitlines()
             self.assertTrue(row["property"] and row["conditions"])

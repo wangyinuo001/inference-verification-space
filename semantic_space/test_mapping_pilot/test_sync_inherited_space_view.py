@@ -34,7 +34,7 @@ class InheritedSpaceViewTest(unittest.TestCase):
         for row in checked:
             self.assertIn((row["snapshot"], row["path"], row["test_name"], row["line"]), keys)
         self.assertEqual(len(checked), 891)
-        self.assertEqual(len(reviewed), 2891)
+        self.assertEqual(len(reviewed), 3957)
         self.assertEqual(body.count('id="inherited-property-crosswalk"'), 1)
         self.assertEqual(body.count('id="reviewed-property-crosswalk"'), 1)
 

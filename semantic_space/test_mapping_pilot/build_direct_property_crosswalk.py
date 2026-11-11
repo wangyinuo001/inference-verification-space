@@ -13,6 +13,7 @@ import json
 from pathlib import Path
 
 from build_core_direct_cases import PATH_HASHES as CORE_SOURCE_HASHES, reviewed_cases as core_reviewed_cases
+from build_round7_direct_cases import PATH_HASHES as ROUND7_SOURCE_HASHES, reviewed_cases as round7_reviewed_cases
 
 HERE = Path(__file__).resolve().parent
 PROJECT = HERE.parents[3]
@@ -951,6 +952,7 @@ CASES = {
     CHAT_PARSING_KEY: {},
 }
 CASES.update({("vllm", path): {} for path in CORE_SOURCE_HASHES})
+CASES.update({key: {} for key in ROUND7_SOURCE_HASHES})
 
 CONDITIONS = {
     "configuration": "Pinned vLLM snapshot; parametrized model, platform, environment and config inputs are fixed in the linked test definition. Local config result only; no server start.",
@@ -976,6 +978,7 @@ CONDITIONS = {
     "round5_source_review": "Pinned framework snapshot; exact constructor, input text/chunks or sampling parameters and assertions are at the linked source definition. Local parser or parameter behavior only; no model generation or server run.",
     "round6_source_review": "Pinned vLLM snapshot; exact API message, parser template, tool grammar, model output and assertion inputs are in the linked definition. Local conversion, grammar or parsing behavior only; no model generation or server run.",
     "core_source_review": "Pinned vLLM snapshot; requests, block layouts, transfer mocks, budgets and exact assertions are at the linked test definition. This is a local state or protocol check, not a GPU tensor-content or end-to-end model run.",
+    "round7_source_review": "Pinned framework snapshot; constructed messages, model metadata, tensor fixtures, configuration and direct assertions are in the linked test. Local relation only; this review did not execute the test, model or server.",
 }
 
 
@@ -1039,6 +1042,8 @@ def main() -> dict[str, int]:
             cases = round6_cases((snapshot, path), source)
         elif snapshot == "vllm" and path in CORE_SOURCE_HASHES:
             cases = core_reviewed_cases(path, source, prior.get((snapshot, path), set()))
+        elif (snapshot, path) in ROUND7_SOURCE_HASHES:
+            cases = round7_reviewed_cases((snapshot, path), source, prior.get((snapshot, path), set()))
         nodes = test_nodes(ast.parse(source.read_text(encoding="utf-8")))
         for name, (unit, prop, rule) in cases.items():
             node = nodes[name]
