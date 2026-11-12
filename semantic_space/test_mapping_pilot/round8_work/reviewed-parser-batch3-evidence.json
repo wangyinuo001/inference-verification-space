@@ -1,0 +1,5716 @@
+{
+  "source_files": {
+    "tests/parser/test_harmony.py": {
+      "sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "candidate_entries": 39
+    },
+    "tests/parser/test_streaming.py": {
+      "sha256": "d3b25e8924c8ce79b922c28e4f2ada7b5beb20bde73d2be79a4555ee33804b7c",
+      "candidate_entries": 21
+    },
+    "tests/parser/test_parse.py": {
+      "sha256": "c4f7f61b5d3f5095f93daee27a279434d395dd3910dca1817e8b7bcde5e22c07",
+      "candidate_entries": 19
+    },
+    "tests/reasoning/test_minimax_m3_reasoning_parser.py": {
+      "sha256": "4c407ccb785eb60a8709bfd890949361660d7969bf9ce4214b7a674fc7f1c5be",
+      "candidate_entries": 15
+    },
+    "tests/parser/engine/test_llama_json.py": {
+      "sha256": "518a303e1c4713d7b2b2d3e00b58e5d006d1ce121acf17d698cd65b6c5783468",
+      "candidate_entries": 23
+    },
+    "tests/parser/engine/test_plamo3.py": {
+      "sha256": "ba09eb41c5e48000a0919a1b5d330e4eb6068067c3cc0e9a335d7198cb7571f3",
+      "candidate_entries": 22
+    },
+    "tests/parser/engine/test_minicpmv_reasoning.py": {
+      "sha256": "ecac5661623dcdd428d880b0bf6db87ee2068cb28207caece4a7fcce106b35ad",
+      "candidate_entries": 22
+    },
+    "tests/renderers/test_inkling.py": {
+      "sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "candidate_entries": 21
+    },
+    "tests/tokenizers_/test_deepseek_v4.py": {
+      "sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "candidate_entries": 21
+    },
+    "tests/tokenizers_/test_deepseek_v41.py": {
+      "sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "candidate_entries": 22
+    }
+  },
+  "file_reviews": [
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "candidate_entries": 39,
+      "review": "Complete and chunked Harmony parsing checks reasoning/content/tool separation; four token-count checks need a distinct counting unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_streaming.py",
+      "source_sha256": "d3b25e8924c8ce79b922c28e4f2ada7b5beb20bde73d2be79a4555ee33804b7c",
+      "candidate_entries": 21,
+      "review": "Parser-composition tests assert emitted reasoning, content, tool calls and tool-choice fallback under fixed chunks; they do not inspect constraint schemas."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_parse.py",
+      "source_sha256": "c4f7f61b5d3f5095f93daee27a279434d395dd3910dca1817e8b7bcde5e22c07",
+      "candidate_entries": 19,
+      "review": "Complete parser and prompt-boundary checks assert reasoning/content/tool fields; one history-count helper has a different target."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/reasoning/test_minimax_m3_reasoning_parser.py",
+      "source_sha256": "4c407ccb785eb60a8709bfd890949361660d7969bf9ce4214b7a674fc7f1c5be",
+      "candidate_entries": 15,
+      "review": "Fixed marker and token-ID cases assert reasoning/content split and end-state transitions, including split markers."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_llama_json.py",
+      "source_sha256": "518a303e1c4713d7b2b2d3e00b58e5d006d1ce121acf17d698cd65b6c5783468",
+      "candidate_entries": 23,
+      "review": "JSON tool-parser tests assert call name, arguments, fallback and chunk invariance; registry alias check is not parser behavior."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_plamo3.py",
+      "source_sha256": "ba09eb41c5e48000a0919a1b5d330e4eb6068067c3cc0e9a335d7198cb7571f3",
+      "candidate_entries": 22,
+      "review": "Plamo parser cases compare complete versus streamed reasoning/content/tool fields and partial marker behavior."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_minicpmv_reasoning.py",
+      "source_sha256": "ecac5661623dcdd428d880b0bf6db87ee2068cb28207caece4a7fcce106b35ad",
+      "candidate_entries": 22,
+      "review": "Non-thinking and thinking cases assert extracted content and tool calls; standalone newline normalizer and registry checks need different units."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "candidate_entries": 21,
+      "review": "One entry compares complete token IDs; other entries compare rendered prompt text or configuration without token-ID oracle."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "candidate_entries": 21,
+      "review": "All sampled entries inspect rendered text, configuration, or exceptions rather than a reference token-ID sequence."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "candidate_entries": 22,
+      "review": "Two entries check actual media UUID/payload order or absence; remaining entries predominantly inspect prompt text and need a rendering unit."
+    }
+  ],
+  "entries": [
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestFlush::test_flush",
+      "line": 180,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        186,
+        187,
+        190,
+        191,
+        192,
+        193,
+        194,
+        195
+      ],
+      "oracle_text": [
+        "assert flushed_segments is not None",
+        "assert len(flushed_segments) == 1",
+        "assert flushed is not None",
+        "assert flushed.channel == \"analysis\"",
+        "assert flushed.recipient is None",
+        "assert flushed.delta == \"\"",
+        "assert flushed.completed_message is not None",
+        "assert get_text(flushed.completed_message) == \"Think\""
+      ],
+      "source_calls": [
+        "harmony_parser.process_chunk",
+        "harmony_parser.flush",
+        "assert_parser_is_reset",
+        "encode_output",
+        "len",
+        "get_text"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestFlush::test_flush_recovers_invalid_output",
+      "line": 198,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        201,
+        206,
+        210,
+        211,
+        212,
+        213,
+        214,
+        215
+      ],
+      "oracle_text": [
+        "assert \"\".join(segment.delta for segment in chunk.segments) == \"thinking\"",
+        "assert len(flushed_segments) == 2",
+        "assert delta_segment.channel == \"final\"",
+        "assert delta_segment.recipient is None",
+        "assert delta_segment.delta == last_msg_str",
+        "assert message_segment.channel == \"final\"",
+        "assert message_segment.recipient is None",
+        "assert get_text(message_segment.completed_message) == last_msg_str"
+      ],
+      "source_calls": [
+        "harmony_parser.process_chunk",
+        "harmony_parser.flush",
+        "assert_parser_is_reset",
+        "encode_output",
+        "len",
+        "get_text",
+        "''.join"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestParse::test_reasoning_only",
+      "line": 222,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        231,
+        232,
+        233
+      ],
+      "oracle_text": [
+        "assert reasoning == \"This is reasoning\"",
+        "assert content is None",
+        "assert tool_calls is None"
+      ],
+      "source_calls": [
+        "harmony_parser.parse",
+        "assistant",
+        "get_model_output_tokens"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestParse::test_content_only",
+      "line": 235,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        244,
+        245,
+        246
+      ],
+      "oracle_text": [
+        "assert reasoning is None",
+        "assert content == \"This is a test\"",
+        "assert tool_calls is None"
+      ],
+      "source_calls": [
+        "harmony_parser.parse",
+        "assistant",
+        "get_model_output_tokens"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestParse::test_reasoning_and_content",
+      "line": 248,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        260,
+        261,
+        262
+      ],
+      "oracle_text": [
+        "assert reasoning == \"I should think first.\"",
+        "assert content == \"The answer is 4.\"",
+        "assert tool_calls is None"
+      ],
+      "source_calls": [
+        "harmony_parser.parse",
+        "assistant",
+        "get_model_output_tokens"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestParse::test_single_tool_call",
+      "line": 272,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        283,
+        284,
+        285
+      ],
+      "oracle_text": [
+        "assert reasoning is None",
+        "assert content is None",
+        "assert tool_call_tuples(tool_calls) == ["
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "harmony_parser.parse",
+        "tool_call",
+        "tool_call_tuples",
+        "get_model_output_tokens",
+        "json.dumps"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestParse::test_multiple_tool_calls_varied_formats",
+      "line": 289,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        309,
+        310
+      ],
+      "oracle_text": [
+        "assert content is None",
+        "assert tool_call_tuples(tool_calls) == ["
+      ],
+      "source_calls": [
+        "harmony_parser.parse",
+        "tool_call",
+        "tool_call_tuples",
+        "get_model_output_tokens",
+        "json.dumps"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestParse::test_tool_call_bare_recipient",
+      "line": 319,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        328
+      ],
+      "oracle_text": [
+        "assert tool_call_tuples(tool_calls) == ["
+      ],
+      "source_calls": [
+        "harmony_parser.parse",
+        "tool_call",
+        "tool_call_tuples",
+        "get_model_output_tokens",
+        "json.dumps"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestParse::test_multiple_tool_calls_bare_recipients",
+      "line": 332,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        344
+      ],
+      "oracle_text": [
+        "assert tool_call_tuples(tool_calls) == ["
+      ],
+      "source_calls": [
+        "harmony_parser.parse",
+        "tool_call",
+        "tool_call_tuples",
+        "get_model_output_tokens",
+        "json.dumps"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestParse::test_assistant_recipient_not_tool",
+      "line": 349,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        361,
+        362,
+        363
+      ],
+      "oracle_text": [
+        "assert reasoning is None",
+        "assert content == \"Here is the answer\"",
+        "assert tool_calls is None"
+      ],
+      "source_calls": [
+        "harmony_parser.parse",
+        "tool_call",
+        "assistant",
+        "get_model_output_tokens"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestParse::test_tool_call_dotted_name",
+      "line": 365,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        374
+      ],
+      "oracle_text": [
+        "assert tool_call_tuples(tool_calls) == ["
+      ],
+      "source_calls": [
+        "harmony_parser.parse",
+        "tool_call",
+        "tool_call_tuples",
+        "get_model_output_tokens",
+        "json.dumps"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestParse::test_tool_calls_with_final_content",
+      "line": 378,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        391,
+        392,
+        393
+      ],
+      "oracle_text": [
+        "assert reasoning == \"User asked about the weather.\"",
+        "assert content == \"This tool call will get the weather.\"",
+        "assert tool_call_tuples(tool_calls) == ["
+      ],
+      "source_calls": [
+        "harmony_parser.parse",
+        "assistant",
+        "tool_call",
+        "tool_call_tuples",
+        "get_model_output_tokens",
+        "json.dumps"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestParse::test_interrupted_first_message",
+      "line": 399,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        408,
+        409,
+        410
+      ],
+      "oracle_text": [
+        "assert reasoning is None",
+        "assert content == \"I'm in the middle of answering\"",
+        "assert tool_calls is None"
+      ],
+      "source_calls": [
+        "harmony_parser.parse",
+        "assert_parser_is_reset",
+        "encode_output"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestParse::test_interrupted_reasoning_first_message",
+      "line": 413,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        422,
+        423,
+        424
+      ],
+      "oracle_text": [
+        "assert reasoning == \"I'm in the middle of thinking\"",
+        "assert content is None",
+        "assert tool_calls is None"
+      ],
+      "source_calls": [
+        "harmony_parser.parse",
+        "assert_parser_is_reset",
+        "encode_output"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestParse::test_truncated_output",
+      "line": 427,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        438,
+        439,
+        440
+      ],
+      "oracle_text": [
+        "assert reasoning == \"I'm thinking.\"",
+        "assert content == \"I'm in the middle of answering\"",
+        "assert tool_calls is None"
+      ],
+      "source_calls": [
+        "harmony_parser.parse",
+        "assert_parser_is_reset",
+        "encode_output"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestParse::test_malformed_msgs_recovers_raw_content",
+      "line": 443,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        454,
+        455,
+        456
+      ],
+      "oracle_text": [
+        "assert reasoning == \"thinking\"",
+        "assert content == \"thinking\\n\" + malformed_msgs_str[-1]",
+        "assert tool_calls is None"
+      ],
+      "source_calls": [
+        "''.join",
+        "harmony_parser.parse",
+        "assert_parser_is_reset",
+        "encode_output"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestParse::test_commentary_preambles",
+      "line": 473,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        486,
+        487,
+        488
+      ],
+      "oracle_text": [
+        "assert reasoning is None",
+        "assert content == expected_content",
+        "assert tool_calls is None"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "harmony_parser.parse",
+        "encode_output"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestParse::test_commentary_with_recipient_excluded",
+      "line": 490,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        503,
+        504,
+        505
+      ],
+      "oracle_text": [
+        "assert reasoning is None",
+        "assert content == \"Let me check the weather.\"",
+        "assert tool_call_tuples(tool_calls) == ["
+      ],
+      "source_calls": [
+        "harmony_parser.parse",
+        "tool_call_tuples",
+        "encode_output",
+        "json.dumps"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestParseDelta::test_basic",
+      "line": 511,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        529,
+        530,
+        531,
+        532,
+        533,
+        534
+      ],
+      "oracle_text": [
+        "assert first_delta is not None",
+        "assert first_delta.reasoning == \"Thinking\"",
+        "assert first_delta.content is None",
+        "assert second_delta is not None",
+        "assert second_delta.content == \"Answer\"",
+        "assert second_delta.reasoning is None"
+      ],
+      "source_calls": [
+        "HarmonyParser",
+        "parser.parse_delta",
+        "assert_parser_is_reset",
+        "encode_output"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestParseDelta::test_multi_token",
+      "line": 537,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        547,
+        548,
+        549,
+        550
+      ],
+      "oracle_text": [
+        "assert delta is not None",
+        "assert delta.content == \"Hello, world!\"",
+        "assert delta.reasoning is None",
+        "assert not delta.tool_calls"
+      ],
+      "source_calls": [
+        "HarmonyParser",
+        "parser.parse_delta",
+        "encode_output"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestParseDelta::test_malformed_msgs_recovers_raw_content",
+      "line": 552,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        564,
+        565,
+        566,
+        575,
+        576,
+        577,
+        578
+      ],
+      "oracle_text": [
+        "assert delta is not None",
+        "assert (delta.reasoning or delta.content) == \"thinking\"",
+        "assert not delta.tool_calls",
+        "assert last_delta is not None",
+        "assert last_delta.content == malformed_msgs_str[-1]",
+        "assert last_delta.reasoning is None",
+        "assert not last_delta.tool_calls"
+      ],
+      "source_calls": [
+        "HarmonyParser",
+        "parser.parse_delta",
+        "assert_parser_is_reset",
+        "encode_output"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestParseDelta::test_tool_call_split_across_deltas",
+      "line": 582,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        604,
+        605,
+        606,
+        607,
+        611,
+        612,
+        613,
+        614
+      ],
+      "oracle_text": [
+        "assert first_delta is not None",
+        "assert first_delta.reasoning == \"Thinking\"",
+        "assert first_delta.content is None",
+        "assert tool_call_entries(first_delta) == [",
+        "assert second_delta is not None",
+        "assert second_delta.reasoning is None",
+        "assert second_delta.content is None",
+        "assert tool_call_entries(second_delta) == [(0, None, '\"Paris\"}')]"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "HarmonyParser",
+        "parser.parse_delta",
+        "tool_call_entries",
+        "encode_output"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestParseDelta::test_commentary_preamble_streaming",
+      "line": 616,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        628,
+        629,
+        630,
+        631
+      ],
+      "oracle_text": [
+        "assert delta is not None",
+        "assert delta.content == \"I'll search for that\"",
+        "assert delta.reasoning is None",
+        "assert not delta.tool_calls"
+      ],
+      "source_calls": [
+        "HarmonyParser",
+        "parser.parse_delta",
+        "encode_output"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestParseDelta::test_multiple_choices",
+      "line": 633,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        658,
+        659,
+        660,
+        663,
+        666,
+        667
+      ],
+      "oracle_text": [
+        "assert delta_a is not None",
+        "assert delta_b is not None",
+        "assert [tool.function.name for tool in tool_call_headers(delta_a)] == [",
+        "assert [tool.function.name for tool in tool_call_headers(delta_b)] == [",
+        "assert {tool.index for tool in delta_a.tool_calls} == {0}",
+        "assert {tool.index for tool in delta_b.tool_calls} == {0}"
+      ],
+      "source_calls": [
+        "HarmonyParser",
+        "parser_a.parse_delta",
+        "parser_b.parse_delta",
+        "encode_output",
+        "tool_call_headers"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestParseDelta::test_dotted_function_name",
+      "line": 669,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        683,
+        684,
+        685
+      ],
+      "oracle_text": [
+        "assert delta is not None",
+        "assert [tool.function.name for tool in tool_call_headers(delta)] == [\"math.sum\"]",
+        "assert {tool.index for tool in delta.tool_calls} == {0}"
+      ],
+      "source_calls": [
+        "HarmonyParser",
+        "parser.parse_delta",
+        "encode_output",
+        "tool_call_headers"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestParseDelta::test_cross_channel_with_tool",
+      "line": 706,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        721,
+        722,
+        723,
+        724
+      ],
+      "oracle_text": [
+        "assert delta is not None",
+        "assert delta.reasoning == \"Reasoning about query...\"",
+        "assert delta.content == \"Done\"",
+        "assert tool_call_entries(delta) == [(0, \"search\", '{\"query\": \"vllm\"}')]"
+      ],
+      "source_calls": [
+        "HarmonyParser",
+        "parser.parse_delta",
+        "tool_call_entries",
+        "encode_output"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestParseDelta::test_tool_index_across_calls",
+      "line": 726,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        749,
+        750,
+        751
+      ],
+      "oracle_text": [
+        "assert [tool.index for tool in tool_call_headers(first_delta)] == [0]",
+        "assert [tool.index for tool in tool_call_headers(second_delta)] == [1]",
+        "assert [tool.function.name for tool in tool_call_headers(second_delta)] == ["
+      ],
+      "source_calls": [
+        "HarmonyParser",
+        "parser.parse_delta",
+        "encode_output",
+        "tool_call_headers"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestParseDelta::test_multi_tool_interleaved",
+      "line": 755,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        787,
+        791,
+        793,
+        794,
+        795,
+        797,
+        798,
+        799,
+        803
+      ],
+      "oracle_text": [
+        "assert tool_call_entries(first_delta) == [",
+        "assert [tool.index for tool in tool_call_headers(first_delta)] == [0, 1]",
+        "assert second_delta is not None",
+        "assert tool_call_entries(second_delta) == [(1, None, \"2\")]",
+        "assert [tool.index for tool in tool_call_payloads(second_delta)] == [1]",
+        "assert third_delta is not None",
+        "assert third_delta.content == \"Done\"",
+        "assert tool_call_entries(third_delta) == [",
+        "assert [tool.index for tool in tool_call_headers(third_delta)] == [2]"
+      ],
+      "source_calls": [
+        "HarmonyParser",
+        "parser.parse_delta",
+        "tool_call_entries",
+        "encode_output",
+        "tool_call_headers",
+        "tool_call_payloads"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestProcessChunk::test_empty",
+      "line": 807,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        809,
+        810
+      ],
+      "oracle_text": [
+        "assert result.segments == []",
+        "assert result.reasoning_token_count == 0"
+      ],
+      "source_calls": [
+        "harmony_parser.process_chunk"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestProcessChunk::test_single_channel",
+      "line": 812,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        817
+      ],
+      "oracle_text": [
+        "assert ["
+      ],
+      "source_calls": [
+        "harmony_parser.process_chunk",
+        "encode_output"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestProcessChunk::test_constrained_output_segment_recipient_normalized",
+      "line": 821,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        829,
+        830,
+        831,
+        839,
+        840
+      ],
+      "oracle_text": [
+        "assert all(segment.channel == \"final\" for segment in content_segments)",
+        "assert all(segment.recipient is None for segment in content_segments)",
+        "assert (",
+        "assert len(completed_messages) == 1",
+        "assert completed_messages[0].recipient is None"
+      ],
+      "source_calls": [
+        "harmony_parser.process_chunk",
+        "all",
+        "encode_output",
+        "''.join",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestProcessChunk::test_cross_channel",
+      "line": 842,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        850
+      ],
+      "oracle_text": [
+        "assert ["
+      ],
+      "source_calls": [
+        "harmony_parser.process_chunk",
+        "encode_output"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestProcessChunk::test_multi_boundary",
+      "line": 857,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        870
+      ],
+      "oracle_text": [
+        "assert ["
+      ],
+      "source_calls": [
+        "harmony_parser.process_chunk",
+        "encode_output",
+        "get_text"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestProcessChunk::test_malformed_token_does_not_raise",
+      "line": 878,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        885
+      ],
+      "oracle_text": [
+        "assert \"\".join(s.delta for s in result.segments if s.delta) == \"thinkanswer\""
+      ],
+      "source_calls": [
+        "encode_output",
+        "harmony_parser.process_chunk",
+        "''.join"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestCountReasoningTokens::test_matches_process_chunk",
+      "line": 889,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        900,
+        901
+      ],
+      "oracle_text": [
+        "assert count == fresh.process_chunk(token_ids).reasoning_token_count",
+        "assert count > 0"
+      ],
+      "source_calls": [
+        "get_model_output_tokens",
+        "harmony_parser.count_reasoning_tokens",
+        "HarmonyParser",
+        "assistant",
+        "tool_call",
+        "fresh.process_chunk"
+      ],
+      "status": "needs_refinement",
+      "reason": "reasoning token count needs a narrower unit than response usage"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestCountReasoningTokens::test_excludes_harmony_control_tokens",
+      "line": 903,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        909
+      ],
+      "oracle_text": [
+        "assert harmony_parser.count_reasoning_tokens(token_ids) == expected"
+      ],
+      "source_calls": [
+        "get_model_output_tokens",
+        "len",
+        "get_encoding().encode",
+        "harmony_parser.count_reasoning_tokens",
+        "assistant",
+        "get_encoding"
+      ],
+      "status": "needs_refinement",
+      "reason": "reasoning token count needs a narrower unit than response usage"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestCountReasoningTokens::test_final_only_has_no_reasoning",
+      "line": 911,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        913
+      ],
+      "oracle_text": [
+        "assert harmony_parser.count_reasoning_tokens(token_ids) == 0"
+      ],
+      "source_calls": [
+        "get_model_output_tokens",
+        "harmony_parser.count_reasoning_tokens",
+        "assistant"
+      ],
+      "status": "needs_refinement",
+      "reason": "reasoning token count needs a narrower unit than response usage"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestCountReasoningTokens::test_streaming_reuses_running_total",
+      "line": 915,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        934
+      ],
+      "oracle_text": [
+        "assert harmony_parser.count_reasoning_tokens(token_ids) == expected"
+      ],
+      "source_calls": [
+        "get_model_output_tokens",
+        "HarmonyParser(gpt_oss_tokenizer).count_reasoning_tokens",
+        "harmony_parser.parse_delta",
+        "monkeypatch.setattr",
+        "range",
+        "AssertionError",
+        "len",
+        "harmony_parser.process_chunk",
+        "harmony_parser.count_reasoning_tokens",
+        "assistant",
+        "HarmonyParser"
+      ],
+      "status": "needs_refinement",
+      "reason": "reasoning token count and caching need a narrower unit"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_harmony.py",
+      "test_name": "TestCountReasoningTokens::test_does_not_disturb_stream_state",
+      "line": 936,
+      "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+      "oracle_lines": [
+        946
+      ],
+      "oracle_text": [
+        "assert (reasoning, content) == (\"Think\", \"Answer\")"
+      ],
+      "source_calls": [
+        "get_model_output_tokens",
+        "harmony_parser.count_reasoning_tokens",
+        "harmony_parser.parse",
+        "assistant"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_streaming.py",
+      "test_name": "test_parse_delta_neither_parser",
+      "line": 132,
+      "source_sha256": "d3b25e8924c8ce79b922c28e4f2ada7b5beb20bde73d2be79a4555ee33804b7c",
+      "oracle_lines": [
+        139,
+        140,
+        141,
+        142,
+        143,
+        144
+      ],
+      "oracle_text": [
+        "assert reasoning == \"\"",
+        "assert len(tool_calls) == 0",
+        "assert \"<think>\" in content",
+        "assert \"let me think about this\" in content",
+        "assert \"<tool_call>\" in content",
+        "assert \"get_weather\" in content"
+      ],
+      "source_calls": [
+        "make_parser",
+        "stream_text",
+        "collect_fields",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_streaming.py",
+      "test_name": "test_parse_delta_tool_parser_only",
+      "line": 147,
+      "source_sha256": "d3b25e8924c8ce79b922c28e4f2ada7b5beb20bde73d2be79a4555ee33804b7c",
+      "oracle_lines": [
+        154,
+        155,
+        156,
+        157,
+        159,
+        160,
+        164
+      ],
+      "oracle_text": [
+        "assert reasoning == \"\"",
+        "assert \"<think>\" in content",
+        "assert \"let me think about this\" in content",
+        "assert \"</think>\" in content",
+        "assert len(tool_calls) > 0",
+        "assert tool_calls[0].function.name == \"get_weather\"",
+        "assert json.loads(tool_args) == {\"city\": \"Dallas\"}"
+      ],
+      "source_calls": [
+        "make_parser",
+        "stream_text",
+        "collect_fields",
+        "''.join",
+        "len",
+        "json.loads"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_streaming.py",
+      "test_name": "test_parse_delta_reasoning_parser_only",
+      "line": 167,
+      "source_sha256": "d3b25e8924c8ce79b922c28e4f2ada7b5beb20bde73d2be79a4555ee33804b7c",
+      "oracle_lines": [
+        174,
+        175,
+        176,
+        177,
+        178
+      ],
+      "oracle_text": [
+        "assert \"let me think about this\" in reasoning",
+        "assert len(tool_calls) == 0",
+        "assert \"<tool_call>\" in content",
+        "assert \"get_weather\" in content",
+        "assert \"</tool_call>\" in content"
+      ],
+      "source_calls": [
+        "make_parser",
+        "stream_text",
+        "collect_fields",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_streaming.py",
+      "test_name": "test_parse_delta_both_parsers",
+      "line": 181,
+      "source_sha256": "d3b25e8924c8ce79b922c28e4f2ada7b5beb20bde73d2be79a4555ee33804b7c",
+      "oracle_lines": [
+        188,
+        189,
+        191,
+        192,
+        196
+      ],
+      "oracle_text": [
+        "assert \"let me think about this\" in reasoning",
+        "assert content == \"\"",
+        "assert len(tool_calls) > 0",
+        "assert tool_calls[0].function.name == \"get_weather\"",
+        "assert json.loads(tool_args) == {\"city\": \"Dallas\"}"
+      ],
+      "source_calls": [
+        "make_parser",
+        "stream_text",
+        "collect_fields",
+        "''.join",
+        "len",
+        "json.loads"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_streaming.py",
+      "test_name": "test_parse_delta_reasoning_not_dropped_on_boundary",
+      "line": 230,
+      "source_sha256": "d3b25e8924c8ce79b922c28e4f2ada7b5beb20bde73d2be79a4555ee33804b7c",
+      "oracle_lines": [
+        238,
+        239,
+        240,
+        241,
+        245
+      ],
+      "oracle_text": [
+        "assert \"think about this\" in reasoning",
+        "assert content == \"\"",
+        "assert len(tool_calls) > 0",
+        "assert tool_calls[0].function.name == \"get_weather\"",
+        "assert json.loads(tool_args) == {\"city\": \"Dallas\"}"
+      ],
+      "source_calls": [
+        "make_parser",
+        "_boundary_chunks",
+        "stream_chunks",
+        "collect_fields",
+        "''.join",
+        "len",
+        "json.loads"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_streaming.py",
+      "test_name": "test_parse_delta_reasoning_boundary_no_tool_parser",
+      "line": 248,
+      "source_sha256": "d3b25e8924c8ce79b922c28e4f2ada7b5beb20bde73d2be79a4555ee33804b7c",
+      "oracle_lines": [
+        256,
+        257,
+        258,
+        259
+      ],
+      "oracle_text": [
+        "assert \"think about this\" in reasoning",
+        "assert len(tool_calls) == 0",
+        "assert \"<tool_call>\" in content",
+        "assert \"get_weather\" in content"
+      ],
+      "source_calls": [
+        "make_parser",
+        "_boundary_chunks",
+        "stream_chunks",
+        "collect_fields",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_streaming.py",
+      "test_name": "test_parse_delta_reasoning_only_no_think_leak",
+      "line": 262,
+      "source_sha256": "d3b25e8924c8ce79b922c28e4f2ada7b5beb20bde73d2be79a4555ee33804b7c",
+      "oracle_lines": [
+        271,
+        272,
+        273
+      ],
+      "oracle_text": [
+        "assert \"let me think about this\" in reasoning",
+        "assert \"</think>\" not in content",
+        "assert \"<think>\" not in content"
+      ],
+      "source_calls": [
+        "make_parser",
+        "stream_text",
+        "collect_fields"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_streaming.py",
+      "test_name": "test_parse_delta_reasoning_only_thinking_disabled",
+      "line": 276,
+      "source_sha256": "d3b25e8924c8ce79b922c28e4f2ada7b5beb20bde73d2be79a4555ee33804b7c",
+      "oracle_lines": [
+        298,
+        299,
+        300,
+        301
+      ],
+      "oracle_text": [
+        "assert reasoning == \"\", f\"Expected no reasoning, got: {reasoning!r}\"",
+        "assert \"Hello\" in content",
+        "assert \"assist\" in content",
+        "assert len(tool_calls) == 0"
+      ],
+      "source_calls": [
+        "make_parser",
+        "stream_text",
+        "collect_fields",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_streaming.py",
+      "test_name": "test_parse_delta_finished_no_flush_without_tool_call_delta",
+      "line": 304,
+      "source_sha256": "d3b25e8924c8ce79b922c28e4f2ada7b5beb20bde73d2be79a4555ee33804b7c",
+      "oracle_lines": [
+        313,
+        316,
+        324
+      ],
+      "oracle_text": [
+        "assert len(tool_calls) > 0",
+        "assert len(streamed) > 5",
+        "assert flush_result is None or flush_result.tool_calls is None"
+      ],
+      "source_calls": [
+        "make_parser",
+        "stream_text",
+        "collect_fields",
+        "parser.parse_delta",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_streaming.py",
+      "test_name": "test_parse_delta_finished_no_extra_args_when_fully_streamed",
+      "line": 327,
+      "source_sha256": "d3b25e8924c8ce79b922c28e4f2ada7b5beb20bde73d2be79a4555ee33804b7c",
+      "oracle_lines": [
+        336,
+        337,
+        341,
+        344
+      ],
+      "oracle_text": [
+        "assert len(tool_calls) > 0",
+        "assert tool_calls[0].function.name == \"get_weather\"",
+        "assert json.loads(tool_args) == {\"city\": \"Dallas\"}",
+        "assert flush_result is None or flush_result.tool_calls is None"
+      ],
+      "source_calls": [
+        "make_parser",
+        "stream_text",
+        "collect_fields",
+        "''.join",
+        "parser.parse_delta",
+        "len",
+        "json.loads"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_streaming.py",
+      "test_name": "test_parse_delta_tool_choice_none",
+      "line": 387,
+      "source_sha256": "d3b25e8924c8ce79b922c28e4f2ada7b5beb20bde73d2be79a4555ee33804b7c",
+      "oracle_lines": [
+        393,
+        394,
+        395,
+        396
+      ],
+      "oracle_text": [
+        "assert reasoning == \"\"",
+        "assert len(tool_calls) == 0",
+        "assert \"<tool_call>\" in content",
+        "assert \"get_weather\" in content"
+      ],
+      "source_calls": [
+        "make_parser",
+        "request_obj.model_copy",
+        "stream_text",
+        "collect_fields",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_streaming.py",
+      "test_name": "test_parse_delta_tool_choice_none_with_reasoning",
+      "line": 399,
+      "source_sha256": "d3b25e8924c8ce79b922c28e4f2ada7b5beb20bde73d2be79a4555ee33804b7c",
+      "oracle_lines": [
+        405,
+        406,
+        407,
+        408
+      ],
+      "oracle_text": [
+        "assert \"let me think about this\" in reasoning",
+        "assert len(tool_calls) == 0",
+        "assert \"<tool_call>\" in content",
+        "assert \"get_weather\" in content"
+      ],
+      "source_calls": [
+        "make_parser",
+        "request_obj.model_copy",
+        "stream_text",
+        "collect_fields",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_streaming.py",
+      "test_name": "test_parse_delta_required_tool_choice_kimi_k2_ids",
+      "line": 411,
+      "source_sha256": "d3b25e8924c8ce79b922c28e4f2ada7b5beb20bde73d2be79a4555ee33804b7c",
+      "oracle_lines": [
+        441,
+        442,
+        443
+      ],
+      "oracle_text": [
+        "assert content == \"\"",
+        "assert any(tc.id == \"functions.get_current_weather:0\" for tc in tool_calls)",
+        "assert all(tc.id in (None, \"functions.get_current_weather:0\") for tc in tool_calls)"
+      ],
+      "source_calls": [
+        "make_parser",
+        "request_obj.model_copy",
+        "json.dumps",
+        "range",
+        "collect_fields",
+        "any",
+        "all",
+        "len",
+        "results.append",
+        "parser.parse_delta"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_streaming.py",
+      "test_name": "test_parse_delta_required_tool_choice_kimi_k2_ids_after_history",
+      "line": 446,
+      "source_sha256": "d3b25e8924c8ce79b922c28e4f2ada7b5beb20bde73d2be79a4555ee33804b7c",
+      "oracle_lines": [
+        480,
+        481
+      ],
+      "oracle_text": [
+        "assert any(tc.id == \"functions.get_current_weather:1\" for tc in tool_calls)",
+        "assert all(tc.id in (None, \"functions.get_current_weather:1\") for tc in tool_calls)"
+      ],
+      "source_calls": [
+        "make_parser",
+        "request_obj.model_copy",
+        "json.dumps",
+        "range",
+        "collect_fields",
+        "any",
+        "all",
+        "len",
+        "results.append",
+        "parser.parse_delta"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_streaming.py",
+      "test_name": "test_engine_reasoning_hermes_tool_token_by_token",
+      "line": 492,
+      "source_sha256": "d3b25e8924c8ce79b922c28e4f2ada7b5beb20bde73d2be79a4555ee33804b7c",
+      "oracle_lines": [
+        499,
+        500,
+        501,
+        502,
+        503,
+        510,
+        511,
+        512,
+        513,
+        517
+      ],
+      "oracle_text": [
+        "assert parser._reasoning_parser is not None",
+        "assert parser._tool_parser is not None",
+        "assert parser._reasoning_parser.engine_based_streaming is True",
+        "assert parser._tool_parser.engine_based_streaming is False",
+        "assert parser._engine_based is False",
+        "assert \"let me think about this\" in reasoning",
+        "assert content == \"\"",
+        "assert len(tool_calls) > 0",
+        "assert tool_calls[0].function.name == \"get_weather\"",
+        "assert json.loads(tool_args) == {\"city\": \"Dallas\"}"
+      ],
+      "source_calls": [
+        "Qwen3ReasoningHermesToolParser",
+        "stream_text",
+        "collect_fields",
+        "''.join",
+        "len",
+        "json.loads"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_streaming.py",
+      "test_name": "test_engine_reasoning_hermes_tool_boundary",
+      "line": 520,
+      "source_sha256": "d3b25e8924c8ce79b922c28e4f2ada7b5beb20bde73d2be79a4555ee33804b7c",
+      "oracle_lines": [
+        527,
+        533,
+        534,
+        535,
+        536,
+        540,
+        541
+      ],
+      "oracle_text": [
+        "assert isinstance(parser._reasoning_parser, Qwen3ParserReasoningAdapter)",
+        "assert \"think about this\" in reasoning",
+        "assert content == \"\"",
+        "assert len(tool_calls) > 0",
+        "assert tool_calls[0].function.name == \"get_weather\"",
+        "assert json.loads(tool_args) == {\"city\": \"Dallas\"}",
+        "assert \"tool_call\" not in content"
+      ],
+      "source_calls": [
+        "Qwen3ReasoningHermesToolParser",
+        "isinstance",
+        "_boundary_chunks",
+        "stream_chunks",
+        "collect_fields",
+        "''.join",
+        "len",
+        "json.loads"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_streaming.py",
+      "test_name": "test_engine_reasoning_hermes_tool_text_holdback",
+      "line": 544,
+      "source_sha256": "d3b25e8924c8ce79b922c28e4f2ada7b5beb20bde73d2be79a4555ee33804b7c",
+      "oracle_lines": [
+        617,
+        618,
+        622,
+        626,
+        627
+      ],
+      "oracle_text": [
+        "assert \"let me think about this\" in reasoning",
+        "assert len(tool_calls) > 0, (",
+        "assert tool_calls[0].function.name == \"get_weather\"",
+        "assert json.loads(tool_args) == {\"city\": \"Dallas\"}",
+        "assert \"tool_call\" not in content"
+      ],
+      "source_calls": [
+        "Qwen3ReasoningHermesToolParser",
+        "tokenizer.get_vocab",
+        "tokenizer.encode",
+        "token_ids.index",
+        "tokenizer.decode",
+        "results.append",
+        "collect_fields",
+        "''.join",
+        "parser.parse_delta",
+        "len",
+        "json.loads"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_streaming.py",
+      "test_name": "test_engine_reasoning_no_tool_batched_content_passthrough",
+      "line": 638,
+      "source_sha256": "d3b25e8924c8ce79b922c28e4f2ada7b5beb20bde73d2be79a4555ee33804b7c",
+      "oracle_lines": [
+        650,
+        651,
+        652,
+        663,
+        664,
+        665,
+        666,
+        667
+      ],
+      "oracle_text": [
+        "assert isinstance(parser._reasoning_parser, Qwen3ParserReasoningAdapter)",
+        "assert parser._reasoning_parser.engine_based_streaming is True",
+        "assert parser._tool_parser is None",
+        "assert \"let me think about this\" in reasoning",
+        "assert content == \"The answer is 42.\"",
+        "assert \"</think>\" not in content",
+        "assert \"</think>\" not in reasoning",
+        "assert len(tool_calls) == 0"
+      ],
+      "source_calls": [
+        "Qwen3ReasoningNoToolParser",
+        "isinstance",
+        "tokenizer.encode",
+        "token_ids.index",
+        "stream_chunks",
+        "collect_fields",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_streaming.py",
+      "test_name": "test_engine_reasoning_no_tool_batched_holdback_not_dropped",
+      "line": 681,
+      "source_sha256": "d3b25e8924c8ce79b922c28e4f2ada7b5beb20bde73d2be79a4555ee33804b7c",
+      "oracle_lines": [
+        693,
+        694,
+        695
+      ],
+      "oracle_text": [
+        "assert reasoning == \"let me think\"",
+        "assert content == \"\".join(text_chunks).split(\"</think>\", 1)[1]",
+        "assert len(tool_calls) == 0"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "Qwen3ReasoningNoToolParser",
+        "stream_chunks",
+        "collect_fields",
+        "tokenizer.encode",
+        "len",
+        "''.join(text_chunks).split",
+        "''.join"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_streaming.py",
+      "test_name": "test_engine_reasoning_no_tool_holdback_finished_and_hidden_reasoning",
+      "line": 711,
+      "source_sha256": "d3b25e8924c8ce79b922c28e4f2ada7b5beb20bde73d2be79a4555ee33804b7c",
+      "oracle_lines": [
+        737,
+        738,
+        739
+      ],
+      "oracle_text": [
+        "assert reasoning == (\"let me think\" if include_reasoning else \"\")",
+        "assert content == expected_content",
+        "assert len(tool_calls) == 0"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "ChatCompletionRequest",
+        "Qwen3ReasoningNoToolParser",
+        "enumerate",
+        "collect_fields",
+        "tokenizer.encode",
+        "results.append",
+        "len",
+        "parser.parse_delta",
+        "tokenizer.decode"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_streaming.py",
+      "test_name": "test_engine_reasoning_hermes_tool_multibyte_holdback",
+      "line": 765,
+      "source_sha256": "d3b25e8924c8ce79b922c28e4f2ada7b5beb20bde73d2be79a4555ee33804b7c",
+      "oracle_lines": [
+        789,
+        829,
+        830,
+        834,
+        838,
+        839
+      ],
+      "oracle_text": [
+        "assert len(tokenizer.encode(\"🧑\\u200d🚀\", add_special_tokens=False)) > 1",
+        "assert \"let me think about this\" in reasoning",
+        "assert len(tool_calls) > 0, (",
+        "assert tool_calls[0].function.name == \"get_weather\"",
+        "assert json.loads(tool_args) == {\"city\": city}",
+        "assert content == \"\""
+      ],
+      "source_calls": [
+        "Qwen3ReasoningHermesToolParser",
+        "tokenizer.get_vocab",
+        "tokenizer.encode",
+        "token_ids.index",
+        "_decode_stream_deltas",
+        "collect_fields",
+        "''.join",
+        "len",
+        "results.append",
+        "json.loads",
+        "parser.parse_delta"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_parse.py",
+      "test_name": "test_parse_plain_text_no_reasoning_parser",
+      "line": 137,
+      "source_sha256": "c4f7f61b5d3f5095f93daee27a279434d395dd3910dca1817e8b7bcde5e22c07",
+      "oracle_lines": [
+        142,
+        143,
+        144,
+        145
+      ],
+      "oracle_text": [
+        "assert r is None",
+        "assert content == PLAIN_TEXT",
+        "assert tool_calls is not None",
+        "assert len(tool_calls) == 0"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "make_parser",
+        "make_request",
+        "parser.parse",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_parse.py",
+      "test_name": "test_parse_plain_text_with_reasoning_parser",
+      "line": 153,
+      "source_sha256": "c4f7f61b5d3f5095f93daee27a279434d395dd3910dca1817e8b7bcde5e22c07",
+      "oracle_lines": [
+        158,
+        159,
+        160,
+        161
+      ],
+      "oracle_text": [
+        "assert r == PLAIN_TEXT",
+        "assert content is None",
+        "assert tool_calls is not None",
+        "assert len(tool_calls) == 0"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "make_parser",
+        "make_request",
+        "parser.parse",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_parse.py",
+      "test_name": "test_parse_both_parsers",
+      "line": 164,
+      "source_sha256": "c4f7f61b5d3f5095f93daee27a279434d395dd3910dca1817e8b7bcde5e22c07",
+      "oracle_lines": [
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177
+      ],
+      "oracle_text": [
+        "assert reasoning is not None",
+        "assert \"let me think about this\" in reasoning",
+        "assert tool_calls is not None",
+        "assert len(tool_calls) == 1",
+        "assert tool_calls[0].name == \"get_weather\"",
+        "assert json.loads(tool_calls[0].arguments) == {\"city\": \"Dallas\"}",
+        "assert not content or content.strip() == \"\""
+      ],
+      "source_calls": [
+        "make_parser",
+        "make_request",
+        "parser.parse",
+        "len",
+        "json.loads",
+        "content.strip"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_parse.py",
+      "test_name": "test_parse_reasoning_only",
+      "line": 180,
+      "source_sha256": "c4f7f61b5d3f5095f93daee27a279434d395dd3910dca1817e8b7bcde5e22c07",
+      "oracle_lines": [
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        191
+      ],
+      "oracle_text": [
+        "assert reasoning is not None",
+        "assert \"let me think about this\" in reasoning",
+        "assert content is not None",
+        "assert \"<tool_call>\" in content",
+        "assert \"get_weather\" in content",
+        "assert tool_calls is not None",
+        "assert len(tool_calls) == 0"
+      ],
+      "source_calls": [
+        "make_parser",
+        "make_request",
+        "parser.parse",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_parse.py",
+      "test_name": "test_parse_tool_only",
+      "line": 194,
+      "source_sha256": "c4f7f61b5d3f5095f93daee27a279434d395dd3910dca1817e8b7bcde5e22c07",
+      "oracle_lines": [
+        201,
+        202,
+        203,
+        204,
+        205
+      ],
+      "oracle_text": [
+        "assert reasoning is None",
+        "assert tool_calls is not None",
+        "assert len(tool_calls) == 1",
+        "assert tool_calls[0].name == \"get_weather\"",
+        "assert json.loads(tool_calls[0].arguments) == {\"city\": \"Dallas\"}"
+      ],
+      "source_calls": [
+        "make_parser",
+        "make_request",
+        "parser.parse",
+        "len",
+        "json.loads"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_parse.py",
+      "test_name": "test_parse_named_tool_choice",
+      "line": 208,
+      "source_sha256": "c4f7f61b5d3f5095f93daee27a279434d395dd3910dca1817e8b7bcde5e22c07",
+      "oracle_lines": [
+        221,
+        222,
+        223,
+        224,
+        225,
+        226
+      ],
+      "oracle_text": [
+        "assert reasoning is None",
+        "assert content is None",
+        "assert tool_calls is not None",
+        "assert len(tool_calls) == 1",
+        "assert tool_calls[0].name == \"get_weather\"",
+        "assert tool_calls[0].arguments == TOOL_ARGUMENTS"
+      ],
+      "source_calls": [
+        "make_parser",
+        "make_request",
+        "parser.parse",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_parse.py",
+      "test_name": "test_parse_named_tool_choice_with_reasoning",
+      "line": 229,
+      "source_sha256": "c4f7f61b5d3f5095f93daee27a279434d395dd3910dca1817e8b7bcde5e22c07",
+      "oracle_lines": [
+        243,
+        244,
+        245,
+        246,
+        247,
+        248
+      ],
+      "oracle_text": [
+        "assert reasoning is not None",
+        "assert \"thinking\" in reasoning",
+        "assert content is None",
+        "assert len(tool_calls) == 1",
+        "assert tool_calls[0].name == \"get_weather\"",
+        "assert tool_calls[0].arguments == TOOL_ARGUMENTS"
+      ],
+      "source_calls": [
+        "make_parser",
+        "make_request",
+        "parser.parse",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_parse.py",
+      "test_name": "test_parse_required_tool_choice",
+      "line": 251,
+      "source_sha256": "c4f7f61b5d3f5095f93daee27a279434d395dd3910dca1817e8b7bcde5e22c07",
+      "oracle_lines": [
+        264,
+        265,
+        266,
+        267,
+        268,
+        269,
+        270,
+        271
+      ],
+      "oracle_text": [
+        "assert reasoning is None",
+        "assert content is None",
+        "assert tool_calls is not None",
+        "assert len(tool_calls) == 2",
+        "assert tool_calls[0].name == \"get_weather\"",
+        "assert json.loads(tool_calls[0].arguments) == {\"city\": \"Dallas\"}",
+        "assert tool_calls[1].name == \"get_time\"",
+        "assert json.loads(tool_calls[1].arguments) == {\"timezone\": \"UTC\"}"
+      ],
+      "source_calls": [
+        "make_parser",
+        "json.dumps",
+        "make_request",
+        "parser.parse",
+        "len",
+        "json.loads"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_parse.py",
+      "test_name": "test_parse_required_tool_choice_kimi_k2_ids",
+      "line": 274,
+      "source_sha256": "c4f7f61b5d3f5095f93daee27a279434d395dd3910dca1817e8b7bcde5e22c07",
+      "oracle_lines": [
+        289,
+        290,
+        291
+      ],
+      "oracle_text": [
+        "assert content is None",
+        "assert tool_calls is not None",
+        "assert [tc.id for tc in tool_calls] == ["
+      ],
+      "source_calls": [
+        "make_parser",
+        "json.dumps",
+        "make_request",
+        "parser.parse"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_parse.py",
+      "test_name": "test_parse_required_tool_choice_kimi_k2_ids_after_history",
+      "line": 297,
+      "source_sha256": "c4f7f61b5d3f5095f93daee27a279434d395dd3910dca1817e8b7bcde5e22c07",
+      "oracle_lines": [
+        311,
+        312
+      ],
+      "oracle_text": [
+        "assert tool_calls is not None",
+        "assert tool_calls[0].id == \"functions.get_current_weather:2\""
+      ],
+      "source_calls": [
+        "make_parser",
+        "json.dumps",
+        "make_request",
+        "parser.parse"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_parse.py",
+      "test_name": "test_count_history_tool_calls_responses_request",
+      "line": 315,
+      "source_sha256": "c4f7f61b5d3f5095f93daee27a279434d395dd3910dca1817e8b7bcde5e22c07",
+      "oracle_lines": [
+        336
+      ],
+      "oracle_text": [
+        "assert count_history_tool_calls(request) == 2"
+      ],
+      "source_calls": [
+        "ResponsesRequest.model_validate",
+        "count_history_tool_calls"
+      ],
+      "status": "needs_refinement",
+      "reason": "history tool-call count, not parsed output call relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_parse.py",
+      "test_name": "test_parse_named_tool_choice_kimi_k2_id",
+      "line": 355,
+      "source_sha256": "c4f7f61b5d3f5095f93daee27a279434d395dd3910dca1817e8b7bcde5e22c07",
+      "oracle_lines": [
+        370,
+        371,
+        372
+      ],
+      "oracle_text": [
+        "assert content is None",
+        "assert tool_calls is not None",
+        "assert tool_calls[0].id == \"functions.get_weather:0\""
+      ],
+      "source_calls": [
+        "make_parser",
+        "make_request",
+        "parser.parse"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_parse.py",
+      "test_name": "test_parse_required_tool_choice_content_none",
+      "line": 390,
+      "source_sha256": "c4f7f61b5d3f5095f93daee27a279434d395dd3910dca1817e8b7bcde5e22c07",
+      "oracle_lines": [
+        394,
+        395,
+        396,
+        397
+      ],
+      "oracle_text": [
+        "assert reasoning is None",
+        "assert content is None",
+        "assert tool_calls is not None",
+        "assert len(tool_calls) == 0"
+      ],
+      "source_calls": [
+        "make_parser",
+        "make_request",
+        "parser.parse",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_parse.py",
+      "test_name": "test_parse_auto_tools_no_parser",
+      "line": 400,
+      "source_sha256": "c4f7f61b5d3f5095f93daee27a279434d395dd3910dca1817e8b7bcde5e22c07",
+      "oracle_lines": [
+        407,
+        408,
+        409,
+        410
+      ],
+      "oracle_text": [
+        "assert reasoning is None",
+        "assert content == TOOL_CALL_ONLY",
+        "assert tool_calls is not None",
+        "assert len(tool_calls) == 0"
+      ],
+      "source_calls": [
+        "make_parser",
+        "make_request",
+        "parser.parse",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_parse.py",
+      "test_name": "test_parse_auto_tools_no_calls_returns_none",
+      "line": 413,
+      "source_sha256": "c4f7f61b5d3f5095f93daee27a279434d395dd3910dca1817e8b7bcde5e22c07",
+      "oracle_lines": [
+        420,
+        421,
+        422
+      ],
+      "oracle_text": [
+        "assert reasoning is None",
+        "assert content == PLAIN_TEXT",
+        "assert tool_calls is None"
+      ],
+      "source_calls": [
+        "make_parser",
+        "make_request",
+        "parser.parse"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_parse.py",
+      "test_name": "test_parse_prompt_closed_reasoning_is_content",
+      "line": 508,
+      "source_sha256": "c4f7f61b5d3f5095f93daee27a279434d395dd3910dca1817e8b7bcde5e22c07",
+      "oracle_lines": [
+        517,
+        518,
+        519
+      ],
+      "oracle_text": [
+        "assert reasoning is None",
+        "assert content == output",
+        "assert parser.count_reasoning_tokens(encode(tokenizer, output)) == 0"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "prompt_case",
+        "reasoning_parser",
+        "parser.set_prompt_token_ids",
+        "parser.parse",
+        "parser.count_reasoning_tokens",
+        "encode"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_parse.py",
+      "test_name": "test_parse_prompt_open_reasoning_still_extracted",
+      "line": 532,
+      "source_sha256": "c4f7f61b5d3f5095f93daee27a279434d395dd3910dca1817e8b7bcde5e22c07",
+      "oracle_lines": [
+        541,
+        542,
+        543
+      ],
+      "oracle_text": [
+        "assert reasoning.strip() == \"let me think\"",
+        "assert content.strip() == PLAIN_TEXT",
+        "assert parser.count_reasoning_tokens(encode(tokenizer, output)) > 0"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "prompt_case",
+        "reasoning_parser",
+        "parser.set_prompt_token_ids",
+        "parser.parse",
+        "reasoning.strip",
+        "content.strip",
+        "parser.count_reasoning_tokens",
+        "encode"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_parse.py",
+      "test_name": "test_parse_prompt_ignored_without_turn_boundaries",
+      "line": 546,
+      "source_sha256": "c4f7f61b5d3f5095f93daee27a279434d395dd3910dca1817e8b7bcde5e22c07",
+      "oracle_lines": [
+        559,
+        560,
+        561
+      ],
+      "oracle_text": [
+        "assert reasoning is not None and content is not None",
+        "assert reasoning.strip() == \"let me think\"",
+        "assert content.strip() == PLAIN_TEXT"
+      ],
+      "source_calls": [
+        "prompt_case",
+        "ParserEngine",
+        "parser.set_prompt_token_ids",
+        "parser.parse",
+        "reasoning.strip",
+        "content.strip",
+        "qwen3_config",
+        "encode"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_parse.py",
+      "test_name": "test_prompt_reasoning_streaming_matches_non_streaming",
+      "line": 573,
+      "source_sha256": "c4f7f61b5d3f5095f93daee27a279434d395dd3910dca1817e8b7bcde5e22c07",
+      "oracle_lines": [
+        599,
+        600
+      ],
+      "oracle_text": [
+        "assert (streamed_reasoning, streamed_content) == non_streaming",
+        "assert parser.count_reasoning_tokens(output_ids) == non_streaming_count"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "prompt_case",
+        "encode",
+        "reasoning_parser",
+        "parser.set_prompt_token_ids",
+        "parser.parse",
+        "parser.count_reasoning_tokens",
+        "enumerate",
+        "parser.parse_delta",
+        "tokenizer.decode",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/reasoning/test_minimax_m3_reasoning_parser.py",
+      "test_name": "test_streaming_reasoning_tags_are_not_returned",
+      "line": 222,
+      "source_sha256": "4c407ccb785eb60a8709bfd890949361660d7969bf9ce4214b7a674fc7f1c5be",
+      "oracle_lines": [
+        231,
+        232,
+        233
+      ],
+      "oracle_text": [
+        "assert reasoning == \"plan\"",
+        "assert content == \"answer\"",
+        "assert end_states == [False, False, True, True]"
+      ],
+      "source_calls": [
+        "make_parser",
+        "run_streaming"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/reasoning/test_minimax_m3_reasoning_parser.py",
+      "test_name": "test_streaming_boundary_can_emit_reasoning_and_content",
+      "line": 236,
+      "source_sha256": "4c407ccb785eb60a8709bfd890949361660d7969bf9ce4214b7a674fc7f1c5be",
+      "oracle_lines": [
+        245,
+        246,
+        247
+      ],
+      "oracle_text": [
+        "assert reasoning == \"plan\"",
+        "assert content == \"answer\"",
+        "assert end_states == [True]"
+      ],
+      "source_calls": [
+        "make_parser",
+        "run_streaming"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/reasoning/test_minimax_m3_reasoning_parser.py",
+      "test_name": "test_streaming_drops_leading_end_tag",
+      "line": 250,
+      "source_sha256": "4c407ccb785eb60a8709bfd890949361660d7969bf9ce4214b7a674fc7f1c5be",
+      "oracle_lines": [
+        259,
+        260,
+        261
+      ],
+      "oracle_text": [
+        "assert reasoning is None",
+        "assert content == \"answer\"",
+        "assert end_states == [True, True]"
+      ],
+      "source_calls": [
+        "make_parser",
+        "run_streaming"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/reasoning/test_minimax_m3_reasoning_parser.py",
+      "test_name": "test_streaming_non_leading_end_tag_is_content",
+      "line": 264,
+      "source_sha256": "4c407ccb785eb60a8709bfd890949361660d7969bf9ce4214b7a674fc7f1c5be",
+      "oracle_lines": [
+        273,
+        274,
+        275
+      ],
+      "oracle_text": [
+        "assert reasoning is None",
+        "assert content == \"XXX</mm:think>YYY\"",
+        "assert end_states == [True]"
+      ],
+      "source_calls": [
+        "make_parser",
+        "run_streaming"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/reasoning/test_minimax_m3_reasoning_parser.py",
+      "test_name": "test_streaming_enabled_mode_starts_in_reasoning",
+      "line": 278,
+      "source_sha256": "4c407ccb785eb60a8709bfd890949361660d7969bf9ce4214b7a674fc7f1c5be",
+      "oracle_lines": [
+        287,
+        288,
+        289
+      ],
+      "oracle_text": [
+        "assert reasoning == \"plan\"",
+        "assert content == \"answer\"",
+        "assert end_states == [False, True, True]"
+      ],
+      "source_calls": [
+        "make_parser",
+        "run_streaming"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/reasoning/test_minimax_m3_reasoning_parser.py",
+      "test_name": "test_streaming_plain_content_ends_reasoning_phase",
+      "line": 292,
+      "source_sha256": "4c407ccb785eb60a8709bfd890949361660d7969bf9ce4214b7a674fc7f1c5be",
+      "oracle_lines": [
+        301,
+        302,
+        303
+      ],
+      "oracle_text": [
+        "assert reasoning is None",
+        "assert content == \"plain answer\"",
+        "assert end_states == [True, True]"
+      ],
+      "source_calls": [
+        "make_parser",
+        "run_streaming"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/reasoning/test_minimax_m3_reasoning_parser.py",
+      "test_name": "test_streaming_split_marker_tokens_are_not_returned",
+      "line": 306,
+      "source_sha256": "4c407ccb785eb60a8709bfd890949361660d7969bf9ce4214b7a674fc7f1c5be",
+      "oracle_lines": [
+        316,
+        317,
+        318
+      ],
+      "oracle_text": [
+        "assert reasoning == \"Reasoning content\"",
+        "assert content == \"content\"",
+        "assert end_states == [False, False, False, True, True]"
+      ],
+      "source_calls": [
+        "RuntimeSplitMiniMaxM3Tokenizer",
+        "MiniMaxM3ReasoningParser",
+        "run_streaming"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/reasoning/test_minimax_m3_reasoning_parser.py",
+      "test_name": "test_streaming_split_end_marker_content_ids_are_stripped",
+      "line": 345,
+      "source_sha256": "4c407ccb785eb60a8709bfd890949361660d7969bf9ce4214b7a674fc7f1c5be",
+      "oracle_lines": [
+        363,
+        364
+      ],
+      "oracle_text": [
+        "assert parser.is_reasoning_end_streaming(current_token_ids, delta_token_ids)",
+        "assert tokenizer.decode(parser.extract_content_ids(delta_token_ids)) == \"content\""
+      ],
+      "source_calls": [
+        "RuntimeSplitMiniMaxM3Tokenizer",
+        "MiniMaxM3ReasoningParser",
+        "tokenizer.encode_runtime",
+        "parser.extract_reasoning_streaming",
+        "parser.is_reasoning_end_streaming",
+        "tokenizer.decode",
+        "parser.extract_content_ids"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/reasoning/test_minimax_m3_reasoning_parser.py",
+      "test_name": "test_streaming_split_marker_tokens_enabled_mode",
+      "line": 367,
+      "source_sha256": "4c407ccb785eb60a8709bfd890949361660d7969bf9ce4214b7a674fc7f1c5be",
+      "oracle_lines": [
+        379,
+        380,
+        381
+      ],
+      "oracle_text": [
+        "assert reasoning == \"Reasoning content\"",
+        "assert content == \"content\"",
+        "assert end_states == [False, False, True, True]"
+      ],
+      "source_calls": [
+        "RuntimeSplitMiniMaxM3Tokenizer",
+        "MiniMaxM3ReasoningParser",
+        "run_streaming"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/reasoning/test_minimax_m3_reasoning_parser.py",
+      "test_name": "test_streaming_split_marker_text_across_deltas",
+      "line": 384,
+      "source_sha256": "4c407ccb785eb60a8709bfd890949361660d7969bf9ce4214b7a674fc7f1c5be",
+      "oracle_lines": [
+        394,
+        395,
+        396
+      ],
+      "oracle_text": [
+        "assert reasoning == \"Reasoning content\"",
+        "assert content == \"content\"",
+        "assert end_states == [False, False, False, False, False, True, True]"
+      ],
+      "source_calls": [
+        "RuntimeSplitMiniMaxM3Tokenizer",
+        "MiniMaxM3ReasoningParser",
+        "run_streaming"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/reasoning/test_minimax_m3_reasoning_parser.py",
+      "test_name": "test_streaming_split_leading_end_marker_text_across_deltas",
+      "line": 399,
+      "source_sha256": "4c407ccb785eb60a8709bfd890949361660d7969bf9ce4214b7a674fc7f1c5be",
+      "oracle_lines": [
+        409,
+        410,
+        411
+      ],
+      "oracle_text": [
+        "assert reasoning is None",
+        "assert content == \"content\"",
+        "assert end_states == [False, True, True]"
+      ],
+      "source_calls": [
+        "RuntimeSplitMiniMaxM3Tokenizer",
+        "MiniMaxM3ReasoningParser",
+        "run_streaming"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/reasoning/test_minimax_m3_reasoning_parser.py",
+      "test_name": "test_token_id_helpers_with_split_marker_tokens",
+      "line": 414,
+      "source_sha256": "4c407ccb785eb60a8709bfd890949361660d7969bf9ce4214b7a674fc7f1c5be",
+      "oracle_lines": [
+        423,
+        424,
+        425,
+        426,
+        427,
+        428,
+        429
+      ],
+      "oracle_text": [
+        "assert parser.is_reasoning_end(output_ids)",
+        "assert not parser.is_reasoning_end(open_reasoning_ids)",
+        "assert not parser.is_reasoning_end(content_ids)",
+        "assert tokenizer.decode(parser.extract_content_ids(output_ids)) == \"def\"",
+        "assert parser.extract_content_ids(open_reasoning_ids) == []",
+        "assert parser.extract_content_ids(content_ids) == content_ids",
+        "assert parser.count_reasoning_tokens(output_ids) == len(tokenizer.encode(\"abc\"))"
+      ],
+      "source_calls": [
+        "SplitMiniMaxM3Tokenizer",
+        "MiniMaxM3ReasoningParser",
+        "tokenizer.encode",
+        "parser.is_reasoning_end",
+        "tokenizer.decode",
+        "parser.extract_content_ids",
+        "parser.count_reasoning_tokens",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/reasoning/test_minimax_m3_reasoning_parser.py",
+      "test_name": "test_token_id_helpers",
+      "line": 432,
+      "source_sha256": "4c407ccb785eb60a8709bfd890949361660d7969bf9ce4214b7a674fc7f1c5be",
+      "oracle_lines": [
+        440,
+        441,
+        442,
+        443,
+        444,
+        445,
+        446
+      ],
+      "oracle_text": [
+        "assert parser.is_reasoning_end(output_ids)",
+        "assert not parser.is_reasoning_end(open_reasoning_ids)",
+        "assert not parser.is_reasoning_end(content_ids)",
+        "assert tokenizer.decode(parser.extract_content_ids(output_ids)) == \"def\"",
+        "assert parser.extract_content_ids(open_reasoning_ids) == []",
+        "assert parser.extract_content_ids(content_ids) == content_ids",
+        "assert parser.count_reasoning_tokens(output_ids) == len(tokenizer.encode(\"abc\"))"
+      ],
+      "source_calls": [
+        "make_parser",
+        "tokenizer.encode",
+        "parser.is_reasoning_end",
+        "tokenizer.decode",
+        "parser.extract_content_ids",
+        "parser.count_reasoning_tokens",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/reasoning/test_minimax_m3_reasoning_parser.py",
+      "test_name": "test_token_id_helpers_enabled_mode",
+      "line": 449,
+      "source_sha256": "4c407ccb785eb60a8709bfd890949361660d7969bf9ce4214b7a674fc7f1c5be",
+      "oracle_lines": [
+        454,
+        455,
+        456,
+        457,
+        458,
+        459
+      ],
+      "oracle_text": [
+        "assert parser.is_reasoning_end(output_ids)",
+        "assert not parser.is_reasoning_end(open_reasoning_ids)",
+        "assert tokenizer.decode(parser.extract_content_ids(output_ids)) == \"def\"",
+        "assert parser.extract_content_ids(open_reasoning_ids) == []",
+        "assert parser.count_reasoning_tokens(output_ids) == len(tokenizer.encode(\"abc\"))",
+        "assert parser.count_reasoning_tokens(open_reasoning_ids) == len("
+      ],
+      "source_calls": [
+        "make_parser",
+        "tokenizer.encode",
+        "parser.is_reasoning_end",
+        "tokenizer.decode",
+        "parser.extract_content_ids",
+        "parser.count_reasoning_tokens",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/reasoning/test_minimax_m3_reasoning_parser.py",
+      "test_name": "test_prompt_markers_do_not_end_reasoning",
+      "line": 477,
+      "source_sha256": "4c407ccb785eb60a8709bfd890949361660d7969bf9ce4214b7a674fc7f1c5be",
+      "oracle_lines": [
+        481,
+        482,
+        483,
+        484
+      ],
+      "oracle_text": [
+        "assert not parser.is_reasoning_end(prompt_ids)",
+        "assert not parser.is_reasoning_end(tokenizer.encode(PROMPT + \"<mm:think>ab\"))",
+        "assert parser.is_reasoning_end(tokenizer.encode(PROMPT + \"<mm:think>a</mm:think>\"))",
+        "assert parser.is_reasoning_end(tokenizer.encode(PROMPT + \"</mm:think>Berlin\"))"
+      ],
+      "source_calls": [
+        "make_parser",
+        "tokenizer.encode",
+        "parser.is_reasoning_end"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_llama_json.py",
+      "test_name": "test_extract_tool_calls_with_arguments",
+      "line": 35,
+      "source_sha256": "518a303e1c4713d7b2b2d3e00b58e5d006d1ce121acf17d698cd65b6c5783468",
+      "oracle_lines": [
+        41,
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "oracle_text": [
+        "assert isinstance(result, ExtractedToolCallInformation)",
+        "assert result.tools_called is True",
+        "assert len(result.tool_calls) == 1",
+        "assert result.tool_calls[0].function.name == \"searchTool\"",
+        "assert '\"query\": \"test query\"' in result.tool_calls[0].function.arguments",
+        "assert '\"limit\": 10' in result.tool_calls[0].function.arguments"
+      ],
+      "source_calls": [
+        "parser.extract_tool_calls",
+        "isinstance",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_llama_json.py",
+      "test_name": "test_extract_tool_calls_no_json",
+      "line": 49,
+      "source_sha256": "518a303e1c4713d7b2b2d3e00b58e5d006d1ce121acf17d698cd65b6c5783468",
+      "oracle_lines": [
+        53,
+        54,
+        55
+      ],
+      "oracle_text": [
+        "assert result.tools_called is False",
+        "assert len(result.tool_calls) == 0",
+        "assert result.content == model_output"
+      ],
+      "source_calls": [
+        "parser.extract_tool_calls",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_llama_json.py",
+      "test_name": "test_extract_tool_calls_invalid_json",
+      "line": 58,
+      "source_sha256": "518a303e1c4713d7b2b2d3e00b58e5d006d1ce121acf17d698cd65b6c5783468",
+      "oracle_lines": [
+        62,
+        63,
+        64
+      ],
+      "oracle_text": [
+        "assert result.tools_called is False",
+        "assert len(result.tool_calls) == 0",
+        "assert result.content == model_output"
+      ],
+      "source_calls": [
+        "parser.extract_tool_calls",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_llama_json.py",
+      "test_name": "test_parse_invalid_json_falls_back_to_content",
+      "line": 67,
+      "source_sha256": "518a303e1c4713d7b2b2d3e00b58e5d006d1ce121acf17d698cd65b6c5783468",
+      "oracle_lines": [
+        71,
+        72
+      ],
+      "oracle_text": [
+        "assert content == model_output",
+        "assert tools is None"
+      ],
+      "source_calls": [
+        "parser.parse"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_llama_json.py",
+      "test_name": "test_adapter_invalid_json_falls_back_to_content",
+      "line": 75,
+      "source_sha256": "518a303e1c4713d7b2b2d3e00b58e5d006d1ce121acf17d698cd65b6c5783468",
+      "oracle_lines": [
+        81,
+        82,
+        83
+      ],
+      "oracle_text": [
+        "assert result.tools_called is False",
+        "assert result.tool_calls == []",
+        "assert result.content == model_output"
+      ],
+      "source_calls": [
+        "ToolParserManager.get_tool_parser",
+        "parser_class",
+        "parser.extract_tool_calls"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_llama_json.py",
+      "test_name": "test_extract_tool_calls_with_arguments_key",
+      "line": 86,
+      "source_sha256": "518a303e1c4713d7b2b2d3e00b58e5d006d1ce121acf17d698cd65b6c5783468",
+      "oracle_lines": [
+        90,
+        91,
+        92,
+        93
+      ],
+      "oracle_text": [
+        "assert result.tools_called is True",
+        "assert len(result.tool_calls) == 1",
+        "assert result.tool_calls[0].function.name == \"searchTool\"",
+        "assert '\"query\": \"test\"' in result.tool_calls[0].function.arguments"
+      ],
+      "source_calls": [
+        "parser.extract_tool_calls",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_llama_json.py",
+      "test_name": "test_extract_tool_calls_with_output_end_token",
+      "line": 96,
+      "source_sha256": "518a303e1c4713d7b2b2d3e00b58e5d006d1ce121acf17d698cd65b6c5783468",
+      "oracle_lines": [
+        103,
+        104,
+        105
+      ],
+      "oracle_text": [
+        "assert result.tools_called is True",
+        "assert len(result.tool_calls) == 1",
+        "assert result.tool_calls[0].function.name == \"searchTool\""
+      ],
+      "source_calls": [
+        "parser.extract_tool_calls",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_llama_json.py",
+      "test_name": "test_extract_tool_calls_with_trailing_semicolon",
+      "line": 109,
+      "source_sha256": "518a303e1c4713d7b2b2d3e00b58e5d006d1ce121acf17d698cd65b6c5783468",
+      "oracle_lines": [
+        113,
+        114,
+        115
+      ],
+      "oracle_text": [
+        "assert result.tools_called is True",
+        "assert len(result.tool_calls) == 1",
+        "assert result.tool_calls[0].function.name == \"searchTool\""
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "parser.extract_tool_calls",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_llama_json.py",
+      "test_name": "test_extract_tool_calls_multiple_json",
+      "line": 118,
+      "source_sha256": "518a303e1c4713d7b2b2d3e00b58e5d006d1ce121acf17d698cd65b6c5783468",
+      "oracle_lines": [
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133
+      ],
+      "oracle_text": [
+        "assert result.tools_called is True",
+        "assert len(result.tool_calls) == 3",
+        "assert result.tool_calls[0].function.name == \"searchTool\"",
+        "assert '\"query\": \"test1\"' in result.tool_calls[0].function.arguments",
+        "assert result.tool_calls[1].function.name == \"getOpenIncidentsTool\"",
+        "assert result.tool_calls[1].function.arguments == \"{}\"",
+        "assert result.tool_calls[2].function.name == \"searchTool\"",
+        "assert '\"query\": \"test2\"' in result.tool_calls[2].function.arguments"
+      ],
+      "source_calls": [
+        "parser.extract_tool_calls",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_llama_json.py",
+      "test_name": "test_extract_tool_calls_multiple_json_with_whitespace",
+      "line": 136,
+      "source_sha256": "518a303e1c4713d7b2b2d3e00b58e5d006d1ce121acf17d698cd65b6c5783468",
+      "oracle_lines": [
+        144,
+        145,
+        146,
+        147,
+        148
+      ],
+      "oracle_text": [
+        "assert result.tools_called is True",
+        "assert len(result.tool_calls) == 3",
+        "assert result.tool_calls[0].function.name == \"searchTool\"",
+        "assert result.tool_calls[1].function.name == \"getOpenIncidentsTool\"",
+        "assert result.tool_calls[2].function.name == \"searchTool\""
+      ],
+      "source_calls": [
+        "parser.extract_tool_calls",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_llama_json.py",
+      "test_name": "test_extract_tool_calls_deeply_nested_json",
+      "line": 151,
+      "source_sha256": "518a303e1c4713d7b2b2d3e00b58e5d006d1ce121acf17d698cd65b6c5783468",
+      "oracle_lines": [
+        164,
+        165,
+        166,
+        168
+      ],
+      "oracle_text": [
+        "assert result.tools_called is True",
+        "assert len(result.tool_calls) == 1",
+        "assert result.tool_calls[0].function.name == \"complexTool\"",
+        "assert args[\"level1\"][\"level2\"][\"level3\"][\"level4\"][\"value\"] == \"deep\""
+      ],
+      "source_calls": [
+        "parser.extract_tool_calls",
+        "json.loads",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_llama_json.py",
+      "test_name": "test_extract_tool_calls_multiple_with_deep_nesting",
+      "line": 171,
+      "source_sha256": "518a303e1c4713d7b2b2d3e00b58e5d006d1ce121acf17d698cd65b6c5783468",
+      "oracle_lines": [
+        179,
+        180,
+        181,
+        183,
+        184,
+        186
+      ],
+      "oracle_text": [
+        "assert result.tools_called is True",
+        "assert len(result.tool_calls) == 2",
+        "assert result.tool_calls[0].function.name == \"simpleTool\"",
+        "assert args0[\"value\"] == \"test\"",
+        "assert result.tool_calls[1].function.name == \"complexTool\"",
+        "assert args1[\"config\"][\"database\"][\"connection\"][\"pool\"][\"size\"] == 10"
+      ],
+      "source_calls": [
+        "parser.extract_tool_calls",
+        "json.loads",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_llama_json.py",
+      "test_name": "test_extract_tool_calls_with_quotes_and_brackets_in_string",
+      "line": 189,
+      "source_sha256": "518a303e1c4713d7b2b2d3e00b58e5d006d1ce121acf17d698cd65b6c5783468",
+      "oracle_lines": [
+        199,
+        200,
+        201,
+        203,
+        204
+      ],
+      "oracle_text": [
+        "assert result.tools_called is True",
+        "assert len(result.tool_calls) == 1",
+        "assert result.tool_calls[0].function.name == \"searchTool\"",
+        "assert args[\"query\"] == \"test {value} [complex]\"",
+        "assert args[\"nested\"][\"inner\"] == \"more {brackets}\""
+      ],
+      "source_calls": [
+        "parser.extract_tool_calls",
+        "json.loads",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_llama_json.py",
+      "test_name": "test_extract_tool_calls_with_escaped_quotes_in_nested_json",
+      "line": 207,
+      "source_sha256": "518a303e1c4713d7b2b2d3e00b58e5d006d1ce121acf17d698cd65b6c5783468",
+      "oracle_lines": [
+        213,
+        214,
+        215,
+        217
+      ],
+      "oracle_text": [
+        "assert result.tools_called is True",
+        "assert len(result.tool_calls) == 1",
+        "assert result.tool_calls[0].function.name == \"parserTool\"",
+        "assert args[\"text\"] == 'He said \"Hello {world}\"'"
+      ],
+      "source_calls": [
+        "parser.extract_tool_calls",
+        "json.loads",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_llama_json.py",
+      "test_name": "test_extract_tool_calls_missing_name_key",
+      "line": 220,
+      "source_sha256": "518a303e1c4713d7b2b2d3e00b58e5d006d1ce121acf17d698cd65b6c5783468",
+      "oracle_lines": [
+        224,
+        225,
+        226
+      ],
+      "oracle_text": [
+        "assert result.tools_called is False",
+        "assert len(result.tool_calls) == 0",
+        "assert result.content == model_output"
+      ],
+      "source_calls": [
+        "parser.extract_tool_calls",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_llama_json.py",
+      "test_name": "test_extract_tool_calls_missing_parameters_and_arguments_key",
+      "line": 229,
+      "source_sha256": "518a303e1c4713d7b2b2d3e00b58e5d006d1ce121acf17d698cd65b6c5783468",
+      "oracle_lines": [
+        233,
+        234,
+        235
+      ],
+      "oracle_text": [
+        "assert result.tools_called is False",
+        "assert len(result.tool_calls) == 0",
+        "assert result.content == model_output"
+      ],
+      "source_calls": [
+        "parser.extract_tool_calls",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_llama_json.py",
+      "test_name": "test_arg_converter_accepts_arguments_and_parameters",
+      "line": 311,
+      "source_sha256": "518a303e1c4713d7b2b2d3e00b58e5d006d1ce121acf17d698cd65b6c5783468",
+      "oracle_lines": [
+        312,
+        319
+      ],
+      "oracle_text": [
+        "assert (",
+        "assert ("
+      ],
+      "source_calls": [
+        "_llama_arg_converter"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_llama_json.py",
+      "test_name": "test_non_streaming_parallel_calls",
+      "line": 329,
+      "source_sha256": "518a303e1c4713d7b2b2d3e00b58e5d006d1ce121acf17d698cd65b6c5783468",
+      "oracle_lines": [
+        336,
+        337,
+        338
+      ],
+      "oracle_text": [
+        "assert content is None",
+        "assert [tool.name for tool in tools] == [\"a\", \"b\"]",
+        "assert [json.loads(tool.arguments) for tool in tools] == [{\"x\": 1}, {\"y\": 2}]"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "parser.parse",
+        "json.loads"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_llama_json.py",
+      "test_name": "test_brace_in_plain_text_is_not_a_tool_call",
+      "line": 341,
+      "source_sha256": "518a303e1c4713d7b2b2d3e00b58e5d006d1ce121acf17d698cd65b6c5783468",
+      "oracle_lines": [
+        344,
+        345
+      ],
+      "oracle_text": [
+        "assert content == text",
+        "assert tools is None"
+      ],
+      "source_calls": [
+        "parser.parse"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_llama_json.py",
+      "test_name": "test_tool_choice_none_preserves_bare_json",
+      "line": 348,
+      "source_sha256": "518a303e1c4713d7b2b2d3e00b58e5d006d1ce121acf17d698cd65b6c5783468",
+      "oracle_lines": [
+        355,
+        356
+      ],
+      "oracle_text": [
+        "assert content == text",
+        "assert tools is None"
+      ],
+      "source_calls": [
+        "parser.parse"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_llama_json.py",
+      "test_name": "test_tool_choice_none_streaming_preserves_bare_json",
+      "line": 360,
+      "source_sha256": "518a303e1c4713d7b2b2d3e00b58e5d006d1ce121acf17d698cd65b6c5783468",
+      "oracle_lines": [
+        371,
+        372
+      ],
+      "oracle_text": [
+        "assert \"\".join(delta.content or \"\" for delta in results if delta) == text",
+        "assert all(not delta.tool_calls for delta in results if delta)"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "_stream",
+        "all",
+        "''.join"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_llama_json.py",
+      "test_name": "test_streaming_parallel_calls_are_chunk_invariant",
+      "line": 377,
+      "source_sha256": "518a303e1c4713d7b2b2d3e00b58e5d006d1ce121acf17d698cd65b6c5783468",
+      "oracle_lines": [
+        389,
+        391,
+        392
+      ],
+      "oracle_text": [
+        "assert _collect_names(results) == [\"a\", \"b\"]",
+        "assert json.loads(args[0]) == {\"text\": \"hello; world\"}",
+        "assert json.loads(args[1]) == {\"items\": [1, 2]}"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "_stream",
+        "_collect_args",
+        "_collect_names",
+        "json.loads"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_llama_json.py",
+      "test_name": "test_registered_tool_parser_aliases",
+      "line": 396,
+      "source_sha256": "518a303e1c4713d7b2b2d3e00b58e5d006d1ce121acf17d698cd65b6c5783468",
+      "oracle_lines": [
+        398
+      ],
+      "oracle_text": [
+        "assert parser_class.__name__ == \"LlamaJsonEngineToolParser\""
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "ToolParserManager.get_tool_parser"
+      ],
+      "status": "needs_refinement",
+      "reason": "registry class-name check, not format-selection behavior"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_plamo3.py",
+      "test_name": "test_reasoning_mode",
+      "line": 102,
+      "source_sha256": "ba09eb41c5e48000a0919a1b5d330e4eb6068067c3cc0e9a335d7198cb7571f3",
+      "oracle_lines": [
+        118,
+        119,
+        123,
+        124
+      ],
+      "oracle_text": [
+        "assert (reasoning or \"\", content or \"\") == expected",
+        "assert not calls",
+        "assert (result.reasoning, result.content) == expected",
+        "assert not result.tool_calls"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "parser_cls(mock_tokenizer, **kwargs).parse",
+        "collect_output",
+        "_stream",
+        "parser_cls"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_plamo3.py",
+      "test_name": "test_duplicate_think_end_does_not_leak_into_content",
+      "line": 127,
+      "source_sha256": "ba09eb41c5e48000a0919a1b5d330e4eb6068067c3cc0e9a335d7198cb7571f3",
+      "oracle_lines": [
+        132,
+        133
+      ],
+      "oracle_text": [
+        "assert (reasoning, content) == (None, \"AB\")",
+        "assert not calls"
+      ],
+      "source_calls": [
+        "parser_cls(mock_tokenizer).parse",
+        "parser_cls"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_plamo3.py",
+      "test_name": "test_content_can_start_a_new_reasoning_block",
+      "line": 136,
+      "source_sha256": "ba09eb41c5e48000a0919a1b5d330e4eb6068067c3cc0e9a335d7198cb7571f3",
+      "oracle_lines": [
+        141,
+        142
+      ],
+      "oracle_text": [
+        "assert (reasoning, content) == (\"R\", \"A\")",
+        "assert not calls"
+      ],
+      "source_calls": [
+        "parser_cls(mock_tokenizer).parse",
+        "parser_cls"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_plamo3.py",
+      "test_name": "test_complete_arguments_survive_missing_closers",
+      "line": 155,
+      "source_sha256": "ba09eb41c5e48000a0919a1b5d330e4eb6068067c3cc0e9a335d7198cb7571f3",
+      "oracle_lines": [
+        171,
+        172,
+        184,
+        185
+      ],
+      "oracle_text": [
+        "assert (reasoning, content) == (\"Reasoning. \", \"Before tools. \")",
+        "assert calls and [(c.name, json.loads(c.arguments)) for c in calls] == [",
+        "assert (result.reasoning, result.content) == (reasoning, content)",
+        "assert result.tool_calls == [{\"name\": \"weather\", \"arguments\": '{\"city\":\"東京\"}'}]"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "parser_cls(mock_tokenizer).parse",
+        "collect_output",
+        "_stream",
+        "parser_cls",
+        "_tool_header",
+        "json.loads"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_plamo3.py",
+      "test_name": "test_tool_name_cutoffs_do_not_leak_markers",
+      "line": 188,
+      "source_sha256": "ba09eb41c5e48000a0919a1b5d330e4eb6068067c3cc0e9a335d7198cb7571f3",
+      "oracle_lines": [
+        204,
+        212,
+        218,
+        221,
+        222
+      ],
+      "oracle_text": [
+        "assert (reasoning, content) == (None, \"Before tools.\"), end",
+        "assert [call.name for call in calls or []] == (",
+        "assert [call[\"name\"] for call in result.tool_calls] == (",
+        "assert all(\"<\" not in call[\"name\"] for call in result.tool_calls), end",
+        "assert result.content == \"Before tools.\", end"
+      ],
+      "source_calls": [
+        "mock_tokenizer.encode",
+        "len",
+        "range",
+        "mock_tokenizer.decode",
+        "parser_cls(mock_tokenizer).parse",
+        "collect_output",
+        "all",
+        "_stream",
+        "parser_cls",
+        "name_text.rfind"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_plamo3.py",
+      "test_name": "test_all_argument_closer_cutoffs_do_not_leak",
+      "line": 227,
+      "source_sha256": "ba09eb41c5e48000a0919a1b5d330e4eb6068067c3cc0e9a335d7198cb7571f3",
+      "oracle_lines": [
+        238,
+        248
+      ],
+      "oracle_text": [
+        "assert calls and calls[0].arguments == '{\"city\":\"東京\"}', end",
+        "assert result.tool_calls == ["
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "mock_tokenizer.encode",
+        "range",
+        "_tool_header",
+        "len",
+        "mock_tokenizer.decode",
+        "parser_cls(mock_tokenizer).parse",
+        "collect_output",
+        "_stream",
+        "parser_cls"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_plamo3.py",
+      "test_name": "test_arguments_are_not_rewritten",
+      "line": 261,
+      "source_sha256": "ba09eb41c5e48000a0919a1b5d330e4eb6068067c3cc0e9a335d7198cb7571f3",
+      "oracle_lines": [
+        268,
+        270
+      ],
+      "oracle_text": [
+        "assert calls and calls[0].arguments == arguments",
+        "assert result.tool_calls == [{\"name\": \"weather\", \"arguments\": arguments}]"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "parser_cls(mock_tokenizer).parse",
+        "collect_output",
+        "_stream",
+        "_tool_header",
+        "parser_cls"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_plamo3.py",
+      "test_name": "test_multiple_calls_keep_indices_ids_and_arguments_separate",
+      "line": 274,
+      "source_sha256": "ba09eb41c5e48000a0919a1b5d330e4eb6068067c3cc0e9a335d7198cb7571f3",
+      "oracle_lines": [
+        298,
+        304,
+        305,
+        309,
+        310
+      ],
+      "oracle_text": [
+        "assert (",
+        "assert result.tool_calls == stream_expected",
+        "assert result.content == (content or \"\") == \"\"",
+        "assert [call.index for call in announced] == list(range(len(expected)))",
+        "assert len({call.id for call in announced}) == len(expected)"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "parser_cls(mock_tokenizer).parse",
+        "_stream",
+        "collect_output",
+        "_tool_call",
+        "expected.append",
+        "parser_cls",
+        "list",
+        "len",
+        "range"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_plamo3.py",
+      "test_name": "test_arguments_are_available_before_outer_closer",
+      "line": 313,
+      "source_sha256": "ba09eb41c5e48000a0919a1b5d330e4eb6068067c3cc0e9a335d7198cb7571f3",
+      "oracle_lines": [
+        317,
+        320,
+        324
+      ],
+      "oracle_text": [
+        "assert collect_output([first]).tool_calls == [",
+        "assert (",
+        "assert ("
+      ],
+      "source_calls": [
+        "Plamo3Parser",
+        "parser.parse_delta",
+        "_tool_call",
+        "collect_output"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_plamo3.py",
+      "test_name": "test_missing_tool_request_start_does_not_break_streaming",
+      "line": 330,
+      "source_sha256": "ba09eb41c5e48000a0919a1b5d330e4eb6068067c3cc0e9a335d7198cb7571f3",
+      "oracle_lines": [
+        346,
+        347
+      ],
+      "oracle_text": [
+        "assert delta is not None",
+        "assert collect_output([delta]).tool_calls == ["
+      ],
+      "source_calls": [
+        "parser_cls(mock_tokenizer).parse_delta",
+        "parser_cls",
+        "collect_output"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_plamo3.py",
+      "test_name": "test_reusing_parser_drops_pending_names",
+      "line": 352,
+      "source_sha256": "ba09eb41c5e48000a0919a1b5d330e4eb6068067c3cc0e9a335d7198cb7571f3",
+      "oracle_lines": [
+        369
+      ],
+      "oracle_text": [
+        "assert calls and calls[0].name == \"weather\""
+      ],
+      "source_calls": [
+        "Plamo3Parser",
+        "parser.parse",
+        "_tool_call"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_plamo3.py",
+      "test_name": "test_plain_content_is_preserved",
+      "line": 375,
+      "source_sha256": "ba09eb41c5e48000a0919a1b5d330e4eb6068067c3cc0e9a335d7198cb7571f3",
+      "oracle_lines": [
+        378,
+        379,
+        381
+      ],
+      "oracle_text": [
+        "assert (content or \"\") == text",
+        "assert not calls",
+        "assert (result.content, result.tool_calls) == (text, [])"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "parser_cls(mock_tokenizer).parse",
+        "collect_output",
+        "_stream",
+        "parser_cls"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_plamo3.py",
+      "test_name": "test_reasoning_end_checks_the_latest_turn",
+      "line": 394,
+      "source_sha256": "ba09eb41c5e48000a0919a1b5d330e4eb6068067c3cc0e9a335d7198cb7571f3",
+      "oracle_lines": [
+        397,
+        399
+      ],
+      "oracle_text": [
+        "assert parser.is_reasoning_end(ids) == ended",
+        "assert mock_tokenizer.decode(parser.extract_content_ids(ids)) == \"answer\""
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "Plamo3Parser",
+        "mock_tokenizer.encode",
+        "parser.is_reasoning_end",
+        "mock_tokenizer.decode",
+        "parser.extract_content_ids"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_plamo3.py",
+      "test_name": "test_partial_end_think_is_consistent_between_streaming_and_non_streaming",
+      "line": 403,
+      "source_sha256": "ba09eb41c5e48000a0919a1b5d330e4eb6068067c3cc0e9a335d7198cb7571f3",
+      "oracle_lines": [
+        408,
+        409,
+        411
+      ],
+      "oracle_text": [
+        "assert (reasoning, content) == (\"visible\", None)",
+        "assert not calls",
+        "assert (result.reasoning, result.content, result.tool_calls) == (\"visible\", \"\", [])"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "parser_cls(mock_tokenizer).parse",
+        "collect_output",
+        "_stream",
+        "parser_cls"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_plamo3.py",
+      "test_name": "test_unfinished_marker_prefixes_are_stripped",
+      "line": 422,
+      "source_sha256": "ba09eb41c5e48000a0919a1b5d330e4eb6068067c3cc0e9a335d7198cb7571f3",
+      "oracle_lines": [
+        424
+      ],
+      "oracle_text": [
+        "assert parser._strip_unfinished_marker(\"visible\" + suffix) == \"visible\""
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "Plamo3Parser",
+        "parser._strip_unfinished_marker"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_plamo3.py",
+      "test_name": "test_non_token_prefix_is_not_stripped",
+      "line": 428,
+      "source_sha256": "ba09eb41c5e48000a0919a1b5d330e4eb6068067c3cc0e9a335d7198cb7571f3",
+      "oracle_lines": [
+        431
+      ],
+      "oracle_text": [
+        "assert parser._strip_unfinished_marker(text) == text"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "Plamo3Parser",
+        "parser._strip_unfinished_marker"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_plamo3.py",
+      "test_name": "test_complete_markers_are_not_stripped",
+      "line": 434,
+      "source_sha256": "ba09eb41c5e48000a0919a1b5d330e4eb6068067c3cc0e9a335d7198cb7571f3",
+      "oracle_lines": [
+        437
+      ],
+      "oracle_text": [
+        "assert parser._strip_unfinished_marker(text) == text"
+      ],
+      "source_calls": [
+        "Plamo3Parser",
+        "parser._strip_unfinished_marker"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_plamo3.py",
+      "test_name": "test_short_prefix_is_not_stripped",
+      "line": 440,
+      "source_sha256": "ba09eb41c5e48000a0919a1b5d330e4eb6068067c3cc0e9a335d7198cb7571f3",
+      "oracle_lines": [
+        443
+      ],
+      "oracle_text": [
+        "assert parser._strip_unfinished_marker(text) == text"
+      ],
+      "source_calls": [
+        "Plamo3Parser",
+        "parser._strip_unfinished_marker"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_plamo3.py",
+      "test_name": "test_tool_block_can_end_reasoning_implicitly",
+      "line": 446,
+      "source_sha256": "ba09eb41c5e48000a0919a1b5d330e4eb6068067c3cc0e9a335d7198cb7571f3",
+      "oracle_lines": [
+        458,
+        459,
+        461,
+        462
+      ],
+      "oracle_text": [
+        "assert (reasoning, content) == (\"reasoning\", None)",
+        "assert calls and calls[0].name == \"weather\"",
+        "assert (result.reasoning, result.content) == (\"reasoning\", \"\")",
+        "assert result.tool_calls == [{\"name\": \"weather\", \"arguments\": \"{}\"}]"
+      ],
+      "source_calls": [
+        "parser_cls(mock_tokenizer).parse",
+        "collect_output",
+        "_stream",
+        "_tool_call",
+        "parser_cls"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_plamo3.py",
+      "test_name": "test_every_cut_point_matches_non_streaming",
+      "line": 465,
+      "source_sha256": "ba09eb41c5e48000a0919a1b5d330e4eb6068067c3cc0e9a335d7198cb7571f3",
+      "oracle_lines": [
+        487,
+        492
+      ],
+      "oracle_text": [
+        "assert (result.reasoning, result.content) == (",
+        "assert result.tool_calls == expected, (k, expected, result.tool_calls)"
+      ],
+      "source_calls": [
+        "mock_tokenizer.encode",
+        "range",
+        "mock_tokenizer.decode",
+        "parser_cls(mock_tokenizer).parse",
+        "collect_output",
+        "len",
+        "_stream",
+        "_tool_call",
+        "parser_cls"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_plamo3.py",
+      "test_name": "test_tool_choice_uses_the_plamo_format",
+      "line": 504,
+      "source_sha256": "ba09eb41c5e48000a0919a1b5d330e4eb6068067c3cc0e9a335d7198cb7571f3",
+      "oracle_lines": [
+        526,
+        527,
+        531,
+        532
+      ],
+      "oracle_text": [
+        "assert content == \"Before tools.\"",
+        "assert [c.name for c in calls or []] == ([] if choice == \"none\" else [\"weather\"])",
+        "assert result.content == \"Before tools.\"",
+        "assert result.tool_calls == ("
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "_test_request",
+        "type(request).model_validate",
+        "parser_cls(mock_tokenizer).parse",
+        "parser_cls",
+        "parser.parse_delta",
+        "collect_output",
+        "type",
+        "request.model_dump",
+        "_tool_call"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_plamo3.py",
+      "test_name": "test_delayed_text_keeps_split_markers_intact",
+      "line": 538,
+      "source_sha256": "ba09eb41c5e48000a0919a1b5d330e4eb6068067c3cc0e9a335d7198cb7571f3",
+      "oracle_lines": [
+        555,
+        556
+      ],
+      "oracle_text": [
+        "assert (result.reasoning, result.content) == (\"reasoning\", \"content\")",
+        "assert result.tool_calls == [{\"name\": \"weather\", \"arguments\": \"{}\"}]"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "collect_output",
+        "replay_with_text_holdback",
+        "mock_tokenizer.decode",
+        "mock_tokenizer.encode",
+        "parser_cls",
+        "_tool_call"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_minicpmv_reasoning.py",
+      "test_name": "test_reasoning_parser_is_registered",
+      "line": 82,
+      "source_sha256": "ecac5661623dcdd428d880b0bf6db87ee2068cb28207caece4a7fcce106b35ad",
+      "oracle_lines": [
+        85
+      ],
+      "oracle_text": [
+        "assert parser_cls.__name__ == \"MiniCPMVParserReasoningAdapter\""
+      ],
+      "source_calls": [
+        "ReasoningParserManager.get_reasoning_parser"
+      ],
+      "status": "needs_refinement",
+      "reason": "registry class-name check, not parser behavior"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_minicpmv_reasoning.py",
+      "test_name": "test_composes_with_qwen3_coder_tool_parser",
+      "line": 116,
+      "source_sha256": "ecac5661623dcdd428d880b0bf6db87ee2068cb28207caece4a7fcce106b35ad",
+      "oracle_lines": [
+        128,
+        138,
+        139,
+        140
+      ],
+      "oracle_text": [
+        "assert parser_cls is not None",
+        "assert tool_calls is not None",
+        "assert tool_calls[0].name == \"get_weather\"",
+        "assert \"SF\" in tool_calls[0].arguments"
+      ],
+      "source_calls": [
+        "ChatCompletionRequest",
+        "ParserManager.get_parser",
+        "parser_cls",
+        "parser.parse"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_minicpmv_reasoning.py",
+      "test_name": "TestNonThinking::test_plain_content_is_unchanged",
+      "line": 148,
+      "source_sha256": "ecac5661623dcdd428d880b0bf6db87ee2068cb28207caece4a7fcce106b35ad",
+      "oracle_lines": [
+        151,
+        152
+      ],
+      "oracle_text": [
+        "assert reasoning is None",
+        "assert content == \"The answer is 42.\""
+      ],
+      "source_calls": [
+        "parser.extract_reasoning"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_minicpmv_reasoning.py",
+      "test_name": "TestNonThinking::test_reserved_markers_are_removed",
+      "line": 154,
+      "source_sha256": "ecac5661623dcdd428d880b0bf6db87ee2068cb28207caece4a7fcce106b35ad",
+      "oracle_lines": [
+        161,
+        162
+      ],
+      "oracle_text": [
+        "assert reasoning is None",
+        "assert content == \"reasoningtool call\""
+      ],
+      "source_calls": [
+        "parser.extract_reasoning"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_minicpmv_reasoning.py",
+      "test_name": "TestNonThinking::test_unrelated_reserved_text_is_unchanged",
+      "line": 164,
+      "source_sha256": "ecac5661623dcdd428d880b0bf6db87ee2068cb28207caece4a7fcce106b35ad",
+      "oracle_lines": [
+        170,
+        171
+      ],
+      "oracle_text": [
+        "assert reasoning is None",
+        "assert content == \"<reserved_11>content<|reserved_16|>\""
+      ],
+      "source_calls": [
+        "parser.extract_reasoning"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_minicpmv_reasoning.py",
+      "test_name": "TestNonThinking::test_dangling_standard_think_end_is_removed",
+      "line": 173,
+      "source_sha256": "ecac5661623dcdd428d880b0bf6db87ee2068cb28207caece4a7fcce106b35ad",
+      "oracle_lines": [
+        178,
+        179
+      ],
+      "oracle_text": [
+        "assert reasoning is None",
+        "assert content == \"first part \\n\\nfinal part\""
+      ],
+      "source_calls": [
+        "parser.extract_reasoning"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_minicpmv_reasoning.py",
+      "test_name": "TestNonThinking::test_truncated_standard_reasoning_does_not_leak",
+      "line": 181,
+      "source_sha256": "ecac5661623dcdd428d880b0bf6db87ee2068cb28207caece4a7fcce106b35ad",
+      "oracle_lines": [
+        187,
+        188
+      ],
+      "oracle_text": [
+        "assert reasoning is None",
+        "assert content == \"prefix\""
+      ],
+      "source_calls": [
+        "parser.extract_reasoning"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_minicpmv_reasoning.py",
+      "test_name": "TestNonThinking::test_streaming_split_standard_markers",
+      "line": 190,
+      "source_sha256": "ecac5661623dcdd428d880b0bf6db87ee2068cb28207caece4a7fcce106b35ad",
+      "oracle_lines": [
+        203,
+        204
+      ],
+      "oracle_text": [
+        "assert reasoning == \"\"",
+        "assert content == \"final answer\""
+      ],
+      "source_calls": [
+        "simulate_reasoning_streaming"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_minicpmv_reasoning.py",
+      "test_name": "TestNonThinking::test_streaming_split_reserved_markers",
+      "line": 206,
+      "source_sha256": "ecac5661623dcdd428d880b0bf6db87ee2068cb28207caece4a7fcce106b35ad",
+      "oracle_lines": [
+        219,
+        220
+      ],
+      "oracle_text": [
+        "assert reasoning == \"\"",
+        "assert content == \"reasoningfinal answer\""
+      ],
+      "source_calls": [
+        "simulate_reasoning_streaming"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_minicpmv_reasoning.py",
+      "test_name": "TestNonThinking::test_tool_calls_are_parsed",
+      "line": 222,
+      "source_sha256": "ecac5661623dcdd428d880b0bf6db87ee2068cb28207caece4a7fcce106b35ad",
+      "oracle_lines": [
+        238,
+        239,
+        240,
+        241,
+        242
+      ],
+      "oracle_text": [
+        "assert reasoning is None",
+        "assert not content",
+        "assert tool_calls is not None",
+        "assert tool_calls[0].name == \"get_weather\"",
+        "assert \"SF\" in tool_calls[0].arguments"
+      ],
+      "source_calls": [
+        "_make_parser",
+        "ChatCompletionRequest",
+        "parser.parse"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_minicpmv_reasoning.py",
+      "test_name": "TestNonThinking::test_streaming_tool_calls_are_parsed",
+      "line": 244,
+      "source_sha256": "ecac5661623dcdd428d880b0bf6db87ee2068cb28207caece4a7fcce106b35ad",
+      "oracle_lines": [
+        267,
+        268,
+        269,
+        270,
+        271,
+        272
+      ],
+      "oracle_text": [
+        "assert delta is not None",
+        "assert delta.tool_calls",
+        "assert delta.tool_calls[0].function is not None",
+        "assert delta.tool_calls[0].function.name == \"get_weather\"",
+        "assert \"SF\" in (delta.tool_calls[0].function.arguments or \"\")",
+        "assert not delta.content"
+      ],
+      "source_calls": [
+        "_make_parser",
+        "ChatCompletionRequest",
+        "parser.parse_delta"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_minicpmv_reasoning.py",
+      "test_name": "TestThinking::test_standard_think_tags_are_parsed",
+      "line": 276,
+      "source_sha256": "ecac5661623dcdd428d880b0bf6db87ee2068cb28207caece4a7fcce106b35ad",
+      "oracle_lines": [
+        284,
+        285
+      ],
+      "oracle_text": [
+        "assert reasoning == \"private reasoning\"",
+        "assert content == \"final answer\""
+      ],
+      "source_calls": [
+        "_make_parser",
+        "parser.extract_reasoning"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_minicpmv_reasoning.py",
+      "test_name": "TestThinking::test_reserved_markers_are_removed",
+      "line": 287,
+      "source_sha256": "ecac5661623dcdd428d880b0bf6db87ee2068cb28207caece4a7fcce106b35ad",
+      "oracle_lines": [
+        295,
+        296
+      ],
+      "oracle_text": [
+        "assert reasoning == \"private reasoning\"",
+        "assert content == \"final answer\""
+      ],
+      "source_calls": [
+        "_make_parser",
+        "parser.extract_reasoning"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_minicpmv_reasoning.py",
+      "test_name": "TestThinking::test_streaming_im_end_is_removed",
+      "line": 298,
+      "source_sha256": "ecac5661623dcdd428d880b0bf6db87ee2068cb28207caece4a7fcce106b35ad",
+      "oracle_lines": [
+        307,
+        308
+      ],
+      "oracle_text": [
+        "assert reasoning == \"Answer: 111\"",
+        "assert content == \"\""
+      ],
+      "source_calls": [
+        "make_mock_tokenizer",
+        "_make_parser",
+        "simulate_reasoning_streaming"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_minicpmv_reasoning.py",
+      "test_name": "TestNewlineRecovery::test_recover_newlines",
+      "line": 314,
+      "source_sha256": "ecac5661623dcdd428d880b0bf6db87ee2068cb28207caece4a7fcce106b35ad",
+      "oracle_lines": [
+        323
+      ],
+      "oracle_text": [
+        "assert recover_newlines(text) == ("
+      ],
+      "source_calls": [
+        "recover_newlines"
+      ],
+      "status": "needs_refinement",
+      "reason": "text newline normalization needs a distinct unit"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_minicpmv_reasoning.py",
+      "test_name": "TestNewlineRecovery::test_streaming_matches_complete_recovery",
+      "line": 331,
+      "source_sha256": "ecac5661623dcdd428d880b0bf6db87ee2068cb28207caece4a7fcce106b35ad",
+      "oracle_lines": [
+        341,
+        346
+      ],
+      "oracle_text": [
+        "assert actual == expected",
+        "assert actual == expected"
+      ],
+      "source_calls": [
+        "recover_newlines",
+        "range",
+        "EscapedNewlineNormalizer",
+        "''.join",
+        "normalizer.feed",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_minicpmv_reasoning.py",
+      "test_name": "TestNewlineRecovery::test_backslash_runs_stay_consistent_across_splits",
+      "line": 348,
+      "source_sha256": "ecac5661623dcdd428d880b0bf6db87ee2068cb28207caece4a7fcce106b35ad",
+      "oracle_lines": [
+        360
+      ],
+      "oracle_text": [
+        "assert actual == expected, (count, split)"
+      ],
+      "source_calls": [
+        "range",
+        "recover_newlines",
+        "EscapedNewlineNormalizer",
+        "normalizer.feed",
+        "len"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_minicpmv_reasoning.py",
+      "test_name": "TestNewlineRecovery::test_streaming_recovers_reasoning_and_content",
+      "line": 362,
+      "source_sha256": "ecac5661623dcdd428d880b0bf6db87ee2068cb28207caece4a7fcce106b35ad",
+      "oracle_lines": [
+        378,
+        379,
+        380
+      ],
+      "oracle_text": [
+        "assert first == DeltaMessage(reasoning=\"reason\")",
+        "assert second == DeltaMessage(reasoning=\"\\nnext\\\\\", content=\"answer\")",
+        "assert final == DeltaMessage(content=\"\\nend\")"
+      ],
+      "source_calls": [
+        "MiniCPMVOutputNormalizer",
+        "normalizer.normalize_delta",
+        "DeltaMessage"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_minicpmv_reasoning.py",
+      "test_name": "TestNewlineRecovery::test_streaming_does_not_modify_tool_arguments",
+      "line": 382,
+      "source_sha256": "ecac5661623dcdd428d880b0bf6db87ee2068cb28207caece4a7fcce106b35ad",
+      "oracle_lines": [
+        396,
+        397,
+        398
+      ],
+      "oracle_text": [
+        "assert result is not None",
+        "assert result.tool_calls[0].function is not None",
+        "assert result.tool_calls[0].function.arguments == arguments"
+      ],
+      "source_calls": [
+        "MiniCPMVOutputNormalizer",
+        "DeltaMessage",
+        "normalizer.normalize_delta",
+        "DeltaToolCall",
+        "DeltaFunctionCall"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "tool.call_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_minicpmv_reasoning.py",
+      "test_name": "TestNewlineRecovery::test_parse_recovers_content",
+      "line": 400,
+      "source_sha256": "ecac5661623dcdd428d880b0bf6db87ee2068cb28207caece4a7fcce106b35ad",
+      "oracle_lines": [
+        408,
+        409,
+        410
+      ],
+      "oracle_text": [
+        "assert reasoning is None",
+        "assert content == \"first\\nsecond\"",
+        "assert not tool_calls"
+      ],
+      "source_calls": [
+        "_make_parser",
+        "parser.parse"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.channel_event_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_minicpmv_reasoning.py",
+      "test_name": "TestNewlineRecovery::test_parse_delta_recovers_content",
+      "line": 412,
+      "source_sha256": "ecac5661623dcdd428d880b0bf6db87ee2068cb28207caece4a7fcce106b35ad",
+      "oracle_lines": [
+        429,
+        430,
+        431,
+        432
+      ],
+      "oracle_text": [
+        "assert chunk is not None",
+        "assert chunk.content == \"first\"",
+        "assert rest is not None",
+        "assert rest.content == \"\\nsecond\""
+      ],
+      "source_calls": [
+        "_make_parser",
+        "parser.parse_delta"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_minicpmv_reasoning.py",
+      "test_name": "TestNewlineRecovery::test_normalizer_flushes_buffered_content_when_finished",
+      "line": 452,
+      "source_sha256": "ecac5661623dcdd428d880b0bf6db87ee2068cb28207caece4a7fcce106b35ad",
+      "oracle_lines": [
+        458,
+        459
+      ],
+      "oracle_text": [
+        "assert final is not None",
+        "assert final.content == \"`\""
+      ],
+      "source_calls": [
+        "MiniCPMVOutputNormalizer",
+        "normalizer.normalize_delta",
+        "DeltaMessage"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "output.incremental_parse_relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestRustFixtureParity::test_text_image",
+      "line": 154,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_lines": [
+        165
+      ],
+      "oracle_text": [
+        "assert render_text(inkling_tokenizer, messages) == ("
+      ],
+      "source_calls": [
+        "render_text"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestRenderingSemantics::test_resolve_reasoning_effort",
+      "line": 189,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_lines": [
+        190
+      ],
+      "oracle_text": [
+        "assert _resolve_reasoning_effort(value) == expected"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "_resolve_reasoning_effort"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestRenderingSemantics::test_generation_prompt_default",
+      "line": 192,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_lines": [
+        194
+      ],
+      "oracle_text": [
+        "assert text.endswith(\"<|end_message|><|message_model|>\")"
+      ],
+      "source_calls": [
+        "render_text",
+        "text.endswith"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestRenderingSemantics::test_developer_folds_into_system",
+      "line": 196,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_lines": [
+        197
+      ],
+      "oracle_text": [
+        "assert ("
+      ],
+      "source_calls": [
+        "render_text"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestRenderingSemantics::test_empty_string_content_skipped",
+      "line": 206,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_lines": [
+        207
+      ],
+      "oracle_text": [
+        "assert ("
+      ],
+      "source_calls": [
+        "render_text"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestRenderingSemantics::test_empty_reasoning_skipped",
+      "line": 216,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_lines": [
+        217
+      ],
+      "oracle_text": [
+        "assert ("
+      ],
+      "source_calls": [
+        "render_text"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestRenderingSemantics::test_reasoning_field",
+      "line": 227,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_lines": [
+        235
+      ],
+      "oracle_text": [
+        "assert render_text("
+      ],
+      "source_calls": [
+        "render_text"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestRenderingSemantics::test_audio_part",
+      "line": 243,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_lines": [
+        250
+      ],
+      "oracle_text": [
+        "assert render_text("
+      ],
+      "source_calls": [
+        "render_text"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestRenderingSemantics::test_tool_response_name_from_message",
+      "line": 254,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_lines": [
+        255
+      ],
+      "oracle_text": [
+        "assert ("
+      ],
+      "source_calls": [
+        "render_text"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestRenderingSemantics::test_tool_call_args_object_form",
+      "line": 264,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_lines": [
+        280
+      ],
+      "oracle_text": [
+        "assert render_text("
+      ],
+      "source_calls": [
+        "render_text"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestRenderingSemantics::test_tool_call_empty_args",
+      "line": 288,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_lines": [
+        295
+      ],
+      "oracle_text": [
+        "assert render_text("
+      ],
+      "source_calls": [
+        "render_text"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestRenderingSemantics::test_tool_call_non_object_args_rejected",
+      "line": 303,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_lines": [
+        312
+      ],
+      "oracle_text": [
+        "with pytest.raises(TypeError, match=\"decode to an object\"):"
+      ],
+      "source_calls": [
+        "pytest.raises",
+        "render_inkling_messages"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestRenderingSemantics::test_unsupported_role_rejected",
+      "line": 317,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_lines": [
+        318
+      ],
+      "oracle_text": [
+        "with pytest.raises(ValueError, match=\"unsupported Inkling message role\"):"
+      ],
+      "source_calls": [
+        "pytest.raises",
+        "render_inkling_messages"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestReasoningEffort::test_frontend_defaults_to_high",
+      "line": 325,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_lines": [
+        339
+      ],
+      "oracle_text": [
+        "assert text.startswith("
+      ],
+      "source_calls": [
+        "InklingRenderer.__new__",
+        "decode",
+        "text.startswith",
+        "renderer._render",
+        "ChatParams"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestReasoningEffort::test_zero_effort_has_one_canonical_spelling",
+      "line": 346,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_lines": [
+        357
+      ],
+      "oracle_text": [
+        "assert text.startswith("
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "InklingRenderer.__new__",
+        "decode",
+        "text.startswith",
+        "renderer._render",
+        "ChatParams"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestReasoningEffort::test_emits_one_effort_after_initial_prefix",
+      "line": 362,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_lines": [
+        380,
+        381
+      ],
+      "oracle_text": [
+        "assert text.count(effort_block) == 1",
+        "assert ("
+      ],
+      "source_calls": [
+        "render_text",
+        "text.count",
+        "text.index"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestReasoningEffort::test_renders_after_tool_declare",
+      "line": 391,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_lines": [
+        400
+      ],
+      "oracle_text": [
+        "assert text[declare_end:].startswith("
+      ],
+      "source_calls": [
+        "render_text",
+        "text[declare_end:].startswith",
+        "text.index",
+        "len"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestReasoningEffort::test_formats_at_most_two_decimals",
+      "line": 409,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_lines": [
+        415
+      ],
+      "oracle_text": [
+        "assert f\"Thinking effort level: {expected}<|end_message|>\" in text"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "render_text"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestReasoningEffort::test_out_of_range_rejected",
+      "line": 422,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_lines": [
+        423
+      ],
+      "oracle_text": [
+        "with pytest.raises(ValueError, match=\"must be in\"):"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "pytest.raises",
+        "render_inkling_messages"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestSpecialTokenResolution::test_missing_special_token_raises",
+      "line": 432,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_lines": [
+        439
+      ],
+      "oracle_text": [
+        "with pytest.raises(ValueError, match=\"missing special tokens\"):"
+      ],
+      "source_calls": [
+        "pytest.raises",
+        "_HfBackedTmlTokenizer",
+        "dict",
+        "IncompleteTokenizer"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "test_render_inkling_messages_direct_protocol",
+      "line": 463,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_lines": [
+        484
+      ],
+      "oracle_text": [
+        "assert ids == [200000, 200004, ord(\"h\"), ord(\"i\"), 200010, 200001]"
+      ],
+      "source_calls": [
+        "render_inkling_messages",
+        "ProtocolTokenizer",
+        "ord"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "input.chat_template_tokenization"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_tokenizer_registered",
+      "line": 68,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_lines": [
+        69,
+        72
+      ],
+      "oracle_text": [
+        "assert TokenizerRegistry.load_tokenizer_cls(\"deepseek_v4\").__name__ == (",
+        "assert RENDERER_REGISTRY.load_renderer_cls(\"deepseek_v4\").__name__ == ("
+      ],
+      "source_calls": [
+        "TokenizerRegistry.load_tokenizer_cls",
+        "RENDERER_REGISTRY.load_renderer_cls"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_defaults_to_thinking_with_high_effort",
+      "line": 77,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_lines": [
+        83,
+        86
+      ],
+      "oracle_text": [
+        "assert prompt.startswith(",
+        "assert prompt.endswith(\"<｜Assistant｜><think>\")"
+      ],
+      "source_calls": [
+        "_tokenizer().apply_chat_template",
+        "prompt.startswith",
+        "prompt.endswith",
+        "_tokenizer"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_enables_thinking_with_compatible_kwargs",
+      "line": 90,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_lines": [
+        97,
+        100
+      ],
+      "oracle_text": [
+        "assert prompt.startswith(",
+        "assert prompt.endswith(\"<｜Assistant｜><think>\")"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "_tokenizer().apply_chat_template",
+        "prompt.startswith",
+        "prompt.endswith",
+        "_tokenizer"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_explicitly_disables_thinking",
+      "line": 104,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_lines": [
+        111
+      ],
+      "oracle_text": [
+        "assert prompt == (\"<｜begin▁of▁sentence｜><｜User｜>Hello<｜Assistant｜></think>\")"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "_tokenizer().apply_chat_template",
+        "_tokenizer"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_appends_assistant_transition_after_trailing_system",
+      "line": 118,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_lines": [
+        132
+      ],
+      "oracle_text": [
+        "assert prompt == ("
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "_tokenizer().apply_chat_template",
+        "_tokenizer"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_does_not_transition_after_mid_conversation_system",
+      "line": 138,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_lines": [
+        150
+      ],
+      "oracle_text": [
+        "assert prompt == ("
+      ],
+      "source_calls": [
+        "_tokenizer().apply_chat_template",
+        "_tokenizer"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_transitions_from_system_to_assistant",
+      "line": 173,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_lines": [
+        188
+      ],
+      "oracle_text": [
+        "assert prompt == expected"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "_tokenizer().apply_chat_template",
+        "_tokenizer"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_unknown_role_raises_value_error",
+      "line": 191,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_lines": [
+        195
+      ],
+      "oracle_text": [
+        "with pytest.raises(ValueError, match=\"Invalid role: SYSTEM\"):"
+      ],
+      "source_calls": [
+        "pytest.raises",
+        "_tokenizer().apply_chat_template",
+        "_tokenizer"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_uses_v4_tool_prompt_from_request_tools",
+      "line": 202,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_lines": [
+        224,
+        225,
+        226,
+        227,
+        228,
+        229,
+        232
+      ],
+      "oracle_text": [
+        "assert \"## Tools\" in prompt",
+        "assert \"<｜DSML｜tool_calls>\" in prompt",
+        "assert \"</｜DSML｜tool_calls>\" in prompt",
+        "assert \"function_calls\" not in prompt",
+        "assert '\"name\": \"get_weather\"' in prompt",
+        "assert prompt.startswith(",
+        "assert prompt.endswith(\"<｜User｜>Weather?<｜Assistant｜><think>\")"
+      ],
+      "source_calls": [
+        "_tokenizer().apply_chat_template",
+        "prompt.startswith",
+        "prompt.endswith",
+        "_tokenizer"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_renders_parsed_history_tool_arguments",
+      "line": 235,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_lines": [
+        287,
+        288,
+        289
+      ],
+      "oracle_text": [
+        "assert '<｜DSML｜parameter name=\"command\" string=\"true\">view' in prompt",
+        "assert '<｜DSML｜parameter name=\"path\" string=\"true\">/testbed' in prompt",
+        "assert 'parameter name=\"arguments\"' not in prompt"
+      ],
+      "source_calls": [
+        "parse_chat_messages",
+        "_tokenizer().apply_chat_template",
+        "_model_config",
+        "_tokenizer"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_renders_0731_reasoning_effort_prompts",
+      "line": 300,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_lines": [
+        310,
+        311
+      ],
+      "oracle_text": [
+        "assert prompt.endswith(\"<｜Assistant｜><think>\")",
+        "assert prompt.startswith(expected_prefix)"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "_tokenizer().apply_chat_template",
+        "prompt.endswith",
+        "prompt.startswith",
+        "_tokenizer"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_none_reasoning_effort_disables_thinking",
+      "line": 314,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_lines": [
+        322
+      ],
+      "oracle_text": [
+        "assert prompt == (\"<｜begin▁of▁sentence｜><｜User｜>Hello<｜Assistant｜></think>\")"
+      ],
+      "source_calls": [
+        "_tokenizer().apply_chat_template",
+        "_tokenizer"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_maps_compatible_thinking_reasoning_effort_values",
+      "line": 338,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_lines": [
+        362,
+        363
+      ],
+      "oracle_text": [
+        "assert captured_kwargs[-1][\"thinking_mode\"] == expected_mode",
+        "assert captured_kwargs[-1][\"reasoning_effort\"] == expected_effort"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "monkeypatch.setattr",
+        "_tokenizer().apply_chat_template",
+        "captured_kwargs.append",
+        "_tokenizer"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_renders_0731_max_reasoning_effort",
+      "line": 366,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_lines": [
+        374
+      ],
+      "oracle_text": [
+        "assert prompt.startswith(\"<｜begin▁of▁sentence｜>Reasoning Effort: Beyond maximum\")"
+      ],
+      "source_calls": [
+        "_tokenizer().apply_chat_template",
+        "prompt.startswith",
+        "_tokenizer"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_maps_xhigh_to_high_reasoning_effort",
+      "line": 377,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_lines": [
+        385
+      ],
+      "oracle_text": [
+        "assert prompt.startswith("
+      ],
+      "source_calls": [
+        "_tokenizer().apply_chat_template",
+        "prompt.startswith",
+        "_tokenizer"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_image_blocks_become_placeholders",
+      "line": 451,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_lines": [
+        468
+      ],
+      "oracle_text": [
+        "assert ("
+      ],
+      "source_calls": [
+        "_tokenizer().apply_chat_template",
+        "_tokenizer"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_attaches_request_tools_to_existing_system_message",
+      "line": 534,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_lines": [
+        551,
+        552,
+        553
+      ],
+      "oracle_text": [
+        "assert prompt == expected",
+        "assert prompt.startswith(\"<｜begin▁of▁sentence｜>You are helpful.\\n\\n## Tools\")",
+        "assert prompt.count(\"## Tools\") == 1"
+      ],
+      "source_calls": [
+        "_tokenizer().apply_chat_template",
+        "_encode_reference",
+        "prompt.startswith",
+        "prompt.count",
+        "_tokenizer",
+        "_request_tools"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_synthetic_system_only_when_no_system_message",
+      "line": 556,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_lines": [
+        572,
+        573
+      ],
+      "oracle_text": [
+        "assert prompt == expected",
+        "assert prompt.startswith(\"<｜begin▁of▁sentence｜>\\n\\n## Tools\")"
+      ],
+      "source_calls": [
+        "_tokenizer().apply_chat_template",
+        "_encode_reference",
+        "prompt.startswith",
+        "_tokenizer",
+        "_request_tools"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_request_tools_override_system_message_tools",
+      "line": 576,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_lines": [
+        605,
+        606,
+        607
+      ],
+      "oracle_text": [
+        "assert prompt == expected",
+        "assert '\"name\": \"get_weather\"' in prompt",
+        "assert \"message_level_tool\" not in prompt"
+      ],
+      "source_calls": [
+        "_tokenizer().apply_chat_template",
+        "_encode_reference",
+        "_tokenizer",
+        "_request_tools"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_attaches_request_tools_to_first_system_message_only",
+      "line": 610,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_lines": [
+        635,
+        636,
+        637
+      ],
+      "oracle_text": [
+        "assert prompt == expected",
+        "assert \"First system.\\n\\n## Tools\" in prompt",
+        "assert prompt.count(\"## Tools\") == 1"
+      ],
+      "source_calls": [
+        "_tokenizer().apply_chat_template",
+        "_encode_reference",
+        "prompt.count",
+        "_tokenizer",
+        "_request_tools"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_request_tools_do_not_mutate_caller_messages",
+      "line": 640,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_lines": [
+        651
+      ],
+      "oracle_text": [
+        "assert messages == snapshot"
+      ],
+      "source_calls": [
+        "copy.deepcopy",
+        "_tokenizer().apply_chat_template",
+        "_tokenizer",
+        "_request_tools"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_reference_encoder_fixtures",
+      "line": 41,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_lines": [
+        56,
+        75,
+        76
+      ],
+      "oracle_text": [
+        "assert case.get(\"tools\") is None",
+        "assert render(messages, **kwargs) == expected + opener",
+        "assert prompt == expected"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "json.loads",
+        "(FIXTURES / 'deepseek_v41' / f'test_output_{case_id}.txt').read_text",
+        "any",
+        "(FIXTURES / 'deepseek_v41' / f'test_input_{case_id}.json').read_text",
+        "isinstance",
+        "case.get",
+        "encode_messages",
+        "dict",
+        "render"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_drop_thinking_keeps_current_turn_across_tool_results",
+      "line": 79,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_lines": [
+        92,
+        93,
+        94,
+        95,
+        98,
+        99
+      ],
+      "oracle_text": [
+        "assert \"<｜User｜>q1<｜Assistant｜></think>a1<｜end▁of▁sentence｜>\" in prompt",
+        "assert \"r1\" not in prompt",
+        "assert \"<think>r2</think>\" in prompt",
+        "assert prompt.endswith(\"<tool_result>value</tool_result><｜Assistant｜><think>\")",
+        "assert \"r2\" not in next_turn",
+        "assert next_turn.endswith(\"q3<｜Assistant｜><think>\")"
+      ],
+      "source_calls": [
+        "render",
+        "prompt.endswith",
+        "next_turn.endswith",
+        "tool_call"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_rejects_image_placeholder_in_text",
+      "line": 104,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_lines": [
+        107
+      ],
+      "oracle_text": [
+        "with pytest.raises(ValueError, match=\"image special token\"):"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "pytest.raises",
+        "render"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_rejects_image_placeholder_in_reasoning",
+      "line": 111,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_lines": [
+        112
+      ],
+      "oracle_text": [
+        "with pytest.raises(ValueError, match=\"image special token\"):"
+      ],
+      "source_calls": [
+        "pytest.raises",
+        "render"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_numeric_reasoning_effort",
+      "line": 134,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_lines": [
+        135
+      ],
+      "oracle_text": [
+        "assert render("
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "render"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_invalid_effort_is_a_request_error",
+      "line": 146,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_lines": [
+        147
+      ],
+      "oracle_text": [
+        "with pytest.raises(ValueError, match=\"reasoning_effort\"):"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "pytest.raises",
+        "render"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_chat_mode_has_closed_thinking_prefix",
+      "line": 160,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_lines": [
+        161
+      ],
+      "oracle_text": [
+        "assert render([{\"role\": \"user\", \"content\": \"question\"}], **controls) == ("
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "render"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_raw_text_parts_preserve_reference_separator",
+      "line": 166,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_lines": [
+        177,
+        185
+      ],
+      "oracle_text": [
+        "assert (",
+        "assert messages == original"
+      ],
+      "source_calls": [
+        "copy.deepcopy",
+        "render"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_request_content_iterator_can_be_rendered_repeatedly",
+      "line": 196,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_lines": [
+        206,
+        207,
+        209
+      ],
+      "oracle_text": [
+        "assert first == render(request.messages, thinking=False)",
+        "assert request.messages[0][\"content\"] == content",
+        "assert first == render(request.messages, thinking=False)"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "ChatCompletionRequest.model_validate",
+        "render",
+        "request.model_dump_json"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_responses_text_parts_match_chat_text_parts",
+      "line": 216,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_lines": [
+        225
+      ],
+      "oracle_text": [
+        "assert render([responses_message], thinking=False) == render("
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "render"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_mid_system_gets_its_own_marker_and_generation_header",
+      "line": 230,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_lines": [
+        231
+      ],
+      "oracle_text": [
+        "assert render("
+      ],
+      "source_calls": [
+        "render"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_encode_uses_one_bos_and_forwards_truncation",
+      "line": 254,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_lines": [
+        263,
+        264,
+        265
+      ],
+      "oracle_text": [
+        "assert text.startswith(\"<｜begin▁of▁sentence｜>\")",
+        "assert add_special_tokens is False",
+        "assert kwargs == {\"truncation\": True, \"max_length\": 16}"
+      ],
+      "source_calls": [
+        "get_deepseek_v41_tokenizer",
+        "tokenizer.apply_chat_template",
+        "text.startswith",
+        "FakeHfTokenizer"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_images_preserve_content_order_and_reference_separator",
+      "line": 271,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_lines": [
+        292,
+        296
+      ],
+      "oracle_text": [
+        "assert render([{\"role\": \"user\", \"content\": parts}], thinking=False) == (",
+        "assert parts[1][\"type\"] == parts[3][\"type\"] == image_type"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "image_part",
+        "render",
+        "Image.new"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_unsupported_media_is_a_request_error",
+      "line": 299,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_lines": [
+        300
+      ],
+      "oracle_text": [
+        "with pytest.raises(ValueError, match=\"text and image content only\"):"
+      ],
+      "source_calls": [
+        "pytest.raises",
+        "render"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_tool_references_render_as_tool_names",
+      "line": 304,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_lines": [
+        316
+      ],
+      "oracle_text": [
+        "assert render(messages, thinking=False).endswith("
+      ],
+      "source_calls": [
+        "render(messages, thinking=False).endswith",
+        "render",
+        "tool_call"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_tool_images_follow_rendered_order",
+      "line": 373,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_lines": [
+        396,
+        399,
+        400
+      ],
+      "oracle_text": [
+        "assert prompt[\"prompt\"].index(\"<tool_result>red\") < prompt[\"prompt\"].index(",
+        "assert prompt[\"multi_modal_uuids\"][\"image\"] == [\"red\", \"blue\"]",
+        "assert [im.getpixel((0, 0)) for im in prompt[\"multi_modal_data\"][\"image\"]] == ["
+      ],
+      "source_calls": [
+        "render_with_media",
+        "prompt['prompt'].index",
+        "im.getpixel",
+        "_image"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "input.multimodal_binding"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_dropped_developer_only_image_leaves_text_prompt",
+      "line": 406,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_lines": [
+        413,
+        414,
+        415
+      ],
+      "oracle_text": [
+        "assert \"<｜deepseek_image｜>\" not in prompt[\"prompt\"]",
+        "assert \"multi_modal_data\" not in prompt",
+        "assert \"multi_modal_uuids\" not in prompt"
+      ],
+      "source_calls": [
+        "render_with_media",
+        "_image"
+      ],
+      "status": "locally_reviewed",
+      "unit_id": "input.multimodal_binding"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_generation_prompt_only_controls_final_turn",
+      "line": 420,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_lines": [
+        432,
+        433,
+        434,
+        435
+      ],
+      "oracle_text": [
+        "assert opened == closed + cue",
+        "assert \"first answer<｜end▁of▁sentence｜>\" in closed",
+        "assert \"<｜User｜>first question<｜Assistant｜>\" in closed",
+        "assert messages == original"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "copy.deepcopy",
+        "render"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_continue_final_message_preserves_historical_eos",
+      "line": 439,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_lines": [
+        454,
+        455,
+        456,
+        457
+      ],
+      "oracle_text": [
+        "assert closed == continued + \"<｜end▁of▁sentence｜>\"",
+        "assert continued.endswith(\"The answer is \")",
+        "assert \"first answer<｜end▁of▁sentence｜>\" in continued",
+        "assert messages == original"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "copy.deepcopy",
+        "render",
+        "continued.endswith"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_continue_final_reasoning_keeps_thinking_open",
+      "line": 473,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_lines": [
+        478
+      ],
+      "oracle_text": [
+        "assert render(messages, continue_final_message=True).endswith("
+      ],
+      "source_calls": [
+        "render(messages, continue_final_message=True).endswith",
+        "render"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_open_final_message_gets_no_generation_prompt",
+      "line": 492,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_lines": [
+        506,
+        507
+      ],
+      "oracle_text": [
+        "assert not closed.endswith(\"<｜end▁of▁sentence｜>\")",
+        "assert encode() == closed"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "encode",
+        "encode_messages",
+        "closed.endswith",
+        "copy.deepcopy",
+        "tool_call"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_continue_final_message_requires_assistant",
+      "line": 511,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_lines": [
+        512
+      ],
+      "oracle_text": [
+        "with pytest.raises(ValueError, match=\"final assistant\"):"
+      ],
+      "source_calls": [
+        "pytest.mark.parametrize",
+        "pytest.raises",
+        "render"
+      ],
+      "status": "needs_refinement",
+      "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation"
+    }
+  ],
+  "summary": {
+    "candidates": 225,
+    "locally_reviewed": 156,
+    "needs_refinement": 69,
+    "reviewed_units": {
+      "input.chat_template_tokenization": 1,
+      "input.multimodal_binding": 2,
+      "output.channel_event_relation": 60,
+      "output.incremental_parse_relation": 40,
+      "tool.call_parse_relation": 53
+    },
+    "published_green_added": 0
+  }
+}

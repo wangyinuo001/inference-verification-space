@@ -10,12 +10,18 @@ from __future__ import annotations
 import ast
 import csv
 import json
+import os
 from collections import Counter
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 SPACE = HERE.parent
 REPOS = SPACE.parent / "third_party" / "reference_repos"
+if "VERIFICATION_REFERENCE_REPOS" in os.environ:
+    REPOS = Path(os.environ["VERIFICATION_REFERENCE_REPOS"])
+elif not (REPOS / "vllm-20261105").is_dir():
+    REPOS = next((p / "experiments/third_party/reference_repos" for p in HERE.parents
+                  if (p / "experiments/third_party/reference_repos/vllm-20261105").is_dir()), REPOS)
 ROOTS = {"vllm": REPOS / "vllm-20261105", "sglang": REPOS / "sglang-v0.5.14-complete"}
 OUTPUT = HERE / "inherited-method-sources.tsv"
 FIELDS = ("snapshot", "path", "test_name", "line", "status", "source_path",

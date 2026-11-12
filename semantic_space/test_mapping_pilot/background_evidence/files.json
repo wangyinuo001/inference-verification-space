@@ -1,0 +1,1733 @@
+[
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/function_call/test_function_call_parser.py",
+    "original_state": "timeout",
+    "state": "timeout",
+    "return_code": -15,
+    "duration_seconds": 120.11,
+    "pytest_summary": "",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/function_call/test_hermes_detector.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 10.84,
+    "pytest_summary": "12 passed, 3 warnings in 8.90s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/function_call/test_hunyuan_detector.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 11.79,
+    "pytest_summary": "50 passed, 3 warnings in 9.43s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/function_call/test_json_schema_constraint.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 9.73,
+    "pytest_summary": "18 passed, 3 warnings in 7.73s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/function_call/test_llama32_detector.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 13.4,
+    "pytest_summary": "15 passed, 3 warnings in 10.86s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/function_call/test_minicpm5_detector.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 12.29,
+    "pytest_summary": "14 passed, 3 warnings in 9.85s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/function_call/test_mistral_detector.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 13.29,
+    "pytest_summary": "18 passed, 3 warnings in 10.62s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/function_call/test_normalize_json_schema_types.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 15.1,
+    "pytest_summary": "23 passed, 3 warnings in 12.24s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/function_call/test_parallel_tool_calls.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 12.94,
+    "pytest_summary": "2 passed, 3 warnings in 10.78s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/function_call/test_poolside_v1_detector.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 10.39,
+    "pytest_summary": "28 passed, 3 warnings in 8.37s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/function_call/test_unknown_tool_name.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 9.83,
+    "pytest_summary": "2 passed, 3 warnings in 7.99s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/parser/test_code_completion_parser.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 8.88,
+    "pytest_summary": "15 passed, 3 warnings in 7.17s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/parser/test_conversation.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 16.24,
+    "pytest_summary": "99 passed, 7 warnings in 13.91s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/parser/test_harmony_parser.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 1.17,
+    "pytest_summary": "73 passed, 1 warning in 0.24s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/parser/test_jinja_template_utils.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 13.34,
+    "pytest_summary": "23 passed, 5 warnings in 11.30s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/parser/test_reasoning_content_without_parser.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 8.98,
+    "pytest_summary": "3 passed, 3 warnings, 2 subtests passed in 7.27s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/parser/test_reasoning_parser.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 9.69,
+    "pytest_summary": "124 passed, 3 warnings in 7.91s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/sampling/test_custom_logit_processor.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 4.42,
+    "pytest_summary": "34 passed, 1 warning in 3.13s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/sampling/test_penaltylib.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 13.99,
+    "pytest_summary": "40 passed, 19 warnings in 11.84s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/sampling/test_sampling_batch_info.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 20.5,
+    "pytest_summary": "39 passed, 23 warnings in 17.93s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/sampling/test_sampling_params.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 1.17,
+    "pytest_summary": "68 passed, 1 warning in 0.20s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 28.22,
+    "pytest_summary": "37 passed, 23 warnings, 8 subtests passed in 25.20s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/constrained/test_grammar_manager.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 23.61,
+    "pytest_summary": "41 passed, 9 warnings in 20.46s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/constrained/test_reasoner_grammar_backend.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 21.7,
+    "pytest_summary": "19 passed, 9 warnings in 18.84s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/constrained/test_token_filter_ops.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 5.07,
+    "pytest_summary": "6 passed, 3 skipped, 1 warning in 3.55s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/constrained/test_utils.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 1.02,
+    "pytest_summary": "9 passed, 1 warning in 0.06s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_asymmetric_mha_pool_host_unit.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 24.06,
+    "pytest_summary": "6 passed, 25 warnings in 20.92s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_decode_radix_lock_ref.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 31.38,
+    "pytest_summary": "6 passed, 25 warnings in 26.65s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_dsa_pool_host_unit.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 28.07,
+    "pytest_summary": "1 passed, 2 skipped, 25 warnings, 2 subtests passed in 23.76s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_embedding_cache_controller.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 31.78,
+    "pytest_summary": "33 passed, 26 warnings in 28.01s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_evict_policy.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 1.37,
+    "pytest_summary": "23 passed, 1 warning in 0.12s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_hicache_file_lru_unit.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 16.75,
+    "pytest_summary": "26 passed, 5 warnings in 13.69s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_hicache_nixl_storage.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 36.15,
+    "pytest_summary": "16 passed, 5 skipped, 25 warnings in 31.01s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_hicache_staged_write_back_dispatch.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 34.49,
+    "pytest_summary": "12 passed, 1 skipped, 25 warnings in 30.17s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_hiradix_cache_unit.py",
+    "original_state": "collection_error",
+    "state": "no_recorded_body",
+    "return_code": 0,
+    "duration_seconds": 36.0,
+    "pytest_summary": "1 skipped, 25 warnings in 30.95s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_mamba_unittest.py",
+    "original_state": "test_failed",
+    "state": "pytest_failed",
+    "return_code": 1,
+    "duration_seconds": 38.9,
+    "pytest_summary": "8 failed, 1 passed, 25 warnings in 33.68s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_mem_cache_utils.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 59.55,
+    "pytest_summary": "43 passed, 9 warnings in 54.49s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_mooncake_group_semantics.py",
+    "original_state": "timeout",
+    "state": "timeout",
+    "return_code": -15,
+    "duration_seconds": 120.17,
+    "pytest_summary": "",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_mooncake_standalone_dummy_mamba.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 73.23,
+    "pytest_summary": "1 passed, 25 warnings in 68.69s (0:01:08)",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_radix_cache_slru_accuracy.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 37.65,
+    "pytest_summary": "1 passed, 25 warnings in 32.50s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_radix_cache_unit.py",
+    "original_state": "test_failed",
+    "state": "pytest_failed",
+    "return_code": 1,
+    "duration_seconds": 38.36,
+    "pytest_summary": "1 failed, 40 passed, 25 warnings, 61 subtests passed in 33.29s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_radix_force_miss.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 36.34,
+    "pytest_summary": "3 passed, 25 warnings in 31.06s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_registry.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 38.1,
+    "pytest_summary": "21 passed, 25 warnings in 32.71s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_session_token_share_unit.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 39.85,
+    "pytest_summary": "4 passed, 25 warnings in 34.67s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_streaming_session_unit.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 40.76,
+    "pytest_summary": "4 passed, 25 warnings in 34.99s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_swa_alloc_extend_page_estimation.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 38.06,
+    "pytest_summary": "7 passed, 25 warnings in 33.05s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_swa_eviction_boundary.py",
+    "original_state": "test_failed",
+    "state": "pytest_failed",
+    "return_code": 1,
+    "duration_seconds": 41.11,
+    "pytest_summary": "9 failed, 25 warnings in 35.70s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_swa_lock_release_lifecycle.py",
+    "original_state": "test_failed",
+    "state": "pytest_failed",
+    "return_code": 1,
+    "duration_seconds": 30.03,
+    "pytest_summary": "11 failed, 1 passed, 25 warnings in 25.84s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_swa_unittest.py",
+    "original_state": "test_failed",
+    "state": "pytest_failed",
+    "return_code": 1,
+    "duration_seconds": 27.66,
+    "pytest_summary": "25 failed, 2 passed, 25 warnings in 24.55s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "original_state": "test_failed",
+    "state": "pytest_failed",
+    "return_code": 1,
+    "duration_seconds": 38.09,
+    "pytest_summary": "30 failed, 25 warnings in 34.78s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_unittest.py",
+    "original_state": "timeout",
+    "state": "timeout",
+    "return_code": -15,
+    "duration_seconds": 120.11,
+    "pytest_summary": "",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_hicache_dispatch.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 21.7,
+    "pytest_summary": "11 passed, 25 warnings in 19.00s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/spec/test_adaptive_spec_params.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 11.48,
+    "pytest_summary": "29 passed, 5 warnings in 9.54s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/spec/test_decode_bookkeeping_ownership.py",
+    "original_state": "timeout",
+    "state": "timeout",
+    "return_code": -15,
+    "duration_seconds": 120.0,
+    "pytest_summary": "",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/spec/test_eagle_worker_v2_topk1_fastpath.py",
+    "original_state": "collection_error",
+    "state": "collection_error",
+    "return_code": 2,
+    "duration_seconds": 27.11,
+    "pytest_summary": "25 warnings, 1 error in 23.35s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/spec/test_fast_prefill_plan.py",
+    "original_state": "test_failed",
+    "state": "pytest_failed",
+    "return_code": 1,
+    "duration_seconds": 29.97,
+    "pytest_summary": "2 failed, 25 warnings in 26.49s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/spec/test_ngram_corpus.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 34.84,
+    "pytest_summary": "55 passed, 31 warnings in 30.99s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/spec/test_resolve_swa_kv_pool.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 25.06,
+    "pytest_summary": "6 passed, 25 warnings, 12 subtests passed in 22.03s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/spec/test_spec_registry.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 5.13,
+    "pytest_summary": "28 passed, 1 warning in 3.58s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/spec/test_spec_utils_traverse_tree.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 30.18,
+    "pytest_summary": "1 passed, 25 warnings in 27.20s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/configs/test_linear_attn_model_registry.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 19.45,
+    "pytest_summary": "11 passed, 8 warnings in 16.86s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/configs/test_model_config_parser_registry.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 20.55,
+    "pytest_summary": "3 passed, 8 warnings in 18.03s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/configs/test_model_config_scaling.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 23.71,
+    "pytest_summary": "3 passed, 25 warnings in 20.82s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/configs/test_model_config_shapes.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 24.56,
+    "pytest_summary": "2 passed, 25 warnings in 21.26s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/configs/test_zaya_config.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 26.07,
+    "pytest_summary": "8 passed, 8 warnings in 22.00s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/tokenizer/test_tiktoken_tokenizer.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 1.88,
+    "pytest_summary": "18 passed, 1 warning in 0.80s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/utils/test_auth.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 20.33,
+    "pytest_summary": "29 passed, 5 warnings in 16.78s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/utils/test_common.py",
+    "original_state": "collection_error",
+    "state": "no_recorded_body",
+    "return_code": 0,
+    "duration_seconds": 19.01,
+    "pytest_summary": "2 skipped, 5 warnings in 15.93s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/utils/test_field_validators.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 18.25,
+    "pytest_summary": "18 passed, 5 warnings, 13 subtests passed in 15.37s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/utils/test_gauge_histogram.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 17.36,
+    "pytest_summary": "13 passed, 5 warnings in 14.52s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/utils/test_hf_transformers.py",
+    "original_state": "test_failed",
+    "state": "pytest_failed",
+    "return_code": 1,
+    "duration_seconds": 30.04,
+    "pytest_summary": "5 failed, 54 passed, 9 warnings in 25.51s",
+    "import_errors": [
+      "AttributeError: 'PreTrainedConfig' object has no attribute 'max_position_embeddings'"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/utils/test_hf_transformers_fastokens.py",
+    "original_state": "collection_error",
+    "state": "collection_error",
+    "return_code": 2,
+    "duration_seconds": 1.87,
+    "pytest_summary": "1 warning, 1 error in 0.34s",
+    "import_errors": [
+      "ImportError: cannot import name 'DEFAULT_SMALL_MODEL_NAME_FOR_TEST_QWEN' from 'sglang.test.test_utils' (unknown location)"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/utils/test_json_response.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 23.83,
+    "pytest_summary": "4 passed, 5 warnings in 19.90s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/utils/test_patch_tokenizer.py",
+    "original_state": "timeout",
+    "state": "timeout",
+    "return_code": -15,
+    "duration_seconds": 120.06,
+    "pytest_summary": "",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/utils/test_profile_merger.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 46.3,
+    "pytest_summary": "10 passed, 25 warnings in 40.13s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/utils/test_subprocess_watchdog.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 23.02,
+    "pytest_summary": "6 passed, 11 warnings in 19.71s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/utils/test_torch_npu_patch_utils.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 13.24,
+    "pytest_summary": "3 passed, 5 warnings in 10.84s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/utils/test_weight_checker.py",
+    "original_state": "test_failed",
+    "state": "pytest_failed",
+    "return_code": 1,
+    "duration_seconds": 24.91,
+    "pytest_summary": "33 failed, 19 passed, 25 warnings in 21.86s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/batch_invariant_ops/test_batch_invariant_ops.py",
+    "original_state": "collection_error",
+    "state": "collection_error",
+    "return_code": 2,
+    "duration_seconds": 18.6,
+    "pytest_summary": "9 warnings, 1 error in 16.21s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/batch_overlap/test_tbo_cuda_graph_num_token_device.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 23.0,
+    "pytest_summary": "3 passed, 25 warnings in 20.11s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/batch_overlap/test_tbo_filter_batch_marker.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 22.8,
+    "pytest_summary": "3 passed, 25 warnings in 19.93s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/eplb/test_balanced_packing.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 4.27,
+    "pytest_summary": "11 passed, 1 warning in 3.01s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/eplb/test_compute_logical_to_rank_dispatch_physical_map.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 4.27,
+    "pytest_summary": "11 passed, 1 warning in 3.04s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/eplb/test_deepep_waterfill_eplb.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 23.4,
+    "pytest_summary": "4 passed, 25 warnings in 20.53s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/eplb/test_dispatch_dtype_preservation.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 17.99,
+    "pytest_summary": "9 passed, 9 warnings in 15.66s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/hardware_backend/mlx/test_attention_patching.py",
+    "original_state": "collection_error",
+    "state": "no_recorded_body",
+    "return_code": 0,
+    "duration_seconds": 0.97,
+    "pytest_summary": "38 skipped, 1 warning in 0.08s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/hardware_backend/mlx/test_metal_profiler.py",
+    "original_state": "collection_error",
+    "state": "no_recorded_body",
+    "return_code": 0,
+    "duration_seconds": 0.92,
+    "pytest_summary": "10 skipped, 1 warning in 0.04s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/hardware_backend/mlx/test_quantization.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 21.55,
+    "pytest_summary": "5 passed, 6 skipped, 25 warnings in 18.83s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/hardware_backend/mlx/test_runner_init_contract.py",
+    "original_state": "collection_error",
+    "state": "no_recorded_body",
+    "return_code": 0,
+    "duration_seconds": 0.92,
+    "pytest_summary": "3 skipped, 1 warning in 0.03s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/layers/moe/test_aiter_runner.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 20.45,
+    "pytest_summary": "3 passed, 23 warnings in 17.88s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/layers/quantization/test_flashinfer_trtllm_fp8_fallback.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 21.25,
+    "pytest_summary": "4 passed, 25 warnings in 18.54s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/layers/quantization/test_fp4_kv_cache_quant_method.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 86.27,
+    "pytest_summary": "13 passed, 1 skipped, 25 warnings in 83.05s (0:01:23)",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/layers/quantization/test_modelopt_nvfp4_moe_scales.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 22.2,
+    "pytest_summary": "12 passed, 25 warnings, 30 subtests passed in 19.48s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/layers/quantization/test_mxfp4_sm90_cutlass.py",
+    "original_state": "collection_error",
+    "state": "no_tests_collected",
+    "return_code": 5,
+    "duration_seconds": 7.23,
+    "pytest_summary": "1 skipped, 1 warning in 5.46s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/layers/test_conv_layer.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 13.59,
+    "pytest_summary": "36 passed, 5 warnings in 11.54s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/layers/test_flashinfer_comm_fusion.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 18.75,
+    "pytest_summary": "3 passed, 2 skipped, 9 warnings, 12 subtests passed in 16.21s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/layers/test_mamba_state_scatter_triton.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 4.77,
+    "pytest_summary": "2 skipped, 1 warning in 3.44s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/layers/test_pooler_score_and_pool.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 21.95,
+    "pytest_summary": "8 passed, 25 warnings in 19.03s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/lora/test_mem_pool_ep_unit.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 24.21,
+    "pytest_summary": "30 passed, 25 warnings in 21.31s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/managers/test_batch_result_processor_spec_grammar.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 22.85,
+    "pytest_summary": "2 passed, 25 warnings in 20.00s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/managers/test_customized_info_streaming.py",
+    "original_state": "collection_error",
+    "state": "collection_error",
+    "return_code": 2,
+    "duration_seconds": 29.42,
+    "pytest_summary": "25 warnings, 1 error in 26.00s",
+    "import_errors": [
+      "ImportError: cannot import name 'DEFAULT_TIMEOUT_FOR_SERVER_LAUNCH' from 'sglang.test.test_utils' (unknown location)"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/managers/test_io_struct.py",
+    "original_state": "collection_error",
+    "state": "collection_error",
+    "return_code": 2,
+    "duration_seconds": 27.02,
+    "pytest_summary": "25 warnings, 1 error in 23.82s",
+    "import_errors": [
+      "ImportError: cannot import name 'DEFAULT_SMALL_MODEL_NAME_FOR_TEST' from 'sglang.test.test_utils' (unknown location)"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/managers/test_mm_hashes.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 23.86,
+    "pytest_summary": "5 passed, 25 warnings in 20.81s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/managers/test_mm_process_config.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 31.58,
+    "pytest_summary": "18 passed, 25 warnings in 28.29s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/managers/test_multi_tokenizer_mixin.py",
+    "original_state": "collection_error",
+    "state": "collection_error",
+    "return_code": 2,
+    "duration_seconds": 1.32,
+    "pytest_summary": "1 warning, 1 error in 0.19s",
+    "import_errors": [
+      "ImportError: cannot import name 'maybe_stub_sgl_kernel' from 'sglang.test.test_utils' (unknown location)"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/managers/test_prefill_adder.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 33.53,
+    "pytest_summary": "12 passed, 25 warnings, 6 subtests passed in 30.14s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/managers/test_priority_scheduling_disaggregation.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 28.82,
+    "pytest_summary": "7 passed, 25 warnings in 24.92s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/managers/test_schedule_batch_req_pool_indices.py",
+    "original_state": "collection_error",
+    "state": "collection_error",
+    "return_code": 2,
+    "duration_seconds": 6.83,
+    "pytest_summary": "1 warning, 1 error in 5.00s",
+    "import_errors": [
+      "ImportError: cannot import name 'maybe_stub_sgl_kernel' from 'sglang.test.test_utils' (unknown location)"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/managers/test_scheduler_chunked_req_gate.py",
+    "original_state": "collection_error",
+    "state": "collection_error",
+    "return_code": 2,
+    "duration_seconds": 7.28,
+    "pytest_summary": "1 warning, 1 error in 4.88s",
+    "import_errors": [
+      "ImportError: cannot import name 'maybe_stub_sgl_kernel' from 'sglang.test.test_utils' (unknown location)"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/managers/test_scheduler_flush_cache.py",
+    "original_state": "collection_error",
+    "state": "collection_error",
+    "return_code": 2,
+    "duration_seconds": 1.67,
+    "pytest_summary": "1 warning, 1 error in 0.24s",
+    "import_errors": [
+      "ImportError: cannot import name 'maybe_stub_sgl_kernel' from 'sglang.test.test_utils' (unknown location)"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/managers/test_scheduler_pause_generation.py",
+    "original_state": "collection_error",
+    "state": "collection_error",
+    "return_code": 2,
+    "duration_seconds": 1.42,
+    "pytest_summary": "1 warning, 1 error in 0.14s",
+    "import_errors": [
+      "ImportError: cannot import name 'maybe_stub_sgl_kernel' from 'sglang.test.test_utils' (unknown location)"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/managers/test_stop_str_speculative.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 34.28,
+    "pytest_summary": "9 passed, 25 warnings in 30.00s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/managers/test_template_manager.py",
+    "original_state": "timeout",
+    "state": "timeout",
+    "return_code": -15,
+    "duration_seconds": 240.17,
+    "pytest_summary": "",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/managers/test_tokenizer_manager_rid_cleanup.py",
+    "original_state": "collection_error",
+    "state": "collection_error",
+    "return_code": 2,
+    "duration_seconds": 4.49,
+    "pytest_summary": "1 warning, 1 error in 0.60s",
+    "import_errors": [
+      "ImportError: cannot import name 'maybe_stub_sgl_kernel' from 'sglang.test.test_utils' (unknown location)"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/managers/test_trim_matched_stop.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 44.59,
+    "pytest_summary": "8 passed, 25 warnings in 39.17s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/managers/test_vocab_boundary_finish.py",
+    "original_state": "collection_error",
+    "state": "collection_error",
+    "return_code": 2,
+    "duration_seconds": 2.02,
+    "pytest_summary": "1 warning, 1 error in 0.23s",
+    "import_errors": [
+      "ImportError: cannot import name 'maybe_stub_sgl_kernel' from 'sglang.test.test_utils' (unknown location)"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 72.67,
+    "pytest_summary": "39 passed, 9 warnings in 67.98s (0:01:07)",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/model_executor/test_forward_metadata_plan_record.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 39.79,
+    "pytest_summary": "9 passed, 9 warnings in 34.50s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/model_executor/test_pool_configurator.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 104.86,
+    "pytest_summary": "25 passed, 25 warnings in 97.92s (0:01:37)",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/model_loader/test_modelopt_export.py",
+    "original_state": "test_failed",
+    "state": "pytest_failed",
+    "return_code": 1,
+    "duration_seconds": 212.71,
+    "pytest_summary": "2 failed, 5 passed, 27 warnings in 205.68s (0:03:25)",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/model_loader/test_modelopt_loader.py",
+    "original_state": "test_failed",
+    "state": "pytest_failed",
+    "return_code": 1,
+    "duration_seconds": 136.51,
+    "pytest_summary": "9 failed, 5 passed, 25 warnings in 130.21s (0:02:10)",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/models/test_llava.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 40.05,
+    "pytest_summary": "2 passed, 25 warnings in 34.74s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/models/test_nemotron_h_weight_loading.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 41.31,
+    "pytest_summary": "2 passed, 25 warnings in 36.57s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/models/test_qwen3_5_packed_weight_loader.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 38.31,
+    "pytest_summary": "7 passed, 25 warnings in 34.39s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/models/test_zaya_mod_tp.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 28.87,
+    "pytest_summary": "3 passed, 25 warnings in 24.87s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/observability/test_cpu_monitor.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 3.07,
+    "pytest_summary": "2 passed, 1 warning in 1.44s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/observability/test_forward_pass_metrics.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 39.07,
+    "pytest_summary": "8 passed, 25 warnings in 34.71s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/observability/test_func_timer.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 5.57,
+    "pytest_summary": "5 passed, 1 warning in 1.78s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/observability/test_label_transform.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 2.42,
+    "pytest_summary": "4 passed, 1 warning in 0.17s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/observability/test_metrics_utils.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 3.83,
+    "pytest_summary": "10 passed, 1 warning in 0.14s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/observability/test_ray_wrappers.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 77.42,
+    "pytest_summary": "31 passed, 9 warnings in 73.77s (0:01:13)",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/observability/test_request_metrics_exporter.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 1.12,
+    "pytest_summary": "22 passed, 1 warning in 0.15s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/observability/test_startup_func_log_and_timer.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 1.77,
+    "pytest_summary": "11 passed, 1 warning in 0.75s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/observability/test_stat_loggers_di.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 32.85,
+    "pytest_summary": "12 passed, 9 warnings in 25.63s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/platforms/test_platform_interface.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 9.55,
+    "pytest_summary": "65 passed, 1 warning, 21 subtests passed in 6.94s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/plugins/test_hook_registry.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 3.28,
+    "pytest_summary": "20 passed, 1 warning in 1.26s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/plugins/test_load_plugins.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 3.53,
+    "pytest_summary": "6 passed, 1 warning in 0.81s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/spec/test_eagle_draft_cuda_graph_runner.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 38.14,
+    "pytest_summary": "3 passed, 25 warnings in 33.49s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/test_no_bare_pytest_main.py",
+    "original_state": "timeout",
+    "state": "timeout",
+    "return_code": -15,
+    "duration_seconds": 240.01,
+    "pytest_summary": "",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/test_precision_baseline_store.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 2.02,
+    "pytest_summary": "38 passed, 1 warning in 1.04s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/test_runai_utils.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 19.95,
+    "pytest_summary": "10 passed, 8 warnings in 17.53s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/test_runtime_context.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 41.5,
+    "pytest_summary": "8 passed, 9 warnings in 38.39s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/unit/tools/test_get_version_tag.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 1.37,
+    "pytest_summary": "4 passed, 1 warning, 6 subtests passed in 0.07s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/cpu/arm64/test_moe.py",
+    "original_state": "test_failed",
+    "state": "pytest_failed",
+    "return_code": 1,
+    "duration_seconds": 17.6,
+    "pytest_summary": "16 failed, 1 passed, 5 warnings in 15.07s",
+    "import_errors": [
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'convert_weight_packed'"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/cpu/test_activation.py",
+    "original_state": "test_failed",
+    "state": "pytest_failed",
+    "return_code": 1,
+    "duration_seconds": 22.1,
+    "pytest_summary": "12 failed, 1 passed, 9 warnings in 19.49s",
+    "import_errors": [
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'silu_and_mul_cpu'"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/cpu/test_binding.py",
+    "original_state": "test_failed",
+    "state": "pytest_failed",
+    "return_code": 1,
+    "duration_seconds": 4.32,
+    "pytest_summary": "1 failed, 1 warning in 3.02s",
+    "import_errors": [
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'init_cpu_threads_env'"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/cpu/test_bmm.py",
+    "original_state": "test_failed",
+    "state": "pytest_failed",
+    "return_code": 1,
+    "duration_seconds": 30.42,
+    "pytest_summary": "96 failed, 1 passed, 25 warnings in 27.26s",
+    "import_errors": [
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'bmm_cpu'"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/cpu/test_causal_conv1d.py",
+    "original_state": "collection_error",
+    "state": "collection_error",
+    "return_code": 2,
+    "duration_seconds": 9.43,
+    "pytest_summary": "5 warnings, 1 error in 7.37s",
+    "import_errors": [
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'causal_conv1d_weight_pack'"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/cpu/test_decode.py",
+    "original_state": "test_failed",
+    "state": "pytest_failed",
+    "return_code": 1,
+    "duration_seconds": 7.58,
+    "pytest_summary": "1 failed, 1 warning in 5.40s",
+    "import_errors": [
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'decode_attention_cpu'"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/cpu/test_extend.py",
+    "original_state": "test_failed",
+    "state": "pytest_failed",
+    "return_code": 1,
+    "duration_seconds": 6.88,
+    "pytest_summary": "3 failed, 1 warning in 4.65s",
+    "import_errors": [
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'extend_attention_cpu'"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/cpu/test_flash_attn.py",
+    "original_state": "collection_error",
+    "state": "collection_error",
+    "return_code": 2,
+    "duration_seconds": 7.58,
+    "pytest_summary": "5 warnings, 1 error in 5.80s",
+    "import_errors": [
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'flash_attn_varlen_func'"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/cpu/test_gemm.py",
+    "original_state": "test_failed",
+    "state": "pytest_failed",
+    "return_code": 1,
+    "duration_seconds": 9.53,
+    "pytest_summary": "76 failed, 6 passed, 1 warning in 8.17s",
+    "import_errors": [
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'convert_weight_packed'",
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'convert_weight_packed_scale_zp'",
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'per_token_quant_int8_cpu'",
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'weight_packed_linear'"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/cpu/test_intel_amx_attention_backend_b.py",
+    "original_state": "collection_error",
+    "state": "collection_error",
+    "return_code": 2,
+    "duration_seconds": 1.07,
+    "pytest_summary": "1 warning, 1 error in 0.11s",
+    "import_errors": [
+      "ImportError: cannot import name 'DEFAULT_MODEL_NAME_FOR_TEST_FP8_WITH_MOE' from 'sglang.test.test_utils' (unknown location)"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/cpu/test_intel_amx_attention_backend_c.py",
+    "original_state": "collection_error",
+    "state": "collection_error",
+    "return_code": 2,
+    "duration_seconds": 1.32,
+    "pytest_summary": "1 warning, 1 error in 0.11s",
+    "import_errors": [
+      "ImportError: cannot import name 'DEFAULT_MODEL_NAME_FOR_TEST_W8A8' from 'sglang.test.test_utils' (unknown location)"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/cpu/test_mamba.py",
+    "original_state": "test_failed",
+    "state": "pytest_failed",
+    "return_code": 1,
+    "duration_seconds": 7.78,
+    "pytest_summary": "4 failed, 1 passed, 1 warning in 6.04s",
+    "import_errors": [
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'chunk_gated_delta_rule_cpu'",
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'fused_gdn_gating_cpu'",
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'fused_sigmoid_gating_delta_rule_update_cpu'"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/cpu/test_mla.py",
+    "original_state": "test_failed",
+    "state": "pytest_failed",
+    "return_code": 1,
+    "duration_seconds": 4.77,
+    "pytest_summary": "1 failed, 1 warning in 3.35s",
+    "import_errors": [
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'decode_attention_cpu'"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/cpu/test_moe.py",
+    "original_state": "test_failed",
+    "state": "pytest_failed",
+    "return_code": 1,
+    "duration_seconds": 20.15,
+    "pytest_summary": "40 failed, 7 passed, 5 warnings in 17.92s",
+    "import_errors": [
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'convert_weight_packed'",
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'convert_weight_packed_scale_zp'",
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'grouped_topk_cpu'"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/cpu/test_norm.py",
+    "original_state": "test_failed",
+    "state": "pytest_failed",
+    "return_code": 1,
+    "duration_seconds": 86.9,
+    "pytest_summary": "96 failed, 9 passed, 1 warning in 85.48s (0:01:25)",
+    "import_errors": [
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'fused_rmsnorm_gated_cpu'",
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'gemma3_rmsnorm_cpu'",
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'gemma4_rmsnorm_cpu'",
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'gemma_rmsnorm_cpu'",
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'l2norm_cpu'"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/cpu/test_qkv_proj_with_rope.py",
+    "original_state": "collection_error",
+    "state": "collection_error",
+    "return_code": 2,
+    "duration_seconds": 23.46,
+    "pytest_summary": "25 warnings, 1 error in 20.58s",
+    "import_errors": [
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'convert_weight_packed'"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/cpu/test_qwen3.py",
+    "original_state": "test_failed",
+    "state": "pytest_failed",
+    "return_code": 1,
+    "duration_seconds": 4.72,
+    "pytest_summary": "2 failed, 1 warning in 3.35s",
+    "import_errors": [
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'fused_qkvzba_split_reshape_cat_contiguous_cpu'",
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'fused_qkvzba_split_reshape_cat_cpu'"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/cpu/test_rope.py",
+    "original_state": "test_failed",
+    "state": "pytest_failed",
+    "return_code": 1,
+    "duration_seconds": 58.42,
+    "pytest_summary": "4 failed, 23 warnings in 53.58s",
+    "import_errors": [
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'apply_rotary_pos_emb_cpu'",
+      "ModuleNotFoundError: No module named 'vllm'"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/cpu/test_server_args_backend.py",
+    "original_state": "passed",
+    "state": "pytest_passed",
+    "return_code": 0,
+    "duration_seconds": 29.38,
+    "pytest_summary": "5 passed, 9 warnings in 25.35s",
+    "import_errors": []
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/cpu/test_shared_expert.py",
+    "original_state": "test_failed",
+    "state": "pytest_failed",
+    "return_code": 1,
+    "duration_seconds": 7.23,
+    "pytest_summary": "36 failed, 3 passed, 1 warning in 5.46s",
+    "import_errors": [
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'convert_weight_packed'",
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'shared_expert_cpu'"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/cpu/test_store_cache.py",
+    "original_state": "test_failed",
+    "state": "pytest_failed",
+    "return_code": 1,
+    "duration_seconds": 26.46,
+    "pytest_summary": "84 failed, 1 warning in 24.92s",
+    "import_errors": [
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'store_cache_cpu'"
+    ]
+  },
+  {
+    "run": "semantic-space-background-20261111-phase2",
+    "path": "test/registered/cpu/test_topk.py",
+    "original_state": "test_failed",
+    "state": "pytest_failed",
+    "return_code": 1,
+    "duration_seconds": 76.67,
+    "pytest_summary": "4 failed, 1 passed, 25 warnings in 72.18s (0:01:12)",
+    "import_errors": [
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'biased_grouped_topk_cpu'",
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'grouped_topk_cpu'",
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'topk_sigmoid_cpu'",
+      "AttributeError: '_OpNamespace' 'sgl_kernel' object has no attribute 'topk_softmax_cpu'"
+    ]
+  }
+]

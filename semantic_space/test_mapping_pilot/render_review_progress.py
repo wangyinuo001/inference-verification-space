@@ -75,6 +75,14 @@ def main() -> None:
     placement = {key(row): row for row in read(HERE / "stage-placement-all.tsv")}
     confirmed = {key(row): row for row in read(HERE / "confirmed-property-crosswalk.tsv")}
     direct_properties = {key(row): row for row in read(HERE / "direct-property-crosswalk.tsv")}
+    supplement_path = HERE / "reviewed-supplement-crosswalk.tsv"
+    supplement = {key(row): row for row in read(supplement_path)} if supplement_path.exists() else {}
+    assert not (supplement.keys() & direct_properties.keys())
+    direct_properties.update(supplement)
+    pending_path = HERE / "reviewed-supplement-pending.json"
+    pending = {key(r): r for r in json.loads(pending_path.read_text())} if pending_path.exists() else {}
+    runtime_path = HERE / "background_evidence/runtime-entries.tsv"
+    runtime = {key(row): row for row in read(runtime_path)} if runtime_path.exists() else {}
     inherited_properties = {key(row): row for row in read(HERE / "inherited-property-crosswalk.tsv")}
     assert not ((confirmed.keys() & inherited_properties.keys()) |
                 (confirmed.keys() & direct_properties.keys()) |
@@ -96,6 +104,7 @@ def main() -> None:
         placed = placement[item_key]
         checked = confirmed.get(item_key) or direct_properties.get(item_key) or inherited_properties.get(item_key)
         inherited_origin = inherited.get(item_key)
+        execution = runtime.get(item_key, {})
         stage_count += bool(placed["stage"])
         linked_stage_count += placed["placement_status"] in {"linked_stage", "linked_domain_stage"}
         file_key = (row["snapshot"], row["path"])
@@ -104,6 +113,8 @@ def main() -> None:
             files.append(list(file_key))
         status = category(row, observed, placed, checked is not None,
                           bool(inherited_origin and inherited_origin["status"] == "resolved_unique"))
+        if item_key in pending and status != "g":
+            status = "r"
         counts[status] += 1
         framework_counts[row["snapshot"]][status] += 1
         units = (checked["unit_id"] if checked else observed["source_reviewed_units"]) if status == "g" else (
@@ -115,11 +126,14 @@ def main() -> None:
             units, row["oracle_forms"], row["observation_subjects"][:150],
             placed["stage"], placed["stage_source"], placed["product_target"],
             placed["input_binding"],
-            checked["property"] if checked else observed["source_reviewed_property"] if status == "g" else "",
+            checked["property"] if checked else pending[item_key]["reason"] if item_key in pending else observed["source_reviewed_property"] if status == "g" else "",
             checked["oracle_source"] if checked else observed["oracle_sites_preview"] if status == "g" else "",
             inherited_origin["source_path"] if inherited_origin and inherited_origin["status"] == "resolved_unique" else "",
             int(inherited_origin["source_line"]) if inherited_origin and inherited_origin["status"] == "resolved_unique" else 0,
             checked["conditions"] if checked else "",
+            int(execution.get("instances", 0)),
+            int(execution.get("calls_and_assertions", 0)),
+            int(execution.get("truncated_instances", 0)),
         ])
     assert sum(counts.values()) == len(entries) == len({key(row) for row in scan})
     payload = json.dumps({
@@ -128,6 +142,7 @@ def main() -> None:
         "linkedStageCount": linked_stage_count,
         "oracleCount": sum(bool(row["oracle_forms"]) for row in review.values()),
         "unitNames": unit_names,
+        "runtimeEntryCount": len(runtime),
         "frameworkCounts": {name: dict(value) for name, value in framework_counts.items()},
     }, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     template = (HERE / "review_progress.template.html").read_text(encoding="utf-8")

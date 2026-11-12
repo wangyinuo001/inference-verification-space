@@ -1,0 +1,22 @@
+{
+  "source_entries": 31968,
+  "indexed_source_files": 3643,
+  "review_status": {
+    "review_call_inputs_and_property": 24598,
+    "locate_definition": 93,
+    "locate_check_or_helper": 440,
+    "refine_property_or_space": 300,
+    "property_reviewed": 6469,
+    "outside_current_scope": 68
+  },
+  "source_status": {
+    "definition_located": 29879,
+    "file_only": 93,
+    "rust_source_line_located": 630,
+    "inherited_definition_located": 1366
+  },
+  "runtime_entries": 2119,
+  "pending_groups": 5092,
+  "consistency_issues": 0,
+  "interpretation": "All source entries re-opened and accounted for; property_reviewed alone records reviewed semantic placement."
+}

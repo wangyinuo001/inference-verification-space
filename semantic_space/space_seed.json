@@ -1,5 +1,5 @@
 {
-  "version": "0.30",
+  "version": "0.32",
   "status": "source-grounded expanding model; representative paths only, not exhaustive",
   "snapshots": {
     "vllm": {
@@ -57,6 +57,20 @@
       ],
       "observed_values": [],
       "constraint": "Compare token sequences only after binding the same conversation, template and rendering flags; tool-related transformations require their own reference or stated relational oracle."
+    },
+    {
+      "id": "prompt_render_profile",
+      "type": "structured",
+      "fields": [
+        "format_and_revision",
+        "message_roles_content_and_order",
+        "tools_and_tool_results",
+        "generation_prompt",
+        "continue_final_message",
+        "media_marker_policy"
+      ],
+      "observed_values": [],
+      "constraint": "Bind the same rendering format and message sequence. Fixed examples include Inkling and DeepSeek-V4 in vLLM, and ADD_COLON_SINGLE, CHATML, LLAMA3, QWEN2_AUDIO and PADDLE_OCR in SGLang. Rendered text, token IDs and media payload binding are separate observations."
     },
     {
       "id": "input_error_profile",
@@ -1589,6 +1603,161 @@
           {
             "path": "test/registered/core/test_srt_endpoint.py",
             "line": 681,
+            "kind": "existing_oracle"
+          }
+        ]
+      }
+    },
+    {
+      "id": "input.prompt_text_rendering",
+      "name": "聊天消息生成的提示词文本符合模板",
+      "kind": "obligation",
+      "phase": "ingress",
+      "state_scope": "request",
+      "conditions": [
+        "prompt_render_profile"
+      ],
+      "property": "在指定模板、消息顺序、角色、工具内容和生成续写设置下，渲染的提示词文本保留相应内容，并按模板产生角色边界、分隔符、工具段及续写前缀。",
+      "observable": [
+        "messages",
+        "tools",
+        "render_controls",
+        "rendered_prompt_text"
+      ],
+      "oracle": "固定消息和模板，比较预期提示词文本与渲染结果；子串、前缀或缺席断言只证明其实际检查的局部性质。此处不比较后续编码的 token ID。",
+      "execution_boundary": "消息与工具输入进入渲染函数，得到提示词文本；不包括 tokenizer.encode、模型计算或服务响应。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/tokenizers/deepseek_v4_encoding.py",
+            "line": 548,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/renderers/inkling_encoding.py",
+            "line": 93,
+            "kind": "source"
+          },
+          {
+            "path": "tests/tokenizers_/test_deepseek_v4.py",
+            "line": 118,
+            "kind": "existing_test"
+          },
+          {
+            "path": "tests/tokenizers_/test_deepseek_v4.py",
+            "line": 132,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "tests/renderers/test_inkling.py",
+            "line": 196,
+            "kind": "existing_test"
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/parser/conversation.py",
+            "line": 107,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/entrypoints/openai/serving_chat.py",
+            "line": 723,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/parser/test_conversation.py",
+            "line": 39,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/registered/unit/parser/test_conversation.py",
+            "line": 52,
+            "kind": "existing_oracle"
+          }
+        ]
+      }
+    },
+    {
+      "id": "input.media_marker_rendering",
+      "name": "媒体占位标记在提示词文本中与输入位置对应",
+      "kind": "obligation",
+      "phase": "ingress",
+      "state_scope": "request",
+      "conditions": [
+        "prompt_render_profile",
+        "modality"
+      ],
+      "property": "给定图像或音频项目及其相邻文本，渲染文本在对应位置产生声明格式的媒体占位标记，并保留标记与文本片段的相对次序。",
+      "observable": [
+        "input_text_media_order",
+        "rendered_prompt_text",
+        "media_marker_text_and_positions"
+      ],
+      "oracle": "构造交错的文本与媒体项目，检查渲染文本中的标记种类、数量和相对位置；仅检查子串的断言只证明该部分。媒体载荷、特征和最终 token 占位范围另行检查。",
+      "execution_boundary": "多模态消息到提示词标记文本；不包括媒体载荷读取、媒体特征展开或输入张量绑定。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/tokenizers/deepseek_v4_encoding.py",
+            "line": 220,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/renderers/inkling_encoding.py",
+            "line": 247,
+            "kind": "source"
+          },
+          {
+            "path": "tests/renderers/test_inkling.py",
+            "line": 154,
+            "kind": "existing_test"
+          },
+          {
+            "path": "tests/renderers/test_inkling.py",
+            "line": 165,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "tests/tokenizers_/test_deepseek_v4.py",
+            "line": 451,
+            "kind": "existing_test"
+          },
+          {
+            "path": "tests/tokenizers_/test_deepseek_v4.py",
+            "line": 469,
+            "kind": "existing_oracle"
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/parser/conversation.py",
+            "line": 574,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/parser/conversation.py",
+            "line": 644,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/parser/test_conversation.py",
+            "line": 520,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/registered/unit/parser/test_conversation.py",
+            "line": 536,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/parser/test_conversation.py",
+            "line": 554,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/registered/unit/parser/test_conversation.py",
+            "line": 570,
             "kind": "existing_oracle"
           }
         ]
@@ -5293,6 +5462,74 @@
       "evidence": {}
     },
     {
+      "id": "spec.draft_candidate_binding",
+      "name": "草稿候选与输入历史绑定",
+      "kind": "obligation",
+      "phase": "sampling",
+      "state_scope": "request",
+      "conditions": [
+        "speculative_mode"
+      ],
+      "property": "按指定草稿方法、输入 token 历史与草稿预算，候选 token 的顺序和有效长度符合该方法的规则；树式草稿还需使路径掩码与候选 token 及请求状态对应。草稿候选不要求等于目标模型最终输出。",
+      "observable": [
+        "draft_token_ids",
+        "draft_valid_length",
+        "draft_tree_mask"
+      ],
+      "oracle": "固定 token 历史、匹配窗口与草稿预算，对照手工构造的候选 token、空匹配结果和有效长度；对树式草稿另核对掩码及路径。局部草稿检查不能替代目标模型接受或最终输出判定。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/spec_decode/ngram_proposer.py",
+            "line": 138,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/spec_decode/ngram_proposer.py",
+            "line": 210,
+            "kind": "source"
+          },
+          {
+            "path": "tests/v1/spec_decode/test_ngram.py",
+            "line": 16,
+            "kind": "existing_test"
+          },
+          {
+            "path": "tests/v1/spec_decode/test_ngram.py",
+            "line": 24,
+            "kind": "existing_oracle"
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/speculative/cpp_ngram/ngram_corpus.py",
+            "line": 100,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/speculative/cpp_ngram/ngram_corpus.py",
+            "line": 107,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/spec/test_ngram_corpus.py",
+            "line": 174,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/registered/unit/spec/test_ngram_corpus.py",
+            "line": 175,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/spec/test_ngram_corpus.py",
+            "line": 178,
+            "kind": "existing_oracle"
+          }
+        ]
+      }
+    },
+    {
       "id": "spec.acceptance",
       "name": "草稿接受与恢复遵守目标概率",
       "kind": "obligation",
@@ -8017,6 +8254,105 @@
           }
         ]
       }
+    },
+    {
+      "id": "sampling.logit_transform_relation",
+      "name": "采样前 logit 变换符合参考计算",
+      "kind": "obligation",
+      "phase": "sampling",
+      "state_scope": "request",
+      "conditions": [
+        "logit_modifier_profile",
+        "execution_layout"
+      ],
+      "property": "给定一项声明的采样修饰操作、变换前 logits、当前请求的历史 token 和参数，变换后 logits 与该操作的参考计算一致；未作用的 token 保持原值。批内各行按所属请求独立计算。多操作的执行顺序另行检查。",
+      "observable": [
+        "request_or_row_identity",
+        "modifier_parameters",
+        "output_token_history",
+        "logits_before_and_after"
+      ],
+      "oracle": "逐行独立计算被检查操作的预期 logits，按声明数值容差比较目标 token 与未作用 token；停止 token 掩码检查其有限性或负无穷值。单个操作的测试不证明整条处理链的执行顺序或最终采样 token。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/sample/sampler.py",
+            "line": 485,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/model_executor/layers/utils.py",
+            "line": 78,
+            "kind": "source",
+            "note": "频率与存在惩罚的数值公式"
+          },
+          {
+            "path": "vllm/model_executor/layers/utils.py",
+            "line": 79,
+            "kind": "source",
+            "note": "频率与存在惩罚的数值公式"
+          },
+          {
+            "path": "tests/v1/sample/test_sampler.py",
+            "line": 206,
+            "kind": "existing_test"
+          },
+          {
+            "path": "tests/v1/sample/test_sampler.py",
+            "line": 241,
+            "kind": "existing_oracle",
+            "note": "检查惩罚后排名与历史token的成员关系，未逐元素比较logits"
+          },
+          {
+            "path": "tests/v1/sample/test_sampler.py",
+            "line": 255,
+            "kind": "existing_test"
+          },
+          {
+            "path": "tests/v1/sample/test_sampler.py",
+            "line": 295,
+            "kind": "existing_oracle",
+            "note": "检查惩罚后排名与历史token的成员关系，未逐元素比较logits"
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/sampling/penaltylib/frequency_penalty.py",
+            "line": 1,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/sampling/penaltylib/presence_penalty.py",
+            "line": 1,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/sampling/penaltylib/min_new_tokens.py",
+            "line": 1,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/sampling/test_penaltylib.py",
+            "line": 165,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/registered/unit/sampling/test_penaltylib.py",
+            "line": 173,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/sampling/test_penaltylib.py",
+            "line": 242,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/registered/unit/sampling/test_penaltylib.py",
+            "line": 251,
+            "kind": "existing_oracle"
+          }
+        ]
+      }
     }
   ],
   "relations": [
@@ -8691,6 +9027,12 @@
       "child": "cache.eviction_priority",
       "type": "requires",
       "when": "the implementation ranks candidates by a strategy comparison key"
+    },
+    {
+      "parent": "spec.acceptance",
+      "child": "spec.draft_candidate_binding",
+      "type": "requires",
+      "when": "speculative decoding enabled and draft candidates supplied"
     }
   ],
   "traces": [
@@ -8982,6 +9324,7 @@
         "sampling.policy",
         "sampling.valid_parameter_acceptance",
         "spec.target_semantics",
+        "spec.draft_candidate_binding",
         "spec.acceptance",
         "spec.output_relation",
         "output.finalization",

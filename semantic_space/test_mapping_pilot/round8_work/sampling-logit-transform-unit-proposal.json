@@ -1,0 +1,110 @@
+{
+  "status": "accepted_in_space_seed_0.32",
+  "unit": {
+    "id": "sampling.logit_transform_relation",
+    "name": "采样前 logit 变换符合参考计算",
+    "kind": "obligation",
+    "phase": "sampling",
+    "state_scope": "request",
+    "conditions": [
+      "logit_modifier_profile",
+      "execution_layout"
+    ],
+    "property": "给定一项声明的采样修饰操作、变换前 logits、当前请求的历史 token 和参数，变换后 logits 与该操作的参考计算一致；未作用的 token 保持原值。批内各行按所属请求独立计算。多操作的执行顺序另行检查。",
+    "observable": [
+      "request_or_row_identity",
+      "modifier_parameters",
+      "output_token_history",
+      "logits_before_and_after"
+    ],
+    "oracle": "逐行独立计算被检查操作的预期 logits，按声明数值容差比较目标 token 与未作用 token；停止 token 掩码检查其有限性或负无穷值。单个操作的测试不证明整条处理链的执行顺序或最终采样 token。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/v1/sample/sampler.py",
+          "line": 485,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/model_executor/layers/utils.py",
+          "line": 78,
+          "kind": "source_formula"
+        },
+        {
+          "path": "vllm/model_executor/layers/utils.py",
+          "line": 79,
+          "kind": "source_formula"
+        },
+        {
+          "path": "tests/v1/sample/test_sampler.py",
+          "line": 206,
+          "kind": "existing_test"
+        },
+        {
+          "path": "tests/v1/sample/test_sampler.py",
+          "line": 241,
+          "kind": "existing_oracle_order_only"
+        },
+        {
+          "path": "tests/v1/sample/test_sampler.py",
+          "line": 255,
+          "kind": "existing_test"
+        },
+        {
+          "path": "tests/v1/sample/test_sampler.py",
+          "line": 295,
+          "kind": "existing_oracle_order_only"
+        }
+      ],
+      "sglang": [
+        {
+          "path": "python/sglang/srt/sampling/penaltylib/frequency_penalty.py",
+          "line": 1,
+          "kind": "source"
+        },
+        {
+          "path": "python/sglang/srt/sampling/penaltylib/presence_penalty.py",
+          "line": 1,
+          "kind": "source"
+        },
+        {
+          "path": "python/sglang/srt/sampling/penaltylib/min_new_tokens.py",
+          "line": 1,
+          "kind": "source"
+        },
+        {
+          "path": "test/registered/unit/sampling/test_penaltylib.py",
+          "line": 165,
+          "kind": "existing_test"
+        },
+        {
+          "path": "test/registered/unit/sampling/test_penaltylib.py",
+          "line": 173,
+          "kind": "existing_oracle"
+        },
+        {
+          "path": "test/registered/unit/sampling/test_penaltylib.py",
+          "line": 242,
+          "kind": "existing_test"
+        },
+        {
+          "path": "test/registered/unit/sampling/test_penaltylib.py",
+          "line": 251,
+          "kind": "existing_oracle"
+        }
+      ]
+    }
+  },
+  "pinned_source_sha256": {
+    "vllm/tests/v1/sample/test_sampler.py": "005c34e83c2391caca4b3c7545c3e8538a5f553c2919f70a3b703c819f9ba4f7",
+    "vllm/vllm/v1/sample/sampler.py": "7d3d001b8b6e1f25f02572df29609a4ab5c50abb023b48f5ebdb4752a2b5f7c5",
+    "vllm/vllm/model_executor/layers/utils.py": "95d2a54de97dbb807ec25da1d5c59c2ab65f55528726c29a896cd7326531d2f2",
+    "sglang/test/registered/unit/sampling/test_penaltylib.py": "1e5ad7685a49e1da3a142de0e6dacbdd4aaf965c7944eb30210d4a53249c7d19",
+    "sglang/test/registered/unit/sampling/test_sampling_batch_info.py": "8215afe6db12fd1e4aa5089017e36b5cf4db3ee3d5ddb1035d653cec4f2734dd",
+    "sglang/python/sglang/srt/sampling/penaltylib/frequency_penalty.py": "1f17d9124d963bdc428016f856a1715743b3d803cf55de2e8fad41550e5d8a61",
+    "sglang/python/sglang/srt/sampling/penaltylib/presence_penalty.py": "f9f5d234903c1084b49905521b8e0ce9cc35a22d1c3e4c047c0cb4d189c291d7",
+    "sglang/python/sglang/srt/sampling/penaltylib/min_new_tokens.py": "6cccdfb619f7da9fc800f06dcaf1cb377bc6b9a02f08284b7694db2a0cfb9e9c"
+  },
+  "vllm_existing_test_limit": "The cited vLLM tests check argmax/argmin rank and token-history membership after presence/frequency penalties, not elementwise numerical equality. The exact subtraction formulas are cited from product source; a separate reference-value test is needed for that stronger oracle.",
+  "source_model_precedent": "experiments/semantic_space/source_model/build_model.py:451-458 (samp.processor_order is broader and must not be inferred from one-operation tests)"
+}

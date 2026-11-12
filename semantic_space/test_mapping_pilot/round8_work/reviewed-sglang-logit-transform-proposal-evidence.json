@@ -1,0 +1,252 @@
+{
+  "status": "unit_accepted_and_local_checks_integrated",
+  "proposed_unit": "sampling.logit_transform_relation",
+  "source_snapshot": "sglang-v0.5.14-complete",
+  "reviewed": 11,
+  "decisions": [
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/sampling/test_penaltylib.py",
+      "test_name": "TestBatchedFrequencyPenalizer::test_cumulate_and_apply",
+      "line": 165,
+      "source_sha256": "1e5ad7685a49e1da3a142de0e6dacbdd4aaf965c7944eb30210d4a53249c7d19",
+      "test_body_sha256": "41fada91b0dee657e6ebdade419d24c45b9ccee2b22af42188d9f9ca2ef78e30",
+      "test_body": "    def test_cumulate_and_apply(self):\n        \"\"\"Test that cumulating a token applies frequency penalty to its logit.\"\"\"\n        orch, pen = self._setup([2.0])\n        output_ids = torch.tensor([5])\n        pen.cumulate_output_tokens(output_ids)\n\n        logits = torch.zeros(1, VOCAB_SIZE)\n        pen.apply(logits)\n        self.assertAlmostEqual(logits[0, 5].item(), -2.0, places=5)\n        # Other tokens unaffected\n        self.assertAlmostEqual(logits[0, 0].item(), 0.0, places=5)",
+      "oracle_source": "test/registered/unit/sampling/test_penaltylib.py:173;test/registered/unit/sampling/test_penaltylib.py:175",
+      "oracle_snippets": [
+        {
+          "line": 173,
+          "text": "self.assertAlmostEqual(logits[0, 5].item(), -2.0, places=5)"
+        },
+        {
+          "line": 175,
+          "text": "self.assertAlmostEqual(logits[0, 0].item(), 0.0, places=5)"
+        }
+      ],
+      "candidate_unit": "sampling.policy",
+      "decision": "needs_refinement_or_unconfirmed",
+      "reviewed_unit": null,
+      "review_reason": "This test checks a penalty/logit transformation, not the selected token required by sampling.policy; the seed lacks a local logit-transform unit."
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/sampling/test_penaltylib.py",
+      "test_name": "TestBatchedFrequencyPenalizer::test_cumulate_twice_doubles_penalty",
+      "line": 177,
+      "source_sha256": "1e5ad7685a49e1da3a142de0e6dacbdd4aaf965c7944eb30210d4a53249c7d19",
+      "test_body_sha256": "6aa7cb8516562790d025b15f6b93d927822ab95271c6ad4740976e9982b0eaed",
+      "test_body": "    def test_cumulate_twice_doubles_penalty(self):\n        \"\"\"Test that frequency penalty scales linearly with occurrence count.\"\"\"\n        orch, pen = self._setup([1.0])\n        pen.cumulate_output_tokens(torch.tensor([3]))\n        pen.cumulate_output_tokens(torch.tensor([3]))\n\n        logits = torch.zeros(1, VOCAB_SIZE)\n        pen.apply(logits)\n        self.assertAlmostEqual(logits[0, 3].item(), -2.0, places=5)",
+      "oracle_source": "test/registered/unit/sampling/test_penaltylib.py:185",
+      "oracle_snippets": [
+        {
+          "line": 185,
+          "text": "self.assertAlmostEqual(logits[0, 3].item(), -2.0, places=5)"
+        }
+      ],
+      "candidate_unit": "sampling.policy",
+      "decision": "needs_refinement_or_unconfirmed",
+      "reviewed_unit": null,
+      "review_reason": "This test checks a penalty/logit transformation, not the selected token required by sampling.policy; the seed lacks a local logit-transform unit."
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/sampling/test_penaltylib.py",
+      "test_name": "TestBatchedFrequencyPenalizer::test_apply_when_not_prepared_is_noop",
+      "line": 216,
+      "source_sha256": "1e5ad7685a49e1da3a142de0e6dacbdd4aaf965c7944eb30210d4a53249c7d19",
+      "test_body_sha256": "a49c0b4a15bb7777c84094613e67d8daa767af50002c42200e000c25a091f503",
+      "test_body": "    def test_apply_when_not_prepared_is_noop(self):\n        \"\"\"Test that apply on an unprepared penalizer leaves logits unchanged.\"\"\"\n        _, pen = self._setup([0.0])\n        logits = torch.zeros(1, VOCAB_SIZE)\n        original = logits.clone()\n        pen.apply(logits)\n        self.assertTrue(torch.equal(logits, original))",
+      "oracle_source": "test/registered/unit/sampling/test_penaltylib.py:222",
+      "oracle_snippets": [
+        {
+          "line": 222,
+          "text": "self.assertTrue(torch.equal(logits, original))"
+        }
+      ],
+      "candidate_unit": "sampling.policy",
+      "decision": "needs_refinement_or_unconfirmed",
+      "reviewed_unit": null,
+      "review_reason": "This test checks a penalty/logit transformation, not the selected token required by sampling.policy; the seed lacks a local logit-transform unit."
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/sampling/test_penaltylib.py",
+      "test_name": "TestBatchedPresencePenalizer::test_presence_penalty_does_not_scale",
+      "line": 242,
+      "source_sha256": "1e5ad7685a49e1da3a142de0e6dacbdd4aaf965c7944eb30210d4a53249c7d19",
+      "test_body_sha256": "1017f2af37e08c3d6f19bb0d1c3f7ec46fa13b12f65163936a888fe7478b4b94",
+      "test_body": "    def test_presence_penalty_does_not_scale(self):\n        \"\"\"Test that presence penalty is flat (same value regardless of count).\"\"\"\n        orch, pen = self._setup([1.0])\n        pen.cumulate_output_tokens(torch.tensor([7]))\n        pen.cumulate_output_tokens(torch.tensor([7]))  # same token again\n\n        logits = torch.zeros(1, VOCAB_SIZE)\n        pen.apply(logits)\n        # scatter_ overwrites (not adds), so penalty should be 1.0, not 2.0\n        self.assertAlmostEqual(logits[0, 7].item(), -1.0, places=5)",
+      "oracle_source": "test/registered/unit/sampling/test_penaltylib.py:251",
+      "oracle_snippets": [
+        {
+          "line": 251,
+          "text": "self.assertAlmostEqual(logits[0, 7].item(), -1.0, places=5)"
+        }
+      ],
+      "candidate_unit": "sampling.policy",
+      "decision": "needs_refinement_or_unconfirmed",
+      "reviewed_unit": null,
+      "review_reason": "This test checks a penalty/logit transformation, not the selected token required by sampling.policy; the seed lacks a local logit-transform unit."
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/sampling/test_penaltylib.py",
+      "test_name": "TestBatchedMinNewTokensPenalizer::test_blocks_eos_before_min_tokens",
+      "line": 298,
+      "source_sha256": "1e5ad7685a49e1da3a142de0e6dacbdd4aaf965c7944eb30210d4a53249c7d19",
+      "test_body_sha256": "4965a814cb6b58136b376d07953108535c091627211c646cb0a55eaf58a01d6d",
+      "test_body": "    def test_blocks_eos_before_min_tokens(self):\n        \"\"\"Test that EOS token is blocked before min_new_tokens is reached.\"\"\"\n        orch, pen = self._setup([(3, None, 2)])\n        # Before any output: len=0 < min=3 → block EOS (token 2)\n        logits = torch.zeros(1, VOCAB_SIZE)\n        pen.apply(logits)\n        self.assertTrue(torch.isinf(logits[0, 2]) and logits[0, 2] < 0)\n        # Non-stop tokens should be fine\n        self.assertEqual(logits[0, 0].item(), 0.0)",
+      "oracle_source": "test/registered/unit/sampling/test_penaltylib.py:304;test/registered/unit/sampling/test_penaltylib.py:306",
+      "oracle_snippets": [
+        {
+          "line": 304,
+          "text": "self.assertTrue(torch.isinf(logits[0, 2]) and logits[0, 2] < 0)"
+        },
+        {
+          "line": 306,
+          "text": "self.assertEqual(logits[0, 0].item(), 0.0)"
+        }
+      ],
+      "candidate_unit": "sampling.policy",
+      "decision": "needs_refinement_or_unconfirmed",
+      "reviewed_unit": null,
+      "review_reason": "This test checks a penalty/logit transformation, not the selected token required by sampling.policy; the seed lacks a local logit-transform unit."
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/sampling/test_penaltylib.py",
+      "test_name": "TestBatchedMinNewTokensPenalizer::test_allows_eos_after_min_tokens",
+      "line": 308,
+      "source_sha256": "1e5ad7685a49e1da3a142de0e6dacbdd4aaf965c7944eb30210d4a53249c7d19",
+      "test_body_sha256": "e959819ed299ed3d61f25cb2e7cc1fb387f2b37187019c4196821edb4584a437",
+      "test_body": "    def test_allows_eos_after_min_tokens(self):\n        \"\"\"Test that EOS is allowed after generating min_new_tokens.\"\"\"\n        orch, pen = self._setup([(2, None, 2)])\n        # Generate 2 tokens\n        pen.cumulate_output_tokens(torch.tensor([10]))\n        pen.cumulate_output_tokens(torch.tensor([11]))\n        # Now len=2 >= min=2 → EOS should NOT be blocked\n        logits = torch.zeros(1, VOCAB_SIZE)\n        pen.apply(logits)\n        self.assertEqual(logits[0, 2].item(), 0.0)",
+      "oracle_source": "test/registered/unit/sampling/test_penaltylib.py:317",
+      "oracle_snippets": [
+        {
+          "line": 317,
+          "text": "self.assertEqual(logits[0, 2].item(), 0.0)"
+        }
+      ],
+      "candidate_unit": "sampling.policy",
+      "decision": "needs_refinement_or_unconfirmed",
+      "reviewed_unit": null,
+      "review_reason": "This test checks a penalty/logit transformation, not the selected token required by sampling.policy; the seed lacks a local logit-transform unit."
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/sampling/test_penaltylib.py",
+      "test_name": "TestBatchedMinNewTokensPenalizer::test_blocks_additional_stop_tokens",
+      "line": 329,
+      "source_sha256": "1e5ad7685a49e1da3a142de0e6dacbdd4aaf965c7944eb30210d4a53249c7d19",
+      "test_body_sha256": "74b8e8fa9ecece0f039651fc7c809750d2997904271689ed95b4ba80213d4e2b",
+      "test_body": "    def test_blocks_additional_stop_tokens(self):\n        \"\"\"Test that tokenizer's additional_stop_token_ids are also blocked.\"\"\"\n        req = _make_req(min_tokens=3, stop_ids=None, eos_id=2)\n        req.tokenizer.additional_stop_token_ids = {7, 8}\n        batch = _make_batch([req])\n        orch = BatchedPenalizerOrchestrator(\n            VOCAB_SIZE, batch, {BatchedMinNewTokensPenalizer}\n        )\n        pen = orch.penalizers[BatchedMinNewTokensPenalizer]\n\n        logits = torch.zeros(1, VOCAB_SIZE)\n        pen.apply(logits)\n        # EOS (2) + additional stops (7, 8) should all be blocked\n        for tok in [2, 7, 8]:\n            self.assertTrue(\n                torch.isinf(logits[0, tok]) and logits[0, tok] < 0,\n                f\"token {tok} should be blocked before min_new_tokens\",\n            )\n        # Non-stop tokens should be fine\n        self.assertEqual(logits[0, 0].item(), 0.0)",
+      "oracle_source": "test/registered/unit/sampling/test_penaltylib.py:343;test/registered/unit/sampling/test_penaltylib.py:348",
+      "oracle_snippets": [
+        {
+          "line": 343,
+          "text": "self.assertTrue("
+        },
+        {
+          "line": 348,
+          "text": "self.assertEqual(logits[0, 0].item(), 0.0)"
+        }
+      ],
+      "candidate_unit": "sampling.policy",
+      "decision": "needs_refinement_or_unconfirmed",
+      "reviewed_unit": null,
+      "review_reason": "This test checks a penalty/logit transformation, not the selected token required by sampling.policy; the seed lacks a local logit-transform unit."
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/sampling/test_penaltylib.py",
+      "test_name": "TestOrchestratorMultiplePenalizers::test_all_three_penalizers",
+      "line": 441,
+      "source_sha256": "1e5ad7685a49e1da3a142de0e6dacbdd4aaf965c7944eb30210d4a53249c7d19",
+      "test_body_sha256": "9374fa0a07b03d5d8a78ded06f5ae1939bcf85d2e9dd40531f2b8ea543c48d11",
+      "test_body": "    def test_all_three_penalizers(self):\n        \"\"\"Test orchestrator managing frequency, presence, and min_new_tokens together.\"\"\"\n        reqs = [_make_req(freq=1.0, presence=0.5, min_tokens=2, eos_id=2)]\n        batch = _make_batch(reqs)\n        orch = BatchedPenalizerOrchestrator(\n            VOCAB_SIZE,\n            batch,\n            {\n                BatchedFrequencyPenalizer,\n                BatchedPresencePenalizer,\n                BatchedMinNewTokensPenalizer,\n            },\n        )\n        self.assertTrue(orch.is_required)\n\n        # Cumulate one token\n        output_ids = torch.tensor([5])\n        orch.cumulate_output_tokens(output_ids)\n\n        # Apply all penalties\n        logits = torch.zeros(1, VOCAB_SIZE)\n        orch.apply(logits)\n\n        # Token 5: freq_penalty=1.0 (cumulated once) + pres_penalty=0.5\n        self.assertAlmostEqual(logits[0, 5].item(), -1.5, places=4)\n        # EOS (token 2): blocked by min_new_tokens (len=1 < min=2)\n        self.assertTrue(torch.isinf(logits[0, 2]) and logits[0, 2] < 0)",
+      "oracle_source": "test/registered/unit/sampling/test_penaltylib.py:454;test/registered/unit/sampling/test_penaltylib.py:465;test/registered/unit/sampling/test_penaltylib.py:467",
+      "oracle_snippets": [
+        {
+          "line": 454,
+          "text": "self.assertTrue(orch.is_required)"
+        },
+        {
+          "line": 465,
+          "text": "self.assertAlmostEqual(logits[0, 5].item(), -1.5, places=4)"
+        },
+        {
+          "line": 467,
+          "text": "self.assertTrue(torch.isinf(logits[0, 2]) and logits[0, 2] < 0)"
+        }
+      ],
+      "candidate_unit": "sampling.policy",
+      "decision": "needs_refinement_or_unconfirmed",
+      "reviewed_unit": null,
+      "review_reason": "This test checks a penalty/logit transformation, not the selected token required by sampling.policy; the seed lacks a local logit-transform unit."
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/sampling/test_sampling_batch_info.py",
+      "test_name": "TestApplyLogitsBias::test_applies_additive_penalties",
+      "line": 146,
+      "source_sha256": "8215afe6db12fd1e4aa5089017e36b5cf4db3ee3d5ddb1035d653cec4f2734dd",
+      "test_body_sha256": "ff36f56e56855eae5f7e50b935f7574a9126bcb31a1dfdce54ca2389b187513b",
+      "test_body": "    def test_applies_additive_penalties(self):\n        \"\"\"Test that pre-accumulated additive penalties are added to logits.\"\"\"\n        info = _make_info(batch_size=1)\n        info.acc_additive_penalties = torch.tensor([[-1.0] * VOCAB_SIZE])\n        logits = torch.zeros(1, VOCAB_SIZE)\n        info.apply_logits_bias(logits)\n        self.assertAlmostEqual(logits[0, 0].item(), -1.0, places=5)",
+      "oracle_source": "test/registered/unit/sampling/test_sampling_batch_info.py:152",
+      "oracle_snippets": [
+        {
+          "line": 152,
+          "text": "self.assertAlmostEqual(logits[0, 0].item(), -1.0, places=5)"
+        }
+      ],
+      "candidate_unit": "sampling.policy",
+      "decision": "needs_refinement_or_unconfirmed",
+      "reviewed_unit": null,
+      "review_reason": "This assertion checks a local helper or logit-bias transform, but no existing seed unit isolates that transform from final sampling output."
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/sampling/test_sampling_batch_info.py",
+      "test_name": "TestApplyLogitsBias::test_applies_logit_bias",
+      "line": 154,
+      "source_sha256": "8215afe6db12fd1e4aa5089017e36b5cf4db3ee3d5ddb1035d653cec4f2734dd",
+      "test_body_sha256": "fd68a56ccaa458d0f2caceee9f2cf3e7f7d3bb4b8fcb3871b1a84e49d52247df",
+      "test_body": "    def test_applies_logit_bias(self):\n        \"\"\"Test that per-token logit_bias is added to logits.\"\"\"\n        info = _make_info(batch_size=1)\n        bias = torch.zeros(1, VOCAB_SIZE)\n        bias[0, 5] = 10.0\n        info.logit_bias = bias\n        logits = torch.zeros(1, VOCAB_SIZE)\n        info.apply_logits_bias(logits)\n        self.assertAlmostEqual(logits[0, 5].item(), 10.0, places=5)\n        self.assertAlmostEqual(logits[0, 0].item(), 0.0, places=5)",
+      "oracle_source": "test/registered/unit/sampling/test_sampling_batch_info.py:162;test/registered/unit/sampling/test_sampling_batch_info.py:163",
+      "oracle_snippets": [
+        {
+          "line": 162,
+          "text": "self.assertAlmostEqual(logits[0, 5].item(), 10.0, places=5)"
+        },
+        {
+          "line": 163,
+          "text": "self.assertAlmostEqual(logits[0, 0].item(), 0.0, places=5)"
+        }
+      ],
+      "candidate_unit": "sampling.policy",
+      "decision": "needs_refinement_or_unconfirmed",
+      "reviewed_unit": null,
+      "review_reason": "This assertion checks a local helper or logit-bias transform, but no existing seed unit isolates that transform from final sampling output."
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/sampling/test_sampling_batch_info.py",
+      "test_name": "TestApplyLogitsBias::test_no_bias_no_change",
+      "line": 182,
+      "source_sha256": "8215afe6db12fd1e4aa5089017e36b5cf4db3ee3d5ddb1035d653cec4f2734dd",
+      "test_body_sha256": "981cd24e696cbca13f4d32cb5ed08e52e11dfe8e4af0dce0605a8d3773c58840",
+      "test_body": "    def test_no_bias_no_change(self):\n        \"\"\"Test that logits stay unchanged when no bias sources are set.\"\"\"\n        info = _make_info(batch_size=1)\n        info.acc_additive_penalties = None\n        info.logit_bias = None\n        info.vocab_mask = None\n        logits = torch.zeros(1, VOCAB_SIZE)\n        original = logits.clone()\n        info.apply_logits_bias(logits)\n        self.assertTrue(torch.equal(logits, original))",
+      "oracle_source": "test/registered/unit/sampling/test_sampling_batch_info.py:191",
+      "oracle_snippets": [
+        {
+          "line": 191,
+          "text": "self.assertTrue(torch.equal(logits, original))"
+        }
+      ],
+      "candidate_unit": "sampling.policy",
+      "decision": "needs_refinement_or_unconfirmed",
+      "reviewed_unit": null,
+      "review_reason": "This assertion checks a local helper or logit-bias transform, but no existing seed unit isolates that transform from final sampling output."
+    }
+  ]
+}

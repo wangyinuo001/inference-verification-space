@@ -1,0 +1,70 @@
+{
+  "status": "independent_proposals_not_seed_changes",
+  "proposals": [
+    {
+      "proposed_id": "sampling.logit_transform_relation",
+      "property": "给定同一请求的历史 token、logits 与采样修饰参数，每个采样前变换后的 logits 等于声明的参考计算；批内其他请求的历史和参数不改变该行结果。多处理器共同启用时，还需检查声明的作用顺序。",
+      "scope": "sampling pre-token local value relation",
+      "why_existing_seed_insufficient": "sampling.policy 检查最终选出的 token，sampling.per_request_modifier_binding 检查参数按请求绑定；单个频率或 presence 惩罚对 logits 的数值关系没有独立单元。旧 source_model 的 samp.processor_order 已提出较宽的处理链顺序关系，应复用并细化。",
+      "sglang_evidence": [
+        "test/registered/unit/sampling/test_penaltylib.py:165",
+        "test/registered/unit/sampling/test_penaltylib.py:173",
+        "test/registered/unit/sampling/test_penaltylib.py:177",
+        "test/registered/unit/sampling/test_penaltylib.py:185"
+      ],
+      "vllm_correspondence": [
+        "tests/v1/sample/test_sampler.py:205",
+        "tests/v1/sample/test_sampler.py:225",
+        "tests/v1/sample/test_sampler.py:254",
+        "tests/v1/sample/test_sampler.py:278"
+      ],
+      "existing_abstraction": "experiments/semantic_space/source_model/build_model.py:451"
+    },
+    {
+      "proposed_id": "cache.transfer_binding",
+      "property": "在声明的缓存布局、方向、层和索引条件下，选中的传输路径及其 K/V 源、目的、步幅与地址参数对应同一批逻辑缓存块。",
+      "scope": "cache transfer dispatch and argument binding, distinct from transferred-content equality",
+      "why_existing_seed_insufficient": "cache.tier_transfer_content 比较搬运前后数据；mock 传输函数的测试只能证明分派与实参绑定。",
+      "sglang_evidence": [
+        "test/registered/unit/mem_cache/test_asymmetric_mha_pool_host_unit.py:82",
+        "test/registered/unit/mem_cache/test_asymmetric_mha_pool_host_unit.py:102",
+        "test/registered/unit/mem_cache/test_asymmetric_mha_pool_host_unit.py:113",
+        "test/registered/unit/mem_cache/test_hicache_staged_write_back_dispatch.py:655"
+      ],
+      "vllm_correspondence": [
+        "vllm/v1/simple_kv_offload/copy_backend.py:127",
+        "vllm/v1/simple_kv_offload/disk_backend.py:307",
+        "tests/v1/simple_kv_offload/test_worker.py:107"
+      ],
+      "cross_framework_note": "vLLM's simple CPU offload uses block-copy backends; SGLang's asymmetric MHA host pool splits K and V stride/pointer calls. The semantic unit should quantify logical block/source/destination binding, with backend-specific layout conditions. The vLLM test cited is an implementation entry point, not yet a confirmed matching oracle."
+    },
+    {
+      "proposed_id": "spec.draft_source_lifecycle",
+      "property": "当推测草稿使用可动态管理的外部语料时，注册、移除、失败加载和容量回收只改变目标语料的可用状态；在途或保留语料的草稿候选仍与当前语料集合对应。",
+      "scope": "optional speculative draft source management",
+      "why_existing_seed_insufficient": "spec.draft_candidate_binding 对照给定历史下的候选 token；语料注册、重复 ID 拒绝、错误加载保持既有语料属于其上游状态管理。",
+      "sglang_evidence": [
+        "test/registered/unit/spec/test_ngram_corpus.py:920",
+        "test/registered/unit/spec/test_ngram_corpus.py:1015",
+        "test/registered/unit/spec/test_ngram_corpus.py:1041"
+      ],
+      "vllm_correspondence": [
+        "vllm/v1/worker/gpu/spec_decode/suffix/speculator.py:136"
+      ],
+      "cross_framework_note": "vLLM has corpus-based suffix drafting, but the inspected source does not establish SGLang-style named external corpus registration. Treat dynamic external-corpus lifecycle as an applicability condition, not a universal core requirement."
+    },
+    {
+      "proposed_id": "session.turn_history_binding",
+      "property": "在多轮会话中，下一轮输入历史由已提交的先前输入与输出按顺序组成；未提交或中止轮次的 token 不进入后续历史，超出最终输出边界的暂存 token 也不被错误继承。",
+      "scope": "request/session state across turns",
+      "why_existing_seed_insufficient": "cache.state_invariants 描述缓存块所有权和计数；这些测试断言的是逻辑 token 历史与数组别名，不能作为 KV 缓存资源检查。",
+      "sglang_evidence": [
+        "test/registered/unit/mem_cache/test_session_token_share_unit.py:79",
+        "test/registered/unit/mem_cache/test_session_token_share_unit.py:101",
+        "test/registered/unit/mem_cache/test_session_token_share_unit.py:139"
+      ],
+      "vllm_correspondence": [],
+      "cross_framework_note": "会话续接语义可跨框架表达，但 vLLM 快照中未在本批确认一一对应的续接实现或断言；作为可选能力条件。"
+    }
+  ]
+}

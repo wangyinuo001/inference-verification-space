@@ -1,0 +1,18 @@
+{
+  "source_reviewed_additions": 1139,
+  "files": 223,
+  "batches": {
+    "reviewed-reference-batch1.tsv": 125,
+    "reviewed-sampling-batch1.tsv": 27,
+    "reviewed-tool-parser-batch1.tsv": 251,
+    "reviewed-tool-parser-batch2.tsv": 90,
+    "reviewed-ngram-draft-batch1.tsv": 37,
+    "reviewed-parser-batch3.tsv": 156,
+    "reviewed-reference-batch2.tsv": 164,
+    "reviewed-reference-batch3.tsv": 150,
+    "reviewed-sglang-runtime-batch.tsv": 100,
+    "reviewed-rendering-batch1.tsv": 28,
+    "reviewed-sglang-logit-transform-proposal.tsv": 11
+  },
+  "basis": "Pinned source review, not runtime pass or whole-space completeness"
+}

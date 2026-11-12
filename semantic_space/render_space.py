@@ -245,83 +245,90 @@ def render_svg(data: dict) -> str:
 
 def render_html(data: dict, svg: str) -> str:
     model = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
-    runtime_path = HERE / "runtime_index.json"
-    runtime = runtime_path.read_text(encoding="utf-8")
-    inherited_path = HERE / "inherited-test-audit.tsv"
-    with inherited_path.open(encoding="utf-8", newline="") as source:
-        inherited_rows = [row for row in csv.DictReader(source, delimiter="\t") if row["method"]]
-    inherited = json.dumps(inherited_rows, ensure_ascii=False).replace("</", "<\\/")
-    helper_path = HERE / "helper-chain-audit.tsv"
-    with helper_path.open(encoding="utf-8", newline="") as source:
-        helper_rows = [
-            {
-                "snapshot": row["snapshot"], "test_path": row["test_path"],
-                "test_name": row["test_name"], "test_line": int(row["test_line"]),
-                "status": row["status"], "truncated": row["truncated"] == "1",
-                "oracle_sites": json.loads(row["oracle_sites"]),
-                "unresolved_calls": row["unresolved_calls"],
-            }
-            for row in csv.DictReader(source, delimiter="\t")
-        ]
-    helper_catalog = json.dumps(helper_rows, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
-    with (HERE / "call-oracle-link-audit.tsv").open(encoding="utf-8", newline="") as source:
-        call_oracle_rows = [
-            {
-                "snapshot": row["snapshot"], "path": row["path"],
-                "test_name": row["test_name"], "test_line": int(row["test_line"]),
-                "product_call_line": int(row["product_call_line"]),
-                "product_target": row["product_target"],
-                "link_kind": row["link_kind"], "oracle_line": int(row["oracle_line"]),
-                "oracle_expression": row["oracle_expression"],
-                "via_variable": row["via_variable"],
-            }
-            for row in csv.DictReader(source, delimiter="\t")
-            if row["status"] == "static_oracle_link_candidate"
-        ]
-    call_oracle_catalog = json.dumps(call_oracle_rows, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
-    with (HERE / "python-collectability-audit.tsv").open(encoding="utf-8", newline="") as source:
-        collection_exceptions = [
-            {"snapshot": row["snapshot"], "path": row["path"],
-             "test_name": row["test_name"], "line": int(row["line"]),
-             "status": row["status"], "source_role": row["source_role"]}
-            for row in csv.DictReader(source, delimiter="\t")
-            if row["source_role"] != "test_candidate"
-        ]
-    collectability = json.dumps(collection_exceptions, ensure_ascii=False,
-                                separators=(",", ":")).replace("</", "<\\/")
-    with (HERE / "dynamic-test-method-audit.tsv").open(encoding="utf-8", newline="") as source:
-        dynamic_rows = [dict(row) for row in csv.DictReader(source, delimiter="\t")]
-    dynamic_catalog = json.dumps(dynamic_rows, ensure_ascii=False,
-                                 separators=(",", ":")).replace("</", "<\\/")
-    with (HERE / "nonstandard-class-audit.tsv").open(encoding="utf-8", newline="") as source:
-        nonstandard_rows = [dict(row) for row in csv.DictReader(source, delimiter="\t")]
-    nonstandard_catalog = json.dumps(nonstandard_rows, ensure_ascii=False,
+    catalog_path = HERE / "test_catalog.json"
+    catalog = catalog_path.read_text(encoding="utf-8").replace("</", "<\\/") if catalog_path.exists() else "null"
+    exported = HERE / "explorer_extra.json"
+    if exported.exists():
+        bundle = json.loads(exported.read_text(encoding="utf-8"))
+        def encode(name):
+            return json.dumps(bundle[name], ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+        runtime = encode("runtime")
+        inherited = encode("inherited")
+        helper_catalog = encode("helper")
+        call_oracle_catalog = encode("callOracle")
+        collectability = encode("collectability")
+        dynamic_catalog = encode("dynamic")
+        nonstandard_catalog = encode("nonstandard")
+        source_review = encode("sourceReview")
+        space_assessment = encode("spaceAssessment")
+        batch_source_review = encode("batchSourceReview")
+    else:
+        runtime_path = HERE / "runtime_index.json"
+        runtime = runtime_path.read_text(encoding="utf-8").replace("</", "<\\/") if runtime_path.exists() else '{"entries":[]}'
+        inherited_path = HERE / "inherited-test-audit.tsv"
+        with inherited_path.open(encoding="utf-8", newline="") as source:
+            inherited_rows = [row for row in csv.DictReader(source, delimiter="\t") if row["method"]]
+        inherited = json.dumps(inherited_rows, ensure_ascii=False).replace("</", "<\\/")
+        helper_path = HERE / "helper-chain-audit.tsv"
+        with helper_path.open(encoding="utf-8", newline="") as source:
+            helper_rows = [
+                {
+                    "snapshot": row["snapshot"], "test_path": row["test_path"],
+                    "test_name": row["test_name"], "test_line": int(row["test_line"]),
+                    "status": row["status"], "truncated": row["truncated"] == "1",
+                    "oracle_sites": json.loads(row["oracle_sites"]),
+                    "unresolved_calls": row["unresolved_calls"],
+                }
+                for row in csv.DictReader(source, delimiter="\t")
+            ]
+        helper_catalog = json.dumps(helper_rows, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+        with (HERE / "call-oracle-link-audit.tsv").open(encoding="utf-8", newline="") as source:
+            call_oracle_rows = [
+                {
+                    "snapshot": row["snapshot"], "path": row["path"],
+                    "test_name": row["test_name"], "test_line": int(row["test_line"]),
+                    "product_call_line": int(row["product_call_line"]),
+                    "product_target": row["product_target"],
+                    "link_kind": row["link_kind"], "oracle_line": int(row["oracle_line"]),
+                    "oracle_expression": row["oracle_expression"],
+                    "via_variable": row["via_variable"],
+                }
+                for row in csv.DictReader(source, delimiter="\t")
+                if row["status"] == "static_oracle_link_candidate"
+            ]
+        call_oracle_catalog = json.dumps(call_oracle_rows, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+        with (HERE / "python-collectability-audit.tsv").open(encoding="utf-8", newline="") as source:
+            collection_exceptions = [
+                {"snapshot": row["snapshot"], "path": row["path"],
+                 "test_name": row["test_name"], "line": int(row["line"]),
+                 "status": row["status"], "source_role": row["source_role"]}
+                for row in csv.DictReader(source, delimiter="\t")
+                if row["source_role"] != "test_candidate"
+            ]
+        collectability = json.dumps(collection_exceptions, ensure_ascii=False,
+                                    separators=(",", ":")).replace("</", "<\\/")
+        with (HERE / "dynamic-test-method-audit.tsv").open(encoding="utf-8", newline="") as source:
+            dynamic_rows = [dict(row) for row in csv.DictReader(source, delimiter="\t")]
+        dynamic_catalog = json.dumps(dynamic_rows, ensure_ascii=False,
                                      separators=(",", ":")).replace("</", "<\\/")
-    source_review = (HERE / "classification-source-reviewed-sample.json").read_text(
-        encoding="utf-8"
-    ).replace("</", "<\\/")
-    space_assessment = (HERE / "reviewed-space-assessment.json").read_text(
-        encoding="utf-8"
-    ).replace("</", "<\\/")
-    batch_review_rows = []
-    for filename in json.loads((HERE / "source-review-batches.json").read_text(encoding="utf-8")):
-        with (HERE / filename).open(encoding="utf-8", newline="") as source:
-            batch_review_rows.extend(dict(row) for row in csv.DictReader(source, delimiter="\t")
-                                     if row["status"] != "pending_source_review")
-    batch_source_review = json.dumps(batch_review_rows, ensure_ascii=False,
-                                     separators=(",", ":")).replace("</", "<\\/")
-    extra = {
-        "runtime": json.loads(runtime), "inherited": inherited_rows,
-        "inheritedProperty": [], "reviewedProperty": [],
-        "helper": helper_rows, "callOracle": call_oracle_rows,
-        "collectability": collection_exceptions, "dynamic": dynamic_rows,
-        "nonstandard": nonstandard_rows, "sourceReview": json.loads(source_review),
-        "spaceAssessment": json.loads(space_assessment),
-        "batchSourceReview": batch_review_rows,
-    }
-    (HERE / "explorer_extra.json").write_text(
-        json.dumps(extra, ensure_ascii=False, separators=(",", ":")), encoding="utf-8"
-    )
+        with (HERE / "nonstandard-class-audit.tsv").open(encoding="utf-8", newline="") as source:
+            nonstandard_rows = [dict(row) for row in csv.DictReader(source, delimiter="\t")]
+        nonstandard_catalog = json.dumps(nonstandard_rows, ensure_ascii=False,
+                                         separators=(",", ":")).replace("</", "<\\/")
+        source_review = (HERE / "classification-source-reviewed-sample.json").read_text(
+            encoding="utf-8"
+        ).replace("</", "<\\/")
+        space_assessment = (HERE / "reviewed-space-assessment.json").read_text(
+            encoding="utf-8"
+        ).replace("</", "<\\/")
+        batch_review_rows = []
+        for filename in json.loads((HERE / "source-review-batches.json").read_text(encoding="utf-8")):
+            with (HERE / filename).open(encoding="utf-8", newline="") as source:
+                batch_review_rows.extend(dict(row) for row in csv.DictReader(source, delimiter="\t")
+                                         if row["status"] != "pending_source_review")
+        batch_source_review = json.dumps(batch_review_rows, ensure_ascii=False,
+                                         separators=(",", ":")).replace("</", "<\\/")
+    explorer_script = (HERE / "explorer.js").read_text(encoding="utf-8")
     filter_buttons = '<button type="button" data-trace="all" aria-pressed="true">全部单元</button>'
     filter_buttons += "".join(
         f'<button type="button" data-trace="{e(trace["id"])}" aria-pressed="false">{e(TRACE_NAMES.get(trace["id"], trace["id"]))}</button>'
@@ -344,24 +351,15 @@ body{{margin:0;background:#fbfafb;color:#26212a;font-family:Arial,'PingFang SC',
 .tree .test-entry[aria-selected=true],.tree .file-entry[aria-selected=true],.tree summary[aria-selected=true]{{background:#e2d2e8;color:#532069}}
 .tree .support{{color:#837d86}}
 .tree .search-count{{padding:5px 8px;color:#625c65}}
-main{{min-width:0;width:100%;box-sizing:border-box;margin:8px auto;padding:0 12px}}
-.page-header{{margin:0 0 10px}}
-.page-header h1{{font-size:20px;margin:0 0 4px}}
-.page-header p{{font-size:12px;line-height:1.45;color:#625c65;margin:4px 0}}
-.page-header a,.explorer a{{color:#653078}}
-.explorer-intro{{font-size:12px;line-height:1.4;color:#625c65;margin:0 8px 8px}}
-#load-explorer{{margin:0 8px 6px}}
-#explorer-status{{min-height:1.3em}}
+main{{min-width:0;max-width:1480px;width:100%;box-sizing:border-box;margin:8px auto;padding:0 12px}}
 .toolbar{{display:flex;gap:6px;align-items:center;margin-bottom:6px;overflow-x:auto;white-space:nowrap;scrollbar-width:thin}}
 button{{border:1px solid #cfc6d4;border-radius:7px;padding:7px 12px;background:white;color:#34303a;cursor:pointer;font:inherit;font-size:13px}}
 .toolbar button{{flex:none}}
 button[aria-pressed=true]{{background:#75348b;color:white;border-color:#75348b}}
-.layout{{display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,340px);gap:12px;align-items:start}}
+.layout{{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}}
 .plot,.details{{background:white;border:1px solid #e1dce3;border-radius:8px}}
-.plot{{overflow:auto;max-height:calc(100dvh - 185px);min-height:380px}}
-.plot svg{{width:1280px;max-width:none;height:auto;display:block}}
-.inspector{{position:sticky;top:8px;max-height:calc(100dvh - 16px);overflow:auto}}
-.graph-tools{{display:flex;align-items:center;gap:6px;margin-bottom:6px;font-size:12px;color:#625c65}}
+.plot{{display:flex;justify-content:center}}
+.plot svg{{width:100%;height:auto;display:block}}
 .details{{padding:16px;line-height:1.5}}
 .details h2{{font-size:17px;margin:0 0 9px}}
 .details h3{{font-size:13px;margin:13px 0 4px}}
@@ -383,20 +381,16 @@ button[aria-pressed=true]{{background:#75348b;color:white;border-color:#75348b}}
 .unit.candidate rect{{stroke:#75348b;stroke-width:2.4;stroke-dasharray:5 3}}
 .unit.active rect{{stroke:#302b33;stroke-width:2.8;stroke-dasharray:none}}
 .unit.confirmed rect{{fill:#d7ede4;stroke:#27765d;stroke-width:2.8}}
-.unit.reviewed rect{{stroke:#27765d;stroke-width:3;stroke-dasharray:none}}
 .unit.dimmed{{opacity:.21}}
 .unit.dimmed[data-level=goal]{{opacity:.035}}
 .unit.dimmed[data-level=goal] rect{{stroke:#d8d2da}}
 .edge.dimmed{{opacity:.08}}
-@media(max-width:1000px){{.layout{{grid-template-columns:minmax(0,1fr)}}.inspector{{position:static;max-height:none;grid-row:1}}.plot{{max-height:65dvh}}}}
-@media(max-width:760px){{.workspace{{display:block}}.explorer{{position:static;height:auto;max-height:42dvh;overflow:auto;border-right:0;border-bottom:1px solid #e1dce3}}.tree{{max-height:25dvh}}main{{padding:0 8px}}}}
+@media(max-width:760px){{.workspace{{grid-template-columns:205px minmax(0,1fr)}}.explorer{{padding:8px 4px}}main{{padding:0 5px}}}}
 </style></head><body>
-<div class="workspace"><aside class="explorer"><h2>测试 Explorer</h2><p class="explorer-intro">按需读取固定源码的测试索引与证据。可从归类页搜索具体测试。</p><button type="button" id="load-explorer">加载测试索引</button><p class="explorer-intro" id="explorer-status" aria-live="polite"></p><input id="test-search" type="search" placeholder="搜索文件或测试函数" aria-label="搜索测试" disabled><div class="tree" id="test-tree"></div><div class="tree" id="test-search-results" hidden></div></aside><main>
-<header class="page-header"><h1>推理系统验证空间</h1><p>这张图是早期 115 个候选验证单元的流程视图。节点表示验证义务；源码关联、执行轨迹和测试结果需分别查看，图中高亮不等于已验证。</p><p><a href="../review_progress/">查看测试归类进度</a> · <a href="../">项目说明</a></p></header>
+<div class="workspace"><aside class="explorer"><h2>测试 Explorer</h2><input id="test-search" type="search" placeholder="搜索文件或测试函数" aria-label="搜索测试"><div class="tree" id="test-tree"></div><div class="tree" id="test-search-results" hidden></div></aside><main>
 <div class="toolbar" id="trace-filters">{filter_buttons}</div>
-<div class="graph-tools"><span>图宽：</span><button type="button" data-zoom="0.75">75%</button><button type="button" data-zoom="1" aria-pressed="true">100%</button><button type="button" data-zoom="1.25">125%</button><span>横向滚动查看；绿色描边为源码审查关联，深色描边为实际追踪命中。</span></div>
-<div class="selection-banner" id="selection-banner"></div><div class="aux-scopes" id="aux-scopes"><span>其他验证对象</span><div class="aux-scope" data-area="configuration">配置与部署</div><div class="aux-scope" data-area="security">认证与访问控制</div><div class="aux-scope" data-area="diagnostics">调试与测试基础设施</div><div class="aux-scope" data-area="runtime_support">通用运行组件</div><div class="aux-scope" data-area="data_structure">核心数据结构</div><div class="aux-scope" data-area="image_generation">图像生成系统</div><div class="aux-scope" data-area="training">训练与 RL</div></div><div class="layout"><div class="plot" id="graph-drop-zone">{svg}</div><div class="inspector"><section class="details match-result" id="match-result"></section><section class="details" id="details"><h2>选择一个验证单元</h2><p>查看它的性质、适用条件，以及两套框架中的源码与测试证据。</p></section></div></div>
-</main></div><script type="application/json" id="space-data">{model}</script>
+<div class="selection-banner" id="selection-banner"></div><div class="aux-scopes" id="aux-scopes"><span>其他验证对象</span><div class="aux-scope" data-area="configuration">配置与部署</div><div class="aux-scope" data-area="security">认证与访问控制</div><div class="aux-scope" data-area="diagnostics">调试与测试基础设施</div><div class="aux-scope" data-area="runtime_support">通用运行组件</div><div class="aux-scope" data-area="data_structure">核心数据结构</div><div class="aux-scope" data-area="image_generation">图像生成系统</div><div class="aux-scope" data-area="training">训练与 RL</div></div><div class="layout"><div class="plot" id="graph-drop-zone">{svg}</div><section class="details match-result" id="match-result"></section><section class="details" id="details"><h2>选择一个验证单元</h2><p>查看它的性质、适用条件，以及两套框架中的源码与测试证据。</p></section></div>
+</main></div><script type="application/json" id="space-data">{model}</script><script type="application/json" id="test-catalog">{catalog}</script><script type="application/json" id="runtime-index">{runtime}</script><script type="application/json" id="inherited-catalog">{inherited}</script><script type="application/json" id="helper-chain-catalog">{helper_catalog}</script><script type="application/json" id="call-oracle-catalog">{call_oracle_catalog}</script><script type="application/json" id="collectability-catalog">{collectability}</script><script type="application/json" id="dynamic-catalog">{dynamic_catalog}</script><script type="application/json" id="nonstandard-catalog">{nonstandard_catalog}</script><script type="application/json" id="source-review-catalog">{source_review}</script><script type="application/json" id="space-assessment-catalog">{space_assessment}</script><script type="application/json" id="batch-source-review-catalog">{batch_source_review}</script>
 <script>
 (() => {{
   const data=JSON.parse(document.getElementById('space-data').textContent);
@@ -406,10 +400,14 @@ button[aria-pressed=true]{{background:#75348b;color:white;border-color:#75348b}}
   const edges=document.querySelectorAll('.edge');
   const plot=document.querySelector('.plot');
   const graph=plot.querySelector('svg');
-  document.querySelectorAll('[data-zoom]').forEach(button=>button.addEventListener('click',()=>{{
-    document.querySelectorAll('[data-zoom]').forEach(other=>other.setAttribute('aria-pressed',String(other===button)));
-    graph.style.width=(1280*Number(button.dataset.zoom))+'px';
-  }}));
+  function fitGraph(){{
+    const availableHeight=Math.max(300,window.innerHeight-plot.getBoundingClientRect().top-12);
+    const box=graph.viewBox.baseVal;
+    const width=Math.min(plot.clientWidth-2,availableHeight*box.width/box.height);
+    graph.style.width=Math.max(0,width)+'px';
+  }}
+  window.addEventListener('resize',fitGraph);
+  fitGraph();
   function escapeHtml(s){{return String(s).replace(/[&<>\"']/g,c=>({{'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}}[c]));}}
   function clearExplorerSelection(){{
     document.getElementById('selection-banner').classList.remove('visible');
@@ -418,10 +416,9 @@ button[aria-pressed=true]{{background:#75348b;color:white;border-color:#75348b}}
     document.querySelectorAll('.aux-scope.active').forEach(n=>n.classList.remove('active'));
     document.querySelectorAll('.phase-heading.candidate').forEach(n=>n.classList.remove('candidate'));
     document.querySelectorAll('.unit.confirmed').forEach(n=>n.classList.remove('confirmed'));
-    document.querySelectorAll('.unit.reviewed').forEach(n=>n.classList.remove('reviewed'));
     document.querySelectorAll('.unit.candidate').forEach(n=>n.classList.remove('candidate'));
     document.querySelectorAll('[aria-selected=true]').forEach(n=>n.setAttribute('aria-selected','false'));
-    details.hidden=false;
+    window.dispatchEvent(new Event('resize'));
   }}
   function directRefinements(id){{
     const active=new Set([id]);
@@ -441,7 +438,6 @@ button[aria-pressed=true]{{background:#75348b;color:white;border-color:#75348b}}
   function show(id){{
     const u=units.get(id); if(!u)return;
     clearExplorerSelection();
-    history.replaceState(null,'','#unit='+encodeURIComponent(id));
     document.querySelectorAll('#trace-filters button').forEach(button=>
       button.setAttribute('aria-pressed','false'));
     paintFocus(directRefinements(id),id);
@@ -451,8 +447,7 @@ button[aria-pressed=true]{{background:#75348b;color:white;border-color:#75348b}}
       const url='https://github.com/'+repo+'/blob/'+snap.commit+'/'+r.path+'#L'+r.line;
       return '<li><a target="_blank" rel="noopener" href="'+url+'">'+escapeHtml(r.path+':'+r.line)+'</a> ('+escapeHtml(r.kind)+')</li>';
     }}).join('')+'</ul>').join('');
-    details.innerHTML='<h2>'+escapeHtml(u.name)+'</h2><p>'+escapeHtml(u.property)+'</p><h3>条件</h3><p>'+escapeHtml(u.conditions.join('、'))+'</p><h3>观察与判定</h3><p>'+escapeHtml(u.observable.join('、'))+'。'+escapeHtml(u.oracle)+'</p>'+(evidence||'<p>组合性质；各组成义务见连线。</p>')+'<p><a href="../review_progress/?unit='+encodeURIComponent(id)+'">查看归入此单元的已确认测试</a></p>';
-    document.querySelector('.inspector').scrollTop=0;
+    details.innerHTML='<h2>'+escapeHtml(u.name)+'</h2><p>'+escapeHtml(u.property)+'</p><h3>条件</h3><p>'+escapeHtml(u.conditions.join('、'))+'</p><h3>观察与判定</h3><p>'+escapeHtml(u.observable.join('、'))+'。'+escapeHtml(u.oracle)+'</p>'+(evidence||'<p>组合性质；各组成义务见连线。</p>');
   }}
   roots.forEach(n=>{{n.addEventListener('click',()=>show(n.dataset.unit));n.addEventListener('keydown',e=>{{if(e.key==='Enter'||e.key===' '){{e.preventDefault();show(n.dataset.unit);}}}});}});
   document.querySelectorAll('#trace-filters button').forEach(btn=>btn.addEventListener('click',()=>{{
@@ -461,13 +456,9 @@ button[aria-pressed=true]{{background:#75348b;color:white;border-color:#75348b}}
     const id=btn.dataset.trace;
     const trace=data.traces.find(t=>t.id===id);
     paintFocus(trace?new Set(trace.steps):new Set(data.units.map(u=>u.id)));
-    history.replaceState(null,'',location.pathname);
-    details.innerHTML='<h2>请求路径</h2><p>图中标亮该路径涉及的候选验证单元。点击节点查看性质、条件与证据。</p>';
   }}));
-  const initialUnit=new URLSearchParams(location.hash.slice(1)).get('unit');
-  if(initialUnit)show(initialUnit);
 }})();
-</script><script src="explorer.js" defer></script></body></html>"""
+</script><script>{explorer_script}</script></body></html>"""
 
 
 def main() -> None:

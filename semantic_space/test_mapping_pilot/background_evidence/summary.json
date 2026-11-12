@@ -1,0 +1,36 @@
+{
+  "runs": [
+    {
+      "run": "semantic-space-background-20261111",
+      "archive_sha256": "484511af7136f56694d0ee9260f6e1deaf03d4e9087da6b1cdd3ae02f5b7557f",
+      "source_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb",
+      "files": 78
+    },
+    {
+      "run": "semantic-space-background-20261111-phase2",
+      "archive_sha256": "9ed687fcfc59b6c6c0c996534ea6479a99de1f7224b4f1705f3c792eeef02528",
+      "source_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb",
+      "files": 87
+    }
+  ],
+  "files": 165,
+  "unique_files": 165,
+  "file_states": {
+    "timeout": 7,
+    "pytest_passed": 108,
+    "no_recorded_body": 5,
+    "pytest_failed": 27,
+    "collection_error": 17,
+    "no_tests_collected": 1
+  },
+  "source_entries_with_execution": 2119,
+  "recorded_instances": 2201,
+  "entries_with_call_and_assertion": 1878,
+  "unmatched_instances": 30,
+  "confirmed_property_additions": 0,
+  "limits": [
+    "Isolated imports and hidden GPU; no native or child-process trace.",
+    "Call/line observations do not establish value dependence or a complete property.",
+    "Trace exception counts can include skips and are not pytest failure counts."
+  ]
+}

@@ -2,7 +2,7 @@
 
 [打开页面](https://wangyinuo001.github.io/inference-verification-space/review_progress/)。每个方格是 vLLM 或 SGLang 中的一个测试，按仓库和文件排列。绿色表示已经阅读测试源码，确认它检查什么，并将它放到验证空间的一个具体位置。其他颜色表示目前只找到部分信息，例如测试所在的推理环节、相关函数或检查语句；这些测试还需要继续核对。颜色表示研究进度，不表示测试是否通过。总览按仓库和源码文件路径排列；搜索与状态筛选会收拢匹配方格，点击或用方向键可查看测试详情。方格状态互斥，顶部几项统计可交叠。
 
-目前收录 31,968 个测试，其中 5,330 个已确认检查内容。全量源码扫描为 26,044 个测试找到一个可能所属的推理环节，并在 2,515 个测试中找到被测函数结果进入检查语句的关系。上述数字可以交叠，不能相加。还有 191 个测试的所在目录与实际调用指向不同环节，保留待核对。
+目前收录 31,968 个测试，其中 6,469 个已确认检查内容。全量源码扫描为 26,044 个测试找到一个可能所属的推理环节，并在 2,515 个测试中找到被测函数结果进入检查语句的关系。上述数字可以交叠，不能相加。还有 191 个测试的所在目录与实际调用指向不同环节，保留待核对。
 
 有些测试方法写在公共测试类中，再由不同模型和配置的测试类继承。程序现已为全部 1,366 个继承的源码级测试入口找到实际方法源码；其中 891 个通过核对公共方法及其检查语句，确认了任务评分、输出样本检查、停止元数据、缓存命中与数值关系、工具调用解析、多模态样本回答、推测解码、会话取消恢复及 reasoning 用量等局部检查。此前两轮继承方法审查分别净增 153 和 214 条绿色入口；[第三轮普通测试审查](../semantic_space/test_mapping_pilot/direct-property-review-round3.md)净增 251 条；[第四轮](../semantic_space/test_mapping_pilot/direct-property-review-round4.md)净增 560 条；[第五轮](../semantic_space/test_mapping_pilot/direct-property-review-round5.md)净增 454 条；[第六轮](../semantic_space/test_mapping_pilot/direct-property-review-round6.md)净增 1,106 条；[第七轮](../semantic_space/test_mapping_pilot/direct-property-review-round7.md)净增 1,066 条。继承类的模型、服务配置和门槛仍作为适用条件记录。其他继承测试只标记方法位置，继续核对具体检查内容。
 
@@ -15,10 +15,18 @@
 ```bash
 cd semantic_space/test_mapping_pilot
 python3 -m unittest discover -p 'test_*.py'
+python3 build_reviewed_supplement.py
 python3 render_review_progress.py
+python3 sync_inherited_space_view.py
 cp review_progress.html ../../review_progress/index.html
 ```
 
 这一页面与[验证空间交互页](../semantic_space/space_view.html)分别展示测试归类进度和推理系统的验证需求。当前展示的验证需求仍在持续核对与修订。
 
-交互页的测试 Explorer 按需读取上述 891 条继承公共方法检查和 3,957 条单独的源码确认映射；用 [`sync_inherited_space_view.py`](../semantic_space/test_mapping_pilot/sync_inherited_space_view.py) 将交叉映射写入 `explorer_extra.json`。归类页的绿色单元名称可打开图中对应节点；图节点也可筛出归入它的已确认测试。显式跳过的测试类仍不在图中标亮候选单元，详情中说明其源码检查未执行。交互页仍使用早期候选空间，这一步不将映射自动转移到 76 单元的源码派生模型。
+交互页的测试 Explorer 按需读取上述 891 条继承公共方法检查和 5,096 条单独的源码确认映射；用 [`sync_inherited_space_view.py`](../semantic_space/test_mapping_pilot/sync_inherited_space_view.py) 将交叉映射写入交互页的内嵌数据。归类页的绿色单元名称可打开图中对应节点；图节点也可筛出归入它的已确认测试。显式跳过的测试类仍不在图中标亮候选单元，详情中说明其源码检查未执行。交互页仍使用早期候选空间，这一步不将映射自动转移到 76 单元的源码派生模型。
+
+## 11 月 12 日整理
+
+本轮合入 1,139 条已核对的补充映射，涉及 223 个文件。两批远端记录对应到 2,119 个源码入口、2,201 个运行实例，点击测试详情可查看本次执行记录。运行观察与源码归类分别统计。全部 31,968 个入口已重新核对定义与证据位置，完整清单见[全量入口核对](../semantic_space/test_mapping_pilot/full_delivery/README.md)。
+
+提示词文本构造、媒体占位标记和采样前 logit 变换已独立列入候选空间。对应测试各自保留实际断言范围；文本标记检查与 token ID、媒体张量绑定检查分别记录。详细结果见[本轮说明](../docs/review-update-20261112.md)。

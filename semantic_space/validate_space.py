@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 from pathlib import Path
 
@@ -26,6 +27,10 @@ def validate() -> dict[str, int]:
     roots: dict[str, Path] = {}
     for framework, snapshot in data["snapshots"].items():
         root = (HERE / snapshot["directory"]).resolve()
+        if not root.is_dir():
+            candidates = [Path(os.environ["VERIFICATION_REFERENCE_REPOS"]) / root.name] if "VERIFICATION_REFERENCE_REPOS" in os.environ else []
+            candidates += [parent / "experiments/third_party/reference_repos" / root.name for parent in HERE.parents]
+            root = next((path for path in candidates if path.is_dir()), root)
         assert root.is_dir(), f"Missing {framework} snapshot: {root}"
         actual = subprocess.check_output(
             ["git", "rev-parse", "HEAD"], cwd=root, text=True

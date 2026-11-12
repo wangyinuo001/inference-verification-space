@@ -1,0 +1,11 @@
+{
+  "source_anchored_reference_candidates": 757,
+  "files": 285,
+  "by_family": {
+    "layers": 16,
+    "kernel": 493,
+    "model": 162,
+    "attention": 86
+  },
+  "status": "candidate_only_not_green"
+}

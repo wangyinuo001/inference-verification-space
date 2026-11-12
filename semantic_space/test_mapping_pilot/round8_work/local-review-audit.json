@@ -1,0 +1,20 @@
+{
+  "green_before": 5330,
+  "local_reviewed": 530,
+  "files": 52,
+  "scope": "First five source-review batches; complete integration counts are in reviewed-supplement-summary.json",
+  "batches": {
+    "reviewed-reference-batch1.tsv": 125,
+    "reviewed-sampling-batch1.tsv": 27,
+    "reviewed-tool-parser-batch1.tsv": 251,
+    "reviewed-tool-parser-batch2.tsv": 90,
+    "reviewed-ngram-draft-batch1.tsv": 37
+  },
+  "units": {
+    "compute.operator_reference_relation": 125,
+    "output.tool_argument_type_binding": 37,
+    "sampling.policy": 27,
+    "spec.draft_candidate_binding": 37,
+    "tool.call_parse_relation": 304
+  }
+}

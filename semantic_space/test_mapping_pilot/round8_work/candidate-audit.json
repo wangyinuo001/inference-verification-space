@@ -1,0 +1,8 @@
+{
+  "candidate_rows_verified": 6330,
+  "by_snapshot": {
+    "sglang": 753,
+    "vllm": 5577
+  },
+  "status": "source_anchors_only_not_semantic_promotion"
+}

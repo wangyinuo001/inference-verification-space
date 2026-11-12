@@ -1,0 +1,1334 @@
+[
+  {
+    "snapshot": "vllm",
+    "path": "tests/parser/test_harmony.py",
+    "test_name": "TestCountReasoningTokens::test_matches_process_chunk",
+    "line": "889",
+    "reason": "reasoning token count needs a narrower unit than response usage",
+    "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/parser/test_harmony.py",
+    "test_name": "TestCountReasoningTokens::test_excludes_harmony_control_tokens",
+    "line": "903",
+    "reason": "reasoning token count needs a narrower unit than response usage",
+    "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/parser/test_harmony.py",
+    "test_name": "TestCountReasoningTokens::test_final_only_has_no_reasoning",
+    "line": "911",
+    "reason": "reasoning token count needs a narrower unit than response usage",
+    "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/parser/test_harmony.py",
+    "test_name": "TestCountReasoningTokens::test_streaming_reuses_running_total",
+    "line": "915",
+    "reason": "reasoning token count and caching need a narrower unit",
+    "source_sha256": "ba2591c8eef981c3742ae948384c84964e04ac7d1889848720762226bf2818dd",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/parser/test_parse.py",
+    "test_name": "test_count_history_tool_calls_responses_request",
+    "line": "315",
+    "reason": "history tool-call count, not parsed output call relation",
+    "source_sha256": "c4f7f61b5d3f5095f93daee27a279434d395dd3910dca1817e8b7bcde5e22c07",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/parser/engine/test_llama_json.py",
+    "test_name": "test_registered_tool_parser_aliases",
+    "line": "396",
+    "reason": "registry class-name check, not format-selection behavior",
+    "source_sha256": "518a303e1c4713d7b2b2d3e00b58e5d006d1ce121acf17d698cd65b6c5783468",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/parser/engine/test_minicpmv_reasoning.py",
+    "test_name": "test_reasoning_parser_is_registered",
+    "line": "82",
+    "reason": "registry class-name check, not parser behavior",
+    "source_sha256": "ecac5661623dcdd428d880b0bf6db87ee2068cb28207caece4a7fcce106b35ad",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/parser/engine/test_minicpmv_reasoning.py",
+    "test_name": "TestNewlineRecovery::test_recover_newlines",
+    "line": "314",
+    "reason": "text newline normalization needs a distinct unit",
+    "source_sha256": "ecac5661623dcdd428d880b0bf6db87ee2068cb28207caece4a7fcce106b35ad",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/renderers/test_inkling.py",
+    "test_name": "TestRenderingSemantics::test_resolve_reasoning_effort",
+    "line": "189",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/renderers/test_inkling.py",
+    "test_name": "TestRenderingSemantics::test_tool_call_non_object_args_rejected",
+    "line": "303",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/renderers/test_inkling.py",
+    "test_name": "TestRenderingSemantics::test_unsupported_role_rejected",
+    "line": "317",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/renderers/test_inkling.py",
+    "test_name": "TestReasoningEffort::test_frontend_defaults_to_high",
+    "line": "325",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/renderers/test_inkling.py",
+    "test_name": "TestReasoningEffort::test_zero_effort_has_one_canonical_spelling",
+    "line": "346",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/renderers/test_inkling.py",
+    "test_name": "TestReasoningEffort::test_emits_one_effort_after_initial_prefix",
+    "line": "362",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/renderers/test_inkling.py",
+    "test_name": "TestReasoningEffort::test_renders_after_tool_declare",
+    "line": "391",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/renderers/test_inkling.py",
+    "test_name": "TestReasoningEffort::test_formats_at_most_two_decimals",
+    "line": "409",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/renderers/test_inkling.py",
+    "test_name": "TestReasoningEffort::test_out_of_range_rejected",
+    "line": "422",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/renderers/test_inkling.py",
+    "test_name": "TestSpecialTokenResolution::test_missing_special_token_raises",
+    "line": "432",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/tokenizers_/test_deepseek_v4.py",
+    "test_name": "test_deepseek_v4_tokenizer_registered",
+    "line": "68",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/tokenizers_/test_deepseek_v4.py",
+    "test_name": "test_deepseek_v4_defaults_to_thinking_with_high_effort",
+    "line": "77",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/tokenizers_/test_deepseek_v4.py",
+    "test_name": "test_deepseek_v4_enables_thinking_with_compatible_kwargs",
+    "line": "90",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/tokenizers_/test_deepseek_v4.py",
+    "test_name": "test_deepseek_v4_explicitly_disables_thinking",
+    "line": "104",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/tokenizers_/test_deepseek_v4.py",
+    "test_name": "test_deepseek_v4_unknown_role_raises_value_error",
+    "line": "191",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/tokenizers_/test_deepseek_v4.py",
+    "test_name": "test_deepseek_v4_renders_0731_reasoning_effort_prompts",
+    "line": "300",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/tokenizers_/test_deepseek_v4.py",
+    "test_name": "test_deepseek_v4_none_reasoning_effort_disables_thinking",
+    "line": "314",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/tokenizers_/test_deepseek_v4.py",
+    "test_name": "test_deepseek_v4_maps_compatible_thinking_reasoning_effort_values",
+    "line": "338",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/tokenizers_/test_deepseek_v4.py",
+    "test_name": "test_deepseek_v4_renders_0731_max_reasoning_effort",
+    "line": "366",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/tokenizers_/test_deepseek_v4.py",
+    "test_name": "test_deepseek_v4_maps_xhigh_to_high_reasoning_effort",
+    "line": "377",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/tokenizers_/test_deepseek_v4.py",
+    "test_name": "test_deepseek_v4_request_tools_do_not_mutate_caller_messages",
+    "line": "640",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/tokenizers_/test_deepseek_v41.py",
+    "test_name": "test_drop_thinking_keeps_current_turn_across_tool_results",
+    "line": "79",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/tokenizers_/test_deepseek_v41.py",
+    "test_name": "test_rejects_image_placeholder_in_text",
+    "line": "104",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/tokenizers_/test_deepseek_v41.py",
+    "test_name": "test_rejects_image_placeholder_in_reasoning",
+    "line": "111",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/tokenizers_/test_deepseek_v41.py",
+    "test_name": "test_numeric_reasoning_effort",
+    "line": "134",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/tokenizers_/test_deepseek_v41.py",
+    "test_name": "test_invalid_effort_is_a_request_error",
+    "line": "146",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/tokenizers_/test_deepseek_v41.py",
+    "test_name": "test_chat_mode_has_closed_thinking_prefix",
+    "line": "160",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/tokenizers_/test_deepseek_v41.py",
+    "test_name": "test_request_content_iterator_can_be_rendered_repeatedly",
+    "line": "196",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/tokenizers_/test_deepseek_v41.py",
+    "test_name": "test_responses_text_parts_match_chat_text_parts",
+    "line": "216",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/tokenizers_/test_deepseek_v41.py",
+    "test_name": "test_encode_uses_one_bos_and_forwards_truncation",
+    "line": "254",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/tokenizers_/test_deepseek_v41.py",
+    "test_name": "test_unsupported_media_is_a_request_error",
+    "line": "299",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/tokenizers_/test_deepseek_v41.py",
+    "test_name": "test_continue_final_reasoning_keeps_thinking_open",
+    "line": "473",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/tokenizers_/test_deepseek_v41.py",
+    "test_name": "test_continue_final_message_requires_assistant",
+    "line": "511",
+    "reason": "asserts rendered prompt text, configuration, or exception, but existing chat-template-tokenization unit requires token-ID correspondence; multimodal binding requires actual item/position relation",
+    "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+    "evidence": "round8_work/reviewed-parser-batch3-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_asymmetric_mha_pool_host_unit.py",
+    "test_name": "TestAsymmetricMHATokenToKVPoolHost::test_kernel_load_splits_k_and_v_with_separate_strides",
+    "line": "82",
+    "reason": "The transfer function is mocked. Assertions inspect K/V pointers, strides, call count, or direct-layout rejection; they do not compare transferred tensor content. A transfer-dispatch/binding unit is needed.",
+    "source_sha256": "97485eb862f14f6b32b8c2e474049202f14523e336ca88e7596904af33a3eaae",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_asymmetric_mha_pool_host_unit.py",
+    "test_name": "TestAsymmetricMHATokenToKVPoolHost::test_kernel_backup_splits_k_and_v_with_separate_strides",
+    "line": "113",
+    "reason": "The transfer function is mocked. Assertions inspect K/V pointers, strides, call count, or direct-layout rejection; they do not compare transferred tensor content. A transfer-dispatch/binding unit is needed.",
+    "source_sha256": "97485eb862f14f6b32b8c2e474049202f14523e336ca88e7596904af33a3eaae",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_asymmetric_mha_pool_host_unit.py",
+    "test_name": "TestAsymmetricMHATokenToKVPoolHost::test_direct_load_splits_k_and_v_for_page_first_direct",
+    "line": "140",
+    "reason": "The transfer function is mocked. Assertions inspect K/V pointers, strides, call count, or direct-layout rejection; they do not compare transferred tensor content. A transfer-dispatch/binding unit is needed.",
+    "source_sha256": "97485eb862f14f6b32b8c2e474049202f14523e336ca88e7596904af33a3eaae",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_asymmetric_mha_pool_host_unit.py",
+    "test_name": "TestAsymmetricMHATokenToKVPoolHost::test_direct_backup_splits_k_and_v_for_page_first_direct",
+    "line": "171",
+    "reason": "The transfer function is mocked. Assertions inspect K/V pointers, strides, call count, or direct-layout rejection; they do not compare transferred tensor content. A transfer-dispatch/binding unit is needed.",
+    "source_sha256": "97485eb862f14f6b32b8c2e474049202f14523e336ca88e7596904af33a3eaae",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_asymmetric_mha_pool_host_unit.py",
+    "test_name": "TestAsymmetricMHATokenToKVPoolHost::test_direct_requires_page_first_direct_layout",
+    "line": "196",
+    "reason": "The transfer function is mocked. Assertions inspect K/V pointers, strides, call count, or direct-layout rejection; they do not compare transferred tensor content. A transfer-dispatch/binding unit is needed.",
+    "source_sha256": "97485eb862f14f6b32b8c2e474049202f14523e336ca88e7596904af33a3eaae",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_embedding_cache_controller.py",
+    "test_name": "TestLRUEviction::test_evict_nonexistent_hash",
+    "line": "235",
+    "reason": "The asserted missing-key return or tensor view/shape is narrower than the existing cache reuse, lifetime, and isolation units.",
+    "source_sha256": "9cf4fe0575be8b3c5bb66dc0d66a3ca737ebb977f0f4ccf613f5b4df96c027f7",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_embedding_cache_controller.py",
+    "test_name": "TestRefCounting::test_get_embeddings_missing_hash",
+    "line": "391",
+    "reason": "The asserted missing-key return or tensor view/shape is narrower than the existing cache reuse, lifetime, and isolation units.",
+    "source_sha256": "9cf4fe0575be8b3c5bb66dc0d66a3ca737ebb977f0f4ccf613f5b4df96c027f7",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_embedding_cache_controller.py",
+    "test_name": "TestRefCounting::test_io_loop_releases_prefetch_ref",
+    "line": "404",
+    "reason": "The test manually invokes _release_hash after a mocked store operation; it does not execute the product _io_loop release path.",
+    "source_sha256": "9cf4fe0575be8b3c5bb66dc0d66a3ca737ebb977f0f4ccf613f5b4df96c027f7",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_embedding_cache_controller.py",
+    "test_name": "TestRefCounting::test_io_loop_releases_insert_ref",
+    "line": "431",
+    "reason": "The test manually invokes _release_hash after a mocked store operation; it does not execute the product _io_loop release path.",
+    "source_sha256": "9cf4fe0575be8b3c5bb66dc0d66a3ca737ebb977f0f4ccf613f5b4df96c027f7",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_embedding_cache_controller.py",
+    "test_name": "TestGetEmbeddingsViewSafety::test_get_embeddings_returns_view",
+    "line": "595",
+    "reason": "The asserted missing-key return or tensor view/shape is narrower than the existing cache reuse, lifetime, and isolation units.",
+    "source_sha256": "9cf4fe0575be8b3c5bb66dc0d66a3ca737ebb977f0f4ccf613f5b4df96c027f7",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_hicache_file_lru_unit.py",
+    "test_name": "TestParseSize::test_zero_and_none",
+    "line": "110",
+    "reason": "Size parsing or suffix formatting alone does not establish an existing request/cache verification property.",
+    "source_sha256": "b54b95a01b98fcf2baf0f4e5dfbad34b910c0e80fca62998bf54244c0b4b79bb",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_hicache_file_lru_unit.py",
+    "test_name": "TestParseSize::test_units",
+    "line": "116",
+    "reason": "Size parsing or suffix formatting alone does not establish an existing request/cache verification property.",
+    "source_sha256": "b54b95a01b98fcf2baf0f4e5dfbad34b910c0e80fca62998bf54244c0b4b79bb",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_hicache_file_lru_unit.py",
+    "test_name": "TestParseSize::test_invalid_returns_zero",
+    "line": "124",
+    "reason": "Size parsing or suffix formatting alone does not establish an existing request/cache verification property.",
+    "source_sha256": "b54b95a01b98fcf2baf0f4e5dfbad34b910c0e80fca62998bf54244c0b4b79bb",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_hicache_file_lru_unit.py",
+    "test_name": "TestCPSuffix::test_cp_disabled_has_no_cp_suffix",
+    "line": "271",
+    "reason": "Size parsing or suffix formatting alone does not establish an existing request/cache verification property.",
+    "source_sha256": "b54b95a01b98fcf2baf0f4e5dfbad34b910c0e80fca62998bf54244c0b4b79bb",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_hicache_staged_write_back_dispatch.py",
+    "test_name": "TestHiCacheStagedWriteBackDispatch::test_logical_host_pool_preserves_page_first_group_layout",
+    "line": "638",
+    "reason": "This test checks host-index device and dispatch/call counts, not transferred content; a separate transfer-dispatch unit is needed.",
+    "source_sha256": "7862fa111c595f326d8d3a8b181b7d5f8c181a6e07eccb1b873ab75d34b37e06",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_hicache_staged_write_back_dispatch.py",
+    "test_name": "TestHiCacheStagedWriteBackDispatch::test_write_back_jit_hybrid_write_keeps_extra_host_indices_on_cpu",
+    "line": "655",
+    "reason": "This test checks host-index device and dispatch/call counts, not transferred content; a separate transfer-dispatch unit is needed.",
+    "source_sha256": "7862fa111c595f326d8d3a8b181b7d5f8c181a6e07eccb1b873ab75d34b37e06",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_hicache_staged_write_back_dispatch.py",
+    "test_name": "TestHiCacheStagedWriteBackDispatch::test_hybrid_write_moves_indices_without_write_back_jit",
+    "line": "710",
+    "reason": "This test checks host-index device and dispatch/call counts, not transferred content; a separate transfer-dispatch unit is needed.",
+    "source_sha256": "7862fa111c595f326d8d3a8b181b7d5f8c181a6e07eccb1b873ab75d34b37e06",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_hicache_staged_write_back_dispatch.py",
+    "test_name": "TestHiCacheStagedWriteBackDispatch::test_hybrid_write_moves_indices_without_page_first_layout",
+    "line": "762",
+    "reason": "This test checks host-index device and dispatch/call counts, not transferred content; a separate transfer-dispatch unit is needed.",
+    "source_sha256": "7862fa111c595f326d8d3a8b181b7d5f8c181a6e07eccb1b873ab75d34b37e06",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_hicache_staged_write_back_dispatch.py",
+    "test_name": "TestHiCacheStagedWriteBackDispatch::test_write_back_jit_cache_controller_keeps_host_indices_on_cpu",
+    "line": "814",
+    "reason": "This test checks host-index device and dispatch/call counts, not transferred content; a separate transfer-dispatch unit is needed.",
+    "source_sha256": "7862fa111c595f326d8d3a8b181b7d5f8c181a6e07eccb1b873ab75d34b37e06",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_hicache_staged_write_back_dispatch.py",
+    "test_name": "TestHiCacheStagedWriteBackDispatch::test_cache_controller_moves_indices_without_write_back_jit",
+    "line": "854",
+    "reason": "This test checks host-index device and dispatch/call counts, not transferred content; a separate transfer-dispatch unit is needed.",
+    "source_sha256": "7862fa111c595f326d8d3a8b181b7d5f8c181a6e07eccb1b873ab75d34b37e06",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_hicache_staged_write_back_dispatch.py",
+    "test_name": "TestHiCacheStagedWriteBackDispatch::test_cache_controller_moves_indices_without_page_first_layout",
+    "line": "891",
+    "reason": "This test checks host-index device and dispatch/call counts, not transferred content; a separate transfer-dispatch unit is needed.",
+    "source_sha256": "7862fa111c595f326d8d3a8b181b7d5f8c181a6e07eccb1b873ab75d34b37e06",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_mem_cache_utils.py",
+    "test_name": "TestMaybeInitCustomMemPool::test_enabled_via_env",
+    "line": "87",
+    "reason": "The assertion covers hash formatting, conversion or page splitting; it does not establish cache key isolation or reuse.",
+    "source_sha256": "60d0e213ea17354cd42d54dee3163e38fc7f57e60cce8bcdf0fd0050dec9ea86",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_mem_cache_utils.py",
+    "test_name": "TestGetHashStr::test_empty_list",
+    "line": "99",
+    "reason": "The assertion covers hash formatting, conversion or page splitting; it does not establish cache key isolation or reuse.",
+    "source_sha256": "60d0e213ea17354cd42d54dee3163e38fc7f57e60cce8bcdf0fd0050dec9ea86",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_mem_cache_utils.py",
+    "test_name": "TestHashStrToInt64::test_zero_hash",
+    "line": "149",
+    "reason": "The assertion covers hash formatting, conversion or page splitting; it does not establish cache key isolation or reuse.",
+    "source_sha256": "60d0e213ea17354cd42d54dee3163e38fc7f57e60cce8bcdf0fd0050dec9ea86",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_mem_cache_utils.py",
+    "test_name": "TestHashStrToInt64::test_small_positive_value",
+    "line": "153",
+    "reason": "The assertion covers hash formatting, conversion or page splitting; it does not establish cache key isolation or reuse.",
+    "source_sha256": "60d0e213ea17354cd42d54dee3163e38fc7f57e60cce8bcdf0fd0050dec9ea86",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_mem_cache_utils.py",
+    "test_name": "TestHashStrToInt64::test_large_positive_value",
+    "line": "157",
+    "reason": "The assertion covers hash formatting, conversion or page splitting; it does not establish cache key isolation or reuse.",
+    "source_sha256": "60d0e213ea17354cd42d54dee3163e38fc7f57e60cce8bcdf0fd0050dec9ea86",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_mem_cache_utils.py",
+    "test_name": "TestHashStrToInt64::test_negative_overflow",
+    "line": "161",
+    "reason": "The assertion covers hash formatting, conversion or page splitting; it does not establish cache key isolation or reuse.",
+    "source_sha256": "60d0e213ea17354cd42d54dee3163e38fc7f57e60cce8bcdf0fd0050dec9ea86",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_mem_cache_utils.py",
+    "test_name": "TestHashStrToInt64::test_max_unsigned_maps_to_minus_one",
+    "line": "165",
+    "reason": "The assertion covers hash formatting, conversion or page splitting; it does not establish cache key isolation or reuse.",
+    "source_sha256": "60d0e213ea17354cd42d54dee3163e38fc7f57e60cce8bcdf0fd0050dec9ea86",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_mem_cache_utils.py",
+    "test_name": "TestHashStrToInt64::test_only_first_16_chars_matter",
+    "line": "169",
+    "reason": "The assertion covers hash formatting, conversion or page splitting; it does not establish cache key isolation or reuse.",
+    "source_sha256": "60d0e213ea17354cd42d54dee3163e38fc7f57e60cce8bcdf0fd0050dec9ea86",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_mem_cache_utils.py",
+    "test_name": "TestComputeNodeHashValues::test_single_page_root",
+    "line": "200",
+    "reason": "The assertion covers hash formatting, conversion or page splitting; it does not establish cache key isolation or reuse.",
+    "source_sha256": "60d0e213ea17354cd42d54dee3163e38fc7f57e60cce8bcdf0fd0050dec9ea86",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_mem_cache_utils.py",
+    "test_name": "TestComputeNodeHashValues::test_multiple_pages",
+    "line": "206",
+    "reason": "The assertion covers hash formatting, conversion or page splitting; it does not establish cache key isolation or reuse.",
+    "source_sha256": "60d0e213ea17354cd42d54dee3163e38fc7f57e60cce8bcdf0fd0050dec9ea86",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_mem_cache_utils.py",
+    "test_name": "TestComputeNodeHashValues::test_page_aligned_boundary",
+    "line": "213",
+    "reason": "The assertion covers hash formatting, conversion or page splitting; it does not establish cache key isolation or reuse.",
+    "source_sha256": "60d0e213ea17354cd42d54dee3163e38fc7f57e60cce8bcdf0fd0050dec9ea86",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_mem_cache_utils.py",
+    "test_name": "TestComputeNodeHashValues::test_key_shorter_than_page_size",
+    "line": "219",
+    "reason": "The assertion covers hash formatting, conversion or page splitting; it does not establish cache key isolation or reuse.",
+    "source_sha256": "60d0e213ea17354cd42d54dee3163e38fc7f57e60cce8bcdf0fd0050dec9ea86",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_mem_cache_utils.py",
+    "test_name": "TestComputeNodeHashValues::test_chained_parent_hash",
+    "line": "224",
+    "reason": "The assertion covers hash formatting, conversion or page splitting; it does not establish cache key isolation or reuse.",
+    "source_sha256": "60d0e213ea17354cd42d54dee3163e38fc7f57e60cce8bcdf0fd0050dec9ea86",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_mem_cache_utils.py",
+    "test_name": "TestComputeNodeHashValues::test_parent_with_empty_key",
+    "line": "236",
+    "reason": "The assertion covers hash formatting, conversion or page splitting; it does not establish cache key isolation or reuse.",
+    "source_sha256": "60d0e213ea17354cd42d54dee3163e38fc7f57e60cce8bcdf0fd0050dec9ea86",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_mem_cache_utils.py",
+    "test_name": "TestComputeNodeHashValues::test_parent_without_hash_value",
+    "line": "249",
+    "reason": "The assertion covers hash formatting, conversion or page splitting; it does not establish cache key isolation or reuse.",
+    "source_sha256": "60d0e213ea17354cd42d54dee3163e38fc7f57e60cce8bcdf0fd0050dec9ea86",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_mem_cache_utils.py",
+    "test_name": "TestComputeNodeHashValues::test_parent_with_none_hash_value",
+    "line": "259",
+    "reason": "The assertion covers hash formatting, conversion or page splitting; it does not establish cache key isolation or reuse.",
+    "source_sha256": "60d0e213ea17354cd42d54dee3163e38fc7f57e60cce8bcdf0fd0050dec9ea86",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_mem_cache_utils.py",
+    "test_name": "TestSplitNodeHashValue::test_none_input_returns_none_tuple",
+    "line": "271",
+    "reason": "The assertion covers hash formatting, conversion or page splitting; it does not establish cache key isolation or reuse.",
+    "source_sha256": "60d0e213ea17354cd42d54dee3163e38fc7f57e60cce8bcdf0fd0050dec9ea86",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_mem_cache_utils.py",
+    "test_name": "TestSplitNodeHashValue::test_page_size_one_split",
+    "line": "275",
+    "reason": "The assertion covers hash formatting, conversion or page splitting; it does not establish cache key isolation or reuse.",
+    "source_sha256": "60d0e213ea17354cd42d54dee3163e38fc7f57e60cce8bcdf0fd0050dec9ea86",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_mem_cache_utils.py",
+    "test_name": "TestSplitNodeHashValue::test_page_size_one_split_at_zero",
+    "line": "281",
+    "reason": "The assertion covers hash formatting, conversion or page splitting; it does not establish cache key isolation or reuse.",
+    "source_sha256": "60d0e213ea17354cd42d54dee3163e38fc7f57e60cce8bcdf0fd0050dec9ea86",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_mem_cache_utils.py",
+    "test_name": "TestSplitNodeHashValue::test_page_size_one_split_at_len",
+    "line": "287",
+    "reason": "The assertion covers hash formatting, conversion or page splitting; it does not establish cache key isolation or reuse.",
+    "source_sha256": "60d0e213ea17354cd42d54dee3163e38fc7f57e60cce8bcdf0fd0050dec9ea86",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_mem_cache_utils.py",
+    "test_name": "TestSplitNodeHashValue::test_page_size_larger_than_one",
+    "line": "293",
+    "reason": "The assertion covers hash formatting, conversion or page splitting; it does not establish cache key isolation or reuse.",
+    "source_sha256": "60d0e213ea17354cd42d54dee3163e38fc7f57e60cce8bcdf0fd0050dec9ea86",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_mem_cache_utils.py",
+    "test_name": "TestSplitNodeHashValue::test_page_size_split_exact_page_boundary",
+    "line": "299",
+    "reason": "The assertion covers hash formatting, conversion or page splitting; it does not establish cache key isolation or reuse.",
+    "source_sha256": "60d0e213ea17354cd42d54dee3163e38fc7f57e60cce8bcdf0fd0050dec9ea86",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_mem_cache_utils.py",
+    "test_name": "TestSplitNodeHashValue::test_page_size_split_within_page",
+    "line": "305",
+    "reason": "The assertion covers hash formatting, conversion or page splitting; it does not establish cache key isolation or reuse.",
+    "source_sha256": "60d0e213ea17354cd42d54dee3163e38fc7f57e60cce8bcdf0fd0050dec9ea86",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_mem_cache_utils.py",
+    "test_name": "TestSplitNodeHashValue::test_total_length_preserved",
+    "line": "311",
+    "reason": "The assertion covers hash formatting, conversion or page splitting; it does not establish cache key isolation or reuse.",
+    "source_sha256": "60d0e213ea17354cd42d54dee3163e38fc7f57e60cce8bcdf0fd0050dec9ea86",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_radix_cache_unit.py",
+    "test_name": "TestRadixKey::test_init_basic",
+    "line": "52",
+    "reason": "RadixKey representation or local hash accessor is not itself evidence for cache isolation or request-level reuse.",
+    "source_sha256": "5bc79e3dc668a691de32e35412945879dffadf9f316597035cef3552cb601e6f",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_radix_cache_unit.py",
+    "test_name": "TestRadixKey::test_init_with_extra_key",
+    "line": "59",
+    "reason": "RadixKey representation or local hash accessor is not itself evidence for cache isolation or request-level reuse.",
+    "source_sha256": "5bc79e3dc668a691de32e35412945879dffadf9f316597035cef3552cb601e6f",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_radix_cache_unit.py",
+    "test_name": "TestRadixKey::test_len",
+    "line": "67",
+    "reason": "RadixKey representation or local hash accessor is not itself evidence for cache isolation or request-level reuse.",
+    "source_sha256": "5bc79e3dc668a691de32e35412945879dffadf9f316597035cef3552cb601e6f",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_radix_cache_unit.py",
+    "test_name": "TestRadixKey::test_iter",
+    "line": "75",
+    "reason": "RadixKey representation or local hash accessor is not itself evidence for cache isolation or request-level reuse.",
+    "source_sha256": "5bc79e3dc668a691de32e35412945879dffadf9f316597035cef3552cb601e6f",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_radix_cache_unit.py",
+    "test_name": "TestRadixKey::test_len_and_iter",
+    "line": "81",
+    "reason": "RadixKey representation or local hash accessor is not itself evidence for cache isolation or request-level reuse.",
+    "source_sha256": "5bc79e3dc668a691de32e35412945879dffadf9f316597035cef3552cb601e6f",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_radix_cache_unit.py",
+    "test_name": "TestRadixKey::test_getitem_int",
+    "line": "95",
+    "reason": "RadixKey representation or local hash accessor is not itself evidence for cache isolation or request-level reuse.",
+    "source_sha256": "5bc79e3dc668a691de32e35412945879dffadf9f316597035cef3552cb601e6f",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_radix_cache_unit.py",
+    "test_name": "TestRadixKey::test_getitem_slice",
+    "line": "110",
+    "reason": "RadixKey representation or local hash accessor is not itself evidence for cache isolation or request-level reuse.",
+    "source_sha256": "5bc79e3dc668a691de32e35412945879dffadf9f316597035cef3552cb601e6f",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_radix_cache_unit.py",
+    "test_name": "TestRadixKey::test_repr",
+    "line": "130",
+    "reason": "RadixKey representation or local hash accessor is not itself evidence for cache isolation or request-level reuse.",
+    "source_sha256": "5bc79e3dc668a691de32e35412945879dffadf9f316597035cef3552cb601e6f",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_radix_cache_unit.py",
+    "test_name": "TestRadixKey::test_repr_long_token_ids",
+    "line": "138",
+    "reason": "RadixKey representation or local hash accessor is not itself evidence for cache isolation or request-level reuse.",
+    "source_sha256": "5bc79e3dc668a691de32e35412945879dffadf9f316597035cef3552cb601e6f",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_radix_cache_unit.py",
+    "test_name": "TestTreeNode::test_init_basic",
+    "line": "207",
+    "reason": "RadixKey representation or local hash accessor is not itself evidence for cache isolation or request-level reuse.",
+    "source_sha256": "5bc79e3dc668a691de32e35412945879dffadf9f316597035cef3552cb601e6f",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_radix_cache_unit.py",
+    "test_name": "TestTreeNode::test_init_with_id",
+    "line": "221",
+    "reason": "RadixKey representation or local hash accessor is not itself evidence for cache isolation or request-level reuse.",
+    "source_sha256": "5bc79e3dc668a691de32e35412945879dffadf9f316597035cef3552cb601e6f",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_radix_cache_unit.py",
+    "test_name": "TestTreeNode::test_evicted_backuped_properties",
+    "line": "235",
+    "reason": "RadixKey representation or local hash accessor is not itself evidence for cache isolation or request-level reuse.",
+    "source_sha256": "5bc79e3dc668a691de32e35412945879dffadf9f316597035cef3552cb601e6f",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_radix_cache_unit.py",
+    "test_name": "TestTreeNode::test_get_last_hash_value",
+    "line": "276",
+    "reason": "RadixKey representation or local hash accessor is not itself evidence for cache isolation or request-level reuse.",
+    "source_sha256": "5bc79e3dc668a691de32e35412945879dffadf9f316597035cef3552cb601e6f",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_radix_cache_unit.py",
+    "test_name": "TestTreeNode::test_get_prefix_hash_values_not_shared_across_calls",
+    "line": "284",
+    "reason": "RadixKey representation or local hash accessor is not itself evidence for cache isolation or request-level reuse.",
+    "source_sha256": "5bc79e3dc668a691de32e35412945879dffadf9f316597035cef3552cb601e6f",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_radix_cache_unit.py",
+    "test_name": "TestRadixCache::test_init_variations",
+    "line": "333",
+    "reason": "RadixKey representation or local hash accessor is not itself evidence for cache isolation or request-level reuse.",
+    "source_sha256": "5bc79e3dc668a691de32e35412945879dffadf9f316597035cef3552cb601e6f",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_radix_cache_unit.py",
+    "test_name": "TestRadixCache::test_kv_cache_events_with_eviction",
+    "line": "481",
+    "reason": "The test asserts a BlockStored event, but iterates over BlockRemoved without asserting that any removal event exists.",
+    "source_sha256": "5bc79e3dc668a691de32e35412945879dffadf9f316597035cef3552cb601e6f",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_radix_cache_unit.py",
+    "test_name": "TestRadixCache::test_hash_value_storage",
+    "line": "763",
+    "reason": "RadixKey representation or local hash accessor is not itself evidence for cache isolation or request-level reuse.",
+    "source_sha256": "5bc79e3dc668a691de32e35412945879dffadf9f316597035cef3552cb601e6f",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_radix_cache_unit.py",
+    "test_name": "TestRadixCache::test_hash_value_split",
+    "line": "827",
+    "reason": "RadixKey representation or local hash accessor is not itself evidence for cache isolation or request-level reuse.",
+    "source_sha256": "5bc79e3dc668a691de32e35412945879dffadf9f316597035cef3552cb601e6f",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_session_token_share_unit.py",
+    "test_name": "TestSessionTokenShare::test_normal_multi_turn_share_and_carry",
+    "line": "79",
+    "reason": "These assertions concern multi-turn token-history carry and rollback, not cache block ownership or KV lifetime; a session-history unit is needed.",
+    "source_sha256": "fed8bba8680e4507c8dad560891969498cdec7e6129724c382d954f89f629310",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_session_token_share_unit.py",
+    "test_name": "TestSessionTokenShare::test_mid_turn_abort_then_continue",
+    "line": "101",
+    "reason": "These assertions concern multi-turn token-history carry and rollback, not cache block ownership or KV lifetime; a session-history unit is needed.",
+    "source_sha256": "fed8bba8680e4507c8dad560891969498cdec7e6129724c382d954f89f629310",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_session_token_share_unit.py",
+    "test_name": "TestSessionTokenShare::test_first_turn_abort",
+    "line": "126",
+    "reason": "These assertions concern multi-turn token-history carry and rollback, not cache block ownership or KV lifetime; a session-history unit is needed.",
+    "source_sha256": "fed8bba8680e4507c8dad560891969498cdec7e6129724c382d954f89f629310",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_session_token_share_unit.py",
+    "test_name": "TestSessionTokenShare::test_max_new_tokens_overshoot_falls_back",
+    "line": "139",
+    "reason": "These assertions concern multi-turn token-history carry and rollback, not cache block ownership or KV lifetime; a session-history unit is needed.",
+    "source_sha256": "fed8bba8680e4507c8dad560891969498cdec7e6129724c382d954f89f629310",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_streaming_session_unit.py",
+    "test_name": "test_trim_overshoot_postcondition",
+    "line": "211",
+    "reason": "Trimmed speculative overshoot is a session/KV boundary postcondition not covered by an existing seed unit at this granularity.",
+    "source_sha256": "b292546364c6cdb8977000abcbff3e4bd8dd26921f8371cbea1f035f8359f832",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_swa_eviction_boundary.py",
+    "test_name": "TestSWAEvictionBoundary::test_formula_page_size_1",
+    "line": "198",
+    "reason": "This test checks an eviction-boundary arithmetic helper without executing a cache eviction or match.",
+    "source_sha256": "906cceadf2191e744c511fa5c4c6f4055fda71e4635f60d5beff110861d1d5d9",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_swa_eviction_boundary.py",
+    "test_name": "TestSWAEvictionBoundary::test_formula_noop_short_sequence",
+    "line": "221",
+    "reason": "This test checks an eviction-boundary arithmetic helper without executing a cache eviction or match.",
+    "source_sha256": "906cceadf2191e744c511fa5c4c6f4055fda71e4635f60d5beff110861d1d5d9",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_hicache_dispatch.py",
+    "test_name": "TestUnifiedRadixHiCacheDispatch::test_strategy_registry_ordering",
+    "line": "35",
+    "reason": "These tests check implementation registry/factory ordering and sidecar wiring, not a declared cache state or request-level behavior unit.",
+    "source_sha256": "f4c8cd1d8a3fae7ebc393b98d33b8922461661aa598daae90c8de285d2b18b5d",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_hicache_dispatch.py",
+    "test_name": "TestUnifiedRadixHiCacheDispatch::test_unknown_combo_raises",
+    "line": "85",
+    "reason": "These tests check implementation registry/factory ordering and sidecar wiring, not a declared cache state or request-level behavior unit.",
+    "source_sha256": "f4c8cd1d8a3fae7ebc393b98d33b8922461661aa598daae90c8de285d2b18b5d",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_hicache_dispatch.py",
+    "test_name": "TestApplyStackResult::test_wires_components_sidecars_and_counters",
+    "line": "124",
+    "reason": "These tests check implementation registry/factory ordering and sidecar wiring, not a declared cache state or request-level behavior unit.",
+    "source_sha256": "f4c8cd1d8a3fae7ebc393b98d33b8922461661aa598daae90c8de285d2b18b5d",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/parser/test_reasoning_parser.py",
+    "test_name": "TestStreamingParseResult::test_init_default",
+    "line": "25",
+    "reason": "Constructor/default-field assertions do not check generated output parsing or channel contents.",
+    "source_sha256": "56b4f38839ef1b6c8cbe19ec6fcb733f926e56abb383b2e79a4a5f4462be53ef",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/parser/test_reasoning_parser.py",
+    "test_name": "TestStreamingParseResult::test_init_with_values",
+    "line": "31",
+    "reason": "Constructor/default-field assertions do not check generated output parsing or channel contents.",
+    "source_sha256": "56b4f38839ef1b6c8cbe19ec6fcb733f926e56abb383b2e79a4a5f4462be53ef",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/parser/test_reasoning_parser.py",
+    "test_name": "TestBaseReasoningFormatDetector::test_init",
+    "line": "47",
+    "reason": "Constructor/default-field assertions do not check generated output parsing or channel contents.",
+    "source_sha256": "56b4f38839ef1b6c8cbe19ec6fcb733f926e56abb383b2e79a4a5f4462be53ef",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/parser/test_reasoning_parser.py",
+    "test_name": "TestDeepSeekR1Detector::test_init",
+    "line": "164",
+    "reason": "Constructor/default-field assertions do not check generated output parsing or channel contents.",
+    "source_sha256": "56b4f38839ef1b6c8cbe19ec6fcb733f926e56abb383b2e79a4a5f4462be53ef",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/parser/test_reasoning_parser.py",
+    "test_name": "TestQwen3Detector::test_init",
+    "line": "206",
+    "reason": "Constructor/default-field assertions do not check generated output parsing or channel contents.",
+    "source_sha256": "56b4f38839ef1b6c8cbe19ec6fcb733f926e56abb383b2e79a4a5f4462be53ef",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/parser/test_reasoning_parser.py",
+    "test_name": "TestQwen3ForcedReasoningDetector::test_init",
+    "line": "232",
+    "reason": "Constructor/default-field assertions do not check generated output parsing or channel contents.",
+    "source_sha256": "56b4f38839ef1b6c8cbe19ec6fcb733f926e56abb383b2e79a4a5f4462be53ef",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/parser/test_reasoning_parser.py",
+    "test_name": "TestKimiDetector::test_init",
+    "line": "278",
+    "reason": "Constructor/default-field assertions do not check generated output parsing or channel contents.",
+    "source_sha256": "56b4f38839ef1b6c8cbe19ec6fcb733f926e56abb383b2e79a4a5f4462be53ef",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/parser/test_reasoning_parser.py",
+    "test_name": "TestKimiK2Detector::test_init",
+    "line": "329",
+    "reason": "Constructor/default-field assertions do not check generated output parsing or channel contents.",
+    "source_sha256": "56b4f38839ef1b6c8cbe19ec6fcb733f926e56abb383b2e79a4a5f4462be53ef",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/parser/test_reasoning_parser.py",
+    "test_name": "TestGlm45Detector::test_init",
+    "line": "374",
+    "reason": "Constructor/default-field assertions do not check generated output parsing or channel contents.",
+    "source_sha256": "56b4f38839ef1b6c8cbe19ec6fcb733f926e56abb383b2e79a4a5f4462be53ef",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/parser/test_reasoning_parser.py",
+    "test_name": "TestHunyuanDetector::test_init",
+    "line": "529",
+    "reason": "Constructor/default-field assertions do not check generated output parsing or channel contents.",
+    "source_sha256": "56b4f38839ef1b6c8cbe19ec6fcb733f926e56abb383b2e79a4a5f4462be53ef",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/parser/test_reasoning_parser.py",
+    "test_name": "TestNemotron3Detector::test_init",
+    "line": "620",
+    "reason": "Constructor/default-field assertions do not check generated output parsing or channel contents.",
+    "source_sha256": "56b4f38839ef1b6c8cbe19ec6fcb733f926e56abb383b2e79a4a5f4462be53ef",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/parser/test_reasoning_parser.py",
+    "test_name": "TestGemma4Detector::test_init",
+    "line": "688",
+    "reason": "Constructor/default-field assertions do not check generated output parsing or channel contents.",
+    "source_sha256": "56b4f38839ef1b6c8cbe19ec6fcb733f926e56abb383b2e79a4a5f4462be53ef",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/parser/test_reasoning_parser.py",
+    "test_name": "TestMiniMaxAppendThinkDetector::test_detect_and_parse_prepends_think",
+    "line": "1292",
+    "reason": "Marker-prepending parser tests inspect returned text but not structured channel events; the current channel-event unit is too broad for this local parser relation.",
+    "source_sha256": "56b4f38839ef1b6c8cbe19ec6fcb733f926e56abb383b2e79a4a5f4462be53ef",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/parser/test_reasoning_parser.py",
+    "test_name": "TestMiniMaxAppendThinkDetector::test_streaming_first_chunk_prepends_think",
+    "line": "1297",
+    "reason": "Marker-prepending parser tests inspect returned text but not structured channel events; the current channel-event unit is too broad for this local parser relation.",
+    "source_sha256": "56b4f38839ef1b6c8cbe19ec6fcb733f926e56abb383b2e79a4a5f4462be53ef",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/parser/test_reasoning_parser.py",
+    "test_name": "TestMiniMaxAppendThinkDetector::test_streaming_second_chunk_no_prepend",
+    "line": "1302",
+    "reason": "Marker-prepending parser tests inspect returned text but not structured channel events; the current channel-event unit is too broad for this local parser relation.",
+    "source_sha256": "56b4f38839ef1b6c8cbe19ec6fcb733f926e56abb383b2e79a4a5f4462be53ef",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/sampling/test_penaltylib.py",
+    "test_name": "TestBatchedPenalizerOrchestrator::test_context_manager_releases",
+    "line": "98",
+    "reason": "This test checks a penalty/logit transformation, not the selected token required by sampling.policy; the seed lacks a local logit-transform unit.",
+    "source_sha256": "1e5ad7685a49e1da3a142de0e6dacbdd4aaf965c7944eb30210d4a53249c7d19",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/sampling/test_penaltylib.py",
+    "test_name": "TestBatchedPenalizerBase::test_merge_prepares_both_if_needed",
+    "line": "388",
+    "reason": "This test checks a penalty/logit transformation, not the selected token required by sampling.policy; the seed lacks a local logit-transform unit.",
+    "source_sha256": "1e5ad7685a49e1da3a142de0e6dacbdd4aaf965c7944eb30210d4a53249c7d19",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/sampling/test_penaltylib.py",
+    "test_name": "TestOrchestratorMultiplePenalizers::test_merge_one_required",
+    "line": "499",
+    "reason": "This test checks a penalty/logit transformation, not the selected token required by sampling.policy; the seed lacks a local logit-transform unit.",
+    "source_sha256": "1e5ad7685a49e1da3a142de0e6dacbdd4aaf965c7944eb30210d4a53249c7d19",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/sampling/test_sampling_batch_info.py",
+    "test_name": "TestSamplingBatchInfoLen::test_len_matches_batch_size",
+    "line": "91",
+    "reason": "This assertion checks a local helper or logit-bias transform, but no existing seed unit isolates that transform from final sampling output.",
+    "source_sha256": "8215afe6db12fd1e4aa5089017e36b5cf4db3ee3d5ddb1035d653cec4f2734dd",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/sampling/test_sampling_batch_info.py",
+    "test_name": "TestApplyLogitsBias::test_applies_penalizer_orchestrator",
+    "line": "174",
+    "reason": "This assertion checks a local helper or logit-bias transform, but no existing seed unit isolates that transform from final sampling output.",
+    "source_sha256": "8215afe6db12fd1e4aa5089017e36b5cf4db3ee3d5ddb1035d653cec4f2734dd",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/sampling/test_sampling_batch_info.py",
+    "test_name": "TestUpdatePenalties::test_required_creates_penalties_tensor",
+    "line": "197",
+    "reason": "This assertion checks a local helper or logit-bias transform, but no existing seed unit isolates that transform from final sampling output.",
+    "source_sha256": "8215afe6db12fd1e4aa5089017e36b5cf4db3ee3d5ddb1035d653cec4f2734dd",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/spec/test_ngram_corpus.py",
+    "test_name": "TestNgramCorpusExternalSam::test_external_corpus_iterator_rejects_oversized_corpus",
+    "line": "737",
+    "reason": "Corpus registration, deletion, HTTP wrapper, and capacity-management assertions do not check draft candidate binding.",
+    "source_sha256": "5521ec083dd5e670bfbc912ecd2bc47c20decd87b66727bfe514da01cf1251a8",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/spec/test_ngram_corpus.py",
+    "test_name": "TestNgramCorpusMultiSam::test_add_and_list",
+    "line": "920",
+    "reason": "Corpus registration, deletion, HTTP wrapper, and capacity-management assertions do not check draft candidate binding.",
+    "source_sha256": "5521ec083dd5e670bfbc912ecd2bc47c20decd87b66727bfe514da01cf1251a8",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/spec/test_ngram_corpus.py",
+    "test_name": "TestNgramCorpusMultiSam::test_remove",
+    "line": "933",
+    "reason": "Corpus registration, deletion, HTTP wrapper, and capacity-management assertions do not check draft candidate binding.",
+    "source_sha256": "5521ec083dd5e670bfbc912ecd2bc47c20decd87b66727bfe514da01cf1251a8",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/spec/test_ngram_corpus.py",
+    "test_name": "TestNgramCorpusMultiSam::test_remove_nonexistent_is_noop",
+    "line": "944",
+    "reason": "Corpus registration, deletion, HTTP wrapper, and capacity-management assertions do not check draft candidate binding.",
+    "source_sha256": "5521ec083dd5e670bfbc912ecd2bc47c20decd87b66727bfe514da01cf1251a8",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/spec/test_ngram_corpus.py",
+    "test_name": "TestNgramCorpusMultiSam::test_make_corpus_with_documents",
+    "line": "980",
+    "reason": "Corpus registration, deletion, HTTP wrapper, and capacity-management assertions do not check draft candidate binding.",
+    "source_sha256": "5521ec083dd5e670bfbc912ecd2bc47c20decd87b66727bfe514da01cf1251a8",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/spec/test_ngram_corpus.py",
+    "test_name": "TestNgramCorpusMultiSam::test_remove_frees_token_budget",
+    "line": "991",
+    "reason": "Corpus registration, deletion, HTTP wrapper, and capacity-management assertions do not check draft candidate binding.",
+    "source_sha256": "5521ec083dd5e670bfbc912ecd2bc47c20decd87b66727bfe514da01cf1251a8",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/spec/test_ngram_corpus.py",
+    "test_name": "TestNgramCorpusMultiSam::test_duplicate_corpus_id_is_rejected",
+    "line": "1015",
+    "reason": "Corpus registration, deletion, HTTP wrapper, and capacity-management assertions do not check draft candidate binding.",
+    "source_sha256": "5521ec083dd5e670bfbc912ecd2bc47c20decd87b66727bfe514da01cf1251a8",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/spec/test_ngram_corpus.py",
+    "test_name": "TestNgramCorpusMultiSam::test_error_on_load_preserves_existing_corpora",
+    "line": "1041",
+    "reason": "Corpus registration, deletion, HTTP wrapper, and capacity-management assertions do not check draft candidate binding.",
+    "source_sha256": "5521ec083dd5e670bfbc912ecd2bc47c20decd87b66727bfe514da01cf1251a8",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/spec/test_ngram_corpus.py",
+    "test_name": "TestMultiSamHttpMock::test_add_corpus",
+    "line": "1118",
+    "reason": "Corpus registration, deletion, HTTP wrapper, and capacity-management assertions do not check draft candidate binding.",
+    "source_sha256": "5521ec083dd5e670bfbc912ecd2bc47c20decd87b66727bfe514da01cf1251a8",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/spec/test_ngram_corpus.py",
+    "test_name": "TestMultiSamHttpMock::test_add_corpus_auto_id",
+    "line": "1129",
+    "reason": "Corpus registration, deletion, HTTP wrapper, and capacity-management assertions do not check draft candidate binding.",
+    "source_sha256": "5521ec083dd5e670bfbc912ecd2bc47c20decd87b66727bfe514da01cf1251a8",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/spec/test_ngram_corpus.py",
+    "test_name": "TestMultiSamHttpMock::test_remove_corpus",
+    "line": "1137",
+    "reason": "Corpus registration, deletion, HTTP wrapper, and capacity-management assertions do not check draft candidate binding.",
+    "source_sha256": "5521ec083dd5e670bfbc912ecd2bc47c20decd87b66727bfe514da01cf1251a8",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/spec/test_ngram_corpus.py",
+    "test_name": "TestMultiSamHttpMock::test_remove_corpus_missing_id",
+    "line": "1145",
+    "reason": "Corpus registration, deletion, HTTP wrapper, and capacity-management assertions do not check draft candidate binding.",
+    "source_sha256": "5521ec083dd5e670bfbc912ecd2bc47c20decd87b66727bfe514da01cf1251a8",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "test/registered/unit/spec/test_ngram_corpus.py",
+    "test_name": "TestMultiSamHttpMock::test_list_corpora",
+    "line": "1152",
+    "reason": "Corpus registration, deletion, HTTP wrapper, and capacity-management assertions do not check draft candidate binding.",
+    "source_sha256": "5521ec083dd5e670bfbc912ecd2bc47c20decd87b66727bfe514da01cf1251a8",
+    "evidence": "round8_work/reviewed-sglang-runtime-batch-evidence.json"
+  }
+]

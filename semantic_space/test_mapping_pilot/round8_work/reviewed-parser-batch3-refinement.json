@@ -1,0 +1,1044 @@
+{
+  "status": "ontology_proposals_only",
+  "source_snapshot": "vllm-20261105",
+  "sglang_snapshot": "sglang-v0.5.14-complete",
+  "entry_count": 61,
+  "proposed_unit_counts": {
+    "input.media_marker_rendering": 4,
+    "input.prompt_text_rendering": 24,
+    "input.reasoning_control_rendering": 18,
+    "input.renderer_registry_binding": 1,
+    "input.rendering_input_stability": 2,
+    "input.rendering_input_validation": 10,
+    "input.rendering_interface_equivalence": 1,
+    "input.tokenizer_invocation_contract": 1
+  },
+  "proposed_units": {
+    "input.prompt_text_rendering": {
+      "title": "聊天消息到提示词文本的构造",
+      "property": "固定模板、角色、消息内容、工具和生成续写条件下，输出提示词文本中的内容、角色边界、工具描述、分隔符及终止/续写标记符合声明格式。只比较已断言的文本部分；不推断 token ID 正确。",
+      "conditions": [
+        "template_profile",
+        "message_roles_and_order",
+        "tools",
+        "generation_or_continuation_mode"
+      ],
+      "observables": [
+        "rendered_prompt_text",
+        "role_markers",
+        "tool_sections",
+        "generation_prefix"
+      ],
+      "sglang_evidence": [
+        {
+          "snapshot": "sglang",
+          "path": "python/sglang/srt/parser/conversation.py",
+          "line": 107,
+          "source_sha256": "7fd52deaee93d4ffd854c040e4b160a1f9887181f75a7b14db9b3d97969c41d5",
+          "kind": "implementation",
+          "source_line": "def get_prompt(self) -> str:"
+        },
+        {
+          "snapshot": "sglang",
+          "path": "test/registered/unit/parser/test_conversation.py",
+          "line": 39,
+          "source_sha256": "92afc08e9697102c2df8d43f89304190068afeb7c78584a1216b87329ddd4cb7",
+          "kind": "test",
+          "source_line": "class TestConversationGetPrompt(CustomTestCase):"
+        },
+        {
+          "snapshot": "sglang",
+          "path": "python/sglang/srt/entrypoints/openai/serving_chat.py",
+          "line": 723,
+          "source_sha256": "3217a5a23dd0388c9506b80f343c584a9261210c0e0571f7071d6f7e3ee58278",
+          "kind": "implementation",
+          "source_line": "# Handle continue_final_message: separate final assistant message"
+        }
+      ],
+      "cross_framework_status": "shared_function_and_test_evidence"
+    },
+    "input.reasoning_control_rendering": {
+      "title": "推理模式控制与提示词前缀",
+      "property": "请求中的推理开关或预算，经指定模型格式映射为解析/渲染模式和相应提示词前缀；默认值、关闭值及不支持值按格式处理。",
+      "conditions": [
+        "model_format",
+        "reasoning_effort",
+        "thinking_flag",
+        "template_profile"
+      ],
+      "observables": [
+        "resolved_mode",
+        "rendered_effort_header",
+        "thinking_prefix"
+      ],
+      "sglang_evidence": [
+        {
+          "snapshot": "sglang",
+          "path": "python/sglang/srt/entrypoints/openai/serving_chat.py",
+          "line": 493,
+          "source_sha256": "3217a5a23dd0388c9506b80f343c584a9261210c0e0571f7071d6f7e3ee58278",
+          "kind": "implementation",
+          "source_line": "reasoning_effort = ("
+        },
+        {
+          "snapshot": "sglang",
+          "path": "python/sglang/srt/entrypoints/openai/serving_chat.py",
+          "line": 739,
+          "source_sha256": "3217a5a23dd0388c9506b80f343c584a9261210c0e0571f7071d6f7e3ee58278",
+          "kind": "implementation",
+          "source_line": "effort_source = request.reasoning_effort"
+        },
+        {
+          "snapshot": "sglang",
+          "path": "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+          "line": 1729,
+          "source_sha256": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0",
+          "kind": "test",
+          "source_line": "def test_hunyuan_reasoning_effort_dispatch(self):"
+        }
+      ],
+      "cross_framework_status": "shared_function_and_test_evidence"
+    },
+    "input.media_marker_rendering": {
+      "title": "媒体占位标记在提示词文本中的位置",
+      "property": "输入媒体项目在渲染文本中生成所声明的占位标记，并保留与文本片段的出现顺序；本单元只检查标记文本，不代替媒体张量与占位位置的绑定检查。",
+      "conditions": [
+        "template_profile",
+        "media_type",
+        "text_media_order"
+      ],
+      "observables": [
+        "rendered_prompt_text",
+        "media_marker_positions"
+      ],
+      "sglang_evidence": [
+        {
+          "snapshot": "sglang",
+          "path": "python/sglang/srt/parser/conversation.py",
+          "line": 574,
+          "source_sha256": "7fd52deaee93d4ffd854c040e4b160a1f9887181f75a7b14db9b3d97969c41d5",
+          "kind": "implementation",
+          "source_line": "def _get_full_multimodal_text_prompt("
+        },
+        {
+          "snapshot": "sglang",
+          "path": "test/registered/unit/parser/test_conversation.py",
+          "line": 520,
+          "source_sha256": "92afc08e9697102c2df8d43f89304190068afeb7c78584a1216b87329ddd4cb7",
+          "kind": "test",
+          "source_line": "def test_qwen2_audio(self):"
+        },
+        {
+          "snapshot": "sglang",
+          "path": "test/registered/unit/parser/test_conversation.py",
+          "line": 554,
+          "source_sha256": "92afc08e9697102c2df8d43f89304190068afeb7c78584a1216b87329ddd4cb7",
+          "kind": "test",
+          "source_line": "def test_paddle_ocr_with_image_token(self):"
+        }
+      ],
+      "cross_framework_status": "shared_function_and_test_evidence"
+    },
+    "input.rendering_input_validation": {
+      "title": "渲染输入与配置的有效性判定",
+      "property": "渲染器对指定的不合法角色、媒体类型、工具实参、推理参数或缺失特殊 token 返回相应的异常或请求错误；逐条记录拒绝条件和错误类型。",
+      "conditions": [
+        "invalid_input_kind",
+        "template_profile",
+        "validation_stage"
+      ],
+      "observables": [
+        "exception_type",
+        "error_message_or_status"
+      ],
+      "sglang_evidence": [
+        {
+          "snapshot": "sglang",
+          "path": "python/sglang/srt/entrypoints/openai/serving_chat.py",
+          "line": 498,
+          "source_sha256": "3217a5a23dd0388c9506b80f343c584a9261210c0e0571f7071d6f7e3ee58278",
+          "kind": "implementation",
+          "source_line": "if self.is_gpt_oss and reasoning_effort == \"none\":"
+        },
+        {
+          "snapshot": "sglang",
+          "path": "test/registered/unit/entrypoints/openai/test_serving_embedding.py",
+          "line": 331,
+          "source_sha256": "c43e745335dde5da6c0d294019ad69e350080eec91c6a0f255da0ecbcef56a89",
+          "kind": "test",
+          "source_line": "\"\"\"TypeError / KeyError from apply_chat_template should map to 400, not 500.\"\"\""
+        }
+      ],
+      "cross_framework_status": "shared_general_need_different_error_cases"
+    },
+    "input.rendering_input_stability": {
+      "title": "渲染过程不改变调用方输入",
+      "property": "渲染后调用方提供的消息与可重复读取的内容保持原状态；对迭代器还需分别记录再次渲染是否产生相同结果。",
+      "conditions": [
+        "mutable_message_input",
+        "iterable_content",
+        "repeated_render"
+      ],
+      "observables": [
+        "input_before_after",
+        "repeated_prompt"
+      ],
+      "sglang_evidence": [
+        {
+          "snapshot": "sglang",
+          "path": "python/sglang/srt/entrypoints/openai/serving_chat.py",
+          "line": 691,
+          "source_sha256": "3217a5a23dd0388c9506b80f343c584a9261210c0e0571f7071d6f7e3ee58278",
+          "kind": "implementation",
+          "source_line": "copy.deepcopy(messages), request, thinking_mode"
+        },
+        {
+          "snapshot": "sglang",
+          "path": "python/sglang/srt/entrypoints/openai/serving_chat.py",
+          "line": 699,
+          "source_sha256": "3217a5a23dd0388c9506b80f343c584a9261210c0e0571f7071d6f7e3ee58278",
+          "kind": "implementation",
+          "source_line": "messages = copy.deepcopy(messages)"
+        }
+      ],
+      "cross_framework_status": "shared_implementation_candidate_sglang_oracle_pending"
+    },
+    "input.rendering_interface_equivalence": {
+      "title": "等义请求表示的提示词关系",
+      "property": "同一语义消息经 Chat 与 Responses 等不同入口表示时，规范化后的消息及最终渲染提示词满足声明的等价关系。",
+      "conditions": [
+        "request_api_kind",
+        "content_part_representation",
+        "template_profile"
+      ],
+      "observables": [
+        "normalized_messages",
+        "rendered_prompt_text"
+      ],
+      "sglang_evidence": [
+        {
+          "snapshot": "sglang",
+          "path": "test/registered/unit/entrypoints/openai/test_serving_responses.py",
+          "line": 80,
+          "source_sha256": "0176ee0fa6cdea664de7df4748ec9af65dbd6a656718984293f226fd4051ef39",
+          "kind": "test",
+          "source_line": "def test_input_parts_normalized_for_chat_templates(self):"
+        },
+        {
+          "snapshot": "sglang",
+          "path": "python/sglang/srt/entrypoints/openai/serving_chat.py",
+          "line": 723,
+          "source_sha256": "3217a5a23dd0388c9506b80f343c584a9261210c0e0571f7071d6f7e3ee58278",
+          "kind": "implementation",
+          "source_line": "# Handle continue_final_message: separate final assistant message"
+        }
+      ],
+      "cross_framework_status": "shared_normalization_need_sglang_final_render_oracle_pending"
+    },
+    "input.tokenizer_invocation_contract": {
+      "title": "提示词编码调用的特殊 token 与截断参数",
+      "property": "渲染提示词交给指定分词器时，特殊 token 策略和截断参数按调用约定传递，避免重复 BOS；此项检查参数传递，完整 token ID 序列另行核对。",
+      "conditions": [
+        "tokenizer_special_token_policy",
+        "truncation",
+        "max_length"
+      ],
+      "observables": [
+        "encoder_call_kwargs",
+        "encoded_token_ids"
+      ],
+      "sglang_evidence": [
+        {
+          "snapshot": "sglang",
+          "path": "python/sglang/srt/entrypoints/openai/serving_chat.py",
+          "line": 805,
+          "source_sha256": "3217a5a23dd0388c9506b80f343c584a9261210c0e0571f7071d6f7e3ee58278",
+          "kind": "implementation",
+          "source_line": "encode_kwargs = ("
+        },
+        {
+          "snapshot": "sglang",
+          "path": "python/sglang/srt/entrypoints/openai/serving_chat.py",
+          "line": 818,
+          "source_sha256": "3217a5a23dd0388c9506b80f343c584a9261210c0e0571f7071d6f7e3ee58278",
+          "kind": "implementation",
+          "source_line": ")"
+        }
+      ],
+      "cross_framework_status": "shared_implementation_candidate_sglang_oracle_pending"
+    },
+    "input.renderer_registry_binding": {
+      "title": "格式标识到渲染器实现的绑定",
+      "property": "给定格式或模型标识，注册表选择相应的分词器和渲染器/模板实现；此项只检查选择结果，不推断其输出正确。",
+      "conditions": [
+        "format_id",
+        "model_id",
+        "registry_configuration"
+      ],
+      "observables": [
+        "selected_renderer",
+        "selected_tokenizer_or_template"
+      ],
+      "sglang_evidence": [
+        {
+          "snapshot": "sglang",
+          "path": "python/sglang/srt/parser/conversation.py",
+          "line": 495,
+          "source_sha256": "7fd52deaee93d4ffd854c040e4b160a1f9887181f75a7b14db9b3d97969c41d5",
+          "kind": "implementation",
+          "source_line": "def register_conv_template(template: Conversation, override: bool = False):"
+        },
+        {
+          "snapshot": "sglang",
+          "path": "test/registered/unit/parser/test_conversation.py",
+          "line": 729,
+          "source_sha256": "92afc08e9697102c2df8d43f89304190068afeb7c78584a1216b87329ddd4cb7",
+          "kind": "test",
+          "source_line": "\"\"\"Test that common built-in templates are registered.\"\"\""
+        }
+      ],
+      "cross_framework_status": "analogous_registry_semantics_different_api"
+    }
+  },
+  "entry_suggestions": [
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestRustFixtureParity::test_text_image",
+      "line": 154,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_source": "tests/renderers/test_inkling.py:165",
+      "asserted_checks": "assert render_text(inkling_tokenizer, messages) == '<|message_user|><|content_text|>look<|end_message|><|message_user|><|content_image|><|end_message|><|message_model|>'",
+      "proposed_unit": "input.media_marker_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestRenderingSemantics::test_resolve_reasoning_effort",
+      "line": 189,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_source": "tests/renderers/test_inkling.py:190",
+      "asserted_checks": "assert _resolve_reasoning_effort(value) == expected",
+      "proposed_unit": "input.reasoning_control_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestRenderingSemantics::test_generation_prompt_default",
+      "line": 192,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_source": "tests/renderers/test_inkling.py:194",
+      "asserted_checks": "assert text.endswith('<|end_message|><|message_model|>')",
+      "proposed_unit": "input.prompt_text_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestRenderingSemantics::test_developer_folds_into_system",
+      "line": 196,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_source": "tests/renderers/test_inkling.py:197",
+      "asserted_checks": "assert render_text(inkling_tokenizer, [{'role': 'developer', 'content': 'be nice'}], add_generation_prompt=False) == '<|message_system|><|content_text|>be nice<|end_message|>'",
+      "proposed_unit": "input.prompt_text_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestRenderingSemantics::test_empty_string_content_skipped",
+      "line": 206,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_source": "tests/renderers/test_inkling.py:207",
+      "asserted_checks": "assert render_text(inkling_tokenizer, [{'role': 'user', 'content': ''}], add_generation_prompt=False) == ''",
+      "proposed_unit": "input.prompt_text_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestRenderingSemantics::test_empty_reasoning_skipped",
+      "line": 216,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_source": "tests/renderers/test_inkling.py:217",
+      "asserted_checks": "assert render_text(inkling_tokenizer, [{'role': 'assistant', 'reasoning_content': '', 'content': 'hi'}], add_generation_prompt=False) == '<|message_model|><|content_text|>hi<|end_message|><|content_model_end_sampling|>'",
+      "proposed_unit": "input.prompt_text_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestRenderingSemantics::test_reasoning_field",
+      "line": 227,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_source": "tests/renderers/test_inkling.py:235",
+      "asserted_checks": "assert render_text(inkling_tokenizer, messages, add_generation_prompt=False) == '<|message_model|><|content_thinking|>think<|end_message|><|message_model|><|content_text|>answer<|end_message|><|content_model_end_sampling|>'",
+      "proposed_unit": "input.prompt_text_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestRenderingSemantics::test_audio_part",
+      "line": 243,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_source": "tests/renderers/test_inkling.py:250",
+      "asserted_checks": "assert render_text(inkling_tokenizer, messages, add_generation_prompt=False) == '<|message_user|><|content_audio_input|><|audio_end|><|end_message|>'",
+      "proposed_unit": "input.media_marker_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestRenderingSemantics::test_tool_response_name_from_message",
+      "line": 254,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_source": "tests/renderers/test_inkling.py:255",
+      "asserted_checks": "assert render_text(inkling_tokenizer, [{'role': 'tool', 'name': 'my_tool', 'content': 'ok'}], add_generation_prompt=False) == '<|message_tool|>my_tool<|content_text|>ok<|end_message|>'",
+      "proposed_unit": "input.prompt_text_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestRenderingSemantics::test_tool_call_args_object_form",
+      "line": 264,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_source": "tests/renderers/test_inkling.py:280",
+      "asserted_checks": "assert render_text(inkling_tokenizer, messages, add_generation_prompt=False) == '<|message_model|>f<|content_invoke_tool_json|>{\"name\":\"f\",\"args\":{\"a\":2,\"z\":1}}<|end_message|><|content_model_end_sampling|>'",
+      "proposed_unit": "input.prompt_text_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestRenderingSemantics::test_tool_call_empty_args",
+      "line": 288,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_source": "tests/renderers/test_inkling.py:295",
+      "asserted_checks": "assert render_text(inkling_tokenizer, messages, add_generation_prompt=False) == '<|message_model|>f<|content_invoke_tool_json|>{\"name\":\"f\",\"args\":{}}<|end_message|><|content_model_end_sampling|>'",
+      "proposed_unit": "input.prompt_text_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestRenderingSemantics::test_tool_call_non_object_args_rejected",
+      "line": 303,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_source": "tests/renderers/test_inkling.py:312",
+      "asserted_checks": "pytest.raises(TypeError, match='decode to an object')",
+      "proposed_unit": "input.rendering_input_validation",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestRenderingSemantics::test_unsupported_role_rejected",
+      "line": 317,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_source": "tests/renderers/test_inkling.py:318",
+      "asserted_checks": "pytest.raises(ValueError, match='unsupported Inkling message role')",
+      "proposed_unit": "input.rendering_input_validation",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestReasoningEffort::test_frontend_defaults_to_high",
+      "line": 325,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_source": "tests/renderers/test_inkling.py:339",
+      "asserted_checks": "assert text.startswith('<|message_system|><|content_text|>rules<|end_message|><|message_system|><|content_text|>Thinking effort level: 0.9<|end_message|>')",
+      "proposed_unit": "input.reasoning_control_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestReasoningEffort::test_zero_effort_has_one_canonical_spelling",
+      "line": 346,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_source": "tests/renderers/test_inkling.py:357",
+      "asserted_checks": "assert text.startswith('<|message_system|><|content_text|>Thinking effort level: 0.0<|end_message|>')",
+      "proposed_unit": "input.reasoning_control_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestReasoningEffort::test_emits_one_effort_after_initial_prefix",
+      "line": 362,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_source": "tests/renderers/test_inkling.py:380;tests/renderers/test_inkling.py:381",
+      "asserted_checks": "assert text.count(effort_block) == 1 || assert text.index('tool_declare') < text.index('rules') < text.index('policy') < text.index(effort_block) < text.index('user1') < text.index('assistant1') < text.index('user2')",
+      "proposed_unit": "input.reasoning_control_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestReasoningEffort::test_renders_after_tool_declare",
+      "line": 391,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_source": "tests/renderers/test_inkling.py:400",
+      "asserted_checks": "assert text[declare_end:].startswith('<|message_system|><|content_text|>Thinking effort level: 0.8<|end_message|>')",
+      "proposed_unit": "input.reasoning_control_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestReasoningEffort::test_formats_at_most_two_decimals",
+      "line": 409,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_source": "tests/renderers/test_inkling.py:415",
+      "asserted_checks": "assert f'Thinking effort level: {expected}<|end_message|>' in text",
+      "proposed_unit": "input.reasoning_control_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestReasoningEffort::test_out_of_range_rejected",
+      "line": 422,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_source": "tests/renderers/test_inkling.py:423",
+      "asserted_checks": "pytest.raises(ValueError, match='must be in')",
+      "proposed_unit": "input.rendering_input_validation",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_inkling.py",
+      "test_name": "TestSpecialTokenResolution::test_missing_special_token_raises",
+      "line": 432,
+      "source_sha256": "5ba694683cecedb8384ebc17b5d8f54589364a1e93ec0e2bb4422038d7da9afd",
+      "oracle_source": "tests/renderers/test_inkling.py:439",
+      "asserted_checks": "pytest.raises(ValueError, match='missing special tokens')",
+      "proposed_unit": "input.rendering_input_validation",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_tokenizer_registered",
+      "line": 68,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v4.py:69;tests/tokenizers_/test_deepseek_v4.py:72",
+      "asserted_checks": "assert TokenizerRegistry.load_tokenizer_cls('deepseek_v4').__name__ == 'DeepseekV4Tokenizer' || assert RENDERER_REGISTRY.load_renderer_cls('deepseek_v4').__name__ == 'DeepseekV4Renderer'",
+      "proposed_unit": "input.renderer_registry_binding",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_defaults_to_thinking_with_high_effort",
+      "line": 77,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v4.py:83;tests/tokenizers_/test_deepseek_v4.py:86",
+      "asserted_checks": "assert prompt.startswith('<｜begin▁of▁sentence｜>Reasoning Effort: Absolute maximum') || assert prompt.endswith('<｜Assistant｜><think>')",
+      "proposed_unit": "input.reasoning_control_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_enables_thinking_with_compatible_kwargs",
+      "line": 90,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v4.py:97;tests/tokenizers_/test_deepseek_v4.py:100",
+      "asserted_checks": "assert prompt.startswith('<｜begin▁of▁sentence｜>Reasoning Effort: Absolute maximum') || assert prompt.endswith('<｜Assistant｜><think>')",
+      "proposed_unit": "input.reasoning_control_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_explicitly_disables_thinking",
+      "line": 104,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v4.py:111",
+      "asserted_checks": "assert prompt == '<｜begin▁of▁sentence｜><｜User｜>Hello<｜Assistant｜></think>'",
+      "proposed_unit": "input.reasoning_control_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_appends_assistant_transition_after_trailing_system",
+      "line": 118,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v4.py:132",
+      "asserted_checks": "assert prompt == f'<｜begin▁of▁sentence｜>You are helpful.<｜User｜>What is 2+2?Be concise.<｜Assistant｜>{thinking_token}'",
+      "proposed_unit": "input.prompt_text_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_does_not_transition_after_mid_conversation_system",
+      "line": 138,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v4.py:150",
+      "asserted_checks": "assert prompt == '<｜begin▁of▁sentence｜><｜User｜>What is 3+3?<｜Assistant｜></think>6<｜end▁of▁sentence｜>Answer in French.<｜User｜>What is 5+5?<｜Assistant｜></think>'",
+      "proposed_unit": "input.prompt_text_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_transitions_from_system_to_assistant",
+      "line": 173,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v4.py:188",
+      "asserted_checks": "assert prompt == expected",
+      "proposed_unit": "input.prompt_text_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_unknown_role_raises_value_error",
+      "line": 191,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v4.py:195",
+      "asserted_checks": "pytest.raises(ValueError, match='Invalid role: SYSTEM')",
+      "proposed_unit": "input.rendering_input_validation",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_uses_v4_tool_prompt_from_request_tools",
+      "line": 202,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v4.py:224;tests/tokenizers_/test_deepseek_v4.py:225;tests/tokenizers_/test_deepseek_v4.py:226;tests/tokenizers_/test_deepseek_v4.py:227;tests/tokenizers_/test_deepseek_v4.py:228;tests/tokenizers_/test_deepseek_v4.py:229;tests/tokenizers_/test_deepseek_v4.py:232",
+      "asserted_checks": "assert '## Tools' in prompt || assert '<｜DSML｜tool_calls>' in prompt || assert '</｜DSML｜tool_calls>' in prompt || assert 'function_calls' not in prompt || assert '\"name\": \"get_weather\"' in prompt || assert prompt.startswith('<｜begin▁of▁sentence｜>Reasoning Effort: Absolute maximum') || assert prompt.endswith('<｜User｜>Weather?<｜Assistant｜><think>')",
+      "proposed_unit": "input.prompt_text_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_renders_parsed_history_tool_arguments",
+      "line": 235,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v4.py:287;tests/tokenizers_/test_deepseek_v4.py:288;tests/tokenizers_/test_deepseek_v4.py:289",
+      "asserted_checks": "assert '<｜DSML｜parameter name=\"command\" string=\"true\">view' in prompt || assert '<｜DSML｜parameter name=\"path\" string=\"true\">/testbed' in prompt || assert 'parameter name=\"arguments\"' not in prompt",
+      "proposed_unit": "input.prompt_text_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_renders_0731_reasoning_effort_prompts",
+      "line": 300,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v4.py:310;tests/tokenizers_/test_deepseek_v4.py:311",
+      "asserted_checks": "assert prompt.endswith('<｜Assistant｜><think>') || assert prompt.startswith(expected_prefix)",
+      "proposed_unit": "input.reasoning_control_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_none_reasoning_effort_disables_thinking",
+      "line": 314,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v4.py:322",
+      "asserted_checks": "assert prompt == '<｜begin▁of▁sentence｜><｜User｜>Hello<｜Assistant｜></think>'",
+      "proposed_unit": "input.reasoning_control_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_maps_compatible_thinking_reasoning_effort_values",
+      "line": 338,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v4.py:362;tests/tokenizers_/test_deepseek_v4.py:363",
+      "asserted_checks": "assert captured_kwargs[-1]['thinking_mode'] == expected_mode || assert captured_kwargs[-1]['reasoning_effort'] == expected_effort",
+      "proposed_unit": "input.reasoning_control_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_renders_0731_max_reasoning_effort",
+      "line": 366,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v4.py:374",
+      "asserted_checks": "assert prompt.startswith('<｜begin▁of▁sentence｜>Reasoning Effort: Beyond maximum')",
+      "proposed_unit": "input.reasoning_control_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_maps_xhigh_to_high_reasoning_effort",
+      "line": 377,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v4.py:385",
+      "asserted_checks": "assert prompt.startswith('<｜begin▁of▁sentence｜>Reasoning Effort: Absolute maximum')",
+      "proposed_unit": "input.reasoning_control_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_image_blocks_become_placeholders",
+      "line": 451,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v4.py:468",
+      "asserted_checks": "assert '<｜User｜>first:\\n\\n<｜deepseek_image｜>\\n\\nsecond:\\n\\n<｜deepseek_image｜>' in prompt",
+      "proposed_unit": "input.media_marker_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_attaches_request_tools_to_existing_system_message",
+      "line": 534,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v4.py:551;tests/tokenizers_/test_deepseek_v4.py:552;tests/tokenizers_/test_deepseek_v4.py:553",
+      "asserted_checks": "assert prompt == expected || assert prompt.startswith('<｜begin▁of▁sentence｜>You are helpful.\\n\\n## Tools') || assert prompt.count('## Tools') == 1",
+      "proposed_unit": "input.prompt_text_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_synthetic_system_only_when_no_system_message",
+      "line": 556,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v4.py:572;tests/tokenizers_/test_deepseek_v4.py:573",
+      "asserted_checks": "assert prompt == expected || assert prompt.startswith('<｜begin▁of▁sentence｜>\\n\\n## Tools')",
+      "proposed_unit": "input.prompt_text_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_request_tools_override_system_message_tools",
+      "line": 576,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v4.py:605;tests/tokenizers_/test_deepseek_v4.py:606;tests/tokenizers_/test_deepseek_v4.py:607",
+      "asserted_checks": "assert prompt == expected || assert '\"name\": \"get_weather\"' in prompt || assert 'message_level_tool' not in prompt",
+      "proposed_unit": "input.prompt_text_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_attaches_request_tools_to_first_system_message_only",
+      "line": 610,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v4.py:635;tests/tokenizers_/test_deepseek_v4.py:636;tests/tokenizers_/test_deepseek_v4.py:637",
+      "asserted_checks": "assert prompt == expected || assert 'First system.\\n\\n## Tools' in prompt || assert prompt.count('## Tools') == 1",
+      "proposed_unit": "input.prompt_text_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v4.py",
+      "test_name": "test_deepseek_v4_request_tools_do_not_mutate_caller_messages",
+      "line": 640,
+      "source_sha256": "b79c2edfe415d7e2d4195c10ab812f89b1b011bb63eb124dac48a0f5c6a43948",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v4.py:651",
+      "asserted_checks": "assert messages == snapshot",
+      "proposed_unit": "input.rendering_input_stability",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_reference_encoder_fixtures",
+      "line": 41,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v41.py:56;tests/tokenizers_/test_deepseek_v41.py:75;tests/tokenizers_/test_deepseek_v41.py:76",
+      "asserted_checks": "assert case.get('tools') is None || assert render(messages, **kwargs) == expected + opener || assert prompt == expected",
+      "proposed_unit": "input.prompt_text_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_drop_thinking_keeps_current_turn_across_tool_results",
+      "line": 79,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v41.py:92;tests/tokenizers_/test_deepseek_v41.py:93;tests/tokenizers_/test_deepseek_v41.py:94;tests/tokenizers_/test_deepseek_v41.py:95;tests/tokenizers_/test_deepseek_v41.py:98;tests/tokenizers_/test_deepseek_v41.py:99",
+      "asserted_checks": "assert '<｜User｜>q1<｜Assistant｜></think>a1<｜end▁of▁sentence｜>' in prompt || assert 'r1' not in prompt || assert '<think>r2</think>' in prompt || assert prompt.endswith('<tool_result>value</tool_result><｜Assistant｜><think>') || assert 'r2' not in next_turn || assert next_turn.endswith('q3<｜Assistant｜><think>')",
+      "proposed_unit": "input.reasoning_control_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_rejects_image_placeholder_in_text",
+      "line": 104,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v41.py:107",
+      "asserted_checks": "pytest.raises(ValueError, match='image special token')",
+      "proposed_unit": "input.rendering_input_validation",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_rejects_image_placeholder_in_reasoning",
+      "line": 111,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v41.py:112",
+      "asserted_checks": "pytest.raises(ValueError, match='image special token')",
+      "proposed_unit": "input.rendering_input_validation",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_numeric_reasoning_effort",
+      "line": 134,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v41.py:135",
+      "asserted_checks": "assert render([{'role': 'user', 'content': 'question'}], reasoning_effort=effort) == f'<｜begin▁of▁sentence｜><｜System｜>Reasoning Effort: {budget} (range 1-100, the higher the value, the more thorough the reasoning)\\n\\n<｜User｜>question<｜Assistant｜><think>'",
+      "proposed_unit": "input.reasoning_control_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_invalid_effort_is_a_request_error",
+      "line": 146,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v41.py:147",
+      "asserted_checks": "pytest.raises(ValueError, match='reasoning_effort')",
+      "proposed_unit": "input.rendering_input_validation",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_chat_mode_has_closed_thinking_prefix",
+      "line": 160,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v41.py:161",
+      "asserted_checks": "assert render([{'role': 'user', 'content': 'question'}], **controls) == '<｜begin▁of▁sentence｜><｜User｜>question<｜Assistant｜></think>'",
+      "proposed_unit": "input.reasoning_control_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_raw_text_parts_preserve_reference_separator",
+      "line": 166,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v41.py:177;tests/tokenizers_/test_deepseek_v41.py:185",
+      "asserted_checks": "assert render(messages, conversation=[{'role': 'user', 'content': 'first\\nsecond'}], thinking=False) == '<｜begin▁of▁sentence｜><｜User｜>first\\n\\nsecond<｜Assistant｜></think>' || assert messages == original",
+      "proposed_unit": "input.prompt_text_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_request_content_iterator_can_be_rendered_repeatedly",
+      "line": 196,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v41.py:206;tests/tokenizers_/test_deepseek_v41.py:207;tests/tokenizers_/test_deepseek_v41.py:209",
+      "asserted_checks": "assert first == render(request.messages, thinking=False) || assert request.messages[0]['content'] == content || assert first == render(request.messages, thinking=False)",
+      "proposed_unit": "input.rendering_input_stability",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_responses_text_parts_match_chat_text_parts",
+      "line": 216,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v41.py:225",
+      "asserted_checks": "assert render([responses_message], thinking=False) == render([chat_message], thinking=False)",
+      "proposed_unit": "input.rendering_interface_equivalence",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_mid_system_gets_its_own_marker_and_generation_header",
+      "line": 230,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v41.py:231",
+      "asserted_checks": "assert render([{'role': 'user', 'content': 'question'}, {'role': 'system', 'content': 'answer briefly'}], thinking=False) == '<｜begin▁of▁sentence｜><｜User｜>question<｜System｜>answer briefly<｜Assistant｜></think>'",
+      "proposed_unit": "input.prompt_text_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_encode_uses_one_bos_and_forwards_truncation",
+      "line": 254,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v41.py:263;tests/tokenizers_/test_deepseek_v41.py:264;tests/tokenizers_/test_deepseek_v41.py:265",
+      "asserted_checks": "assert text.startswith('<｜begin▁of▁sentence｜>') || assert add_special_tokens is False || assert kwargs == {'truncation': True, 'max_length': 16}",
+      "proposed_unit": "input.tokenizer_invocation_contract",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_images_preserve_content_order_and_reference_separator",
+      "line": 271,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v41.py:292;tests/tokenizers_/test_deepseek_v41.py:296",
+      "asserted_checks": "assert render([{'role': 'user', 'content': parts}], thinking=False) == '<｜begin▁of▁sentence｜><｜User｜>first\\n\\n<｜deepseek_image｜>\\n\\nsecond\\n\\n<｜deepseek_image｜>\\n\\ncompare<｜Assistant｜></think>' || assert parts[1]['type'] == parts[3]['type'] == image_type",
+      "proposed_unit": "input.media_marker_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_unsupported_media_is_a_request_error",
+      "line": 299,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v41.py:300",
+      "asserted_checks": "pytest.raises(ValueError, match='text and image content only')",
+      "proposed_unit": "input.rendering_input_validation",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_tool_references_render_as_tool_names",
+      "line": 304,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v41.py:316",
+      "asserted_checks": "assert render(messages, thinking=False).endswith('<｜User｜><tool_result>get_weather\\n\\nget_time</tool_result><｜Assistant｜></think>')",
+      "proposed_unit": "input.prompt_text_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_generation_prompt_only_controls_final_turn",
+      "line": 420,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v41.py:432;tests/tokenizers_/test_deepseek_v41.py:433;tests/tokenizers_/test_deepseek_v41.py:434;tests/tokenizers_/test_deepseek_v41.py:435",
+      "asserted_checks": "assert opened == closed + cue || assert 'first answer<｜end▁of▁sentence｜>' in closed || assert '<｜User｜>first question<｜Assistant｜>' in closed || assert messages == original",
+      "proposed_unit": "input.prompt_text_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_continue_final_message_preserves_historical_eos",
+      "line": 439,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v41.py:454;tests/tokenizers_/test_deepseek_v41.py:455;tests/tokenizers_/test_deepseek_v41.py:456;tests/tokenizers_/test_deepseek_v41.py:457",
+      "asserted_checks": "assert closed == continued + '<｜end▁of▁sentence｜>' || assert continued.endswith('The answer is ') || assert 'first answer<｜end▁of▁sentence｜>' in continued || assert messages == original",
+      "proposed_unit": "input.prompt_text_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_continue_final_reasoning_keeps_thinking_open",
+      "line": 473,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v41.py:478",
+      "asserted_checks": "assert render(messages, continue_final_message=True).endswith('<｜Assistant｜><think>Let me consider ')",
+      "proposed_unit": "input.reasoning_control_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_open_final_message_gets_no_generation_prompt",
+      "line": 492,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v41.py:506;tests/tokenizers_/test_deepseek_v41.py:507",
+      "asserted_checks": "assert not closed.endswith('<｜end▁of▁sentence｜>') || assert encode() == closed",
+      "proposed_unit": "input.prompt_text_rendering",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/tokenizers_/test_deepseek_v41.py",
+      "test_name": "test_continue_final_message_requires_assistant",
+      "line": 511,
+      "source_sha256": "301b588f5d261e8ef6687774245fcde0b0d283d12a41fe1db6d97efa8355d119",
+      "oracle_source": "tests/tokenizers_/test_deepseek_v41.py:512",
+      "asserted_checks": "pytest.raises(ValueError, match='final assistant')",
+      "proposed_unit": "input.rendering_input_validation",
+      "review_status": "proposal_only_not_published",
+      "scope_note": "The mapping covers only the directly asserted behavior, not the whole proposed unit."
+    }
+  ],
+  "integration": {
+    "accepted_units": [
+      "input.prompt_text_rendering",
+      "input.media_marker_rendering"
+    ],
+    "other_units": "proposals_pending_review"
+  }
+}

@@ -1,0 +1,182 @@
+[
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_MAMBA_ps1::test_bench_cache_finished",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_MAMBA_ps1::test_bench_evict",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_MAMBA_ps1::test_bench_insert",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_MAMBA_ps1::test_bench_lock_unlock",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_MAMBA_ps1::test_bench_match_prefix",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_SWA_ps1::test_bench_cache_finished",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_SWA_ps1::test_bench_evict",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_SWA_ps1::test_bench_insert",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_SWA_ps1::test_bench_lock_unlock",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_SWA_ps1::test_bench_match_prefix",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_ps16::test_bench_cache_finished",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_ps16::test_bench_evict",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_ps16::test_bench_insert",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_ps16::test_bench_lock_unlock",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_ps16::test_bench_match_prefix",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_SWA_ps16::test_bench_cache_finished",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_SWA_ps16::test_bench_evict",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_SWA_ps16::test_bench_insert",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_SWA_ps16::test_bench_lock_unlock",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_SWA_ps16::test_bench_match_prefix",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_ps128::test_bench_cache_finished",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_ps128::test_bench_evict",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_ps128::test_bench_insert",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_ps128::test_bench_lock_unlock",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_ps128::test_bench_match_prefix",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_SWA_ps128::test_bench_cache_finished",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_SWA_ps128::test_bench_evict",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_SWA_ps128::test_bench_insert",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_SWA_ps128::test_bench_lock_unlock",
+    "reason": "source_entry_not_unique_or_absent"
+  },
+  {
+    "run": "semantic-space-background-20261111",
+    "path": "test/registered/unit/mem_cache/test_unified_radix_cache_bench.py",
+    "nodeid": "registered/unit/mem_cache/test_unified_radix_cache_bench.py::TestBench_FULL_SWA_ps128::test_bench_match_prefix",
+    "reason": "source_entry_not_unique_or_absent"
+  }
+]

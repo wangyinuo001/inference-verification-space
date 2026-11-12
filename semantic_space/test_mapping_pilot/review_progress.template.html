@@ -120,6 +120,7 @@
         <div class="detail-row"><b>目前对应的检查</b><div class="detail-value" id="detailUnits"></div></div>
         <div class="detail-row"><b>具体检查内容</b><div class="detail-value" id="detailProperty"></div></div>
         <div class="detail-row"><b>适用条件</b><div class="detail-value" id="detailConditions"></div></div>
+        <div class="detail-row"><b>本次远端运行记录</b><div class="detail-value" id="detailRuntime"></div></div>
         <div class="detail-row"><b>所属环节与依据</b><div class="detail-value" id="detailStage"></div></div>
         <div class="detail-row"><b>检查方式</b><div class="detail-value" id="detailOracle"></div></div>
         <div class="detail-row"><b>源码中的检查位置</b><div class="detail-value" id="detailSubject"></div></div>
@@ -239,6 +240,9 @@ function show(index){
   else units.textContent='尚未确认对应哪项检查';
   document.getElementById('detailProperty').textContent=e[11]||'还未逐项确认检查内容';
   document.getElementById('detailConditions').textContent=e[15]||'尚未逐项确认输入与运行条件';
+  document.getElementById('detailRuntime').textContent=e[16]
+    ? `记录了 ${e[16]} 个运行实例，其中 ${e[17]} 个同时观察到产品调用和断言。${e[18]?'部分记录达到采集上限。':''}具体性质仍按源码检查确认。`
+    : '本次远端 CPU 队列没有该入口的运行记录。';
   document.getElementById('detailStage').textContent=e[7]?`${STAGES[e[7]]||e[7]}：${EVIDENCE[e[8]]||'仍需核对'}${e[9]?'；被测函数 '+e[9]:''}`:'尚未确定单一环节';
   document.getElementById('detailOracle').textContent=e[5]?e[5].split(',').map(x=>CHECKS[x]||'其他检查').join('、'):'尚未找到检查语句';
   document.getElementById('detailSubject').textContent=e[12]||e[6]||'尚未找到';

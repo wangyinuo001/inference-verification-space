@@ -41,22 +41,22 @@
 |---|---|
 | [源码调研与分层模型](docs/source-model.md) | 执行路径对照、单元抽象、分层依据、跨层依赖、框架差异 |
 | [验证单元表](source_model/units.md) | 76 个单元按层次排列，源码位置链接到固定 commit |
-| [交互页面](https://wangyinuo001.github.io/inference-verification-space/semantic_space/space_view.html) | 按 16 类请求路径浏览早期 115 单元候选空间；测试索引与证据按需加载，可与归类进度页按单元、测试互相跳转 |
+| [交互页面](https://wangyinuo001.github.io/inference-verification-space/semantic_space/space_view.html) | 按 16 类请求路径浏览候选验证空间；左侧可直接浏览测试目录并查看归类依据 |
 | [测试归类进度](https://wangyinuo001.github.io/inference-verification-space/review_progress/) | 独立页面；按仓库查看全部 31,968 个测试。绿色表示已经读过源码并确认它检查什么，其他颜色显示目前查到哪一步 |
 | [本周示意图](docs/figures/verification-space-weekly-20261109.png) | 以前缀缓存为例：两个框架的实现、共同验证需求与测试映射（[SVG](docs/figures/verification-space-weekly-20261109.svg)） |
 | [四条路径校准](docs/four-path-calibration.md) | 文本生成、前缀复用、运行中取消与张量并行的共同性质、已有断言及仍缺少的路径条件 |
 | [文本生成与取消的跨环节校准](docs/generation-abort-handoff.md) | 请求身份、批次行、token 位置、取消事件和资源释放的观察条件；对应的[结构化规格](semantic_space/handoff_contracts.json) |
 | [张量并行分片测试规格](docs/tensor-parallel-binding-spec.md) | 逐 rank 的输入、权重与局部输出绑定，以及归约后结果的判定 |
 
-交互页面基于早期的候选空间（115 个候选单元，[space_seed.json](semantic_space/space_seed.json)），尚未改为由源码模型生成。
+交互页面基于持续核对的候选空间（目前 119 个候选单元，[space_seed.json](semantic_space/space_seed.json)），尚未改为由源码模型生成。
 
 ## 证据来源
 
 **源码调研**（[source_model/traces/](source_model/traces/)）。原有六条调研线共 99 条记录，另补充启动配置与传输状态两条记录线；覆盖请求输入输出、调度与生命周期、KV 缓存、模型执行与采样、分布式与权重加载，以及推测解码、LoRA、多模态与输出解析。模型中的 239 处源码位置由 `check_model.py` 逐一核对存在。
 
-**测试台账**（[semantic_space/](semantic_space/)）。两套仓库 4,673 个测试相关文件、31,968 个测试入口的源码索引与多轮静态扫描。其中 5,330 个已确认检查内容并放到候选空间的具体位置；1,366 个继承的源码级测试入口已找到实际方法源码，891 个还核对了公共方法的检查语句。这部分用于检查空间缺口，不决定空间分类；自动扫描的结果也不等于已经确认测试覆盖了某项性质。
+**测试台账**（[semantic_space/](semantic_space/)）。两套仓库 4,673 个测试相关文件、31,968 个测试入口的源码索引与多轮静态扫描。其中 6,469 个已确认检查内容并放到候选空间的具体位置；1,366 个继承的源码级测试入口已找到实际方法源码，891 个还核对了公共方法的检查语句。这部分用于检查空间缺口，不决定空间分类；自动扫描的结果也不等于已经确认测试覆盖了某项性质。
 
-全量扫描还为 26,044 个测试找到一个可能所属的推理环节；其中 2,515 个的被测函数结果进入了检查语句。另有 191 个测试，其所在目录与实际调用指向不同环节，需要进一步核对。这些初步结果与上述 5,330 个已确认具体检查内容的测试分开统计，详见[归类进度页](review_progress/)及[扫描说明](review_progress/README.md)。
+全量扫描还为 26,044 个测试找到一个可能所属的推理环节；其中 2,515 个的被测函数结果进入了检查语句。另有 191 个测试，其所在目录与实际调用指向不同环节，需要进一步核对。这些初步结果与上述 6,469 个已确认具体检查内容的测试分开统计，详见[归类进度页](review_progress/)及[扫描说明](review_progress/README.md)。
 
 | 材料 | 内容 |
 |---|---|
