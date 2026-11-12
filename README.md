@@ -41,7 +41,7 @@
 |---|---|
 | [源码调研与分层模型](docs/source-model.md) | 执行路径对照、单元抽象、分层依据、跨层依赖、框架差异 |
 | [验证单元表](source_model/units.md) | 76 个单元按层次排列，源码位置链接到固定 commit |
-| [交互页面](https://wangyinuo001.github.io/inference-verification-space/semantic_space/space_view.html) | 按 16 类请求路径浏览候选验证空间；左侧可直接浏览测试目录并查看归类依据 |
+| [交互页面](https://wangyinuo001.github.io/inference-verification-space/semantic_space/space_view.html) | 按 16 类请求路径浏览候选验证空间；左侧可直接浏览测试目录并查看归类依据；页面约 51 MB，首次加载较慢 |
 | [测试归类进度](https://wangyinuo001.github.io/inference-verification-space/review_progress/) | 独立页面；按仓库查看全部 31,968 个测试。绿色表示已经读过源码并确认它检查什么，其他颜色显示目前查到哪一步 |
 | [本周示意图](docs/figures/verification-space-weekly-20261109.png) | 以前缀缓存为例：两个框架的实现、共同验证需求与测试映射（[SVG](docs/figures/verification-space-weekly-20261109.svg)） |
 | [四条路径校准](docs/four-path-calibration.md) | 文本生成、前缀复用、运行中取消与张量并行的共同性质、已有断言及仍缺少的路径条件 |

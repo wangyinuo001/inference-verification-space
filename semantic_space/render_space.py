@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import html
+import gzip
 import csv
 import json
 import shutil
@@ -248,8 +249,10 @@ def render_html(data: dict, svg: str) -> str:
     catalog_path = HERE / "test_catalog.json"
     catalog = catalog_path.read_text(encoding="utf-8").replace("</", "<\\/") if catalog_path.exists() else "null"
     exported = HERE / "explorer_extra.json"
-    if exported.exists():
-        bundle = json.loads(exported.read_text(encoding="utf-8"))
+    packed = HERE / "explorer_evidence.json.gz"
+    if exported.exists() or packed.exists():
+        bundle = json.loads(exported.read_text(encoding="utf-8") if exported.exists()
+                            else gzip.decompress(packed.read_bytes()).decode("utf-8"))
         def encode(name):
             return json.dumps(bundle[name], ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
         runtime = encode("runtime")
