@@ -1,0 +1,38 @@
+{
+  "crosswalk_entries": 181,
+  "proposed_entries": 183,
+  "total_unique_entries": 364,
+  "new_crosswalk_entries": 100,
+  "new_proposed_entries": 4,
+  "new_total_entries": 104,
+  "previous_records_retained": 260,
+  "helper_bound_new_entries": 20,
+  "new_by_file": {
+    "tests/v1/attention/test_mla_prefill_selector.py": 33,
+    "tests/v1/attention/test_rocm_attention_backends_selection.py": 28,
+    "tests/distributed/test_pynccl.py": 13,
+    "tests/distributed/test_custom_all_reduce.py": 17,
+    "tests/v1/attention/test_sparse_mla_backends.py": 9
+  },
+  "oracle_references_checked": 712,
+  "source_files_rehashed": 569,
+  "new_units": [
+    "compute.attention_scale_binding",
+    "execution.stream_dependency",
+    "distributed.empty_attention_partition_identity"
+  ],
+  "pending_count": 5160,
+  "execution": "Static pinned-source review and artifact integrity only; no vLLM tests, GPUs or servers executed.",
+  "checks": [
+    "No duplicate entry across cumulative crosswalk/proposed",
+    "All oracle references point to nonempty source lines",
+    "All evidence file SHA256 match pinned source",
+    "Each new decision SHA256 matches pinned source",
+    "Helper body assertions and exact caller expression validated by builder",
+    "All crosswalk/proposed units exist in seed or units-ready"
+  ],
+  "remaining_sparse_boundaries": [
+    "No slot mapping is None, distinct from empty mapping or negative slots; keep pending",
+    "Expanded union bound subprocess launch failure does not identify exact failed device assertion; keep pending"
+  ]
+}

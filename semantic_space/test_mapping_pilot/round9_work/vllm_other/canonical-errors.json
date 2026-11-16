@@ -1,0 +1,398 @@
+[
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_deepseek_v41_all_reduce_fusion_requires_kernel_support",
+      "67"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_hc_collapse_preserves_weighted_residual_sum",
+      "105"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_hc_collapse_custom_op_supports_compile",
+      "143"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_v41_dspark_head_collapses_with_last_ffn_mix",
+      "151"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_hc_collapse_before_gather_is_bitwise_equal",
+      "196"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_deepseek_v41_mhc_pre_delayed",
+      "229"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_deepseek_v41_mhc_overlap_preserves_outputs_on_replay",
+      "313"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_deepseek_v41_mhc_fused_post_pre_delayed",
+      "404"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_mhc_fused_post_pre_delayed_custom_op_supports_compile",
+      "514"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_deepseek_v41_decoder_mixes_match_torch",
+      "552"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_deepseek_v41_capture_previous_aux",
+      "693"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_mhc_pre_delayed_custom_op_supports_compile",
+      "756"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_deep_gemm_mega_mhc_correctness",
+      "776"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_mhc_pre_tilelang",
+      "956"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_hc_prenorm_gemm_tilelang",
+      "1042"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_mhc_post_tilelang",
+      "1076"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_mhc_fused_post_pre",
+      "1103"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_mhc_fused_post_pre_reuse_residual_is_exact",
+      "1205"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_mhc_pre_rocm_fallback_applies_norm",
+      "1245"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_mhc_fused_rocm_fallback_applies_norm",
+      "1289"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_mhc_pre_delayed_rocm_aiter",
+      "1345"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_mhc_pre_delayed_rocm_aiter_fused_rms_norm",
+      "1393"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_mhc_post_collapse_rms_norm_warmup_covers_runtime",
+      "1477"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_deepseek_v41_rocm_mhc_overlap_matches_fused_seam",
+      "1525"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_deepseek_v41_rocm_decoder_overlap_matches_serial",
+      "1596"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_mhc_pre_delayed_rocm_aiter_declines_unsupported",
+      "1708"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_mhc_pre_rocm_aiter_fuses_norm",
+      "1782"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_mhc_fused_rocm_aiter_fuses_norm",
+      "1830"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_hc_head_triton",
+      "1887"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_hc_head_tilelang",
+      "1926"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_deepseek_v4_layer_reuse_residual_keeps_caller_input",
+      "1976"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_deepseek_v4_mhc_broadcast_finalize_sums_hc_streams",
+      "2026"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_deepseek_v4_mhc_broadcast_refit_refreshes_in_place",
+      "2040"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_mhc_fused_post_pre_delayed_rocm_aiter",
+      "2065"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_mhc_fused_post_pre_delayed_falls_back_for_large_batches",
+      "2116"
+    ]
+  },
+  {
+    "reason": "syntax_error",
+    "key": [
+      "vllm",
+      "tests/kernels/mhc/test_mhc_kernels.py",
+      "test_hc_expand_preserves_bits_in_eager_and_graph",
+      "2130"
+    ]
+  },
+  {
+    "reason": "definition_not_located",
+    "key": [
+      "vllm",
+      "tests/tool_parsers/test_deepseekv3_tool_parser.py",
+      "TestDeepSeekV3ToolParser::test_malformed_input",
+      "16"
+    ]
+  },
+  {
+    "reason": "definition_not_located",
+    "key": [
+      "vllm",
+      "tests/tool_parsers/test_granite_20b_fc_tool_parser.py",
+      "TestGranite20bFcToolParser::test_malformed_input",
+      "12"
+    ]
+  },
+  {
+    "reason": "definition_not_located",
+    "key": [
+      "vllm",
+      "tests/tool_parsers/test_granite_tool_parser.py",
+      "TestGraniteToolParser::test_malformed_input",
+      "22"
+    ]
+  },
+  {
+    "reason": "definition_not_located",
+    "key": [
+      "vllm",
+      "tests/tool_parsers/test_granite_toolcall_parser.py",
+      "TestGraniteToolCallParser::test_malformed_input",
+      "30"
+    ]
+  },
+  {
+    "reason": "definition_not_located",
+    "key": [
+      "vllm",
+      "tests/tool_parsers/test_internlm2_tool_parser.py",
+      "TestInternLM2ToolParser::test_malformed_input",
+      "18"
+    ]
+  },
+  {
+    "reason": "definition_not_located",
+    "key": [
+      "vllm",
+      "tests/tool_parsers/test_longcat_tool_parser.py",
+      "TestLongCatToolParser::test_malformed_input",
+      "15"
+    ]
+  },
+  {
+    "reason": "definition_not_located",
+    "key": [
+      "vllm",
+      "tests/tool_parsers/test_phi4mini_tool_parser.py",
+      "TestPhi4MiniToolParser::test_malformed_input",
+      "15"
+    ]
+  },
+  {
+    "reason": "definition_not_located",
+    "key": [
+      "vllm",
+      "tests/tool_parsers/test_step3_tool_parser.py",
+      "TestStep3ToolParser::test_malformed_input",
+      "20"
+    ]
+  }
+]

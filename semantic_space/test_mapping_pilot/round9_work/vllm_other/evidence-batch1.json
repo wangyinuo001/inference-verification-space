@@ -1,0 +1,76 @@
+{
+  "batch": "top_k_per_row_source_review",
+  "file_reviews": [
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/test_top_k_per_row.py",
+      "source_sha256": "f31c077abd7f234c70913f4175035dfa4f1021b0f9fc1acfea4684645b282135",
+      "review": "Reviewed source-grounded test bodies and shared helpers compare_top_k_results, validate_topk_against_reference, _assert_exact_topk, run_large_context_topk_test, _assert_cooperative_topk_exact, _assert_topk_values_match_reference and _run_topk_backend. Per-entry assertion and top-k call source lines retained. Dispatch and row partition checks separated as pending.",
+      "product_source": [
+        "vllm/model_executor/layers/indexer_topk.py:141",
+        "vllm/model_executor/layers/indexer_topk.py:174",
+        "vllm/model_executor/layers/sparse_attn_indexer.py:354"
+      ]
+    }
+  ],
+  "reviewed_entries": 37,
+  "pending_in_file": 14,
+  "exceptions": [
+    {
+      "test_name": "test_aiter_c4a_topk_kernel_selection",
+      "reason": "needs_compute_dispatch_unit"
+    },
+    {
+      "test_name": "test_aiter_dsa_topk_kernel_selection",
+      "reason": "needs_compute_dispatch_unit"
+    },
+    {
+      "test_name": "test_dsv4_native_top_k_window",
+      "reason": "needs_compute_dispatch_unit"
+    },
+    {
+      "test_name": "test_cooperative_topk_512_tie_workspace_is_per_row",
+      "reason": "checks tie-specific selected-row behavior rather than a full output reference"
+    },
+    {
+      "test_name": "test_cooperative_topk_overflow_nan",
+      "reason": "checks index range and uniqueness under NaNs; no complete reference comparison"
+    },
+    {
+      "test_name": "test_persistent_topk_masked_row_tail",
+      "reason": "checks selected index range and uniqueness for masked tails, without an independent top-k result oracle"
+    },
+    {
+      "test_name": "test_sparse_indexer_topk_backend_resolution",
+      "reason": "needs_compute_dispatch_unit"
+    },
+    {
+      "test_name": "test_sparse_indexer_topk_aiter_requires_rocm",
+      "reason": "needs_compute_dispatch_unit"
+    },
+    {
+      "test_name": "test_sparse_indexer_topk_backend_resolution_aiter",
+      "reason": "needs_compute_dispatch_unit"
+    },
+    {
+      "test_name": "test_sparse_indexer_topk_aiter_applies_no_shape_gate",
+      "reason": "needs_compute_dispatch_unit"
+    },
+    {
+      "test_name": "test_sparse_indexer_topk_auto_stays_on_per_row",
+      "reason": "needs_compute_dispatch_unit"
+    },
+    {
+      "test_name": "test_sparse_indexer_topk_aiter_expands_mtp_row_ends",
+      "reason": "needs_compute_dispatch_unit"
+    },
+    {
+      "test_name": "test_decode_chunk_ranges_cover_rows_with_bounded_balanced_slices",
+      "reason": "checks row-slice partition coverage and bounded balance"
+    },
+    {
+      "test_name": "test_decode_chunk_budget_disabled_fitting_and_invalid",
+      "reason": "checks disabled/invalid decode chunk budget behavior"
+    }
+  ]
+}

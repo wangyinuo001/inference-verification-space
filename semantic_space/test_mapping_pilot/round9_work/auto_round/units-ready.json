@@ -1,0 +1,232 @@
+{
+  "units": [
+    {
+      "id": "compute.kernel_dispatch_binding",
+      "name": "计算实现的选择与回退",
+      "kind": "obligation",
+      "phase": "model_execution",
+      "state_scope": "request",
+      "conditions": [
+        "kernel_selection_profile",
+        "numeric_format",
+        "execution_layout"
+      ],
+      "property": "层类型、格式、输入形状、平台能力和显式配置共同决定实际执行实现；所选实现满足对应的支持条件，拒绝或回退按声明规则执行。",
+      "observable": [
+        "selected_implementation",
+        "fallback_path",
+        "rejection",
+        "effective_layer_config"
+      ],
+      "oracle": "在受控能力及输入条件下检查选中对象、分派调用与拒绝结果；真实平台与替身平台分别记录。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/model_executor/layers/quantization/inc/inc.py",
+            "line": 322,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/model_executor/layers/quantization/inc/schemes/factory.py",
+            "line": 11,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/model_executor/layers/quantization/inc/schemes/inc_w4a8_linear.py",
+            "line": 97,
+            "kind": "source"
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/layers/quantization/fp8.py",
+            "line": 255,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/layers/quantization/fp8.py",
+            "line": 776,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "compute.kernel_call_binding",
+      "name": "计算边界的参数与结果传递",
+      "kind": "obligation",
+      "phase": "model_execution",
+      "state_scope": "request",
+      "conditions": [
+        "kernel_selection_profile",
+        "operator_profile",
+        "parameter_mapping"
+      ],
+      "property": "包装层按调用约定向计算实现传递输入、权重、缩放量和可选参数，并按约定恢复输出形状和类型。",
+      "observable": [
+        "call_arguments",
+        "argument_identity",
+        "call_order",
+        "output_shape",
+        "output_dtype"
+      ],
+      "oracle": "记录被调函数实参、返回值与包装层输出的关系，逐项核对身份、形状、类型及传递次序。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/model_executor/layers/quantization/inc/inc_linear.py",
+            "line": 18,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/model_executor/layers/quantization/inc/schemes/inc_w4a8_linear.py",
+            "line": 89,
+            "kind": "source"
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/layers/quantization/fp8.py",
+            "line": 776,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "model.parameter_storage_layout",
+      "name": "参数存储形状与打包布局",
+      "kind": "obligation",
+      "phase": "model_execution",
+      "state_scope": "request",
+      "conditions": [
+        "parameter_mapping",
+        "numeric_format",
+        "weight_transform_profile"
+      ],
+      "property": "为声明的分片与量化格式创建相应参数存储，满足形状、类型、缩放分组和打包布局约定；需要复用的存储保持对应别名关系。",
+      "observable": [
+        "parameter_shapes",
+        "parameter_dtypes",
+        "packing",
+        "scale_shape",
+        "storage_alias"
+      ],
+      "oracle": "按分片与打包规格核对参数形状、类型、步幅及别名；适用的分片对齐条件另行记录。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/model_executor/layers/quantization/inc/schemes/inc_w4a8_linear.py",
+            "line": 42,
+            "kind": "source"
+          },
+          {
+            "path": "tests/quantization/test_auto_round.py",
+            "line": 938,
+            "kind": "existing_test"
+          },
+          {
+            "path": "tests/quantization/test_auto_round.py",
+            "line": 1644,
+            "kind": "existing_test"
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/layers/quantization/fp8.py",
+            "line": 409,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "model.parameter_representation_relation",
+      "name": "权重预处理前后的表示关系",
+      "kind": "obligation",
+      "phase": "model_execution",
+      "state_scope": "request",
+      "conditions": [
+        "weight_transform_profile",
+        "numeric_format",
+        "parameter_mapping"
+      ],
+      "property": "权重和缩放量的转换、重排或复制满足所声明的前后表示关系，并保留后续执行所需的参数。",
+      "observable": [
+        "before_parameters",
+        "after_parameters",
+        "value_relation",
+        "bit_relation",
+        "retained_parameters"
+      ],
+      "oracle": "依据具体转换检查精确值、位表示或带误差界的数值关系；量化转换与精确重排采用各自判定规则。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/model_executor/layers/quantization/inc/schemes/inc_w4a8_linear.py",
+            "line": 78,
+            "kind": "source"
+          },
+          {
+            "path": "tests/quantization/test_auto_round.py",
+            "line": 2482,
+            "kind": "existing_test"
+          },
+          {
+            "path": "tests/quantization/test_auto_round.py",
+            "line": 2501,
+            "kind": "existing_test"
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/layers/quantization/fp8.py",
+            "line": 508,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/layers/quantization/fp8.py",
+            "line": 664,
+            "kind": "source"
+          }
+        ]
+      }
+    }
+  ],
+  "condition_dimensions": [
+    {
+      "id": "kernel_selection_profile",
+      "type": "structured",
+      "fields": [
+        "layer_kind",
+        "configured_backend",
+        "available_implementations",
+        "hardware_capability",
+        "input_shape",
+        "flattened_batch",
+        "quantization_format",
+        "fallback_policy",
+        "real_or_stub_backend"
+      ],
+      "observed_values": [],
+      "constraint": "Selection and call-binding checks retain the available capability set and whether callees are real or substituted; selecting an implementation does not establish its numerical correctness."
+    },
+    {
+      "id": "weight_transform_profile",
+      "type": "structured",
+      "fields": [
+        "source_format",
+        "target_format",
+        "partition_shape",
+        "packing_rule",
+        "scale_granularity",
+        "alias_requirement",
+        "transform_kind",
+        "reference_relation",
+        "tolerance"
+      ],
+      "observed_values": [],
+      "constraint": "Exact copy, layout permutation and lossy quantization have different required relations; compare only the declared transformation under its partition and format constraints."
+    }
+  ]
+}

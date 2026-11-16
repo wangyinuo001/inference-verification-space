@@ -1,0 +1,131 @@
+{
+  "units": [
+    {
+      "id": "compute.input_admissibility",
+      "name": "算子输入条件检查",
+      "kind": "obligation",
+      "phase": "model_execution",
+      "state_scope": "request",
+      "conditions": [
+        "operator_profile",
+        "execution_variant"
+      ],
+      "property": "算子在调用边界核查支持的设备、数据类型、形状和布局，按声明接口接受或拒绝输入。",
+      "observable": [
+        "accepted",
+        "exception_type",
+        "exception_message"
+      ],
+      "oracle": "构造满足与违反各项输入约束的实例，检查返回或异常。",
+      "framework_scope": [
+        "vllm"
+      ],
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/model_executor/kernels/linear/cute_dsl/ll_bf16.py",
+            "line": 276,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/model_executor/kernels/linear/cute_dsl/ll_fp32w.py",
+            "line": 159,
+            "kind": "source"
+          },
+          {
+            "path": "tests/kernels/test_ll_bf16_gemm.py",
+            "line": 519,
+            "kind": "existing_test"
+          }
+        ]
+      }
+    },
+    {
+      "id": "compute.output_constraints",
+      "name": "算子输出类型与取值约束",
+      "kind": "obligation",
+      "phase": "model_execution",
+      "state_scope": "request",
+      "conditions": [
+        "operator_profile",
+        "execution_variant"
+      ],
+      "property": "算子输出满足明确声明的形状、类型、有限性或取值界限；每项测试记录其实际检查的约束。",
+      "observable": [
+        "output_dtype",
+        "output_shape",
+        "finite",
+        "value_bounds"
+      ],
+      "oracle": "直接检查输出字段或元素谓词，保存具体阈值与检查范围。",
+      "framework_scope": [
+        "vllm"
+      ],
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/model_executor/kernels/linear/cute_dsl/ll_bf16.py",
+            "line": 328,
+            "kind": "source"
+          },
+          {
+            "path": "tests/kernels/test_ll_bf16_gemm.py",
+            "line": 252,
+            "kind": "existing_test"
+          },
+          {
+            "path": "tests/kernels/test_ll_bf16_gemm.py",
+            "line": 279,
+            "kind": "existing_test"
+          }
+        ]
+      }
+    },
+    {
+      "id": "compute.execution_relation",
+      "name": "计算重复与执行变体之间的关系",
+      "kind": "obligation",
+      "phase": "model_execution",
+      "state_scope": "request",
+      "conditions": [
+        "operator_profile",
+        "execution_variant"
+      ],
+      "property": "在明确对应的输入、权重和执行条件下，重复执行或不同计算路径的输出满足规定的相等或相似关系。",
+      "observable": [
+        "left_output",
+        "right_output",
+        "comparison_metric",
+        "threshold"
+      ],
+      "oracle": "保留两侧执行条件和输入对应关系，以精确比较、误差度量或相似度判断输出关系。",
+      "framework_scope": [
+        "vllm"
+      ],
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/model_executor/kernels/linear/cute_dsl/ll_bf16.py",
+            "line": 296,
+            "kind": "source"
+          },
+          {
+            "path": "tests/kernels/test_ll_bf16_gemm.py",
+            "line": 294,
+            "kind": "existing_test"
+          },
+          {
+            "path": "tests/kernels/test_ll_bf16_gemm.py",
+            "line": 307,
+            "kind": "existing_test"
+          },
+          {
+            "path": "tests/kernels/test_ll_bf16_gemm.py",
+            "line": 342,
+            "kind": "existing_test"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,961 @@
+{
+  "batch": "cpu_gdn_per_test",
+  "counts": {
+    "scope": 22,
+    "mapped": 21,
+    "pending": 1
+  },
+  "review_method": "Every assigned test body, referenced local helper and CPU adapter read; direct checks and input source retained without truncation. No runtime execution claimed.",
+  "file_reviews": [
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/mamba/cpu/test_cpu_gdn_ops.py",
+      "source_sha256": "cd204fb7f909177f829dc5158bd4480c7b52ed17e9054b813ed9baa79a9d75e8",
+      "review": "Full file read, including explicit gated-delta recurrence, FP32 convolution oracle, state-layout helpers and native/Torch execution wrappers."
+    }
+  ],
+  "product_sources": [
+    {
+      "path": "vllm/model_executor/layers/mamba/ops/cpu/gdn_attention.py",
+      "source_sha256": "7354505b8bc49be458dd316426b91fe5261f282b45c4e7a69ad004ccb56653f5"
+    },
+    {
+      "path": "vllm/model_executor/layers/mamba/ops/cpu/causal_conv1d.py",
+      "source_sha256": "f9a1fcb379a48fb9f0b3d730e38429d49e33a49a78c3c5cf349af011e19aa6ce"
+    },
+    {
+      "path": "vllm/_custom_ops.py",
+      "source_sha256": "8078c28d097543abd976ce258f0e4469df8411e835cd836fff23f65d8a9241fd"
+    }
+  ],
+  "entries": [
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/mamba/cpu/test_cpu_gdn_ops.py",
+        "test_fused_gdn_gating_cpu",
+        "219"
+      ],
+      "source_sha256": "cd204fb7f909177f829dc5158bd4480c7b52ed17e9054b813ed9baa79a9d75e8",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "g matches -exp(A_log)*softplus(a+dt_bias) at 1e-4; sigmoid(b) beta matches at 5e-3.",
+      "scope_limit": "",
+      "helper_lines": [
+        108
+      ],
+      "definition_line": 219,
+      "end_line": 236,
+      "decorators": [
+        {
+          "line": 216,
+          "source": "pytest.mark.parametrize(\"num_tokens\", [1, 9])"
+        },
+        {
+          "line": 217,
+          "source": "pytest.mark.parametrize(\"num_v_heads\", [4, 8])"
+        },
+        {
+          "line": 218,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 233,
+          "source": "torch.testing.assert_close(g, g_ref.unsqueeze(0), atol=1e-4, rtol=1e-4)"
+        },
+        {
+          "line": 234,
+          "source": "torch.testing.assert_close(\n        beta.float(), beta_ref.unsqueeze(0).float(), atol=5e-3, rtol=5e-3\n    )"
+        }
+      ],
+      "full_test_source": "def test_fused_gdn_gating_cpu(\n    num_tokens: int,\n    num_v_heads: int,\n) -> None:\n    gate_shape = (num_tokens, num_v_heads)\n    gate_numel = num_tokens * num_v_heads\n    a = tensor_cache(gate_numel, torch.bfloat16).view(gate_shape)\n    b = tensor_cache(gate_numel, torch.bfloat16).view(gate_shape)\n    A_log = tensor_cache(num_v_heads, torch.float32)\n    dt_bias = tensor_cache(num_v_heads, torch.bfloat16)\n\n    g_ref, beta_ref = ref_gdn_gating(A_log, a, b, dt_bias)\n    g, beta = ops.fused_gdn_gating_cpu(A_log, a, b, dt_bias)\n\n    torch.testing.assert_close(g, g_ref.unsqueeze(0), atol=1e-4, rtol=1e-4)\n    torch.testing.assert_close(\n        beta.float(), beta_ref.unsqueeze(0).float(), atol=5e-3, rtol=5e-3\n    )"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/mamba/cpu/test_cpu_gdn_ops.py",
+        "test_fused_sigmoid_gating_delta_rule_update_cpu",
+        "244"
+      ],
+      "source_sha256": "cd204fb7f909177f829dc5158bd4480c7b52ed17e9054b813ed9baa79a9d75e8",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "One-token decode output agrees with the explicit FP32 gated-delta recurrence at atol=rtol=1e-2; selected transposed final states are also compared.",
+      "scope_limit": "The final-state write is recorded separately as recurrent-state candidate evidence.",
+      "helper_lines": [
+        121,
+        201
+      ],
+      "definition_line": 244,
+      "end_line": 301,
+      "decorators": [
+        {
+          "line": 240,
+          "source": "pytest.mark.parametrize(\n    \"batch_size,num_heads,head_dims,state_dtype\", DECODE_DTYPE_CASES\n)"
+        },
+        {
+          "line": 243,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 295,
+          "source": "torch.testing.assert_close(out, out_ref, atol=1e-2, rtol=1e-2)"
+        },
+        {
+          "line": 296,
+          "source": "torch.testing.assert_close(\n        state_out[state_indices].transpose(-1, -2).float(),\n        final_state_ref.float(),\n        atol=1e-2,\n        rtol=1e-2,\n    )"
+        }
+      ],
+      "full_test_source": "def test_fused_sigmoid_gating_delta_rule_update_cpu(\n    batch_size: int,\n    num_heads: tuple[int, int],\n    head_dims: tuple[int, int],\n    state_dtype: torch.dtype,\n) -> None:\n    q, k, v, a, b, A_log, dt_bias = gdn_inputs(\n        num_tokens=batch_size,\n        num_heads=num_heads,\n        head_dims=head_dims,\n    )\n    _, num_v_heads = num_heads\n    head_dim, v_head_dim = head_dims\n    state_indices = torch.arange(batch_size, dtype=torch.int32)\n    cu_seqlens = torch.arange(batch_size + 1, dtype=torch.int32)\n    state_shape = (batch_size, num_v_heads, head_dim, v_head_dim)\n    state = tensor_cache(\n        batch_size * num_v_heads * head_dim * v_head_dim, state_dtype\n    ).view(state_shape)\n    state_ref = state[state_indices].transpose(-1, -2).contiguous()\n\n    out_ref, final_state_ref = ref_gated_delta_rule(\n        query=q,\n        key=k,\n        value=v,\n        a=a,\n        b=b,\n        A_log=A_log,\n        dt_bias=dt_bias,\n        initial_state=state_ref,\n        cu_seqlens=cu_seqlens,\n        use_qk_l2norm_in_kernel=True,\n        state_dtype=state_dtype,\n    )\n    out_ref = out_ref.transpose(0, 1).contiguous()\n\n    state_out = state.clone()\n    out = ops.fused_sigmoid_gating_delta_rule_update_cpu(\n        A_log=A_log,\n        dt_bias=dt_bias,\n        q=q,\n        k=k,\n        v=v,\n        a=a,\n        b=b,\n        initial_state_source=state_out,\n        initial_state_indices=state_indices,\n        cu_seqlens=cu_seqlens,\n        use_qk_l2norm_in_kernel=True,\n    )\n\n    torch.testing.assert_close(out, out_ref, atol=1e-2, rtol=1e-2)\n    torch.testing.assert_close(\n        state_out[state_indices].transpose(-1, -2).float(),\n        final_state_ref.float(),\n        atol=1e-2,\n        rtol=1e-2,\n    )"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/mamba/cpu/test_cpu_gdn_ops.py",
+        "test_chunk_gated_delta_rule_cpu",
+        "308"
+      ],
+      "source_sha256": "cd204fb7f909177f829dc5158bd4480c7b52ed17e9054b813ed9baa79a9d75e8",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "Variable-length prefill output agrees with the explicit recurrence at atol=rtol=1e-2, including Q/K normalization and state dtype rounding every 64 tokens; final-state tensor is also compared.",
+      "scope_limit": "State continuation requires the separate recurrent-state relation.",
+      "helper_lines": [
+        121,
+        201
+      ],
+      "definition_line": 308,
+      "end_line": 367,
+      "decorators": [
+        {
+          "line": 305,
+          "source": "pytest.mark.parametrize(\"seq_lens\", PREFILL_SEQ_LENS)"
+        },
+        {
+          "line": 306,
+          "source": "pytest.mark.parametrize(\"num_heads,head_dims,state_dtype\", PREFILL_DTYPE_CASES)"
+        },
+        {
+          "line": 307,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 361,
+          "source": "torch.testing.assert_close(out, out_ref, atol=1e-2, rtol=1e-2)"
+        },
+        {
+          "line": 362,
+          "source": "torch.testing.assert_close(\n        final_state.transpose(-1, -2).float(),\n        final_state_ref.float(),\n        atol=1e-2,\n        rtol=1e-2,\n    )"
+        }
+      ],
+      "full_test_source": "def test_chunk_gated_delta_rule_cpu(\n    seq_lens: list[int],\n    num_heads: tuple[int, int],\n    head_dims: tuple[int, int],\n    state_dtype: torch.dtype,\n) -> None:\n    total_tokens = sum(seq_lens)\n    q, k, v, a, b, A_log, dt_bias = gdn_inputs(\n        num_tokens=total_tokens,\n        num_heads=num_heads,\n        head_dims=head_dims,\n    )\n    _, num_v_heads = num_heads\n    head_dim, v_head_dim = head_dims\n    cu_seqlens = torch.tensor(\n        [0, *torch.tensor(seq_lens).cumsum(0).tolist()], dtype=torch.int32\n    )\n    initial_state_shape = (len(seq_lens), num_v_heads, head_dim, v_head_dim)\n    initial_state = tensor_cache(\n        len(seq_lens) * num_v_heads * head_dim * v_head_dim, state_dtype\n    ).view(initial_state_shape)\n    initial_state_ref = initial_state.transpose(-1, -2).contiguous()\n\n    out_ref, final_state_ref = ref_gated_delta_rule(\n        query=q,\n        key=k,\n        value=v,\n        a=a,\n        b=b,\n        A_log=A_log,\n        dt_bias=dt_bias,\n        initial_state=initial_state_ref,\n        cu_seqlens=cu_seqlens,\n        use_qk_l2norm_in_kernel=True,\n        state_dtype=state_dtype,\n        state_write_interval=CHUNK_SIZE,\n    )\n\n    g, beta = ref_gdn_gating(A_log, a, b, dt_bias)\n    out, final_state = ops.chunk_gated_delta_rule_cpu(\n        query=q,\n        key=k,\n        value=v,\n        g=g.unsqueeze(0),\n        beta=beta.unsqueeze(0),\n        initial_state=initial_state,\n        output_final_state=True,\n        cu_seqlens=cu_seqlens,\n        head_first=False,\n        use_qk_l2norm_in_kernel=True,\n        initial_state_indices=torch.arange(len(seq_lens), dtype=torch.int32),\n    )\n\n    torch.testing.assert_close(out, out_ref, atol=1e-2, rtol=1e-2)\n    torch.testing.assert_close(\n        final_state.transpose(-1, -2).float(),\n        final_state_ref.float(),\n        atol=1e-2,\n        rtol=1e-2,\n    )"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/mamba/cpu/test_cpu_gdn_ops.py",
+        "test_chunk_gated_delta_rule_cpu_two_call_split",
+        "386"
+      ],
+      "source_sha256": "cd204fb7f909177f829dc5158bd4480c7b52ed17e9054b813ed9baa79a9d75e8",
+      "unit_id": "compute.recurrent_state_transition",
+      "property": "Concatenated two-call prefill output matches one-call output at 2e-2; final state also checked at 1e-3.",
+      "scope_limit": "First-call final state seeds second call; both final state and concatenated output are checked against full-call execution.",
+      "helper_lines": [
+        201
+      ],
+      "definition_line": 386,
+      "end_line": 462,
+      "decorators": [
+        {
+          "line": 381,
+          "source": "pytest.mark.parametrize(\"total_tokens, split\", TWO_CALL_SPLITS)"
+        },
+        {
+          "line": 382,
+          "source": "pytest.mark.parametrize(\"num_heads\", [(2, 4)])"
+        },
+        {
+          "line": 383,
+          "source": "pytest.mark.parametrize(\"head_dims\", [(64, 64)])"
+        },
+        {
+          "line": 384,
+          "source": "pytest.mark.parametrize(\"state_dtype\", [torch.float32, torch.bfloat16, torch.float16])"
+        },
+        {
+          "line": 385,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 461,
+          "source": "torch.testing.assert_close(state2.float(), final_full.float(), atol=1e-3, rtol=1e-3)"
+        },
+        {
+          "line": 462,
+          "source": "torch.testing.assert_close(out_split, out_full, atol=2e-2, rtol=2e-2)"
+        }
+      ],
+      "full_test_source": "def test_chunk_gated_delta_rule_cpu_two_call_split(\n    total_tokens: int,\n    split: int,\n    num_heads: tuple[int, int],\n    head_dims: tuple[int, int],\n    state_dtype: torch.dtype,\n) -> None:\n    \"\"\"A prefill split into two calls (the second seeded with the first's\n    ``final_state`` and a rebased ``cu_seqlens``) must match the single-call\n    result, mimicking the cross-scheduler-step handoff in\n    ``cpu_gdn_attention_core``.\n    \"\"\"\n    q, k, v, a, b, A_log, dt_bias = gdn_inputs(\n        num_tokens=total_tokens,\n        num_heads=num_heads,\n        head_dims=head_dims,\n    )\n    _, num_v_heads = num_heads\n    head_dim, v_head_dim = head_dims\n\n    g, beta = ref_gdn_gating(A_log, a, b, dt_bias)\n    g = g.unsqueeze(0)  # [1, T, HV]\n    beta = beta.unsqueeze(0)\n\n    zero_state = torch.zeros(1, num_v_heads, head_dim, v_head_dim, dtype=state_dtype)\n\n    # Reference: whole sequence in one call, no initial state.\n    out_full, final_full = ops.chunk_gated_delta_rule_cpu(\n        query=q,\n        key=k,\n        value=v,\n        g=g,\n        beta=beta,\n        initial_state=zero_state,\n        output_final_state=True,\n        cu_seqlens=torch.tensor([0, total_tokens], dtype=torch.int32),\n        head_first=False,\n        use_qk_l2norm_in_kernel=True,\n        initial_state_indices=torch.zeros(1, dtype=torch.int32),\n    )\n\n    # Call 1: tokens [0:split], no initial state, capture final state.\n    out1, state1 = ops.chunk_gated_delta_rule_cpu(\n        query=q[:, :split],\n        key=k[:, :split],\n        value=v[:, :split],\n        g=g[:, :split],\n        beta=beta[:, :split],\n        initial_state=zero_state,\n        output_final_state=True,\n        cu_seqlens=torch.tensor([0, split], dtype=torch.int32),\n        head_first=False,\n        use_qk_l2norm_in_kernel=True,\n        initial_state_indices=torch.zeros(1, dtype=torch.int32),\n    )\n    # Call 2: tokens [split:T] seeded with call 1's final state and a cu_seqlens\n    # rebased to start at 0, as cpu_gdn_attention_core continues a prefill chunk.\n    tail = total_tokens - split\n    out2, state2 = ops.chunk_gated_delta_rule_cpu(\n        query=q[:, split:],\n        key=k[:, split:],\n        value=v[:, split:],\n        g=g[:, split:],\n        beta=beta[:, split:],\n        initial_state=state1,\n        output_final_state=True,\n        cu_seqlens=torch.tensor([0, tail], dtype=torch.int32),\n        head_first=False,\n        use_qk_l2norm_in_kernel=True,\n        initial_state_indices=torch.zeros(1, dtype=torch.int32),\n    )\n\n    out_split = torch.cat([out1, out2], dim=1)\n\n    # State must be near-exact; output allows a looser bound for the bf16 round-trip.\n    torch.testing.assert_close(state2.float(), final_full.float(), atol=1e-3, rtol=1e-3)\n    torch.testing.assert_close(out_split, out_full, atol=2e-2, rtol=2e-2)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/mamba/cpu/test_cpu_gdn_ops.py",
+        "test_causal_conv1d_update_cpu_preserves_sd_state",
+        "504"
+      ],
+      "source_sha256": "cd204fb7f909177f829dc5158bd4480c7b52ed17e9054b813ed9baa79a9d75e8",
+      "unit_id": "compute.kernel_call_binding",
+      "property": "SD-layout adapter forwards the identical state and index objects to the mocked native operator and returns its x object.",
+      "scope_limit": "Mocked call-binding oracle; no native numerical execution.",
+      "helper_lines": [
+        477
+      ],
+      "definition_line": 504,
+      "end_line": 533,
+      "decorators": [
+        {
+          "line": 503,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 531,
+          "source": "assert out is x"
+        },
+        {
+          "line": 532,
+          "source": "assert recorded[\"conv_states\"] is conv_state"
+        },
+        {
+          "line": 533,
+          "source": "assert recorded[\"conv_state_indices\"] is state_indices"
+        }
+      ],
+      "full_test_source": "def test_causal_conv1d_update_cpu_preserves_sd_state(\n    monkeypatch: pytest.MonkeyPatch,\n) -> None:\n    \"\"\"SD state and indices reach the native operator unchanged.\"\"\"\n    num_slots = 2\n    state_len = CONV_KERNEL - 1\n    conv_state = _sd_conv_states(num_slots, state_len)\n    state_indices = torch.tensor([1], dtype=torch.int32)\n    x = torch.zeros(1, CONV_DIM, dtype=torch.bfloat16)\n    recorded = {}\n\n    def record_update(**kwargs):\n        recorded.update(kwargs)\n        return x\n\n    monkeypatch.setattr(gdn_attention, \"is_conv_state_dim_first\", lambda: False)\n    monkeypatch.setattr(gdn_attention.ops, \"causal_conv1d_update_cpu\", record_update)\n    out = gdn_attention._causal_conv1d_update_cpu(\n        x=x,\n        conv_states=conv_state,\n        weight=torch.zeros(CONV_DIM, CONV_KERNEL, dtype=torch.bfloat16),\n        bias=None,\n        silu_activation=False,\n        conv_state_indices=state_indices,\n        is_weight_packed=False,\n    )\n\n    assert out is x\n    assert recorded[\"conv_states\"] is conv_state\n    assert recorded[\"conv_state_indices\"] is state_indices"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/mamba/cpu/test_cpu_gdn_ops.py",
+        "test_spec_aware_mixed_routing_preserves_token_order",
+        "537"
+      ],
+      "source_sha256": "cd204fb7f909177f829dc5158bd4480c7b52ed17e9054b813ed9baa79a9d75e8",
+      "unit_id": "compute.kernel_call_binding",
+      "property": "Wrapper forwards contiguous speculative/non-speculative rows selected by [0,2]/[1,3] and scatters mocked outputs back to original token order.",
+      "scope_limit": "The underlying numerical branches are mocked.",
+      "helper_lines": [],
+      "definition_line": 537,
+      "end_line": 590,
+      "decorators": [
+        {
+          "line": 536,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 543,
+          "source": "assert all(not tensor.is_contiguous() for tensor in (mixed_qkv, b, a))"
+        },
+        {
+          "line": 585,
+          "source": "assert len(routed) == 2"
+        },
+        {
+          "line": 588,
+          "source": "assert actual.is_contiguous()"
+        },
+        {
+          "line": 589,
+          "source": "torch.testing.assert_close(actual, expected.index_select(0, indices))"
+        },
+        {
+          "line": 590,
+          "source": "torch.testing.assert_close(core_attn_out, mixed_qkv)"
+        }
+      ],
+      "full_test_source": "def test_spec_aware_mixed_routing_preserves_token_order(\n    monkeypatch: pytest.MonkeyPatch,\n) -> None:\n    num_tokens = 4\n    projection = torch.arange(num_tokens * 16, dtype=torch.float32).view(num_tokens, 16)\n    mixed_qkv, b, a = projection[:, :4], projection[:, 4:6], projection[:, 6:8]\n    assert all(not tensor.is_contiguous() for tensor in (mixed_qkv, b, a))\n\n    spec_indices = torch.tensor([0, 2])\n    nonspec_indices = torch.tensor([1, 3])\n    metadata = GDNAttentionMetadata(\n        num_prefills=1,\n        num_prefill_tokens=0,\n        num_decodes=0,\n        num_decode_tokens=0,\n        num_spec_decodes=0,\n        num_spec_decode_tokens=0,\n        num_actual_tokens=0,\n        spec_sequence_masks=torch.ones(1, dtype=torch.bool),\n        spec_token_indx=spec_indices,\n        non_spec_token_indx=nonspec_indices,\n    )\n    routed = []\n\n    def record(*args):\n        routed.append(args[2:5])\n        return args[2]\n\n    monkeypatch.setattr(gdn_attention, \"is_conv_state_dim_first\", lambda: True)\n    monkeypatch.setattr(gdn_attention, \"_spec_forward\", record)\n    monkeypatch.setattr(gdn_attention, \"_spec_aware_nonspec_subset\", record)\n\n    layer = types.SimpleNamespace(\n        kv_cache=[torch.empty(1, 4, 6), torch.empty(1, 1, 1, 1)]\n    )\n    core_attn_out = torch.empty_like(mixed_qkv)\n    gdn_attention._cpu_gdn_attention_spec_aware(\n        layer=layer,\n        attn_metadata_i=metadata,\n        mixed_qkv=mixed_qkv,\n        b=b,\n        a=a,\n        core_attn_out=core_attn_out,\n        width=CONV_KERNEL,\n        state_len=6,\n    )\n\n    expected_inputs = (mixed_qkv, b, a)\n    assert len(routed) == 2\n    for actual_inputs, indices in zip(routed, (spec_indices, nonspec_indices)):\n        for actual, expected in zip(actual_inputs, expected_inputs):\n            assert actual.is_contiguous()\n            torch.testing.assert_close(actual, expected.index_select(0, indices))\n    torch.testing.assert_close(core_attn_out, mixed_qkv)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/mamba/cpu/test_cpu_gdn_ops.py",
+        "test_spec_aware_nonspec_materializes_state_indices",
+        "594"
+      ],
+      "source_sha256": "cd204fb7f909177f829dc5158bd4480c7b52ed17e9054b813ed9baa79a9d75e8",
+      "unit_id": "compute.kernel_call_binding",
+      "property": "Wrapper forwards contiguous int32 state-slot indices [0,4] from strided block-table first-column input.",
+      "scope_limit": "Recording/identity kernel mocks only.",
+      "helper_lines": [],
+      "definition_line": 594,
+      "end_line": 667,
+      "decorators": [
+        {
+          "line": 593,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 599,
+          "source": "assert not state_indices.is_contiguous()"
+        },
+        {
+          "line": 663,
+          "source": "assert recorded_indices is not None"
+        },
+        {
+          "line": 664,
+          "source": "assert recorded_indices.is_contiguous()"
+        },
+        {
+          "line": 665,
+          "source": "torch.testing.assert_close(\n        recorded_indices, torch.tensor([0, 4], dtype=torch.int32)\n    )"
+        }
+      ],
+      "full_test_source": "def test_spec_aware_nonspec_materializes_state_indices(\n    monkeypatch: pytest.MonkeyPatch,\n) -> None:\n    block_table = torch.arange(8, dtype=torch.int32).view(2, 4)\n    state_indices = block_table[:, 0]\n    assert not state_indices.is_contiguous()\n\n    metadata = GDNAttentionMetadata(\n        num_prefills=2,\n        num_prefill_tokens=4,\n        num_decodes=0,\n        num_decode_tokens=0,\n        num_spec_decodes=0,\n        num_spec_decode_tokens=0,\n        num_actual_tokens=4,\n        non_spec_state_indices_tensor=state_indices,\n        non_spec_query_start_loc=torch.tensor([0, 2, 4], dtype=torch.int32),\n        has_initial_state=torch.tensor([False, False]),\n    )\n\n    recorded_indices = None\n\n    def causal_conv1d_fwd_cpu(**kwargs):\n        nonlocal recorded_indices\n        recorded_indices = kwargs[\"cache_indices\"]\n        return kwargs[\"x\"]\n\n    def fused_gdn_gating_cpu(**kwargs):\n        return kwargs[\"a\"], kwargs[\"b\"]\n\n    def chunk_gated_delta_rule_cpu(**kwargs):\n        out = torch.zeros(1, 4, 1, 1)\n        return out, kwargs[\"initial_state\"]\n\n    monkeypatch.setattr(torch.cpu, \"_is_amx_tile_supported\", lambda: True)\n    monkeypatch.setattr(gdn_attention, \"is_conv_state_dim_first\", lambda: False)\n    monkeypatch.setattr(\n        gdn_attention.ops, \"causal_conv1d_fwd_cpu\", causal_conv1d_fwd_cpu\n    )\n    monkeypatch.setattr(gdn_attention.ops, \"fused_gdn_gating_cpu\", fused_gdn_gating_cpu)\n    monkeypatch.setattr(\n        gdn_attention.ops,\n        \"chunk_gated_delta_rule_cpu\",\n        chunk_gated_delta_rule_cpu,\n    )\n\n    layer = types.SimpleNamespace(\n        activation=\"silu\",\n        conv1d=types.SimpleNamespace(weight=torch.empty(0), bias=None),\n        A_log=torch.empty(0),\n        dt_bias=torch.empty(0),\n        rearrange_mixed_qkv=lambda x: (\n            x[:, :1].view(1, 4, 1, 1),\n            x[:, :1].view(1, 4, 1, 1),\n            x[:, :1].view(1, 4, 1, 1),\n        ),\n    )\n    gdn_attention._spec_aware_nonspec(\n        layer=layer,\n        attn_metadata_i=metadata,\n        mixed_qkv=torch.zeros(4, 4),\n        b=torch.zeros(4, 1),\n        a=torch.zeros(4, 1),\n        core_attn_out=torch.zeros(4, 1, 1),\n        conv_buf=torch.zeros(8, 1, 6),\n        ssm_state=torch.zeros(8, 1, 1, 1),\n        width=4,\n    )\n\n    assert recorded_indices is not None\n    assert recorded_indices.is_contiguous()\n    torch.testing.assert_close(\n        recorded_indices, torch.tensor([0, 4], dtype=torch.int32)\n    )"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/mamba/cpu/test_cpu_gdn_ops.py",
+        "test_spec_forward_prepares_native_conv_metadata",
+        "672"
+      ],
+      "source_sha256": "cd204fb7f909177f829dc5158bd4480c7b52ed17e9054b813ed9baa79a9d75e8",
+      "unit_id": "compute.kernel_call_binding",
+      "property": "AMX or Arm BF16 wrapper forwards contiguous int32 slot indices [0,4], accepted counts [1,4], and packed-weight flag.",
+      "scope_limit": "The native kernels are mocked.",
+      "helper_lines": [],
+      "definition_line": 672,
+      "end_line": 744,
+      "decorators": [
+        {
+          "line": 670,
+          "source": "torch.inference_mode()"
+        },
+        {
+          "line": 671,
+          "source": "pytest.mark.parametrize((\"has_amx\", \"has_arm_bf16\"), [(True, False), (False, True)])"
+        }
+      ],
+      "checks": [
+        {
+          "line": 680,
+          "source": "assert not state_indices.is_contiguous()"
+        },
+        {
+          "line": 740,
+          "source": "assert actual is not None"
+        },
+        {
+          "line": 741,
+          "source": "assert actual.is_contiguous()"
+        },
+        {
+          "line": 742,
+          "source": "assert actual.dtype == torch.int32"
+        },
+        {
+          "line": 743,
+          "source": "assert forwarded_is_weight_packed is True"
+        },
+        {
+          "line": 744,
+          "source": "torch.testing.assert_close(actual, reference)"
+        }
+      ],
+      "full_test_source": "def test_spec_forward_prepares_native_conv_metadata(\n    has_amx: bool,\n    has_arm_bf16: bool,\n    monkeypatch: pytest.MonkeyPatch,\n) -> None:\n    block_table = torch.tensor([[0, 1], [4, 5]], dtype=torch.int32)\n    state_indices = block_table[:, 0]\n    accepted_counts = torch.tensor([1, 4], dtype=torch.int32)\n    assert not state_indices.is_contiguous()\n    metadata = GDNAttentionMetadata(\n        num_prefills=0,\n        num_prefill_tokens=0,\n        num_decodes=0,\n        num_decode_tokens=0,\n        num_spec_decodes=2,\n        num_spec_decode_tokens=8,\n        num_actual_tokens=8,\n        spec_state_indices_tensor=block_table,\n        spec_query_start_loc=torch.tensor([0, 4, 8], dtype=torch.int32),\n        num_accepted_tokens=accepted_counts,\n    )\n    forwarded_indices = None\n    forwarded_counts = None\n    forwarded_is_weight_packed = None\n\n    def causal_conv1d_update_cpu(**kwargs):\n        nonlocal forwarded_counts, forwarded_indices, forwarded_is_weight_packed\n        forwarded_indices = kwargs[\"conv_state_indices\"]\n        forwarded_counts = kwargs[\"num_accepted_tokens\"]\n        forwarded_is_weight_packed = kwargs[\"is_weight_packed\"]\n        return kwargs[\"x\"]\n\n    monkeypatch.setattr(torch.cpu, \"_is_amx_tile_supported\", lambda: has_amx)\n    monkeypatch.setattr(gdn_attention, \"is_arm_bf16\", lambda: has_arm_bf16)\n    monkeypatch.setattr(gdn_attention, \"is_conv_state_dim_first\", lambda: False)\n    monkeypatch.setattr(\n        gdn_attention.ops, \"causal_conv1d_update_cpu\", causal_conv1d_update_cpu\n    )\n    monkeypatch.setattr(\n        gdn_attention.ops,\n        \"fused_sigmoid_gating_delta_rule_update_spec_cpu\",\n        lambda **kwargs: kwargs[\"q\"],\n    )\n\n    layer = types.SimpleNamespace(\n        activation=\"silu\",\n        conv1d=types.SimpleNamespace(weight=torch.empty(1, CONV_KERNEL), bias=None),\n        A_log=None,\n        dt_bias=None,\n        rearrange_mixed_qkv=lambda x: (x.unsqueeze(0),) * 3,\n    )\n    gdn_attention._spec_forward(\n        layer=layer,\n        attn_metadata_i=metadata,\n        mixed_qkv_spec=torch.zeros(8, 1, dtype=torch.bfloat16),\n        b_spec=torch.empty(0),\n        a_spec=torch.empty(0),\n        conv_buf=torch.empty(0),\n        ssm_state=torch.empty(0),\n        width=CONV_KERNEL,\n        state_len=CONV_KERNEL + 2,\n    )\n\n    expected = (\n        (forwarded_indices, torch.tensor([0, 4], dtype=torch.int32)),\n        (forwarded_counts, torch.tensor([1, 4], dtype=torch.int32)),\n    )\n    for actual, reference in expected:\n        assert actual is not None\n        assert actual.is_contiguous()\n        assert actual.dtype == torch.int32\n        assert forwarded_is_weight_packed is True\n        torch.testing.assert_close(actual, reference)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/mamba/cpu/test_cpu_gdn_ops.py",
+        "test_causal_conv1d_torch_two_call_split",
+        "851"
+      ],
+      "source_sha256": "cd204fb7f909177f829dc5158bd4480c7b52ed17e9054b813ed9baa79a9d75e8",
+      "unit_id": "compute.execution_relation",
+      "property": "Torch convolution two-call output with carried state matches one-call output at atol=rtol=1e-2.",
+      "scope_limit": "Final state is not directly asserted.",
+      "helper_lines": [
+        465
+      ],
+      "definition_line": 851,
+      "end_line": 902,
+      "decorators": [
+        {
+          "line": 849,
+          "source": "pytest.mark.parametrize(\"total_tokens, split\", TWO_CALL_SPLITS)"
+        },
+        {
+          "line": 850,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 902,
+          "source": "torch.testing.assert_close(out_split, out_full, atol=1e-2, rtol=1e-2)"
+        }
+      ],
+      "full_test_source": "def test_causal_conv1d_torch_two_call_split(total_tokens: int, split: int) -> None:\n    \"\"\"Non-AMX conv-state handoff: a two-call split (the second seeded via\n    ``has_initial_state=True`` from the conv_states the first wrote back) must\n    match the single-call result.\n    \"\"\"\n    from vllm.model_executor.layers.mamba.ops.cpu.causal_conv1d import (\n        causal_conv1d_fn_cpu as causal_conv1d_torch,\n    )\n\n    x, weight, bias = _conv_inputs(total_tokens)\n    state_len = CONV_KERNEL - 1\n    # [num_slots, conv_dim, state_len]; slot 0 used here.\n    conv_states_full = torch.zeros(1, CONV_DIM, state_len, dtype=x.dtype)\n    conv_states_split = torch.zeros(1, CONV_DIM, state_len, dtype=x.dtype)\n\n    # x is [conv_dim, T] for causal_conv1d_torch.\n    xt = x.transpose(0, 1).contiguous()\n\n    out_full = causal_conv1d_torch(\n        x=xt,\n        weight=weight,\n        bias=bias,\n        conv_states=conv_states_full,\n        query_start_loc=torch.tensor([0, total_tokens], dtype=torch.int32),\n        cache_indices=torch.tensor([0], dtype=torch.int32),\n        has_initial_state=torch.tensor([False]),\n        activation=\"silu\",\n    )\n\n    out1 = causal_conv1d_torch(\n        x=xt[:, :split],\n        weight=weight,\n        bias=bias,\n        conv_states=conv_states_split,\n        query_start_loc=torch.tensor([0, split], dtype=torch.int32),\n        cache_indices=torch.tensor([0], dtype=torch.int32),\n        has_initial_state=torch.tensor([False]),\n        activation=\"silu\",\n    )\n    out2 = causal_conv1d_torch(\n        x=xt[:, split:],\n        weight=weight,\n        bias=bias,\n        conv_states=conv_states_split,\n        query_start_loc=torch.tensor([0, total_tokens - split], dtype=torch.int32),\n        cache_indices=torch.tensor([0], dtype=torch.int32),\n        has_initial_state=torch.tensor([True]),\n        activation=\"silu\",\n    )\n    out_split = torch.cat([out1, out2], dim=1)\n\n    torch.testing.assert_close(out_split, out_full, atol=1e-2, rtol=1e-2)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/mamba/cpu/test_cpu_gdn_ops.py",
+        "test_causal_conv1d_update_cpu_accepts_wide_state",
+        "910"
+      ],
+      "source_sha256": "cd204fb7f909177f829dc5158bd4480c7b52ed17e9054b813ed9baa79a9d75e8",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "Native decode output with 5 extra state columns matches narrow-state output at 1e-2 under indices [2,0,1]; active state matches exactly and unused tail remains unchanged.",
+      "scope_limit": "Active-state/tail integrity retained as recurrent-state candidate; primary mapping covers numerical layout equivalence.",
+      "helper_lines": [
+        465,
+        486,
+        494
+      ],
+      "definition_line": 910,
+      "end_line": 951,
+      "decorators": [
+        {
+          "line": 905,
+          "source": "pytest.mark.skipif(\n    not (torch.cpu._is_amx_tile_supported() or gdn_attention.is_arm_bf16()),\n    reason=\"native causal conv1d requires AMX or Arm BF16 support\",\n)"
+        },
+        {
+          "line": 909,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 947,
+          "source": "torch.testing.assert_close(out_wide, out_narrow, atol=1e-2, rtol=1e-2)"
+        },
+        {
+          "line": 948,
+          "source": "torch.testing.assert_close(\n        wide_state[:, :, :state_len], narrow_state, atol=0, rtol=0\n    )"
+        },
+        {
+          "line": 951,
+          "source": "torch.testing.assert_close(wide_state[:, :, state_len:], wide_tail, atol=0, rtol=0)"
+        }
+      ],
+      "full_test_source": "def test_causal_conv1d_update_cpu_accepts_wide_state() -> None:\n    state_len = CONV_KERNEL - 1\n    wide_state_len = state_len + 5\n    batch_size = 3\n    is_weight_packed = True\n    x, weight, bias = _conv_inputs(batch_size)\n    conv_state_indices = torch.tensor([2, 0, 1], dtype=torch.int32)\n\n    narrow_state = _sd_conv_states(batch_size, state_len)\n    narrow_state.copy_(\n        tensor_cache(narrow_state.numel(), torch.bfloat16).view_as(narrow_state)\n    )\n    wide_state = _sd_conv_states(batch_size, wide_state_len)\n    wide_state[:, :, :state_len].copy_(narrow_state)\n    wide_state[:, :, state_len:].fill_(7)\n    wide_tail = wide_state[:, :, state_len:].clone()\n\n    conv_weight = _maybe_pack_conv_weight(weight, is_weight_packed)\n    out_narrow = ops.causal_conv1d_update_cpu(\n        x=x,\n        conv_states=narrow_state,\n        weight=conv_weight,\n        bias=bias,\n        silu_activation=True,\n        conv_state_indices=conv_state_indices,\n        is_weight_packed=is_weight_packed,\n    )\n    out_wide = ops.causal_conv1d_update_cpu(\n        x=x,\n        conv_states=wide_state,\n        weight=conv_weight,\n        bias=bias,\n        silu_activation=True,\n        conv_state_indices=conv_state_indices,\n        is_weight_packed=is_weight_packed,\n    )\n\n    torch.testing.assert_close(out_wide, out_narrow, atol=1e-2, rtol=1e-2)\n    torch.testing.assert_close(\n        wide_state[:, :, :state_len], narrow_state, atol=0, rtol=0\n    )\n    torch.testing.assert_close(wide_state[:, :, state_len:], wide_tail, atol=0, rtol=0)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/mamba/cpu/test_cpu_gdn_ops.py",
+        "test_causal_conv1d_update_cpu_rejects_invalid_accepted_count",
+        "1063"
+      ],
+      "source_sha256": "cd204fb7f909177f829dc5158bd4480c7b52ed17e9054b813ed9baa79a9d75e8",
+      "unit_id": "compute.input_admissibility",
+      "property": "RuntimeError matching num_accepted_tokens must be in.*seqlen for accepted count 0 or 17 and sequence length 16.",
+      "scope_limit": "Native kernel feature-gated to AMX or Arm BF16.",
+      "helper_lines": [
+        486
+      ],
+      "definition_line": 1063,
+      "end_line": 1084,
+      "decorators": [
+        {
+          "line": 1057,
+          "source": "pytest.mark.skipif(\n    not (torch.cpu._is_amx_tile_supported() or gdn_attention.is_arm_bf16()),\n    reason=\"native causal conv1d requires AMX or Arm BF16 support\",\n)"
+        },
+        {
+          "line": 1061,
+          "source": "pytest.mark.parametrize(\"num_accepted\", [0, 17])"
+        },
+        {
+          "line": 1062,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 1074,
+          "source": "pytest.raises(RuntimeError, match=\"num_accepted_tokens must be in.*seqlen\")"
+        }
+      ],
+      "full_test_source": "def test_causal_conv1d_update_cpu_rejects_invalid_accepted_count(\n    num_accepted: int,\n) -> None:\n    batch_size = 1\n    seq_len = 16\n    dim = 96\n    state_len = seq_len + 2\n    x = torch.zeros(batch_size, seq_len, dim, dtype=torch.bfloat16)\n    weight = torch.zeros(dim, CONV_KERNEL, dtype=torch.bfloat16)\n    conv_states = _sd_conv_states(batch_size, state_len, dim)\n\n    with pytest.raises(RuntimeError, match=\"num_accepted_tokens must be in.*seqlen\"):\n        ops.causal_conv1d_update_cpu(\n            x=x,\n            conv_states=conv_states,\n            weight=weight,\n            bias=None,\n            silu_activation=True,\n            conv_state_indices=torch.tensor([0], dtype=torch.int32),\n            is_weight_packed=False,\n            num_accepted_tokens=torch.tensor([num_accepted], dtype=torch.int32),\n        )"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/mamba/cpu/test_cpu_gdn_ops.py",
+        "test_causal_conv1d_fwd_cpu_two_call_split",
+        "1094"
+      ],
+      "source_sha256": "cd204fb7f909177f829dc5158bd4480c7b52ed17e9054b813ed9baa79a9d75e8",
+      "unit_id": "compute.execution_relation",
+      "property": "Native convolution split output with has_initial_state False then True matches one-call output at atol=rtol=1e-2.",
+      "scope_limit": "Final state is not directly asserted.",
+      "helper_lines": [
+        465
+      ],
+      "definition_line": 1094,
+      "end_line": 1128,
+      "decorators": [
+        {
+          "line": 1087,
+          "source": "pytest.mark.skipif(\n    not (torch.cpu._is_avx512_bf16_supported() or gdn_attention.is_arm_bf16()),\n    reason=\"causal_conv1d_fwd_cpu requires AVX-512BF16\"\n    \" (Intel Xeon or AMD EPYC) or Arm BF16 support\",\n)"
+        },
+        {
+          "line": 1092,
+          "source": "pytest.mark.parametrize(\"total_tokens, split\", TWO_CALL_SPLITS)"
+        },
+        {
+          "line": 1093,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 1128,
+          "source": "torch.testing.assert_close(out_split, out_full, atol=1e-2, rtol=1e-2)"
+        }
+      ],
+      "full_test_source": "def test_causal_conv1d_fwd_cpu_two_call_split(total_tokens: int, split: int) -> None:\n    \"\"\"C++ prefill conv op must honor ``has_initial_state`` so a two-call split\n    matches the single-call result.\n\n    Regression test for ``causal_conv1d_fwd_varlen_kernel_impl`` (``conv.cpp``)\n    ignoring the carried conv state on continued chunks. Runs on aarch64 cpus with\n    bf16 support or any AVX-512BF16 CPU since conv.cpp uses VDPBF16PS, not AMX tiles.\n    \"\"\"\n    state_len = CONV_KERNEL - 1\n    x, weight, bias = _conv_inputs(total_tokens)\n\n    def native(x_seg, conv_states, has_init):\n        seq = x_seg.shape[0]\n        return ops.causal_conv1d_fwd_cpu(\n            x=x_seg.transpose(0, 1),  # [dim, seq]; stride(-2)==1 (view of [seq,dim])\n            weight=weight,\n            bias=bias,\n            conv_states=conv_states,\n            query_start_loc=torch.tensor([0, seq], dtype=torch.int32),\n            cache_indices=torch.tensor([0], dtype=torch.int32),\n            has_initial_state=torch.tensor([has_init]),\n            silu_activation=True,\n            is_weight_packed=False,\n        ).contiguous()\n\n    # conv_state layout passed by the AMX branch: [num_slots, dim, state_len].\n    cs_full = torch.zeros(1, CONV_DIM, state_len, dtype=x.dtype)\n    out_full = native(x, cs_full, False)\n\n    cs_split = torch.zeros(1, CONV_DIM, state_len, dtype=x.dtype)\n    out1 = native(x[:split], cs_split, False)\n    out2 = native(x[split:], cs_split, True)\n    out_split = torch.cat([out1, out2], dim=1)\n\n    torch.testing.assert_close(out_split, out_full, atol=1e-2, rtol=1e-2)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/mamba/cpu/test_cpu_gdn_ops.py",
+        "test_causal_conv1d_fwd_cpu_accepts_wide_state",
+        "1136"
+      ],
+      "source_sha256": "cd204fb7f909177f829dc5158bd4480c7b52ed17e9054b813ed9baa79a9d75e8",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "Native prefill outputs for narrow and padded state agree at 1e-2 for lengths [63,69], indices [2,0], mixed initial-state [True,False]; active state and untouched tail agree exactly.",
+      "scope_limit": "Recurrent-state integrity recorded separately.",
+      "helper_lines": [
+        465,
+        486,
+        494
+      ],
+      "definition_line": 1136,
+      "end_line": 1184,
+      "decorators": [
+        {
+          "line": 1131,
+          "source": "pytest.mark.skipif(\n    not (torch.cpu._is_amx_tile_supported() or gdn_attention.is_arm_bf16()),\n    reason=\"native causal conv1d requires AMX or Arm BF16 support\",\n)"
+        },
+        {
+          "line": 1135,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 1180,
+          "source": "torch.testing.assert_close(out_wide, out_narrow, atol=1e-2, rtol=1e-2)"
+        },
+        {
+          "line": 1181,
+          "source": "torch.testing.assert_close(\n        wide_state[:, :, :state_len], narrow_state, atol=0, rtol=0\n    )"
+        },
+        {
+          "line": 1184,
+          "source": "torch.testing.assert_close(wide_state[:, :, state_len:], wide_tail, atol=0, rtol=0)"
+        }
+      ],
+      "full_test_source": "def test_causal_conv1d_fwd_cpu_accepts_wide_state() -> None:\n    state_len = CONV_KERNEL - 1\n    wide_state_len = state_len + 5\n    is_weight_packed = True\n    seq_lens = [CHUNK_SIZE - 1, CHUNK_SIZE + 5]\n    total_tokens = sum(seq_lens)\n    x, weight, bias = _conv_inputs(total_tokens)\n    query_start_loc = torch.tensor([0, seq_lens[0], total_tokens], dtype=torch.int32)\n    cache_indices = torch.tensor([2, 0], dtype=torch.int32)\n    has_initial_state = torch.tensor([True, False])\n\n    narrow_state = _sd_conv_states(3, state_len)\n    narrow_state.copy_(\n        tensor_cache(narrow_state.numel(), torch.bfloat16).view_as(narrow_state)\n    )\n    wide_state = _sd_conv_states(3, wide_state_len)\n    wide_state[:, :, :state_len].copy_(narrow_state)\n    wide_state[:, :, state_len:].fill_(7)\n    wide_tail = wide_state[:, :, state_len:].clone()\n\n    conv_weight = _maybe_pack_conv_weight(weight, is_weight_packed)\n    out_narrow = ops.causal_conv1d_fwd_cpu(\n        x=x.transpose(0, 1),\n        weight=conv_weight,\n        bias=bias,\n        conv_states=narrow_state,\n        query_start_loc=query_start_loc,\n        cache_indices=cache_indices,\n        has_initial_state=has_initial_state,\n        silu_activation=True,\n        is_weight_packed=is_weight_packed,\n    )\n    out_wide = ops.causal_conv1d_fwd_cpu(\n        x=x.transpose(0, 1),\n        weight=conv_weight,\n        bias=bias,\n        conv_states=wide_state,\n        query_start_loc=query_start_loc,\n        cache_indices=cache_indices,\n        has_initial_state=has_initial_state,\n        silu_activation=True,\n        is_weight_packed=is_weight_packed,\n    )\n\n    torch.testing.assert_close(out_wide, out_narrow, atol=1e-2, rtol=1e-2)\n    torch.testing.assert_close(\n        wide_state[:, :, :state_len], narrow_state, atol=0, rtol=0\n    )\n    torch.testing.assert_close(wide_state[:, :, state_len:], wide_tail, atol=0, rtol=0)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/mamba/cpu/test_cpu_gdn_ops.py",
+        "test_batch_memcpy_cpu_fallback",
+        "1188"
+      ],
+      "source_sha256": "cd204fb7f909177f829dc5158bd4480c7b52ed17e9054b813ed9baa79a9d75e8",
+      "unit_id": null,
+      "property": "needs_memory_copy_relation: ctypes fallback copies four source buffers into destinations for byte sizes [256,1024,68,4096]; dispatch registration type is also checked.",
+      "scope_limit": "Memory-copy result, not a numerical inference operator.",
+      "helper_lines": [],
+      "definition_line": 1188,
+      "end_line": 1218,
+      "decorators": [
+        {
+          "line": 1187,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 1204,
+          "source": "assert isinstance(batch_memcpy_kernel, KernelOverride)"
+        },
+        {
+          "line": 1218,
+          "source": "torch.testing.assert_close(dst, src)"
+        }
+      ],
+      "full_test_source": "def test_batch_memcpy_cpu_fallback() -> None:\n    \"\"\"The ctypes batch_memcpy fallback (used when triton-cpu is absent) must\n    copy each src into its dst, validating the (src_ptrs, dst_ptrs, sizes)\n    argument order against ctypes.memmove(dst, src, size).\n    \"\"\"\n    from vllm.triton_utils.dispatcher import (\n        KernelOverride,\n        register_kernels,\n    )\n    from vllm.utils.cpu_triton_utils import _batch_memcpy_impl\n\n    register_kernels(\n        {\"vllm.v1.worker.mamba_utils.batch_memcpy_kernel\": _batch_memcpy_impl}\n    )\n    from vllm.v1.worker.mamba_utils import batch_memcpy_kernel\n\n    assert isinstance(batch_memcpy_kernel, KernelOverride)\n\n    # Varied byte sizes, including a non-power-of-two run.\n    sizes_bytes = [256, 1024, 17 * 4, 4096]\n    srcs = [torch.rand(n // 4, dtype=torch.float32) for n in sizes_bytes]\n    dsts = [torch.zeros_like(s) for s in srcs]\n\n    src_ptrs = torch.tensor([s.data_ptr() for s in srcs], dtype=torch.uint64)\n    dst_ptrs = torch.tensor([d.data_ptr() for d in dsts], dtype=torch.uint64)\n    sizes = torch.tensor(sizes_bytes, dtype=torch.int32)\n\n    batch_memcpy_kernel[(len(srcs),)](src_ptrs, dst_ptrs, sizes, BLOCK_SIZE=1024)\n\n    for src, dst in zip(srcs, dsts):\n        torch.testing.assert_close(dst, src)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/mamba/cpu/test_cpu_gdn_ops.py",
+        "test_causal_conv1d_fwd_cpu_ds_adapter_varlen_mixed_initial_state",
+        "1329"
+      ],
+      "source_sha256": "cd204fb7f909177f829dc5158bd4480c7b52ed17e9054b813ed9baa79a9d75e8",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "DS-layout adapter and SD-layout path produce matching convolution output and state for lengths [2,3], state slots [2,0], initial-state [False,True].",
+      "scope_limit": "Native convolution is replaced by Python reference; scratch shape/strides and remapped indices are separately asserted.",
+      "helper_lines": [
+        465,
+        477,
+        1298
+      ],
+      "definition_line": 1329,
+      "end_line": 1395,
+      "decorators": [
+        {
+          "line": 1328,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 1390,
+          "source": "torch.testing.assert_close(out_ds, out_sd)"
+        },
+        {
+          "line": 1391,
+          "source": "torch.testing.assert_close(state_ds, state_sd)"
+        },
+        {
+          "line": 1392,
+          "source": "assert recorded[0][2].equal(state_indices)"
+        },
+        {
+          "line": 1393,
+          "source": "assert recorded[1][0] == (2, dim, state_len)"
+        },
+        {
+          "line": 1394,
+          "source": "assert recorded[1][1] == (dim * state_len, 1, dim)"
+        },
+        {
+          "line": 1395,
+          "source": "assert recorded[1][2].equal(torch.arange(2, dtype=torch.int32))"
+        }
+      ],
+      "full_test_source": "def test_causal_conv1d_fwd_cpu_ds_adapter_varlen_mixed_initial_state(\n    monkeypatch: pytest.MonkeyPatch,\n) -> None:\n    dim = 8\n    seq_lens = [2, 3]\n    state_len = _STATE_LEN\n    state_indices = torch.tensor([2, 0], dtype=torch.int32)\n    query_start_loc = torch.tensor([0, 2, 5], dtype=torch.int32)\n    has_initial_state = torch.tensor([False, True])\n    x_tokens, weight, bias = _conv_inputs(sum(seq_lens))\n    x_tokens = x_tokens[:, :dim]\n    weight = weight[:dim]\n    bias = bias[:dim]\n    x = x_tokens.transpose(0, 1).contiguous()\n    logical_state = (\n        torch.arange(3 * dim * state_len, dtype=torch.float32)\n        .view(3, dim, state_len)\n        .to(torch.bfloat16)\n    )\n    state_sd = _conv_states(3, state_len, dim, \"SD\")\n    state_ds = _conv_states(3, state_len, dim, \"DS\")\n    state_sd.copy_(logical_state)\n    state_ds.copy_(logical_state)\n    recorded = []\n\n    def record_fwd(**kwargs):\n        recorded.append(\n            (\n                kwargs[\"conv_states\"].shape,\n                kwargs[\"conv_states\"].stride(),\n                kwargs[\"cache_indices\"].clone(),\n            )\n        )\n        return _python_native_fwd(**kwargs)\n\n    monkeypatch.setattr(gdn_attention.ops, \"causal_conv1d_fwd_cpu\", record_fwd)\n    monkeypatch.setattr(gdn_attention, \"is_conv_state_dim_first\", lambda: False)\n    out_sd = gdn_attention._causal_conv1d_fwd_cpu(\n        x=x,\n        weight=weight,\n        bias=bias,\n        conv_states=state_sd,\n        query_start_loc=query_start_loc,\n        cache_indices=state_indices,\n        has_initial_state=has_initial_state,\n        silu_activation=True,\n        is_weight_packed=False,\n    )\n    monkeypatch.setattr(gdn_attention, \"is_conv_state_dim_first\", lambda: True)\n    out_ds = gdn_attention._causal_conv1d_fwd_cpu(\n        x=x,\n        weight=weight,\n        bias=bias,\n        conv_states=state_ds,\n        query_start_loc=query_start_loc,\n        cache_indices=state_indices,\n        has_initial_state=has_initial_state,\n        silu_activation=True,\n        is_weight_packed=False,\n    )\n\n    torch.testing.assert_close(out_ds, out_sd)\n    torch.testing.assert_close(state_ds, state_sd)\n    assert recorded[0][2].equal(state_indices)\n    assert recorded[1][0] == (2, dim, state_len)\n    assert recorded[1][1] == (dim * state_len, 1, dim)\n    assert recorded[1][2].equal(torch.arange(2, dtype=torch.int32))"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/mamba/cpu/test_cpu_gdn_ops.py",
+        "test_causal_conv1d_update_cpu_ds_adapter_wide_multi_token_copyback",
+        "1399"
+      ],
+      "source_sha256": "cd204fb7f909177f829dc5158bd4480c7b52ed17e9054b813ed9baa79a9d75e8",
+      "unit_id": "compute.recurrent_state_transition",
+      "property": "Mocked native mutation is copied from scratch into only slots [3,1,0], including wide tail; forwarded scratch indices are contiguous identity and accepted counts retained.",
+      "scope_limit": "State copyback oracle with mocked arithmetic; no native convolution numerical claim.",
+      "helper_lines": [
+        477
+      ],
+      "definition_line": 1399,
+      "end_line": 1447,
+      "decorators": [
+        {
+          "line": 1398,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 1438,
+          "source": "torch.testing.assert_close(state, expected_state)"
+        },
+        {
+          "line": 1439,
+          "source": "torch.testing.assert_close(\n        state.index_select(0, state_indices)[:, :, _STATE_LEN:],\n        mutated_scratch[:, :, _STATE_LEN:],\n    )"
+        },
+        {
+          "line": 1443,
+          "source": "torch.testing.assert_close(\n        recorded[\"conv_state_indices\"],\n        torch.arange(state_indices.numel(), dtype=torch.int32),\n    )"
+        },
+        {
+          "line": 1447,
+          "source": "torch.testing.assert_close(recorded[\"num_accepted_tokens\"], num_accepted_tokens)"
+        }
+      ],
+      "full_test_source": "def test_causal_conv1d_update_cpu_ds_adapter_wide_multi_token_copyback(\n    monkeypatch: pytest.MonkeyPatch,\n) -> None:\n    dim = 8\n    seq_len = 4\n    state_len = seq_len + 5\n    state = _conv_states(4, state_len, dim, \"DS\")\n    state.copy_(\n        torch.arange(state.numel(), dtype=torch.float32).view_as(state).to(state.dtype)\n    )\n    original_state = state.clone()\n    state_indices = torch.tensor([3, 1, 0], dtype=torch.int32)\n    num_accepted_tokens = torch.tensor([1, 4, 2], dtype=torch.int32)\n    mutated_scratch = torch.arange(\n        state_indices.numel() * dim * state_len, dtype=torch.float32\n    ).view(state_indices.numel(), dim, state_len)\n    mutated_scratch = (mutated_scratch + 200).to(state.dtype)\n    recorded = {}\n\n    def mutate_update(**kwargs):\n        recorded.update(kwargs)\n        kwargs[\"conv_states\"].copy_(mutated_scratch)\n        return torch.zeros_like(kwargs[\"x\"])\n\n    monkeypatch.setattr(gdn_attention, \"is_conv_state_dim_first\", lambda: True)\n    monkeypatch.setattr(gdn_attention.ops, \"causal_conv1d_update_cpu\", mutate_update)\n    gdn_attention._causal_conv1d_update_cpu(\n        x=torch.zeros(state_indices.numel(), seq_len, dim, dtype=state.dtype),\n        conv_states=state,\n        weight=torch.zeros(dim, CONV_KERNEL, dtype=state.dtype),\n        bias=None,\n        silu_activation=False,\n        conv_state_indices=state_indices,\n        is_weight_packed=False,\n        num_accepted_tokens=num_accepted_tokens,\n    )\n\n    expected_state = original_state.clone()\n    expected_state.index_copy_(0, state_indices.to(torch.long), mutated_scratch)\n    torch.testing.assert_close(state, expected_state)\n    torch.testing.assert_close(\n        state.index_select(0, state_indices)[:, :, _STATE_LEN:],\n        mutated_scratch[:, :, _STATE_LEN:],\n    )\n    torch.testing.assert_close(\n        recorded[\"conv_state_indices\"],\n        torch.arange(state_indices.numel(), dtype=torch.int32),\n    )\n    torch.testing.assert_close(recorded[\"num_accepted_tokens\"], num_accepted_tokens)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/mamba/cpu/test_cpu_gdn_ops.py",
+        "test_conv_cpp_matches_torch",
+        "1456"
+      ],
+      "source_sha256": "cd204fb7f909177f829dc5158bd4480c7b52ed17e9054b813ed9baa79a9d75e8",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "Native prefill output and final state agree with Torch fallback at atol=rtol=1e-2 for each declared variable-length batch.",
+      "scope_limit": "State tensor comparison retained separately.",
+      "helper_lines": [
+        465,
+        1260,
+        1284
+      ],
+      "definition_line": 1456,
+      "end_line": 1462,
+      "decorators": [
+        {
+          "line": 1450,
+          "source": "pytest.mark.skipif(\n    not (_HAS_AVX512_BF16 or gdn_attention.is_arm_bf16()),\n    reason=\"C++ causal_conv1d requires AVX-512BF16 or Arm BF16 support\",\n)"
+        },
+        {
+          "line": 1454,
+          "source": "pytest.mark.parametrize(\"seq_lens\", CONV_EQUIV_SEQ_LENS)"
+        },
+        {
+          "line": 1455,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 1461,
+          "source": "torch.testing.assert_close(out_cpp, out_torch, atol=1e-2, rtol=1e-2)"
+        },
+        {
+          "line": 1462,
+          "source": "torch.testing.assert_close(state_cpp, state_torch, atol=1e-2, rtol=1e-2)"
+        }
+      ],
+      "full_test_source": "def test_conv_cpp_matches_torch(seq_lens):\n    \"\"\"C++ causal_conv1d_fwd_cpu matches the torch fallback within bf16 tol.\"\"\"\n    x, weight, bias = _conv_inputs(sum(seq_lens))\n    out_torch, state_torch = _run_prefill_torch(x, weight, bias, seq_lens)\n    out_cpp, state_cpp = _run_prefill_cpp(x, weight, bias, seq_lens)\n    torch.testing.assert_close(out_cpp, out_torch, atol=1e-2, rtol=1e-2)\n    torch.testing.assert_close(state_cpp, state_torch, atol=1e-2, rtol=1e-2)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/mamba/cpu/test_cpu_gdn_ops.py",
+        "test_conv_cpp_no_worse_than_torch_vs_fp32",
+        "1471"
+      ],
+      "source_sha256": "cd204fb7f909177f829dc5158bd4480c7b52ed17e9054b813ed9baa79a9d75e8",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "Mean absolute error of native prefill versus explicit FP32 grouped-convolution+SiLU oracle is no greater than Torch fallback error plus 1e-3.",
+      "scope_limit": "Relative error-budget check, not elementwise closeness.",
+      "helper_lines": [
+        465,
+        1241,
+        1260,
+        1284
+      ],
+      "definition_line": 1471,
+      "end_line": 1482,
+      "decorators": [
+        {
+          "line": 1465,
+          "source": "pytest.mark.skipif(\n    not (_HAS_AVX512_BF16 or gdn_attention.is_arm_bf16()),\n    reason=\"C++ causal_conv1d requires AVX-512BF16 or Arm BF16 support\",\n)"
+        },
+        {
+          "line": 1469,
+          "source": "pytest.mark.parametrize(\"seq_lens\", CONV_EQUIV_SEQ_LENS)"
+        },
+        {
+          "line": 1470,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 1479,
+          "source": "assert err_cpp <= err_torch + 1e-3, (\n        f\"C++ conv less accurate than torch: \"\n        f\"err_cpp={err_cpp:.2e} err_torch={err_torch:.2e}\"\n    )"
+        }
+      ],
+      "full_test_source": "def test_conv_cpp_no_worse_than_torch_vs_fp32(seq_lens):\n    \"\"\"Swapping torch -> C++ conv must not increase error vs an fp32 oracle.\"\"\"\n    x, weight, bias = _conv_inputs(sum(seq_lens))\n    oracle = _conv_fp32_oracle(x, weight, bias, seq_lens)\n    out_torch, _ = _run_prefill_torch(x, weight, bias, seq_lens)\n    out_cpp, _ = _run_prefill_cpp(x, weight, bias, seq_lens)\n    err_torch = (out_torch.float() - oracle).abs().mean().item()\n    err_cpp = (out_cpp.float() - oracle).abs().mean().item()\n    assert err_cpp <= err_torch + 1e-3, (\n        f\"C++ conv less accurate than torch: \"\n        f\"err_cpp={err_cpp:.2e} err_torch={err_torch:.2e}\"\n    )"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/mamba/cpu/test_cpu_gdn_ops.py",
+        "test_conv_cpp_weight_packed_matches_torch",
+        "1491"
+      ],
+      "source_sha256": "cd204fb7f909177f829dc5158bd4480c7b52ed17e9054b813ed9baa79a9d75e8",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "Packed-weight native prefill using noncontiguous SD state yields the same output as unpacked Torch fallback within 1e-2.",
+      "scope_limit": "No final-state assertion in this test.",
+      "helper_lines": [
+        465,
+        1260,
+        1284
+      ],
+      "definition_line": 1491,
+      "end_line": 1500,
+      "decorators": [
+        {
+          "line": 1485,
+          "source": "pytest.mark.skipif(\n    not (_HAS_AVX512_BF16 or gdn_attention.is_arm_bf16()),\n    reason=\"C++ causal_conv1d requires AVX-512BF16 or Arm BF16 support\",\n)"
+        },
+        {
+          "line": 1489,
+          "source": "pytest.mark.parametrize(\"seq_lens\", CONV_EQUIV_SEQ_LENS)"
+        },
+        {
+          "line": 1490,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 1500,
+          "source": "torch.testing.assert_close(out_weight_packed, out_torch, atol=1e-2, rtol=1e-2)"
+        }
+      ],
+      "full_test_source": "def test_conv_cpp_weight_packed_matches_torch(seq_lens):\n    \"\"\"The exact runtime prefill sequence (packed weight + SD-layout\n    conv_state view + is_weight_packed=True) must match the torch fallback. Validates\n    the native packing + layout handoff.\"\"\"\n    x, weight, bias = _conv_inputs(sum(seq_lens))\n    out_torch, _ = _run_prefill_torch(x, weight, bias, seq_lens)\n    out_weight_packed, _ = _run_prefill_cpp(\n        x, weight, bias, seq_lens, is_weight_packed=True\n    )\n    torch.testing.assert_close(out_weight_packed, out_torch, atol=1e-2, rtol=1e-2)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/mamba/cpu/test_cpu_gdn_ops.py",
+        "test_conv_update_cpp_matches_torch",
+        "1520"
+      ],
+      "source_sha256": "cd204fb7f909177f829dc5158bd4480c7b52ed17e9054b813ed9baa79a9d75e8",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "Across three signed-input decode steps, native output agrees with Torch convolution at 1e-2; complete indexed/padded state storage agrees exactly.",
+      "scope_limit": "State persistence and untouched slots recorded separately.",
+      "helper_lines": [
+        494
+      ],
+      "definition_line": 1520,
+      "end_line": 1558,
+      "decorators": [
+        {
+          "line": 1503,
+          "source": "pytest.mark.skipif(\n    not (_HAS_AVX512_BF16 or gdn_attention.is_arm_bf16()),\n    reason=\"C++ causal_conv1d requires AVX-512BF16 or Arm BF16 support\",\n)"
+        },
+        {
+          "line": 1507,
+          "source": "pytest.mark.parametrize(\"batch\", DECODE_BATCH_SIZES)"
+        },
+        {
+          "line": 1508,
+          "source": "pytest.mark.parametrize(\n    (\"dim\", \"has_bias\", \"silu_activation\", \"is_weight_packed\"),\n    [\n        (32, False, False, False),\n        (32, True, True, True),\n        (96, False, True, True),\n        (96, True, False, False),\n        (8192, False, True, False),\n        (8192, True, True, True),\n    ],\n)"
+        },
+        {
+          "line": 1519,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 1557,
+          "source": "torch.testing.assert_close(out_cpp, out_torch, atol=1e-2, rtol=1e-2)"
+        },
+        {
+          "line": 1558,
+          "source": "torch.testing.assert_close(storage_cpp, storage_ref, atol=0, rtol=0)"
+        }
+      ],
+      "full_test_source": "def test_conv_update_cpp_matches_torch(\n    batch, dim, has_bias, silu_activation, is_weight_packed\n):\n    \"\"\"Decode preserves indexed, padded state across successive signed inputs.\"\"\"\n    from vllm.model_executor.layers.mamba.ops.cpu.causal_conv1d import (\n        causal_conv1d_update_torch,\n    )\n\n    torch.manual_seed(0)\n    weight = torch.randn(dim, CONV_KERNEL, dtype=torch.bfloat16)\n    bias = torch.randn(dim, dtype=torch.bfloat16) if has_bias else None\n    conv_weight = _maybe_pack_conv_weight(weight, is_weight_packed)\n    indices = torch.arange(batch, 0, -1, dtype=torch.int32)\n    storage_ref = torch.randn(batch + 2, _STATE_LEN + 2, dim, dtype=torch.bfloat16)\n    storage_cpp = storage_ref.clone()\n    cs_cpp = storage_cpp[:, :_STATE_LEN].transpose(1, 2)\n\n    for _ in range(3):\n        x = torch.randn(batch, dim, dtype=torch.bfloat16)\n        cs_torch = storage_ref[indices, :_STATE_LEN].transpose(1, 2).contiguous()\n        out_torch = causal_conv1d_update_torch(\n            x=x.unsqueeze(-1),\n            conv_state=cs_torch,\n            weight=weight,\n            bias=bias,\n            activation=\"silu\" if silu_activation else None,\n        ).squeeze(-1)\n        storage_ref[indices, :_STATE_LEN] = cs_torch.transpose(1, 2)\n        out_cpp = ops.causal_conv1d_update_cpu(\n            x=x,\n            conv_states=cs_cpp,\n            weight=conv_weight,\n            bias=bias,\n            silu_activation=silu_activation,\n            conv_state_indices=indices,\n            is_weight_packed=is_weight_packed,\n        )\n        torch.testing.assert_close(out_cpp, out_torch, atol=1e-2, rtol=1e-2)\n        torch.testing.assert_close(storage_cpp, storage_ref, atol=0, rtol=0)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/mamba/cpu/test_cpu_gdn_ops.py",
+        "test_conv_weight_pack_roundtrip_unpacked_matches",
+        "1566"
+      ],
+      "source_sha256": "cd204fb7f909177f829dc5158bd4480c7b52ed17e9054b813ed9baa79a9d75e8",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "Packed and unpacked native prefill produce bitwise-equal output and state for lengths [7,64,65].",
+      "scope_limit": "Checks execution equivalence after packing, not pack/unpack inversion.",
+      "helper_lines": [
+        465,
+        1284
+      ],
+      "definition_line": 1566,
+      "end_line": 1583,
+      "decorators": [
+        {
+          "line": 1561,
+          "source": "pytest.mark.skipif(\n    not (_HAS_AVX512_BF16 or gdn_attention.is_arm_bf16()),\n    reason=\"C++ causal_conv1d requires AVX-512BF16 or Arm BF16 support\",\n)"
+        },
+        {
+          "line": 1565,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 1582,
+          "source": "torch.testing.assert_close(out_packed, out_unpacked, atol=0, rtol=0)"
+        },
+        {
+          "line": 1583,
+          "source": "torch.testing.assert_close(state_packed, state_unpacked, atol=0, rtol=0)"
+        }
+      ],
+      "full_test_source": "def test_conv_weight_pack_roundtrip_unpacked_matches():\n    \"\"\"`causal_conv1d_weight_pack` repacks the (dim, width) weight, so the C++ conv op\n    with packed weight + is_weight_packed=True must equal unpacked weight\n    + is_weight_packed=False. Guards the spec-decode contract: the runtime packs\n    `layer.conv1d.weight` in place and stashes the original as\n    `_cpu_unpacked_conv_weight` for the torch spec-decode path, so both must produce\n    identical math.\n    \"\"\"\n    seq_lens = [7, 64, 65]\n    x, weight, bias = _conv_inputs(sum(seq_lens))\n    out_unpacked, state_unpacked = _run_prefill_cpp(\n        x, weight, bias, seq_lens, is_weight_packed=False\n    )\n    out_packed, state_packed = _run_prefill_cpp(\n        x, weight, bias, seq_lens, is_weight_packed=True\n    )\n    torch.testing.assert_close(out_packed, out_unpacked, atol=0, rtol=0)\n    torch.testing.assert_close(state_packed, state_unpacked, atol=0, rtol=0)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/mamba/cpu/test_cpu_gdn_ops.py",
+        "test_spec_decode_unpacked_conv_weight_stash",
+        "1591"
+      ],
+      "source_sha256": "cd204fb7f909177f829dc5158bd4480c7b52ed17e9054b813ed9baa79a9d75e8",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "Torch prefill using stashed original weights agrees at 1e-2 with native packed-weight execution for lengths [7,65]; stash existence and exact equality to original weights are separately checked.",
+      "scope_limit": "Does not call speculative forward; mirrors its weight selection.",
+      "helper_lines": [
+        1260
+      ],
+      "definition_line": 1591,
+      "end_line": 1657,
+      "decorators": [
+        {
+          "line": 1586,
+          "source": "pytest.mark.skipif(\n    not (_HAS_AVX512_BF16 or gdn_attention.is_arm_bf16()),\n    reason=\"C++ causal_conv1d requires AVX-512BF16 or AArch64 BF16\",\n)"
+        },
+        {
+          "line": 1590,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 1615,
+          "source": "assert hasattr(conv, \"_cpu_unpacked_conv_weight\"), (\n        \"dispatch_cpu_unquantized_gemm did not stash _cpu_unpacked_conv_weight \"\n        \"on an AArch64-BF16 or AVX-512BF16 CPU\"\n    )"
+        },
+        {
+          "line": 1620,
+          "source": "torch.testing.assert_close(stash, orig_2d, atol=0, rtol=0)"
+        },
+        {
+          "line": 1624,
+          "source": "assert recovered is not None"
+        },
+        {
+          "line": 1657,
+          "source": "torch.testing.assert_close(out_cpp, out_torch, atol=1e-2, rtol=1e-2)"
+        }
+      ],
+      "full_test_source": "def test_spec_decode_unpacked_conv_weight_stash():\n    \"\"\"Spec-decode correctness: AVX-512BF16 and AArch64 BF16 CPUs pack ``conv1d.weight``\n    in place at load time and stash the original ``(dim, width)`` tensor as\n    ``_cpu_unpacked_conv_weight``; the spec-decode path must use that stash since\n    reading the packed weight directly produces garbage. Verifies the recovered\n    weight equals the original and that torch F.conv1d agrees with the C++ conv\n    fed the packed weight.\n    \"\"\"\n    from vllm.model_executor.layers.utils import dispatch_cpu_unquantized_gemm\n\n    torch.manual_seed(0)\n    # conv1d weight is stored [dim, 1, width]; bias [dim].\n    orig_2d = torch.rand(CONV_DIM, CONV_KERNEL, dtype=torch.bfloat16)\n    bias = torch.rand(CONV_DIM, dtype=torch.bfloat16)\n\n    conv = torch.nn.Module()\n    conv.weight = torch.nn.Parameter(\n        orig_2d.view(CONV_DIM, 1, CONV_KERNEL).clone(), requires_grad=False\n    )\n\n    # Load-time dispatch: packs weight in place + stashes the unpacked copy.\n    dispatch_cpu_unquantized_gemm(conv, remove_weight=False)\n\n    # 1. The stash must exist and equal the original (dim, width) weight.\n    assert hasattr(conv, \"_cpu_unpacked_conv_weight\"), (\n        \"dispatch_cpu_unquantized_gemm did not stash _cpu_unpacked_conv_weight \"\n        \"on an AArch64-BF16 or AVX-512BF16 CPU\"\n    )\n    stash = conv._cpu_unpacked_conv_weight\n    torch.testing.assert_close(stash, orig_2d, atol=0, rtol=0)\n\n    # 2. Mirror _unpacked_conv_weight()'s lookup: stash wins over conv.weight.\n    recovered = getattr(conv, \"_cpu_unpacked_conv_weight\", None)\n    assert recovered is not None\n    # conv.weight is now packed; using it directly (the bug) would differ.\n    packed_weight = conv.weight  # [dim, 1, width], packed contents\n\n    # 3. Spec-path torch conv with the recovered unpacked weight must match the\n    #    nonspec C++ conv with the packed weight (is_weight_packed=True).\n    seq_lens = [7, 65]\n    total = sum(seq_lens)\n    x = tensor_cache(total * CONV_DIM, torch.bfloat16).view(total, CONV_DIM)\n\n    out_torch, _ = _run_prefill_torch(x, recovered, bias, seq_lens)\n\n    num_seqs = len(seq_lens)\n    cs = torch.zeros(num_seqs, _STATE_LEN, CONV_DIM, dtype=x.dtype).transpose(1, 2)\n    qsl = torch.tensor(\n        [0, *torch.tensor(seq_lens).cumsum(0).tolist()], dtype=torch.int32\n    )\n    out_cpp = (\n        ops.causal_conv1d_fwd_cpu(\n            x=x.transpose(0, 1),\n            weight=packed_weight.view(CONV_DIM, CONV_KERNEL),\n            bias=bias,\n            conv_states=cs,\n            query_start_loc=qsl,\n            cache_indices=torch.arange(num_seqs, dtype=torch.int32),\n            has_initial_state=torch.zeros(num_seqs, dtype=torch.bool),\n            silu_activation=True,\n            is_weight_packed=True,\n        )\n        .transpose(0, 1)\n        .contiguous()\n    )\n\n    torch.testing.assert_close(out_cpp, out_torch, atol=1e-2, rtol=1e-2)"
+    }
+  ]
+}

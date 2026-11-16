@@ -1,0 +1,529 @@
+{
+  "review_method": "Complete test file and called implementation/helpers reviewed; explicit per-case manifest. CPU fixture bypasses grouped GPU foreach-copy; no runtime run.",
+  "files_sha256": {
+    "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py": "2a87706fb113ba20ab8eebd1986558ce3223a23895509cb65590fc17be06d2cf",
+    "python/sglang/srt/model_executor/cuda_graph_buffer_registry.py": "59c17db2ed21828bfae9aa2cf70050292c5b6f5576a8f99fc6e4f703b185fd85",
+    "python/sglang/srt/model_executor/input_buffers.py": "34f0dbe808a0b02ad98518a040cb13c334eee16d4fb94851ce3564a4da242e8f",
+    "python/sglang/srt/model_executor/forward_batch_info.py": "f1ba006a359931f95062e441f53908acea01d6e7a15ab46a7354e92ad92cbcd9"
+  },
+  "unique_entry_keys": true,
+  "oracle_lines_nonempty": true,
+  "cases": [
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 70,
+      "test_name": "TestGraphSlot::test_axis_validation",
+      "unit_id": "model.forward_buffer_registration",
+      "reviewed_semantics": "GraphSlot axis garbage raises ValueError.",
+      "source_body": "def test_axis_validation(self):\n        with self.assertRaises(ValueError):\n            GraphSlot(\n                name=\"bad\",\n                shape_fn=lambda bs, mt: (bs,),\n                dtype=torch.int32,\n                axis=\"garbage\",\n            )",
+      "oracle_lines": [
+        71
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 79,
+      "test_name": "TestGraphSlot::test_slice_for_before_buffer_alloc_raises",
+      "unit_id": "model.forward_buffer_registration",
+      "reviewed_semantics": "slice_for before buffer allocation raises RuntimeError.",
+      "source_body": "def test_slice_for_before_buffer_alloc_raises(self):\n        slot = GraphSlot(\n            name=\"x\",\n            shape_fn=lambda bs, mt: (bs,),\n            dtype=torch.int32,\n            axis=\"bs\",\n        )\n        with self.assertRaises(RuntimeError):\n            slot.slice_for(padded_bs=1, padded_num_tokens=1)",
+      "oracle_lines": [
+        86
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 91,
+      "test_name": "TestRegistryRegister::test_register_allocates_zero_buffer",
+      "unit_id": "model.forward_buffer_registration",
+      "reviewed_semantics": "Token-axis input_ids slot allocates sixteen int64 zeros.",
+      "source_body": "def test_register_allocates_zero_buffer(self):\n        r = _make_registry()\n        slot = r.register_slot(\n            GraphSlot(\n                name=\"input_ids\",\n                shape_fn=lambda bs, mt: (mt,),\n                dtype=torch.int64,\n                axis=\"tokens\",\n            )\n        )\n        self.assertEqual(slot.buffer.shape, (16,))\n        self.assertEqual(slot.buffer.dtype, torch.int64)\n        self.assertTrue(torch.equal(slot.buffer, torch.zeros(16, dtype=torch.int64)))",
+      "oracle_lines": [
+        101,
+        102,
+        103
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 105,
+      "test_name": "TestRegistryRegister::test_register_fill_sentinel_init",
+      "unit_id": "model.forward_buffer_registration",
+      "reviewed_semantics": "FILL_SENTINEL seq_lens allocation contains eight int32 sevens.",
+      "source_body": "def test_register_fill_sentinel_init(self):\n        r = _make_registry()\n        slot = r.register_slot(\n            GraphSlot(\n                name=\"seq_lens\",\n                shape_fn=lambda bs, mt: (bs,),\n                dtype=torch.int32,\n                axis=\"bs\",\n                padding_policy=PaddingPolicy.FILL_SENTINEL,\n                pad_value=7,\n            )\n        )\n        self.assertTrue(\n            torch.equal(slot.buffer, torch.full((8,), 7, dtype=torch.int32))\n        )",
+      "oracle_lines": [
+        117
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 121,
+      "test_name": "TestRegistryRegister::test_register_duplicate_raises",
+      "unit_id": "model.forward_buffer_registration",
+      "reviewed_semantics": "Registering duplicate name dup raises ValueError.",
+      "source_body": "def test_register_duplicate_raises(self):\n        r = _make_registry()\n        r.register_slot(\n            GraphSlot(\n                name=\"dup\",\n                shape_fn=lambda bs, mt: (bs,),\n                dtype=torch.int32,\n                axis=\"bs\",\n            )\n        )\n        with self.assertRaises(ValueError):\n            r.register_slot(\n                GraphSlot(\n                    name=\"dup\",\n                    shape_fn=lambda bs, mt: (bs,),\n                    dtype=torch.int32,\n                    axis=\"bs\",\n                )\n            )",
+      "oracle_lines": [
+        131
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 141,
+      "test_name": "TestRegistryRegister::test_disabled_slot_not_allocated",
+      "unit_id": "model.forward_buffer_registration",
+      "reviewed_semantics": "Disabled slot has no buffer and is excluded from has_slot and slot_names.",
+      "source_body": "def test_disabled_slot_not_allocated(self):\n        r = _make_registry()\n        slot = r.register_slot(\n            GraphSlot(\n                name=\"off\",\n                shape_fn=lambda bs, mt: (bs,),\n                dtype=torch.int32,\n                axis=\"bs\",\n                enabled=False,\n            )\n        )\n        self.assertIsNone(slot.buffer)\n        self.assertFalse(r.has_slot(\"off\"))\n        self.assertNotIn(\"off\", r.slot_names())",
+      "oracle_lines": [
+        152,
+        153,
+        154
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 156,
+      "test_name": "TestRegistryRegister::test_cpu_device_override",
+      "unit_id": "model.forward_buffer_registration",
+      "reviewed_semantics": "Explicit CPU slot override produces CPU buffer initialized with sentinel eleven.",
+      "source_body": "def test_cpu_device_override(self):\n        r = _make_registry()\n        slot = r.register_slot(\n            GraphSlot(\n                name=\"seq_lens_cpu\",\n                shape_fn=lambda bs, mt: (bs,),\n                dtype=torch.int32,\n                axis=\"bs\",\n                device=torch.device(\"cpu\"),\n                padding_policy=PaddingPolicy.FILL_SENTINEL,\n                pad_value=11,\n            )\n        )\n        self.assertEqual(slot.buffer.device.type, \"cpu\")\n        self.assertEqual(int(slot.buffer[0].item()), 11)",
+      "oracle_lines": [
+        169,
+        170
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 236,
+      "test_name": "TestFillFromAndExtract::test_basic_fill_no_padding",
+      "unit_id": "model.forward_buffer_fill",
+      "reviewed_semantics": "No-padding fill copies six declared tensor fields into their matching registry buffers.",
+      "source_body": "def test_basic_fill_no_padding(self):\n        r = self._build_registry()\n        fb = _MiniForwardBatch(\n            batch_size=4,\n            input_ids=torch.arange(8, dtype=torch.int64),\n            req_pool_indices=torch.tensor([3, 1, 4, 2], dtype=torch.int64),\n            seq_lens=torch.tensor([10, 11, 12, 13], dtype=torch.int32),\n            out_cache_loc=torch.arange(8, dtype=torch.int64) + 100,\n            positions=torch.arange(8, dtype=torch.int64),\n            seq_lens_cpu=torch.tensor([10, 11, 12, 13], dtype=torch.int32),\n        )\n        r.fill_from(\n            fb,\n            raw_bs=4,\n            padded_bs=4,\n            raw_num_tokens=8,\n            padded_num_tokens=8,\n        )\n        self.assertTrue(torch.equal(r.get_slot(\"input_ids\").buffer, fb.input_ids))\n        self.assertTrue(\n            torch.equal(r.get_slot(\"req_pool_indices\").buffer, fb.req_pool_indices)\n        )\n        self.assertTrue(torch.equal(r.get_slot(\"seq_lens\").buffer, fb.seq_lens))\n        self.assertTrue(\n            torch.equal(r.get_slot(\"out_cache_loc\").buffer, fb.out_cache_loc)\n        )\n        self.assertTrue(torch.equal(r.get_slot(\"positions\").buffer, fb.positions))\n        self.assertTrue(torch.equal(r.get_slot(\"seq_lens_cpu\").buffer, fb.seq_lens_cpu))",
+      "oracle_lines": [
+        254,
+        255,
+        258,
+        259,
+        262,
+        263
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 265,
+      "test_name": "TestFillFromAndExtract::test_fill_with_padding_resets_zero_and_sentinel",
+      "unit_id": "model.forward_buffer_fill",
+      "reviewed_semantics": "Raw two requests/four tokens copy head; zero-policy tails are zero, seq_lens tails are sentinel five, and host seq_lens stays on CPU.",
+      "source_body": "def test_fill_with_padding_resets_zero_and_sentinel(self):\n        r = self._build_registry()\n        # Pre-poison the padded tail to a non-zero value so we can prove\n        # the reset_padding step ran.\n        r.get_slot(\"req_pool_indices\").buffer.fill_(99)\n        r.get_slot(\"seq_lens\").buffer.fill_(99)\n        r.get_slot(\"out_cache_loc\").buffer.fill_(99)\n        # Raw 2 reqs, 4 tokens; padded 4 reqs, 8 tokens.\n        fb = _MiniForwardBatch(\n            batch_size=2,\n            input_ids=torch.arange(4, dtype=torch.int64),\n            req_pool_indices=torch.tensor([3, 1], dtype=torch.int64),\n            seq_lens=torch.tensor([10, 11], dtype=torch.int32),\n            out_cache_loc=torch.arange(4, dtype=torch.int64) + 100,\n            positions=torch.arange(4, dtype=torch.int64),\n            seq_lens_cpu=torch.tensor([10, 11], dtype=torch.int32),\n        )\n        r.fill_from(\n            fb,\n            raw_bs=2,\n            padded_bs=4,\n            raw_num_tokens=4,\n            padded_num_tokens=8,\n        )\n        # Raw region copied.\n        self.assertTrue(\n            torch.equal(\n                r.get_slot(\"req_pool_indices\").buffer[:2],\n                torch.tensor([3, 1], dtype=torch.int64),\n            )\n        )\n        # ZERO padding tail.\n        self.assertTrue(\n            torch.equal(\n                r.get_slot(\"req_pool_indices\").buffer[2:],\n                torch.zeros(2, dtype=torch.int64),\n            )\n        )\n        self.assertTrue(\n            torch.equal(\n                r.get_slot(\"out_cache_loc\").buffer[4:],\n                torch.zeros(4, dtype=torch.int64),\n            )\n        )\n        # FILL_SENTINEL padding tail.\n        self.assertTrue(\n            torch.equal(\n                r.get_slot(\"seq_lens\").buffer[2:],\n                torch.tensor([5, 5], dtype=torch.int32),\n            )\n        )\n        # seq_lens_cpu lives on CPU device.\n        self.assertEqual(r.get_slot(\"seq_lens_cpu\").buffer.device.type, \"cpu\")\n        self.assertTrue(\n            torch.equal(\n                r.get_slot(\"seq_lens_cpu\").buffer[2:],\n                torch.tensor([5, 5], dtype=torch.int32),\n            )\n        )",
+      "oracle_lines": [
+        290,
+        297,
+        303,
+        310,
+        317,
+        318
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 325,
+      "test_name": "TestFillFromAndExtract::test_keep_pad_preserves_padded_tail",
+      "unit_id": "model.forward_buffer_fill",
+      "reviewed_semantics": "KEEP_PAD copies raw position head [0,1] while six padded elements retain poison 77.",
+      "source_body": "def test_keep_pad_preserves_padded_tail(self):\n        r = _make_registry(max_bs=4, max_num_tokens=8)\n        r.register_slot(\n            GraphSlot(\n                name=\"positions\",\n                shape_fn=lambda bs, mt: (mt,),\n                dtype=torch.int64,\n                axis=\"tokens\",\n                padding_policy=PaddingPolicy.KEEP_PAD,\n            )\n        )\n        # Poison padded tail.\n        r.get_slot(\"positions\").buffer.fill_(77)\n        fb = _MiniForwardBatch(\n            batch_size=1,\n            positions=torch.arange(2, dtype=torch.int64),\n        )\n        r.fill_from(\n            fb,\n            raw_bs=1,\n            padded_bs=4,\n            raw_num_tokens=2,\n            padded_num_tokens=8,\n        )\n        # Raw is copied; padded tail stays at the poison value.\n        self.assertTrue(\n            torch.equal(\n                r.get_slot(\"positions\").buffer[:2],\n                torch.tensor([0, 1], dtype=torch.int64),\n            )\n        )\n        self.assertTrue(\n            torch.equal(\n                r.get_slot(\"positions\").buffer[2:],\n                torch.full((6,), 77, dtype=torch.int64),\n            )\n        )",
+      "oracle_lines": [
+        350,
+        356
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 363,
+      "test_name": "TestFillFromAndExtract::test_extract_buffer_returns_fb_view",
+      "unit_id": "model.forward_buffer_view",
+      "reviewed_semantics": "Extract produces new padded batch with slot-backed input_ids pointer/length, request-index length, retained forward_mode/spec_info and unchanged template batch size.",
+      "source_body": "def test_extract_buffer_returns_fb_view(self):\n        r = self._build_registry()\n        fb = _MiniForwardBatch(\n            batch_size=2,\n            input_ids=torch.arange(4, dtype=torch.int64),\n            req_pool_indices=torch.tensor([3, 1], dtype=torch.int64),\n            seq_lens=torch.tensor([10, 11], dtype=torch.int32),\n            out_cache_loc=torch.arange(4, dtype=torch.int64) + 100,\n            positions=torch.arange(4, dtype=torch.int64),\n            seq_lens_cpu=torch.tensor([10, 11], dtype=torch.int32),\n            forward_mode=\"DECODE\",\n            spec_info=\"dummy_spec\",\n        )\n        r.fill_from(\n            fb,\n            raw_bs=2,\n            padded_bs=4,\n            raw_num_tokens=4,\n            padded_num_tokens=8,\n        )\n        fb_view = r.extract_buffer(\n            padded_bs=4,\n            padded_num_tokens=8,\n            forward_batch_template=fb,\n        )\n        # batch_size is padded.\n        self.assertEqual(fb_view.batch_size, 4)\n        # Tensor fields are now buffer views — same data_ptr as the slot.\n        self.assertEqual(\n            fb_view.input_ids.data_ptr(),\n            r.get_slot(\"input_ids\").buffer.data_ptr(),\n        )\n        # Length is padded.\n        self.assertEqual(len(fb_view.input_ids), 8)\n        self.assertEqual(len(fb_view.req_pool_indices), 4)\n        # Non-slot fields carried from template.\n        self.assertEqual(fb_view.forward_mode, \"DECODE\")\n        self.assertEqual(fb_view.spec_info, \"dummy_spec\")\n        # Template itself NOT mutated (replace returns a new instance).\n        self.assertEqual(fb.batch_size, 2)\n        self.assertIsNot(fb_view, fb)",
+      "oracle_lines": [
+        389,
+        391,
+        396,
+        397,
+        399,
+        400,
+        402,
+        403
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 407,
+      "test_name": "TestMissingAndOptionalSlots::test_missing_fb_attr_is_skipped",
+      "unit_id": "model.forward_buffer_fill",
+      "reviewed_semantics": "Missing encoder_lens source skips copy and sentinel-zero buffer remains eight zeros.",
+      "source_body": "def test_missing_fb_attr_is_skipped(self):\n        r = _make_registry()\n        r.register_slot(\n            GraphSlot(\n                name=\"encoder_lens\",\n                shape_fn=lambda bs, mt: (bs,),\n                dtype=torch.int32,\n                axis=\"bs\",\n                padding_policy=PaddingPolicy.FILL_SENTINEL,\n                pad_value=0,\n            )\n        )\n        fb = _MiniForwardBatch(\n            batch_size=2,\n            input_ids=torch.arange(4, dtype=torch.int64),\n            encoder_lens=None,  # FB doesn't carry this for this request.\n        )\n        # Should NOT raise; encoder_lens buffer stays at the FILL_SENTINEL\n        # init value.\n        r.fill_from(\n            fb,\n            raw_bs=2,\n            padded_bs=4,\n            raw_num_tokens=4,\n            padded_num_tokens=8,\n        )\n        self.assertTrue(\n            torch.equal(\n                r.get_slot(\"encoder_lens\").buffer,\n                torch.zeros(8, dtype=torch.int32),\n            )\n        )",
+      "oracle_lines": [
+        433
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 440,
+      "test_name": "TestMissingAndOptionalSlots::test_extract_carries_none_for_absent_plain_slot",
+      "unit_id": "model.forward_buffer_view",
+      "reviewed_semantics": "Present input_ids becomes slot-backed view; absent plain mrope_positions stays None.",
+      "source_body": "def test_extract_carries_none_for_absent_plain_slot(self):\n        # A plain copy slot absent this iter (mrope on a non-multimodal batch)\n        # must be carried as None, not exposed as the stale/zero buffer.\n        r = _make_registry(max_bs=4, max_num_tokens=8)\n        r.register_slot(\n            GraphSlot(\"input_ids\", lambda bs, mt: (mt,), torch.int64, axis=\"tokens\")\n        )\n        r.register_slot(\n            GraphSlot(\n                \"mrope_positions\",\n                lambda bs, mt: (3, mt),\n                torch.int64,\n                axis=\"tokens\",\n                slice_fn=lambda buf, n: buf[:, :n],\n            )\n        )\n        fb = _MiniForwardBatch(\n            batch_size=2,\n            input_ids=torch.arange(2, dtype=torch.int64),\n            mrope_positions=None,  # non-multimodal: FB doesn't carry it\n        )\n        r.fill_from(fb, raw_bs=2, padded_bs=2, raw_num_tokens=2, padded_num_tokens=2)\n        fb_view = r.extract_buffer(\n            padded_bs=2, padded_num_tokens=2, forward_batch_template=fb\n        )\n        # input_ids was present -> buffer-backed; mrope absent -> carried None.\n        self.assertEqual(\n            fb_view.input_ids.data_ptr(), r.get_slot(\"input_ids\").buffer.data_ptr()\n        )\n        self.assertIsNone(fb_view.mrope_positions)",
+      "oracle_lines": [
+        466,
+        469
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 471,
+      "test_name": "TestMissingAndOptionalSlots::test_extract_exposes_computed_slot_even_when_fb_field_none",
+      "unit_id": "model.forward_buffer_view",
+      "reviewed_semantics": "Computed global_num_tokens slot is exposed and shares slot pointer despite original batch field None; hook value two is not directly asserted.",
+      "source_body": "def test_extract_exposes_computed_slot_even_when_fb_field_none(self):\n        # A computed slot (copy_from_fb=False) is always exposed, even when its\n        # FB field is None — the None-skip carry applies only to plain copies.\n        def _fill_two(buf, fb, ctx):\n            buf.fill_(2)\n\n        r = _make_registry(max_bs=4, max_num_tokens=8)\n        r.register_slot(\n            GraphSlot(\n                \"global_num_tokens_gpu\",\n                lambda bs, mt: (1,),\n                torch.int32,\n                axis=\"none\",\n                copy_from_fb=False,\n                post_fill=_fill_two,\n            )\n        )\n        fb = _MiniForwardBatch(batch_size=2, global_num_tokens_gpu=None)\n        r.fill_from(fb, raw_bs=2, padded_bs=2, raw_num_tokens=2, padded_num_tokens=2)\n        fb_view = r.extract_buffer(\n            padded_bs=2, padded_num_tokens=2, forward_batch_template=fb\n        )\n        self.assertIsNotNone(fb_view.global_num_tokens_gpu)\n        self.assertEqual(\n            fb_view.global_num_tokens_gpu.data_ptr(),\n            r.get_slot(\"global_num_tokens_gpu\").buffer.data_ptr(),\n        )",
+      "oracle_lines": [
+        493,
+        494
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 501,
+      "test_name": "TestPostFillHook::test_post_fill_runs_after_copy",
+      "unit_id": "model.forward_buffer_computed_fields",
+      "reviewed_semantics": "post_fill multiplies copied head [1,2,3,4] into [10,20,30,40] and observes raw/padded token counts 4/8.",
+      "source_body": "def test_post_fill_runs_after_copy(self):\n        observed = {}\n\n        def hook(buf, fb, ctx):\n            # Multiply the raw region by 10 in-place.\n            buf[: ctx.raw_num_tokens] *= 10\n            observed[\"raw_n\"] = ctx.raw_num_tokens\n            observed[\"padded_n\"] = ctx.padded_num_tokens\n\n        r = _make_registry(max_bs=4, max_num_tokens=8)\n        r.register_slot(\n            GraphSlot(\n                name=\"input_ids\",\n                shape_fn=lambda bs, mt: (mt,),\n                dtype=torch.int64,\n                axis=\"tokens\",\n                post_fill=hook,\n            )\n        )\n        fb = _MiniForwardBatch(\n            batch_size=2,\n            input_ids=torch.arange(1, 5, dtype=torch.int64),  # [1,2,3,4]\n        )\n        r.fill_from(\n            fb,\n            raw_bs=2,\n            padded_bs=4,\n            raw_num_tokens=4,\n            padded_num_tokens=8,\n        )\n        self.assertTrue(\n            torch.equal(\n                r.get_slot(\"input_ids\").buffer[:4],\n                torch.tensor([10, 20, 30, 40], dtype=torch.int64),\n            )\n        )\n        self.assertEqual(observed, {\"raw_n\": 4, \"padded_n\": 8})",
+      "oracle_lines": [
+        531,
+        537
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 543,
+      "test_name": "TestSliceFnSlot::test_slice_fn_handles_2d_tokens_axis",
+      "unit_id": "model.forward_buffer_fill",
+      "reviewed_semantics": "Custom second-axis slice copies mrope 3x4 head and extract returns shape 3x8.",
+      "source_body": "def test_slice_fn_handles_2d_tokens_axis(self):\n        r = _make_registry(max_bs=4, max_num_tokens=8)\n        r.register_slot(\n            GraphSlot(\n                name=\"mrope_positions\",\n                shape_fn=lambda bs, mt: (3, mt),\n                dtype=torch.int64,\n                axis=\"tokens\",\n                slice_fn=lambda buf, n: buf[:, :n],\n            )\n        )\n        fb = _MiniForwardBatch(\n            batch_size=2,\n            mrope_positions=torch.arange(12, dtype=torch.int64).reshape(3, 4),\n        )\n        r.fill_from(\n            fb,\n            raw_bs=2,\n            padded_bs=4,\n            raw_num_tokens=4,\n            padded_num_tokens=8,\n        )\n        # Raw 3x4 region copied.\n        self.assertTrue(\n            torch.equal(\n                r.get_slot(\"mrope_positions\").buffer[:, :4],\n                fb.mrope_positions,\n            )\n        )\n        # extract_buffer should hand back the [:, :padded_num_tokens] view.\n        fb_view = r.extract_buffer(\n            padded_bs=4,\n            padded_num_tokens=8,\n            forward_batch_template=fb,\n        )\n        self.assertEqual(fb_view.mrope_positions.shape, (3, 8))",
+      "oracle_lines": [
+        566,
+        578
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 585,
+      "test_name": "TestSourceFnSlots::test_nested_fb_source_copies_source_length_head",
+      "unit_id": "model.forward_buffer_fill",
+      "reviewed_semantics": "Nested ngram column-starts source copies its own three-element head [1,2,3], retaining remaining poison 99.",
+      "source_body": "def test_nested_fb_source_copies_source_length_head(self):\n        r = _make_registry(max_bs=8, max_num_tokens=16)\n        r.register_slot(\n            GraphSlot(\n                name=\"ngram_embedding_info.column_starts\",\n                shape_fn=lambda _bs, _mt: (8,),\n                dtype=torch.int32,\n                axis=\"none\",\n                padding_policy=PaddingPolicy.KEEP_PAD,\n                source_fn=lambda fb, ctx: (\n                    None\n                    if fb.ngram_embedding_info is None\n                    else fb.ngram_embedding_info.column_starts\n                ),\n            )\n        )\n        buf = r.get_slot(\"ngram_embedding_info.column_starts\").buffer\n        buf.fill_(99)  # sentinel to prove the tail is untouched\n        fb = _MiniForwardBatch(\n            batch_size=3,\n            ngram_embedding_info=SimpleNamespace(\n                column_starts=torch.tensor([1, 2, 3], dtype=torch.int32),\n            ),\n        )\n        r.fill_from(fb, raw_bs=3, padded_bs=8, raw_num_tokens=3, padded_num_tokens=16)\n        # Head [:3] copied from the source; tail [3:] kept as the sentinel.\n        self.assertTrue(\n            torch.equal(buf[:3], torch.tensor([1, 2, 3], dtype=torch.int32))\n        )\n        self.assertTrue(torch.all(buf[3:] == 99))",
+      "oracle_lines": [
+        611,
+        614
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 616,
+      "test_name": "TestSourceFnSlots::test_source_fn_returning_none_skips_copy",
+      "unit_id": "model.forward_buffer_fill",
+      "reviewed_semantics": "Nested source_fn returning None leaves entire buffer at seven.",
+      "source_body": "def test_source_fn_returning_none_skips_copy(self):\n        r = _make_registry(max_bs=8, max_num_tokens=16)\n        r.register_slot(\n            GraphSlot(\n                name=\"ngram_embedding_info.column_starts\",\n                shape_fn=lambda _bs, _mt: (8,),\n                dtype=torch.int32,\n                axis=\"none\",\n                padding_policy=PaddingPolicy.KEEP_PAD,\n                source_fn=lambda fb, ctx: (\n                    None\n                    if fb.ngram_embedding_info is None\n                    else fb.ngram_embedding_info.column_starts\n                ),\n            )\n        )\n        buf = r.get_slot(\"ngram_embedding_info.column_starts\").buffer\n        buf.fill_(7)\n        fb = _MiniForwardBatch(batch_size=3, ngram_embedding_info=None)\n        r.fill_from(fb, raw_bs=3, padded_bs=8, raw_num_tokens=3, padded_num_tokens=16)\n        self.assertTrue(torch.all(buf == 7))",
+      "oracle_lines": [
+        636
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 638,
+      "test_name": "TestSourceFnSlots::test_side_input_source_via_fill_context",
+      "unit_id": "model.forward_buffer_fill",
+      "reviewed_semantics": "Pipeline side-input tensor from FillContext copies four head values [5,6,7,8].",
+      "source_body": "def test_side_input_source_via_fill_context(self):\n        r = _make_registry(max_bs=8, max_num_tokens=16)\n        r.register_slot(\n            GraphSlot(\n                name=\"pp_proxy_tensors.hidden_states\",\n                shape_fn=lambda _bs, mt: (mt,),\n                dtype=torch.int32,\n                axis=\"none\",\n                padding_policy=PaddingPolicy.KEEP_PAD,\n                source_fn=lambda fb, ctx: (\n                    None\n                    if ctx.pp_proxy_tensors is None\n                    else ctx.pp_proxy_tensors.tensors[\"hidden_states\"]\n                ),\n            )\n        )\n        buf = r.get_slot(\"pp_proxy_tensors.hidden_states\").buffer\n        buf.zero_()\n        fb = _MiniForwardBatch(batch_size=4)\n        pp = SimpleNamespace(\n            tensors={\"hidden_states\": torch.tensor([5, 6, 7, 8], dtype=torch.int32)}\n        )\n        r.fill_from(\n            fb,\n            raw_bs=4,\n            padded_bs=8,\n            raw_num_tokens=4,\n            padded_num_tokens=16,\n            pp_proxy_tensors=pp,\n        )\n        self.assertTrue(\n            torch.equal(buf[:4], torch.tensor([5, 6, 7, 8], dtype=torch.int32))\n        )",
+      "oracle_lines": [
+        668
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 672,
+      "test_name": "TestSourceFnSlots::test_extract_buffer_skips_dotted_slots",
+      "unit_id": "model.forward_buffer_view",
+      "reviewed_semantics": "Dotted structured slot is skipped by extraction, allowing new batch_size eight without invalid dotted dataclass argument.",
+      "source_body": "def test_extract_buffer_skips_dotted_slots(self):\n        r = _make_registry(max_bs=8, max_num_tokens=16)\n        r.register_slot(\n            GraphSlot(\n                name=\"ngram_embedding_info.column_starts\",\n                shape_fn=lambda _bs, _mt: (8,),\n                dtype=torch.int32,\n                axis=\"none\",\n                padding_policy=PaddingPolicy.KEEP_PAD,\n                source_fn=lambda fb, ctx: None,\n            )\n        )\n        fb = _MiniForwardBatch(batch_size=3)\n        # dataclasses.replace must not be handed a dotted kwarg.\n        fb_view = r.extract_buffer(\n            padded_bs=8, padded_num_tokens=16, forward_batch_template=fb\n        )\n        self.assertEqual(fb_view.batch_size, 8)",
+      "oracle_lines": [
+        689
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 719,
+      "test_name": "TestPoolBackedAlloc::test_share_pool_off_is_independent",
+      "unit_id": "model.forward_buffer_storage_sharing",
+      "reviewed_semantics": "share_pool=False registries allocate distinct addresses for otherwise identical ids slots.",
+      "source_body": "def test_share_pool_off_is_independent(self):\n        r1, r2 = self._reg(share_pool=False), self._reg(share_pool=False)\n        r1.register_slot(self._ids_slot(\"ids\"))\n        r2.register_slot(self._ids_slot(\"ids\"))\n        self.assertNotEqual(\n            r1.get_slot(\"ids\").buffer.data_ptr(),\n            r2.get_slot(\"ids\").buffer.data_ptr(),\n        )",
+      "oracle_lines": [
+        723
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 728,
+      "test_name": "TestPoolBackedAlloc::test_same_size_shares_one_allocation",
+      "unit_id": "model.forward_buffer_storage_sharing",
+      "reviewed_semantics": "share_pool=True identical sixteen-token ids slots share one data_ptr.",
+      "source_body": "def test_same_size_shares_one_allocation(self):\n        a = self._reg(max_num_tokens=16, share_pool=True)\n        b = self._reg(max_num_tokens=16, share_pool=True)\n        a.register_slot(self._ids_slot(\"ids\"))\n        b.register_slot(self._ids_slot(\"ids\"))\n        # Identical (name, size, dtype, device) -> one shared allocation.\n        self.assertEqual(\n            a.get_slot(\"ids\").buffer.data_ptr(),\n            b.get_slot(\"ids\").buffer.data_ptr(),\n        )",
+      "oracle_lines": [
+        734
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 739,
+      "test_name": "TestPoolBackedAlloc::test_different_sizes_do_not_share",
+      "unit_id": "model.forward_buffer_storage_sharing",
+      "reviewed_semantics": "Different token sizes sixteen/thirty-two preserve shapes and use different addresses.",
+      "source_body": "def test_different_sizes_do_not_share(self):\n        big = self._reg(max_num_tokens=32, share_pool=True)\n        small = self._reg(max_num_tokens=16, share_pool=True)\n        big.register_slot(self._ids_slot(\"ids\"))\n        small.register_slot(self._ids_slot(\"ids\"))\n        # Different sizes -> different pool keys -> independent storage (no\n        # aliasing a smaller request onto a larger buffer).\n        self.assertEqual(tuple(small.get_slot(\"ids\").buffer.shape), (16,))\n        self.assertEqual(tuple(big.get_slot(\"ids\").buffer.shape), (32,))\n        self.assertNotEqual(\n            small.get_slot(\"ids\").buffer.data_ptr(),\n            big.get_slot(\"ids\").buffer.data_ptr(),\n        )",
+      "oracle_lines": [
+        746,
+        747,
+        748
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 753,
+      "test_name": "TestPoolBackedAlloc::test_sharing_is_independent_of_registration_order",
+      "unit_id": "model.forward_buffer_storage_sharing",
+      "reviewed_semantics": "After resetting shared pool, equal sizes alias and different sizes remain distinct in either registration order.",
+      "source_body": "def test_sharing_is_independent_of_registration_order(self):\n        from sglang.srt.model_executor import input_buffers\n\n        def _ptrs(first_tokens, second_tokens):\n            input_buffers._forward_input_buffer_pool.clear()\n            r1 = self._reg(max_num_tokens=first_tokens, share_pool=True)\n            r1.register_slot(self._ids_slot(\"ids\"))\n            r2 = self._reg(max_num_tokens=second_tokens, share_pool=True)\n            r2.register_slot(self._ids_slot(\"ids\"))\n            return r1.get_slot(\"ids\").buffer, r2.get_slot(\"ids\").buffer\n\n        # Same size: shares in either order.\n        a, b = _ptrs(16, 16)\n        self.assertEqual(a.data_ptr(), b.data_ptr())\n        b2, a2 = _ptrs(16, 16)\n        self.assertEqual(a2.data_ptr(), b2.data_ptr())\n\n        # Different sizes: never shares, regardless of which registers first\n        # (the old strictly-larger rule shared big-then-small but not\n        # small-then-big — that asymmetry is what this fix removes).\n        big_first, small_after = _ptrs(32, 16)\n        self.assertNotEqual(big_first.data_ptr(), small_after.data_ptr())\n        small_first, big_after = _ptrs(16, 32)\n        self.assertNotEqual(small_first.data_ptr(), big_after.data_ptr())",
+      "oracle_lines": [
+        766,
+        768,
+        774,
+        776
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 789,
+      "test_name": "TestBuildDecodeRegistry::test_factory_slot_set_and_padding",
+      "unit_id": "model.forward_buffer_fill",
+      "reviewed_semantics": "Decode factory registers declared core slots but not mamba; input head copied and tail retained, cache/request tails zero, sequence tails sentinel five, host dtype/device correct, mrope head copied and extracted dimensions padded.",
+      "source_body": "def test_factory_slot_set_and_padding(self):\n        from sglang.srt.model_executor.cuda_graph_buffer_registry import (\n            build_decode_registry,\n        )\n\n        FILL = 5\n        reg = build_decode_registry(\n            device=torch.device(\"cpu\"),\n            max_bs=4,\n            max_num_token=8,\n            seq_len_fill_value=FILL,\n            cache_loc_dtype=torch.int64,\n            share_pool=False,\n        )\n        for name in (\n            \"input_ids\",\n            \"positions\",\n            \"out_cache_loc\",\n            \"req_pool_indices\",\n            \"seq_lens\",\n            \"seq_lens_cpu\",\n            \"mrope_positions\",\n        ):\n            self.assertTrue(reg.has_slot(name), name)\n        self.assertFalse(reg.has_slot(\"mamba_track_indices\"))\n\n        raw_bs, padded_bs, raw_nt, padded_nt = 2, 4, 2, 4\n        fb = _MiniForwardBatch(\n            batch_size=raw_bs,\n            input_ids=torch.tensor([10, 11], dtype=torch.int64),\n            positions=torch.tensor([0, 1], dtype=torch.int64),\n            out_cache_loc=torch.tensor([100, 101], dtype=torch.int64),\n            req_pool_indices=torch.tensor([1, 2], dtype=torch.int64),\n            seq_lens=torch.tensor([7, 8], dtype=torch.int64),\n            seq_lens_cpu=torch.tensor([7, 8], dtype=torch.int64),\n            mrope_positions=torch.tensor([[0, 1], [0, 1], [0, 1]], dtype=torch.int64),\n        )\n        # Poison tails so resets are observable.\n        for n in (\"input_ids\", \"positions\", \"out_cache_loc\", \"req_pool_indices\"):\n            reg.get_slot(n).buffer.fill_(99)\n        reg.fill_from(\n            fb,\n            raw_bs=raw_bs,\n            padded_bs=padded_bs,\n            raw_num_tokens=raw_nt,\n            padded_num_tokens=padded_nt,\n        )\n\n        # FOREACH_COPY: head copied, tail kept (poison).\n        ids = reg.get_slot(\"input_ids\").buffer\n        self.assertTrue(torch.equal(ids[:2], torch.tensor([10, 11])))\n        self.assertTrue(torch.equal(ids[2:4], torch.tensor([99, 99])))\n        # ZERO: head copied, tail zeroed.\n        oc = reg.get_slot(\"out_cache_loc\").buffer\n        self.assertTrue(torch.equal(oc[:2], torch.tensor([100, 101])))\n        self.assertTrue(torch.equal(oc[2:4], torch.tensor([0, 0])))\n        rp = reg.get_slot(\"req_pool_indices\").buffer\n        self.assertTrue(torch.equal(rp[:2], torch.tensor([1, 2])))\n        self.assertTrue(torch.equal(rp[2:4], torch.tensor([0, 0])))\n        # FILL_SENTINEL: head copied, tail = seq_len_fill_value.\n        sl = reg.get_slot(\"seq_lens\").buffer\n        self.assertEqual(sl.dtype, torch.int64)\n        self.assertTrue(torch.equal(sl[:2], torch.tensor([7, 8], dtype=torch.int64)))\n        self.assertTrue(\n            torch.equal(sl[2:4], torch.tensor([FILL, FILL], dtype=torch.int64))\n        )\n        slc = reg.get_slot(\"seq_lens_cpu\").buffer\n        self.assertEqual(slc.device.type, \"cpu\")\n        self.assertEqual(slc.dtype, torch.int64)\n        self.assertTrue(\n            torch.equal(slc[2:4], torch.tensor([FILL, FILL], dtype=torch.int64))\n        )\n        # 2D mrope via slice_fn.\n        mr = reg.get_slot(\"mrope_positions\").buffer\n        self.assertTrue(torch.equal(mr[:, :2], fb.mrope_positions))\n\n        fb_view = reg.extract_buffer(\n            padded_bs=padded_bs,\n            padded_num_tokens=padded_nt,\n            forward_batch_template=fb,\n        )\n        self.assertEqual(fb_view.batch_size, padded_bs)\n        self.assertEqual(fb_view.input_ids.shape[0], padded_nt)\n        self.assertEqual(fb_view.seq_lens.shape[0], padded_bs)",
+      "oracle_lines": [
+        812,
+        813,
+        839,
+        840,
+        843,
+        844,
+        846,
+        847,
+        850,
+        851,
+        852,
+        856,
+        857,
+        858,
+        863,
+        870,
+        871,
+        872
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 874,
+      "test_name": "TestBuildDecodeRegistry::test_source_adopts_buffers",
+      "unit_id": "model.forward_buffer_storage_sharing",
+      "reviewed_semantics": "Decode registry adopts source input_ids, seq_lens, host seq_lens and mrope storage by pointer identity.",
+      "source_body": "def test_source_adopts_buffers(self):\n        from sglang.srt.model_executor.cuda_graph_buffer_registry import (\n            build_decode_registry,\n        )\n\n        src = SimpleNamespace(\n            input_ids=torch.zeros(8, dtype=torch.int64),\n            positions=torch.zeros(8, dtype=torch.int64),\n            out_cache_loc=torch.zeros(8, dtype=torch.int64),\n            req_pool_indices=torch.zeros(4, dtype=torch.int64),\n            seq_lens=torch.full((4,), 5, dtype=torch.int64),\n            seq_lens_cpu=torch.full((4,), 5, dtype=torch.int64),\n            mrope_positions=torch.zeros((3, 8), dtype=torch.int64),\n            global_num_tokens_gpu=torch.zeros(1, dtype=torch.int32),\n            global_num_tokens_for_logprob_gpu=torch.zeros(1, dtype=torch.int32),\n        )\n        reg = build_decode_registry(\n            device=torch.device(\"cpu\"),\n            max_bs=4,\n            max_num_token=8,\n            seq_len_fill_value=5,\n            cache_loc_dtype=torch.int64,\n            source=src,\n        )\n        # Registry slots share storage with the source's tensors.\n        for name in (\"input_ids\", \"seq_lens\", \"seq_lens_cpu\", \"mrope_positions\"):\n            self.assertEqual(\n                reg.get_slot(name).buffer.data_ptr(),\n                getattr(src, name).data_ptr(),\n                name,\n            )",
+      "oracle_lines": [
+        900
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 906,
+      "test_name": "TestBuildDecodeRegistry::test_num_token_non_padded_gathered_dp_branch",
+      "unit_id": "model.forward_buffer_computed_fields",
+      "reviewed_semantics": "With attention TP size two/rank zero, gathered local nonpadded count clamps global100 into padded8/TP2 local count four.",
+      "source_body": "def test_num_token_non_padded_gathered_dp_branch(self):\n\n        from sglang.srt.model_executor.cuda_graph_buffer_registry import (\n            build_decode_registry,\n        )\n        from sglang.srt.runtime_context import get_parallel\n\n        ntnp = torch.zeros(1, dtype=torch.int32)\n        src = SimpleNamespace(\n            input_ids=torch.zeros(8, dtype=torch.int64),\n            positions=torch.zeros(8, dtype=torch.int64),\n            out_cache_loc=torch.zeros(8, dtype=torch.int64),\n            req_pool_indices=torch.zeros(4, dtype=torch.int64),\n            seq_lens=torch.full((4,), 5, dtype=torch.int64),\n            seq_lens_cpu=torch.full((4,), 5, dtype=torch.int64),\n            mrope_positions=torch.zeros((3, 8), dtype=torch.int64),\n            num_token_non_padded=ntnp,\n            global_num_tokens_gpu=torch.zeros(1, dtype=torch.int32),\n            global_num_tokens_for_logprob_gpu=torch.zeros(1, dtype=torch.int32),\n        )\n        # Gathered (DP) path: post_fill overwrites the FB copy with the local\n        # count. Pin attn-TP (size=2, rank=0) so the result is deterministic.\n        with get_parallel().override(attn_tp_size=2, attn_tp_rank=0):\n            reg = build_decode_registry(\n                device=torch.device(\"cpu\"),\n                max_bs=4,\n                max_num_token=8,\n                seq_len_fill_value=5,\n                cache_loc_dtype=torch.int64,\n                enable_num_token_non_padded=True,\n                require_gathered_buffer=True,\n                source=src,\n            )\n            fb = _MiniForwardBatch(\n                num_token_non_padded=torch.tensor([100], dtype=torch.int32),\n            )\n            reg.fill_from(\n                fb, raw_bs=4, padded_bs=4, raw_num_tokens=4, padded_num_tokens=8\n            )\n        # tokens_per_rank = padded_num_tokens(8) // attn_tp_size(2) = 4;\n        # local = clamp(100 - rank*4, 0, 4) = 4  (NOT the raw FB copy of 100).\n        self.assertEqual(int(src.num_token_non_padded.item()), 4)",
+      "oracle_lines": [
+        947
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 949,
+      "test_name": "TestBuildDecodeRegistry::test_register_global_num_tokens_false_carries_fb_values",
+      "unit_id": "model.forward_buffer_view",
+      "reviewed_semantics": "Disabling computed global token registration carries original batch tensors 37 and 41 by identity; default factory registers both fields.",
+      "source_body": "def test_register_global_num_tokens_false_carries_fb_values(self):\n        # register_global_num_tokens=False (eager) excludes the computed\n        # global_num_tokens_* slots so the batch's DP values are carried, not\n        # clobbered by the zero buffer extract_buffer would otherwise expose.\n        from sglang.srt.model_executor.cuda_graph_buffer_registry import (\n            build_decode_registry,\n        )\n\n        reg = build_decode_registry(\n            device=torch.device(\"cpu\"),\n            max_bs=4,\n            max_num_token=8,\n            seq_len_fill_value=5,\n            cache_loc_dtype=torch.int64,\n            register_global_num_tokens=False,\n            share_pool=False,\n            source=None,\n        )\n        self.assertFalse(reg.has_slot(\"global_num_tokens_gpu\"))\n        self.assertFalse(reg.has_slot(\"global_num_tokens_for_logprob_gpu\"))\n\n        gnt = torch.tensor([37], dtype=torch.int32)\n        gntlp = torch.tensor([41], dtype=torch.int32)\n        fb = _MiniForwardBatch(\n            batch_size=2,\n            input_ids=torch.arange(2, dtype=torch.int64),\n            positions=torch.arange(2, dtype=torch.int64),\n            out_cache_loc=torch.arange(2, dtype=torch.int64),\n            req_pool_indices=torch.zeros(2, dtype=torch.int64),\n            seq_lens=torch.full((2,), 5, dtype=torch.int64),\n            seq_lens_cpu=torch.full((2,), 5, dtype=torch.int64),\n            global_num_tokens_gpu=gnt,\n            global_num_tokens_for_logprob_gpu=gntlp,\n        )\n        reg.fill_from(fb, raw_bs=2, padded_bs=2, raw_num_tokens=2, padded_num_tokens=2)\n        fb_view = reg.extract_buffer(\n            padded_bs=2, padded_num_tokens=2, forward_batch_template=fb\n        )\n        # Carried from the batch (same tensors), not a zero registry buffer.\n        self.assertIs(fb_view.global_num_tokens_gpu, gnt)\n        self.assertIs(fb_view.global_num_tokens_for_logprob_gpu, gntlp)\n\n        # Default (graph path) still registers the computed slots.\n        reg2 = build_decode_registry(\n            device=torch.device(\"cpu\"),\n            max_bs=4,\n            max_num_token=8,\n            seq_len_fill_value=5,\n            cache_loc_dtype=torch.int64,\n            share_pool=False,\n            source=None,\n        )\n        self.assertTrue(reg2.has_slot(\"global_num_tokens_gpu\"))\n        self.assertTrue(reg2.has_slot(\"global_num_tokens_for_logprob_gpu\"))",
+      "oracle_lines": [
+        967,
+        968,
+        988,
+        989,
+        1001,
+        1002
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 1004,
+      "test_name": "TestBuildDecodeRegistry::test_source_with_ngram_registers_structured_slots",
+      "unit_id": "model.forward_buffer_fill",
+      "reviewed_semantics": "Decode nested ngram slots adopt column storage and copy explicit column starts [7,8,9] and request lengths [1,1,2] into heads.",
+      "source_body": "def test_source_with_ngram_registers_structured_slots(self):\n        from sglang.srt.model_executor.cuda_graph_buffer_registry import (\n            build_decode_registry,\n        )\n\n        col = torch.zeros(4, dtype=torch.int32)\n        req = torch.ones(4, dtype=torch.int32)\n        src = SimpleNamespace(\n            input_ids=torch.zeros(8, dtype=torch.int64),\n            positions=torch.zeros(8, dtype=torch.int64),\n            out_cache_loc=torch.zeros(8, dtype=torch.int64),\n            req_pool_indices=torch.zeros(4, dtype=torch.int64),\n            seq_lens=torch.full((4,), 5, dtype=torch.int64),\n            seq_lens_cpu=torch.full((4,), 5, dtype=torch.int64),\n            mrope_positions=torch.zeros((3, 8), dtype=torch.int64),\n            global_num_tokens_gpu=torch.zeros(1, dtype=torch.int32),\n            global_num_tokens_for_logprob_gpu=torch.zeros(1, dtype=torch.int32),\n            ngram_embedding_info=SimpleNamespace(column_starts=col, req_lens=req),\n        )\n        reg = build_decode_registry(\n            device=torch.device(\"cpu\"),\n            max_bs=4,\n            max_num_token=8,\n            seq_len_fill_value=5,\n            cache_loc_dtype=torch.int64,\n            source=src,\n        )\n        # Structured slots adopt the source's nested storage.\n        self.assertTrue(reg.has_slot(\"ngram_embedding_info.column_starts\"))\n        self.assertEqual(\n            reg.get_slot(\"ngram_embedding_info.column_starts\").buffer.data_ptr(),\n            col.data_ptr(),\n        )\n        # And fill_from copies the head from the FB's nested dataclass.\n        fb = _MiniForwardBatch(\n            batch_size=3,\n            ngram_embedding_info=SimpleNamespace(\n                column_starts=torch.tensor([7, 8, 9], dtype=torch.int32),\n                req_lens=torch.tensor([1, 1, 2], dtype=torch.int32),\n            ),\n        )\n        reg.fill_from(fb, raw_bs=3, padded_bs=4, raw_num_tokens=3, padded_num_tokens=8)\n        self.assertTrue(\n            torch.equal(col[:3], torch.tensor([7, 8, 9], dtype=torch.int32))\n        )\n        self.assertTrue(\n            torch.equal(req[:3], torch.tensor([1, 1, 2], dtype=torch.int32))\n        )",
+      "oracle_lines": [
+        1032,
+        1033,
+        1046,
+        1049
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 1053,
+      "test_name": "TestBuildDecodeRegistry::test_source_with_pp_registers_proxy_slots",
+      "unit_id": "model.forward_buffer_fill",
+      "reviewed_semantics": "Decode pipeline hidden-state slot adopts source pointer; side input copies three rows of ones and leaves remaining zero rows.",
+      "source_body": "def test_source_with_pp_registers_proxy_slots(self):\n        from sglang.srt.model_executor.cuda_graph_buffer_registry import (\n            build_decode_registry,\n        )\n\n        hs = torch.zeros((8, 2), dtype=torch.int32)\n        src = SimpleNamespace(\n            input_ids=torch.zeros(8, dtype=torch.int64),\n            positions=torch.zeros(8, dtype=torch.int64),\n            out_cache_loc=torch.zeros(8, dtype=torch.int64),\n            req_pool_indices=torch.zeros(4, dtype=torch.int64),\n            seq_lens=torch.full((4,), 5, dtype=torch.int64),\n            seq_lens_cpu=torch.full((4,), 5, dtype=torch.int64),\n            mrope_positions=torch.zeros((3, 8), dtype=torch.int64),\n            global_num_tokens_gpu=torch.zeros(1, dtype=torch.int32),\n            global_num_tokens_for_logprob_gpu=torch.zeros(1, dtype=torch.int32),\n            pp_proxy_tensors={\"hidden_states\": hs},\n        )\n        reg = build_decode_registry(\n            device=torch.device(\"cpu\"),\n            max_bs=4,\n            max_num_token=8,\n            seq_len_fill_value=5,\n            cache_loc_dtype=torch.int64,\n            source=src,\n        )\n        self.assertTrue(reg.has_slot(\"pp_proxy_tensors.hidden_states\"))\n        self.assertEqual(\n            reg.get_slot(\"pp_proxy_tensors.hidden_states\").buffer.data_ptr(),\n            hs.data_ptr(),\n        )\n        # The pp input is not on the FB — it rides on the fill_from kwarg.\n        fb = _MiniForwardBatch(batch_size=3)\n        pp = SimpleNamespace(\n            tensors={\"hidden_states\": torch.ones((3, 2), dtype=torch.int32)}\n        )\n        reg.fill_from(\n            fb,\n            raw_bs=3,\n            padded_bs=4,\n            raw_num_tokens=3,\n            padded_num_tokens=8,\n            pp_proxy_tensors=pp,\n        )\n        self.assertTrue(torch.all(hs[:3] == 1))\n        self.assertTrue(torch.all(hs[3:] == 0))",
+      "oracle_lines": [
+        1079,
+        1080,
+        1097,
+        1098
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 1100,
+      "test_name": "TestBuildDecodeRegistry::test_source_with_canary_registers_bs_slots",
+      "unit_id": "model.forward_buffer_fill",
+      "reviewed_semantics": "Decode canary fields register and copy request-id/bootstrap heads; bootstrap tail retains original -1.",
+      "source_body": "def test_source_with_canary_registers_bs_slots(self):\n        from sglang.srt.model_executor.cuda_graph_buffer_registry import (\n            build_decode_registry,\n        )\n\n        rids = torch.zeros(4, dtype=torch.int64)\n        boot = torch.full((4,), -1, dtype=torch.int64)\n        src = SimpleNamespace(\n            input_ids=torch.zeros(8, dtype=torch.int64),\n            positions=torch.zeros(8, dtype=torch.int64),\n            out_cache_loc=torch.zeros(8, dtype=torch.int64),\n            req_pool_indices=torch.zeros(4, dtype=torch.int64),\n            seq_lens=torch.full((4,), 5, dtype=torch.int64),\n            seq_lens_cpu=torch.full((4,), 5, dtype=torch.int64),\n            mrope_positions=torch.zeros((3, 8), dtype=torch.int64),\n            global_num_tokens_gpu=torch.zeros(1, dtype=torch.int32),\n            global_num_tokens_for_logprob_gpu=torch.zeros(1, dtype=torch.int32),\n            rids_int=rids,\n            bootstrap_room_ids_int=boot,\n        )\n        reg = build_decode_registry(\n            device=torch.device(\"cpu\"),\n            max_bs=4,\n            max_num_token=8,\n            seq_len_fill_value=5,\n            cache_loc_dtype=torch.int64,\n            source=src,\n        )\n        self.assertTrue(reg.has_slot(\"rids_int\"))\n        self.assertTrue(reg.has_slot(\"bootstrap_room_ids_int\"))\n        fb = _MiniForwardBatch(\n            batch_size=2,\n            rids_int=torch.tensor([10, 11], dtype=torch.int64),\n            bootstrap_room_ids_int=torch.tensor([20, 21], dtype=torch.int64),\n        )\n        reg.fill_from(fb, raw_bs=2, padded_bs=4, raw_num_tokens=2, padded_num_tokens=8)\n        # Head copied; bootstrap tail keeps its -1 init (no per-iter reset).\n        self.assertTrue(\n            torch.equal(rids[:2], torch.tensor([10, 11], dtype=torch.int64))\n        )\n        self.assertTrue(\n            torch.equal(boot[:2], torch.tensor([20, 21], dtype=torch.int64))\n        )\n        self.assertTrue(torch.all(boot[2:] == -1))",
+      "oracle_lines": [
+        1128,
+        1129,
+        1137,
+        1140,
+        1143
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 1159,
+      "test_name": "TestBuildPrefillRegistry::test_core_token_slots_zero_tail_and_copy_head",
+      "unit_id": "model.forward_buffer_fill",
+      "reviewed_semantics": "Prefill core slots adopt source storage; input_ids head becomes [1,2,3], in-bucket tail3:8 is zero, beyond-bucket tail retains poison seven.",
+      "source_body": "def test_core_token_slots_zero_tail_and_copy_head(self):\n        from sglang.srt.model_executor.cuda_graph_buffer_registry import (\n            build_prefill_registry,\n        )\n\n        src = self._src()\n        reg = build_prefill_registry(\n            device=torch.device(\"cpu\"),\n            max_bs=1,\n            max_num_token=16,\n            cache_loc_dtype=torch.int64,\n            source=src,\n        )\n        for name in (\"input_ids\", \"positions\", \"out_cache_loc\"):\n            self.assertEqual(\n                reg.get_slot(name).buffer.data_ptr(),\n                getattr(src, name).data_ptr(),\n                name,\n            )\n        # poison tails so the ZERO reset is observable\n        for name in (\"input_ids\", \"positions\", \"out_cache_loc\"):\n            reg.get_slot(name).buffer.fill_(7)\n        fb = _MiniForwardBatch(\n            input_ids=torch.tensor([1, 2, 3], dtype=torch.int64),\n            positions=torch.tensor([4, 5, 6], dtype=torch.int64),\n            out_cache_loc=torch.tensor([8, 9, 10], dtype=torch.int64),\n        )\n        # raw 3 tokens, padded (static) bucket 8\n        reg.fill_from(fb, raw_bs=1, padded_bs=1, raw_num_tokens=3, padded_num_tokens=8)\n        ids = reg.get_slot(\"input_ids\").buffer\n        self.assertTrue(\n            torch.equal(ids[:3], torch.tensor([1, 2, 3], dtype=torch.int64))\n        )\n        self.assertTrue(torch.all(ids[3:8] == 0))  # padded tail reset\n        self.assertTrue(torch.all(ids[8:] == 7))",
+      "oracle_lines": [
+        1173,
+        1189,
+        1192,
+        1193
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 1195,
+      "test_name": "TestBuildPrefillRegistry::test_multimodal_input_embeds_reset_only",
+      "unit_id": "model.forward_buffer_fill",
+      "reviewed_semantics": "Multimodal prefill registers mrope and embeds; reset-only embeds ignore input nines, keep head fives and zero padded tail; mrope copies ones into head and zeroes second-axis tail.",
+      "source_body": "def test_multimodal_input_embeds_reset_only(self):\n        from sglang.srt.model_executor.cuda_graph_buffer_registry import (\n            build_prefill_registry,\n        )\n\n        src = self._src(\n            mrope_positions=torch.zeros((3, 16), dtype=torch.int64),\n            input_embeds=torch.zeros((16, 4), dtype=torch.float32),\n        )\n        reg = build_prefill_registry(\n            device=torch.device(\"cpu\"),\n            max_bs=1,\n            max_num_token=16,\n            cache_loc_dtype=torch.int64,\n            is_multimodal=True,\n            hidden_size=4,\n            embed_dtype=torch.float32,\n            source=src,\n        )\n        self.assertTrue(reg.has_slot(\"mrope_positions\"))\n        self.assertTrue(reg.has_slot(\"input_embeds\"))\n        emb = reg.get_slot(\"input_embeds\").buffer\n        emb.fill_(5.0)  # the model would write real embeds here; we just check reset\n        fb = _MiniForwardBatch(\n            input_ids=torch.zeros(3, dtype=torch.int64),\n            positions=torch.zeros(3, dtype=torch.int64),\n            out_cache_loc=torch.zeros(3, dtype=torch.int64),\n            mrope_positions=torch.ones((3, 3), dtype=torch.int64),\n            input_embeds=torch.full(\n                (3, 4), 9.0\n            ),  # must be ignored (copy_from_fb=False)\n        )\n        reg.fill_from(fb, raw_bs=1, padded_bs=1, raw_num_tokens=3, padded_num_tokens=8)\n        # input_embeds: head NOT copied from FB; padded tail zeroed.\n        self.assertTrue(torch.all(emb[:3] == 5.0))\n        self.assertTrue(torch.all(emb[3:8] == 0.0))\n        # mrope: head copied, 2D tail zeroed.\n        mr = reg.get_slot(\"mrope_positions\").buffer\n        self.assertTrue(torch.all(mr[:, :3] == 1))\n        self.assertTrue(torch.all(mr[:, 3:8] == 0))",
+      "oracle_lines": [
+        1214,
+        1215,
+        1229,
+        1230,
+        1233,
+        1234
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 1236,
+      "test_name": "TestBuildPrefillRegistry::test_mamba_bs_axis_copy",
+      "unit_id": "model.forward_buffer_fill",
+      "reviewed_semantics": "Enabled prefill mamba index slot copies two batch-axis indices [3,4] despite token-axis counts three/eight.",
+      "source_body": "def test_mamba_bs_axis_copy(self):\n        from sglang.srt.model_executor.cuda_graph_buffer_registry import (\n            build_prefill_registry,\n        )\n\n        idx = torch.zeros(2, dtype=torch.int64)\n        src = self._src(\n            mamba_track_indices=idx,\n            mamba_track_mask=torch.zeros(2, dtype=torch.bool),\n            mamba_track_seqlens=torch.zeros(2, dtype=torch.int32),\n        )\n        reg = build_prefill_registry(\n            device=torch.device(\"cpu\"),\n            max_bs=2,\n            max_num_token=16,\n            cache_loc_dtype=torch.int64,\n            enable_mamba_track=True,\n            source=src,\n        )\n        self.assertTrue(reg.has_slot(\"mamba_track_indices\"))\n        fb = _MiniForwardBatch(\n            input_ids=torch.zeros(3, dtype=torch.int64),\n            positions=torch.zeros(3, dtype=torch.int64),\n            out_cache_loc=torch.zeros(3, dtype=torch.int64),\n            mamba_track_indices=torch.tensor([3, 4], dtype=torch.int64),\n            mamba_track_mask=torch.zeros(2, dtype=torch.bool),\n            mamba_track_seqlens=torch.zeros(2, dtype=torch.int32),\n        )\n        reg.fill_from(fb, raw_bs=2, padded_bs=2, raw_num_tokens=3, padded_num_tokens=8)\n        self.assertTrue(torch.equal(idx, torch.tensor([3, 4], dtype=torch.int64)))",
+      "oracle_lines": [
+        1255,
+        1265
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 1267,
+      "test_name": "TestBuildPrefillRegistry::test_source_none_owns_allocated_buffers",
+      "unit_id": "model.forward_buffer_registration",
+      "reviewed_semantics": "Source-free prefill allocates expected core/mrope/embed/mamba shapes; subsequent fill copies [1,2,3] head and zeroes padded tail.",
+      "source_body": "def test_source_none_owns_allocated_buffers(self):\n        # source=None -> the registry allocates (owns) every slot.\n        from sglang.srt.model_executor.cuda_graph_buffer_registry import (\n            build_prefill_registry,\n        )\n\n        reg = build_prefill_registry(\n            device=torch.device(\"cpu\"),\n            max_bs=2,\n            max_num_token=16,\n            cache_loc_dtype=torch.int64,\n            is_multimodal=True,\n            hidden_size=4,\n            embed_dtype=torch.float32,\n            enable_mamba_track=True,\n            share_pool=False,\n            source=None,\n        )\n        self.assertEqual(tuple(reg.get_slot(\"input_ids\").buffer.shape), (16,))\n        self.assertEqual(tuple(reg.get_slot(\"positions\").buffer.shape), (16,))\n        self.assertEqual(tuple(reg.get_slot(\"out_cache_loc\").buffer.shape), (16,))\n        self.assertEqual(tuple(reg.get_slot(\"mrope_positions\").buffer.shape), (3, 16))\n        self.assertEqual(tuple(reg.get_slot(\"input_embeds\").buffer.shape), (16, 4))\n        self.assertEqual(tuple(reg.get_slot(\"mamba_track_indices\").buffer.shape), (2,))\n        # Fills + ZERO-tails the pad with no backing source.\n        fb = _MiniForwardBatch(\n            input_ids=torch.tensor([1, 2, 3], dtype=torch.int64),\n            positions=torch.tensor([4, 5, 6], dtype=torch.int64),\n            out_cache_loc=torch.tensor([7, 8, 9], dtype=torch.int64),\n        )\n        reg.fill_from(fb, raw_bs=1, padded_bs=1, raw_num_tokens=3, padded_num_tokens=8)\n        ids = reg.get_slot(\"input_ids\").buffer\n        self.assertTrue(\n            torch.equal(ids[:3], torch.tensor([1, 2, 3], dtype=torch.int64))\n        )\n        self.assertTrue(torch.all(ids[3:8] == 0))",
+      "oracle_lines": [
+        1285,
+        1286,
+        1287,
+        1288,
+        1289,
+        1290,
+        1299,
+        1302
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 1304,
+      "test_name": "TestBuildPrefillRegistry::test_register_input_embeds_false_keeps_mrope_carries_embeds",
+      "unit_id": "model.forward_buffer_view",
+      "reviewed_semantics": "Multimodal prefill without input_embeds registration retains mrope slot and carries the original input embedding object into extracted batch.",
+      "source_body": "def test_register_input_embeds_false_keeps_mrope_carries_embeds(self):\n        # register_input_embeds=False (eager): mrope stays registered but\n        # input_embeds is carried from the FB (a read input), not a zero buffer.\n        from sglang.srt.model_executor.cuda_graph_buffer_registry import (\n            build_prefill_registry,\n        )\n\n        reg = build_prefill_registry(\n            device=torch.device(\"cpu\"),\n            max_bs=2,\n            max_num_token=8,\n            cache_loc_dtype=torch.int64,\n            is_multimodal=True,\n            hidden_size=4,\n            embed_dtype=torch.float32,\n            register_input_embeds=False,\n            share_pool=False,\n            source=None,\n        )\n        self.assertTrue(reg.has_slot(\"mrope_positions\"))\n        self.assertFalse(reg.has_slot(\"input_embeds\"))\n        # extract_buffer carries the FB's real input_embeds (not a zero buffer).\n        embeds = torch.randn(3, 4)\n        fb = _MiniForwardBatch(\n            batch_size=1,\n            input_ids=torch.tensor([1, 2, 3], dtype=torch.int64),\n            positions=torch.tensor([0, 1, 2], dtype=torch.int64),\n            out_cache_loc=torch.tensor([7, 8, 9], dtype=torch.int64),\n            input_embeds=embeds,\n        )\n        reg.fill_from(fb, raw_bs=1, padded_bs=1, raw_num_tokens=3, padded_num_tokens=3)\n        fb_view = reg.extract_buffer(\n            padded_bs=1, padded_num_tokens=3, forward_batch_template=fb\n        )\n        self.assertIs(fb_view.input_embeds, embeds)",
+      "oracle_lines": [
+        1323,
+        1324,
+        1338
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 1345,
+      "test_name": "TestFillOncePolicy::test_fill_once_inits_once_and_keeps_tail",
+      "unit_id": "model.forward_buffer_fill",
+      "reviewed_semantics": "FILL_ONCE initializes four nines; later raw head copies [1,2] while manually poisoned padded tail remains 99.",
+      "source_body": "def test_fill_once_inits_once_and_keeps_tail(self):\n        reg = CudaGraphBufferRegistry(\n            device=torch.device(\"cpu\"), max_bs=4, max_num_tokens=8\n        )\n        reg.register_slot(\n            GraphSlot(\n                \"encoder_lens\",\n                lambda bs, mt: (bs,),\n                torch.int32,\n                axis=\"bs\",\n                padding_policy=PaddingPolicy.FILL_ONCE,\n                pad_value=9,\n            )\n        )\n        buf = reg.get_slot(\"encoder_lens\").buffer\n        self.assertTrue(torch.equal(buf, torch.tensor([9, 9, 9, 9], dtype=torch.int32)))\n        buf[2:].fill_(99)  # poison the tail\n        fb = _MiniForwardBatch(\n            batch_size=2, encoder_lens=torch.tensor([1, 2], dtype=torch.int32)\n        )\n        reg.fill_from(fb, raw_bs=2, padded_bs=4, raw_num_tokens=2, padded_num_tokens=4)\n        # Head copied; tail NOT reset (FILL_ONCE skips the per-iter reset).\n        self.assertTrue(torch.equal(buf[:2], torch.tensor([1, 2], dtype=torch.int32)))\n        self.assertTrue(torch.equal(buf[2:], torch.tensor([99, 99], dtype=torch.int32)))",
+      "oracle_lines": [
+        1360,
+        1367,
+        1368
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 1375,
+      "test_name": "TestComputedSlots::test_num_token_non_padded_copy_path",
+      "unit_id": "model.forward_buffer_computed_fields",
+      "reviewed_semantics": "Non-gathered num_token_non_padded slot preserves copied batch value seven.",
+      "source_body": "def test_num_token_non_padded_copy_path(self):\n        from sglang.srt.model_executor.cuda_graph_buffer_registry import (\n            build_decode_registry,\n        )\n\n        reg = build_decode_registry(\n            device=torch.device(\"cpu\"),\n            max_bs=4,\n            max_num_token=8,\n            seq_len_fill_value=5,\n            cache_loc_dtype=torch.int64,\n            enable_num_token_non_padded=True,\n            require_gathered_buffer=False,\n        )\n        self.assertTrue(reg.has_slot(\"num_token_non_padded\"))\n        fb = _MiniForwardBatch(\n            batch_size=2,\n            num_token_non_padded=torch.tensor([7], dtype=torch.int32),\n        )\n        reg.fill_from(fb, raw_bs=2, padded_bs=2, raw_num_tokens=2, padded_num_tokens=2)\n        # Non-gathered: plain FB copy, post_fill is a no-op.\n        self.assertTrue(\n            torch.equal(\n                reg.get_slot(\"num_token_non_padded\").buffer,\n                torch.tensor([7], dtype=torch.int32),\n            )\n        )",
+      "oracle_lines": [
+        1389,
+        1396
+      ]
+    },
+    {
+      "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+      "line": 1403,
+      "test_name": "TestComputedSlots::test_global_num_tokens_fill_path",
+      "unit_id": "model.forward_buffer_computed_fields",
+      "reviewed_semantics": "Gathered global_num_tokens ignores stale batch value999 and writes padded token count four.",
+      "source_body": "def test_global_num_tokens_fill_path(self):\n        from sglang.srt.model_executor.cuda_graph_buffer_registry import (\n            build_decode_registry,\n        )\n\n        reg = build_decode_registry(\n            device=torch.device(\"cpu\"),\n            max_bs=4,\n            max_num_token=8,\n            seq_len_fill_value=5,\n            cache_loc_dtype=torch.int64,\n            require_gathered_buffer=True,\n        )\n        self.assertTrue(reg.has_slot(\"global_num_tokens_gpu\"))\n        # FB carries a stale value; copy_from_fb=False means it's ignored and\n        # the slot is filled with padded_num_tokens by post_fill.\n        fb = _MiniForwardBatch(\n            batch_size=2,\n            global_num_tokens_gpu=torch.tensor([999], dtype=torch.int32),\n        )\n        reg.fill_from(fb, raw_bs=2, padded_bs=4, raw_num_tokens=2, padded_num_tokens=4)\n        self.assertTrue(\n            torch.equal(\n                reg.get_slot(\"global_num_tokens_gpu\").buffer,\n                torch.tensor([4], dtype=torch.int32),\n            )\n        )",
+      "oracle_lines": [
+        1416,
+        1424
+      ]
+    }
+  ]
+}

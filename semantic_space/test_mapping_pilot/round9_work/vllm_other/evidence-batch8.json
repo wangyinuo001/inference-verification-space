@@ -1,0 +1,2287 @@
+{
+  "batch": "routing_sampling",
+  "counts": {
+    "scope": 47,
+    "mapped": 42,
+    "pending": 5
+  },
+  "review_method": "All assigned test bodies and named shared helpers read, preserving exact numerical tolerances, input generation and checked observable. No test execution claimed. Statistics, schema-only opcheck and allocation observations remain distinct.",
+  "file_reviews": [
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/test_shuffle_rows.py",
+      "source_sha256": "d98b02cb8fb09e848dd5224365d96dc6f276fc4a4cca53fc480892f586a5e2a9",
+      "review": "Complete file read and each assigned test individually classified against concrete assertions and shared helper reference."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/moe/test_grouped_topk.py",
+      "source_sha256": "06d2ed9294a25b990133b2ac6c5952f1047a239f7d8046509c1418920e9e37a7",
+      "review": "Complete file read and each assigned test individually classified against concrete assertions and shared helper reference."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/moe/test_rocm_aiter_topk.py",
+      "source_sha256": "c1a4496f04386e3169e48d22a9414f3af7f8f8cf7035f2ec0adf8d42718d6395",
+      "review": "Complete file read and each assigned test individually classified against concrete assertions and shared helper reference."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/test_cpu_fused_sampling.py",
+      "source_sha256": "8e356f306b812b79b4720429c33d2658683d09f99c3f70b76d46c2918a21befd",
+      "review": "Complete file read and each assigned test individually classified against concrete assertions and shared helper reference."
+    }
+  ],
+  "product_sources": [
+    {
+      "path": "vllm/_custom_ops.py",
+      "lines": [
+        948
+      ],
+      "source_sha256": "8078c28d097543abd976ce258f0e4469df8411e835cd836fff23f65d8a9241fd"
+    },
+    {
+      "path": "vllm/model_executor/layers/fused_moe/router/grouped_topk_router.py",
+      "lines": [
+        31,
+        92,
+        263
+      ],
+      "source_sha256": "9986d9045b2c317f6123ead0949a710d01daa8f0282a0999c6a9fd382bba453d"
+    },
+    {
+      "path": "vllm/_aiter_ops.py",
+      "lines": [
+        539,
+        582,
+        606,
+        3727
+      ],
+      "source_sha256": "a907c9dacee4ed19c35a76943a18720b8180bfc24a701a96668cb73f8fd61938"
+    },
+    {
+      "path": "vllm/model_executor/layers/fused_moe/router/rocm_sigmoid_bias_flat_topk.py",
+      "lines": [
+        169
+      ],
+      "source_sha256": "4c131bec6937d78cae9953dd3205de87bc050e7373fddec8411d08239fd32a2e"
+    },
+    {
+      "path": "csrc/cpu/sampling_kernels.cpp",
+      "lines": [
+        39,
+        73,
+        90,
+        144,
+        166
+      ],
+      "source_sha256": "72206e0138349438eb6df7e642379d2997abf0b00ecd7e03dbebde6ef74a40a3"
+    }
+  ],
+  "entries": [
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/moe/test_grouped_topk.py",
+        "test_kimi_grouped_topk_masks_padding_when_enabled",
+        "80"
+      ],
+      "source_sha256": "06d2ed9294a25b990133b2ac6c5952f1047a239f7d8046509c1418920e9e37a7",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "Nonpadding row exactly matches unmasked baseline; when skip_padding=True padded row has IDs -1 and weights0, otherwise IDs>=0 and weights>0.",
+      "definition_line": 80,
+      "end_line": 113,
+      "decorators": [
+        {
+          "line": 75,
+          "source": "pytest.mark.skipif(\n    not current_platform.is_cuda(), reason=\"This test is skipped on non-CUDA platform.\"\n)"
+        },
+        {
+          "line": 78,
+          "source": "pytest.mark.parametrize(\"skip_padding\", [False, True])"
+        },
+        {
+          "line": 79,
+          "source": "pytest.mark.parametrize(\"use_fused\", [False, True])"
+        }
+      ],
+      "checks": [
+        {
+          "line": 106,
+          "source": "torch.testing.assert_close(topk_weights[0], baseline_weights[0], rtol=0, atol=0)"
+        },
+        {
+          "line": 107,
+          "source": "assert torch.equal(topk_ids[0], baseline_ids[0])"
+        },
+        {
+          "line": 109,
+          "source": "assert torch.all(topk_ids[1] == -1)"
+        },
+        {
+          "line": 110,
+          "source": "assert torch.all(topk_weights[1] == 0)"
+        },
+        {
+          "line": 112,
+          "source": "assert torch.all(topk_ids[1] >= 0)"
+        },
+        {
+          "line": 113,
+          "source": "assert torch.all(topk_weights[1] > 0)"
+        }
+      ],
+      "full_test_source": "def test_kimi_grouped_topk_masks_padding_when_enabled(\n    skip_padding: bool, use_fused: bool, monkeypatch\n):\n    set_random_seed(0)\n    monkeypatch.setenv(\"VLLM_USE_FUSED_MOE_GROUPED_TOPK\", str(int(use_fused)))\n    monkeypatch.setenv(\"VLLM_MOE_SKIP_PADDING\", \"1\")\n    hidden_states = torch.randn((2, 16), device=\"cuda\")\n    gating_output = torch.randn((2, 896), device=\"cuda\")\n    is_padding = torch.tensor([False, True], device=\"cuda\")\n    router = GroupedTopKRouter(\n        top_k=16,\n        global_num_experts=896,\n        num_expert_group=1,\n        topk_group=1,\n        skip_padding=skip_padding,\n        e_score_correction_bias=torch.randn((896,), device=\"cuda\"),\n    )\n\n    baseline_weights, baseline_ids = router._compute_routing(\n        hidden_states, gating_output, torch.int32\n    )\n    with set_forward_context(None, VllmConfig(), is_padding=is_padding):\n        topk_weights, topk_ids = router._compute_routing(\n            hidden_states, gating_output, torch.int32\n        )\n\n    torch.testing.assert_close(topk_weights[0], baseline_weights[0], rtol=0, atol=0)\n    assert torch.equal(topk_ids[0], baseline_ids[0])\n    if skip_padding:\n        assert torch.all(topk_ids[1] == -1)\n        assert torch.all(topk_weights[1] == 0)\n    else:\n        assert torch.all(topk_ids[1] >= 0)\n        assert torch.all(topk_weights[1] > 0)",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/moe/test_grouped_topk.py",
+          "line": 106,
+          "source": "torch.testing.assert_close(topk_weights[0], baseline_weights[0], rtol=0, atol=0)"
+        },
+        {
+          "path": "tests/kernels/moe/test_grouped_topk.py",
+          "line": 107,
+          "source": "assert torch.equal(topk_ids[0], baseline_ids[0])"
+        },
+        {
+          "path": "tests/kernels/moe/test_grouped_topk.py",
+          "line": 109,
+          "source": "assert torch.all(topk_ids[1] == -1)"
+        },
+        {
+          "path": "tests/kernels/moe/test_grouped_topk.py",
+          "line": 110,
+          "source": "assert torch.all(topk_weights[1] == 0)"
+        },
+        {
+          "path": "tests/kernels/moe/test_grouped_topk.py",
+          "line": 112,
+          "source": "assert torch.all(topk_ids[1] >= 0)"
+        },
+        {
+          "path": "tests/kernels/moe/test_grouped_topk.py",
+          "line": 113,
+          "source": "assert torch.all(topk_weights[1] > 0)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/moe/test_grouped_topk.py",
+        "test_grouped_topk_padding_changes_on_graph_replay",
+        "124"
+      ],
+      "source_sha256": "06d2ed9294a25b990133b2ac6c5952f1047a239f7d8046509c1418920e9e37a7",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "On graph replay, current alternating/all/none padding mask produces exact masked baseline weights0 and IDs-1, across grouped/single-group kernel tiers.",
+      "definition_line": 124,
+      "end_line": 167,
+      "decorators": [
+        {
+          "line": 116,
+          "source": "pytest.mark.skipif(\n    not current_platform.is_cuda(), reason=\"This test is skipped on non-CUDA platform.\"\n)"
+        },
+        {
+          "line": 119,
+          "source": "pytest.mark.parametrize(\n    \"num_experts,num_groups,topk_group,topk\",\n    [(128, 1, 1, 8), (896, 1, 1, 16), (256, 8, 4, 8), (512, 8, 4, 8)],\n)"
+        },
+        {
+          "line": 123,
+          "source": "pytest.mark.parametrize(\"scoring_func\", [\"softmax\", \"sigmoid\"])"
+        }
+      ],
+      "checks": [
+        {
+          "line": 164,
+          "source": "torch.testing.assert_close(\n            weights, baseline_weights.masked_fill(pattern[:, None], 0), rtol=0, atol=0\n        )"
+        },
+        {
+          "line": 167,
+          "source": "assert torch.equal(ids, baseline_ids.masked_fill(pattern[:, None], -1))"
+        }
+      ],
+      "full_test_source": "def test_grouped_topk_padding_changes_on_graph_replay(\n    num_experts: int, num_groups: int, topk_group: int, topk: int, scoring_func: str\n):\n    \"\"\"Every kernel family must read the current mask on each graph replay.\"\"\"\n    set_random_seed(0)\n    logits = torch.randn((33, num_experts), device=\"cuda\")\n    bias = torch.randn((num_experts,), device=\"cuda\")\n    hidden = torch.empty((33, 0), device=\"cuda\")\n    padding = torch.zeros(33, dtype=torch.bool, device=\"cuda\")\n\n    def route(mask):\n        return fused_grouped_topk(\n            hidden,\n            logits,\n            topk,\n            True,\n            bias,\n            num_groups,\n            topk_group,\n            scoring_func,\n            2.5,\n            is_padding=mask,\n        )\n\n    baseline_weights, baseline_ids = route(None)\n    stream = torch.cuda.Stream()\n    stream.wait_stream(torch.cuda.current_stream())\n    with torch.cuda.stream(stream):\n        route(padding)\n    torch.cuda.current_stream().wait_stream(stream)\n    graph = torch.cuda.CUDAGraph()\n    with torch.cuda.graph(graph, stream=stream):\n        weights, ids = route(padding)\n    for pattern in (\n        torch.arange(33, device=\"cuda\") % 2 == 0,\n        torch.ones_like(padding),\n        torch.zeros_like(padding),\n    ):\n        padding.copy_(pattern)\n        graph.replay()\n        torch.testing.assert_close(\n            weights, baseline_weights.masked_fill(pattern[:, None], 0), rtol=0, atol=0\n        )\n        assert torch.equal(ids, baseline_ids.masked_fill(pattern[:, None], -1))",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/moe/test_grouped_topk.py",
+          "line": 164,
+          "source": "torch.testing.assert_close(\n            weights, baseline_weights.masked_fill(pattern[:, None], 0), rtol=0, atol=0\n        )"
+        },
+        {
+          "path": "tests/kernels/moe/test_grouped_topk.py",
+          "line": 167,
+          "source": "assert torch.equal(ids, baseline_ids.masked_fill(pattern[:, None], -1))"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/moe/test_grouped_topk.py",
+        "test_grouped_topk_padding_opcheck",
+        "173"
+      ],
+      "source_sha256": "06d2ed9294a25b990133b2ac6c5952f1047a239f7d8046509c1418920e9e37a7",
+      "unit_id": null,
+      "property": "custom_operator_opcheck_only_requires_registration_contract",
+      "definition_line": 173,
+      "end_line": 187,
+      "decorators": [
+        {
+          "line": 170,
+          "source": "pytest.mark.skipif(\n    not current_platform.is_cuda(), reason=\"This test is skipped on non-CUDA platform.\"\n)"
+        }
+      ],
+      "checks": [],
+      "full_test_source": "def test_grouped_topk_padding_opcheck():\n    torch.library.opcheck(\n        torch.ops._moe_C.grouped_topk,\n        (\n            torch.randn((4, 256), device=\"cuda\"),\n            8,\n            4,\n            8,\n            True,\n            2.5,\n            torch.randn(256, device=\"cuda\"),\n            1,\n            torch.tensor([False, True, False, True], device=\"cuda\"),\n        ),\n    )",
+      "shared_helper_sources": [],
+      "all_checks": []
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/moe/test_grouped_topk.py",
+        "test_grouped_topk",
+        "210"
+      ],
+      "source_sha256": "06d2ed9294a25b990133b2ac6c5952f1047a239f7d8046509c1418920e9e37a7",
+      "unit_id": "compute.execution_relation",
+      "property": "Explicit unfused forward_cuda baseline and fused grouped topk agree on IDs exactly and weights at atol=2e-2, rtol0; routing dispatch method also checked.",
+      "definition_line": 210,
+      "end_line": 267,
+      "decorators": [
+        {
+          "line": 190,
+          "source": "pytest.mark.skipif(\n    not current_platform.is_cuda(), reason=\"This test is skipped on non-CUDA platform.\"\n)"
+        },
+        {
+          "line": 193,
+          "source": "pytest.mark.parametrize(\"n_token\", [1, 33, 64])"
+        },
+        {
+          "line": 194,
+          "source": "pytest.mark.parametrize(\"n_hidden\", [1024, 2048])"
+        },
+        {
+          "line": 195,
+          "source": "pytest.mark.parametrize(\n    \"n_expert,topk,num_expert_group,topk_group\",\n    [\n        (16, 2, 8, 2),\n        (128, 2, 8, 2),\n        (256, 8, 8, 4),\n        (384, 8, 1, 1),\n        (512, 22, 1, 1),\n    ],\n)"
+        },
+        {
+          "line": 205,
+          "source": "pytest.mark.parametrize(\"renormalize\", [True, False])"
+        },
+        {
+          "line": 206,
+          "source": "pytest.mark.parametrize(\"scoring_func\", [\"softmax\", \"sigmoid\"])"
+        },
+        {
+          "line": 207,
+          "source": "pytest.mark.parametrize(\"routed_scaling_factor\", [1.0, 2.5])"
+        },
+        {
+          "line": 208,
+          "source": "pytest.mark.parametrize(\"input_dtype\", [torch.bfloat16, torch.float32])"
+        },
+        {
+          "line": 209,
+          "source": "pytest.mark.parametrize(\"bias_dtype\", [torch.float32])"
+        }
+      ],
+      "checks": [
+        {
+          "line": 245,
+          "source": "assert grouped_topk._forward_method.__name__ == \"forward_cuda\""
+        },
+        {
+          "line": 264,
+          "source": "torch.testing.assert_close(\n            baseline_topk_weights, test_topk_weights, atol=2e-2, rtol=0\n        )"
+        },
+        {
+          "line": 267,
+          "source": "torch.testing.assert_close(baseline_topk_ids, test_topk_ids, atol=0, rtol=0)"
+        }
+      ],
+      "full_test_source": "def test_grouped_topk(\n    monkeypatch: pytest.MonkeyPatch,\n    n_token: int,\n    n_hidden: int,\n    n_expert: int,\n    topk: int,\n    num_expert_group: int,\n    topk_group: int,\n    renormalize: bool,\n    scoring_func: str,\n    routed_scaling_factor: float,\n    input_dtype: torch.dtype,\n    bias_dtype: torch.dtype,\n):\n    vllm_config = VllmConfig(\n        compilation_config=CompilationConfig(custom_ops=[\"all\", \"+grouped_topk\"])\n    )\n    get_cached_compilation_config.cache_clear()\n\n    set_random_seed(0)\n    hidden_states = torch.randn((n_token, n_hidden), dtype=input_dtype, device=\"cuda\")\n    gating_output = torch.randn((n_token, n_expert), dtype=input_dtype, device=\"cuda\")\n    e_score_correction_bias = torch.randn((n_expert,), dtype=bias_dtype, device=\"cuda\")\n\n    with set_current_vllm_config(vllm_config), monkeypatch.context() as m:\n        m.setenv(\"VLLM_USE_FUSED_MOE_GROUPED_TOPK\", \"0\")\n        m.setattr(envs, \"VLLM_BATCH_INVARIANT\", True)\n        grouped_topk = GroupedTopk(\n            topk=topk,\n            renormalize=renormalize,\n            num_expert_group=num_expert_group,\n            topk_group=topk_group,\n            scoring_func=scoring_func,\n            routed_scaling_factor=routed_scaling_factor,\n        )\n        assert grouped_topk._forward_method.__name__ == \"forward_cuda\"\n        baseline_topk_weights, baseline_topk_ids = grouped_topk(\n            hidden_states=hidden_states,\n            gating_output=gating_output,\n            e_score_correction_bias=e_score_correction_bias,\n        )\n\n        test_topk_weights, test_topk_ids = fused_grouped_topk(\n            hidden_states=hidden_states,\n            gating_output=gating_output,\n            topk=topk,\n            renormalize=renormalize,\n            num_expert_group=num_expert_group,\n            topk_group=topk_group,\n            scoring_func=scoring_func,\n            routed_scaling_factor=routed_scaling_factor,\n            e_score_correction_bias=e_score_correction_bias,\n        )\n\n        torch.testing.assert_close(\n            baseline_topk_weights, test_topk_weights, atol=2e-2, rtol=0\n        )\n        torch.testing.assert_close(baseline_topk_ids, test_topk_ids, atol=0, rtol=0)",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/moe/test_grouped_topk.py",
+          "line": 245,
+          "source": "assert grouped_topk._forward_method.__name__ == \"forward_cuda\""
+        },
+        {
+          "path": "tests/kernels/moe/test_grouped_topk.py",
+          "line": 264,
+          "source": "torch.testing.assert_close(\n            baseline_topk_weights, test_topk_weights, atol=2e-2, rtol=0\n        )"
+        },
+        {
+          "path": "tests/kernels/moe/test_grouped_topk.py",
+          "line": 267,
+          "source": "torch.testing.assert_close(baseline_topk_ids, test_topk_ids, atol=0, rtol=0)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/moe/test_grouped_topk.py",
+        "test_grouped_topk_single_group_large_batch",
+        "273"
+      ],
+      "source_sha256": "06d2ed9294a25b990133b2ac6c5952f1047a239f7d8046509c1418920e9e37a7",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "1536x896 BF16 logits select top16 IDs matching stable reference; renormalized sigmoid weights agree at atol2e-5, rtol0.",
+      "definition_line": 273,
+      "end_line": 286,
+      "decorators": [
+        {
+          "line": 270,
+          "source": "pytest.mark.skipif(\n    not current_platform.is_cuda(), reason=\"This test is skipped on non-CUDA platform.\"\n)"
+        }
+      ],
+      "checks": [
+        {
+          "line": 285,
+          "source": "torch.testing.assert_close(actual_ids, expected_ids)"
+        },
+        {
+          "line": 286,
+          "source": "torch.testing.assert_close(actual_values, expected_values, atol=2e-5, rtol=0)"
+        }
+      ],
+      "full_test_source": "def test_grouped_topk_single_group_large_batch():\n    set_random_seed(0)\n    logits = torch.randn((1536, 896), dtype=torch.bfloat16, device=\"cuda\")\n    bias = torch.randn((896,), dtype=torch.float32, device=\"cuda\")\n\n    expected_values, expected_ids = _single_group_reference(\n        logits, bias, 16, scoring_func=\"sigmoid\", renormalize=True\n    )\n    actual_values, actual_ids = _run_single_group_topk(\n        logits, bias, 16, scoring_func=\"sigmoid\", renormalize=True\n    )\n\n    torch.testing.assert_close(actual_ids, expected_ids)\n    torch.testing.assert_close(actual_values, expected_values, atol=2e-5, rtol=0)",
+      "shared_helper_sources": [
+        {
+          "definition_line": 52,
+          "end_line": 72,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _single_group_reference(\n    logits: torch.Tensor,\n    bias: torch.Tensor,\n    topk: int,\n    *,\n    scoring_func: str,\n    renormalize: bool,\n    routed_scaling_factor: float = 1.0,\n) -> tuple[torch.Tensor, torch.Tensor]:\n    if scoring_func == \"sigmoid\":\n        scores = 0.5 * torch.tanh(0.5 * logits.float()) + 0.5\n    else:\n        scores = torch.softmax(logits, dim=-1).float()\n    indices = torch.argsort(\n        scores + bias.float(), dim=-1, descending=True, stable=True\n    )[:, :topk]\n    values = scores.gather(1, indices)\n    if renormalize:\n        values /= values.sum(dim=-1, keepdim=True) + 1e-20\n    values *= routed_scaling_factor\n    return values, indices.to(torch.int32)"
+        },
+        {
+          "definition_line": 28,
+          "end_line": 49,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _run_single_group_topk(\n    logits: torch.Tensor,\n    bias: torch.Tensor,\n    topk: int,\n    *,\n    scoring_func: str,\n    renormalize: bool,\n    routed_scaling_factor: float = 1.0,\n) -> tuple[torch.Tensor, torch.Tensor]:\n    return fused_grouped_topk(\n        hidden_states=torch.empty(\n            (logits.shape[0], 0), dtype=logits.dtype, device=logits.device\n        ),\n        gating_output=logits,\n        topk=topk,\n        renormalize=renormalize,\n        e_score_correction_bias=bias,\n        num_expert_group=1,\n        topk_group=1,\n        scoring_func=scoring_func,\n        routed_scaling_factor=routed_scaling_factor,\n    )"
+        }
+      ],
+      "all_checks": [
+        {
+          "path": "tests/kernels/moe/test_grouped_topk.py",
+          "line": 285,
+          "source": "torch.testing.assert_close(actual_ids, expected_ids)"
+        },
+        {
+          "path": "tests/kernels/moe/test_grouped_topk.py",
+          "line": 286,
+          "source": "torch.testing.assert_close(actual_values, expected_values, atol=2e-5, rtol=0)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/moe/test_grouped_topk.py",
+        "test_grouped_topk_single_group_tiers",
+        "316"
+      ],
+      "source_sha256": "06d2ed9294a25b990133b2ac6c5952f1047a239f7d8046509c1418920e9e37a7",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "17-row size/dtype tiers select reference IDs and sigmoid/softmax weights after bias selection, optional renormalization and scaling, atol2e-5 rtol0.",
+      "definition_line": 316,
+      "end_line": 347,
+      "decorators": [
+        {
+          "line": 289,
+          "source": "pytest.mark.skipif(\n    not current_platform.is_cuda(), reason=\"This test is skipped on non-CUDA platform.\"\n)"
+        },
+        {
+          "line": 292,
+          "source": "pytest.mark.parametrize(\n    \"num_experts,topk,input_dtype,bias_dtype\",\n    [\n        (512, 9, torch.bfloat16, torch.float32),\n        (512, 16, torch.float16, torch.float16),\n        (513, 9, torch.float32, torch.bfloat16),\n        (513, 16, torch.bfloat16, torch.float32),\n        (895, 9, torch.float16, torch.bfloat16),\n        (896, 16, torch.float32, torch.float16),\n        (897, 9, torch.bfloat16, torch.bfloat16),\n        (897, 16, torch.float16, torch.float32),\n        (1024, 9, torch.float32, torch.bfloat16),\n        (1024, 16, torch.bfloat16, torch.float16),\n    ],\n)"
+        },
+        {
+          "line": 307,
+          "source": "pytest.mark.parametrize(\n    \"scoring_func,renormalize,routed_scaling_factor\",\n    [\n        (\"sigmoid\", True, 1.0),\n        (\"sigmoid\", False, 2.5),\n        (\"softmax\", True, 2.5),\n        (\"softmax\", False, 1.0),\n    ],\n)"
+        }
+      ],
+      "checks": [
+        {
+          "line": 346,
+          "source": "torch.testing.assert_close(actual_ids, expected_ids)"
+        },
+        {
+          "line": 347,
+          "source": "torch.testing.assert_close(actual_values, expected_values, atol=2e-5, rtol=0)"
+        }
+      ],
+      "full_test_source": "def test_grouped_topk_single_group_tiers(\n    num_experts: int,\n    topk: int,\n    input_dtype: torch.dtype,\n    bias_dtype: torch.dtype,\n    scoring_func: str,\n    renormalize: bool,\n    routed_scaling_factor: float,\n):\n    set_random_seed(7)\n    logits = torch.randn((17, num_experts), dtype=input_dtype, device=\"cuda\")\n    bias = torch.randn((num_experts,), dtype=bias_dtype, device=\"cuda\")\n\n    expected_values, expected_ids = _single_group_reference(\n        logits,\n        bias,\n        topk,\n        scoring_func=scoring_func,\n        renormalize=renormalize,\n        routed_scaling_factor=routed_scaling_factor,\n    )\n    actual_values, actual_ids = _run_single_group_topk(\n        logits,\n        bias,\n        topk,\n        scoring_func=scoring_func,\n        renormalize=renormalize,\n        routed_scaling_factor=routed_scaling_factor,\n    )\n\n    torch.testing.assert_close(actual_ids, expected_ids)\n    torch.testing.assert_close(actual_values, expected_values, atol=2e-5, rtol=0)",
+      "shared_helper_sources": [
+        {
+          "definition_line": 52,
+          "end_line": 72,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _single_group_reference(\n    logits: torch.Tensor,\n    bias: torch.Tensor,\n    topk: int,\n    *,\n    scoring_func: str,\n    renormalize: bool,\n    routed_scaling_factor: float = 1.0,\n) -> tuple[torch.Tensor, torch.Tensor]:\n    if scoring_func == \"sigmoid\":\n        scores = 0.5 * torch.tanh(0.5 * logits.float()) + 0.5\n    else:\n        scores = torch.softmax(logits, dim=-1).float()\n    indices = torch.argsort(\n        scores + bias.float(), dim=-1, descending=True, stable=True\n    )[:, :topk]\n    values = scores.gather(1, indices)\n    if renormalize:\n        values /= values.sum(dim=-1, keepdim=True) + 1e-20\n    values *= routed_scaling_factor\n    return values, indices.to(torch.int32)"
+        },
+        {
+          "definition_line": 28,
+          "end_line": 49,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _run_single_group_topk(\n    logits: torch.Tensor,\n    bias: torch.Tensor,\n    topk: int,\n    *,\n    scoring_func: str,\n    renormalize: bool,\n    routed_scaling_factor: float = 1.0,\n) -> tuple[torch.Tensor, torch.Tensor]:\n    return fused_grouped_topk(\n        hidden_states=torch.empty(\n            (logits.shape[0], 0), dtype=logits.dtype, device=logits.device\n        ),\n        gating_output=logits,\n        topk=topk,\n        renormalize=renormalize,\n        e_score_correction_bias=bias,\n        num_expert_group=1,\n        topk_group=1,\n        scoring_func=scoring_func,\n        routed_scaling_factor=routed_scaling_factor,\n    )"
+        }
+      ],
+      "all_checks": [
+        {
+          "path": "tests/kernels/moe/test_grouped_topk.py",
+          "line": 346,
+          "source": "torch.testing.assert_close(actual_ids, expected_ids)"
+        },
+        {
+          "path": "tests/kernels/moe/test_grouped_topk.py",
+          "line": 347,
+          "source": "torch.testing.assert_close(actual_values, expected_values, atol=2e-5, rtol=0)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/moe/test_grouped_topk.py",
+        "test_grouped_topk_single_group_capacity_tiers",
+        "381"
+      ],
+      "source_sha256": "06d2ed9294a25b990133b2ac6c5952f1047a239f7d8046509c1418920e9e37a7",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "3-row capacity-boundary cases select reference IDs and renormalized weights scaled2.5, atol2e-5 rtol0.",
+      "definition_line": 381,
+      "end_line": 407,
+      "decorators": [
+        {
+          "line": 350,
+          "source": "pytest.mark.skipif(\n    not current_platform.is_cuda(), reason=\"This test is skipped on non-CUDA platform.\"\n)"
+        },
+        {
+          "line": 353,
+          "source": "pytest.mark.parametrize(\n    \"num_experts,topk,scoring_func\",\n    [\n        (128, 8, \"sigmoid\"),\n        (129, 8, \"sigmoid\"),\n        (257, 8, \"sigmoid\"),\n        (385, 8, \"sigmoid\"),\n        (512, 9, \"sigmoid\"),\n        (513, 9, \"sigmoid\"),\n        (769, 9, \"sigmoid\"),\n        (897, 16, \"sigmoid\"),\n        (1024, 16, \"sigmoid\"),\n        (128, 4, \"softmax\"),\n        (128, 5, \"softmax\"),\n        (129, 8, \"softmax\"),\n        (161, 8, \"softmax\"),\n        (256, 9, \"softmax\"),\n        (257, 8, \"softmax\"),\n        (512, 9, \"softmax\"),\n        (512, 17, \"softmax\"),\n        (512, 23, \"softmax\"),\n        (513, 8, \"softmax\"),\n        (577, 9, \"softmax\"),\n        (769, 9, \"softmax\"),\n        (897, 9, \"softmax\"),\n        (1024, 16, \"softmax\"),\n    ],\n)"
+        }
+      ],
+      "checks": [
+        {
+          "line": 406,
+          "source": "torch.testing.assert_close(actual_ids, expected_ids)"
+        },
+        {
+          "line": 407,
+          "source": "torch.testing.assert_close(actual_values, expected_values, atol=2e-5, rtol=0)"
+        }
+      ],
+      "full_test_source": "def test_grouped_topk_single_group_capacity_tiers(\n    num_experts: int,\n    topk: int,\n    scoring_func: str,\n):\n    set_random_seed(11)\n    logits = torch.randn((3, num_experts), dtype=torch.bfloat16, device=\"cuda\")\n    bias = torch.randn((num_experts,), dtype=torch.float32, device=\"cuda\")\n    expected_values, expected_ids = _single_group_reference(\n        logits,\n        bias,\n        topk,\n        scoring_func=scoring_func,\n        renormalize=True,\n        routed_scaling_factor=2.5,\n    )\n    actual_values, actual_ids = _run_single_group_topk(\n        logits,\n        bias,\n        topk,\n        scoring_func=scoring_func,\n        renormalize=True,\n        routed_scaling_factor=2.5,\n    )\n\n    torch.testing.assert_close(actual_ids, expected_ids)\n    torch.testing.assert_close(actual_values, expected_values, atol=2e-5, rtol=0)",
+      "shared_helper_sources": [
+        {
+          "definition_line": 52,
+          "end_line": 72,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _single_group_reference(\n    logits: torch.Tensor,\n    bias: torch.Tensor,\n    topk: int,\n    *,\n    scoring_func: str,\n    renormalize: bool,\n    routed_scaling_factor: float = 1.0,\n) -> tuple[torch.Tensor, torch.Tensor]:\n    if scoring_func == \"sigmoid\":\n        scores = 0.5 * torch.tanh(0.5 * logits.float()) + 0.5\n    else:\n        scores = torch.softmax(logits, dim=-1).float()\n    indices = torch.argsort(\n        scores + bias.float(), dim=-1, descending=True, stable=True\n    )[:, :topk]\n    values = scores.gather(1, indices)\n    if renormalize:\n        values /= values.sum(dim=-1, keepdim=True) + 1e-20\n    values *= routed_scaling_factor\n    return values, indices.to(torch.int32)"
+        },
+        {
+          "definition_line": 28,
+          "end_line": 49,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _run_single_group_topk(\n    logits: torch.Tensor,\n    bias: torch.Tensor,\n    topk: int,\n    *,\n    scoring_func: str,\n    renormalize: bool,\n    routed_scaling_factor: float = 1.0,\n) -> tuple[torch.Tensor, torch.Tensor]:\n    return fused_grouped_topk(\n        hidden_states=torch.empty(\n            (logits.shape[0], 0), dtype=logits.dtype, device=logits.device\n        ),\n        gating_output=logits,\n        topk=topk,\n        renormalize=renormalize,\n        e_score_correction_bias=bias,\n        num_expert_group=1,\n        topk_group=1,\n        scoring_func=scoring_func,\n        routed_scaling_factor=routed_scaling_factor,\n    )"
+        }
+      ],
+      "all_checks": [
+        {
+          "path": "tests/kernels/moe/test_grouped_topk.py",
+          "line": 406,
+          "source": "torch.testing.assert_close(actual_ids, expected_ids)"
+        },
+        {
+          "path": "tests/kernels/moe/test_grouped_topk.py",
+          "line": 407,
+          "source": "torch.testing.assert_close(actual_values, expected_values, atol=2e-5, rtol=0)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/moe/test_grouped_topk.py",
+        "test_grouped_topk_single_group_stable_ties",
+        "414"
+      ],
+      "source_sha256": "06d2ed9294a25b990133b2ac6c5952f1047a239f7d8046509c1418920e9e37a7",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "All-zero logits/bias select stable IDs0..15 and uniform weights2.5/16 across 512/896/1024 experts.",
+      "definition_line": 414,
+      "end_line": 430,
+      "decorators": [
+        {
+          "line": 410,
+          "source": "pytest.mark.skipif(\n    not current_platform.is_cuda(), reason=\"This test is skipped on non-CUDA platform.\"\n)"
+        },
+        {
+          "line": 413,
+          "source": "pytest.mark.parametrize(\"num_experts\", [512, 896, 1024])"
+        }
+      ],
+      "checks": [
+        {
+          "line": 429,
+          "source": "torch.testing.assert_close(actual_ids, expected_ids)"
+        },
+        {
+          "line": 430,
+          "source": "torch.testing.assert_close(actual_values, expected_values, atol=2e-5, rtol=0)"
+        }
+      ],
+      "full_test_source": "def test_grouped_topk_single_group_stable_ties(num_experts: int):\n    logits = torch.zeros((1, num_experts), dtype=torch.bfloat16, device=\"cuda\")\n    bias = torch.zeros((num_experts,), dtype=torch.float32, device=\"cuda\")\n\n    actual_values, actual_ids = _run_single_group_topk(\n        logits,\n        bias,\n        16,\n        scoring_func=\"sigmoid\",\n        renormalize=True,\n        routed_scaling_factor=2.5,\n    )\n\n    expected_ids = torch.arange(16, dtype=torch.int32, device=\"cuda\")[None]\n    expected_values = torch.full((1, 16), 2.5 / 16, dtype=torch.float32, device=\"cuda\")\n    torch.testing.assert_close(actual_ids, expected_ids)\n    torch.testing.assert_close(actual_values, expected_values, atol=2e-5, rtol=0)",
+      "shared_helper_sources": [
+        {
+          "definition_line": 28,
+          "end_line": 49,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _run_single_group_topk(\n    logits: torch.Tensor,\n    bias: torch.Tensor,\n    topk: int,\n    *,\n    scoring_func: str,\n    renormalize: bool,\n    routed_scaling_factor: float = 1.0,\n) -> tuple[torch.Tensor, torch.Tensor]:\n    return fused_grouped_topk(\n        hidden_states=torch.empty(\n            (logits.shape[0], 0), dtype=logits.dtype, device=logits.device\n        ),\n        gating_output=logits,\n        topk=topk,\n        renormalize=renormalize,\n        e_score_correction_bias=bias,\n        num_expert_group=1,\n        topk_group=1,\n        scoring_func=scoring_func,\n        routed_scaling_factor=routed_scaling_factor,\n    )"
+        }
+      ],
+      "all_checks": [
+        {
+          "path": "tests/kernels/moe/test_grouped_topk.py",
+          "line": 429,
+          "source": "torch.testing.assert_close(actual_ids, expected_ids)"
+        },
+        {
+          "path": "tests/kernels/moe/test_grouped_topk.py",
+          "line": 430,
+          "source": "torch.testing.assert_close(actual_values, expected_values, atol=2e-5, rtol=0)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/moe/test_grouped_topk.py",
+        "test_grouped_topk_single_group_nonfinite_scores",
+        "439"
+      ],
+      "source_sha256": "06d2ed9294a25b990133b2ac6c5952f1047a239f7d8046509c1418920e9e37a7",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "All-nonfinite or15finite logits produce explicitly constructed IDs and weights, including zero-filled invalid selections and uniform fallback on renormalization.",
+      "definition_line": 439,
+      "end_line": 486,
+      "decorators": [
+        {
+          "line": 433,
+          "source": "pytest.mark.skipif(\n    not current_platform.is_cuda(), reason=\"This test is skipped on non-CUDA platform.\"\n)"
+        },
+        {
+          "line": 436,
+          "source": "pytest.mark.parametrize(\"num_experts\", [512, 896, 1024])"
+        },
+        {
+          "line": 437,
+          "source": "pytest.mark.parametrize(\"num_finite\", [0, 15])"
+        },
+        {
+          "line": 438,
+          "source": "pytest.mark.parametrize(\"renormalize\", [False, True])"
+        }
+      ],
+      "checks": [
+        {
+          "line": 485,
+          "source": "torch.testing.assert_close(actual_ids, expected_ids)"
+        },
+        {
+          "line": 486,
+          "source": "torch.testing.assert_close(actual_values, expected_values, atol=2e-5, rtol=0)"
+        }
+      ],
+      "full_test_source": "def test_grouped_topk_single_group_nonfinite_scores(\n    num_experts: int, num_finite: int, renormalize: bool\n):\n    logits = torch.full(\n        (1, num_experts), float(\"nan\"), dtype=torch.bfloat16, device=\"cuda\"\n    )\n    if num_finite:\n        logits[0, :num_finite] = torch.arange(\n            num_finite, dtype=torch.bfloat16, device=\"cuda\"\n        )\n    logits[0, num_finite] = torch.inf\n    logits[0, num_finite + 1] = -torch.inf\n    bias = torch.zeros((num_experts,), dtype=torch.float32, device=\"cuda\")\n\n    actual_values, actual_ids = _run_single_group_topk(\n        logits,\n        bias,\n        16,\n        scoring_func=\"sigmoid\",\n        renormalize=renormalize,\n        routed_scaling_factor=2.5,\n    )\n\n    if num_finite == 0:\n        expected_ids = torch.arange(16, dtype=torch.int32, device=\"cuda\")[None]\n        if renormalize:\n            expected_values = torch.full(\n                (1, 16), 1 / 16, dtype=torch.float32, device=\"cuda\"\n            )\n        else:\n            expected_values = torch.zeros((1, 16), dtype=torch.float32, device=\"cuda\")\n    else:\n        expected_ids = torch.cat(\n            (\n                torch.arange(num_finite - 1, -1, -1, dtype=torch.int32, device=\"cuda\"),\n                torch.tensor([num_finite], dtype=torch.int32, device=\"cuda\"),\n            )\n        )[None]\n        finite_values = logits[0, :num_finite].float().sigmoid().flip(0)\n        if renormalize:\n            finite_values /= finite_values.sum()\n        finite_values *= 2.5\n        expected_values = torch.cat(\n            (finite_values, torch.zeros(1, dtype=torch.float32, device=\"cuda\"))\n        )[None]\n\n    torch.testing.assert_close(actual_ids, expected_ids)\n    torch.testing.assert_close(actual_values, expected_values, atol=2e-5, rtol=0)",
+      "shared_helper_sources": [
+        {
+          "definition_line": 28,
+          "end_line": 49,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _run_single_group_topk(\n    logits: torch.Tensor,\n    bias: torch.Tensor,\n    topk: int,\n    *,\n    scoring_func: str,\n    renormalize: bool,\n    routed_scaling_factor: float = 1.0,\n) -> tuple[torch.Tensor, torch.Tensor]:\n    return fused_grouped_topk(\n        hidden_states=torch.empty(\n            (logits.shape[0], 0), dtype=logits.dtype, device=logits.device\n        ),\n        gating_output=logits,\n        topk=topk,\n        renormalize=renormalize,\n        e_score_correction_bias=bias,\n        num_expert_group=1,\n        topk_group=1,\n        scoring_func=scoring_func,\n        routed_scaling_factor=routed_scaling_factor,\n    )"
+        }
+      ],
+      "all_checks": [
+        {
+          "path": "tests/kernels/moe/test_grouped_topk.py",
+          "line": 485,
+          "source": "torch.testing.assert_close(actual_ids, expected_ids)"
+        },
+        {
+          "path": "tests/kernels/moe/test_grouped_topk.py",
+          "line": 486,
+          "source": "torch.testing.assert_close(actual_values, expected_values, atol=2e-5, rtol=0)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/moe/test_rocm_aiter_topk.py",
+        "test_rocm_aiter_biased_grouped_topk_custom_op_registration",
+        "33"
+      ],
+      "source_sha256": "c1a4496f04386e3169e48d22a9414f3af7f8f8cf7035f2ec0adf8d42718d6395",
+      "unit_id": null,
+      "property": "custom_operator_registration_only_existence_and_callable",
+      "definition_line": 33,
+      "end_line": 39,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 36,
+          "source": "assert hasattr(torch.ops.vllm, \"rocm_aiter_biased_grouped_topk\")"
+        },
+        {
+          "line": 39,
+          "source": "assert callable(torch.ops.vllm.rocm_aiter_biased_grouped_topk)"
+        }
+      ],
+      "full_test_source": "def test_rocm_aiter_biased_grouped_topk_custom_op_registration():\n    \"\"\"Test that the custom op is correctly registered.\"\"\"\n    # Check if the op exists in torch.ops.vllm\n    assert hasattr(torch.ops.vllm, \"rocm_aiter_biased_grouped_topk\")\n\n    # Check if the op is callable\n    assert callable(torch.ops.vllm.rocm_aiter_biased_grouped_topk)",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/moe/test_rocm_aiter_topk.py",
+          "line": 36,
+          "source": "assert hasattr(torch.ops.vllm, \"rocm_aiter_biased_grouped_topk\")"
+        },
+        {
+          "path": "tests/kernels/moe/test_rocm_aiter_topk.py",
+          "line": 39,
+          "source": "assert callable(torch.ops.vllm.rocm_aiter_biased_grouped_topk)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/moe/test_rocm_aiter_topk.py",
+        "test_rocm_aiter_grouped_topk_custom_op_registration",
+        "42"
+      ],
+      "source_sha256": "c1a4496f04386e3169e48d22a9414f3af7f8f8cf7035f2ec0adf8d42718d6395",
+      "unit_id": null,
+      "property": "custom_operator_registration_only_existence_and_callable",
+      "definition_line": 42,
+      "end_line": 48,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 45,
+          "source": "assert hasattr(torch.ops.vllm, \"rocm_aiter_grouped_topk\")"
+        },
+        {
+          "line": 48,
+          "source": "assert callable(torch.ops.vllm.rocm_aiter_grouped_topk)"
+        }
+      ],
+      "full_test_source": "def test_rocm_aiter_grouped_topk_custom_op_registration():\n    \"\"\"Test that the custom op is correctly registered.\"\"\"\n    # Check if the op exists in torch.ops.vllm\n    assert hasattr(torch.ops.vllm, \"rocm_aiter_grouped_topk\")\n\n    # Check if the op is callable\n    assert callable(torch.ops.vllm.rocm_aiter_grouped_topk)",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/moe/test_rocm_aiter_topk.py",
+          "line": 45,
+          "source": "assert hasattr(torch.ops.vllm, \"rocm_aiter_grouped_topk\")"
+        },
+        {
+          "path": "tests/kernels/moe/test_rocm_aiter_topk.py",
+          "line": 48,
+          "source": "assert callable(torch.ops.vllm.rocm_aiter_grouped_topk)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/moe/test_rocm_aiter_topk.py",
+        "test_rocm_aiter_biased_grouped_topk_torch_compile_compatibility",
+        "51"
+      ],
+      "source_sha256": "c1a4496f04386e3169e48d22a9414f3af7f8f8cf7035f2ec0adf8d42718d6395",
+      "unit_id": "compute.execution_relation",
+      "property": "Eager and torch.compile(fullgraph,inductor) biased-grouped outputs agree after sorting IDs and reordering weights: weights1e-2/1e-2 and IDs allclose.",
+      "definition_line": 51,
+      "end_line": 137,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 134,
+          "source": "assert torch.allclose(\n        topk_weights_original, topk_weights_compiled, rtol=1e-2, atol=1e-2\n    )"
+        },
+        {
+          "line": 137,
+          "source": "assert torch.allclose(topk_ids_original, topk_ids_compiled)"
+        }
+      ],
+      "full_test_source": "def test_rocm_aiter_biased_grouped_topk_torch_compile_compatibility():\n    \"\"\"Test that the op can be used with torch.compile.\"\"\"\n    # Create test tensors\n    token = 64\n    expert = 256\n    num_expert_group = 8\n    topk = 8\n    topk_group = 4\n    renormalize = True\n    scale_factor = 1.0\n\n    gating_output = torch.randn((token, expert), dtype=torch.bfloat16, device=\"cuda\")\n    e_score_correction_bias = torch.randn(\n        (expert,), dtype=torch.bfloat16, device=\"cuda\"\n    )\n\n    device = gating_output.device\n    topk_ids = torch.empty((token, topk), dtype=torch.int32, device=device)\n    topk_weights = torch.empty((token, topk), dtype=torch.float32, device=device)\n\n    # Define a function that uses the op\n    def biased_grouped_topk_fn(\n        gating_output, e_score_correction_bias, topk_weights, topk_ids\n    ):\n        return torch.ops.vllm.rocm_aiter_biased_grouped_topk(\n            gating_output,\n            e_score_correction_bias,\n            topk_weights,\n            topk_ids,\n            num_expert_group,\n            topk_group,\n            renormalize,\n            scale_factor,\n        )\n\n    # Verify the op's fake implementation\n    torch.library.opcheck(\n        torch.ops.vllm.rocm_aiter_biased_grouped_topk,\n        (gating_output, e_score_correction_bias, topk_weights, topk_ids),\n        kwargs={\n            \"num_expert_group\": num_expert_group,\n            \"topk_group\": topk_group,\n            \"need_renorm\": renormalize,\n            \"routed_scaling_factor\": scale_factor,\n        },\n        test_utils=(\"test_faketensor\"),\n    )\n\n    # Compile the function with appropriate settings\n    compiled_fn = torch.compile(\n        biased_grouped_topk_fn,\n        fullgraph=True,\n        backend=\"inductor\",\n        mode=\"reduce-overhead\",\n        dynamic=False,\n    )\n\n    topk_weights_original = torch.empty(\n        (token, topk), dtype=torch.float32, device=device\n    )\n    topk_ids_original = torch.empty((token, topk), dtype=torch.int32, device=device)\n\n    topk_weights_compiled = torch.empty(\n        (token, topk), dtype=torch.float32, device=device\n    )\n    topk_ids_compiled = torch.empty((token, topk), dtype=torch.int32, device=device)\n\n    # Run both compiled (V1 graph mode) and uncompiled versions (V1 eager mode)\n    biased_grouped_topk_fn(\n        gating_output, e_score_correction_bias, topk_weights_original, topk_ids_original\n    )\n    compiled_fn(\n        gating_output, e_score_correction_bias, topk_weights_compiled, topk_ids_compiled\n    )\n\n    # Sort the results for comparison since the order might not be deterministic\n    topk_ids_original, indices_original = torch.sort(topk_ids_original)\n    topk_weights_original = torch.gather(topk_weights_original, 1, indices_original)\n\n    topk_ids_compiled, indices_compiled = torch.sort(topk_ids_compiled)\n    topk_weights_compiled = torch.gather(topk_weights_compiled, 1, indices_compiled)\n\n    # Verify results match\n    assert torch.allclose(\n        topk_weights_original, topk_weights_compiled, rtol=1e-2, atol=1e-2\n    )\n    assert torch.allclose(topk_ids_original, topk_ids_compiled)",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/moe/test_rocm_aiter_topk.py",
+          "line": 134,
+          "source": "assert torch.allclose(\n        topk_weights_original, topk_weights_compiled, rtol=1e-2, atol=1e-2\n    )"
+        },
+        {
+          "path": "tests/kernels/moe/test_rocm_aiter_topk.py",
+          "line": 137,
+          "source": "assert torch.allclose(topk_ids_original, topk_ids_compiled)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/moe/test_rocm_aiter_topk.py",
+        "test_rocm_aiter_grouped_topk_torch_compile_compatibility",
+        "140"
+      ],
+      "source_sha256": "c1a4496f04386e3169e48d22a9414f3af7f8f8cf7035f2ec0adf8d42718d6395",
+      "unit_id": "compute.execution_relation",
+      "property": "Eager and torch.compile grouped-softmax outputs agree after sorting IDs and reordering weights: weights1e-2/1e-2 and IDs allclose.",
+      "definition_line": 140,
+      "end_line": 221,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 218,
+          "source": "assert torch.allclose(\n        topk_weights_original, topk_weights_compiled, rtol=1e-2, atol=1e-2\n    )"
+        },
+        {
+          "line": 221,
+          "source": "assert torch.allclose(topk_ids_original, topk_ids_compiled)"
+        }
+      ],
+      "full_test_source": "def test_rocm_aiter_grouped_topk_torch_compile_compatibility():\n    \"\"\"Test that the op can be used with torch.compile.\"\"\"\n    # Create test tensors\n    token = 64\n    expert = 256\n    num_expert_group = 8\n    topk = 8\n    topk_group = 4\n    renormalize = True\n    scoring_func = \"softmax\"\n    scale_factor = 1.0\n\n    gating_output = torch.randn((token, expert), dtype=torch.bfloat16, device=\"cuda\")\n\n    device = gating_output.device\n    topk_ids = torch.empty((token, topk), dtype=torch.int32, device=device)\n    topk_weights = torch.empty((token, topk), dtype=torch.float32, device=device)\n\n    # Define a function that uses the op\n    def grouped_topk_fn(gating_output, topk_weights, topk_ids, scoring_func):\n        return torch.ops.vllm.rocm_aiter_grouped_topk(\n            gating_output,\n            topk_weights,\n            topk_ids,\n            num_expert_group,\n            topk_group,\n            renormalize,\n            scoring_func,\n            scale_factor,\n        )\n\n    # Verify the op's fake implementation\n    torch.library.opcheck(\n        torch.ops.vllm.rocm_aiter_grouped_topk,\n        (gating_output, topk_weights, topk_ids),\n        kwargs={\n            \"num_expert_group\": num_expert_group,\n            \"topk_group\": topk_group,\n            \"need_renorm\": renormalize,\n            \"scoring_func\": scoring_func,\n            \"routed_scaling_factor\": scale_factor,\n        },\n        test_utils=(\"test_faketensor\"),\n    )\n\n    # Compile the function with appropriate settings\n    compiled_fn = torch.compile(\n        grouped_topk_fn,\n        fullgraph=True,\n        backend=\"inductor\",\n        mode=\"reduce-overhead\",\n        dynamic=False,\n    )\n\n    topk_weights_original = torch.empty(\n        (token, topk), dtype=torch.float32, device=device\n    )\n    topk_ids_original = torch.empty((token, topk), dtype=torch.int32, device=device)\n\n    topk_weights_compiled = torch.empty(\n        (token, topk), dtype=torch.float32, device=device\n    )\n    topk_ids_compiled = torch.empty((token, topk), dtype=torch.int32, device=device)\n\n    # Run both compiled (V1 graph mode) and uncompiled versions (V1 eager mode)\n    grouped_topk_fn(\n        gating_output, topk_weights_original, topk_ids_original, scoring_func\n    )\n    compiled_fn(gating_output, topk_weights_compiled, topk_ids_compiled, scoring_func)\n\n    # Sort the results for comparison since the order might not be deterministic\n    topk_ids_original, indices_original = torch.sort(topk_ids_original)\n    topk_weights_original = torch.gather(topk_weights_original, 1, indices_original)\n\n    topk_ids_compiled, indices_compiled = torch.sort(topk_ids_compiled)\n    topk_weights_compiled = torch.gather(topk_weights_compiled, 1, indices_compiled)\n\n    # Verify results match\n    assert torch.allclose(\n        topk_weights_original, topk_weights_compiled, rtol=1e-2, atol=1e-2\n    )\n    assert torch.allclose(topk_ids_original, topk_ids_compiled)",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/moe/test_rocm_aiter_topk.py",
+          "line": 218,
+          "source": "assert torch.allclose(\n        topk_weights_original, topk_weights_compiled, rtol=1e-2, atol=1e-2\n    )"
+        },
+        {
+          "path": "tests/kernels/moe/test_rocm_aiter_topk.py",
+          "line": 221,
+          "source": "assert torch.allclose(topk_ids_original, topk_ids_compiled)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/moe/test_rocm_aiter_topk.py",
+        "test_rocm_aiter_topk_gating_custom_op_registration",
+        "224"
+      ],
+      "source_sha256": "c1a4496f04386e3169e48d22a9414f3af7f8f8cf7035f2ec0adf8d42718d6395",
+      "unit_id": null,
+      "property": "custom_operator_registration_only_callable",
+      "definition_line": 224,
+      "end_line": 225,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 225,
+          "source": "assert callable(torch.ops.vllm.rocm_aiter_topk_gating)"
+        }
+      ],
+      "full_test_source": "def test_rocm_aiter_topk_gating_custom_op_registration():\n    assert callable(torch.ops.vllm.rocm_aiter_topk_gating)",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/moe/test_rocm_aiter_topk.py",
+          "line": 225,
+          "source": "assert callable(torch.ops.vllm.rocm_aiter_topk_gating)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/moe/test_rocm_aiter_topk.py",
+        "test_rocm_aiter_topk_gating_matches_softmax_reference",
+        "238"
+      ],
+      "source_sha256": "c1a4496f04386e3169e48d22a9414f3af7f8f8cf7035f2ec0adf8d42718d6395",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "Selected expert IDs are unique/in-range and at or above softmax top-k cutoff; selected weights match gathered softmax scores with optional renormalization at2e-2/2e-2.",
+      "definition_line": 238,
+      "end_line": 278,
+      "decorators": [
+        {
+          "line": 234,
+          "source": "pytest.mark.parametrize(\"num_tokens\", [1, 4, 16, 64])"
+        },
+        {
+          "line": 235,
+          "source": "pytest.mark.parametrize(\"num_experts\", [256, 512])"
+        },
+        {
+          "line": 236,
+          "source": "pytest.mark.parametrize(\"topk\", [8, 10])"
+        },
+        {
+          "line": 237,
+          "source": "pytest.mark.parametrize(\"renormalize\", [True, False])"
+        }
+      ],
+      "checks": [
+        {
+          "line": 270,
+          "source": "assert ((topk_ids >= 0) & (topk_ids < num_experts)).all()"
+        },
+        {
+          "line": 272,
+          "source": "assert (sorted_ids[:, 1:] != sorted_ids[:, :-1]).all()"
+        },
+        {
+          "line": 274,
+          "source": "assert (selected_scores >= cutoff).all()"
+        },
+        {
+          "line": 278,
+          "source": "torch.testing.assert_close(topk_weights, expected_weights, atol=2e-2, rtol=2e-2)"
+        }
+      ],
+      "full_test_source": "def test_rocm_aiter_topk_gating_matches_softmax_reference(\n    num_tokens: int,\n    num_experts: int,\n    topk: int,\n    renormalize: bool,\n):\n    \"\"\"Numerical check vs softmax + topk, including Qwen3.8 (E=512, k=10).\"\"\"\n    torch.manual_seed(0)\n    gating_output = torch.randn(\n        (num_tokens, num_experts), dtype=torch.bfloat16, device=\"cuda\"\n    )\n    scores = torch.softmax(gating_output.float(), dim=-1)\n    cutoff = torch.topk(scores, k=topk, dim=-1).values[:, -1:]\n\n    topk_weights = torch.empty((num_tokens, topk), dtype=torch.float32, device=\"cuda\")\n    topk_ids = torch.empty((num_tokens, topk), dtype=torch.int32, device=\"cuda\")\n    token_expert_indices = torch.empty(\n        (num_tokens, topk), dtype=torch.int32, device=\"cuda\"\n    )\n    torch.ops.vllm.rocm_aiter_topk_gating(\n        topk_weights,\n        topk_ids,\n        token_expert_indices,\n        gating_output,\n        renormalize,\n        0,\n        \"\",\n    )\n\n    # BF16 logits can tie at the top-k boundary, so a different tied expert is\n    # valid. Check selection against the cutoff and weights against the scores\n    # of the experts the kernel actually selected.\n    assert ((topk_ids >= 0) & (topk_ids < num_experts)).all()\n    sorted_ids = torch.sort(topk_ids, dim=-1).values\n    assert (sorted_ids[:, 1:] != sorted_ids[:, :-1]).all()\n    selected_scores = torch.gather(scores, 1, topk_ids.long())\n    assert (selected_scores >= cutoff).all()\n    expected_weights = selected_scores\n    if renormalize:\n        expected_weights = expected_weights / expected_weights.sum(dim=-1, keepdim=True)\n    torch.testing.assert_close(topk_weights, expected_weights, atol=2e-2, rtol=2e-2)",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/moe/test_rocm_aiter_topk.py",
+          "line": 270,
+          "source": "assert ((topk_ids >= 0) & (topk_ids < num_experts)).all()"
+        },
+        {
+          "path": "tests/kernels/moe/test_rocm_aiter_topk.py",
+          "line": 272,
+          "source": "assert (sorted_ids[:, 1:] != sorted_ids[:, :-1]).all()"
+        },
+        {
+          "path": "tests/kernels/moe/test_rocm_aiter_topk.py",
+          "line": 274,
+          "source": "assert (selected_scores >= cutoff).all()"
+        },
+        {
+          "path": "tests/kernels/moe/test_rocm_aiter_topk.py",
+          "line": 278,
+          "source": "torch.testing.assert_close(topk_weights, expected_weights, atol=2e-2, rtol=2e-2)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/moe/test_rocm_aiter_topk.py",
+        "test_rocm_aiter_topk_gating_torch_compile_compatibility",
+        "333"
+      ],
+      "source_sha256": "c1a4496f04386e3169e48d22a9414f3af7f8f8cf7035f2ec0adf8d42718d6395",
+      "unit_id": "compute.execution_relation",
+      "property": "For4x512 logits/top10, compiled and eager IDs match exactly after sorting and weights match at1e-2/1e-2; fake-tensor opcheck is additional.",
+      "definition_line": 333,
+      "end_line": 387,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 386,
+          "source": "assert torch.allclose(w0, w1, rtol=1e-2, atol=1e-2)"
+        },
+        {
+          "line": 387,
+          "source": "assert torch.equal(i0, i1)"
+        }
+      ],
+      "full_test_source": "def test_rocm_aiter_topk_gating_torch_compile_compatibility():\n    token, expert, topk, renormalize = 4, 512, 10, True\n    gating_output = torch.randn((token, expert), dtype=torch.bfloat16, device=\"cuda\")\n    device = gating_output.device\n\n    def gating_fn(gating_output, topk_weights, topk_ids, token_expert_indices):\n        return torch.ops.vllm.rocm_aiter_topk_gating(\n            topk_weights,\n            topk_ids,\n            token_expert_indices,\n            gating_output,\n            renormalize,\n            0,\n            \"\",\n        )\n\n    torch.library.opcheck(\n        torch.ops.vllm.rocm_aiter_topk_gating,\n        (\n            torch.empty((token, topk), dtype=torch.float32, device=device),\n            torch.empty((token, topk), dtype=torch.int32, device=device),\n            torch.empty((token, topk), dtype=torch.int32, device=device),\n            gating_output,\n        ),\n        kwargs={\n            \"renormalize\": renormalize,\n            \"num_shared_experts\": 0,\n            \"shared_expert_scoring_func\": \"\",\n        },\n        test_utils=(\"test_faketensor\"),\n    )\n\n    compiled_fn = torch.compile(\n        gating_fn,\n        fullgraph=True,\n        backend=\"inductor\",\n        mode=\"reduce-overhead\",\n        dynamic=False,\n    )\n\n    def alloc():\n        return (\n            torch.empty((token, topk), dtype=torch.float32, device=device),\n            torch.empty((token, topk), dtype=torch.int32, device=device),\n            torch.empty((token, topk), dtype=torch.int32, device=device),\n        )\n\n    w0, i0, t0 = alloc()\n    w1, i1, t1 = alloc()\n    gating_fn(gating_output, w0, i0, t0)\n    compiled_fn(gating_output, w1, i1, t1)\n    w0, i0 = _sort_routing(w0, i0)\n    w1, i1 = _sort_routing(w1, i1)\n    assert torch.allclose(w0, w1, rtol=1e-2, atol=1e-2)\n    assert torch.equal(i0, i1)",
+      "shared_helper_sources": [
+        {
+          "definition_line": 228,
+          "end_line": 231,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _sort_routing(weights: torch.Tensor, ids: torch.Tensor):\n    ids_sorted, order = torch.sort(ids, dim=-1)\n    weights_sorted = torch.gather(weights, 1, order)\n    return weights_sorted, ids_sorted"
+        }
+      ],
+      "all_checks": [
+        {
+          "path": "tests/kernels/moe/test_rocm_aiter_topk.py",
+          "line": 386,
+          "source": "assert torch.allclose(w0, w1, rtol=1e-2, atol=1e-2)"
+        },
+        {
+          "path": "tests/kernels/moe/test_rocm_aiter_topk.py",
+          "line": 387,
+          "source": "assert torch.equal(i0, i1)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/moe/test_rocm_aiter_topk.py",
+        "test_flat_topk_matches_aiter",
+        "482"
+      ],
+      "source_sha256": "c1a4496f04386e3169e48d22a9414f3af7f8f8cf7035f2ec0adf8d42718d6395",
+      "unit_id": "compute.execution_relation",
+      "property": "Flat sigmoid+bias topk agrees with AITER on sorted expert-ID sets exactly and raw weight arrays at2e-3/2e-3.",
+      "definition_line": 482,
+      "end_line": 492,
+      "decorators": [
+        {
+          "line": 465,
+          "source": "pytest.mark.parametrize(\n    \"token,expert,topk\",\n    [\n        (1, 256, 8),\n        (8, 384, 8),\n        (32, 256, 8),\n        (128, 384, 8),\n        (6, 64, 6),  # Moonlight-16B-A3B / Kimi-VL-A3B\n        (3, 257, 8),  # prime expert count, one past a power of two\n        (7, 131, 5),  # prime experts, prime topk, odd token count\n        (13, 509, 7),  # largest prime under the expert bound, odd topk\n        (1, 2, 1),  # degenerate minimum\n        (5, 65, 3),  # one past a power of two, odd topk\n    ],\n)"
+        },
+        {
+          "line": 480,
+          "source": "pytest.mark.parametrize(\"gating_dtype\", [torch.bfloat16, torch.float32])"
+        },
+        {
+          "line": 481,
+          "source": "pytest.mark.parametrize(\"renormalize\", [True, False])"
+        }
+      ],
+      "checks": [],
+      "full_test_source": "def test_flat_topk_matches_aiter(token, expert, topk, gating_dtype, renormalize):\n    \"\"\"Single declared group: the plain degenerate case.\"\"\"\n    _assert_matches_aiter(\n        token,\n        expert,\n        topk,\n        gating_dtype,\n        gating_dtype,\n        renormalize,\n        seed=token + expert,\n    )",
+      "shared_helper_sources": [
+        {
+          "definition_line": 439,
+          "end_line": 462,
+          "decorators": [],
+          "checks": [
+            {
+              "line": 459,
+              "source": "assert torch.equal(\n        torch.sort(ref_ids, dim=-1).values, torch.sort(ids, dim=-1).values\n    )"
+            },
+            {
+              "line": 462,
+              "source": "torch.testing.assert_close(ref_weights, weights, atol=2e-3, rtol=2e-3)"
+            }
+          ],
+          "full_test_source": "def _assert_matches_aiter(\n    token,\n    expert,\n    topk,\n    gating_dtype,\n    bias_dtype,\n    renormalize,\n    scale_factor=1.0,\n    seed=0,\n    groups=1,\n):\n    gating, bias, weights, ids = _routing_inputs(\n        token, expert, topk, gating_dtype, bias_dtype, seed=seed\n    )\n    ref_weights, ref_ids = _aiter_reference(\n        gating, bias, topk, renormalize, scale_factor, groups=groups\n    )\n    sigmoid_bias_flat_topk(gating, bias, weights, ids, renormalize, scale_factor)\n    torch.accelerator.synchronize()\n\n    assert torch.equal(\n        torch.sort(ref_ids, dim=-1).values, torch.sort(ids, dim=-1).values\n    )\n    torch.testing.assert_close(ref_weights, weights, atol=2e-3, rtol=2e-3)"
+        },
+        {
+          "definition_line": 420,
+          "end_line": 436,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _aiter_reference(gating, bias, topk, renormalize, scale_factor, groups=1):\n    weights = torch.empty(\n        gating.shape[0], topk, dtype=torch.float32, device=gating.device\n    )\n    ids = torch.empty(gating.shape[0], topk, dtype=torch.int32, device=gating.device)\n    b = bias if bias.dtype == gating.dtype else bias.to(gating.dtype)\n    rocm_aiter_ops.biased_grouped_topk(\n        gating,\n        b,\n        weights,\n        ids,\n        groups,\n        groups,\n        renormalize,\n        routed_scaling_factor=scale_factor,\n    )\n    return weights, ids"
+        },
+        {
+          "definition_line": 405,
+          "end_line": 417,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _routing_inputs(token, expert, topk, gating_dtype, bias_dtype, seed=0):\n    set_random_seed(seed)\n    gating = torch.randn(token, expert, device=\"cuda\", dtype=torch.float32).to(\n        gating_dtype\n    )\n    bias = (\n        torch.randn(expert, device=\"cuda\", dtype=torch.float32)\n        .to(bias_dtype)\n        .contiguous()\n    )\n    weights = torch.empty(token, topk, dtype=torch.float32, device=\"cuda\")\n    ids = torch.empty(token, topk, dtype=torch.int32, device=\"cuda\")\n    return gating, bias, weights, ids"
+        }
+      ],
+      "all_checks": [
+        {
+          "path": "tests/kernels/moe/test_rocm_aiter_topk.py",
+          "line": 459,
+          "source": "assert torch.equal(\n        torch.sort(ref_ids, dim=-1).values, torch.sort(ids, dim=-1).values\n    )"
+        },
+        {
+          "path": "tests/kernels/moe/test_rocm_aiter_topk.py",
+          "line": 462,
+          "source": "torch.testing.assert_close(ref_weights, weights, atol=2e-3, rtol=2e-3)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/moe/test_rocm_aiter_topk.py",
+        "test_flat_topk_matches_aiter_with_uneliminating_groups",
+        "497"
+      ],
+      "source_sha256": "c1a4496f04386e3169e48d22a9414f3af7f8f8cf7035f2ec0adf8d42718d6395",
+      "unit_id": "compute.execution_relation",
+      "property": "When all1/2/4/8 groups survive, flat topk equals AITER sorted IDs and raw weights at2e-3/2e-3 for64x64/top6.",
+      "definition_line": 497,
+      "end_line": 512,
+      "decorators": [
+        {
+          "line": 495,
+          "source": "pytest.mark.parametrize(\"groups\", [1, 2, 4, 8])"
+        },
+        {
+          "line": 496,
+          "source": "pytest.mark.parametrize(\"renormalize\", [True, False])"
+        }
+      ],
+      "checks": [],
+      "full_test_source": "def test_flat_topk_matches_aiter_with_uneliminating_groups(groups, renormalize):\n    \"\"\"topk_group == num_expert_group > 1 selects every group, so the masked\n    top-k degenerates to a plain top-k. FusedTopKBiasRouter reaches AITER this\n    way: it synthesises a divisor that fits an AITER kernel rather than using\n    the model's own group count, so this is a real production shape, not a\n    synthetic one.\"\"\"\n    _assert_matches_aiter(\n        64,\n        64,\n        6,\n        torch.bfloat16,\n        torch.float32,\n        renormalize,\n        seed=groups * 17,\n        groups=groups,\n    )",
+      "shared_helper_sources": [
+        {
+          "definition_line": 439,
+          "end_line": 462,
+          "decorators": [],
+          "checks": [
+            {
+              "line": 459,
+              "source": "assert torch.equal(\n        torch.sort(ref_ids, dim=-1).values, torch.sort(ids, dim=-1).values\n    )"
+            },
+            {
+              "line": 462,
+              "source": "torch.testing.assert_close(ref_weights, weights, atol=2e-3, rtol=2e-3)"
+            }
+          ],
+          "full_test_source": "def _assert_matches_aiter(\n    token,\n    expert,\n    topk,\n    gating_dtype,\n    bias_dtype,\n    renormalize,\n    scale_factor=1.0,\n    seed=0,\n    groups=1,\n):\n    gating, bias, weights, ids = _routing_inputs(\n        token, expert, topk, gating_dtype, bias_dtype, seed=seed\n    )\n    ref_weights, ref_ids = _aiter_reference(\n        gating, bias, topk, renormalize, scale_factor, groups=groups\n    )\n    sigmoid_bias_flat_topk(gating, bias, weights, ids, renormalize, scale_factor)\n    torch.accelerator.synchronize()\n\n    assert torch.equal(\n        torch.sort(ref_ids, dim=-1).values, torch.sort(ids, dim=-1).values\n    )\n    torch.testing.assert_close(ref_weights, weights, atol=2e-3, rtol=2e-3)"
+        },
+        {
+          "definition_line": 420,
+          "end_line": 436,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _aiter_reference(gating, bias, topk, renormalize, scale_factor, groups=1):\n    weights = torch.empty(\n        gating.shape[0], topk, dtype=torch.float32, device=gating.device\n    )\n    ids = torch.empty(gating.shape[0], topk, dtype=torch.int32, device=gating.device)\n    b = bias if bias.dtype == gating.dtype else bias.to(gating.dtype)\n    rocm_aiter_ops.biased_grouped_topk(\n        gating,\n        b,\n        weights,\n        ids,\n        groups,\n        groups,\n        renormalize,\n        routed_scaling_factor=scale_factor,\n    )\n    return weights, ids"
+        },
+        {
+          "definition_line": 405,
+          "end_line": 417,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _routing_inputs(token, expert, topk, gating_dtype, bias_dtype, seed=0):\n    set_random_seed(seed)\n    gating = torch.randn(token, expert, device=\"cuda\", dtype=torch.float32).to(\n        gating_dtype\n    )\n    bias = (\n        torch.randn(expert, device=\"cuda\", dtype=torch.float32)\n        .to(bias_dtype)\n        .contiguous()\n    )\n    weights = torch.empty(token, topk, dtype=torch.float32, device=\"cuda\")\n    ids = torch.empty(token, topk, dtype=torch.int32, device=\"cuda\")\n    return gating, bias, weights, ids"
+        }
+      ],
+      "all_checks": [
+        {
+          "path": "tests/kernels/moe/test_rocm_aiter_topk.py",
+          "line": 459,
+          "source": "assert torch.equal(\n        torch.sort(ref_ids, dim=-1).values, torch.sort(ids, dim=-1).values\n    )"
+        },
+        {
+          "path": "tests/kernels/moe/test_rocm_aiter_topk.py",
+          "line": 462,
+          "source": "torch.testing.assert_close(ref_weights, weights, atol=2e-3, rtol=2e-3)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/moe/test_rocm_aiter_topk.py",
+        "test_flat_topk_casts_bias_like_aiter",
+        "517"
+      ],
+      "source_sha256": "c1a4496f04386e3169e48d22a9414f3af7f8f8cf7035f2ec0adf8d42718d6395",
+      "unit_id": "compute.execution_relation",
+      "property": "BF16 gating with FP32 bias agrees with AITER after reference casts bias to gating dtype; sorted IDs exact, raw weights2e-3/2e-3.",
+      "definition_line": 517,
+      "end_line": 529,
+      "decorators": [
+        {
+          "line": 515,
+          "source": "pytest.mark.parametrize(\"token,expert,topk\", [(8, 384, 8), (128, 384, 8), (7, 131, 5)])"
+        },
+        {
+          "line": 516,
+          "source": "pytest.mark.parametrize(\"renormalize\", [True, False])"
+        }
+      ],
+      "checks": [],
+      "full_test_source": "def test_flat_topk_casts_bias_like_aiter(token, expert, topk, renormalize):\n    \"\"\"A bf16 gating output next to an fp32 correction bias is the common\n    router layout, and rocm_aiter_ops.biased_grouped_topk casts the bias to the\n    gating dtype before dispatching.\"\"\"\n    _assert_matches_aiter(\n        token,\n        expert,\n        topk,\n        torch.bfloat16,\n        torch.float32,\n        renormalize,\n        seed=token * 3,\n    )",
+      "shared_helper_sources": [
+        {
+          "definition_line": 439,
+          "end_line": 462,
+          "decorators": [],
+          "checks": [
+            {
+              "line": 459,
+              "source": "assert torch.equal(\n        torch.sort(ref_ids, dim=-1).values, torch.sort(ids, dim=-1).values\n    )"
+            },
+            {
+              "line": 462,
+              "source": "torch.testing.assert_close(ref_weights, weights, atol=2e-3, rtol=2e-3)"
+            }
+          ],
+          "full_test_source": "def _assert_matches_aiter(\n    token,\n    expert,\n    topk,\n    gating_dtype,\n    bias_dtype,\n    renormalize,\n    scale_factor=1.0,\n    seed=0,\n    groups=1,\n):\n    gating, bias, weights, ids = _routing_inputs(\n        token, expert, topk, gating_dtype, bias_dtype, seed=seed\n    )\n    ref_weights, ref_ids = _aiter_reference(\n        gating, bias, topk, renormalize, scale_factor, groups=groups\n    )\n    sigmoid_bias_flat_topk(gating, bias, weights, ids, renormalize, scale_factor)\n    torch.accelerator.synchronize()\n\n    assert torch.equal(\n        torch.sort(ref_ids, dim=-1).values, torch.sort(ids, dim=-1).values\n    )\n    torch.testing.assert_close(ref_weights, weights, atol=2e-3, rtol=2e-3)"
+        },
+        {
+          "definition_line": 420,
+          "end_line": 436,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _aiter_reference(gating, bias, topk, renormalize, scale_factor, groups=1):\n    weights = torch.empty(\n        gating.shape[0], topk, dtype=torch.float32, device=gating.device\n    )\n    ids = torch.empty(gating.shape[0], topk, dtype=torch.int32, device=gating.device)\n    b = bias if bias.dtype == gating.dtype else bias.to(gating.dtype)\n    rocm_aiter_ops.biased_grouped_topk(\n        gating,\n        b,\n        weights,\n        ids,\n        groups,\n        groups,\n        renormalize,\n        routed_scaling_factor=scale_factor,\n    )\n    return weights, ids"
+        },
+        {
+          "definition_line": 405,
+          "end_line": 417,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _routing_inputs(token, expert, topk, gating_dtype, bias_dtype, seed=0):\n    set_random_seed(seed)\n    gating = torch.randn(token, expert, device=\"cuda\", dtype=torch.float32).to(\n        gating_dtype\n    )\n    bias = (\n        torch.randn(expert, device=\"cuda\", dtype=torch.float32)\n        .to(bias_dtype)\n        .contiguous()\n    )\n    weights = torch.empty(token, topk, dtype=torch.float32, device=\"cuda\")\n    ids = torch.empty(token, topk, dtype=torch.int32, device=\"cuda\")\n    return gating, bias, weights, ids"
+        }
+      ],
+      "all_checks": [
+        {
+          "path": "tests/kernels/moe/test_rocm_aiter_topk.py",
+          "line": 459,
+          "source": "assert torch.equal(\n        torch.sort(ref_ids, dim=-1).values, torch.sort(ids, dim=-1).values\n    )"
+        },
+        {
+          "path": "tests/kernels/moe/test_rocm_aiter_topk.py",
+          "line": 462,
+          "source": "torch.testing.assert_close(ref_weights, weights, atol=2e-3, rtol=2e-3)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/moe/test_rocm_aiter_topk.py",
+        "test_flat_topk_honours_routed_scaling",
+        "533"
+      ],
+      "source_sha256": "c1a4496f04386e3169e48d22a9414f3af7f8f8cf7035f2ec0adf8d42718d6395",
+      "unit_id": "compute.execution_relation",
+      "property": "Scaling1/2.446/2.827 in8x64/top6 flat topk agrees with AITER sorted IDs and raw weights2e-3/2e-3.",
+      "definition_line": 533,
+      "end_line": 544,
+      "decorators": [
+        {
+          "line": 532,
+          "source": "pytest.mark.parametrize(\"scale_factor\", [1.0, 2.446, 2.827])"
+        }
+      ],
+      "checks": [],
+      "full_test_source": "def test_flat_topk_honours_routed_scaling(scale_factor):\n    \"\"\"Moonlight-16B-A3B uses 2.446 and Kimi-K2 2.827.\"\"\"\n    _assert_matches_aiter(\n        8,\n        64,\n        6,\n        torch.bfloat16,\n        torch.float32,\n        True,\n        scale_factor=scale_factor,\n        seed=11,\n    )",
+      "shared_helper_sources": [
+        {
+          "definition_line": 439,
+          "end_line": 462,
+          "decorators": [],
+          "checks": [
+            {
+              "line": 459,
+              "source": "assert torch.equal(\n        torch.sort(ref_ids, dim=-1).values, torch.sort(ids, dim=-1).values\n    )"
+            },
+            {
+              "line": 462,
+              "source": "torch.testing.assert_close(ref_weights, weights, atol=2e-3, rtol=2e-3)"
+            }
+          ],
+          "full_test_source": "def _assert_matches_aiter(\n    token,\n    expert,\n    topk,\n    gating_dtype,\n    bias_dtype,\n    renormalize,\n    scale_factor=1.0,\n    seed=0,\n    groups=1,\n):\n    gating, bias, weights, ids = _routing_inputs(\n        token, expert, topk, gating_dtype, bias_dtype, seed=seed\n    )\n    ref_weights, ref_ids = _aiter_reference(\n        gating, bias, topk, renormalize, scale_factor, groups=groups\n    )\n    sigmoid_bias_flat_topk(gating, bias, weights, ids, renormalize, scale_factor)\n    torch.accelerator.synchronize()\n\n    assert torch.equal(\n        torch.sort(ref_ids, dim=-1).values, torch.sort(ids, dim=-1).values\n    )\n    torch.testing.assert_close(ref_weights, weights, atol=2e-3, rtol=2e-3)"
+        },
+        {
+          "definition_line": 420,
+          "end_line": 436,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _aiter_reference(gating, bias, topk, renormalize, scale_factor, groups=1):\n    weights = torch.empty(\n        gating.shape[0], topk, dtype=torch.float32, device=gating.device\n    )\n    ids = torch.empty(gating.shape[0], topk, dtype=torch.int32, device=gating.device)\n    b = bias if bias.dtype == gating.dtype else bias.to(gating.dtype)\n    rocm_aiter_ops.biased_grouped_topk(\n        gating,\n        b,\n        weights,\n        ids,\n        groups,\n        groups,\n        renormalize,\n        routed_scaling_factor=scale_factor,\n    )\n    return weights, ids"
+        },
+        {
+          "definition_line": 405,
+          "end_line": 417,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _routing_inputs(token, expert, topk, gating_dtype, bias_dtype, seed=0):\n    set_random_seed(seed)\n    gating = torch.randn(token, expert, device=\"cuda\", dtype=torch.float32).to(\n        gating_dtype\n    )\n    bias = (\n        torch.randn(expert, device=\"cuda\", dtype=torch.float32)\n        .to(bias_dtype)\n        .contiguous()\n    )\n    weights = torch.empty(token, topk, dtype=torch.float32, device=\"cuda\")\n    ids = torch.empty(token, topk, dtype=torch.int32, device=\"cuda\")\n    return gating, bias, weights, ids"
+        }
+      ],
+      "all_checks": [
+        {
+          "path": "tests/kernels/moe/test_rocm_aiter_topk.py",
+          "line": 459,
+          "source": "assert torch.equal(\n        torch.sort(ref_ids, dim=-1).values, torch.sort(ids, dim=-1).values\n    )"
+        },
+        {
+          "path": "tests/kernels/moe/test_rocm_aiter_topk.py",
+          "line": 462,
+          "source": "torch.testing.assert_close(ref_weights, weights, atol=2e-3, rtol=2e-3)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/moe/test_rocm_aiter_topk.py",
+        "test_biased_grouped_topk_substitutes_only_when_expected",
+        "556"
+      ],
+      "source_sha256": "c1a4496f04386e3169e48d22a9414f3af7f8f8cf7035f2ec0adf8d42718d6395",
+      "unit_id": "compute.kernel_dispatch_binding",
+      "property": "Counted flat-topk substitution occurs only under declared capture/group-selection cases; weights must be finite, with no reference numerical comparison.",
+      "definition_line": 556,
+      "end_line": 606,
+      "decorators": [
+        {
+          "line": 547,
+          "source": "pytest.mark.parametrize(\n    \"groups,topk_group,captured,substituted\",\n    [\n        (1, 1, True, True),\n        (2, 2, True, True),\n        (8, 4, True, False),  # a group is eliminated -> AITER\n        (1, 1, False, False),  # eager -> AITER\n    ],\n)"
+        }
+      ],
+      "checks": [
+        {
+          "line": 605,
+          "source": "assert bool(calls) is substituted"
+        },
+        {
+          "line": 606,
+          "source": "assert torch.isfinite(weights).all()"
+        }
+      ],
+      "full_test_source": "def test_biased_grouped_topk_substitutes_only_when_expected(\n    monkeypatch, groups, topk_group, captured, substituted\n):\n    \"\"\"End of the wiring: rocm_aiter_ops.biased_grouped_topk is the single\n    call site both routers reach, so this asserts the substitution happens\n    there and only for the intended shapes, and only while a CUDA graph is\n    being captured.\"\"\"\n    from vllm.model_executor.layers.fused_moe.router import (\n        rocm_sigmoid_bias_flat_topk as K,\n    )\n\n    gating, bias, weights, ids = _routing_inputs(\n        1, 64, 6, torch.bfloat16, torch.float32\n    )\n    # Compile the Triton kernel outside the graph.\n    K.sigmoid_bias_flat_topk(\n        gating, bias, torch.empty_like(weights), torch.empty_like(ids), True\n    )\n    torch.accelerator.synchronize()\n\n    calls: list[int] = []\n    orig = K.sigmoid_bias_flat_topk\n\n    def counted(*args, **kwargs):\n        calls.append(1)\n        return orig(*args, **kwargs)\n\n    monkeypatch.setattr(K, \"sigmoid_bias_flat_topk\", counted)\n\n    def route():\n        rocm_aiter_ops.biased_grouped_topk(\n            gating,\n            bias,\n            weights,\n            ids,\n            groups,\n            topk_group,\n            True,\n            routed_scaling_factor=1.0,\n        )\n\n    if captured:\n        graph = torch.cuda.CUDAGraph()\n        with torch.cuda.graph(graph):\n            route()\n        graph.replay()\n    else:\n        route()\n    torch.accelerator.synchronize()\n    assert bool(calls) is substituted\n    assert torch.isfinite(weights).all()",
+      "shared_helper_sources": [
+        {
+          "definition_line": 405,
+          "end_line": 417,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _routing_inputs(token, expert, topk, gating_dtype, bias_dtype, seed=0):\n    set_random_seed(seed)\n    gating = torch.randn(token, expert, device=\"cuda\", dtype=torch.float32).to(\n        gating_dtype\n    )\n    bias = (\n        torch.randn(expert, device=\"cuda\", dtype=torch.float32)\n        .to(bias_dtype)\n        .contiguous()\n    )\n    weights = torch.empty(token, topk, dtype=torch.float32, device=\"cuda\")\n    ids = torch.empty(token, topk, dtype=torch.int32, device=\"cuda\")\n    return gating, bias, weights, ids"
+        }
+      ],
+      "all_checks": [
+        {
+          "path": "tests/kernels/moe/test_rocm_aiter_topk.py",
+          "line": 605,
+          "source": "assert bool(calls) is substituted"
+        },
+        {
+          "path": "tests/kernels/moe/test_rocm_aiter_topk.py",
+          "line": 606,
+          "source": "assert torch.isfinite(weights).all()"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_cpu_fused_sampling.py",
+        "TestGreedyArgmax::test_single_dominant",
+        "33"
+      ],
+      "source_sha256": "8e356f306b812b79b4720429c33d2658683d09f99c3f70b76d46c2918a21befd",
+      "unit_id": "sampling.policy",
+      "property": "Greedy argmax chooses42 from50000 logits when only token42 has dominant100 versus -1e9.",
+      "definition_line": 33,
+      "end_line": 36,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 36,
+          "source": "assert torch.ops._C.greedy_argmax(logits).item() == 42"
+        }
+      ],
+      "full_test_source": "def test_single_dominant(self):\n        logits = torch.full((1, 50000), -1e9, dtype=torch.float32)\n        logits[0, 42] = 100.0\n        assert torch.ops._C.greedy_argmax(logits).item() == 42",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/test_cpu_fused_sampling.py",
+          "line": 36,
+          "source": "assert torch.ops._C.greedy_argmax(logits).item() == 42"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_cpu_fused_sampling.py",
+        "TestFusedGumbelArgmax::test_distribution_chi_squared",
+        "46"
+      ],
+      "source_sha256": "8e356f306b812b79b4720429c33d2658683d09f99c3f70b76d46c2918a21befd",
+      "unit_id": "sampling.distribution_relation",
+      "property": "100000 seeds,100-way softmax reference, chi-square on expected-count>5 bins, p>0.001",
+      "definition_line": 46,
+      "end_line": 71,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 68,
+          "source": "assert p_value > 0.001, (\n            f\"Chi-squared test failed: chi2={chi2.item():.1f}, \"\n            f\"dof={dof}, p={p_value:.6f}\"\n        )"
+        }
+      ],
+      "full_test_source": "def test_distribution_chi_squared(self):\n        \"\"\"Verify sampling distribution via chi-squared goodness of fit.\"\"\"\n        # Small support is enough for chi-squared power; large-vocab bias\n        # is covered by test_noise_not_sliding_window (#59786).\n        small_vocab = 100\n        logits = torch.randn(1, small_vocab, dtype=torch.float32)\n        probs = logits.softmax(dim=-1).squeeze(0)\n\n        n_samples = 100_000\n        seeds = torch.arange(n_samples, dtype=torch.long) * 7 + 13\n        idx = torch.ops._C.fused_gumbel_argmax(\n            logits.expand(n_samples, -1).contiguous(), seeds\n        )\n        counts = torch.bincount(idx, minlength=small_vocab).float()\n\n        expected = probs * n_samples\n        mask = expected > 5\n        chi2 = ((counts[mask] - expected[mask]) ** 2 / expected[mask]).sum()\n        dof = mask.sum().item() - 1\n        from scipy.stats import chi2 as chi2_dist\n\n        p_value = 1.0 - chi2_dist.cdf(chi2.item(), dof)\n        assert p_value > 0.001, (\n            f\"Chi-squared test failed: chi2={chi2.item():.1f}, \"\n            f\"dof={dof}, p={p_value:.6f}\"\n        )",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/test_cpu_fused_sampling.py",
+          "line": 68,
+          "source": "assert p_value > 0.001, (\n            f\"Chi-squared test failed: chi2={chi2.item():.1f}, \"\n            f\"dof={dof}, p={p_value:.6f}\"\n        )"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_cpu_fused_sampling.py",
+        "TestFusedGumbelArgmax::test_noise_not_sliding_window",
+        "73"
+      ],
+      "source_sha256": "8e356f306b812b79b4720429c33d2658683d09f99c3f70b76d46c2918a21befd",
+      "unit_id": "sampling.randomness_relation",
+      "property": "2048 consecutive seeds on128 uniform logits must have one-token-shift winner fraction<0.05",
+      "definition_line": 73,
+      "end_line": 87,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 85,
+          "source": "assert frac < 0.05, (\n            f\"consecutive-seed winners follow a table shift (frac={frac:.3f})\"\n        )"
+        }
+      ],
+      "full_test_source": "def test_noise_not_sliding_window(self):\n        \"\"\"Table[(seed+i)&MASK] made consecutive seeds a 1-token shift.\n\n        On uniform logits that yields P(w(s+1) == w(s)-1) ~ 1-2/V. Independent\n        per-token noise yields ~1/V. See #59786.\n        \"\"\"\n        vocab, n = 128, 2048\n        logits = torch.zeros(n, vocab, dtype=torch.float32)\n        seeds = torch.arange(n, dtype=torch.long)\n        winners = torch.ops._C.fused_gumbel_argmax(logits, seeds)\n        shifted = (winners[:-1] - 1) % vocab\n        frac = (winners[1:] == shifted).float().mean().item()\n        assert frac < 0.05, (\n            f\"consecutive-seed winners follow a table shift (frac={frac:.3f})\"\n        )",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/test_cpu_fused_sampling.py",
+          "line": 85,
+          "source": "assert frac < 0.05, (\n            f\"consecutive-seed winners follow a table shift (frac={frac:.3f})\"\n        )"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_cpu_fused_sampling.py",
+        "TestFusedGumbelArgmax::test_zipf_head_matches_softmax",
+        "89"
+      ],
+      "source_sha256": "8e356f306b812b79b4720429c33d2658683d09f99c3f70b76d46c2918a21befd",
+      "unit_id": "sampling.distribution_relation",
+      "property": "8192-way Zipf head frequency over16384 seeds is within8 standard errors of softmax probability",
+      "definition_line": 89,
+      "end_line": 104,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 102,
+          "source": "assert abs(q0 - p0) < 8.0 * se, (\n            f\"P(top-1) kernel={q0:.4f} exact={p0:.4f} se={se:.4f}\"\n        )"
+        }
+      ],
+      "full_test_source": "def test_zipf_head_matches_softmax(self):\n        \"\"\"Zipf head probability should match softmax (#59786).\"\"\"\n        vocab, n_samples, batch = 8192, 16384, 256\n        logits = -1.1 * torch.arange(1, vocab + 1, dtype=torch.float32).log()\n        p0 = torch.softmax(logits.double(), dim=-1)[0].item()\n        row = logits.view(1, -1).expand(batch, vocab).contiguous()\n        n_top = 0\n        for start in range(0, n_samples, batch):\n            seeds = torch.arange(start, start + batch, dtype=torch.long)\n            tokens = torch.ops._C.fused_gumbel_argmax(row, seeds)\n            n_top += int((tokens == 0).sum())\n        q0 = n_top / n_samples\n        se = (p0 * (1.0 - p0) / n_samples) ** 0.5\n        assert abs(q0 - p0) < 8.0 * se, (\n            f\"P(top-1) kernel={q0:.4f} exact={p0:.4f} se={se:.4f}\"\n        )",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/test_cpu_fused_sampling.py",
+          "line": 102,
+          "source": "assert abs(q0 - p0) < 8.0 * se, (\n            f\"P(top-1) kernel={q0:.4f} exact={p0:.4f} se={se:.4f}\"\n        )"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_cpu_fused_sampling.py",
+        "TestFusedGumbelArgmax::test_deterministic_same_seed",
+        "106"
+      ],
+      "source_sha256": "8e356f306b812b79b4720429c33d2658683d09f99c3f70b76d46c2918a21befd",
+      "unit_id": "compute.execution_relation",
+      "property": "Repeated Gumbel sampling with identical4x32000 logits and seeds[42,123,456,789] returns equal tokens.",
+      "definition_line": 106,
+      "end_line": 112,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 112,
+          "source": "torch.testing.assert_close(r1, r2)"
+        }
+      ],
+      "full_test_source": "def test_deterministic_same_seed(self):\n        \"\"\"Same seed produces same result.\"\"\"\n        logits = torch.randn(4, 32000, dtype=torch.float32)\n        seeds = torch.tensor([42, 123, 456, 789], dtype=torch.long)\n        r1 = torch.ops._C.fused_gumbel_argmax(logits, seeds)\n        r2 = torch.ops._C.fused_gumbel_argmax(logits, seeds)\n        torch.testing.assert_close(r1, r2)",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/test_cpu_fused_sampling.py",
+          "line": 112,
+          "source": "torch.testing.assert_close(r1, r2)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_cpu_fused_sampling.py",
+        "TestFusedGumbelArgmax::test_different_seeds_differ",
+        "114"
+      ],
+      "source_sha256": "8e356f306b812b79b4720429c33d2658683d09f99c3f70b76d46c2918a21befd",
+      "unit_id": "sampling.randomness_relation",
+      "property": "uniform16x50000 logits with seed vectors differing by1000000 produce unequal output vectors; does not prove independence",
+      "definition_line": 114,
+      "end_line": 120,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 120,
+          "source": "assert not torch.equal(r_a, r_b)"
+        }
+      ],
+      "full_test_source": "def test_different_seeds_differ(self):\n        logits = torch.zeros(16, 50000, dtype=torch.float32)\n        seeds_a = torch.arange(16, dtype=torch.long)\n        seeds_b = torch.arange(16, dtype=torch.long) + 1_000_000\n        r_a = torch.ops._C.fused_gumbel_argmax(logits, seeds_a)\n        r_b = torch.ops._C.fused_gumbel_argmax(logits, seeds_b)\n        assert not torch.equal(r_a, r_b)",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/test_cpu_fused_sampling.py",
+          "line": 120,
+          "source": "assert not torch.equal(r_a, r_b)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_cpu_fused_sampling.py",
+        "TestFusedGumbelArgmax::test_output_in_range",
+        "124"
+      ],
+      "source_sha256": "8e356f306b812b79b4720429c33d2658683d09f99c3f70b76d46c2918a21befd",
+      "unit_id": "sampling.policy",
+      "property": "Each sampled token ID lies in[0,vocab_size) for declared vocabulary and batch sizes.",
+      "definition_line": 124,
+      "end_line": 129,
+      "decorators": [
+        {
+          "line": 122,
+          "source": "pytest.mark.parametrize(\"vocab_size\", VOCAB_SIZES)"
+        },
+        {
+          "line": 123,
+          "source": "pytest.mark.parametrize(\"batch_size\", BATCH_SIZES)"
+        }
+      ],
+      "checks": [
+        {
+          "line": 128,
+          "source": "assert result.min() >= 0"
+        },
+        {
+          "line": 129,
+          "source": "assert result.max() < vocab_size"
+        }
+      ],
+      "full_test_source": "def test_output_in_range(self, vocab_size: int, batch_size: int):\n        logits = torch.randn(batch_size, vocab_size, dtype=torch.float32)\n        seeds = torch.arange(batch_size, dtype=torch.long)\n        result = torch.ops._C.fused_gumbel_argmax(logits, seeds)\n        assert result.min() >= 0\n        assert result.max() < vocab_size",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/test_cpu_fused_sampling.py",
+          "line": 128,
+          "source": "assert result.min() >= 0"
+        },
+        {
+          "path": "tests/kernels/test_cpu_fused_sampling.py",
+          "line": 129,
+          "source": "assert result.max() < vocab_size"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_cpu_fused_sampling.py",
+        "TestFusedGumbelArgmax::test_samples_only_from_finite_logits",
+        "131"
+      ],
+      "source_sha256": "8e356f306b812b79b4720429c33d2658683d09f99c3f70b76d46c2918a21befd",
+      "unit_id": "sampling.policy",
+      "property": "With -inf outside IDs[3,17,99,1024,8191], all64 sampled tokens belong to the finite allowed set.",
+      "definition_line": 131,
+      "end_line": 139,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 139,
+          "source": "assert torch.isin(tokens, allowed).all()"
+        }
+      ],
+      "full_test_source": "def test_samples_only_from_finite_logits(self):\n        \"\"\"top-k/top-p mask with -inf; those IDs must never win.\"\"\"\n        allowed = torch.tensor([3, 17, 99, 1024, 8191], dtype=torch.long)\n        logits = torch.full((64, 32000), float(\"-inf\"), dtype=torch.float32)\n        logits[:, allowed] = torch.randn(64, allowed.numel())\n        tokens = torch.ops._C.fused_gumbel_argmax(\n            logits, torch.arange(64, dtype=torch.long)\n        )\n        assert torch.isin(tokens, allowed).all()",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/test_cpu_fused_sampling.py",
+          "line": 139,
+          "source": "assert torch.isin(tokens, allowed).all()"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_cpu_fused_sampling.py",
+        "TestFusedGumbelArgmax::test_single_unmasked_token",
+        "141"
+      ],
+      "source_sha256": "8e356f306b812b79b4720429c33d2658683d09f99c3f70b76d46c2918a21befd",
+      "unit_id": "sampling.policy",
+      "property": "Only token123 unmasked in4096-way logits: all8 seeds including signed-int64 boundaries return123.",
+      "definition_line": 141,
+      "end_line": 146,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 146,
+          "source": "assert (tokens == 123).all()"
+        }
+      ],
+      "full_test_source": "def test_single_unmasked_token(self):\n        logits = torch.full((8, 4096), float(\"-inf\"), dtype=torch.float32)\n        logits[:, 123] = 0.0\n        seeds = torch.tensor([0, -1, -(2**63), 2**63 - 1, 42, 99, 1000, 7])\n        tokens = torch.ops._C.fused_gumbel_argmax(logits, seeds)\n        assert (tokens == 123).all()",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/test_cpu_fused_sampling.py",
+          "line": 146,
+          "source": "assert (tokens == 123).all()"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_cpu_fused_sampling.py",
+        "TestFusedGumbelArgmax::test_tokens_beyond_gumbel_max_cannot_win",
+        "148"
+      ],
+      "source_sha256": "8e356f306b812b79b4720429c33d2658683d09f99c3f70b76d46c2918a21befd",
+      "unit_id": "sampling.policy",
+      "property": "For256 rows with logits[0,-80,-80,-80], the bounded-Gumbel implementation returns token0 for every declared seed.",
+      "definition_line": 148,
+      "end_line": 155,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 155,
+          "source": "assert (tokens == 0).all()"
+        }
+      ],
+      "full_test_source": "def test_tokens_beyond_gumbel_max_cannot_win(self):\n        \"\"\"A gap larger than GUMBEL_MAX is unreachable.\"\"\"\n        logits = torch.zeros(256, 4, dtype=torch.float32)\n        logits[:, 1:] = -80.0\n        tokens = torch.ops._C.fused_gumbel_argmax(\n            logits, torch.arange(256, dtype=torch.long)\n        )\n        assert (tokens == 0).all()",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/test_cpu_fused_sampling.py",
+          "line": 155,
+          "source": "assert (tokens == 0).all()"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_cpu_fused_sampling.py",
+        "TestFusedGumbelArgmax::test_tied_huge_logits_not_index_biased",
+        "157"
+      ],
+      "source_sha256": "8e356f306b812b79b4720429c33d2658683d09f99c3f70b76d46c2918a21befd",
+      "unit_id": "sampling.distribution_relation",
+      "property": "4096 seeds with2 logits at FP32 max must select both IDs and have index0 frequency between0.35 and0.65",
+      "definition_line": 157,
+      "end_line": 167,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 166,
+          "source": "assert set(tokens.tolist()) == {0, 1}, tokens.unique().tolist()"
+        },
+        {
+          "line": 167,
+          "source": "assert 0.35 < frac0 < 0.65, f\"P(index 0)={frac0:.3f} expected ~0.5\""
+        }
+      ],
+      "full_test_source": "def test_tied_huge_logits_not_index_biased(self):\n        \"\"\"Noise must still break ties when logits sit at float32 max.\"\"\"\n        logits = torch.full(\n            (4096, 2), torch.finfo(torch.float32).max, dtype=torch.float32\n        )\n        tokens = torch.ops._C.fused_gumbel_argmax(\n            logits, torch.arange(4096, dtype=torch.long)\n        )\n        frac0 = (tokens == 0).float().mean().item()\n        assert set(tokens.tolist()) == {0, 1}, tokens.unique().tolist()\n        assert 0.35 < frac0 < 0.65, f\"P(index 0)={frac0:.3f} expected ~0.5\"",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/test_cpu_fused_sampling.py",
+          "line": 166,
+          "source": "assert set(tokens.tolist()) == {0, 1}, tokens.unique().tolist()"
+        },
+        {
+          "path": "tests/kernels/test_cpu_fused_sampling.py",
+          "line": 167,
+          "source": "assert 0.35 < frac0 < 0.65, f\"P(index 0)={frac0:.3f} expected ~0.5\""
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_cpu_fused_sampling.py",
+        "TestFusedGumbelArgmax::test_serial_batch1_matches_batched",
+        "169"
+      ],
+      "source_sha256": "8e356f306b812b79b4720429c33d2658683d09f99c3f70b76d46c2918a21befd",
+      "unit_id": "compute.execution_relation",
+      "property": "Eight2048-way rows with matching per-row seeds yield identical token vectors in batched OpenMP and serial batch1 execution.",
+      "definition_line": 169,
+      "end_line": 180,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 180,
+          "source": "torch.testing.assert_close(batched, serial)"
+        }
+      ],
+      "full_test_source": "def test_serial_batch1_matches_batched(self):\n        \"\"\"OpenMP rows must match the batch=1 serial path.\"\"\"\n        logits = torch.randn(8, 2048, dtype=torch.float32)\n        seeds = torch.arange(8, dtype=torch.long)\n        batched = torch.ops._C.fused_gumbel_argmax(logits, seeds)\n        serial = torch.stack(\n            [\n                torch.ops._C.fused_gumbel_argmax(logits[i : i + 1], seeds[i : i + 1])[0]\n                for i in range(8)\n            ]\n        )\n        torch.testing.assert_close(batched, serial)",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/test_cpu_fused_sampling.py",
+          "line": 180,
+          "source": "torch.testing.assert_close(batched, serial)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_cpu_fused_sampling.py",
+        "TestFusedGumbelArgmax::test_empty_batch",
+        "192"
+      ],
+      "source_sha256": "8e356f306b812b79b4720429c33d2658683d09f99c3f70b76d46c2918a21befd",
+      "unit_id": "compute.output_constraints",
+      "property": "Empty[0,7] logits with empty seed vector returns shape(0,) and dtypeint64.",
+      "definition_line": 192,
+      "end_line": 196,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 196,
+          "source": "assert tokens.shape == (0,) and tokens.dtype == torch.int64"
+        }
+      ],
+      "full_test_source": "def test_empty_batch(self):\n        tokens = torch.ops._C.fused_gumbel_argmax(\n            torch.empty(0, 7), torch.empty(0, dtype=torch.long)\n        )\n        assert tokens.shape == (0,) and tokens.dtype == torch.int64",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/test_cpu_fused_sampling.py",
+          "line": 196,
+          "source": "assert tokens.shape == (0,) and tokens.dtype == torch.int64"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_cpu_fused_sampling.py",
+        "TestFusedGumbelArgmax::test_masked_support_matches_softmax",
+        "198"
+      ],
+      "source_sha256": "8e356f306b812b79b4720429c33d2658683d09f99c3f70b76d46c2918a21befd",
+      "unit_id": "sampling.distribution_relation",
+      "property": "20000 samples never select masked sixth token and five-bin softmax chi-square p>1e-7",
+      "definition_line": 198,
+      "end_line": 214,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 211,
+          "source": "assert counts[-1] == 0"
+        },
+        {
+          "line": 214,
+          "source": "assert p_value > 1e-7, f\"masked-support p-value: {p_value}\""
+        }
+      ],
+      "full_test_source": "def test_masked_support_matches_softmax(self):\n        \"\"\"Finite subset after -inf mask should match softmax.\"\"\"\n        from scipy.stats import chisquare\n\n        logits = torch.tensor(\n            [0.0, -0.2, -0.7, -1.5, -3.0, float(\"-inf\")], dtype=torch.float32\n        )\n        n_samples = 20_000\n        tokens = torch.ops._C.fused_gumbel_argmax(\n            logits.expand(n_samples, -1).contiguous(),\n            torch.arange(n_samples, dtype=torch.long),\n        )\n        counts = torch.bincount(tokens, minlength=logits.numel()).double()\n        assert counts[-1] == 0\n        probs = logits.double().softmax(-1)\n        _, p_value = chisquare(counts[:-1].numpy(), (probs[:-1] * n_samples).numpy())\n        assert p_value > 1e-7, f\"masked-support p-value: {p_value}\"",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/test_cpu_fused_sampling.py",
+          "line": 211,
+          "source": "assert counts[-1] == 0"
+        },
+        {
+          "path": "tests/kernels/test_cpu_fused_sampling.py",
+          "line": 214,
+          "source": "assert p_value > 1e-7, f\"masked-support p-value: {p_value}\""
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_cpu_fused_sampling.py",
+        "TestFusedGumbelArgmax::test_zipf_tail_matches_softmax",
+        "216"
+      ],
+      "source_sha256": "8e356f306b812b79b4720429c33d2658683d09f99c3f70b76d46c2918a21befd",
+      "unit_id": "sampling.distribution_relation",
+      "property": "8192-way Zipf upper-half token frequency over16384 seeds within8 standard errors of softmax tail mass",
+      "definition_line": 216,
+      "end_line": 231,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 229,
+          "source": "assert abs(q_tail - p_tail) < 8.0 * se, (\n            f\"P(tail) kernel={q_tail:.4f} exact={p_tail:.4f} se={se:.4f}\"\n        )"
+        }
+      ],
+      "full_test_source": "def test_zipf_tail_matches_softmax(self):\n        \"\"\"Independent 53-bit Gumbel must not starve the Zipf tail (#59786).\"\"\"\n        vocab, n_samples, batch = 8192, 16384, 256\n        logits = -1.1 * torch.arange(1, vocab + 1, dtype=torch.float32).log()\n        p_tail = torch.softmax(logits.double(), dim=-1)[vocab // 2 :].sum().item()\n        row = logits.view(1, -1).expand(batch, vocab).contiguous()\n        n_tail = 0\n        for start in range(0, n_samples, batch):\n            seeds = torch.arange(start, start + batch, dtype=torch.long)\n            tokens = torch.ops._C.fused_gumbel_argmax(row, seeds)\n            n_tail += int((tokens >= vocab // 2).sum())\n        q_tail = n_tail / n_samples\n        se = (p_tail * (1.0 - p_tail) / n_samples) ** 0.5\n        assert abs(q_tail - p_tail) < 8.0 * se, (\n            f\"P(tail) kernel={q_tail:.4f} exact={p_tail:.4f} se={se:.4f}\"\n        )",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/test_cpu_fused_sampling.py",
+          "line": 229,
+          "source": "assert abs(q_tail - p_tail) < 8.0 * se, (\n            f\"P(tail) kernel={q_tail:.4f} exact={p_tail:.4f} se={se:.4f}\"\n        )"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_cpu_fused_sampling.py",
+        "TestMemory::test_fused_no_intermediate_allocs",
+        "235"
+      ],
+      "source_sha256": "8e356f306b812b79b4720429c33d2658683d09f99c3f70b76d46c2918a21befd",
+      "unit_id": null,
+      "property": "needs_resource_observation_contract:positive net Python tracemalloc snapshot allocation over50 calls is less than16*128256*4 bytes; does not measure all native tensor allocations",
+      "definition_line": 235,
+      "end_line": 255,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 252,
+          "source": "assert total_new_bytes < vocab_bytes, (\n            f\"Fused kernel allocated {total_new_bytes} bytes, \"\n            f\"expected < {vocab_bytes} (one intermediate tensor)\"\n        )"
+        }
+      ],
+      "full_test_source": "def test_fused_no_intermediate_allocs(self):\n        \"\"\"Verify that the fused kernel does not allocate large intermediates.\"\"\"\n        logits = torch.randn(16, 128256, dtype=torch.float32)\n        seeds = torch.arange(16, dtype=torch.long)\n\n        torch.ops._C.fused_gumbel_argmax(logits, seeds)\n\n        tracemalloc.start()\n        snap_before = tracemalloc.take_snapshot()\n        for _ in range(50):\n            torch.ops._C.fused_gumbel_argmax(logits, seeds)\n        snap_after = tracemalloc.take_snapshot()\n        tracemalloc.stop()\n\n        diff = snap_after.compare_to(snap_before, \"lineno\")\n        total_new_bytes = sum(s.size_diff for s in diff if s.size_diff > 0)\n        vocab_bytes = 16 * 128256 * 4\n        assert total_new_bytes < vocab_bytes, (\n            f\"Fused kernel allocated {total_new_bytes} bytes, \"\n            f\"expected < {vocab_bytes} (one intermediate tensor)\"\n        )",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/test_cpu_fused_sampling.py",
+          "line": 252,
+          "source": "assert total_new_bytes < vocab_bytes, (\n            f\"Fused kernel allocated {total_new_bytes} bytes, \"\n            f\"expected < {vocab_bytes} (one intermediate tensor)\"\n        )"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_shuffle_rows.py",
+        "test_shuffle_rows_basic",
+        "18"
+      ],
+      "source_sha256": "d98b02cb8fb09e848dd5224365d96dc6f276fc4a4cca53fc480892f586a5e2a9",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "Identity dst2src map reproduces input exactly; shape, dtype and device are also checked.",
+      "definition_line": 18,
+      "end_line": 39,
+      "decorators": [
+        {
+          "line": 15,
+          "source": "pytest.mark.parametrize(\"num_tokens\", [1, 16, 64, 128, 256, 512, 1024])"
+        },
+        {
+          "line": 16,
+          "source": "pytest.mark.parametrize(\"hidden_size\", [128, 256, 512, 1024, 2048, 4096])"
+        },
+        {
+          "line": 17,
+          "source": "pytest.mark.parametrize(\"dtype\", [torch.float16, torch.bfloat16, torch.float32])"
+        }
+      ],
+      "checks": [
+        {
+          "line": 34,
+          "source": "torch.testing.assert_close(output, input_tensor, atol=0, rtol=0)"
+        },
+        {
+          "line": 37,
+          "source": "assert output.shape == (num_tokens, hidden_size)"
+        },
+        {
+          "line": 38,
+          "source": "assert output.dtype == dtype"
+        },
+        {
+          "line": 39,
+          "source": "assert output.device == input_tensor.device"
+        }
+      ],
+      "full_test_source": "def test_shuffle_rows_basic(num_tokens: int, hidden_size: int, dtype: torch.dtype):\n    \"\"\"Test basic functionality of shuffle_rows with various tensor sizes and\n    dtypes.\"\"\"\n    if not current_platform.is_cuda():\n        pytest.skip(\"shuffle_rows requires CUDA\")\n\n    # Create input tensor\n    input_tensor = torch.randn(num_tokens, hidden_size, device=\"cuda\", dtype=dtype)\n\n    # Create a simple permutation map (identity mapping)\n    dst2src_map = torch.arange(num_tokens, device=\"cuda\", dtype=torch.int32)\n\n    # Test shuffle_rows\n    output = shuffle_rows(input_tensor, dst2src_map)\n\n    # With identity mapping, output should be identical to input\n    torch.testing.assert_close(output, input_tensor, atol=0, rtol=0)\n\n    # Check output shape\n    assert output.shape == (num_tokens, hidden_size)\n    assert output.dtype == dtype\n    assert output.device == input_tensor.device",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 34,
+          "source": "torch.testing.assert_close(output, input_tensor, atol=0, rtol=0)"
+        },
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 37,
+          "source": "assert output.shape == (num_tokens, hidden_size)"
+        },
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 38,
+          "source": "assert output.dtype == dtype"
+        },
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 39,
+          "source": "assert output.device == input_tensor.device"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_shuffle_rows.py",
+        "test_shuffle_rows_permutation",
+        "45"
+      ],
+      "source_sha256": "d98b02cb8fb09e848dd5224365d96dc6f276fc4a4cca53fc480892f586a5e2a9",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "Reverse dst2src map equals torch.flip(input,0) at atol=1e-6, rtol=1e-5; shape/dtype/device preserved.",
+      "definition_line": 45,
+      "end_line": 68,
+      "decorators": [
+        {
+          "line": 42,
+          "source": "pytest.mark.parametrize(\"num_tokens\", [16, 64, 128])"
+        },
+        {
+          "line": 43,
+          "source": "pytest.mark.parametrize(\"hidden_size\", [128, 512, 1024])"
+        },
+        {
+          "line": 44,
+          "source": "pytest.mark.parametrize(\"dtype\", [torch.float16, torch.bfloat16])"
+        }
+      ],
+      "checks": [
+        {
+          "line": 63,
+          "source": "torch.testing.assert_close(output, expected_output, atol=1e-6, rtol=1e-5)"
+        },
+        {
+          "line": 66,
+          "source": "assert output.shape == (num_tokens, hidden_size)"
+        },
+        {
+          "line": 67,
+          "source": "assert output.dtype == dtype"
+        },
+        {
+          "line": 68,
+          "source": "assert output.device == input_tensor.device"
+        }
+      ],
+      "full_test_source": "def test_shuffle_rows_permutation(\n    num_tokens: int, hidden_size: int, dtype: torch.dtype\n):\n    \"\"\"Test shuffle_rows with actual permutation.\"\"\"\n    if not current_platform.is_cuda():\n        pytest.skip(\"shuffle_rows requires CUDA\")\n\n    # Create input tensor\n    input_tensor = torch.randn(num_tokens, hidden_size, device=\"cuda\", dtype=dtype)\n\n    # Create a reverse permutation map\n    dst2src_map = torch.arange(num_tokens - 1, -1, -1, device=\"cuda\", dtype=torch.int32)\n\n    # Test shuffle_rows\n    output = shuffle_rows(input_tensor, dst2src_map)\n\n    # Check that the output is the reverse of the input\n    expected_output = torch.flip(input_tensor, dims=[0])\n    torch.testing.assert_close(output, expected_output, atol=1e-6, rtol=1e-5)\n\n    # Check output shape and properties\n    assert output.shape == (num_tokens, hidden_size)\n    assert output.dtype == dtype\n    assert output.device == input_tensor.device",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 63,
+          "source": "torch.testing.assert_close(output, expected_output, atol=1e-6, rtol=1e-5)"
+        },
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 66,
+          "source": "assert output.shape == (num_tokens, hidden_size)"
+        },
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 67,
+          "source": "assert output.dtype == dtype"
+        },
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 68,
+          "source": "assert output.device == input_tensor.device"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_shuffle_rows.py",
+        "test_shuffle_rows_expansion",
+        "73"
+      ],
+      "source_sha256": "d98b02cb8fb09e848dd5224365d96dc6f276fc4a4cca53fc480892f586a5e2a9",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "Random 2x expansion returns each source row named by dst2src at 1e-6/1e-5; output shape/dtype/device checked.",
+      "definition_line": 73,
+      "end_line": 103,
+      "decorators": [
+        {
+          "line": 71,
+          "source": "pytest.mark.parametrize(\"num_tokens\", [32, 64])"
+        },
+        {
+          "line": 72,
+          "source": "pytest.mark.parametrize(\"hidden_size\", [256, 512])"
+        }
+      ],
+      "checks": [
+        {
+          "line": 94,
+          "source": "assert output.shape == (expanded_size, hidden_size)"
+        },
+        {
+          "line": 95,
+          "source": "assert output.dtype == dtype"
+        },
+        {
+          "line": 96,
+          "source": "assert output.device == input_tensor.device"
+        },
+        {
+          "line": 101,
+          "source": "torch.testing.assert_close(\n            output[i], input_tensor[src_idx], atol=1e-6, rtol=1e-5\n        )"
+        }
+      ],
+      "full_test_source": "def test_shuffle_rows_expansion(num_tokens: int, hidden_size: int):\n    \"\"\"Test shuffle_rows with expansion (more output tokens than input\n    tokens).\"\"\"\n    if not current_platform.is_cuda():\n        pytest.skip(\"shuffle_rows requires CUDA\")\n\n    dtype = torch.float16\n\n    # Create input tensor\n    input_tensor = torch.randn(num_tokens, hidden_size, device=\"cuda\", dtype=dtype)\n\n    # Create a mapping that duplicates some tokens (expansion)\n    expanded_size = num_tokens * 2\n    dst2src_map = torch.randint(\n        0, num_tokens, (expanded_size,), device=\"cuda\", dtype=torch.int32\n    )\n\n    # Test shuffle_rows\n    output = shuffle_rows(input_tensor, dst2src_map)\n\n    # Check output shape\n    assert output.shape == (expanded_size, hidden_size)\n    assert output.dtype == dtype\n    assert output.device == input_tensor.device\n\n    # Verify that each output row matches the corresponding input row\n    for i in range(expanded_size):\n        src_idx = dst2src_map[i].item()\n        torch.testing.assert_close(\n            output[i], input_tensor[src_idx], atol=1e-6, rtol=1e-5\n        )",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 94,
+          "source": "assert output.shape == (expanded_size, hidden_size)"
+        },
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 95,
+          "source": "assert output.dtype == dtype"
+        },
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 96,
+          "source": "assert output.device == input_tensor.device"
+        },
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 101,
+          "source": "torch.testing.assert_close(\n            output[i], input_tensor[src_idx], atol=1e-6, rtol=1e-5\n        )"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_shuffle_rows.py",
+        "test_shuffle_rows_invalid_indices_are_zeroed",
+        "106"
+      ],
+      "source_sha256": "d98b02cb8fb09e848dd5224365d96dc6f276fc4a4cca53fc480892f586a5e2a9",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "For dst2src [-1,1,3] and 3 source rows, invalid rows are zero and row1 matches input row1.",
+      "definition_line": 106,
+      "end_line": 118,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 116,
+          "source": "torch.testing.assert_close(output[0], torch.zeros_like(output[0]))"
+        },
+        {
+          "line": 117,
+          "source": "torch.testing.assert_close(output[1], input_tensor[1])"
+        },
+        {
+          "line": 118,
+          "source": "torch.testing.assert_close(output[2], torch.zeros_like(output[2]))"
+        }
+      ],
+      "full_test_source": "def test_shuffle_rows_invalid_indices_are_zeroed():\n    \"\"\"Invalid sentinel indices should produce zero rows instead of OOB reads.\"\"\"\n    if not current_platform.is_cuda():\n        pytest.skip(\"shuffle_rows requires CUDA\")\n\n    input_tensor = torch.randn(3, 128, device=\"cuda\", dtype=torch.bfloat16)\n    dst2src_map = torch.tensor([-1, 1, 3], device=\"cuda\", dtype=torch.int32)\n\n    output = shuffle_rows(input_tensor, dst2src_map)\n\n    torch.testing.assert_close(output[0], torch.zeros_like(output[0]))\n    torch.testing.assert_close(output[1], input_tensor[1])\n    torch.testing.assert_close(output[2], torch.zeros_like(output[2]))",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 116,
+          "source": "torch.testing.assert_close(output[0], torch.zeros_like(output[0]))"
+        },
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 117,
+          "source": "torch.testing.assert_close(output[1], input_tensor[1])"
+        },
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 118,
+          "source": "torch.testing.assert_close(output[2], torch.zeros_like(output[2]))"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_shuffle_rows.py",
+        "test_shuffle_rows_random_permutation",
+        "123"
+      ],
+      "source_sha256": "d98b02cb8fb09e848dd5224365d96dc6f276fc4a4cca53fc480892f586a5e2a9",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "Seed42 random permutation returns each mapped input row at 1e-6/1e-5 with shape/dtype/device preservation.",
+      "definition_line": 123,
+      "end_line": 152,
+      "decorators": [
+        {
+          "line": 121,
+          "source": "pytest.mark.parametrize(\"num_tokens\", [16, 64])"
+        },
+        {
+          "line": 122,
+          "source": "pytest.mark.parametrize(\"hidden_size\", [128, 512])"
+        }
+      ],
+      "checks": [
+        {
+          "line": 143,
+          "source": "assert output.shape == (num_tokens, hidden_size)"
+        },
+        {
+          "line": 144,
+          "source": "assert output.dtype == dtype"
+        },
+        {
+          "line": 145,
+          "source": "assert output.device == input_tensor.device"
+        },
+        {
+          "line": 150,
+          "source": "torch.testing.assert_close(\n            output[i], input_tensor[src_idx], atol=1e-6, rtol=1e-5\n        )"
+        }
+      ],
+      "full_test_source": "def test_shuffle_rows_random_permutation(num_tokens: int, hidden_size: int):\n    \"\"\"Test shuffle_rows with random permutation.\"\"\"\n    if not current_platform.is_cuda():\n        pytest.skip(\"shuffle_rows requires CUDA\")\n\n    dtype = torch.float16\n\n    # Set seed for reproducibility\n    torch.manual_seed(42)\n\n    # Create input tensor\n    input_tensor = torch.randn(num_tokens, hidden_size, device=\"cuda\", dtype=dtype)\n\n    # Create a random permutation map\n    dst2src_map = torch.randperm(num_tokens, device=\"cuda\", dtype=torch.int32)\n\n    # Test shuffle_rows\n    output = shuffle_rows(input_tensor, dst2src_map)\n\n    # Check output shape and properties\n    assert output.shape == (num_tokens, hidden_size)\n    assert output.dtype == dtype\n    assert output.device == input_tensor.device\n\n    # Verify that each output row matches the corresponding input row\n    for i in range(num_tokens):\n        src_idx = dst2src_map[i].item()\n        torch.testing.assert_close(\n            output[i], input_tensor[src_idx], atol=1e-6, rtol=1e-5\n        )",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 143,
+          "source": "assert output.shape == (num_tokens, hidden_size)"
+        },
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 144,
+          "source": "assert output.dtype == dtype"
+        },
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 145,
+          "source": "assert output.device == input_tensor.device"
+        },
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 150,
+          "source": "torch.testing.assert_close(\n            output[i], input_tensor[src_idx], atol=1e-6, rtol=1e-5\n        )"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_shuffle_rows.py",
+        "test_shuffle_rows_edge_cases",
+        "155"
+      ],
+      "source_sha256": "d98b02cb8fb09e848dd5224365d96dc6f276fc4a4cca53fc480892f586a5e2a9",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "Single-token and single-feature identity maps reproduce the input exactly.",
+      "definition_line": 155,
+      "end_line": 172,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 166,
+          "source": "torch.testing.assert_close(output, input_tensor, atol=0, rtol=0)"
+        },
+        {
+          "line": 172,
+          "source": "torch.testing.assert_close(output, input_tensor, atol=0, rtol=0)"
+        }
+      ],
+      "full_test_source": "def test_shuffle_rows_edge_cases():\n    \"\"\"Test shuffle_rows with edge cases.\"\"\"\n    if not current_platform.is_cuda():\n        pytest.skip(\"shuffle_rows requires CUDA\")\n\n    dtype = torch.float16\n\n    # Test with single token\n    input_tensor = torch.randn(1, 128, device=\"cuda\", dtype=dtype)\n    dst2src_map = torch.tensor([0], device=\"cuda\", dtype=torch.int32)\n    output = shuffle_rows(input_tensor, dst2src_map)\n    torch.testing.assert_close(output, input_tensor, atol=0, rtol=0)\n\n    # Test with single feature dimension\n    input_tensor = torch.randn(16, 1, device=\"cuda\", dtype=dtype)\n    dst2src_map = torch.arange(16, device=\"cuda\", dtype=torch.int32)\n    output = shuffle_rows(input_tensor, dst2src_map)\n    torch.testing.assert_close(output, input_tensor, atol=0, rtol=0)",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 166,
+          "source": "torch.testing.assert_close(output, input_tensor, atol=0, rtol=0)"
+        },
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 172,
+          "source": "torch.testing.assert_close(output, input_tensor, atol=0, rtol=0)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_shuffle_rows.py",
+        "test_shuffle_rows_moe_like_scenario",
+        "175"
+      ],
+      "source_sha256": "d98b02cb8fb09e848dd5224365d96dc6f276fc4a4cca53fc480892f586a5e2a9",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "32x1024 FP16 rows duplicated for topk=2 yield 64 mapped rows at 1e-6/1e-5; shape/dtype/device checked.",
+      "definition_line": 175,
+      "end_line": 212,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 202,
+          "source": "assert output.shape == (total_tokens, hidden_size)"
+        },
+        {
+          "line": 203,
+          "source": "assert output.dtype == dtype"
+        },
+        {
+          "line": 204,
+          "source": "assert output.device == input_tensor.device"
+        },
+        {
+          "line": 210,
+          "source": "torch.testing.assert_close(\n                output[output_idx], input_tensor[i], atol=1e-6, rtol=1e-5\n            )"
+        }
+      ],
+      "full_test_source": "def test_shuffle_rows_moe_like_scenario():\n    \"\"\"Test shuffle_rows in a scenario similar to MoE usage.\"\"\"\n    if not current_platform.is_cuda():\n        pytest.skip(\"shuffle_rows requires CUDA\")\n\n    dtype = torch.float16\n    batch_size = 32\n    hidden_size = 1024\n    topk = 2\n\n    # Simulate input tokens\n    input_tensor = torch.randn(batch_size, hidden_size, device=\"cuda\", dtype=dtype)\n\n    # Simulate expert assignment (each token goes to topk experts)\n    # This creates a mapping where tokens are duplicated for multiple experts\n    total_tokens = batch_size * topk\n    dst2src_map = torch.zeros(total_tokens, device=\"cuda\", dtype=torch.int32)\n\n    # Fill the mapping to simulate MoE token distribution\n    for i in range(batch_size):\n        for k in range(topk):\n            dst2src_map[i * topk + k] = i\n\n    # Test shuffle_rows\n    output = shuffle_rows(input_tensor, dst2src_map)\n\n    # Check output shape\n    assert output.shape == (total_tokens, hidden_size)\n    assert output.dtype == dtype\n    assert output.device == input_tensor.device\n\n    # Verify that tokens are correctly duplicated\n    for i in range(batch_size):\n        for k in range(topk):\n            output_idx = i * topk + k\n            torch.testing.assert_close(\n                output[output_idx], input_tensor[i], atol=1e-6, rtol=1e-5\n            )",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 202,
+          "source": "assert output.shape == (total_tokens, hidden_size)"
+        },
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 203,
+          "source": "assert output.dtype == dtype"
+        },
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 204,
+          "source": "assert output.device == input_tensor.device"
+        },
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 210,
+          "source": "torch.testing.assert_close(\n                output[output_idx], input_tensor[i], atol=1e-6, rtol=1e-5\n            )"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_shuffle_rows.py",
+        "test_shuffle_rows_dtype_consistency",
+        "216"
+      ],
+      "source_sha256": "d98b02cb8fb09e848dd5224365d96dc6f276fc4a4cca53fc480892f586a5e2a9",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "64x512 identity mapping preserves FP16/BF16/FP32 dtype/device and values at 1e-6/1e-5.",
+      "definition_line": 216,
+      "end_line": 234,
+      "decorators": [
+        {
+          "line": 215,
+          "source": "pytest.mark.parametrize(\"dtype\", [torch.float16, torch.bfloat16, torch.float32])"
+        }
+      ],
+      "checks": [
+        {
+          "line": 232,
+          "source": "assert output.dtype == dtype"
+        },
+        {
+          "line": 233,
+          "source": "assert output.device == input_tensor.device"
+        },
+        {
+          "line": 234,
+          "source": "torch.testing.assert_close(output, input_tensor, atol=1e-6, rtol=1e-5)"
+        }
+      ],
+      "full_test_source": "def test_shuffle_rows_dtype_consistency(dtype: torch.dtype):\n    \"\"\"Test that shuffle_rows preserves dtype correctly.\"\"\"\n    if not current_platform.is_cuda():\n        pytest.skip(\"shuffle_rows requires CUDA\")\n\n    num_tokens = 64\n    hidden_size = 512\n\n    # Create input tensor with specific dtype\n    input_tensor = torch.randn(num_tokens, hidden_size, device=\"cuda\", dtype=dtype)\n    dst2src_map = torch.arange(num_tokens, device=\"cuda\", dtype=torch.int32)\n\n    # Test shuffle_rows\n    output = shuffle_rows(input_tensor, dst2src_map)\n\n    # Verify dtype is preserved\n    assert output.dtype == dtype\n    assert output.device == input_tensor.device\n    torch.testing.assert_close(output, input_tensor, atol=1e-6, rtol=1e-5)",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 232,
+          "source": "assert output.dtype == dtype"
+        },
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 233,
+          "source": "assert output.device == input_tensor.device"
+        },
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 234,
+          "source": "torch.testing.assert_close(output, input_tensor, atol=1e-6, rtol=1e-5)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_shuffle_rows.py",
+        "test_shuffle_rows_device_consistency",
+        "237"
+      ],
+      "source_sha256": "d98b02cb8fb09e848dd5224365d96dc6f276fc4a4cca53fc480892f586a5e2a9",
+      "unit_id": "compute.output_constraints",
+      "property": "32x256 FP16 input returns output on the same CUDA device; no numerical assertion.",
+      "definition_line": 237,
+      "end_line": 255,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 254,
+          "source": "assert output.device == input_tensor.device"
+        },
+        {
+          "line": 255,
+          "source": "assert output.device.type == \"cuda\""
+        }
+      ],
+      "full_test_source": "def test_shuffle_rows_device_consistency():\n    \"\"\"Test that shuffle_rows maintains device consistency.\"\"\"\n    if not current_platform.is_cuda():\n        pytest.skip(\"shuffle_rows requires CUDA\")\n\n    num_tokens = 32\n    hidden_size = 256\n    dtype = torch.float16\n\n    # Create input tensor on CUDA\n    input_tensor = torch.randn(num_tokens, hidden_size, device=\"cuda\", dtype=dtype)\n    dst2src_map = torch.arange(num_tokens, device=\"cuda\", dtype=torch.int32)\n\n    # Test shuffle_rows\n    output = shuffle_rows(input_tensor, dst2src_map)\n\n    # Verify device is maintained\n    assert output.device == input_tensor.device\n    assert output.device.type == \"cuda\"",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 254,
+          "source": "assert output.device == input_tensor.device"
+        },
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 255,
+          "source": "assert output.device.type == \"cuda\""
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_shuffle_rows.py",
+        "test_shuffle_rows_contiguous_output",
+        "258"
+      ],
+      "source_sha256": "d98b02cb8fb09e848dd5224365d96dc6f276fc4a4cca53fc480892f586a5e2a9",
+      "unit_id": "compute.output_constraints",
+      "property": "64x512 identity mapping produces a contiguous output tensor; no numerical assertion.",
+      "definition_line": 258,
+      "end_line": 275,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 275,
+          "source": "assert output.is_contiguous()"
+        }
+      ],
+      "full_test_source": "def test_shuffle_rows_contiguous_output():\n    \"\"\"Test that shuffle_rows produces contiguous output.\"\"\"\n    if not current_platform.is_cuda():\n        pytest.skip(\"shuffle_rows requires CUDA\")\n\n    num_tokens = 64\n    hidden_size = 512\n    dtype = torch.float16\n\n    # Create input tensor\n    input_tensor = torch.randn(num_tokens, hidden_size, device=\"cuda\", dtype=dtype)\n    dst2src_map = torch.arange(num_tokens, device=\"cuda\", dtype=torch.int32)\n\n    # Test shuffle_rows\n    output = shuffle_rows(input_tensor, dst2src_map)\n\n    # Verify output is contiguous\n    assert output.is_contiguous()",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/test_shuffle_rows.py",
+          "line": 275,
+          "source": "assert output.is_contiguous()"
+        }
+      ]
+    }
+  ]
+}

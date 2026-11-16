@@ -1,0 +1,17 @@
+{
+  "source_records": 630,
+  "source_assertion_contracts_reviewed": 630,
+  "space_status": {
+    "support_or_incomplete": 79,
+    "contract_reviewed_space_refinement": 539,
+    "mapped_existing": 12
+  },
+  "decisions": {
+    "support_property_reviewed": 65,
+    "property_identified": 551,
+    "needs_helper_review": 1,
+    "helper_identity_reviewed": 9,
+    "incomplete_test_reviewed": 4
+  },
+  "name_claim_corrections": 11
+}

@@ -22,6 +22,9 @@ OUT = HERE / "full_delivery"
 KEY = ("snapshot", "path", "test_name", "line")
 LABELS = {
     "property_reviewed": "已核对具体检查内容并归类",
+    "supporting_record_reviewed": "已确认辅助文件或辅助函数用途",
+    "incomplete_test_reviewed": "已确认测试尚未实现有效检查",
+    "test_script_reviewed": "已确认脚本或动态测试用途，待接入映射",
     "outside_current_scope": "暂不属于推理验证",
     "locate_definition": "仍按文件记录，需定位测试定义",
     "locate_check_or_helper": "需定位断言或辅助检查",
@@ -53,9 +56,16 @@ def main():
     runtime = {key(r): r for r in read(HERE / "background_evidence/runtime-entries.tsv")}
     pending_path = HERE / "reviewed-supplement-pending.json"
     pending = {key(r): r for r in json.loads(pending_path.read_text())} if pending_path.exists() else {}
+    rust_path = HERE / "round9_work/rust/reviewed-contracts.json"
+    rust_reviews = {key(r): r for r in json.loads(rust_path.read_text())} if rust_path.exists() else {}
+    artifact_path = HERE / "round9_work/file-record-roles.json"
+    artifact_reviews = {key(r): r for r in json.loads(artifact_path.read_text())} if artifact_path.exists() else {}
+    round9_pending_path = HERE / "reviewed-round9-pending.json"
+    if round9_pending_path.exists():
+        pending.update({key(r): r for r in json.loads(round9_pending_path.read_text())})
     checked = {}
     for name in ("confirmed-property-crosswalk.tsv", "direct-property-crosswalk.tsv",
-                 "inherited-property-crosswalk.tsv", "reviewed-supplement-crosswalk.tsv"):
+                 "inherited-property-crosswalk.tsv", "reviewed-supplement-crosswalk.tsv", "reviewed-round9-crosswalk.tsv"):
         for row in read(HERE / name):
             assert key(row) not in checked, (name, key(row))
             checked[key(row)] = row
@@ -120,6 +130,20 @@ def main():
                     if not 0 < int(line) <= len(oracle["lines"]):
                         issues.append({"key": k, "issue": "oracle_outside_source", "site": site})
             decision = "property_reviewed"
+        elif k in artifact_reviews:
+            record = artifact_reviews[k]
+            assert record["source_sha256"] == src["hash"], k
+            property_text = record["purpose"]
+            decision = ("test_script_reviewed" if record["role"] in {"shell_test", "manual_execution_test", "generated_test_methods", "external_test_launcher"}
+                        else "incomplete_test_reviewed" if record["role"] in {"empty_file", "manual_demonstration"}
+                        else "supporting_record_reviewed")
+        elif k in rust_reviews:
+            record = rust_reviews[k]
+            assert record["source_sha256"] == src["hash"], k
+            property_text = record["reviewed_property"] + (" " + record["review_note"] if record["review_note"] else "")
+            decision = ("supporting_record_reviewed" if record["decision"] in {"support_property_reviewed", "helper_identity_reviewed"}
+                        else "incomplete_test_reviewed" if record["decision"] == "incomplete_test_reviewed"
+                        else "refine_property_or_space")
         elif r["scan_route"] == "reviewed_out_of_request_scope":
             decision = "outside_current_scope"
         elif location in {"definition_needs_review", "missing_file", "file_only"}:
@@ -140,7 +164,7 @@ def main():
                "call_and_assertion_instances": runtime_record.get("calls_and_assertions", "0"),
                "oracle_forms": r["oracle_forms"], "object_candidates": r["object_candidates"]}
         rows.append(row)
-        if decision not in {"property_reviewed", "outside_current_scope"}:
+        if decision not in {"property_reviewed", "outside_current_scope", "supporting_record_reviewed", "incomplete_test_reviewed"}:
             group = r["snapshot"], str(Path(r["path"]).parent), decision, r["object_candidates"], r["oracle_forms"]
             groups[group].append(k)
     assert len(rows) == len({key(r) for r in rows}) == len(index) == 31968

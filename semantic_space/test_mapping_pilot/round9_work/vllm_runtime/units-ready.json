@@ -1,0 +1,985 @@
+{
+  "units": [
+    {
+      "id": "cache.capacity_plan",
+      "name": "KV 缓存容量与层分组规划",
+      "kind": "obligation",
+      "phase": "cache",
+      "state_scope": "shared",
+      "conditions": [
+        "deployment_configuration",
+        "parallel_topology",
+        "numeric_format",
+        "execution_layout"
+      ],
+      "property": "给定模型层规格、页粒度、可用容量及并行配置，规划的缓存块数、层分组、步幅和最大可服务长度符合容量约束；无法容纳时明确拒绝。",
+      "observable": [
+        "planned_blocks",
+        "layer_groups",
+        "tensor_sizes",
+        "max_model_length",
+        "rejection_reason"
+      ],
+      "oracle": "将规划结果与按规格计算的容量、分组和布局要求比较。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/core/kv_cache_planning.py",
+            "line": 1472,
+            "kind": "source"
+          },
+          {
+            "path": "tests/v1/core/test_kv_cache_planning.py",
+            "line": 261,
+            "kind": "test"
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/model_executor/pool_configurator.py",
+            "line": 225,
+            "kind": "source",
+            "source": "max_total_num_tokens = available_bytes // self._cell_size",
+            "source_sha256": "3e02edd2802168f2a05285a555bd89676e303dacc3b37e1e0d4234a47212861f",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/model_executor/pool_configurator.py",
+            "line": 226,
+            "kind": "source",
+            "source": "max_total_num_tokens = max_total_num_tokens // page_size * page_size",
+            "source_sha256": "3e02edd2802168f2a05285a555bd89676e303dacc3b37e1e0d4234a47212861f",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/model_executor/pool_configurator.py",
+            "line": 227,
+            "kind": "source",
+            "source": "return MemoryPoolConfig(max_total_num_tokens=max_total_num_tokens)",
+            "source_sha256": "3e02edd2802168f2a05285a555bd89676e303dacc3b37e1e0d4234a47212861f",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/model_executor/pool_configurator.py",
+            "line": 313,
+            "kind": "source",
+            "source": "full_tokens = align_page_size(max_total_num_tokens)",
+            "source_sha256": "3e02edd2802168f2a05285a555bd89676e303dacc3b37e1e0d4234a47212861f",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/model_executor/pool_configurator.py",
+            "line": 314,
+            "kind": "source",
+            "source": "swa_tokens = align_page_size(int(full_tokens * self._swa_full_tokens_ratio))",
+            "source_sha256": "3e02edd2802168f2a05285a555bd89676e303dacc3b37e1e0d4234a47212861f",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/model_executor/pool_configurator.py",
+            "line": 330,
+            "kind": "source",
+            "source": "max_total_num_tokens = int(available_bytes // self._cell_size)",
+            "source_sha256": "3e02edd2802168f2a05285a555bd89676e303dacc3b37e1e0d4234a47212861f",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/model_executor/pool_configurator.py",
+            "line": 331,
+            "kind": "source",
+            "source": "return self._solve_pool_sizes(max_total_num_tokens, page_size)",
+            "source_sha256": "3e02edd2802168f2a05285a555bd89676e303dacc3b37e1e0d4234a47212861f",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          }
+        ]
+      },
+      "framework_scope": [
+        "vllm",
+        "sglang"
+      ],
+      "snapshot_evidence_note": "Fixed snapshot computes page-aligned token capacity from available bytes and per-token cell size, and splits hybrid full/SWA capacity. It does not establish identical vLLM layer-group representation or null-block accounting."
+    },
+    {
+      "id": "resource.shared_host_region",
+      "name": "跨进程主机共享存储区",
+      "kind": "obligation",
+      "phase": "transfer",
+      "state_scope": "shared",
+      "conditions": [
+        "shared_buffer_profile",
+        "parallel_topology",
+        "shared_resource_lifecycle_profile"
+      ],
+      "property": "共享存储的参与进程在约定同步下绑定同一底层区域；各工作进程视图遵守槽位布局，写入可见且活跃引用持有期间区域可用。",
+      "observable": [
+        "region_identity",
+        "view_offsets",
+        "view_strides",
+        "peer_visible_bytes",
+        "lifetime"
+      ],
+      "oracle": "核查各进程区域身份、槽位地址与跨进程写读值，并在清理前后测试可访问性。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/kv_offload/cpu/shared_offload_region.py",
+            "line": 90,
+            "kind": "source"
+          },
+          {
+            "path": "tests/v1/kv_offload/cpu/test_shared_offload_region.py",
+            "line": 389,
+            "kind": "test"
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/utils/host_shared_memory.py",
+            "line": 35,
+            "kind": "source",
+            "source": "shm = shared_memory.SharedMemory(name=shm_name, create=True, size=num_bytes)",
+            "source_sha256": "d2d3b7a8c95b98422cd755ef748ec107402d1f8679866f6f584904c9abb8be53",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/host_shared_memory.py",
+            "line": 37,
+            "kind": "source",
+            "source": "get_naive_distributed().barrier()",
+            "source_sha256": "d2d3b7a8c95b98422cd755ef748ec107402d1f8679866f6f584904c9abb8be53",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/host_shared_memory.py",
+            "line": 40,
+            "kind": "source",
+            "source": "shm = shared_memory.SharedMemory(name=shm_name)",
+            "source_sha256": "d2d3b7a8c95b98422cd755ef748ec107402d1f8679866f6f584904c9abb8be53",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/host_shared_memory.py",
+            "line": 42,
+            "kind": "source",
+            "source": "np_array = np.ndarray((num_bytes,), dtype=np.uint8, buffer=shm.buf)",
+            "source_sha256": "d2d3b7a8c95b98422cd755ef748ec107402d1f8679866f6f584904c9abb8be53",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/host_shared_memory.py",
+            "line": 43,
+            "kind": "source",
+            "source": "tensor = torch.from_numpy(np_array)",
+            "source_sha256": "d2d3b7a8c95b98422cd755ef748ec107402d1f8679866f6f584904c9abb8be53",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/host_shared_memory.py",
+            "line": 53,
+            "kind": "source",
+            "source": "self._records.append(",
+            "source_sha256": "d2d3b7a8c95b98422cd755ef748ec107402d1f8679866f6f584904c9abb8be53",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          }
+        ]
+      },
+      "framework_scope": [
+        "vllm",
+        "sglang"
+      ],
+      "snapshot_evidence_note": "Rank0 creates one named shared segment, peers attach after barrier, tensor views share shm.buf, records retain handles. TODO dispose remains: no SGLang cleanup-on-last-consumer guarantee is inferred."
+    },
+    {
+      "id": "observability.profile_session",
+      "name": "性能分析会话状态与产物",
+      "kind": "obligation",
+      "phase": "performance",
+      "state_scope": "shared",
+      "conditions": [
+        "deployment_configuration",
+        "parallel_topology",
+        "workload_profile"
+      ],
+      "property": "profiling 会话依配置启动、停止、重新启动与导出，记录的活动区间、设备及 rank 与请求一致；异常或关闭后状态可恢复。",
+      "observable": [
+        "session_state",
+        "profiled_events",
+        "trace_files",
+        "rank_name",
+        "error"
+      ],
+      "oracle": "检查会话状态转移、底层 profiler 调用及生成的 trace/summary 内容。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/profiler/wrapper.py",
+            "line": 228,
+            "kind": "source"
+          },
+          {
+            "path": "tests/v1/worker/test_gpu_profiler.py",
+            "line": 65,
+            "kind": "test"
+          },
+          {
+            "path": "tests/v1/worker/test_gpu_profiler.py",
+            "line": 103,
+            "kind": "test"
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/utils/profile_utils.py",
+            "line": 199,
+            "kind": "source",
+            "source": "del self.stage_configs[s.curr_stage]",
+            "source_sha256": "54b11e11afe99cbd1fc2feffb309ca3a5cddca3a1783b34b5df5b43ce0d785af",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/profile_utils.py",
+            "line": 200,
+            "kind": "source",
+            "source": "self.running_state = None",
+            "source_sha256": "54b11e11afe99cbd1fc2feffb309ca3a5cddca3a1783b34b5df5b43ce0d785af",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/profile_utils.py",
+            "line": 201,
+            "kind": "source",
+            "source": "self.on_stop()",
+            "source_sha256": "54b11e11afe99cbd1fc2feffb309ca3a5cddca3a1783b34b5df5b43ce0d785af",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/profile_utils.py",
+            "line": 204,
+            "kind": "source",
+            "source": "if (self.running_state is None) and (stage in self.stage_configs):",
+            "source_sha256": "54b11e11afe99cbd1fc2feffb309ca3a5cddca3a1783b34b5df5b43ce0d785af",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/profile_utils.py",
+            "line": 209,
+            "kind": "source",
+            "source": "self.on_start(stage=stage)",
+            "source_sha256": "54b11e11afe99cbd1fc2feffb309ca3a5cddca3a1783b34b5df5b43ce0d785af",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/profile_utils.py",
+            "line": 298,
+            "kind": "source",
+            "source": "self.torch_profiler = torch.profiler.profile(",
+            "source_sha256": "54b11e11afe99cbd1fc2feffb309ca3a5cddca3a1783b34b5df5b43ce0d785af",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/profile_utils.py",
+            "line": 310,
+            "kind": "source",
+            "source": "self.torch_profiler.start()",
+            "source_sha256": "54b11e11afe99cbd1fc2feffb309ca3a5cddca3a1783b34b5df5b43ce0d785af",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/profile_utils.py",
+            "line": 315,
+            "kind": "source",
+            "source": "self.torch_profiler.stop()",
+            "source_sha256": "54b11e11afe99cbd1fc2feffb309ca3a5cddca3a1783b34b5df5b43ce0d785af",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/profile_utils.py",
+            "line": 318,
+            "kind": "source",
+            "source": "filename_parts = [self.profile_id, f\"TP-{self.ps.tp_rank}\"]",
+            "source_sha256": "54b11e11afe99cbd1fc2feffb309ca3a5cddca3a1783b34b5df5b43ce0d785af",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/profile_utils.py",
+            "line": 335,
+            "kind": "source",
+            "source": "self.torch_profiler.export_chrome_trace(",
+            "source_sha256": "54b11e11afe99cbd1fc2feffb309ca3a5cddca3a1783b34b5df5b43ce0d785af",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          }
+        ]
+      },
+      "framework_scope": [
+        "vllm",
+        "sglang"
+      ],
+      "snapshot_evidence_note": "Stage trigger starts/stops according to configured count/stage; Torch profiler records configured activities and exports rank-named trace. These anchors do not establish exception recovery or vLLM Proton-specific behavior."
+    },
+    {
+      "id": "resource.host_registration",
+      "name": "主机共享缓冲区的设备注册与失败回退",
+      "kind": "obligation",
+      "phase": "transfer",
+      "state_scope": "shared",
+      "conditions": [
+        "shared_memory_admission_profile",
+        "shared_buffer_profile",
+        "parallel_topology"
+      ],
+      "property": "需要设备访问的主机共享缓冲区按实际占用区间注册；注册失败时已取得的资源释放或进入声明的可用回退模式。",
+      "observable": [
+        "registered_ranges",
+        "pin_state",
+        "fallback_mode",
+        "released_ranges"
+      ],
+      "oracle": "检查设备注册调用的地址与长度、失败后的解除注册次序及缓冲区状态。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/kv_offload/cpu/gpu_worker.py",
+            "line": 215,
+            "kind": "source"
+          },
+          {
+            "path": "tests/v1/kv_offload/cpu/test_shared_offload_region.py",
+            "line": 954,
+            "kind": "test"
+          },
+          {
+            "path": "tests/v1/kv_offload/cpu/test_shared_offload_region.py",
+            "line": 1073,
+            "kind": "test"
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/utils/host_shared_memory.py",
+            "line": 45,
+            "kind": "source",
+            "source": "check_cuda_result(",
+            "source_sha256": "d2d3b7a8c95b98422cd755ef748ec107402d1f8679866f6f584904c9abb8be53",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/host_shared_memory.py",
+            "line": 46,
+            "kind": "source",
+            "source": "cuda_rt.cudaHostRegister(",
+            "source_sha256": "d2d3b7a8c95b98422cd755ef748ec107402d1f8679866f6f584904c9abb8be53",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/host_shared_memory.py",
+            "line": 47,
+            "kind": "source",
+            "source": "tensor.data_ptr(), num_bytes, cuda_rt.cudaHostRegisterPortable",
+            "source_sha256": "d2d3b7a8c95b98422cd755ef748ec107402d1f8679866f6f584904c9abb8be53",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/mem_cache/pool_host/common.py",
+            "line": 49,
+            "kind": "source",
+            "source": "n_bytes = buffer.numel() * buffer.element_size()",
+            "source_sha256": "f1582451562436b3059a04bf6c49b69341023be544107baf46dea4194e5daac9",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/mem_cache/pool_host/common.py",
+            "line": 50,
+            "kind": "source",
+            "source": "rc = cudart.cudaHostRegister(buffer.data_ptr(), n_bytes, 0)",
+            "source_sha256": "f1582451562436b3059a04bf6c49b69341023be544107baf46dea4194e5daac9",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/mem_cache/pool_host/common.py",
+            "line": 51,
+            "kind": "source",
+            "source": "if int(rc) != 0:",
+            "source_sha256": "f1582451562436b3059a04bf6c49b69341023be544107baf46dea4194e5daac9",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/mem_cache/pool_host/common.py",
+            "line": 52,
+            "kind": "source",
+            "source": "raise RuntimeError(",
+            "source_sha256": "f1582451562436b3059a04bf6c49b69341023be544107baf46dea4194e5daac9",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/mem_cache/pool_host/common.py",
+            "line": 62,
+            "kind": "source",
+            "source": "rc = cudart.cudaHostUnregister(buffer.data_ptr())",
+            "source_sha256": "f1582451562436b3059a04bf6c49b69341023be544107baf46dea4194e5daac9",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/mem_cache/pool_host/common.py",
+            "line": 63,
+            "kind": "source",
+            "source": "if int(rc) != 0:",
+            "source_sha256": "f1582451562436b3059a04bf6c49b69341023be544107baf46dea4194e5daac9",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          }
+        ]
+      },
+      "framework_scope": [
+        "vllm",
+        "sglang"
+      ],
+      "snapshot_evidence_note": "Registration passes actual pointer and byte count; common allocator raises on registration failure and best-effort unregister warns on error. host_shared_memory has no explicit rollback; do not transfer vLLM rollback/fallback oracle to SGLang."
+    },
+    {
+      "id": "resource.shared_region_population",
+      "name": "共享存储页预触达与回退",
+      "kind": "obligation",
+      "phase": "transfer",
+      "state_scope": "shared",
+      "conditions": [
+        "shared_buffer_profile",
+        "parallel_topology",
+        "shared_memory_admission_profile"
+      ],
+      "property": "共享主机区域在参与者使用前按约定页区间完成预触达；原生预触达不可用时走保留原字节的回退路径，其他错误显式传播。",
+      "observable": [
+        "populated_ranges",
+        "fallback_calls",
+        "page_residency",
+        "preserved_bytes",
+        "error"
+      ],
+      "oracle": "比较预触达调用区间、物理驻留页与回退前后字节。",
+      "framework_scope": [
+        "vllm"
+      ],
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/kv_offload/cpu/shared_offload_region.py",
+            "line": 61,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/kv_offload/cpu/shared_offload_region.py",
+            "line": 65,
+            "kind": "source"
+          },
+          {
+            "path": "tests/v1/kv_offload/cpu/test_shared_offload_region.py",
+            "line": 498,
+            "kind": "test"
+          },
+          {
+            "path": "tests/v1/kv_offload/cpu/test_shared_offload_region.py",
+            "line": 612,
+            "kind": "test"
+          }
+        ],
+        "sglang": []
+      },
+      "snapshot_evidence_note": "Kept vLLM-only. SGLang mmap allocator has MAP_POPULATE but no matching parallel page-range pre-touch fallback preserving previous bytes; this related allocation mechanism is not counted as the same property."
+    },
+    {
+      "id": "compute.sparse_index_binding",
+      "name": "稀疏注意力索引与请求缓存位置对应",
+      "kind": "obligation",
+      "phase": "model_execution",
+      "state_scope": "shared",
+      "conditions": [
+        "operator_profile",
+        "request_phase",
+        "request_batch_profile",
+        "cache_state",
+        "execution_layout",
+        "parallel_topology"
+      ],
+      "property": "稀疏选择的逻辑 token 行和 top-k 索引按请求、分页表及工作区布局映射到正确的物理 KV 行；无效索引保持无效，同一批或跨层共享索引遵守作用域。",
+      "observable": [
+        "physical_indices",
+        "valid_counts",
+        "request_row_binding",
+        "workspace_offsets",
+        "shared_index_group"
+      ],
+      "oracle": "将转换结果、有效计数和跨层索引复用与逐请求的逻辑索引及缓存布局参考比较。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/attention/backends/mla/sparse_utils.py",
+            "line": 493,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/attention/backends/mla/index_group.py",
+            "line": 88,
+            "kind": "source"
+          },
+          {
+            "path": "tests/v1/attention/test_sparse_mla_backends.py",
+            "line": 1207,
+            "kind": "test"
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/layers/attention/dsa_backend.py",
+            "line": 258,
+            "kind": "source",
+            "source": "cu_seqlens_q = cu_seqlens_q.to(torch.int32)",
+            "source_sha256": "b1677fa8adc3cc4182788de2fb08e5affdbcae44a30cb803b93316277fbdd435",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/dsa_backend.py",
+            "line": 265,
+            "kind": "source",
+            "source": "cu_seqlens_q_topk = self.attn_metadata.cu_seqlens_q",
+            "source_sha256": "b1677fa8adc3cc4182788de2fb08e5affdbcae44a30cb803b93316277fbdd435",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/dsa_backend.py",
+            "line": 271,
+            "kind": "source",
+            "source": "return self.topk_backend.topk_transform(",
+            "source_sha256": "b1677fa8adc3cc4182788de2fb08e5affdbcae44a30cb803b93316277fbdd435",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/dsa_backend.py",
+            "line": 278,
+            "kind": "source",
+            "source": "topk_indices_offset=cu_topk_indices_offset,",
+            "source_sha256": "b1677fa8adc3cc4182788de2fb08e5affdbcae44a30cb803b93316277fbdd435",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/dsa/dsa_topk_backend.py",
+            "line": 99,
+            "kind": "source",
+            "source": "attn_metadata.page_table_1[batch_idx_list]",
+            "source_sha256": "df87fe7ff3514155af235b77ecfc94ea12bdea851330a39cd65139aefd08a5c0",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/dsa/dsa_topk_backend.py",
+            "line": 103,
+            "kind": "source",
+            "source": "return fast_topk_transform_fused(",
+            "source_sha256": "df87fe7ff3514155af235b77ecfc94ea12bdea851330a39cd65139aefd08a5c0",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/dsa/dsa_topk_backend.py",
+            "line": 106,
+            "kind": "source",
+            "source": "page_table_size_1=page_table_size_1,",
+            "source_sha256": "df87fe7ff3514155af235b77ecfc94ea12bdea851330a39cd65139aefd08a5c0",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/dsa/dsa_topk_backend.py",
+            "line": 117,
+            "kind": "source",
+            "source": "return fast_topk_transform_ragged_fused(",
+            "source_sha256": "df87fe7ff3514155af235b77ecfc94ea12bdea851330a39cd65139aefd08a5c0",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/dsa/dsa_topk_backend.py",
+            "line": 120,
+            "kind": "source",
+            "source": "topk_indices_offset=topk_indices_offset,",
+            "source_sha256": "df87fe7ff3514155af235b77ecfc94ea12bdea851330a39cd65139aefd08a5c0",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/dsa/dsa_topk_backend.py",
+            "line": 138,
+            "kind": "source",
+            "source": "return flashinfer.top_k_page_table_transform(",
+            "source_sha256": "df87fe7ff3514155af235b77ecfc94ea12bdea851330a39cd65139aefd08a5c0",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/dsa/dsa_topk_backend.py",
+            "line": 140,
+            "kind": "source",
+            "source": "attn_metadata.page_table_1.contiguous(),",
+            "source_sha256": "df87fe7ff3514155af235b77ecfc94ea12bdea851330a39cd65139aefd08a5c0",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/dsa/dsa_topk_backend.py",
+            "line": 143,
+            "kind": "source",
+            "source": "row_to_batch=row_to_batch,",
+            "source_sha256": "df87fe7ff3514155af235b77ecfc94ea12bdea851330a39cd65139aefd08a5c0",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/managers/hisparse_coordinator.py",
+            "line": 815,
+            "kind": "source",
+            "source": "top_k_indices = self.top_k_device_locs_buffer[:num_reqs]",
+            "source_sha256": "896414bae20d4d5d80dd7e72ff6e8e94280e1dd5739422e6f4bd510d244abd4d",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/managers/hisparse_coordinator.py",
+            "line": 816,
+            "kind": "source",
+            "source": "top_k_indices.fill_(-1)",
+            "source_sha256": "896414bae20d4d5d80dd7e72ff6e8e94280e1dd5739422e6f4bd510d244abd4d",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/managers/hisparse_coordinator.py",
+            "line": 825,
+            "kind": "source",
+            "source": "swap_in_fn(",
+            "source_sha256": "896414bae20d4d5d80dd7e72ff6e8e94280e1dd5739422e6f4bd510d244abd4d",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/managers/hisparse_coordinator.py",
+            "line": 826,
+            "kind": "source",
+            "source": "top_k_tokens=top_k_result,",
+            "source_sha256": "896414bae20d4d5d80dd7e72ff6e8e94280e1dd5739422e6f4bd510d244abd4d",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/managers/hisparse_coordinator.py",
+            "line": 832,
+            "kind": "source",
+            "source": "top_k_device_locs=top_k_indices,",
+            "source_sha256": "896414bae20d4d5d80dd7e72ff6e8e94280e1dd5739422e6f4bd510d244abd4d",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/managers/hisparse_coordinator.py",
+            "line": 833,
+            "kind": "source",
+            "source": "req_pool_indices=req_pool_indices,",
+            "source_sha256": "896414bae20d4d5d80dd7e72ff6e8e94280e1dd5739422e6f4bd510d244abd4d",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/managers/hisparse_coordinator.py",
+            "line": 843,
+            "kind": "source",
+            "source": "return top_k_indices",
+            "source_sha256": "896414bae20d4d5d80dd7e72ff6e8e94280e1dd5739422e6f4bd510d244abd4d",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          }
+        ]
+      },
+      "framework_scope": [
+        "vllm",
+        "sglang"
+      ],
+      "snapshot_evidence_note": "Fixed snapshot supplies per-query ragged offsets or batch-selected page tables to top-k conversion; HiSparse initializes output to -1, binds request indices/top-k to swap-in and returns device locations. There is no claim that SGLang has vLLM SparseMLAIndexGroup cross-layer-sharing implementation."
+    },
+    {
+      "id": "compute.attention_scale_binding",
+      "name": "注意力得分缩放绑定",
+      "kind": "obligation",
+      "phase": "model_execution",
+      "state_scope": "local",
+      "conditions": [
+        "operator_profile",
+        "numeric_format",
+        "parallel_topology",
+        "execution_layout"
+      ],
+      "property": "注意力内核接收到的得分缩放对应当前层或模型的声明缩放；表示变换和权重吸收不得静默改用内部潜在维度的默认缩放。量化附加缩放由具体格式条件规定。",
+      "observable": [
+        "kernel_score_scale",
+        "layer_score_scale",
+        "latent_dimension"
+      ],
+      "oracle": "拦截实际内核调用的缩放实参，与当前层声明的值及不应采用的内部维度默认值比较。",
+      "framework_scope": [
+        "vllm",
+        "sglang"
+      ],
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/attention/backends/mla/flashinfer_mla_sparse.py",
+            "line": 523,
+            "kind": "source",
+            "source": "self.bmm1_scale = self.scale",
+            "source_sha256": "58339f473cea0967b06c58de6781f4afc571a704b018d69ef2329f6804f16244"
+          },
+          {
+            "path": "vllm/v1/attention/backends/mla/flashinfer_mla_sparse.py",
+            "line": 671,
+            "kind": "source",
+            "source": "bmm1_scale=self.bmm1_scale,",
+            "source_sha256": "58339f473cea0967b06c58de6781f4afc571a704b018d69ef2329f6804f16244"
+          },
+          {
+            "path": "tests/v1/attention/test_sparse_mla_backends.py",
+            "line": 299,
+            "kind": "test",
+            "source": "assert recorded_scale == model_scale",
+            "source_sha256": "3196dead9b1d928df07abbc8af0c704aade8f0d50bf066a433b6a134242210ec"
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/layers/attention/flashmla_backend.py",
+            "line": 355,
+            "kind": "source",
+            "source": "softmax_scale=layer.scaling,",
+            "source_sha256": "1e09af78e4d5d1a4b0ac38fb5651a9e5b1ef7fe41ec65ed8cedeed721be99387",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/flashmla_backend.py",
+            "line": 371,
+            "kind": "source",
+            "source": "softmax_scale=layer.scaling,",
+            "source_sha256": "1e09af78e4d5d1a4b0ac38fb5651a9e5b1ef7fe41ec65ed8cedeed721be99387",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          }
+        ]
+      },
+      "snapshot_evidence_note": "Both fixed-snapshot FlashMLA decode branches pass layer.scaling explicitly; FP8 additionally passes descale_q/descale_k. Only vLLM NoPE test checks against the latent-rank default; no SGLang test coverage is implied."
+    },
+    {
+      "id": "execution.stream_dependency",
+      "name": "设备流之间的生产消费依赖",
+      "kind": "obligation",
+      "phase": "model_execution",
+      "state_scope": "shared",
+      "conditions": [
+        "operator_profile",
+        "numeric_format",
+        "parallel_topology",
+        "execution_layout"
+      ],
+      "property": "异步生产者在读取输入和复用缓冲区前等待所需的先行操作，完成后发布就绪事件，消费者等待该事件后使用结果；临时切换流结束后恢复调用者的流上下文。",
+      "observable": [
+        "stream_identity",
+        "wait_dependencies",
+        "ready_event",
+        "consumer_visible_values"
+      ],
+      "oracle": "核对实际等待与事件发布调用及上下文恢复，并用明确依赖的写入和读取检查可见值。调用记录仅证明被记录的依赖边，不单独证明完整无竞争。",
+      "framework_scope": [
+        "vllm",
+        "sglang"
+      ],
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/attention/backends/mla/index_group.py",
+            "line": 327,
+            "kind": "source",
+            "source": "prefill_stream.wait_stream(torch.accelerator.current_stream())",
+            "source_sha256": "0a25c4558357f568144ac17d74c9fc796b576bf5c94817c95623c36fc9b860ba"
+          },
+          {
+            "path": "vllm/v1/attention/backends/mla/index_group.py",
+            "line": 340,
+            "kind": "source",
+            "source": "ready.record(prefill_stream)",
+            "source_sha256": "0a25c4558357f568144ac17d74c9fc796b576bf5c94817c95623c36fc9b860ba"
+          },
+          {
+            "path": "vllm/v1/hisparse/backend.py",
+            "line": 114,
+            "kind": "source",
+            "source": "return torch.cuda.Event(interprocess=True)",
+            "source_sha256": "f5f2928bd2fe9c2fcb3f818750ef81a4119ac75fbfe70a2ef7da172b1468d756"
+          },
+          {
+            "path": "tests/v1/attention/test_sparse_mla_backends.py",
+            "line": 2225,
+            "kind": "test",
+            "source": "assert torch.cuda.current_stream().stream_id == compute_stream.stream_id",
+            "source_sha256": "3196dead9b1d928df07abbc8af0c704aade8f0d50bf066a433b6a134242210ec"
+          },
+          {
+            "path": "tests/v1/attention/test_sparse_mla_backends.py",
+            "line": 2228,
+            "kind": "test",
+            "source": "torch.testing.assert_close(values.cpu(), torch.arange(8, dtype=torch.float32) + 1)",
+            "source_sha256": "3196dead9b1d928df07abbc8af0c704aade8f0d50bf066a433b6a134242210ec"
+          },
+          {
+            "path": "tests/v1/attention/test_sparse_mla_backends.py",
+            "line": 5509,
+            "kind": "test",
+            "source": "prefill_stream.wait_stream.assert_called_once_with(compute_stream)",
+            "source_sha256": "3196dead9b1d928df07abbc8af0c704aade8f0d50bf066a433b6a134242210ec"
+          }
+        ],
+        "sglang": [
+          {
+            "path": "python/sglang/srt/managers/cache_controller.py",
+            "line": 769,
+            "kind": "source",
+            "source": "producer_event.start_event.record()",
+            "source_sha256": "8f519f6e815233758d1439bf8463a8d63687d2ab2eeb08970890127e89391d0a",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/managers/cache_controller.py",
+            "line": 771,
+            "kind": "source",
+            "source": "with device_module.stream(self.load_stream):",
+            "source_sha256": "8f519f6e815233758d1439bf8463a8d63687d2ab2eeb08970890127e89391d0a",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/managers/cache_controller.py",
+            "line": 772,
+            "kind": "source",
+            "source": "producer_event.start_event.wait(self.load_stream)",
+            "source_sha256": "8f519f6e815233758d1439bf8463a8d63687d2ab2eeb08970890127e89391d0a",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/managers/cache_controller.py",
+            "line": 774,
+            "kind": "source",
+            "source": "self.mem_pool_host.load_to_device_per_layer(",
+            "source_sha256": "8f519f6e815233758d1439bf8463a8d63687d2ab2eeb08970890127e89391d0a",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/managers/cache_controller.py",
+            "line": 789,
+            "kind": "source",
+            "source": "producer_event.complete(i)",
+            "source_sha256": "8f519f6e815233758d1439bf8463a8d63687d2ab2eeb08970890127e89391d0a",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/managers/cache_controller.py",
+            "line": 64,
+            "kind": "source",
+            "source": "self.load_events[layer_index].record()",
+            "source_sha256": "8f519f6e815233758d1439bf8463a8d63687d2ab2eeb08970890127e89391d0a",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/managers/cache_controller.py",
+            "line": 67,
+            "kind": "source",
+            "source": "device_module.current_stream().wait_event(self.load_events[layer_index])",
+            "source_sha256": "8f519f6e815233758d1439bf8463a8d63687d2ab2eeb08970890127e89391d0a",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/mem_cache/memory_pool.py",
+            "line": 157,
+            "kind": "source",
+            "source": "current_stream = device_module.current_stream()",
+            "source_sha256": "c2535ac6359341d2308d3f67b5b212a59da698522b97fa8940781d809af45057",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/mem_cache/memory_pool.py",
+            "line": 158,
+            "kind": "source",
+            "source": "alt_stream.wait_stream(current_stream)",
+            "source_sha256": "c2535ac6359341d2308d3f67b5b212a59da698522b97fa8940781d809af45057",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/mem_cache/memory_pool.py",
+            "line": 160,
+            "kind": "source",
+            "source": "with device_module.stream(alt_stream):",
+            "source_sha256": "c2535ac6359341d2308d3f67b5b212a59da698522b97fa8940781d809af45057",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/mem_cache/memory_pool.py",
+            "line": 162,
+            "kind": "source",
+            "source": "current_stream.wait_stream(alt_stream)",
+            "source_sha256": "c2535ac6359341d2308d3f67b5b212a59da698522b97fa8940781d809af45057",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          }
+        ]
+      },
+      "snapshot_evidence_note": "Admitted snapshot starts load stream after producer start_event, records per-layer completion and consumer waits on it. Split KV-store capture path waits before/after temporary alt stream. This replaces inadmissible main page_interleave_pool references; no IPC-event interchangeability claim is made for SGLang."
+    },
+    {
+      "id": "distributed.empty_attention_partition_identity",
+      "name": "空注意力分片的归约单位元",
+      "kind": "obligation",
+      "phase": "model_execution",
+      "state_scope": "shared",
+      "conditions": [
+        "operator_profile",
+        "numeric_format",
+        "parallel_topology",
+        "execution_layout"
+      ],
+      "property": "上下文分片没有本地有效键时，进入跨 rank 在线 softmax 合并的局部状态为零输出和负无穷 log-sum-exp；非空分片的有效结果保留，空分片不引入 NaN 或非零权重。",
+      "observable": [
+        "local_valid_count",
+        "partial_output",
+        "partial_lse"
+      ],
+      "oracle": "构造空与非空本地行，并为内核空行设置 NaN 或正无穷哨兵，检查合并前输出和 LSE 的单位元及非空行保持。",
+      "framework_scope": [
+        "vllm"
+      ],
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/attention/backends/mla/flashmla_sparse.py",
+            "line": 957,
+            "kind": "source",
+            "source": "lse.masked_fill_((topk_length == 0).view(-1, 1), float(\"-inf\"))",
+            "source_sha256": "2eecdc6b0688de8db3de4307b4c52d17dc66253f547b378cb4e2014d5c9c7477"
+          },
+          {
+            "path": "vllm/v1/attention/backends/mla/flashmla_sparse.py",
+            "line": 1307,
+            "kind": "source",
+            "source": "out.masked_fill_(empty_rows.view(-1, 1, 1), 0.0)",
+            "source_sha256": "2eecdc6b0688de8db3de4307b4c52d17dc66253f547b378cb4e2014d5c9c7477"
+          },
+          {
+            "path": "tests/v1/attention/test_sparse_mla_backends.py",
+            "line": 5314,
+            "kind": "test",
+            "source": "assert torch.equal(out[1], torch.zeros_like(out[1]))",
+            "source_sha256": "3196dead9b1d928df07abbc8af0c704aade8f0d50bf066a433b6a134242210ec"
+          },
+          {
+            "path": "tests/v1/attention/test_sparse_mla_backends.py",
+            "line": 5315,
+            "kind": "test",
+            "source": "assert torch.isneginf(lse[1]).all()",
+            "source_sha256": "3196dead9b1d928df07abbc8af0c704aade8f0d50bf066a433b6a134242210ec"
+          },
+          {
+            "path": "tests/v1/attention/test_sparse_mla_backends.py",
+            "line": 5410,
+            "kind": "test",
+            "source": "assert torch.isneginf(lse[1]).all()",
+            "source_sha256": "3196dead9b1d928df07abbc8af0c704aade8f0d50bf066a433b6a134242210ec"
+          }
+        ],
+        "sglang": []
+      },
+      "snapshot_evidence_note": "Keep vLLM-only for the currently worded cross-rank DCP identity. Fixed SGLang snapshot has the same (0,-inf) fixup for zero-KV PREFIX CHUNKS merged by merge_state, not the cited newer DCP/XPU/CuteDSL behavior. A future generalized chunk-or-rank partial-attention identity could reuse the related evidence, but this audit does not silently broaden the unit."
+    }
+  ],
+  "note": "All conditions reference current seed IDs; phases follow preflight/admission/schedule/cache/transfer/model_execution/sampling/output/performance/abort set. Candidate units require parent integration."
+}

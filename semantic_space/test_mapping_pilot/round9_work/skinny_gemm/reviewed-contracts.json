@@ -1,0 +1,1507 @@
+[
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_table_is_keyed_by_shape",
+    "line": "186",
+    "unit_id": "compute.kernel_plan_consistency",
+    "property": "计划表的形状键、配置约束、编译实例或分派对应满足本入口的具体断言；assert (spec.n, spec.k) == (n, k)",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:188",
+    "conditions": "参数与受控条件：；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 0,
+    "source_body": "def test_table_is_keyed_by_shape() -> None:\n    for (n, k), spec in k3_gemm.KIMI_K3_PROJECTIONS.items():\n        assert (spec.n, spec.k) == (n, k)",
+    "assertions": [
+      [
+        188,
+        "assert (spec.n, spec.k) == (n, k)"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_every_dsv3_routed_shape_is_instantiated",
+    "line": "191",
+    "unit_id": "compute.kernel_plan_consistency",
+    "property": "计划表的形状键、配置约束、编译实例或分派对应满足本入口的具体断言；assert compiled, 'failed to parse the dispatch list'；assert not missing, f'routed to dsv3 with no instantiation: {missing}; add DISPATCH_DSV3_SHAPE(K, N) for each'",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:220;tests/kernels/test_bf16_skinny_gemm.py:233",
+    "conditions": "参数与受控条件：；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 1,
+    "source_body": "def test_every_dsv3_routed_shape_is_instantiated() -> None:\n    \"\"\"dsv3_fused_a_gemm specializes on (K, N); an unlisted shape raises.\n\n    The table routes by shape while the kernel is built per shape, so a missing\n    instantiation only shows up at the token counts that route to dsv3. Checking\n    it here needs no GPU, which is the point -- a GPU-only check is exactly what\n    let (3216, 7168) ship without its DISPATCH_DSV3_SHAPE(7168, 3216).\n    \"\"\"\n    source = (\n        Path(__file__).resolve().parents[2] / \"csrc\" / \"dsv3_fused_a_gemm.cu\"\n    ).read_text(encoding=\"utf-8\")\n    # Benchmark-only shapes live behind VLLM_K3_BENCH_SHAPES and are not built\n    # by default, so they must not count as available.\n    production_macros = source.split(\"#ifdef VLLM_K3_BENCH_SHAPES\")[0]\n    explicit = source.split(\"#undef DISPATCH_DSV3_SHAPE\")[1].split(\n        \"#ifdef VLLM_K3_BENCH_SHAPES\"\n    )[0]\n    compiled = {\n        (int(hd_in), int(hd_out))\n        for hd_in, hd_out in re.findall(\n            r\"DISPATCH_DSV3_SHAPE\\((\\d+),\\s*(\\d+)\\)\", production_macros\n        )\n    } | {\n        (int(hd_in), int(hd_out))\n        for hd_in, hd_out in re.findall(\n            r\"hd_in == (\\d+) && hd_out == (\\d+)\",\n            production_macros + explicit,\n        )\n    }\n    assert compiled, \"failed to parse the dispatch list\"\n\n    specs: list[k3_gemm.ProjectionSpec | glm52_gemm.GLM52ProjectionSpec] = [\n        *KIMI_K3_PROJECTIONS.values(),\n        *k3_gemm.KIMI_K3_PROJECTIONS_SM100.values(),\n        *k3_gemm.KIMI_K3_PROJECTIONS_SM90.values(),\n        *(spec for _, table in GLM_GPU_TABLES for spec in table.values()),\n    ]\n    missing = sorted(\n        (spec.n, spec.k)\n        for spec in specs\n        if spec.dsv3_tokens and (spec.k, spec.n) not in compiled\n    )\n    assert not missing, (\n        f\"routed to dsv3 with no instantiation: {missing}; add \"\n        \"DISPATCH_DSV3_SHAPE(K, N) for each\"\n    )",
+    "assertions": [
+      [
+        220,
+        "assert compiled, 'failed to parse the dispatch list'"
+      ],
+      [
+        233,
+        "assert not missing, f'routed to dsv3 with no instantiation: {missing}; add DISPATCH_DSV3_SHAPE(K, N) for each'"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_packed_row_major_rejects_single_row_slice",
+    "line": "239",
+    "unit_id": "compute.input_admissibility",
+    "property": "核对单行和多行切片的真实stride与紧密行主序条件；assert packed.is_contiguous()；assert sliced.is_contiguous()；assert k3_gemm._is_packed_row_major(packed)；assert not k3_gemm._is_packed_row_major(sliced)",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:243;tests/kernels/test_bf16_skinny_gemm.py:244;tests/kernels/test_bf16_skinny_gemm.py:245;tests/kernels/test_bf16_skinny_gemm.py:246",
+    "conditions": "参数与受控条件：；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 2,
+    "source_body": "def test_packed_row_major_rejects_single_row_slice() -> None:\n    packed = torch.empty(1, 128)\n    sliced = torch.empty(1, 144)[:, :128]\n\n    assert packed.is_contiguous()\n    assert sliced.is_contiguous()\n    assert k3_gemm._is_packed_row_major(packed)\n    assert not k3_gemm._is_packed_row_major(sliced)",
+    "assertions": [
+      [
+        243,
+        "assert packed.is_contiguous()"
+      ],
+      [
+        244,
+        "assert sliced.is_contiguous()"
+      ],
+      [
+        245,
+        "assert k3_gemm._is_packed_row_major(packed)"
+      ],
+      [
+        246,
+        "assert not k3_gemm._is_packed_row_major(sliced)"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_cute_configs_match_measured_table",
+    "line": "249",
+    "unit_id": "compute.kernel_plan_consistency",
+    "property": "计划表的形状键、配置约束、编译实例或分派对应满足本入口的具体断言；assert actual == EXPECTED_CUTE_CONFIGS；assert static_k_configs == {(7168, 14336, 1, 14336)}",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:259;tests/kernels/test_bf16_skinny_gemm.py:265",
+    "conditions": "参数与受控条件：；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 3,
+    "source_body": "def test_cute_configs_match_measured_table() -> None:\n    configs = [\n        (spec.n, spec.k, num_tokens, config)\n        for spec in k3_gemm.KIMI_K3_PROJECTIONS.values()\n        for num_tokens, config in spec.cute_configs\n    ]\n    actual = {\n        (n, k, num_tokens): _config_tuple(config)\n        for n, k, num_tokens, config in configs\n    }\n    assert actual == EXPECTED_CUTE_CONFIGS\n    static_k_configs = {\n        (n, k, num_tokens, config.static_k)\n        for n, k, num_tokens, config in configs\n        if config.static_k is not None\n    }\n    assert static_k_configs == {(7168, 14336, 1, 14336)}",
+    "assertions": [
+      [
+        259,
+        "assert actual == EXPECTED_CUTE_CONFIGS"
+      ],
+      [
+        265,
+        "assert static_k_configs == {(7168, 14336, 1, 14336)}"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {
+      "_config_tuple": "def _config_tuple(config) -> tuple[int, int, int, int]:\n    return (\n        config.block_size,\n        config.outputs_per_block,\n        config.k_unroll,\n        config.vector_width,\n    )"
+    },
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_residual_cute_configs_match_measured_table",
+    "line": "268",
+    "unit_id": "compute.kernel_plan_consistency",
+    "property": "计划表的形状键、配置约束、编译实例或分派对应满足本入口的具体断言；assert actual == EXPECTED_RESIDUAL_CUTE_CONFIGS",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:274",
+    "conditions": "参数与受控条件：；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 4,
+    "source_body": "def test_residual_cute_configs_match_measured_table() -> None:\n    actual = {\n        (spec.n, spec.k, num_tokens): _config_tuple(config)\n        for spec in k3_gemm.KIMI_K3_PROJECTIONS.values()\n        for num_tokens, config in spec.residual_configs\n    }\n    assert actual == EXPECTED_RESIDUAL_CUTE_CONFIGS",
+    "assertions": [
+      [
+        274,
+        "assert actual == EXPECTED_RESIDUAL_CUTE_CONFIGS"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {
+      "_config_tuple": "def _config_tuple(config) -> tuple[int, int, int, int]:\n    return (\n        config.block_size,\n        config.outputs_per_block,\n        config.k_unroll,\n        config.vector_width,\n    )"
+    },
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_kda_overlap_configs_match_measured_table",
+    "line": "277",
+    "unit_id": "compute.kernel_plan_consistency",
+    "property": "计划表的形状键、配置约束、编译实例或分派对应满足本入口的具体断言；assert k3_gemm.KDA_PROJECTION_OVERLAP_MAX_TOKENS == 14；assert k3_gemm.KDA_SKINNY_N_MAX_TOKENS == 14；assert k3_gemm.KDA_SKINNY_K_MAX_TOKENS == 14；assert _config_tuple(k3_gemm.KDA_M1_QKVG_CONFIG) == (64, 4, 2, 8)；assert _config_tuple(k3_gemm.KDA_M1_FAB_CONFIG) == (224, 1, 2, 8)；assert {num_tokens: _config_tuple(config) for num_tokens, config in k3_gemm.KDA_QKVG_CONFIGS.items()} == {1: (64, 4, 2, 8), 2: (64, 3, 2, 8)}",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:278;tests/kernels/test_bf16_skinny_gemm.py:279;tests/kernels/test_bf16_skinny_gemm.py:280;tests/kernels/test_bf16_skinny_gemm.py:281;tests/kernels/test_bf16_skinny_gemm.py:282;tests/kernels/test_bf16_skinny_gemm.py:283",
+    "conditions": "参数与受控条件：；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 5,
+    "source_body": "def test_kda_overlap_configs_match_measured_table() -> None:\n    assert k3_gemm.KDA_PROJECTION_OVERLAP_MAX_TOKENS == 14\n    assert k3_gemm.KDA_SKINNY_N_MAX_TOKENS == 14\n    assert k3_gemm.KDA_SKINNY_K_MAX_TOKENS == 14\n    assert _config_tuple(k3_gemm.KDA_M1_QKVG_CONFIG) == (64, 4, 2, 8)\n    assert _config_tuple(k3_gemm.KDA_M1_FAB_CONFIG) == (224, 1, 2, 8)\n    assert {\n        num_tokens: _config_tuple(config)\n        for num_tokens, config in k3_gemm.KDA_QKVG_CONFIGS.items()\n    } == {\n        1: (64, 4, 2, 8),\n        2: (64, 3, 2, 8),\n    }",
+    "assertions": [
+      [
+        278,
+        "assert k3_gemm.KDA_PROJECTION_OVERLAP_MAX_TOKENS == 14"
+      ],
+      [
+        279,
+        "assert k3_gemm.KDA_SKINNY_N_MAX_TOKENS == 14"
+      ],
+      [
+        280,
+        "assert k3_gemm.KDA_SKINNY_K_MAX_TOKENS == 14"
+      ],
+      [
+        281,
+        "assert _config_tuple(k3_gemm.KDA_M1_QKVG_CONFIG) == (64, 4, 2, 8)"
+      ],
+      [
+        282,
+        "assert _config_tuple(k3_gemm.KDA_M1_FAB_CONFIG) == (224, 1, 2, 8)"
+      ],
+      [
+        283,
+        "assert {num_tokens: _config_tuple(config) for num_tokens, config in k3_gemm.KDA_QKVG_CONFIGS.items()} == {1: (64, 4, 2, 8), 2: (64, 3, 2, 8)}"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {
+      "_config_tuple": "def _config_tuple(config) -> tuple[int, int, int, int]:\n    return (\n        config.block_size,\n        config.outputs_per_block,\n        config.k_unroll,\n        config.vector_width,\n    )"
+    },
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_kda_mixed_precision_bf16_fma_capability",
+    "line": "299",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "property": "受控形状、平台、格式及配置下核对选中的实现、返回身份或回退结果；assert kda_skinny_gemm._has_mixed_precision_bf16_fma() is supported",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:313",
+    "conditions": "参数与受控条件：pytest.mark.skipif(not current_platform.is_cuda(), reason='KDA CuTeDSL helper requires CUDA'),pytest.mark.parametrize('compute_capability,supported', [((9, 0), False), ((10, 0), True), ((10, 3), True), ((12, 0), True)])；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 6,
+    "source_body": "def test_kda_mixed_precision_bf16_fma_capability(\n    monkeypatch: pytest.MonkeyPatch,\n    compute_capability: tuple[int, int],\n    supported: bool,\n) -> None:\n    from vllm.models.kimi_k3.nvidia.ops.cute_dsl import kda_skinny_gemm\n\n    capability = compute_capability[0] * 10 + compute_capability[1]\n    monkeypatch.setattr(\n        kda_skinny_gemm.current_platform,\n        \"has_device_capability\",\n        lambda target, device_id=0: capability >= target,\n    )\n\n    assert kda_skinny_gemm._has_mixed_precision_bf16_fma() is supported",
+    "assertions": [
+      [
+        313,
+        "assert kda_skinny_gemm._has_mixed_precision_bf16_fma() is supported"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_kda_skinny_gemms_sm90_cuda_graph",
+    "line": "317",
+    "unit_id": "compute.operator_reference_relation",
+    "property": "实际输出按本入口的线性/矩阵乘及可选残差参考进行数值比较；assert cosine > 0.999",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:356",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('num_tokens', [2, 8, 14])；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 GPU门禁保留；cosine阈值或assert_close容差以逐项断言为准，图重放只在该入口显式使用时成立。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 7,
+    "source_body": "def test_kda_skinny_gemms_sm90_cuda_graph(num_tokens: int) -> None:\n    \"\"\"Hopper must compile and capture the pre-SM100 FMA specialization.\"\"\"\n    _require_capability_and_cute((9, 0))\n    from vllm.models.kimi_k3.nvidia.ops.cute_dsl.kda_skinny_gemm import (\n        KdaSkinnyGemm,\n    )\n\n    torch.manual_seed(43 + num_tokens)\n    hidden_states = torch.randn(num_tokens, 7168, dtype=torch.bfloat16, device=\"cuda\")\n    f_ab_weight = torch.randn(144, 7168, dtype=torch.bfloat16, device=\"cuda\")\n    f_b_weight = torch.randn(1536, 128, dtype=torch.bfloat16, device=\"cuda\")\n    gemm = KdaSkinnyGemm()\n\n    gemm.run_k(gemm.run_n(hidden_states, f_ab_weight), f_b_weight)\n    torch.accelerator.synchronize()\n\n    capture_stream = torch.cuda.Stream()\n    capture_stream.wait_stream(torch.cuda.current_stream())\n    graph = torch.cuda.CUDAGraph()\n    with torch.cuda.graph(graph, stream=capture_stream):\n        projected_fab = gemm.run_n(hidden_states, f_ab_weight)\n        projected_fb = gemm.run_k(projected_fab, f_b_weight)\n    torch.cuda.current_stream().wait_stream(capture_stream)\n    graph.replay()\n    torch.accelerator.synchronize()\n\n    expected_fab = torch.nn.functional.linear(\n        hidden_states.float(), f_ab_weight.float()\n    )\n    expected_fb = torch.nn.functional.linear(\n        expected_fab[:, :128].to(torch.bfloat16).float(), f_b_weight.float()\n    )\n    for actual, expected in (\n        (projected_fab, expected_fab),\n        (projected_fb, expected_fb),\n    ):\n        cosine = torch.nn.functional.cosine_similarity(\n            actual.float().flatten(), expected.flatten(), dim=0\n        ).item()\n        assert cosine > 0.999",
+    "assertions": [
+      [
+        356,
+        "assert cosine > 0.999"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {
+      "_require_capability_and_cute": "def _require_capability_and_cute(capability: tuple[int, int]) -> None:\n    if (\n        not torch.cuda.is_available()\n        or torch.cuda.get_device_capability() != capability\n    ):\n        pytest.skip(f\"CuTe DSL selection requires SM{capability[0]}{capability[1]}\")\n    if not k3_gemm.shape_dynamic_skinny_gemm.is_available():\n        pytest.skip(\"CuTe DSL is not available\")"
+    },
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_kda_projection_overlap_is_tp8_only",
+    "line": "360",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "property": "受控形状、平台、格式及配置下核对选中的实现、返回身份或回退结果；assert not k3_gemm._enable_kda_projection_overlap(kda)；assert kda._projection_overlap_max_tokens == 0",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:368;tests/kernels/test_bf16_skinny_gemm.py:369",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('tp_size', [1, 2, 4, 16])；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 8,
+    "source_body": "def test_kda_projection_overlap_is_tp8_only(tp_size: int) -> None:\n    from vllm.models.kimi_k3.nvidia.kda import KimiK3DeltaAttention\n\n    kda = KimiK3DeltaAttention.__new__(KimiK3DeltaAttention)\n    nn.Module.__init__(kda)\n    kda.tp_size = tp_size\n    kda._projection_overlap_max_tokens = 0\n\n    assert not k3_gemm._enable_kda_projection_overlap(kda)\n    assert kda._projection_overlap_max_tokens == 0",
+    "assertions": [
+      [
+        368,
+        "assert not k3_gemm._enable_kda_projection_overlap(kda)"
+      ],
+      [
+        369,
+        "assert kda._projection_overlap_max_tokens == 0"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_kda_qkvg_flashinfer_backend",
+    "line": "382",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "property": "受控形状、平台、格式及配置下核对选中的实现、返回身份或回退结果；assert k3_gemm._kda_qkvg_flashinfer_backend() == expected",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:393",
+    "conditions": "参数与受控条件：pytest.mark.parametrize(('capability', 'expected'), [((9, 0), None), ((10, 0), 'cute-dsl'), ((10, 3), 'cute-dsl'), ((10, 7), None), ((12, 0), None)])；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 9,
+    "source_body": "def test_kda_qkvg_flashinfer_backend(\n    monkeypatch: pytest.MonkeyPatch,\n    capability: tuple[int, int],\n    expected: str | None,\n) -> None:\n    monkeypatch.setattr(\n        current_platform,\n        \"is_device_capability\",\n        lambda candidate: candidate == capability,\n    )\n\n    assert k3_gemm._kda_qkvg_flashinfer_backend() == expected",
+    "assertions": [
+      [
+        393,
+        "assert k3_gemm._kda_qkvg_flashinfer_backend() == expected"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_kda_qkvg_autotune_enables_full_overlap",
+    "line": "397",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "property": "受控形状、平台、格式及配置下核对选中的实现、返回身份或回退结果；assert calls == expected_calls；assert kda._projection_overlap_max_tokens == k3_gemm.KDA_PROJECTION_OVERLAP_MAX_TOKENS",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:433;tests/kernels/test_bf16_skinny_gemm.py:434",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('backend', ['cute-dsl', None])；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 10,
+    "source_body": "def test_kda_qkvg_autotune_enables_full_overlap(\n    monkeypatch: pytest.MonkeyPatch,\n    backend: str | None,\n) -> None:\n    flashinfer_gemm = pytest.importorskip(\"flashinfer.gemm\")\n\n    from vllm.models.kimi_k3.nvidia.kda import KimiK3DeltaAttention\n\n    kda = KimiK3DeltaAttention.__new__(KimiK3DeltaAttention)\n    nn.Module.__init__(kda)\n    kda._projection_overlap_max_tokens = max(k3_gemm.KDA_QKVG_CONFIGS)\n    kda.in_proj_qkvgfab = nn.Module()\n    kda.in_proj_qkvgfab.weight = nn.Parameter(\n        torch.empty(6144, 8, dtype=torch.bfloat16),\n        requires_grad=False,\n    )\n    calls = []\n\n    def fake_mm_bf16(a, b, *, pdl, backend):\n        calls.append((a.shape, b.shape, pdl, backend))\n        return torch.empty(a.shape[0], b.shape[1], dtype=a.dtype)\n\n    monkeypatch.setattr(flashinfer_gemm, \"mm_bf16\", fake_mm_bf16)\n    monkeypatch.setattr(\n        k3_gemm,\n        \"_kda_qkvg_flashinfer_backend\",\n        lambda: backend,\n    )\n\n    k3_gemm.autotune_kda_qkvg(kda)\n\n    expected_calls = []\n    if backend is not None:\n        expected_calls.append(\n            (torch.Size([14, 8]), torch.Size([8, 6144]), True, \"cute-dsl\")\n        )\n    assert calls == expected_calls\n    assert (\n        kda._projection_overlap_max_tokens == k3_gemm.KDA_PROJECTION_OVERLAP_MAX_TOKENS\n    )",
+    "assertions": [
+      [
+        433,
+        "assert calls == expected_calls"
+      ],
+      [
+        434,
+        "assert kda._projection_overlap_max_tokens == k3_gemm.KDA_PROJECTION_OVERLAP_MAX_TOKENS"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_glm52_projection_plans_are_separate",
+    "line": "439",
+    "unit_id": "compute.kernel_plan_consistency",
+    "property": "计划表的形状键、配置约束、编译实例或分派对应满足本入口的具体断言；assert (qkv_a.n, qkv_a.k, set(qkv_a_plan)) == (2624, 6144, set(range(1, 17)))；assert (q_b.n, q_b.k, set(q_b_plan)) == (2048, 2048, set(range(1, 17)))；assert {num_tokens for num_tokens, (backend, _) in qkv_a_plan.items() if backend == 'cute'} == {1, 2}；assert {num_tokens for num_tokens, (backend, _) in qkv_a_plan.items() if backend == 'dsv3_fused_a'} == set(range(3, 17))；assert {num_tokens for num_tokens, (backend, _) in q_b_plan.items() if backend == 'cute'} == {1, 2}；assert {num_tokens for num_tokens, (backend, _) in q_b_plan.items() if backend == 'dsv3_fused_a'} == set(range(3, 17))；assert (eh.n, eh.k) == (6144, 12288)；assert set(eh_plan) == {1, 2, 3}；assert all((backend == 'cute' for backend, _ in eh_plan.values()))",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:446;tests/kernels/test_bf16_skinny_gemm.py:451;tests/kernels/test_bf16_skinny_gemm.py:456;tests/kernels/test_bf16_skinny_gemm.py:461;tests/kernels/test_bf16_skinny_gemm.py:466;tests/kernels/test_bf16_skinny_gemm.py:469;tests/kernels/test_bf16_skinny_gemm.py:477;tests/kernels/test_bf16_skinny_gemm.py:479;tests/kernels/test_bf16_skinny_gemm.py:480",
+    "conditions": "参数与受控条件：；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 11,
+    "source_body": "def test_glm52_projection_plans_are_separate() -> None:\n    qkv_a = glm52_gemm.GLM52_QKV_A_PROJECTION\n    q_b = glm52_gemm.GLM52_Q_B_PROJECTION\n\n    qkv_a_plan = qkv_a.build_plan()\n    q_b_plan = q_b.build_plan()\n\n    assert (qkv_a.n, qkv_a.k, set(qkv_a_plan)) == (\n        2624,\n        6144,\n        set(range(1, 17)),\n    )\n    assert (q_b.n, q_b.k, set(q_b_plan)) == (\n        2048,\n        2048,\n        set(range(1, 17)),\n    )\n    assert {\n        num_tokens\n        for num_tokens, (backend, _) in qkv_a_plan.items()\n        if backend == \"cute\"\n    } == {1, 2}\n    assert {\n        num_tokens\n        for num_tokens, (backend, _) in qkv_a_plan.items()\n        if backend == \"dsv3_fused_a\"\n    } == set(range(3, 17))\n    assert {\n        num_tokens for num_tokens, (backend, _) in q_b_plan.items() if backend == \"cute\"\n    } == {1, 2}\n    assert {\n        num_tokens\n        for num_tokens, (backend, _) in q_b_plan.items()\n        if backend == \"dsv3_fused_a\"\n    } == set(range(3, 17))\n\n    eh = glm52_gemm.GLM52_EH_PROJECTION\n    eh_plan = eh.build_plan()\n    assert (eh.n, eh.k) == (6144, 12288)\n    # The MTP eh_proj has no dsv3 winners; M >= 4 falls back to cuBLAS.\n    assert set(eh_plan) == {1, 2, 3}\n    assert all(backend == \"cute\" for backend, _ in eh_plan.values())",
+    "assertions": [
+      [
+        446,
+        "assert (qkv_a.n, qkv_a.k, set(qkv_a_plan)) == (2624, 6144, set(range(1, 17)))"
+      ],
+      [
+        451,
+        "assert (q_b.n, q_b.k, set(q_b_plan)) == (2048, 2048, set(range(1, 17)))"
+      ],
+      [
+        456,
+        "assert {num_tokens for num_tokens, (backend, _) in qkv_a_plan.items() if backend == 'cute'} == {1, 2}"
+      ],
+      [
+        461,
+        "assert {num_tokens for num_tokens, (backend, _) in qkv_a_plan.items() if backend == 'dsv3_fused_a'} == set(range(3, 17))"
+      ],
+      [
+        466,
+        "assert {num_tokens for num_tokens, (backend, _) in q_b_plan.items() if backend == 'cute'} == {1, 2}"
+      ],
+      [
+        469,
+        "assert {num_tokens for num_tokens, (backend, _) in q_b_plan.items() if backend == 'dsv3_fused_a'} == set(range(3, 17))"
+      ],
+      [
+        477,
+        "assert (eh.n, eh.k) == (6144, 12288)"
+      ],
+      [
+        479,
+        "assert set(eh_plan) == {1, 2, 3}"
+      ],
+      [
+        480,
+        "assert all((backend == 'cute' for backend, _ in eh_plan.values()))"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_glm52_low_latency_table_capability_routing",
+    "line": "492",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "property": "受控形状、平台、格式及配置下核对选中的实现、返回身份或回退结果；assert glm52_gemm._low_latency_table() is expected；assert eh_plan == (None if expected is None else expected[6144, 12288].build_plan())",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:506;tests/kernels/test_bf16_skinny_gemm.py:511",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('capability,expected', [((10, 3), glm52_gemm.GLM52_PROJECTIONS), ((10, 7), glm52_gemm.GLM52_PROJECTIONS_SM107), ((10, 0), glm52_gemm.GLM52_PROJECTIONS_SM100), ((9, 0), None)])；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 12,
+    "source_body": "def test_glm52_low_latency_table_capability_routing(\n    monkeypatch: pytest.MonkeyPatch,\n    capability: tuple[int, int],\n    expected: dict[tuple[int, int], glm52_gemm.GLM52ProjectionSpec] | None,\n) -> None:\n    monkeypatch.setattr(\n        glm52_gemm.current_platform,\n        \"is_device_capability\",\n        lambda cc: cc == capability,\n    )\n    # Keep build_glm52_plan from registering CuTe warmup configs process-wide.\n    monkeypatch.setattr(\n        glm52_gemm.shape_dynamic_skinny_gemm, \"is_available\", lambda: False\n    )\n    assert glm52_gemm._low_latency_table() is expected\n\n    # The MTP eh_proj is a plain nn.Linear and gets its plan from the same table.\n    eh_weight = torch.empty(6144, 12288, dtype=torch.bfloat16, device=\"meta\")\n    eh_plan = glm52_gemm.build_glm52_plan(eh_weight, torch.bfloat16)\n    assert eh_plan == (\n        None if expected is None else expected[(6144, 12288)].build_plan()\n    )",
+    "assertions": [
+      [
+        506,
+        "assert glm52_gemm._low_latency_table() is expected"
+      ],
+      [
+        511,
+        "assert eh_plan == (None if expected is None else expected[6144, 12288].build_plan())"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_glm52_layout_rejects_nonpacked_single_row_view",
+    "line": "516",
+    "unit_id": "compute.input_admissibility",
+    "property": "核对单行和多行切片的真实stride与紧密行主序条件；assert single_row.stride() == multiple_rows.stride() == (144, 1)；assert not glm52_gemm._is_supported_row_major(single_row)；assert not glm52_gemm._is_supported_row_major(multiple_rows)",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:520;tests/kernels/test_bf16_skinny_gemm.py:521;tests/kernels/test_bf16_skinny_gemm.py:522",
+    "conditions": "参数与受控条件：；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 13,
+    "source_body": "def test_glm52_layout_rejects_nonpacked_single_row_view() -> None:\n    single_row = torch.empty(1, 144)[:, :128]\n    multiple_rows = torch.empty(2, 144)[:, :128]\n\n    assert single_row.stride() == multiple_rows.stride() == (144, 1)\n    assert not glm52_gemm._is_supported_row_major(single_row)\n    assert not glm52_gemm._is_supported_row_major(multiple_rows)",
+    "assertions": [
+      [
+        520,
+        "assert single_row.stride() == multiple_rows.stride() == (144, 1)"
+      ],
+      [
+        521,
+        "assert not glm52_gemm._is_supported_row_major(single_row)"
+      ],
+      [
+        522,
+        "assert not glm52_gemm._is_supported_row_major(multiple_rows)"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_glm52_installer_maps_only_selected_unquantized_shapes",
+    "line": "526",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "property": "受控形状、平台、格式及配置下核对选中的实现、返回身份或回退结果；assert isinstance(root.attn.fused_qkv_a_proj.quant_method, glm52_gemm.GLM52LowLatencyLinearMethod)；assert isinstance(root.attn.q_b_proj.quant_method, glm52_gemm.GLM52LowLatencyLinearMethod)；assert root.attn.fused_qkv_a_proj.quant_method._plan == table[qkv_a.n, qkv_a.k].build_plan()；assert root.attn.q_b_proj.quant_method._plan == table[q_b.n, q_b.k].build_plan()；assert root.attn.o_proj.quant_method._plan == table[6144, 4096].build_plan()；assert type(root.attn.o_proj.quant_method) is glm52_gemm.UnquantizedLinearMethod；assert isinstance(root.same_shape_other_name.quant_method, glm52_gemm.GLM52LowLatencyLinearMethod)；assert root.quantized.q_b_proj.quant_method is quantized_method；assert type(root.wrong_shape.fused_qkv_a_proj.quant_method) is glm52_gemm.UnquantizedLinearMethod",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:588;tests/kernels/test_bf16_skinny_gemm.py:592;tests/kernels/test_bf16_skinny_gemm.py:596;tests/kernels/test_bf16_skinny_gemm.py:600;tests/kernels/test_bf16_skinny_gemm.py:602;tests/kernels/test_bf16_skinny_gemm.py:604;tests/kernels/test_bf16_skinny_gemm.py:605;tests/kernels/test_bf16_skinny_gemm.py:609;tests/kernels/test_bf16_skinny_gemm.py:610",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('capability,table', GLM_GPU_TABLES, ids=GLM_GPU_TABLE_IDS)；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 14,
+    "source_body": "def test_glm52_installer_maps_only_selected_unquantized_shapes(\n    monkeypatch: pytest.MonkeyPatch,\n    capability: tuple[int, int],\n    table: dict[tuple[int, int], glm52_gemm.GLM52ProjectionSpec],\n) -> None:\n    class FakeLinearBase(nn.Module):\n        def __init__(\n            self,\n            n: int,\n            k: int,\n            quant_method: object,\n        ) -> None:\n            super().__init__()\n            self.weight = nn.Parameter(\n                torch.empty(\n                    n,\n                    k,\n                    dtype=torch.bfloat16,\n                    device=\"meta\",\n                )\n            )\n            self.quant_method = quant_method\n\n    qkv_a = glm52_gemm.GLM52_QKV_A_PROJECTION\n    q_b = glm52_gemm.GLM52_Q_B_PROJECTION\n    root = nn.Module()\n    root.attn = nn.Module()\n    root.attn.fused_qkv_a_proj = FakeLinearBase(\n        qkv_a.n, qkv_a.k, glm52_gemm.UnquantizedLinearMethod()\n    )\n    root.attn.q_b_proj = FakeLinearBase(\n        q_b.n, q_b.k, glm52_gemm.UnquantizedLinearMethod()\n    )\n    root.same_shape_other_name = FakeLinearBase(\n        qkv_a.n, qkv_a.k, glm52_gemm.UnquantizedLinearMethod()\n    )\n    root.quantized = nn.Module()\n    quantized_method = object()\n    root.quantized.q_b_proj = FakeLinearBase(q_b.n, q_b.k, quantized_method)\n    root.wrong_shape = nn.Module()\n    root.wrong_shape.fused_qkv_a_proj = FakeLinearBase(\n        qkv_a.n + 1, qkv_a.k, glm52_gemm.UnquantizedLinearMethod()\n    )\n    # o_proj at TP4 is only in the SM107 table.\n    root.attn.o_proj = FakeLinearBase(6144, 4096, glm52_gemm.UnquantizedLinearMethod())\n    monkeypatch.setattr(glm52_gemm, \"LinearBase\", FakeLinearBase)\n    monkeypatch.setattr(\n        glm52_gemm.current_platform,\n        \"is_device_capability\",\n        lambda cc: cc == capability,\n    )\n    monkeypatch.setattr(\n        glm52_gemm.shape_dynamic_skinny_gemm,\n        \"is_available\",\n        lambda: False,\n    )\n\n    glm52_gemm.enable_glm52_low_latency_gemm(\n        root,\n        torch.bfloat16,\n    )\n\n    assert isinstance(\n        root.attn.fused_qkv_a_proj.quant_method,\n        glm52_gemm.GLM52LowLatencyLinearMethod,\n    )\n    assert isinstance(\n        root.attn.q_b_proj.quant_method,\n        glm52_gemm.GLM52LowLatencyLinearMethod,\n    )\n    assert (\n        root.attn.fused_qkv_a_proj.quant_method._plan\n        == table[(qkv_a.n, qkv_a.k)].build_plan()\n    )\n    assert root.attn.q_b_proj.quant_method._plan == table[(q_b.n, q_b.k)].build_plan()\n    if (6144, 4096) in table:\n        assert root.attn.o_proj.quant_method._plan == table[(6144, 4096)].build_plan()\n    else:\n        assert type(root.attn.o_proj.quant_method) is glm52_gemm.UnquantizedLinearMethod\n    assert isinstance(\n        root.same_shape_other_name.quant_method,\n        glm52_gemm.GLM52LowLatencyLinearMethod,\n    )\n    assert root.quantized.q_b_proj.quant_method is quantized_method\n    assert (\n        type(root.wrong_shape.fused_qkv_a_proj.quant_method)\n        is glm52_gemm.UnquantizedLinearMethod\n    )",
+    "assertions": [
+      [
+        588,
+        "assert isinstance(root.attn.fused_qkv_a_proj.quant_method, glm52_gemm.GLM52LowLatencyLinearMethod)"
+      ],
+      [
+        592,
+        "assert isinstance(root.attn.q_b_proj.quant_method, glm52_gemm.GLM52LowLatencyLinearMethod)"
+      ],
+      [
+        596,
+        "assert root.attn.fused_qkv_a_proj.quant_method._plan == table[qkv_a.n, qkv_a.k].build_plan()"
+      ],
+      [
+        600,
+        "assert root.attn.q_b_proj.quant_method._plan == table[q_b.n, q_b.k].build_plan()"
+      ],
+      [
+        602,
+        "assert root.attn.o_proj.quant_method._plan == table[6144, 4096].build_plan()"
+      ],
+      [
+        604,
+        "assert type(root.attn.o_proj.quant_method) is glm52_gemm.UnquantizedLinearMethod"
+      ],
+      [
+        605,
+        "assert isinstance(root.same_shape_other_name.quant_method, glm52_gemm.GLM52LowLatencyLinearMethod)"
+      ],
+      [
+        609,
+        "assert root.quantized.q_b_proj.quant_method is quantized_method"
+      ],
+      [
+        610,
+        "assert type(root.wrong_shape.fused_qkv_a_proj.quant_method) is glm52_gemm.UnquantizedLinearMethod"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_sm103_selector_table",
+    "line": "617",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "property": "受控形状、平台、格式及配置下核对选中的实现、返回身份或回退结果；assert backend == 'cute'；assert backend == 'dsv3_fused_a'；assert backend is None",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:623;tests/kernels/test_bf16_skinny_gemm.py:625;tests/kernels/test_bf16_skinny_gemm.py:627",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('key', EXPECTED_SELECTIONS)；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 15,
+    "source_body": "def test_sm103_selector_table(key: tuple[int, int]) -> None:\n    n, k = key\n    cute_tokens, dsv3_tokens = EXPECTED_SELECTIONS[key]\n    for num_tokens in range(1, 17):\n        backend = k3_gemm.select_kimi_k3_backend(num_tokens, n, k)\n        if num_tokens in cute_tokens:\n            assert backend == \"cute\"\n        elif num_tokens in dsv3_tokens:\n            assert backend == \"dsv3_fused_a\"\n        else:\n            assert backend is None",
+    "assertions": [
+      [
+        623,
+        "assert backend == 'cute'"
+      ],
+      [
+        625,
+        "assert backend == 'dsv3_fused_a'"
+      ],
+      [
+        627,
+        "assert backend is None"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_selector_requires_supported_shape_and_tokens",
+    "line": "631",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "property": "受控形状、平台、格式及配置下核对选中的实现、返回身份或回退结果；assert k3_gemm.select_kimi_k3_backend(0, n, k) is None；assert k3_gemm.select_kimi_k3_backend(17, n, k) is None；assert k3_gemm.select_kimi_k3_backend(1, n + 1, k) is None；assert k3_gemm.select_kimi_k3_backend(1, n, k + 1) is None",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:633;tests/kernels/test_bf16_skinny_gemm.py:634;tests/kernels/test_bf16_skinny_gemm.py:635;tests/kernels/test_bf16_skinny_gemm.py:636",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('key', EXPECTED_SELECTIONS)；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 16,
+    "source_body": "def test_selector_requires_supported_shape_and_tokens(key: tuple[int, int]) -> None:\n    n, k = key\n    assert k3_gemm.select_kimi_k3_backend(0, n, k) is None\n    assert k3_gemm.select_kimi_k3_backend(17, n, k) is None\n    assert k3_gemm.select_kimi_k3_backend(1, n + 1, k) is None\n    assert k3_gemm.select_kimi_k3_backend(1, n, k + 1) is None",
+    "assertions": [
+      [
+        633,
+        "assert k3_gemm.select_kimi_k3_backend(0, n, k) is None"
+      ],
+      [
+        634,
+        "assert k3_gemm.select_kimi_k3_backend(17, n, k) is None"
+      ],
+      [
+        635,
+        "assert k3_gemm.select_kimi_k3_backend(1, n + 1, k) is None"
+      ],
+      [
+        636,
+        "assert k3_gemm.select_kimi_k3_backend(1, n, k + 1) is None"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_unlisted_shape_and_unselected_tokens_fall_back",
+    "line": "639",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "property": "受控形状、平台、格式及配置下核对选中的实现、返回身份或回退结果；assert k3_gemm.select_kimi_k3_backend(1, 1000, 1000) is None；assert k3_gemm.select_kimi_k3_backend(2, 7168, 1536) is None",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:641;tests/kernels/test_bf16_skinny_gemm.py:643",
+    "conditions": "参数与受控条件：；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 17,
+    "source_body": "def test_unlisted_shape_and_unselected_tokens_fall_back() -> None:\n    # Shape absent from the table.\n    assert k3_gemm.select_kimi_k3_backend(1, 1000, 1000) is None\n    # o_proj (7168,1536) is CuTe M1 only; M2+ falls back.\n    assert k3_gemm.select_kimi_k3_backend(2, 7168, 1536) is None",
+    "assertions": [
+      [
+        641,
+        "assert k3_gemm.select_kimi_k3_backend(1, 1000, 1000) is None"
+      ],
+      [
+        643,
+        "assert k3_gemm.select_kimi_k3_backend(2, 7168, 1536) is None"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_sm103_residual_selector_table",
+    "line": "647",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "property": "受控形状、平台、格式及配置下核对选中的实现、返回身份或回退结果；assert backend == ('cute' if num_tokens <= 4 else None)",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:649",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('num_tokens', range(1, 17))；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 18,
+    "source_body": "def test_sm103_residual_selector_table(num_tokens: int) -> None:\n    backend = k3_gemm.select_kimi_k3_backend(num_tokens, 7168, 3584, has_residual=True)\n    assert backend == (\"cute\" if num_tokens <= 4 else None)",
+    "assertions": [
+      [
+        649,
+        "assert backend == ('cute' if num_tokens <= 4 else None)"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_build_plan_matches_selector",
+    "line": "652",
+    "unit_id": "compute.kernel_plan_consistency",
+    "property": "计划表的形状键、配置约束、编译实例或分派对应满足本入口的具体断言；assert num_tokens not in plan；assert plan[num_tokens][0] == backend",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:658;tests/kernels/test_bf16_skinny_gemm.py:660",
+    "conditions": "参数与受控条件：；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 19,
+    "source_body": "def test_build_plan_matches_selector() -> None:\n    for spec in k3_gemm.KIMI_K3_PROJECTIONS.values():\n        plan = k3_gemm._build_plan(spec)\n        for num_tokens in range(1, 17):\n            backend = k3_gemm.select_kimi_k3_backend(num_tokens, spec.n, spec.k)\n            if backend is None:\n                assert num_tokens not in plan\n            else:\n                assert plan[num_tokens][0] == backend",
+    "assertions": [
+      [
+        658,
+        "assert num_tokens not in plan"
+      ],
+      [
+        660,
+        "assert plan[num_tokens][0] == backend"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_device_table_is_keyed_by_shape",
+    "line": "702",
+    "unit_id": "compute.kernel_plan_consistency",
+    "property": "计划表的形状键、配置约束、编译实例或分派对应满足本入口的具体断言；assert (spec.n, spec.k) == (n, k)",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:704",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('table', [k3_gemm.KIMI_K3_PROJECTIONS_SM100, k3_gemm.KIMI_K3_PROJECTIONS_SM90])；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 20,
+    "source_body": "def test_device_table_is_keyed_by_shape(table: K3ProjectionTable) -> None:\n    for (n, k), spec in table.items():\n        assert (spec.n, spec.k) == (n, k)",
+    "assertions": [
+      [
+        704,
+        "assert (spec.n, spec.k) == (n, k)"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_sm100_selector_table",
+    "line": "708",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "property": "受控形状、平台、格式及配置下核对选中的实现、返回身份或回退结果；assert backend == 'cute'；assert backend == 'dsv3_fused_a'；assert backend is None",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:715;tests/kernels/test_bf16_skinny_gemm.py:717;tests/kernels/test_bf16_skinny_gemm.py:719",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('key', EXPECTED_SELECTIONS_SM100)；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 21,
+    "source_body": "def test_sm100_selector_table(key: tuple[int, int]) -> None:\n    n, k = key\n    spec = k3_gemm.KIMI_K3_PROJECTIONS_SM100[key]\n    cute_tokens, dsv3_tokens = EXPECTED_SELECTIONS_SM100[key]\n    for num_tokens in range(1, 17):\n        backend = k3_gemm._backend_for(spec, num_tokens, has_residual=False)\n        if num_tokens in cute_tokens:\n            assert backend == \"cute\"\n        elif num_tokens in dsv3_tokens:\n            assert backend == \"dsv3_fused_a\"\n        else:\n            assert backend is None",
+    "assertions": [
+      [
+        715,
+        "assert backend == 'cute'"
+      ],
+      [
+        717,
+        "assert backend == 'dsv3_fused_a'"
+      ],
+      [
+        719,
+        "assert backend is None"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_device_build_plan_matches_table",
+    "line": "726",
+    "unit_id": "compute.kernel_plan_consistency",
+    "property": "计划表的形状键、配置约束、编译实例或分派对应满足本入口的具体断言；assert num_tokens not in plan；assert plan[num_tokens][0] == backend",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:732;tests/kernels/test_bf16_skinny_gemm.py:734",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('table', [k3_gemm.KIMI_K3_PROJECTIONS_SM100, k3_gemm.KIMI_K3_PROJECTIONS_SM90])；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 22,
+    "source_body": "def test_device_build_plan_matches_table(table: K3ProjectionTable) -> None:\n    for spec in table.values():\n        plan = k3_gemm._build_plan(spec)\n        for num_tokens in range(1, 17):\n            backend = k3_gemm._backend_for(spec, num_tokens, has_residual=False)\n            if backend is None:\n                assert num_tokens not in plan\n            else:\n                assert plan[num_tokens][0] == backend",
+    "assertions": [
+      [
+        732,
+        "assert num_tokens not in plan"
+      ],
+      [
+        734,
+        "assert plan[num_tokens][0] == backend"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_sm90_table_covers_measured_points",
+    "line": "737",
+    "unit_id": "compute.kernel_plan_consistency",
+    "property": "计划表的形状键、配置约束、编译实例或分派对应满足本入口的具体断言；assert len(k3_gemm.KIMI_K3_PROJECTIONS_SM90) == 18；assert sum((len(spec.cute_configs) + len(spec.dsv3_tokens) for spec in specs)) == 90",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:739;tests/kernels/test_bf16_skinny_gemm.py:740",
+    "conditions": "参数与受控条件：；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 23,
+    "source_body": "def test_sm90_table_covers_measured_points() -> None:\n    specs = k3_gemm.KIMI_K3_PROJECTIONS_SM90.values()\n    assert len(k3_gemm.KIMI_K3_PROJECTIONS_SM90) == 18\n    assert sum(len(spec.cute_configs) + len(spec.dsv3_tokens) for spec in specs) == 90",
+    "assertions": [
+      [
+        739,
+        "assert len(k3_gemm.KIMI_K3_PROJECTIONS_SM90) == 18"
+      ],
+      [
+        740,
+        "assert sum((len(spec.cute_configs) + len(spec.dsv3_tokens) for spec in specs)) == 90"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_low_latency_table_capability_routing",
+    "line": "743",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "property": "受控形状、平台、格式及配置下核对选中的实现、返回身份或回退结果；assert k3_gemm._low_latency_table() is k3_gemm.KIMI_K3_PROJECTIONS；assert k3_gemm._low_latency_table() is k3_gemm.KIMI_K3_PROJECTIONS_SM100；assert k3_gemm._low_latency_table() is k3_gemm.KIMI_K3_PROJECTIONS_SM90；assert k3_gemm._low_latency_table() is None",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:747;tests/kernels/test_bf16_skinny_gemm.py:755;tests/kernels/test_bf16_skinny_gemm.py:762;tests/kernels/test_bf16_skinny_gemm.py:767",
+    "conditions": "参数与受控条件：；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 24,
+    "source_body": "def test_low_latency_table_capability_routing(\n    monkeypatch: pytest.MonkeyPatch,\n) -> None:\n    monkeypatch.setattr(k3_gemm, \"_is_sm103\", lambda: True)\n    assert k3_gemm._low_latency_table() is k3_gemm.KIMI_K3_PROJECTIONS\n\n    monkeypatch.setattr(k3_gemm, \"_is_sm103\", lambda: False)\n    monkeypatch.setattr(\n        k3_gemm.current_platform,\n        \"is_device_capability\",\n        lambda cc: cc == (10, 0),\n    )\n    assert k3_gemm._low_latency_table() is k3_gemm.KIMI_K3_PROJECTIONS_SM100\n\n    monkeypatch.setattr(\n        k3_gemm.current_platform,\n        \"is_device_capability\",\n        lambda cc: cc == (9, 0),\n    )\n    assert k3_gemm._low_latency_table() is k3_gemm.KIMI_K3_PROJECTIONS_SM90\n\n    monkeypatch.setattr(\n        k3_gemm.current_platform, \"is_device_capability\", lambda cc: False\n    )\n    assert k3_gemm._low_latency_table() is None",
+    "assertions": [
+      [
+        747,
+        "assert k3_gemm._low_latency_table() is k3_gemm.KIMI_K3_PROJECTIONS"
+      ],
+      [
+        755,
+        "assert k3_gemm._low_latency_table() is k3_gemm.KIMI_K3_PROJECTIONS_SM100"
+      ],
+      [
+        762,
+        "assert k3_gemm._low_latency_table() is k3_gemm.KIMI_K3_PROJECTIONS_SM90"
+      ],
+      [
+        767,
+        "assert k3_gemm._low_latency_table() is None"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_qwen4_exp_hopper_plans_are_valid",
+    "line": "770",
+    "unit_id": "compute.kernel_plan_consistency",
+    "property": "计划表的形状键、配置约束、编译实例或分派对应满足本入口的具体断言；assert len(plans) == 7；assert sum(map(len, plans.values())) == 24；assert (320, 10240) in plans；assert (10240, 320) not in plans；assert config.num_rows == num_tokens；assert n % config.outputs_per_block == 0；assert k % (config.block_size * config.vector_width) == 0；assert config.static_k in (None, k)",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:773;tests/kernels/test_bf16_skinny_gemm.py:774;tests/kernels/test_bf16_skinny_gemm.py:775;tests/kernels/test_bf16_skinny_gemm.py:776;tests/kernels/test_bf16_skinny_gemm.py:779;tests/kernels/test_bf16_skinny_gemm.py:780;tests/kernels/test_bf16_skinny_gemm.py:781;tests/kernels/test_bf16_skinny_gemm.py:782",
+    "conditions": "参数与受控条件：；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 25,
+    "source_body": "def test_qwen4_exp_hopper_plans_are_valid() -> None:\n    plans = qwen4_exp_gemm.QWEN4_EXP_SM90_GEMM_PLANS\n\n    assert len(plans) == 7\n    assert sum(map(len, plans.values())) == 24\n    assert (320, 10240) in plans\n    assert (10240, 320) not in plans\n    for (n, k), shape_plans in plans.items():\n        for num_tokens, config in shape_plans.items():\n            assert config.num_rows == num_tokens\n            assert n % config.outputs_per_block == 0\n            assert k % (config.block_size * config.vector_width) == 0\n            assert config.static_k in (None, k)",
+    "assertions": [
+      [
+        773,
+        "assert len(plans) == 7"
+      ],
+      [
+        774,
+        "assert sum(map(len, plans.values())) == 24"
+      ],
+      [
+        775,
+        "assert (320, 10240) in plans"
+      ],
+      [
+        776,
+        "assert (10240, 320) not in plans"
+      ],
+      [
+        779,
+        "assert config.num_rows == num_tokens"
+      ],
+      [
+        780,
+        "assert n % config.outputs_per_block == 0"
+      ],
+      [
+        781,
+        "assert k % (config.block_size * config.vector_width) == 0"
+      ],
+      [
+        782,
+        "assert config.static_k in (None, k)"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_qwen4_exp_gemm_capability_routing",
+    "line": "796",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "property": "受控形状、平台、格式及配置下核对选中的实现、返回身份或回退结果；assert qwen4_exp_gemm.QWEN4_EXP_GEMM_PLANS_BY_CAPABILITY.get(qwen4_exp_gemm.current_platform.get_device_capability(), {}) == expected_plans",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:807",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('capability,expected_plans', [((10, 3), qwen4_exp_gemm.QWEN4_EXP_SM103_GEMM_PLANS), ((10, 0), qwen4_exp_gemm.QWEN4_EXP_SM100_GEMM_PLANS), ((9, 0), qwen4_exp_gemm.QWEN4_EXP_SM90_GEMM_PLANS), ((12, 1), qwen4_exp_gemm.QWEN4_EXP_SM121_GEMM_PLANS), ((12, 0), {}), ((8, 0), {})])；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 26,
+    "source_body": "def test_qwen4_exp_gemm_capability_routing(\n    monkeypatch: pytest.MonkeyPatch,\n    capability: tuple[int, int],\n    expected_plans: dict[tuple[int, int], dict[int, SkinnyGemmConfig]],\n) -> None:\n    monkeypatch.setattr(\n        qwen4_exp_gemm.current_platform,\n        \"get_device_capability\",\n        lambda: capability,\n    )\n\n    assert (\n        qwen4_exp_gemm.QWEN4_EXP_GEMM_PLANS_BY_CAPABILITY.get(\n            qwen4_exp_gemm.current_platform.get_device_capability(), {}\n        )\n        == expected_plans\n    )",
+    "assertions": [
+      [
+        807,
+        "assert qwen4_exp_gemm.QWEN4_EXP_GEMM_PLANS_BY_CAPABILITY.get(qwen4_exp_gemm.current_platform.get_device_capability(), {}) == expected_plans"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_installation_is_shape_specific_and_unquantized",
+    "line": "815",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "property": "受控形状、平台、格式及配置下核对选中的实现、返回身份或回退结果；assert isinstance(root.dsv3_only.quant_method, k3_gemm.KimiK3LowLatencyLinearMethod)；assert isinstance(root.cute.quant_method, k3_gemm.KimiK3LowLatencyLinearMethod)；assert isinstance(root.residual.quant_method, k3_gemm.KimiK3LowLatencyLinearMethod)；assert root.quantized.quant_method is quantized_method；assert type(root.unlisted.quant_method) is k3_gemm.UnquantizedLinearMethod；assert isinstance(root.lm_head.quant_method, k3_gemm.KimiK3LowLatencyEmbeddingMethod)；assert warmup_configs == {config for key in ((6288, 7168), (7168, 3584), (20480, 7168)) for _, config in k3_gemm.KIMI_K3_PROJECTIONS[key].cute_configs}；assert residual_warmup_configs == {config for _, config in k3_gemm.KIMI_K3_PROJECTIONS[7168, 3584].residual_configs}",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:863;tests/kernels/test_bf16_skinny_gemm.py:864;tests/kernels/test_bf16_skinny_gemm.py:865;tests/kernels/test_bf16_skinny_gemm.py:866;tests/kernels/test_bf16_skinny_gemm.py:867;tests/kernels/test_bf16_skinny_gemm.py:868;tests/kernels/test_bf16_skinny_gemm.py:872;tests/kernels/test_bf16_skinny_gemm.py:877",
+    "conditions": "参数与受控条件：；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 27,
+    "source_body": "def test_installation_is_shape_specific_and_unquantized(\n    monkeypatch: pytest.MonkeyPatch,\n) -> None:\n    class FakeLinear(nn.Module):\n        def __init__(self, quant_method: object, n: int, k: int) -> None:\n            super().__init__()\n            self.quant_method = quant_method\n            self.weight = torch.empty(n, k)\n\n    class FakeHead(nn.Module):\n        def __init__(self, n: int, k: int) -> None:\n            super().__init__()\n            self.quant_method = k3_gemm.UnquantizedEmbeddingMethod()\n            self.weight = torch.empty(n, k)\n\n    root = nn.Module()\n    # dsv3-only shape (no cute warmup contribution).\n    root.dsv3_only = FakeLinear(k3_gemm.UnquantizedLinearMethod(), 2304, 1536)\n    # quantized: must be left untouched.\n    quantized_method = object()\n    root.quantized = FakeLinear(quantized_method, 6288, 7168)\n    # cute shape.\n    root.cute = FakeLinear(k3_gemm.UnquantizedLinearMethod(), 6288, 7168)\n    # cute + residual shape.\n    root.residual = FakeLinear(k3_gemm.UnquantizedLinearMethod(), 7168, 3584)\n    # shape absent from the table: must be left untouched.\n    root.unlisted = FakeLinear(k3_gemm.UnquantizedLinearMethod(), 1234, 5678)\n    root.lm_head = FakeHead(20480, 7168)\n\n    monkeypatch.setattr(k3_gemm, \"LinearBase\", FakeLinear)\n    monkeypatch.setattr(k3_gemm, \"ParallelLMHead\", FakeHead)\n    monkeypatch.setattr(k3_gemm, \"_is_sm103\", lambda: True)\n    warmup_configs: set[SkinnyGemmConfig] = set()\n    residual_warmup_configs: set[SkinnyGemmConfig] = set()\n    monkeypatch.setattr(k3_gemm.shape_dynamic_skinny_gemm, \"is_available\", lambda: True)\n\n    def request_warmup_configs(dtype, configs, *, has_residual=False):\n        target = residual_warmup_configs if has_residual else warmup_configs\n        target.update(configs)\n\n    monkeypatch.setattr(\n        k3_gemm.shape_dynamic_skinny_gemm,\n        \"request_warmup_configs\",\n        request_warmup_configs,\n    )\n\n    k3_gemm.enable_kimi_k3_low_latency_gemm(root, torch.bfloat16)\n\n    assert isinstance(root.dsv3_only.quant_method, k3_gemm.KimiK3LowLatencyLinearMethod)\n    assert isinstance(root.cute.quant_method, k3_gemm.KimiK3LowLatencyLinearMethod)\n    assert isinstance(root.residual.quant_method, k3_gemm.KimiK3LowLatencyLinearMethod)\n    assert root.quantized.quant_method is quantized_method\n    assert type(root.unlisted.quant_method) is k3_gemm.UnquantizedLinearMethod\n    assert isinstance(\n        root.lm_head.quant_method, k3_gemm.KimiK3LowLatencyEmbeddingMethod\n    )\n    # Warmup covers only the installed modules' local (N, K).\n    assert warmup_configs == {\n        config\n        for key in ((6288, 7168), (7168, 3584), (20480, 7168))\n        for _, config in k3_gemm.KIMI_K3_PROJECTIONS[key].cute_configs\n    }\n    assert residual_warmup_configs == {\n        config\n        for _, config in k3_gemm.KIMI_K3_PROJECTIONS[(7168, 3584)].residual_configs\n    }",
+    "assertions": [
+      [
+        863,
+        "assert isinstance(root.dsv3_only.quant_method, k3_gemm.KimiK3LowLatencyLinearMethod)"
+      ],
+      [
+        864,
+        "assert isinstance(root.cute.quant_method, k3_gemm.KimiK3LowLatencyLinearMethod)"
+      ],
+      [
+        865,
+        "assert isinstance(root.residual.quant_method, k3_gemm.KimiK3LowLatencyLinearMethod)"
+      ],
+      [
+        866,
+        "assert root.quantized.quant_method is quantized_method"
+      ],
+      [
+        867,
+        "assert type(root.unlisted.quant_method) is k3_gemm.UnquantizedLinearMethod"
+      ],
+      [
+        868,
+        "assert isinstance(root.lm_head.quant_method, k3_gemm.KimiK3LowLatencyEmbeddingMethod)"
+      ],
+      [
+        872,
+        "assert warmup_configs == {config for key in ((6288, 7168), (7168, 3584), (20480, 7168)) for _, config in k3_gemm.KIMI_K3_PROJECTIONS[key].cute_configs}"
+      ],
+      [
+        877,
+        "assert residual_warmup_configs == {config for _, config in k3_gemm.KIMI_K3_PROJECTIONS[7168, 3584].residual_configs}"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_installation_requires_bf16_sm103",
+    "line": "887",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "property": "受控形状、平台、格式及配置下核对选中的实现、返回身份或回退结果；assert type(root.projection.quant_method) is k3_gemm.UnquantizedLinearMethod",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:912",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('dtype,platform_enabled', [(torch.float16, True), (torch.bfloat16, False)])；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 28,
+    "source_body": "def test_installation_requires_bf16_sm103(\n    monkeypatch: pytest.MonkeyPatch,\n    dtype: torch.dtype,\n    platform_enabled: bool,\n) -> None:\n    class FakeLinear(nn.Module):\n        def __init__(self) -> None:\n            super().__init__()\n            self.quant_method = k3_gemm.UnquantizedLinearMethod()\n            self.weight = torch.empty(2304, 1536)\n\n    root = nn.Module()\n    root.projection = FakeLinear()\n    monkeypatch.setattr(k3_gemm, \"LinearBase\", FakeLinear)\n    monkeypatch.setattr(k3_gemm, \"_is_sm103\", lambda: platform_enabled)\n    # Pin the rest of the capability probe so platform_enabled=False stays a\n    # no-op even when the test itself runs on SM100 hardware.\n    monkeypatch.setattr(\n        k3_gemm.current_platform,\n        \"is_device_capability\",\n        lambda cc: platform_enabled and cc == (10, 3),\n    )\n\n    k3_gemm.enable_kimi_k3_low_latency_gemm(root, dtype)\n\n    assert type(root.projection.quant_method) is k3_gemm.UnquantizedLinearMethod",
+    "assertions": [
+      [
+        912,
+        "assert type(root.projection.quant_method) is k3_gemm.UnquantizedLinearMethod"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_glm_cute_selected_shapes",
+    "line": "953",
+    "unit_id": "compute.operator_reference_relation",
+    "property": "实际输出按本入口的线性/矩阵乘及可选残差参考进行数值比较；assert output is not None；torch.testing.assert_close(output.float(), reference, rtol=0.02, atol=0.2)",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:964;tests/kernels/test_bf16_skinny_gemm.py:966;tests/kernels/test_bf16_skinny_gemm.py:948",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('capability,n,k,num_tokens', GLM_CUTE_CASES)；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 GPU门禁保留；cosine阈值或assert_close容差以逐项断言为准，图重放只在该入口显式使用时成立。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 29,
+    "source_body": "def test_glm_cute_selected_shapes(\n    capability: tuple[int, int], n: int, k: int, num_tokens: int\n) -> None:\n    _require_capability_and_cute(capability)\n    torch.manual_seed(42)\n    x = torch.randn(num_tokens, k, dtype=torch.bfloat16, device=\"cuda\")\n    weight = torch.randn(n, k, dtype=torch.bfloat16, device=\"cuda\")\n    plan = _glm52_device_plan(weight, num_tokens, \"cute\")\n\n    output = glm52_gemm.run_glm52_plan(plan, x, weight)\n\n    assert output is not None\n    reference = x.float() @ weight.float().t()\n    torch.testing.assert_close(output.float(), reference, rtol=2e-2, atol=2e-1)",
+    "assertions": [
+      [
+        964,
+        "assert output is not None"
+      ],
+      [
+        966,
+        "torch.testing.assert_close(output.float(), reference, rtol=0.02, atol=0.2)"
+      ]
+    ],
+    "helper_checks": [
+      [
+        "_glm52_device_plan",
+        948,
+        "assert plan is not None and plan[num_tokens][0] == backend"
+      ]
+    ],
+    "helper_sources": {
+      "_require_capability_and_cute": "def _require_capability_and_cute(capability: tuple[int, int]) -> None:\n    if (\n        not torch.cuda.is_available()\n        or torch.cuda.get_device_capability() != capability\n    ):\n        pytest.skip(f\"CuTe DSL selection requires SM{capability[0]}{capability[1]}\")\n    if not k3_gemm.shape_dynamic_skinny_gemm.is_available():\n        pytest.skip(\"CuTe DSL is not available\")",
+      "_glm52_device_plan": "def _glm52_device_plan(\n    weight: torch.Tensor, num_tokens: int, backend: str\n) -> dict[int, glm52_gemm.ResolvedCall]:\n    \"\"\"Plan from the device's own table, checked to route M to ``backend``.\"\"\"\n    plan = glm52_gemm.build_glm52_plan(weight, torch.bfloat16)\n    assert plan is not None and plan[num_tokens][0] == backend\n    return plan"
+    },
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_qwen4_exp_sm90_selected_shapes",
+    "line": "970",
+    "unit_id": "compute.operator_reference_relation",
+    "property": "实际输出按本入口的线性/矩阵乘及可选残差参考进行数值比较；assert selected == config；assert cosine > 0.999",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:982;tests/kernels/test_bf16_skinny_gemm.py:989",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('n,k,num_tokens,config', QWEN4_EXP_SM90_CASES)；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 GPU门禁保留；cosine阈值或assert_close容差以逐项断言为准，图重放只在该入口显式使用时成立。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 30,
+    "source_body": "def test_qwen4_exp_sm90_selected_shapes(\n    n: int,\n    k: int,\n    num_tokens: int,\n    config: SkinnyGemmConfig,\n) -> None:\n    _require_capability_and_cute((9, 0))\n    torch.manual_seed(42 + num_tokens)\n    x = torch.randn(num_tokens, k, dtype=torch.bfloat16, device=\"cuda\")\n    weight = torch.randn(n, k, dtype=torch.bfloat16, device=\"cuda\")\n\n    selected = qwen4_exp_gemm.QWEN4_EXP_SM90_GEMM_PLANS[(n, k)][num_tokens]\n    assert selected == config\n    output = qwen4_exp_gemm._qwen4_exp_low_latency_gemm(x, weight)\n\n    reference = torch.nn.functional.linear(x, weight)\n    cosine = torch.nn.functional.cosine_similarity(\n        output.float().flatten(), reference.float().flatten(), dim=0\n    ).item()\n    assert cosine > 0.999",
+    "assertions": [
+      [
+        982,
+        "assert selected == config"
+      ],
+      [
+        989,
+        "assert cosine > 0.999"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {
+      "_require_capability_and_cute": "def _require_capability_and_cute(capability: tuple[int, int]) -> None:\n    if (\n        not torch.cuda.is_available()\n        or torch.cuda.get_device_capability() != capability\n    ):\n        pytest.skip(f\"CuTe DSL selection requires SM{capability[0]}{capability[1]}\")\n    if not k3_gemm.shape_dynamic_skinny_gemm.is_available():\n        pytest.skip(\"CuTe DSL is not available\")"
+    },
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_qwen4_exp_sm100_selected_shapes",
+    "line": "993",
+    "unit_id": "compute.operator_reference_relation",
+    "property": "实际输出按本入口的线性/矩阵乘及可选残差参考进行数值比较；assert selected == config；assert cosine > 0.999",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:1005;tests/kernels/test_bf16_skinny_gemm.py:1012",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('n,k,num_tokens,config', QWEN4_EXP_SM100_CASES)；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 GPU门禁保留；cosine阈值或assert_close容差以逐项断言为准，图重放只在该入口显式使用时成立。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 31,
+    "source_body": "def test_qwen4_exp_sm100_selected_shapes(\n    n: int,\n    k: int,\n    num_tokens: int,\n    config: SkinnyGemmConfig,\n) -> None:\n    _require_capability_and_cute((10, 0))\n    torch.manual_seed(42 + num_tokens)\n    x = torch.randn(num_tokens, k, dtype=torch.bfloat16, device=\"cuda\")\n    weight = torch.randn(n, k, dtype=torch.bfloat16, device=\"cuda\")\n\n    selected = qwen4_exp_gemm.QWEN4_EXP_SM100_GEMM_PLANS[(n, k)][num_tokens]\n    assert selected == config\n    output = qwen4_exp_gemm._qwen4_exp_low_latency_gemm(x, weight)\n\n    reference = torch.nn.functional.linear(x, weight)\n    cosine = torch.nn.functional.cosine_similarity(\n        output.float().flatten(), reference.float().flatten(), dim=0\n    ).item()\n    assert cosine > 0.999",
+    "assertions": [
+      [
+        1005,
+        "assert selected == config"
+      ],
+      [
+        1012,
+        "assert cosine > 0.999"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {
+      "_require_capability_and_cute": "def _require_capability_and_cute(capability: tuple[int, int]) -> None:\n    if (\n        not torch.cuda.is_available()\n        or torch.cuda.get_device_capability() != capability\n    ):\n        pytest.skip(f\"CuTe DSL selection requires SM{capability[0]}{capability[1]}\")\n    if not k3_gemm.shape_dynamic_skinny_gemm.is_available():\n        pytest.skip(\"CuTe DSL is not available\")"
+    },
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_qwen4_exp_sm121_selected_shapes",
+    "line": "1016",
+    "unit_id": "compute.operator_reference_relation",
+    "property": "实际输出按本入口的线性/矩阵乘及可选残差参考进行数值比较；assert selected == config；assert cosine > 0.999",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:1028;tests/kernels/test_bf16_skinny_gemm.py:1035",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('n,k,num_tokens,config', QWEN4_EXP_SM121_CASES)；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 GPU门禁保留；cosine阈值或assert_close容差以逐项断言为准，图重放只在该入口显式使用时成立。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 32,
+    "source_body": "def test_qwen4_exp_sm121_selected_shapes(\n    n: int,\n    k: int,\n    num_tokens: int,\n    config: SkinnyGemmConfig,\n) -> None:\n    _require_capability_and_cute((12, 1))\n    torch.manual_seed(42 + num_tokens)\n    x = torch.randn(num_tokens, k, dtype=torch.bfloat16, device=\"cuda\")\n    weight = torch.randn(n, k, dtype=torch.bfloat16, device=\"cuda\")\n\n    selected = qwen4_exp_gemm.QWEN4_EXP_SM121_GEMM_PLANS[(n, k)][num_tokens]\n    assert selected == config\n    output = qwen4_exp_gemm._qwen4_exp_low_latency_gemm(x, weight)\n\n    reference = torch.nn.functional.linear(x, weight)\n    cosine = torch.nn.functional.cosine_similarity(\n        output.float().flatten(), reference.float().flatten(), dim=0\n    ).item()\n    assert cosine > 0.999",
+    "assertions": [
+      [
+        1028,
+        "assert selected == config"
+      ],
+      [
+        1035,
+        "assert cosine > 0.999"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {
+      "_require_capability_and_cute": "def _require_capability_and_cute(capability: tuple[int, int]) -> None:\n    if (\n        not torch.cuda.is_available()\n        or torch.cuda.get_device_capability() != capability\n    ):\n        pytest.skip(f\"CuTe DSL selection requires SM{capability[0]}{capability[1]}\")\n    if not k3_gemm.shape_dynamic_skinny_gemm.is_available():\n        pytest.skip(\"CuTe DSL is not available\")"
+    },
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_skinny_gemm_plans_are_valid",
+    "line": "1047",
+    "unit_id": "compute.kernel_plan_consistency",
+    "property": "计划表的形状键、配置约束、编译实例或分派对应满足本入口的具体断言；assert config.num_rows == num_tokens；assert config.block_size % 32 == 0；assert n % config.outputs_per_block == 0；assert k % k_tile == 0；assert config.static_k in (None, k)；assert config.static_k >= 2 * k_tile",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:1051;tests/kernels/test_bf16_skinny_gemm.py:1052;tests/kernels/test_bf16_skinny_gemm.py:1053;tests/kernels/test_bf16_skinny_gemm.py:1055;tests/kernels/test_bf16_skinny_gemm.py:1056;tests/kernels/test_bf16_skinny_gemm.py:1058",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('n,k,num_tokens,config', [pytest.param(n, k, num_tokens, config, id=f'{capability}-{n}x{k}-m{num_tokens}') for capability, plans in skinny_plans.SKINNY_GEMM_PLANS_BY_CAPABILITY.items() for (n, k), shape_plans in plans.items() for num_tokens, config in shape_plans.items()])；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 33,
+    "source_body": "def test_skinny_gemm_plans_are_valid(\n    n: int, k: int, num_tokens: int, config: SkinnyGemmConfig\n) -> None:\n    \"\"\"Every registered plan must satisfy the wrapper and kernel constraints.\"\"\"\n    assert config.num_rows == num_tokens\n    assert config.block_size % 32 == 0\n    assert n % config.outputs_per_block == 0\n    k_tile = config.block_size * config.vector_width\n    assert k % k_tile == 0\n    assert config.static_k in (None, k)\n    if config.static_k is not None:\n        assert config.static_k >= 2 * k_tile",
+    "assertions": [
+      [
+        1051,
+        "assert config.num_rows == num_tokens"
+      ],
+      [
+        1052,
+        "assert config.block_size % 32 == 0"
+      ],
+      [
+        1053,
+        "assert n % config.outputs_per_block == 0"
+      ],
+      [
+        1055,
+        "assert k % k_tile == 0"
+      ],
+      [
+        1056,
+        "assert config.static_k in (None, k)"
+      ],
+      [
+        1058,
+        "assert config.static_k >= 2 * k_tile"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_maybe_use_skinny_gemm",
+    "line": "1074",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "property": "受控形状、平台、格式及配置下核对选中的实现、返回身份或回退结果；assert (4096, 1024) in skinny_plans.SM121_SKINNY_GEMM_PLANS；assert (4096, 128) not in skinny_plans.SM121_SKINNY_GEMM_PLANS；assert getattr(layer, 'use_skinny_gemm', False) is expected",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:1084;tests/kernels/test_bf16_skinny_gemm.py:1085;tests/kernels/test_bf16_skinny_gemm.py:1104",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('dtype,bias,k,ndim,batch_invariant,expected', [pytest.param(torch.bfloat16, False, 1024, 2, False, True, id='planned'), pytest.param(torch.float16, False, 1024, 2, False, False, id='fp16'), pytest.param(torch.float32, False, 1024, 2, False, False, id='fp32'), pytest.param(torch.bfloat16, True, 1024, 2, False, False, id='bias'), pytest.param(torch.bfloat16, False, 128, 2, False, False, id='unlisted'), pytest.param(torch.bfloat16, False, 1024, 2, True, False, id='batch-invariant'), pytest.param(torch.bfloat16, False, 1024, 3, False, False, id='conv1d'), pytest.param(torch.bfloat16, False, 1024, 4, False, False, id='conv2d')])；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 34,
+    "source_body": "def test_maybe_use_skinny_gemm(\n    monkeypatch: pytest.MonkeyPatch,\n    dtype: torch.dtype,\n    bias: bool,\n    k: int,\n    ndim: int,\n    batch_invariant: bool,\n    expected: bool,\n) -> None:\n    \"\"\"Only eligible layers are marked; CPU tensors suffice for selection.\"\"\"\n    assert (4096, 1024) in skinny_plans.SM121_SKINNY_GEMM_PLANS\n    assert (4096, 128) not in skinny_plans.SM121_SKINNY_GEMM_PLANS\n    # Isolate hardware/dependency detection, keeping the real plan lookup.\n    monkeypatch.setattr(\n        skinny_plans.current_platform, \"get_device_capability\", lambda: (12, 1)\n    )\n    monkeypatch.setattr(\n        skinny_plans.shape_dynamic_skinny_gemm, \"is_available\", lambda: True\n    )\n    monkeypatch.setenv(\"VLLM_BATCH_INVARIANT\", str(int(batch_invariant)))\n    layer: nn.Module\n    if ndim == 2:\n        layer = nn.Linear(k, 4096, bias=bias, dtype=dtype, device=\"cpu\")\n    elif ndim == 3:\n        layer = nn.Conv1d(k, 4096, 1, bias=bias, dtype=dtype, device=\"cpu\")\n    else:\n        layer = nn.Conv2d(k, 4096, 1, bias=bias, dtype=dtype, device=\"cpu\")\n\n    maybe_use_skinny_gemm(layer)\n\n    assert getattr(layer, \"use_skinny_gemm\", False) is expected",
+    "assertions": [
+      [
+        1084,
+        "assert (4096, 1024) in skinny_plans.SM121_SKINNY_GEMM_PLANS"
+      ],
+      [
+        1085,
+        "assert (4096, 128) not in skinny_plans.SM121_SKINNY_GEMM_PLANS"
+      ],
+      [
+        1104,
+        "assert getattr(layer, 'use_skinny_gemm', False) is expected"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_glm52_q_b_nonpacked_single_row_falls_back",
+    "line": "1107",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "property": "受控形状、平台、格式及配置下核对选中的实现、返回身份或回退结果；assert x.stride() == (glm52_gemm.GLM52_QKV_A_PROJECTION.n, 1)；assert not glm52_gemm._runtime_ok(x, weight)；assert output is None",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:1119;tests/kernels/test_bf16_skinny_gemm.py:1120;tests/kernels/test_bf16_skinny_gemm.py:1123",
+    "conditions": "参数与受控条件：；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 35,
+    "source_body": "def test_glm52_q_b_nonpacked_single_row_falls_back() -> None:\n    _require_sm103_and_cute()\n    spec = glm52_gemm.GLM52_Q_B_PROJECTION\n    storage = torch.randn(\n        1,\n        glm52_gemm.GLM52_QKV_A_PROJECTION.n,\n        dtype=torch.bfloat16,\n        device=\"cuda\",\n    )\n    x = storage[:, : spec.k]\n    weight = torch.randn(spec.n, spec.k, dtype=torch.bfloat16, device=\"cuda\")\n\n    assert x.stride() == (glm52_gemm.GLM52_QKV_A_PROJECTION.n, 1)\n    assert not glm52_gemm._runtime_ok(x, weight)\n    output = glm52_gemm.run_glm52_plan(spec.build_plan(), x, weight)\n\n    assert output is None",
+    "assertions": [
+      [
+        1119,
+        "assert x.stride() == (glm52_gemm.GLM52_QKV_A_PROJECTION.n, 1)"
+      ],
+      [
+        1120,
+        "assert not glm52_gemm._runtime_ok(x, weight)"
+      ],
+      [
+        1123,
+        "assert output is None"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {
+      "_require_sm103_and_cute": "def _require_sm103_and_cute() -> None:\n    _require_capability_and_cute((10, 3))"
+    },
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_glm_cute_selected_shapes_cuda_graph_capture",
+    "line": "1127",
+    "unit_id": "compute.operator_reference_relation",
+    "property": "实际输出按本入口的线性/矩阵乘及可选残差参考进行数值比较；assert output is not None；torch.testing.assert_close(output.float(), reference, rtol=0.02, atol=0.2)",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:1143;tests/kernels/test_bf16_skinny_gemm.py:1145;tests/kernels/test_bf16_skinny_gemm.py:948",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('capability,n,k,num_tokens', GLM_CUTE_CASES)；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 GPU门禁保留；cosine阈值或assert_close容差以逐项断言为准，图重放只在该入口显式使用时成立。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 36,
+    "source_body": "def test_glm_cute_selected_shapes_cuda_graph_capture(\n    capability: tuple[int, int], n: int, k: int, num_tokens: int\n) -> None:\n    _require_capability_and_cute(capability)\n    x = torch.randn(num_tokens, k, dtype=torch.bfloat16, device=\"cuda\")\n    weight = torch.randn(n, k, dtype=torch.bfloat16, device=\"cuda\")\n    plan = _glm52_device_plan(weight, num_tokens, \"cute\")\n    glm52_gemm.run_glm52_plan(plan, x, weight)\n    torch.accelerator.synchronize()\n\n    graph = torch.cuda.CUDAGraph()\n    with torch.cuda.graph(graph):\n        output = glm52_gemm.run_glm52_plan(plan, x, weight)\n    graph.replay()\n    torch.accelerator.synchronize()\n\n    assert output is not None\n    reference = x.float() @ weight.float().t()\n    torch.testing.assert_close(output.float(), reference, rtol=2e-2, atol=2e-1)",
+    "assertions": [
+      [
+        1143,
+        "assert output is not None"
+      ],
+      [
+        1145,
+        "torch.testing.assert_close(output.float(), reference, rtol=0.02, atol=0.2)"
+      ]
+    ],
+    "helper_checks": [
+      [
+        "_glm52_device_plan",
+        948,
+        "assert plan is not None and plan[num_tokens][0] == backend"
+      ]
+    ],
+    "helper_sources": {
+      "_require_capability_and_cute": "def _require_capability_and_cute(capability: tuple[int, int]) -> None:\n    if (\n        not torch.cuda.is_available()\n        or torch.cuda.get_device_capability() != capability\n    ):\n        pytest.skip(f\"CuTe DSL selection requires SM{capability[0]}{capability[1]}\")\n    if not k3_gemm.shape_dynamic_skinny_gemm.is_available():\n        pytest.skip(\"CuTe DSL is not available\")",
+      "_glm52_device_plan": "def _glm52_device_plan(\n    weight: torch.Tensor, num_tokens: int, backend: str\n) -> dict[int, glm52_gemm.ResolvedCall]:\n    \"\"\"Plan from the device's own table, checked to route M to ``backend``.\"\"\"\n    plan = glm52_gemm.build_glm52_plan(weight, torch.bfloat16)\n    assert plan is not None and plan[num_tokens][0] == backend\n    return plan"
+    },
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_cute_selected_shapes",
+    "line": "1149",
+    "unit_id": "compute.operator_reference_relation",
+    "property": "实际输出按本入口的线性/矩阵乘及可选残差参考进行数值比较；assert output is not None；assert cosine > 0.999",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:1159;tests/kernels/test_bf16_skinny_gemm.py:1164",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('capability,n,k,num_tokens', CUTE_CASES)；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 GPU门禁保留；cosine阈值或assert_close容差以逐项断言为准，图重放只在该入口显式使用时成立。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 37,
+    "source_body": "def test_cute_selected_shapes(\n    capability: tuple[int, int], n: int, k: int, num_tokens: int\n) -> None:\n    _require_capability_and_cute(capability)\n    torch.manual_seed(42)\n    x = torch.randn(num_tokens, k, dtype=torch.bfloat16, device=\"cuda\")\n    weight = torch.randn(n, k, dtype=torch.bfloat16, device=\"cuda\")\n\n    output = k3_gemm.try_low_latency_gemm(x, weight)\n\n    assert output is not None\n    reference = torch.nn.functional.linear(x, weight)\n    cosine = torch.nn.functional.cosine_similarity(\n        output.float().flatten(), reference.float().flatten(), dim=0\n    ).item()\n    assert cosine > 0.999",
+    "assertions": [
+      [
+        1159,
+        "assert output is not None"
+      ],
+      [
+        1164,
+        "assert cosine > 0.999"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {
+      "_require_capability_and_cute": "def _require_capability_and_cute(capability: tuple[int, int]) -> None:\n    if (\n        not torch.cuda.is_available()\n        or torch.cuda.get_device_capability() != capability\n    ):\n        pytest.skip(f\"CuTe DSL selection requires SM{capability[0]}{capability[1]}\")\n    if not k3_gemm.shape_dynamic_skinny_gemm.is_available():\n        pytest.skip(\"CuTe DSL is not available\")"
+    },
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_kda_projection_overlap_cuda_graph",
+    "line": "1168",
+    "unit_id": "compute.operator_reference_relation",
+    "property": "实际输出按本入口的线性/矩阵乘及可选残差参考进行数值比较；assert beta.stride() == (140 if num_tokens == 1 else 144, 1)；assert cosine > 0.999",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:1203;tests/kernels/test_bf16_skinny_gemm.py:1223",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('num_tokens', [1, 2, 3, 4, 8, 9, 10, 11, 12, 13, 14])；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 GPU门禁保留；cosine阈值或assert_close容差以逐项断言为准，图重放只在该入口显式使用时成立。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 38,
+    "source_body": "def test_kda_projection_overlap_cuda_graph(num_tokens: int) -> None:\n    \"\"\"The TP8 split must preserve projection results across both streams.\"\"\"\n    _require_sm103_and_cute()\n    _require_sm103_and_dsv3()\n    torch.manual_seed(43)\n    hidden_states = torch.randn(num_tokens, 7168, dtype=torch.bfloat16, device=\"cuda\")\n    packed_weight = torch.randn(6288, 7168, dtype=torch.bfloat16, device=\"cuda\")\n    f_b_weight = torch.randn(1536, 128, dtype=torch.bfloat16, device=\"cuda\")\n    aux_stream = torch.cuda.Stream()\n    events = (torch.cuda.Event(), torch.cuda.Event())\n\n    k3_gemm.run_kda_projection_overlap(\n        hidden_states,\n        packed_weight,\n        f_b_weight,\n        aux_stream,\n        events,\n    )\n    torch.accelerator.synchronize()\n\n    capture_stream = torch.cuda.Stream()\n    capture_stream.wait_stream(torch.cuda.current_stream())\n    graph = torch.cuda.CUDAGraph()\n    with torch.cuda.graph(graph, stream=capture_stream):\n        projected_qkvg, g1, beta = k3_gemm.run_kda_projection_overlap(\n            hidden_states,\n            packed_weight,\n            f_b_weight,\n            aux_stream,\n            events,\n        )\n    torch.cuda.current_stream().wait_stream(capture_stream)\n    graph.replay()\n    torch.accelerator.synchronize()\n\n    assert beta.stride() == ((140 if num_tokens == 1 else 144), 1)\n\n    expected_qkvg = torch.nn.functional.linear(\n        hidden_states.float(), packed_weight[:6144].float()\n    )\n    expected_fab = torch.nn.functional.linear(\n        hidden_states.float(), packed_weight[6144:6284].float()\n    )\n    expected_g1 = torch.nn.functional.linear(\n        expected_fab[:, :128].to(torch.bfloat16).float(),\n        f_b_weight.float(),\n    )\n    for actual, expected in (\n        (projected_qkvg, expected_qkvg),\n        (g1, expected_g1),\n        (beta, expected_fab[:, 128:]),\n    ):\n        cosine = torch.nn.functional.cosine_similarity(\n            actual.float().flatten(), expected.flatten(), dim=0\n        ).item()\n        assert cosine > 0.999",
+    "assertions": [
+      [
+        1203,
+        "assert beta.stride() == (140 if num_tokens == 1 else 144, 1)"
+      ],
+      [
+        1223,
+        "assert cosine > 0.999"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {
+      "_require_sm103_and_dsv3": "def _require_sm103_and_dsv3() -> None:\n    _require_capability_and_dsv3((10, 3))",
+      "_require_sm103_and_cute": "def _require_sm103_and_cute() -> None:\n    _require_capability_and_cute((10, 3))"
+    },
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_dsv3_selected_shapes",
+    "line": "1251",
+    "unit_id": "compute.operator_reference_relation",
+    "property": "实际输出按本入口的线性/矩阵乘及可选残差参考进行数值比较；assert output is not None；assert cosine > 0.999",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:1261;tests/kernels/test_bf16_skinny_gemm.py:1266",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('capability,num_tokens,n,k', DSV3_CASES)；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 GPU门禁保留；cosine阈值或assert_close容差以逐项断言为准，图重放只在该入口显式使用时成立。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 39,
+    "source_body": "def test_dsv3_selected_shapes(\n    capability: tuple[int, int], num_tokens: int, n: int, k: int\n) -> None:\n    _require_capability_and_dsv3(capability)\n    torch.manual_seed(42)\n    x = torch.randn(num_tokens, k, dtype=torch.bfloat16, device=\"cuda\")\n    weight = torch.randn(n, k, dtype=torch.bfloat16, device=\"cuda\")\n\n    output = k3_gemm.try_low_latency_gemm(x, weight)\n\n    assert output is not None\n    reference = torch.nn.functional.linear(x, weight)\n    cosine = torch.nn.functional.cosine_similarity(\n        output.float().flatten(), reference.float().flatten(), dim=0\n    ).item()\n    assert cosine > 0.999",
+    "assertions": [
+      [
+        1261,
+        "assert output is not None"
+      ],
+      [
+        1266,
+        "assert cosine > 0.999"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {
+      "_require_capability_and_dsv3": "def _require_capability_and_dsv3(capability: tuple[int, int]) -> None:\n    if (\n        not torch.cuda.is_available()\n        or torch.cuda.get_device_capability() != capability\n    ):\n        pytest.skip(f\"dsv3_fused_a selection requires SM{capability[0]}{capability[1]}\")\n    if not hasattr(torch.ops._C, \"dsv3_fused_a_gemm\"):\n        pytest.skip(\"dsv3_fused_a_gemm was not built\")"
+    },
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_glm_dsv3_selected_shapes",
+    "line": "1270",
+    "unit_id": "compute.operator_reference_relation",
+    "property": "实际输出按本入口的线性/矩阵乘及可选残差参考进行数值比较；assert output is not None；assert cosine > 0.999",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:1281;tests/kernels/test_bf16_skinny_gemm.py:1286;tests/kernels/test_bf16_skinny_gemm.py:948",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('capability,num_tokens,n,k', GLM_DSV3_CASES)；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 GPU门禁保留；cosine阈值或assert_close容差以逐项断言为准，图重放只在该入口显式使用时成立。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 40,
+    "source_body": "def test_glm_dsv3_selected_shapes(\n    capability: tuple[int, int], num_tokens: int, n: int, k: int\n) -> None:\n    _require_capability_and_dsv3(capability)\n    torch.manual_seed(42)\n    x = torch.randn(num_tokens, k, dtype=torch.bfloat16, device=\"cuda\")\n    weight = torch.randn(n, k, dtype=torch.bfloat16, device=\"cuda\")\n    plan = _glm52_device_plan(weight, num_tokens, \"dsv3_fused_a\")\n\n    output = glm52_gemm.run_glm52_plan(plan, x, weight)\n\n    assert output is not None\n    reference = torch.nn.functional.linear(x, weight)\n    cosine = torch.nn.functional.cosine_similarity(\n        output.float().flatten(), reference.float().flatten(), dim=0\n    ).item()\n    assert cosine > 0.999",
+    "assertions": [
+      [
+        1281,
+        "assert output is not None"
+      ],
+      [
+        1286,
+        "assert cosine > 0.999"
+      ]
+    ],
+    "helper_checks": [
+      [
+        "_glm52_device_plan",
+        948,
+        "assert plan is not None and plan[num_tokens][0] == backend"
+      ]
+    ],
+    "helper_sources": {
+      "_require_capability_and_dsv3": "def _require_capability_and_dsv3(capability: tuple[int, int]) -> None:\n    if (\n        not torch.cuda.is_available()\n        or torch.cuda.get_device_capability() != capability\n    ):\n        pytest.skip(f\"dsv3_fused_a selection requires SM{capability[0]}{capability[1]}\")\n    if not hasattr(torch.ops._C, \"dsv3_fused_a_gemm\"):\n        pytest.skip(\"dsv3_fused_a_gemm was not built\")",
+      "_glm52_device_plan": "def _glm52_device_plan(\n    weight: torch.Tensor, num_tokens: int, backend: str\n) -> dict[int, glm52_gemm.ResolvedCall]:\n    \"\"\"Plan from the device's own table, checked to route M to ``backend``.\"\"\"\n    plan = glm52_gemm.build_glm52_plan(weight, torch.bfloat16)\n    assert plan is not None and plan[num_tokens][0] == backend\n    return plan"
+    },
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_kda_f_b_nonpacked_dsv3_dispatches",
+    "line": "1290",
+    "unit_id": "compute.operator_reference_relation",
+    "property": "实际输出按本入口的线性/矩阵乘及可选残差参考进行数值比较；assert x.stride() == (6288, 1)；assert k3_gemm._runtime_ok(x, weight)；torch.testing.assert_close(output, reference)",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:1301;tests/kernels/test_bf16_skinny_gemm.py:1302;tests/kernels/test_bf16_skinny_gemm.py:1306",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('num_tokens', [1, 4])；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 GPU门禁保留；cosine阈值或assert_close容差以逐项断言为准，图重放只在该入口显式使用时成立。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 41,
+    "source_body": "def test_kda_f_b_nonpacked_dsv3_dispatches(num_tokens: int) -> None:\n    _require_sm103_and_dsv3()\n    n, k = 1536, 128\n    storage = torch.randn(num_tokens, 6288, dtype=torch.bfloat16, device=\"cuda\")\n    x = storage[:, 6144 : 6144 + k]\n    weight = torch.randn(n, k, dtype=torch.bfloat16, device=\"cuda\")\n    spec = k3_gemm.KIMI_K3_PROJECTIONS[(n, k)]\n    method = k3_gemm.KimiK3LowLatencyLinearMethod(\n        k3_gemm._build_plan(spec), k3_gemm._build_residual_plan(spec)\n    )\n\n    assert x.stride() == (6288, 1)\n    assert k3_gemm._runtime_ok(x, weight)\n    output = method.apply(SimpleNamespace(weight=weight), x)\n\n    reference = torch.nn.functional.linear(x, weight)\n    torch.testing.assert_close(output, reference)",
+    "assertions": [
+      [
+        1301,
+        "assert x.stride() == (6288, 1)"
+      ],
+      [
+        1302,
+        "assert k3_gemm._runtime_ok(x, weight)"
+      ],
+      [
+        1306,
+        "torch.testing.assert_close(output, reference)"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {
+      "_require_sm103_and_dsv3": "def _require_sm103_and_dsv3() -> None:\n    _require_capability_and_dsv3((10, 3))"
+    },
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_selected_kernels_cuda_graph_capture",
+    "line": "1310",
+    "unit_id": "compute.operator_reference_relation",
+    "property": "实际输出按本入口的线性/矩阵乘及可选残差参考进行数值比较；assert cute_output is not None；assert dsv3_output is not None；assert cosine > 0.999",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:1336;tests/kernels/test_bf16_skinny_gemm.py:1337;tests/kernels/test_bf16_skinny_gemm.py:1346",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('capability,table', K3_GPU_TABLES)；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 GPU门禁保留；cosine阈值或assert_close容差以逐项断言为准，图重放只在该入口显式使用时成立。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 42,
+    "source_body": "def test_selected_kernels_cuda_graph_capture(\n    capability: tuple[int, int], table: K3ProjectionTable\n) -> None:\n    _require_capability_and_cute(capability)\n    _require_capability_and_dsv3(capability)\n    cute_spec = table[(6288, 7168)]\n    dsv3_spec = table[(1536, 128)]\n    cute_x = torch.randn(1, cute_spec.k, dtype=torch.bfloat16, device=\"cuda\")\n    cute_weight = torch.randn(\n        cute_spec.n, cute_spec.k, dtype=torch.bfloat16, device=\"cuda\"\n    )\n    dsv3_x = torch.randn(1, dsv3_spec.k, dtype=torch.bfloat16, device=\"cuda\")\n    dsv3_weight = torch.randn(\n        dsv3_spec.n, dsv3_spec.k, dtype=torch.bfloat16, device=\"cuda\"\n    )\n    k3_gemm.try_low_latency_gemm(cute_x, cute_weight)\n    k3_gemm.try_low_latency_gemm(dsv3_x, dsv3_weight)\n    torch.accelerator.synchronize()\n\n    graph = torch.cuda.CUDAGraph()\n    with torch.cuda.graph(graph):\n        cute_output = k3_gemm.try_low_latency_gemm(cute_x, cute_weight)\n        dsv3_output = k3_gemm.try_low_latency_gemm(dsv3_x, dsv3_weight)\n    graph.replay()\n    torch.accelerator.synchronize()\n\n    assert cute_output is not None\n    assert dsv3_output is not None\n    for output, activation, weight in (\n        (cute_output, cute_x, cute_weight),\n        (dsv3_output, dsv3_x, dsv3_weight),\n    ):\n        reference = torch.nn.functional.linear(activation, weight)\n        cosine = torch.nn.functional.cosine_similarity(\n            output.float().flatten(), reference.float().flatten(), dim=0\n        ).item()\n        assert cosine > 0.999",
+    "assertions": [
+      [
+        1336,
+        "assert cute_output is not None"
+      ],
+      [
+        1337,
+        "assert dsv3_output is not None"
+      ],
+      [
+        1346,
+        "assert cosine > 0.999"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {
+      "_require_capability_and_dsv3": "def _require_capability_and_dsv3(capability: tuple[int, int]) -> None:\n    if (\n        not torch.cuda.is_available()\n        or torch.cuda.get_device_capability() != capability\n    ):\n        pytest.skip(f\"dsv3_fused_a selection requires SM{capability[0]}{capability[1]}\")\n    if not hasattr(torch.ops._C, \"dsv3_fused_a_gemm\"):\n        pytest.skip(\"dsv3_fused_a_gemm was not built\")",
+      "_require_capability_and_cute": "def _require_capability_and_cute(capability: tuple[int, int]) -> None:\n    if (\n        not torch.cuda.is_available()\n        or torch.cuda.get_device_capability() != capability\n    ):\n        pytest.skip(f\"CuTe DSL selection requires SM{capability[0]}{capability[1]}\")\n    if not k3_gemm.shape_dynamic_skinny_gemm.is_available():\n        pytest.skip(\"CuTe DSL is not available\")"
+    },
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_dsv3_cuda_graph_capture_tile_branches",
+    "line": "1350",
+    "unit_id": "compute.operator_reference_relation",
+    "property": "实际输出按本入口的线性/矩阵乘及可选残差参考进行数值比较；assert output is not None；assert cosine > 0.999",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:1365;tests/kernels/test_bf16_skinny_gemm.py:1370",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('num_tokens', [1, 8, 9, 16])；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 GPU门禁保留；cosine阈值或assert_close容差以逐项断言为准，图重放只在该入口显式使用时成立。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 43,
+    "source_body": "def test_dsv3_cuda_graph_capture_tile_branches(num_tokens: int) -> None:\n    \"\"\"Capture DSV3 across the num_tokens<=8 vs >8 tile_n branch.\"\"\"\n    _require_sm103_and_dsv3()\n    spec = k3_gemm.KIMI_K3_PROJECTIONS[(1536, 128)]\n    x = torch.randn(num_tokens, spec.k, dtype=torch.bfloat16, device=\"cuda\")\n    weight = torch.randn(spec.n, spec.k, dtype=torch.bfloat16, device=\"cuda\")\n    k3_gemm.try_low_latency_gemm(x, weight)\n    torch.accelerator.synchronize()\n\n    graph = torch.cuda.CUDAGraph()\n    with torch.cuda.graph(graph):\n        output = k3_gemm.try_low_latency_gemm(x, weight)\n    graph.replay()\n    torch.accelerator.synchronize()\n\n    assert output is not None\n    reference = torch.nn.functional.linear(x, weight)\n    cosine = torch.nn.functional.cosine_similarity(\n        output.float().flatten(), reference.float().flatten(), dim=0\n    ).item()\n    assert cosine > 0.999",
+    "assertions": [
+      [
+        1365,
+        "assert output is not None"
+      ],
+      [
+        1370,
+        "assert cosine > 0.999"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {
+      "_require_sm103_and_dsv3": "def _require_sm103_and_dsv3() -> None:\n    _require_capability_and_dsv3((10, 3))"
+    },
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_cute_residual_epilogue",
+    "line": "1374",
+    "unit_id": "compute.operator_reference_relation",
+    "property": "实际输出按本入口的线性/矩阵乘及可选残差参考进行数值比较；assert config is not None；assert cosine > 0.999",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:1382;tests/kernels/test_bf16_skinny_gemm.py:1390",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('n,k,num_tokens', RESIDUAL_CUTE_CASES)；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 GPU门禁保留；cosine阈值或assert_close容差以逐项断言为准，图重放只在该入口显式使用时成立。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 44,
+    "source_body": "def test_cute_residual_epilogue(n: int, k: int, num_tokens: int) -> None:\n    _require_sm103_and_cute()\n    torch.manual_seed(42 + num_tokens)\n    x = torch.randn(num_tokens, k, dtype=torch.bfloat16, device=\"cuda\")\n    weight = torch.randn(n, k, dtype=torch.bfloat16, device=\"cuda\")\n    residual = torch.randn(num_tokens, n, dtype=torch.bfloat16, device=\"cuda\")\n    spec = k3_gemm.KIMI_K3_PROJECTIONS[(n, k)]\n    config = spec.residual_config(num_tokens)\n    assert config is not None\n\n    output = k3_gemm.shape_dynamic_skinny_gemm(x, weight, config, residual)\n\n    reference = x.float() @ weight.float().t() + residual.float()\n    cosine = torch.nn.functional.cosine_similarity(\n        output.float().flatten(), reference.flatten(), dim=0\n    ).item()\n    assert cosine > 0.999",
+    "assertions": [
+      [
+        1382,
+        "assert config is not None"
+      ],
+      [
+        1390,
+        "assert cosine > 0.999"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {
+      "_require_sm103_and_cute": "def _require_sm103_and_cute() -> None:\n    _require_capability_and_cute((10, 3))"
+    },
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_cute_residual_epilogue_all_supported_token_counts",
+    "line": "1394",
+    "unit_id": "compute.operator_reference_relation",
+    "property": "实际输出按本入口的线性/矩阵乘及可选残差参考进行数值比较；torch.testing.assert_close(output.float(), reference, rtol=0.02, atol=0.2)",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:1409",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('num_tokens', range(1, 17))；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 GPU门禁保留；cosine阈值或assert_close容差以逐项断言为准，图重放只在该入口显式使用时成立。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 45,
+    "source_body": "def test_cute_residual_epilogue_all_supported_token_counts(num_tokens: int) -> None:\n    _require_sm103_and_cute()\n    from vllm.model_executor.kernels.linear.cute_dsl.skinny_gemm import (\n        ShapeDynamicSkinnyGemm,\n    )\n\n    n, k = 64, 512\n    x = torch.randn(num_tokens, k, dtype=torch.bfloat16, device=\"cuda\")\n    weight = torch.randn(n, k, dtype=torch.bfloat16, device=\"cuda\")\n    residual = torch.randn(num_tokens, n, dtype=torch.bfloat16, device=\"cuda\")\n    config = ShapeDynamicSkinnyGemm._config(num_tokens, n, k)\n\n    output = k3_gemm.shape_dynamic_skinny_gemm(x, weight, config, residual)\n\n    reference = x.float() @ weight.float().t() + residual.float()\n    torch.testing.assert_close(output.float(), reference, rtol=2e-2, atol=2e-1)",
+    "assertions": [
+      [
+        1409,
+        "torch.testing.assert_close(output.float(), reference, rtol=0.02, atol=0.2)"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {
+      "_require_sm103_and_cute": "def _require_sm103_and_cute() -> None:\n    _require_capability_and_cute((10, 3))"
+    },
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_cute_residual_epilogue_cuda_graph_capture",
+    "line": "1413",
+    "unit_id": "compute.operator_reference_relation",
+    "property": "实际输出按本入口的线性/矩阵乘及可选残差参考进行数值比较；assert config is not None；assert cosine > 0.999",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:1417;tests/kernels/test_bf16_skinny_gemm.py:1434",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('num_tokens', range(1, 5))；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 GPU门禁保留；cosine阈值或assert_close容差以逐项断言为准，图重放只在该入口显式使用时成立。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 46,
+    "source_body": "def test_cute_residual_epilogue_cuda_graph_capture(num_tokens: int) -> None:\n    _require_sm103_and_cute()\n    spec = k3_gemm.KIMI_K3_PROJECTIONS[(7168, 3584)]\n    config = spec.residual_config(num_tokens)\n    assert config is not None\n    x = torch.randn(num_tokens, spec.k, dtype=torch.bfloat16, device=\"cuda\")\n    weight = torch.randn(spec.n, spec.k, dtype=torch.bfloat16, device=\"cuda\")\n    residual = torch.randn(num_tokens, spec.n, dtype=torch.bfloat16, device=\"cuda\")\n    k3_gemm.shape_dynamic_skinny_gemm(x, weight, config, residual)\n    torch.accelerator.synchronize()\n\n    graph = torch.cuda.CUDAGraph()\n    with torch.cuda.graph(graph):\n        output = k3_gemm.shape_dynamic_skinny_gemm(x, weight, config, residual)\n    graph.replay()\n    torch.accelerator.synchronize()\n\n    reference = x.float() @ weight.float().t() + residual.float()\n    cosine = torch.nn.functional.cosine_similarity(\n        output.float().flatten(), reference.flatten(), dim=0\n    ).item()\n    assert cosine > 0.999",
+    "assertions": [
+      [
+        1417,
+        "assert config is not None"
+      ],
+      [
+        1434,
+        "assert cosine > 0.999"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {
+      "_require_sm103_and_cute": "def _require_sm103_and_cute() -> None:\n    _require_capability_and_cute((10, 3))"
+    },
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_latent_moe_production_layout_residual",
+    "line": "1453",
+    "unit_id": "compute.operator_reference_relation",
+    "property": "实际输出按本入口的线性/矩阵乘及可选残差参考进行数值比较；assert cosine > 0.999；assert not spy.calls, 'non-packed buf-slice residual must fall back to addmm at every M'",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:1488;tests/kernels/test_bf16_skinny_gemm.py:1489",
+    "conditions": "参数与受控条件：pytest.mark.parametrize('num_tokens', [1, 2, 3, 4])；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 GPU门禁保留；cosine阈值或assert_close容差以逐项断言为准，图重放只在该入口显式使用时成立。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 47,
+    "source_body": "def test_latent_moe_production_layout_residual(\n    monkeypatch: pytest.MonkeyPatch,\n    num_tokens: int,\n) -> None:\n    \"\"\"The real Latent-MoE residual is a non-packed slice of a cat buffer.\n\n    The strict packed-row-major guard rejects such a slice at every token count\n    (a size-1 leading dim reads as contiguous but its stride is not packed), so\n    the CuTe residual epilogue never fires for this production layout and the\n    method falls back to addmm. Output is correct regardless of the path.\n    \"\"\"\n    _require_sm103_and_cute()\n    latent_dim, shared_dim = 3584, 7168  # routed_expert_up_proj K, N\n    torch.manual_seed(7 + num_tokens)\n    buf = torch.randn(\n        num_tokens, latent_dim + shared_dim, dtype=torch.bfloat16, device=\"cuda\"\n    )\n    latent = buf[:, :latent_dim]  # non-contiguous view (row stride = full width)\n    residual = buf[:, latent_dim:]  # non-contiguous view\n    weight = torch.randn(shared_dim, latent_dim, dtype=torch.bfloat16, device=\"cuda\")\n\n    spec = k3_gemm.KIMI_K3_PROJECTIONS[(shared_dim, latent_dim)]\n    method = k3_gemm.KimiK3LowLatencyLinearMethod(\n        k3_gemm._build_plan(spec), k3_gemm._build_residual_plan(spec)\n    )\n    spy = _SkinnyGemmSpy(k3_gemm.shape_dynamic_skinny_gemm)\n    monkeypatch.setattr(k3_gemm, \"shape_dynamic_skinny_gemm\", spy)\n\n    layer = SimpleNamespace(weight=weight)\n    output = method.apply_with_residual(layer, latent, residual)\n\n    reference = latent.float() @ weight.float().t() + residual.float()\n    cosine = torch.nn.functional.cosine_similarity(\n        output.float().flatten(), reference.flatten(), dim=0\n    ).item()\n    assert cosine > 0.999  # correct regardless of the path taken\n    assert not spy.calls, (\n        \"non-packed buf-slice residual must fall back to addmm at every M\"\n    )",
+    "assertions": [
+      [
+        1488,
+        "assert cosine > 0.999"
+      ],
+      [
+        1489,
+        "assert not spy.calls, 'non-packed buf-slice residual must fall back to addmm at every M'"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {
+      "_require_sm103_and_cute": "def _require_sm103_and_cute() -> None:\n    _require_capability_and_cute((10, 3))"
+    },
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_residual_dispatch_falls_back_to_addmm",
+    "line": "1494",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "property": "受控形状、平台、格式及配置下核对选中的实现、返回身份或回退结果；assert output is fallback",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:1507",
+    "conditions": "参数与受控条件：；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 计划与模拟分派检查不提供真实kernel输出数值结论。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 48,
+    "source_body": "def test_residual_dispatch_falls_back_to_addmm(\n    monkeypatch: pytest.MonkeyPatch,\n) -> None:\n    fallback = torch.randn(2, 3)\n    residual = torch.randn(2, 3)\n    x = torch.randn(2, 4)\n    weight = torch.randn(3, 4)\n    monkeypatch.setattr(torch, \"addmm\", lambda *args: fallback)\n    # CPU tensors fail the runtime check, forcing the addmm fallback.\n    method = k3_gemm.KimiK3LowLatencyLinearMethod({}, {})\n\n    output = method.apply_with_residual(SimpleNamespace(weight=weight), x, residual)\n\n    assert output is fallback",
+    "assertions": [
+      [
+        1507,
+        "assert output is fallback"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_bf16_skinny_gemm.py",
+    "test_name": "test_fallback_preserves_default_method",
+    "line": "1516",
+    "unit_id": "compute.operator_reference_relation",
+    "property": "实际输出按本入口的线性/矩阵乘及可选残差参考进行数值比较；torch.testing.assert_close(output, torch.nn.functional.linear(x, weight))",
+    "oracle_source": "tests/kernels/test_bf16_skinny_gemm.py:1524",
+    "conditions": "参数与受控条件：pytest.mark.skipif(not current_platform.is_cuda(), reason='The base UnquantizedLinearMethod is platform-dispatched: on ROCm it goes through the vllm::rocm_unquantized_gemm custom op, which has no CPU kernel, so the CPU-tensor fallback cannot be exercised there.')；源码内的shape、dtype、stride、平台模拟、配置表及reference按本入口绑定。 GPU门禁保留；cosine阈值或assert_close容差以逐项断言为准，图重放只在该入口显式使用时成立。",
+    "rule_id": "source_review_skinny_gemm_complete_module",
+    "ordinal": 49,
+    "source_body": "def test_fallback_preserves_default_method() -> None:\n    x = torch.randn(2, 4)\n    weight = torch.randn(3, 4)\n    # CPU tensors fail the runtime check, forcing the base-method fallback.\n    method = k3_gemm.KimiK3LowLatencyLinearMethod({}, {})\n\n    output = method.apply(SimpleNamespace(weight=weight), x)\n\n    torch.testing.assert_close(output, torch.nn.functional.linear(x, weight))",
+    "assertions": [
+      [
+        1524,
+        "torch.testing.assert_close(output, torch.nn.functional.linear(x, weight))"
+      ]
+    ],
+    "helper_checks": [],
+    "helper_sources": {},
+    "source_sha256": "42d9243dded4f1c377cac758b54207df59f5d5dd4144d40b1aedff5da1c7500b"
+  }
+]

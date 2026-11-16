@@ -1,0 +1,45 @@
+[
+  {
+    "id": "compute.recurrent_state_transition",
+    "status": "candidate_needs_framework_applicability_review",
+    "property": "GDN/causal convolution recurrence consumes the declared prior state and accepted-token history, updates only selected state slots/active columns, and makes carried state available to the next chunk without overwriting unrelated state.",
+    "oracle": "Compare explicit recurrence state, split-call continuation, indexed scratch-copyback and unused state sentinel columns; record numerical output and state identity/value checks separately.",
+    "conditions": [
+      "recurrence kind and layout",
+      "initial-state flag and slot indices",
+      "chunk boundaries",
+      "accepted-token counts",
+      "state dtype and rounding interval"
+    ],
+    "scope_note": "The ordinary operator-reference unit covers current output comparisons; it does not establish rollback history, next-call continuation or storage preservation. Candidate only; no SGLang applicability claim.",
+    "vllm_evidence": [
+      {
+        "path": "tests/kernels/mamba/cpu/test_cpu_gdn_ops.py",
+        "lines": [
+          296,
+          362,
+          461,
+          948,
+          951,
+          1181,
+          1184,
+          1438,
+          1558
+        ],
+        "source_sha256": "cd204fb7f909177f829dc5158bd4480c7b52ed17e9054b813ed9baa79a9d75e8"
+      },
+      {
+        "path": "vllm/model_executor/layers/mamba/ops/cpu/gdn_attention.py",
+        "lines": [
+          33,
+          44,
+          52,
+          93,
+          494,
+          566
+        ],
+        "source_sha256": "7354505b8bc49be458dd316426b91fe5261f282b45c4e7a69ad004ccb56653f5"
+      }
+    ]
+  }
+]

@@ -1,0 +1,2 @@
+snapshot	path	test_name	line	reason	evidence_source
+vllm	tests/kernels/mamba/cpu/test_cpu_gdn_ops.py	test_batch_memcpy_cpu_fallback	1188	needs_memory_copy_relation: ctypes fallback copies four source buffers into destinations for byte sizes [256,1024,68,4096]; dispatch registration type is also checked.	tests/kernels/mamba/cpu/test_cpu_gdn_ops.py:1204;tests/kernels/mamba/cpu/test_cpu_gdn_ops.py:1218

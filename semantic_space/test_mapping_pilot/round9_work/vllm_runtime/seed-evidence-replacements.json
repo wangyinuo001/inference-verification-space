@@ -1,0 +1,762 @@
+{
+  "snapshot": "sglang-v0.5.14-complete",
+  "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb",
+  "units": [
+    {
+      "id": "cache.capacity_plan",
+      "framework_scope": [
+        "vllm",
+        "sglang"
+      ],
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/model_executor/pool_configurator.py",
+            "line": 225,
+            "kind": "source",
+            "source": "max_total_num_tokens = available_bytes // self._cell_size",
+            "source_sha256": "3e02edd2802168f2a05285a555bd89676e303dacc3b37e1e0d4234a47212861f",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/model_executor/pool_configurator.py",
+            "line": 226,
+            "kind": "source",
+            "source": "max_total_num_tokens = max_total_num_tokens // page_size * page_size",
+            "source_sha256": "3e02edd2802168f2a05285a555bd89676e303dacc3b37e1e0d4234a47212861f",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/model_executor/pool_configurator.py",
+            "line": 227,
+            "kind": "source",
+            "source": "return MemoryPoolConfig(max_total_num_tokens=max_total_num_tokens)",
+            "source_sha256": "3e02edd2802168f2a05285a555bd89676e303dacc3b37e1e0d4234a47212861f",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/model_executor/pool_configurator.py",
+            "line": 313,
+            "kind": "source",
+            "source": "full_tokens = align_page_size(max_total_num_tokens)",
+            "source_sha256": "3e02edd2802168f2a05285a555bd89676e303dacc3b37e1e0d4234a47212861f",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/model_executor/pool_configurator.py",
+            "line": 314,
+            "kind": "source",
+            "source": "swa_tokens = align_page_size(int(full_tokens * self._swa_full_tokens_ratio))",
+            "source_sha256": "3e02edd2802168f2a05285a555bd89676e303dacc3b37e1e0d4234a47212861f",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/model_executor/pool_configurator.py",
+            "line": 330,
+            "kind": "source",
+            "source": "max_total_num_tokens = int(available_bytes // self._cell_size)",
+            "source_sha256": "3e02edd2802168f2a05285a555bd89676e303dacc3b37e1e0d4234a47212861f",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/model_executor/pool_configurator.py",
+            "line": 331,
+            "kind": "source",
+            "source": "return self._solve_pool_sizes(max_total_num_tokens, page_size)",
+            "source_sha256": "3e02edd2802168f2a05285a555bd89676e303dacc3b37e1e0d4234a47212861f",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          }
+        ]
+      },
+      "scope_note": "Fixed snapshot computes page-aligned token capacity from available bytes and per-token cell size, and splits hybrid full/SWA capacity. It does not establish identical vLLM layer-group representation or null-block accounting."
+    },
+    {
+      "id": "resource.shared_host_region",
+      "framework_scope": [
+        "vllm",
+        "sglang"
+      ],
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/utils/host_shared_memory.py",
+            "line": 35,
+            "kind": "source",
+            "source": "shm = shared_memory.SharedMemory(name=shm_name, create=True, size=num_bytes)",
+            "source_sha256": "d2d3b7a8c95b98422cd755ef748ec107402d1f8679866f6f584904c9abb8be53",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/host_shared_memory.py",
+            "line": 37,
+            "kind": "source",
+            "source": "get_naive_distributed().barrier()",
+            "source_sha256": "d2d3b7a8c95b98422cd755ef748ec107402d1f8679866f6f584904c9abb8be53",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/host_shared_memory.py",
+            "line": 40,
+            "kind": "source",
+            "source": "shm = shared_memory.SharedMemory(name=shm_name)",
+            "source_sha256": "d2d3b7a8c95b98422cd755ef748ec107402d1f8679866f6f584904c9abb8be53",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/host_shared_memory.py",
+            "line": 42,
+            "kind": "source",
+            "source": "np_array = np.ndarray((num_bytes,), dtype=np.uint8, buffer=shm.buf)",
+            "source_sha256": "d2d3b7a8c95b98422cd755ef748ec107402d1f8679866f6f584904c9abb8be53",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/host_shared_memory.py",
+            "line": 43,
+            "kind": "source",
+            "source": "tensor = torch.from_numpy(np_array)",
+            "source_sha256": "d2d3b7a8c95b98422cd755ef748ec107402d1f8679866f6f584904c9abb8be53",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/host_shared_memory.py",
+            "line": 53,
+            "kind": "source",
+            "source": "self._records.append(",
+            "source_sha256": "d2d3b7a8c95b98422cd755ef748ec107402d1f8679866f6f584904c9abb8be53",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          }
+        ]
+      },
+      "scope_note": "Rank0 creates one named shared segment, peers attach after barrier, tensor views share shm.buf, records retain handles. TODO dispose remains: no SGLang cleanup-on-last-consumer guarantee is inferred."
+    },
+    {
+      "id": "observability.profile_session",
+      "framework_scope": [
+        "vllm",
+        "sglang"
+      ],
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/utils/profile_utils.py",
+            "line": 199,
+            "kind": "source",
+            "source": "del self.stage_configs[s.curr_stage]",
+            "source_sha256": "54b11e11afe99cbd1fc2feffb309ca3a5cddca3a1783b34b5df5b43ce0d785af",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/profile_utils.py",
+            "line": 200,
+            "kind": "source",
+            "source": "self.running_state = None",
+            "source_sha256": "54b11e11afe99cbd1fc2feffb309ca3a5cddca3a1783b34b5df5b43ce0d785af",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/profile_utils.py",
+            "line": 201,
+            "kind": "source",
+            "source": "self.on_stop()",
+            "source_sha256": "54b11e11afe99cbd1fc2feffb309ca3a5cddca3a1783b34b5df5b43ce0d785af",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/profile_utils.py",
+            "line": 204,
+            "kind": "source",
+            "source": "if (self.running_state is None) and (stage in self.stage_configs):",
+            "source_sha256": "54b11e11afe99cbd1fc2feffb309ca3a5cddca3a1783b34b5df5b43ce0d785af",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/profile_utils.py",
+            "line": 209,
+            "kind": "source",
+            "source": "self.on_start(stage=stage)",
+            "source_sha256": "54b11e11afe99cbd1fc2feffb309ca3a5cddca3a1783b34b5df5b43ce0d785af",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/profile_utils.py",
+            "line": 298,
+            "kind": "source",
+            "source": "self.torch_profiler = torch.profiler.profile(",
+            "source_sha256": "54b11e11afe99cbd1fc2feffb309ca3a5cddca3a1783b34b5df5b43ce0d785af",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/profile_utils.py",
+            "line": 310,
+            "kind": "source",
+            "source": "self.torch_profiler.start()",
+            "source_sha256": "54b11e11afe99cbd1fc2feffb309ca3a5cddca3a1783b34b5df5b43ce0d785af",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/profile_utils.py",
+            "line": 315,
+            "kind": "source",
+            "source": "self.torch_profiler.stop()",
+            "source_sha256": "54b11e11afe99cbd1fc2feffb309ca3a5cddca3a1783b34b5df5b43ce0d785af",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/profile_utils.py",
+            "line": 318,
+            "kind": "source",
+            "source": "filename_parts = [self.profile_id, f\"TP-{self.ps.tp_rank}\"]",
+            "source_sha256": "54b11e11afe99cbd1fc2feffb309ca3a5cddca3a1783b34b5df5b43ce0d785af",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/profile_utils.py",
+            "line": 335,
+            "kind": "source",
+            "source": "self.torch_profiler.export_chrome_trace(",
+            "source_sha256": "54b11e11afe99cbd1fc2feffb309ca3a5cddca3a1783b34b5df5b43ce0d785af",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          }
+        ]
+      },
+      "scope_note": "Stage trigger starts/stops according to configured count/stage; Torch profiler records configured activities and exports rank-named trace. These anchors do not establish exception recovery or vLLM Proton-specific behavior."
+    },
+    {
+      "id": "resource.host_registration",
+      "framework_scope": [
+        "vllm",
+        "sglang"
+      ],
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/utils/host_shared_memory.py",
+            "line": 45,
+            "kind": "source",
+            "source": "check_cuda_result(",
+            "source_sha256": "d2d3b7a8c95b98422cd755ef748ec107402d1f8679866f6f584904c9abb8be53",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/host_shared_memory.py",
+            "line": 46,
+            "kind": "source",
+            "source": "cuda_rt.cudaHostRegister(",
+            "source_sha256": "d2d3b7a8c95b98422cd755ef748ec107402d1f8679866f6f584904c9abb8be53",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/utils/host_shared_memory.py",
+            "line": 47,
+            "kind": "source",
+            "source": "tensor.data_ptr(), num_bytes, cuda_rt.cudaHostRegisterPortable",
+            "source_sha256": "d2d3b7a8c95b98422cd755ef748ec107402d1f8679866f6f584904c9abb8be53",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/mem_cache/pool_host/common.py",
+            "line": 49,
+            "kind": "source",
+            "source": "n_bytes = buffer.numel() * buffer.element_size()",
+            "source_sha256": "f1582451562436b3059a04bf6c49b69341023be544107baf46dea4194e5daac9",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/mem_cache/pool_host/common.py",
+            "line": 50,
+            "kind": "source",
+            "source": "rc = cudart.cudaHostRegister(buffer.data_ptr(), n_bytes, 0)",
+            "source_sha256": "f1582451562436b3059a04bf6c49b69341023be544107baf46dea4194e5daac9",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/mem_cache/pool_host/common.py",
+            "line": 51,
+            "kind": "source",
+            "source": "if int(rc) != 0:",
+            "source_sha256": "f1582451562436b3059a04bf6c49b69341023be544107baf46dea4194e5daac9",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/mem_cache/pool_host/common.py",
+            "line": 52,
+            "kind": "source",
+            "source": "raise RuntimeError(",
+            "source_sha256": "f1582451562436b3059a04bf6c49b69341023be544107baf46dea4194e5daac9",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/mem_cache/pool_host/common.py",
+            "line": 62,
+            "kind": "source",
+            "source": "rc = cudart.cudaHostUnregister(buffer.data_ptr())",
+            "source_sha256": "f1582451562436b3059a04bf6c49b69341023be544107baf46dea4194e5daac9",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/mem_cache/pool_host/common.py",
+            "line": 63,
+            "kind": "source",
+            "source": "if int(rc) != 0:",
+            "source_sha256": "f1582451562436b3059a04bf6c49b69341023be544107baf46dea4194e5daac9",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          }
+        ]
+      },
+      "scope_note": "Registration passes actual pointer and byte count; common allocator raises on registration failure and best-effort unregister warns on error. host_shared_memory has no explicit rollback; do not transfer vLLM rollback/fallback oracle to SGLang."
+    },
+    {
+      "id": "resource.shared_region_population",
+      "framework_scope": [
+        "vllm"
+      ],
+      "evidence": {
+        "sglang": []
+      },
+      "scope_note": "Kept vLLM-only. SGLang mmap allocator has MAP_POPULATE but no matching parallel page-range pre-touch fallback preserving previous bytes; this related allocation mechanism is not counted as the same property."
+    },
+    {
+      "id": "compute.sparse_index_binding",
+      "framework_scope": [
+        "vllm",
+        "sglang"
+      ],
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/layers/attention/dsa_backend.py",
+            "line": 258,
+            "kind": "source",
+            "source": "cu_seqlens_q = cu_seqlens_q.to(torch.int32)",
+            "source_sha256": "b1677fa8adc3cc4182788de2fb08e5affdbcae44a30cb803b93316277fbdd435",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/dsa_backend.py",
+            "line": 265,
+            "kind": "source",
+            "source": "cu_seqlens_q_topk = self.attn_metadata.cu_seqlens_q",
+            "source_sha256": "b1677fa8adc3cc4182788de2fb08e5affdbcae44a30cb803b93316277fbdd435",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/dsa_backend.py",
+            "line": 271,
+            "kind": "source",
+            "source": "return self.topk_backend.topk_transform(",
+            "source_sha256": "b1677fa8adc3cc4182788de2fb08e5affdbcae44a30cb803b93316277fbdd435",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/dsa_backend.py",
+            "line": 278,
+            "kind": "source",
+            "source": "topk_indices_offset=cu_topk_indices_offset,",
+            "source_sha256": "b1677fa8adc3cc4182788de2fb08e5affdbcae44a30cb803b93316277fbdd435",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/dsa/dsa_topk_backend.py",
+            "line": 99,
+            "kind": "source",
+            "source": "attn_metadata.page_table_1[batch_idx_list]",
+            "source_sha256": "df87fe7ff3514155af235b77ecfc94ea12bdea851330a39cd65139aefd08a5c0",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/dsa/dsa_topk_backend.py",
+            "line": 103,
+            "kind": "source",
+            "source": "return fast_topk_transform_fused(",
+            "source_sha256": "df87fe7ff3514155af235b77ecfc94ea12bdea851330a39cd65139aefd08a5c0",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/dsa/dsa_topk_backend.py",
+            "line": 106,
+            "kind": "source",
+            "source": "page_table_size_1=page_table_size_1,",
+            "source_sha256": "df87fe7ff3514155af235b77ecfc94ea12bdea851330a39cd65139aefd08a5c0",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/dsa/dsa_topk_backend.py",
+            "line": 117,
+            "kind": "source",
+            "source": "return fast_topk_transform_ragged_fused(",
+            "source_sha256": "df87fe7ff3514155af235b77ecfc94ea12bdea851330a39cd65139aefd08a5c0",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/dsa/dsa_topk_backend.py",
+            "line": 120,
+            "kind": "source",
+            "source": "topk_indices_offset=topk_indices_offset,",
+            "source_sha256": "df87fe7ff3514155af235b77ecfc94ea12bdea851330a39cd65139aefd08a5c0",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/dsa/dsa_topk_backend.py",
+            "line": 138,
+            "kind": "source",
+            "source": "return flashinfer.top_k_page_table_transform(",
+            "source_sha256": "df87fe7ff3514155af235b77ecfc94ea12bdea851330a39cd65139aefd08a5c0",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/dsa/dsa_topk_backend.py",
+            "line": 140,
+            "kind": "source",
+            "source": "attn_metadata.page_table_1.contiguous(),",
+            "source_sha256": "df87fe7ff3514155af235b77ecfc94ea12bdea851330a39cd65139aefd08a5c0",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/dsa/dsa_topk_backend.py",
+            "line": 143,
+            "kind": "source",
+            "source": "row_to_batch=row_to_batch,",
+            "source_sha256": "df87fe7ff3514155af235b77ecfc94ea12bdea851330a39cd65139aefd08a5c0",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/managers/hisparse_coordinator.py",
+            "line": 815,
+            "kind": "source",
+            "source": "top_k_indices = self.top_k_device_locs_buffer[:num_reqs]",
+            "source_sha256": "896414bae20d4d5d80dd7e72ff6e8e94280e1dd5739422e6f4bd510d244abd4d",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/managers/hisparse_coordinator.py",
+            "line": 816,
+            "kind": "source",
+            "source": "top_k_indices.fill_(-1)",
+            "source_sha256": "896414bae20d4d5d80dd7e72ff6e8e94280e1dd5739422e6f4bd510d244abd4d",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/managers/hisparse_coordinator.py",
+            "line": 825,
+            "kind": "source",
+            "source": "swap_in_fn(",
+            "source_sha256": "896414bae20d4d5d80dd7e72ff6e8e94280e1dd5739422e6f4bd510d244abd4d",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/managers/hisparse_coordinator.py",
+            "line": 826,
+            "kind": "source",
+            "source": "top_k_tokens=top_k_result,",
+            "source_sha256": "896414bae20d4d5d80dd7e72ff6e8e94280e1dd5739422e6f4bd510d244abd4d",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/managers/hisparse_coordinator.py",
+            "line": 832,
+            "kind": "source",
+            "source": "top_k_device_locs=top_k_indices,",
+            "source_sha256": "896414bae20d4d5d80dd7e72ff6e8e94280e1dd5739422e6f4bd510d244abd4d",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/managers/hisparse_coordinator.py",
+            "line": 833,
+            "kind": "source",
+            "source": "req_pool_indices=req_pool_indices,",
+            "source_sha256": "896414bae20d4d5d80dd7e72ff6e8e94280e1dd5739422e6f4bd510d244abd4d",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/managers/hisparse_coordinator.py",
+            "line": 843,
+            "kind": "source",
+            "source": "return top_k_indices",
+            "source_sha256": "896414bae20d4d5d80dd7e72ff6e8e94280e1dd5739422e6f4bd510d244abd4d",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          }
+        ]
+      },
+      "scope_note": "Fixed snapshot supplies per-query ragged offsets or batch-selected page tables to top-k conversion; HiSparse initializes output to -1, binds request indices/top-k to swap-in and returns device locations. There is no claim that SGLang has vLLM SparseMLAIndexGroup cross-layer-sharing implementation."
+    },
+    {
+      "id": "compute.kernel_dispatch_binding",
+      "framework_scope": [
+        "vllm",
+        "sglang"
+      ],
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/layers/quantization/fp8.py",
+            "line": 262,
+            "kind": "source",
+            "source": "if isinstance(layer, LinearBase):",
+            "source_sha256": "9c70651e86645c00b4bc8a42391be9ed13f34ca8b33a569eff3a167fa473152b",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/quantization/fp8.py",
+            "line": 266,
+            "kind": "source",
+            "source": "return UnquantizedLinearMethod()",
+            "source_sha256": "9c70651e86645c00b4bc8a42391be9ed13f34ca8b33a569eff3a167fa473152b",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/quantization/fp8.py",
+            "line": 267,
+            "kind": "source",
+            "source": "if is_npu() and self.use_mxfp8:",
+            "source_sha256": "9c70651e86645c00b4bc8a42391be9ed13f34ca8b33a569eff3a167fa473152b",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/quantization/fp8.py",
+            "line": 272,
+            "kind": "source",
+            "source": "return NPUMXFP8LinearMethod(self)",
+            "source_sha256": "9c70651e86645c00b4bc8a42391be9ed13f34ca8b33a569eff3a167fa473152b",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/quantization/fp8.py",
+            "line": 273,
+            "kind": "source",
+            "source": "return Fp8LinearMethod(self)",
+            "source_sha256": "9c70651e86645c00b4bc8a42391be9ed13f34ca8b33a569eff3a167fa473152b",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/quantization/fp8.py",
+            "line": 782,
+            "kind": "source",
+            "source": "if self.use_marlin:",
+            "source_sha256": "9c70651e86645c00b4bc8a42391be9ed13f34ca8b33a569eff3a167fa473152b",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/quantization/fp8.py",
+            "line": 783,
+            "kind": "source",
+            "source": "return torch.ops.sglang.apply_fp8_marlin_linear(",
+            "source_sha256": "9c70651e86645c00b4bc8a42391be9ed13f34ca8b33a569eff3a167fa473152b",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/hybrid_attn_backend.py",
+            "line": 43,
+            "kind": "source",
+            "source": "if forward_mode.is_decode_or_idle():",
+            "source_sha256": "ba7eb1ab0ae365b8d4c8dbde5c13b988ee62e27711b96e135289a94af9aa9117",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/hybrid_attn_backend.py",
+            "line": 44,
+            "kind": "source",
+            "source": "return self.decode_backend",
+            "source_sha256": "ba7eb1ab0ae365b8d4c8dbde5c13b988ee62e27711b96e135289a94af9aa9117",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/hybrid_attn_backend.py",
+            "line": 48,
+            "kind": "source",
+            "source": "if self.model_runner.server_args.speculative_attention_mode == \"decode\"",
+            "source_sha256": "ba7eb1ab0ae365b8d4c8dbde5c13b988ee62e27711b96e135289a94af9aa9117",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/hybrid_attn_backend.py",
+            "line": 49,
+            "kind": "source",
+            "source": "else self.prefill_backend",
+            "source_sha256": "ba7eb1ab0ae365b8d4c8dbde5c13b988ee62e27711b96e135289a94af9aa9117",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/hybrid_attn_backend.py",
+            "line": 52,
+            "kind": "source",
+            "source": "return self.prefill_backend",
+            "source_sha256": "ba7eb1ab0ae365b8d4c8dbde5c13b988ee62e27711b96e135289a94af9aa9117",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/attention_registry.py",
+            "line": 38,
+            "kind": "source",
+            "source": "if not runner.use_mla_backend:",
+            "source_sha256": "92f65bc616bfe070b92f770b6a05227afc86f93a8cb3c5e7edcfafb0cb3b746d",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/attention_registry.py",
+            "line": 48,
+            "kind": "source",
+            "source": "return FlashInferAttnBackend(",
+            "source_sha256": "92f65bc616bfe070b92f770b6a05227afc86f93a8cb3c5e7edcfafb0cb3b746d",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/attention_registry.py",
+            "line": 61,
+            "kind": "source",
+            "source": "if not runner.use_mla_backend:",
+            "source_sha256": "92f65bc616bfe070b92f770b6a05227afc86f93a8cb3c5e7edcfafb0cb3b746d",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/attention_registry.py",
+            "line": 62,
+            "kind": "source",
+            "source": "raise ValueError(\"trtllm_mla backend can only be used with MLA models.\")",
+            "source_sha256": "92f65bc616bfe070b92f770b6a05227afc86f93a8cb3c5e7edcfafb0cb3b746d",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          }
+        ]
+      },
+      "scope_note": "Linear-layer type/skipped-layer/platform config selects quant method; apply selects Marlin; HybridAttnBackend dispatches decode/prefill/target-verify using explicit mode. Registry rejects TRTLLM MLA for non-MLA. Old 255/776/28/26 were weak definition anchors; these replacements cite actual predicates and returns."
+    },
+    {
+      "id": "compute.attention_scale_binding",
+      "framework_scope": [
+        "vllm",
+        "sglang"
+      ],
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/layers/attention/flashmla_backend.py",
+            "line": 355,
+            "kind": "source",
+            "source": "softmax_scale=layer.scaling,",
+            "source_sha256": "1e09af78e4d5d1a4b0ac38fb5651a9e5b1ef7fe41ec65ed8cedeed721be99387",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/layers/attention/flashmla_backend.py",
+            "line": 371,
+            "kind": "source",
+            "source": "softmax_scale=layer.scaling,",
+            "source_sha256": "1e09af78e4d5d1a4b0ac38fb5651a9e5b1ef7fe41ec65ed8cedeed721be99387",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          }
+        ]
+      },
+      "scope_note": "Both fixed-snapshot FlashMLA decode branches pass layer.scaling explicitly; FP8 additionally passes descale_q/descale_k. Only vLLM NoPE test checks against the latent-rank default; no SGLang test coverage is implied."
+    },
+    {
+      "id": "execution.stream_dependency",
+      "framework_scope": [
+        "vllm",
+        "sglang"
+      ],
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/managers/cache_controller.py",
+            "line": 769,
+            "kind": "source",
+            "source": "producer_event.start_event.record()",
+            "source_sha256": "8f519f6e815233758d1439bf8463a8d63687d2ab2eeb08970890127e89391d0a",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/managers/cache_controller.py",
+            "line": 771,
+            "kind": "source",
+            "source": "with device_module.stream(self.load_stream):",
+            "source_sha256": "8f519f6e815233758d1439bf8463a8d63687d2ab2eeb08970890127e89391d0a",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/managers/cache_controller.py",
+            "line": 772,
+            "kind": "source",
+            "source": "producer_event.start_event.wait(self.load_stream)",
+            "source_sha256": "8f519f6e815233758d1439bf8463a8d63687d2ab2eeb08970890127e89391d0a",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/managers/cache_controller.py",
+            "line": 774,
+            "kind": "source",
+            "source": "self.mem_pool_host.load_to_device_per_layer(",
+            "source_sha256": "8f519f6e815233758d1439bf8463a8d63687d2ab2eeb08970890127e89391d0a",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/managers/cache_controller.py",
+            "line": 789,
+            "kind": "source",
+            "source": "producer_event.complete(i)",
+            "source_sha256": "8f519f6e815233758d1439bf8463a8d63687d2ab2eeb08970890127e89391d0a",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/managers/cache_controller.py",
+            "line": 64,
+            "kind": "source",
+            "source": "self.load_events[layer_index].record()",
+            "source_sha256": "8f519f6e815233758d1439bf8463a8d63687d2ab2eeb08970890127e89391d0a",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/managers/cache_controller.py",
+            "line": 67,
+            "kind": "source",
+            "source": "device_module.current_stream().wait_event(self.load_events[layer_index])",
+            "source_sha256": "8f519f6e815233758d1439bf8463a8d63687d2ab2eeb08970890127e89391d0a",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/mem_cache/memory_pool.py",
+            "line": 157,
+            "kind": "source",
+            "source": "current_stream = device_module.current_stream()",
+            "source_sha256": "c2535ac6359341d2308d3f67b5b212a59da698522b97fa8940781d809af45057",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/mem_cache/memory_pool.py",
+            "line": 158,
+            "kind": "source",
+            "source": "alt_stream.wait_stream(current_stream)",
+            "source_sha256": "c2535ac6359341d2308d3f67b5b212a59da698522b97fa8940781d809af45057",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/mem_cache/memory_pool.py",
+            "line": 160,
+            "kind": "source",
+            "source": "with device_module.stream(alt_stream):",
+            "source_sha256": "c2535ac6359341d2308d3f67b5b212a59da698522b97fa8940781d809af45057",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          },
+          {
+            "path": "python/sglang/srt/mem_cache/memory_pool.py",
+            "line": 162,
+            "kind": "source",
+            "source": "current_stream.wait_stream(alt_stream)",
+            "source_sha256": "c2535ac6359341d2308d3f67b5b212a59da698522b97fa8940781d809af45057",
+            "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+          }
+        ]
+      },
+      "scope_note": "Admitted snapshot starts load stream after producer start_event, records per-layer completion and consumer waits on it. Split KV-store capture path waits before/after temporary alt stream. This replaces inadmissible main page_interleave_pool references; no IPC-event interchangeability claim is made for SGLang."
+    },
+    {
+      "id": "distributed.empty_attention_partition_identity",
+      "framework_scope": [
+        "vllm"
+      ],
+      "evidence": {
+        "sglang": []
+      },
+      "scope_note": "Keep vLLM-only for the currently worded cross-rank DCP identity. Fixed SGLang snapshot has the same (0,-inf) fixup for zero-KV PREFIX CHUNKS merged by merge_state, not the cited newer DCP/XPU/CuteDSL behavior. A future generalized chunk-or-rank partial-attention identity could reuse the related evidence, but this audit does not silently broaden the unit."
+    }
+  ]
+}

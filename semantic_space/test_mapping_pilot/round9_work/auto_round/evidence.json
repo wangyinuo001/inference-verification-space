@@ -1,0 +1,16 @@
+{
+  "file_reviews": [
+    {
+      "snapshot": "vllm",
+      "path": "tests/quantization/test_auto_round.py",
+      "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+      "review": "Read all 93 function bodies, configuration constructors, dispatch and weight fixtures, quant/GEMM stubs and selected product implementations. Existing model smoke entry remains in the earlier crosswalk; 92 remaining source contracts are recorded here.",
+      "product_sources": [
+        "vllm/model_executor/layers/quantization/inc/inc.py:322",
+        "vllm/model_executor/layers/quantization/inc/config_parser.py:64",
+        "vllm/model_executor/layers/quantization/inc/schemes/factory.py:11",
+        "vllm/model_executor/layers/quantization/inc/schemes/inc_w4a8_linear.py:42"
+      ]
+    }
+  ]
+}

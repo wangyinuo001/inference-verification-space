@@ -1,0 +1,818 @@
+{
+  "batch": "cutlass_shared_helper_numeric",
+  "counts": {
+    "scope": 13,
+    "mapped": 11,
+    "pending": 2
+  },
+  "review_method": "Full test bodies and both shared numeric helpers read; baseline_scaled_mm and group broadcasting inspected. No source-family automatic propagation or runtime pass claim.",
+  "file_reviews": [
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+      "source_sha256": "ce02bee6c3b0deb69bb94861f431784e4b4d2bfb9b7d5f199fb1f4e41ffe2457",
+      "review": "Every assigned entry reviewed, both GEMM helpers and shared baseline; unconditional skip and opcheck-only entry remain pending."
+    }
+  ],
+  "source_hashes": [
+    {
+      "path": "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+      "source_sha256": "ce02bee6c3b0deb69bb94861f431784e4b4d2bfb9b7d5f199fb1f4e41ffe2457"
+    },
+    {
+      "path": "tests/kernels/utils.py",
+      "source_sha256": "6b2f2efc28553b827884943c97e8a424e6fec5fb2b7126ab8078df4a02b04331"
+    },
+    {
+      "path": "vllm/_custom_ops.py",
+      "source_sha256": "8078c28d097543abd976ce258f0e4469df8411e835cd836fff23f65d8a9241fd"
+    }
+  ],
+  "reference_helpers": [
+    {
+      "definition_line": 394,
+      "end_line": 437,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 419,
+          "source": "assert s % t.shape[i] == 0"
+        }
+      ],
+      "full_test_source": "def baseline_scaled_mm(\n    a: torch.Tensor,\n    b: torch.Tensor,\n    scale_a: torch.Tensor,\n    scale_b: torch.Tensor,\n    out_dtype: type[torch.dtype],\n    bias: torch.Tensor | None = None,\n) -> torch.Tensor:\n    # We treat N-dimensional group scaling as extended numpy-style broadcasting\n    # in numpy simply stretches dimensions with an extent of 1 to match\n    # the target shape by repeating the data along that dimension (broadcasting)\n    # , we extend these semantics to say if the extent of a dimension in the\n    # source shape is not 1 and does not match the target shape we repeat each\n    # element along that dimension src_shape[dim] // target_shape[dim] times\n    # example if we have:\n    #       a = [[1, 2], and target_shape = (2, 4)\n    #            [3, 4]]\n    # then we would expand a to:\n    #       a = [[1, 1, 2, 2],\n    #            [3, 3, 4, 4]]\n    # NOTE this function does not explicitly broadcast dimensions\n    # with an extent of 1, since this can be done implicitly by pytorch\n    def group_broadcast(t, shape):\n        for i, s in enumerate(shape):\n            if t.shape[i] != s and t.shape[i] != 1:\n                assert s % t.shape[i] == 0\n                t = (\n                    t.unsqueeze(i + 1)\n                    .expand(*t.shape[: i + 1], s // t.shape[i], *t.shape[i + 1 :])\n                    .flatten(i, i + 1)\n                )\n        return t\n\n    scale_a = group_broadcast(scale_a, a.shape)\n    scale_b = group_broadcast(scale_b, b.shape)\n\n    output = torch.mm(\n        (scale_a * a.to(dtype=torch.float32)), (scale_b * b.to(dtype=torch.float32))\n    ).to(out_dtype)\n\n    if bias is not None:\n        output = output + bias\n\n    return output"
+    },
+    {
+      "definition_line": 383,
+      "end_line": 387,
+      "decorators": [],
+      "checks": [],
+      "full_test_source": "def to_fp8(tensor: torch.Tensor):\n    finfo = torch.finfo(torch.float8_e4m3fn)\n    return torch.round(tensor.clamp(min=finfo.min, max=finfo.max)).to(\n        dtype=torch.float8_e4m3fn\n    )"
+    },
+    {
+      "definition_line": 390,
+      "end_line": 391,
+      "decorators": [],
+      "checks": [],
+      "full_test_source": "def to_int8(tensor: torch.Tensor):\n    return torch.round(tensor.clamp(min=-128, max=127)).to(dtype=torch.int8)"
+    },
+    {
+      "definition_line": 361,
+      "end_line": 379,
+      "decorators": [],
+      "checks": [],
+      "full_test_source": "def opcheck(\n    op: torch._ops.OpOverload\n    | torch._ops.OpOverloadPacket\n    | torch._library.custom_ops.CustomOpDef,\n    args: tuple[Any, ...],\n    kwargs: dict[str, Any] | None = None,\n    *,\n    test_utils: str | Sequence[str] = ALL_OPCHECK_TEST_UTILS,\n    raise_exception: bool = True,\n    cond: bool = True,\n) -> dict[str, str]:\n    with patch(\"torch.allclose\", new=fp8_allclose):\n        return (\n            torch.library.opcheck(\n                op, args, kwargs, test_utils=test_utils, raise_exception=raise_exception\n            )\n            if cond\n            else {}\n        )"
+    }
+  ],
+  "entries": [
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+        "test_cutlass_fp8_gemm",
+        "162"
+      ],
+      "source_sha256": "ce02bee6c3b0deb69bb94861f431784e4b4d2bfb9b7d5f199fb1f4e41ffe2457",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "FP8 scaled GEMM output matches FP32 dequantized group-broadcast matmul (cast before bias) at rtol=0.5, atol=0.15.",
+      "input_state": "MNK_FACTORS, tensor/per-token activation and tensor/per-output-channel weight scales, optional bias",
+      "scope_limit": "Custom-op opcheck is additional registration/schema checking, not a numerical reference oracle.",
+      "definition_line": 162,
+      "end_line": 165,
+      "decorators": [
+        {
+          "line": 150,
+          "source": "pytest.mark.parametrize(\"m,n,k\", MNK_FACTORS)"
+        },
+        {
+          "line": 151,
+          "source": "pytest.mark.parametrize(\n    \"a_scale_group_shape\", [PER_TOKEN_GROUP_SHAPE, TENSORWISE_GROUP_SHAPE]\n)"
+        },
+        {
+          "line": 154,
+          "source": "pytest.mark.parametrize(\n    \"b_scale_group_shape\", [PER_OUT_CH_GROUP_SHAPE, TENSORWISE_GROUP_SHAPE]\n)"
+        },
+        {
+          "line": 157,
+          "source": "pytest.mark.parametrize(\"use_bias\", [True, False])"
+        },
+        {
+          "line": 158,
+          "source": "pytest.mark.skipif(\n    not current_platform.has_device_capability(89),\n    reason=\"FP8 is not supported on this GPU type.\",\n)"
+        }
+      ],
+      "checks": [],
+      "full_test_source": "def test_cutlass_fp8_gemm(\n    m: int, n: int, k: int, a_scale_group_shape, b_scale_group_shape, use_bias: bool\n):\n    cutlass_fp8_gemm_helper(m, n, k, a_scale_group_shape, b_scale_group_shape, use_bias)",
+      "shared_helper_sources": [
+        {
+          "definition_line": 83,
+          "end_line": 116,
+          "decorators": [],
+          "checks": [
+            {
+              "line": 114,
+              "source": "torch.testing.assert_close(out, baseline, rtol=5e-1, atol=1.5e-1)"
+            }
+          ],
+          "full_test_source": "def cutlass_fp8_gemm_helper(\n    m: int,\n    n: int,\n    k: int,\n    a_scale_group_shape: tuple,\n    b_scale_group_shape: tuple,\n    use_bias: bool,\n    out_dtype: type[torch.dtype] = torch.bfloat16,\n    device: str = \"cuda\",\n):\n    # Test for a cutlass kernel with per-token activation quantization\n    # and per-output channel weight quantization.\n    a = to_fp8(torch.randn((m, k), device=device))\n    b = to_fp8(torch.randn((n, k), device=device).t())\n\n    a_scales_shape = scale_shape(a.shape, a_scale_group_shape)\n    b_scales_shape = scale_shape(b.shape, b_scale_group_shape)\n\n    scale_a = torch.randn(a_scales_shape, device=device, dtype=torch.float32)\n    scale_b = torch.randn(b_scales_shape, device=device, dtype=torch.float32)\n\n    # make scales M-major for blockwise quant, doesn't affect 1D scales\n    scale_a = scale_a.t().contiguous().t()\n    # make scales K-major for blockwise quant, doesn't affect 1D scales\n    scale_b = scale_b.t().contiguous().t()\n\n    bias = torch.rand((n,), device=device, dtype=out_dtype) * 10 if use_bias else None\n\n    out = ops.cutlass_scaled_mm(a, b, scale_a, scale_b, out_dtype, bias)\n    baseline = baseline_scaled_mm(a, b, scale_a, scale_b, out_dtype, bias)\n\n    torch.testing.assert_close(out, baseline, rtol=5e-1, atol=1.5e-1)\n\n    opcheck(torch.ops._C.cutlass_scaled_mm, (out, a, b, scale_a, scale_b, bias))"
+        }
+      ],
+      "all_checks": [
+        {
+          "path": "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+          "line": 114,
+          "source": "torch.testing.assert_close(out, baseline, rtol=5e-1, atol=1.5e-1)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+        "test_cutlass_fp8_blockwise_scale_gemm",
+        "253"
+      ],
+      "source_sha256": "ce02bee6c3b0deb69bb94861f431784e4b4d2bfb9b7d5f199fb1f4e41ffe2457",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "FP8 scaled GEMM output matches FP32 dequantized group-broadcast matmul (cast before bias) at rtol=0.5, atol=0.15.",
+      "input_state": "MNK_FACTORS + BLOCKWISE_PREFILL_FACTORS, (1,128)/(128,128) block scales, no bias; non-divisible shapes return before oracle",
+      "scope_limit": "Custom-op opcheck is additional registration/schema checking, not a numerical reference oracle.",
+      "definition_line": 253,
+      "end_line": 260,
+      "decorators": [
+        {
+          "line": 244,
+          "source": "pytest.mark.parametrize(\"m,n,k\", MNK_FACTORS + BLOCKWISE_PREFILL_FACTORS)"
+        },
+        {
+          "line": 245,
+          "source": "pytest.mark.parametrize(\n    \"a_scale_group_shape,b_scale_group_shape\", [((1, 128), (128, 128))]\n)"
+        },
+        {
+          "line": 248,
+          "source": "pytest.mark.parametrize(\"use_bias\", [False])"
+        },
+        {
+          "line": 249,
+          "source": "pytest.mark.skipif(\n    not current_platform.has_device_capability(90),\n    reason=\"FP8 blockwise is not supported on this GPU type.\",\n)"
+        }
+      ],
+      "checks": [],
+      "full_test_source": "def test_cutlass_fp8_blockwise_scale_gemm(\n    m: int, n: int, k: int, a_scale_group_shape, b_scale_group_shape, use_bias: bool\n):\n    if k % b_scale_group_shape[0] != 0 or n % b_scale_group_shape[1] != 0:\n        return\n    if m % a_scale_group_shape[0] != 0 or k % a_scale_group_shape[1] != 0:\n        return\n    cutlass_fp8_gemm_helper(m, n, k, a_scale_group_shape, b_scale_group_shape, use_bias)",
+      "shared_helper_sources": [
+        {
+          "definition_line": 83,
+          "end_line": 116,
+          "decorators": [],
+          "checks": [
+            {
+              "line": 114,
+              "source": "torch.testing.assert_close(out, baseline, rtol=5e-1, atol=1.5e-1)"
+            }
+          ],
+          "full_test_source": "def cutlass_fp8_gemm_helper(\n    m: int,\n    n: int,\n    k: int,\n    a_scale_group_shape: tuple,\n    b_scale_group_shape: tuple,\n    use_bias: bool,\n    out_dtype: type[torch.dtype] = torch.bfloat16,\n    device: str = \"cuda\",\n):\n    # Test for a cutlass kernel with per-token activation quantization\n    # and per-output channel weight quantization.\n    a = to_fp8(torch.randn((m, k), device=device))\n    b = to_fp8(torch.randn((n, k), device=device).t())\n\n    a_scales_shape = scale_shape(a.shape, a_scale_group_shape)\n    b_scales_shape = scale_shape(b.shape, b_scale_group_shape)\n\n    scale_a = torch.randn(a_scales_shape, device=device, dtype=torch.float32)\n    scale_b = torch.randn(b_scales_shape, device=device, dtype=torch.float32)\n\n    # make scales M-major for blockwise quant, doesn't affect 1D scales\n    scale_a = scale_a.t().contiguous().t()\n    # make scales K-major for blockwise quant, doesn't affect 1D scales\n    scale_b = scale_b.t().contiguous().t()\n\n    bias = torch.rand((n,), device=device, dtype=out_dtype) * 10 if use_bias else None\n\n    out = ops.cutlass_scaled_mm(a, b, scale_a, scale_b, out_dtype, bias)\n    baseline = baseline_scaled_mm(a, b, scale_a, scale_b, out_dtype, bias)\n\n    torch.testing.assert_close(out, baseline, rtol=5e-1, atol=1.5e-1)\n\n    opcheck(torch.ops._C.cutlass_scaled_mm, (out, a, b, scale_a, scale_b, bias))"
+        }
+      ],
+      "all_checks": [
+        {
+          "path": "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+          "line": 114,
+          "source": "torch.testing.assert_close(out, baseline, rtol=5e-1, atol=1.5e-1)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+        "test_cutlass_int8_gemm",
+        "271"
+      ],
+      "source_sha256": "ce02bee6c3b0deb69bb94861f431784e4b4d2bfb9b7d5f199fb1f4e41ffe2457",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "INT8 scaled GEMM output matches FP32 dequantized group-broadcast matmul (cast before bias) at rtol=0.1, atol=1.0.",
+      "input_state": "MNK_FACTORS, tensor/per-token activation and tensor/per-output-channel weight scales, optional bias",
+      "scope_limit": "Custom-op opcheck is additional registration/schema checking, not a numerical reference oracle.",
+      "definition_line": 271,
+      "end_line": 276,
+      "decorators": [
+        {
+          "line": 263,
+          "source": "pytest.mark.parametrize(\"m,n,k\", MNK_FACTORS)"
+        },
+        {
+          "line": 264,
+          "source": "pytest.mark.parametrize(\n    \"a_scale_group_shape\", [PER_TOKEN_GROUP_SHAPE, TENSORWISE_GROUP_SHAPE]\n)"
+        },
+        {
+          "line": 267,
+          "source": "pytest.mark.parametrize(\n    \"b_scale_group_shape\", [PER_OUT_CH_GROUP_SHAPE, TENSORWISE_GROUP_SHAPE]\n)"
+        },
+        {
+          "line": 270,
+          "source": "pytest.mark.parametrize(\"use_bias\", [True, False])"
+        }
+      ],
+      "checks": [],
+      "full_test_source": "def test_cutlass_int8_gemm(\n    m: int, n: int, k: int, a_scale_group_shape, b_scale_group_shape, use_bias: bool\n):\n    cutlass_int8_gemm_helper(\n        m, n, k, a_scale_group_shape, b_scale_group_shape, use_bias\n    )",
+      "shared_helper_sources": [
+        {
+          "definition_line": 119,
+          "end_line": 147,
+          "decorators": [],
+          "checks": [
+            {
+              "line": 145,
+              "source": "torch.testing.assert_close(out, baseline, rtol=1e-1, atol=1e0)"
+            }
+          ],
+          "full_test_source": "def cutlass_int8_gemm_helper(\n    m: int,\n    n: int,\n    k: int,\n    a_scale_group_shape: tuple,\n    b_scale_group_shape: tuple,\n    use_bias: bool,\n    out_dtype: type[torch.dtype] = torch.bfloat16,\n    device: str = \"cuda\",\n):\n    # Test for a cutlass kernel with per-token activation quantization\n    # and per-output channel weight quantization.\n    a = to_int8(torch.randn((m, k), device=device) * 5)\n    b = to_int8(torch.randn((n, k), device=device).t() * 5)\n\n    a_scales_shape = scale_shape(a.shape, a_scale_group_shape)\n    b_scales_shape = scale_shape(b.shape, b_scale_group_shape)\n\n    scale_a = torch.randn(a_scales_shape, device=device, dtype=torch.float32)\n    scale_b = torch.randn(b_scales_shape, device=device, dtype=torch.float32)\n\n    bias = torch.rand((n,), device=device, dtype=out_dtype) * 10 if use_bias else None\n\n    out = ops.cutlass_scaled_mm(a, b, scale_a, scale_b, out_dtype, bias)\n    baseline = baseline_scaled_mm(a, b, scale_a, scale_b, out_dtype, bias)\n\n    torch.testing.assert_close(out, baseline, rtol=1e-1, atol=1e0)\n\n    opcheck(torch.ops._C.cutlass_scaled_mm, (out, a, b, scale_a, scale_b, bias))"
+        }
+      ],
+      "all_checks": [
+        {
+          "path": "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+          "line": 145,
+          "source": "torch.testing.assert_close(out, baseline, rtol=1e-1, atol=1e0)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+        "test_cutlass_int8_gemm_output_dtype",
+        "287"
+      ],
+      "source_sha256": "ce02bee6c3b0deb69bb94861f431784e4b4d2bfb9b7d5f199fb1f4e41ffe2457",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "INT8 scaled GEMM output matches FP32 dequantized group-broadcast matmul (cast before bias) at rtol=0.1, atol=1.0.",
+      "input_state": "512x512x512, BF16/FP16 output, scale granularities and bias",
+      "scope_limit": "Custom-op opcheck is additional registration/schema checking, not a numerical reference oracle.",
+      "definition_line": 287,
+      "end_line": 301,
+      "decorators": [
+        {
+          "line": 279,
+          "source": "pytest.mark.parametrize(\n    \"a_scale_group_shape\", [PER_TOKEN_GROUP_SHAPE, TENSORWISE_GROUP_SHAPE]\n)"
+        },
+        {
+          "line": 282,
+          "source": "pytest.mark.parametrize(\n    \"b_scale_group_shape\", [PER_OUT_CH_GROUP_SHAPE, TENSORWISE_GROUP_SHAPE]\n)"
+        },
+        {
+          "line": 285,
+          "source": "pytest.mark.parametrize(\"out_dtype\", [torch.bfloat16, torch.float16])"
+        },
+        {
+          "line": 286,
+          "source": "pytest.mark.parametrize(\"use_bias\", [True, False])"
+        }
+      ],
+      "checks": [],
+      "full_test_source": "def test_cutlass_int8_gemm_output_dtype(\n    a_scale_group_shape,\n    b_scale_group_shape,\n    out_dtype: type[torch.dtype],\n    use_bias: bool,\n):\n    cutlass_int8_gemm_helper(\n        512,\n        512,\n        512,\n        a_scale_group_shape,\n        b_scale_group_shape,\n        use_bias,\n        out_dtype=out_dtype,\n    )",
+      "shared_helper_sources": [
+        {
+          "definition_line": 119,
+          "end_line": 147,
+          "decorators": [],
+          "checks": [
+            {
+              "line": 145,
+              "source": "torch.testing.assert_close(out, baseline, rtol=1e-1, atol=1e0)"
+            }
+          ],
+          "full_test_source": "def cutlass_int8_gemm_helper(\n    m: int,\n    n: int,\n    k: int,\n    a_scale_group_shape: tuple,\n    b_scale_group_shape: tuple,\n    use_bias: bool,\n    out_dtype: type[torch.dtype] = torch.bfloat16,\n    device: str = \"cuda\",\n):\n    # Test for a cutlass kernel with per-token activation quantization\n    # and per-output channel weight quantization.\n    a = to_int8(torch.randn((m, k), device=device) * 5)\n    b = to_int8(torch.randn((n, k), device=device).t() * 5)\n\n    a_scales_shape = scale_shape(a.shape, a_scale_group_shape)\n    b_scales_shape = scale_shape(b.shape, b_scale_group_shape)\n\n    scale_a = torch.randn(a_scales_shape, device=device, dtype=torch.float32)\n    scale_b = torch.randn(b_scales_shape, device=device, dtype=torch.float32)\n\n    bias = torch.rand((n,), device=device, dtype=out_dtype) * 10 if use_bias else None\n\n    out = ops.cutlass_scaled_mm(a, b, scale_a, scale_b, out_dtype, bias)\n    baseline = baseline_scaled_mm(a, b, scale_a, scale_b, out_dtype, bias)\n\n    torch.testing.assert_close(out, baseline, rtol=1e-1, atol=1e0)\n\n    opcheck(torch.ops._C.cutlass_scaled_mm, (out, a, b, scale_a, scale_b, bias))"
+        }
+      ],
+      "all_checks": [
+        {
+          "path": "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+          "line": 145,
+          "source": "torch.testing.assert_close(out, baseline, rtol=1e-1, atol=1e0)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+        "test_cutlass_fp8_gemm_output_dtype",
+        "316"
+      ],
+      "source_sha256": "ce02bee6c3b0deb69bb94861f431784e4b4d2bfb9b7d5f199fb1f4e41ffe2457",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "FP8 scaled GEMM output matches FP32 dequantized group-broadcast matmul (cast before bias) at rtol=0.5, atol=0.15.",
+      "input_state": "512x512x512, BF16/FP16 output, scale granularities and bias",
+      "scope_limit": "Custom-op opcheck is additional registration/schema checking, not a numerical reference oracle.",
+      "definition_line": 316,
+      "end_line": 330,
+      "decorators": [
+        {
+          "line": 304,
+          "source": "pytest.mark.parametrize(\n    \"a_scale_group_shape\", [PER_TOKEN_GROUP_SHAPE, TENSORWISE_GROUP_SHAPE]\n)"
+        },
+        {
+          "line": 307,
+          "source": "pytest.mark.parametrize(\n    \"b_scale_group_shape\", [PER_OUT_CH_GROUP_SHAPE, TENSORWISE_GROUP_SHAPE]\n)"
+        },
+        {
+          "line": 310,
+          "source": "pytest.mark.parametrize(\"out_dtype\", [torch.bfloat16, torch.float16])"
+        },
+        {
+          "line": 311,
+          "source": "pytest.mark.parametrize(\"use_bias\", [True, False])"
+        },
+        {
+          "line": 312,
+          "source": "pytest.mark.skipif(\n    not current_platform.has_device_capability(89),\n    reason=\"FP8 is not supported on this GPU type.\",\n)"
+        }
+      ],
+      "checks": [],
+      "full_test_source": "def test_cutlass_fp8_gemm_output_dtype(\n    a_scale_group_shape,\n    b_scale_group_shape,\n    out_dtype: type[torch.dtype],\n    use_bias: bool,\n):\n    cutlass_fp8_gemm_helper(\n        512,\n        512,\n        512,\n        a_scale_group_shape,\n        b_scale_group_shape,\n        use_bias,\n        out_dtype=out_dtype,\n    )",
+      "shared_helper_sources": [
+        {
+          "definition_line": 83,
+          "end_line": 116,
+          "decorators": [],
+          "checks": [
+            {
+              "line": 114,
+              "source": "torch.testing.assert_close(out, baseline, rtol=5e-1, atol=1.5e-1)"
+            }
+          ],
+          "full_test_source": "def cutlass_fp8_gemm_helper(\n    m: int,\n    n: int,\n    k: int,\n    a_scale_group_shape: tuple,\n    b_scale_group_shape: tuple,\n    use_bias: bool,\n    out_dtype: type[torch.dtype] = torch.bfloat16,\n    device: str = \"cuda\",\n):\n    # Test for a cutlass kernel with per-token activation quantization\n    # and per-output channel weight quantization.\n    a = to_fp8(torch.randn((m, k), device=device))\n    b = to_fp8(torch.randn((n, k), device=device).t())\n\n    a_scales_shape = scale_shape(a.shape, a_scale_group_shape)\n    b_scales_shape = scale_shape(b.shape, b_scale_group_shape)\n\n    scale_a = torch.randn(a_scales_shape, device=device, dtype=torch.float32)\n    scale_b = torch.randn(b_scales_shape, device=device, dtype=torch.float32)\n\n    # make scales M-major for blockwise quant, doesn't affect 1D scales\n    scale_a = scale_a.t().contiguous().t()\n    # make scales K-major for blockwise quant, doesn't affect 1D scales\n    scale_b = scale_b.t().contiguous().t()\n\n    bias = torch.rand((n,), device=device, dtype=out_dtype) * 10 if use_bias else None\n\n    out = ops.cutlass_scaled_mm(a, b, scale_a, scale_b, out_dtype, bias)\n    baseline = baseline_scaled_mm(a, b, scale_a, scale_b, out_dtype, bias)\n\n    torch.testing.assert_close(out, baseline, rtol=5e-1, atol=1.5e-1)\n\n    opcheck(torch.ops._C.cutlass_scaled_mm, (out, a, b, scale_a, scale_b, bias))"
+        }
+      ],
+      "all_checks": [
+        {
+          "path": "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+          "line": 114,
+          "source": "torch.testing.assert_close(out, baseline, rtol=5e-1, atol=1.5e-1)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+        "test_cutlass_fp8_blockwise_scale_gemm_dtype",
+        "342"
+      ],
+      "source_sha256": "ce02bee6c3b0deb69bb94861f431784e4b4d2bfb9b7d5f199fb1f4e41ffe2457",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "FP8 scaled GEMM output matches FP32 dequantized group-broadcast matmul (cast before bias) at rtol=0.5, atol=0.15.",
+      "input_state": "512x512x512, block scales, BF16/FP16 output, no bias",
+      "scope_limit": "Custom-op opcheck is additional registration/schema checking, not a numerical reference oracle.",
+      "definition_line": 342,
+      "end_line": 356,
+      "decorators": [
+        {
+          "line": 333,
+          "source": "pytest.mark.parametrize(\n    \"a_scale_group_shape,b_scale_group_shape\", [((1, 128), (128, 128))]\n)"
+        },
+        {
+          "line": 336,
+          "source": "pytest.mark.parametrize(\"out_dtype\", [torch.bfloat16, torch.float16])"
+        },
+        {
+          "line": 337,
+          "source": "pytest.mark.parametrize(\"use_bias\", [False])"
+        },
+        {
+          "line": 338,
+          "source": "pytest.mark.skipif(\n    not current_platform.has_device_capability(90),\n    reason=\"FP8 blockwise is not supported on this GPU type.\",\n)"
+        }
+      ],
+      "checks": [],
+      "full_test_source": "def test_cutlass_fp8_blockwise_scale_gemm_dtype(\n    a_scale_group_shape,\n    b_scale_group_shape,\n    out_dtype: type[torch.dtype],\n    use_bias: bool,\n):\n    cutlass_fp8_gemm_helper(\n        512,\n        512,\n        512,\n        a_scale_group_shape,\n        b_scale_group_shape,\n        use_bias,\n        out_dtype=out_dtype,\n    )",
+      "shared_helper_sources": [
+        {
+          "definition_line": 83,
+          "end_line": 116,
+          "decorators": [],
+          "checks": [
+            {
+              "line": 114,
+              "source": "torch.testing.assert_close(out, baseline, rtol=5e-1, atol=1.5e-1)"
+            }
+          ],
+          "full_test_source": "def cutlass_fp8_gemm_helper(\n    m: int,\n    n: int,\n    k: int,\n    a_scale_group_shape: tuple,\n    b_scale_group_shape: tuple,\n    use_bias: bool,\n    out_dtype: type[torch.dtype] = torch.bfloat16,\n    device: str = \"cuda\",\n):\n    # Test for a cutlass kernel with per-token activation quantization\n    # and per-output channel weight quantization.\n    a = to_fp8(torch.randn((m, k), device=device))\n    b = to_fp8(torch.randn((n, k), device=device).t())\n\n    a_scales_shape = scale_shape(a.shape, a_scale_group_shape)\n    b_scales_shape = scale_shape(b.shape, b_scale_group_shape)\n\n    scale_a = torch.randn(a_scales_shape, device=device, dtype=torch.float32)\n    scale_b = torch.randn(b_scales_shape, device=device, dtype=torch.float32)\n\n    # make scales M-major for blockwise quant, doesn't affect 1D scales\n    scale_a = scale_a.t().contiguous().t()\n    # make scales K-major for blockwise quant, doesn't affect 1D scales\n    scale_b = scale_b.t().contiguous().t()\n\n    bias = torch.rand((n,), device=device, dtype=out_dtype) * 10 if use_bias else None\n\n    out = ops.cutlass_scaled_mm(a, b, scale_a, scale_b, out_dtype, bias)\n    baseline = baseline_scaled_mm(a, b, scale_a, scale_b, out_dtype, bias)\n\n    torch.testing.assert_close(out, baseline, rtol=5e-1, atol=1.5e-1)\n\n    opcheck(torch.ops._C.cutlass_scaled_mm, (out, a, b, scale_a, scale_b, bias))"
+        }
+      ],
+      "all_checks": [
+        {
+          "path": "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+          "line": 114,
+          "source": "torch.testing.assert_close(out, baseline, rtol=5e-1, atol=1.5e-1)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+        "test_cutlass_fp8_gemm_devices",
+        "371"
+      ],
+      "source_sha256": "ce02bee6c3b0deb69bb94861f431784e4b4d2bfb9b7d5f199fb1f4e41ffe2457",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "FP8 scaled GEMM output matches FP32 dequantized group-broadcast matmul (cast before bias) at rtol=0.5, atol=0.15.",
+      "input_state": "512x512x512, CUDA_DEVICES, BF16 output, scale granularities and bias",
+      "scope_limit": "Custom-op opcheck is additional registration/schema checking, not a numerical reference oracle.",
+      "definition_line": 371,
+      "end_line": 383,
+      "decorators": [
+        {
+          "line": 359,
+          "source": "pytest.mark.parametrize(\n    \"a_scale_group_shape\", [PER_TOKEN_GROUP_SHAPE, TENSORWISE_GROUP_SHAPE]\n)"
+        },
+        {
+          "line": 362,
+          "source": "pytest.mark.parametrize(\n    \"b_scale_group_shape\", [PER_OUT_CH_GROUP_SHAPE, TENSORWISE_GROUP_SHAPE]\n)"
+        },
+        {
+          "line": 365,
+          "source": "pytest.mark.parametrize(\"use_bias\", [True, False])"
+        },
+        {
+          "line": 366,
+          "source": "pytest.mark.parametrize(\"device\", CUDA_DEVICES)"
+        },
+        {
+          "line": 367,
+          "source": "pytest.mark.skipif(\n    not current_platform.has_device_capability(89),\n    reason=\"FP8 is not supported on this GPU type.\",\n)"
+        }
+      ],
+      "checks": [],
+      "full_test_source": "def test_cutlass_fp8_gemm_devices(\n    a_scale_group_shape, b_scale_group_shape, use_bias: bool, device: str\n):\n    cutlass_fp8_gemm_helper(\n        512,\n        512,\n        512,\n        a_scale_group_shape,\n        b_scale_group_shape,\n        use_bias,\n        torch.bfloat16,\n        device,\n    )",
+      "shared_helper_sources": [
+        {
+          "definition_line": 83,
+          "end_line": 116,
+          "decorators": [],
+          "checks": [
+            {
+              "line": 114,
+              "source": "torch.testing.assert_close(out, baseline, rtol=5e-1, atol=1.5e-1)"
+            }
+          ],
+          "full_test_source": "def cutlass_fp8_gemm_helper(\n    m: int,\n    n: int,\n    k: int,\n    a_scale_group_shape: tuple,\n    b_scale_group_shape: tuple,\n    use_bias: bool,\n    out_dtype: type[torch.dtype] = torch.bfloat16,\n    device: str = \"cuda\",\n):\n    # Test for a cutlass kernel with per-token activation quantization\n    # and per-output channel weight quantization.\n    a = to_fp8(torch.randn((m, k), device=device))\n    b = to_fp8(torch.randn((n, k), device=device).t())\n\n    a_scales_shape = scale_shape(a.shape, a_scale_group_shape)\n    b_scales_shape = scale_shape(b.shape, b_scale_group_shape)\n\n    scale_a = torch.randn(a_scales_shape, device=device, dtype=torch.float32)\n    scale_b = torch.randn(b_scales_shape, device=device, dtype=torch.float32)\n\n    # make scales M-major for blockwise quant, doesn't affect 1D scales\n    scale_a = scale_a.t().contiguous().t()\n    # make scales K-major for blockwise quant, doesn't affect 1D scales\n    scale_b = scale_b.t().contiguous().t()\n\n    bias = torch.rand((n,), device=device, dtype=out_dtype) * 10 if use_bias else None\n\n    out = ops.cutlass_scaled_mm(a, b, scale_a, scale_b, out_dtype, bias)\n    baseline = baseline_scaled_mm(a, b, scale_a, scale_b, out_dtype, bias)\n\n    torch.testing.assert_close(out, baseline, rtol=5e-1, atol=1.5e-1)\n\n    opcheck(torch.ops._C.cutlass_scaled_mm, (out, a, b, scale_a, scale_b, bias))"
+        }
+      ],
+      "all_checks": [
+        {
+          "path": "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+          "line": 114,
+          "source": "torch.testing.assert_close(out, baseline, rtol=5e-1, atol=1.5e-1)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+        "test_cutlass_int8_gemm_devices",
+        "394"
+      ],
+      "source_sha256": "ce02bee6c3b0deb69bb94861f431784e4b4d2bfb9b7d5f199fb1f4e41ffe2457",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "INT8 scaled GEMM output matches FP32 dequantized group-broadcast matmul (cast before bias) at rtol=0.1, atol=1.0.",
+      "input_state": "512x512x512, CUDA_DEVICES, BF16 output, scale granularities and bias",
+      "scope_limit": "Custom-op opcheck is additional registration/schema checking, not a numerical reference oracle.",
+      "definition_line": 394,
+      "end_line": 406,
+      "decorators": [
+        {
+          "line": 386,
+          "source": "pytest.mark.parametrize(\n    \"a_scale_group_shape\", [PER_TOKEN_GROUP_SHAPE, TENSORWISE_GROUP_SHAPE]\n)"
+        },
+        {
+          "line": 389,
+          "source": "pytest.mark.parametrize(\n    \"b_scale_group_shape\", [PER_OUT_CH_GROUP_SHAPE, TENSORWISE_GROUP_SHAPE]\n)"
+        },
+        {
+          "line": 392,
+          "source": "pytest.mark.parametrize(\"use_bias\", [True, False])"
+        },
+        {
+          "line": 393,
+          "source": "pytest.mark.parametrize(\"device\", CUDA_DEVICES)"
+        }
+      ],
+      "checks": [],
+      "full_test_source": "def test_cutlass_int8_gemm_devices(\n    a_scale_group_shape, b_scale_group_shape, use_bias: bool, device: str\n):\n    cutlass_int8_gemm_helper(\n        512,\n        512,\n        512,\n        a_scale_group_shape,\n        b_scale_group_shape,\n        use_bias,\n        out_dtype=torch.bfloat16,\n        device=device,\n    )",
+      "shared_helper_sources": [
+        {
+          "definition_line": 119,
+          "end_line": 147,
+          "decorators": [],
+          "checks": [
+            {
+              "line": 145,
+              "source": "torch.testing.assert_close(out, baseline, rtol=1e-1, atol=1e0)"
+            }
+          ],
+          "full_test_source": "def cutlass_int8_gemm_helper(\n    m: int,\n    n: int,\n    k: int,\n    a_scale_group_shape: tuple,\n    b_scale_group_shape: tuple,\n    use_bias: bool,\n    out_dtype: type[torch.dtype] = torch.bfloat16,\n    device: str = \"cuda\",\n):\n    # Test for a cutlass kernel with per-token activation quantization\n    # and per-output channel weight quantization.\n    a = to_int8(torch.randn((m, k), device=device) * 5)\n    b = to_int8(torch.randn((n, k), device=device).t() * 5)\n\n    a_scales_shape = scale_shape(a.shape, a_scale_group_shape)\n    b_scales_shape = scale_shape(b.shape, b_scale_group_shape)\n\n    scale_a = torch.randn(a_scales_shape, device=device, dtype=torch.float32)\n    scale_b = torch.randn(b_scales_shape, device=device, dtype=torch.float32)\n\n    bias = torch.rand((n,), device=device, dtype=out_dtype) * 10 if use_bias else None\n\n    out = ops.cutlass_scaled_mm(a, b, scale_a, scale_b, out_dtype, bias)\n    baseline = baseline_scaled_mm(a, b, scale_a, scale_b, out_dtype, bias)\n\n    torch.testing.assert_close(out, baseline, rtol=1e-1, atol=1e0)\n\n    opcheck(torch.ops._C.cutlass_scaled_mm, (out, a, b, scale_a, scale_b, bias))"
+        }
+      ],
+      "all_checks": [
+        {
+          "path": "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+          "line": 145,
+          "source": "torch.testing.assert_close(out, baseline, rtol=1e-1, atol=1e0)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+        "test_cutlass_fp8_gemm_m_sweep",
+        "425"
+      ],
+      "source_sha256": "ce02bee6c3b0deb69bb94861f431784e4b4d2bfb9b7d5f199fb1f4e41ffe2457",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "FP8 scaled GEMM output matches FP32 dequantized group-broadcast matmul (cast before bias) at rtol=0.5, atol=0.15.",
+      "input_state": "N=K in [32,64,96], M=1..127, scale granularities and bias",
+      "scope_limit": "Custom-op opcheck is additional registration/schema checking, not a numerical reference oracle.",
+      "definition_line": 425,
+      "end_line": 432,
+      "decorators": [
+        {
+          "line": 414,
+          "source": "pytest.mark.parametrize(\n    \"a_scale_group_shape\", [PER_TOKEN_GROUP_SHAPE, TENSORWISE_GROUP_SHAPE]\n)"
+        },
+        {
+          "line": 417,
+          "source": "pytest.mark.parametrize(\n    \"b_scale_group_shape\", [PER_OUT_CH_GROUP_SHAPE, TENSORWISE_GROUP_SHAPE]\n)"
+        },
+        {
+          "line": 420,
+          "source": "pytest.mark.parametrize(\"use_bias\", [True, False])"
+        },
+        {
+          "line": 421,
+          "source": "pytest.mark.skipif(\n    not current_platform.has_device_capability(89),\n    reason=\"FP8 is not supported on this GPU type.\",\n)"
+        }
+      ],
+      "checks": [],
+      "full_test_source": "def test_cutlass_fp8_gemm_m_sweep(\n    a_scale_group_shape, b_scale_group_shape, use_bias: bool\n):\n    for nk in range(32, 128, 32):\n        for m in range(1, 128):\n            cutlass_fp8_gemm_helper(\n                m, nk, nk, a_scale_group_shape, b_scale_group_shape, use_bias\n            )",
+      "shared_helper_sources": [
+        {
+          "definition_line": 83,
+          "end_line": 116,
+          "decorators": [],
+          "checks": [
+            {
+              "line": 114,
+              "source": "torch.testing.assert_close(out, baseline, rtol=5e-1, atol=1.5e-1)"
+            }
+          ],
+          "full_test_source": "def cutlass_fp8_gemm_helper(\n    m: int,\n    n: int,\n    k: int,\n    a_scale_group_shape: tuple,\n    b_scale_group_shape: tuple,\n    use_bias: bool,\n    out_dtype: type[torch.dtype] = torch.bfloat16,\n    device: str = \"cuda\",\n):\n    # Test for a cutlass kernel with per-token activation quantization\n    # and per-output channel weight quantization.\n    a = to_fp8(torch.randn((m, k), device=device))\n    b = to_fp8(torch.randn((n, k), device=device).t())\n\n    a_scales_shape = scale_shape(a.shape, a_scale_group_shape)\n    b_scales_shape = scale_shape(b.shape, b_scale_group_shape)\n\n    scale_a = torch.randn(a_scales_shape, device=device, dtype=torch.float32)\n    scale_b = torch.randn(b_scales_shape, device=device, dtype=torch.float32)\n\n    # make scales M-major for blockwise quant, doesn't affect 1D scales\n    scale_a = scale_a.t().contiguous().t()\n    # make scales K-major for blockwise quant, doesn't affect 1D scales\n    scale_b = scale_b.t().contiguous().t()\n\n    bias = torch.rand((n,), device=device, dtype=out_dtype) * 10 if use_bias else None\n\n    out = ops.cutlass_scaled_mm(a, b, scale_a, scale_b, out_dtype, bias)\n    baseline = baseline_scaled_mm(a, b, scale_a, scale_b, out_dtype, bias)\n\n    torch.testing.assert_close(out, baseline, rtol=5e-1, atol=1.5e-1)\n\n    opcheck(torch.ops._C.cutlass_scaled_mm, (out, a, b, scale_a, scale_b, bias))"
+        }
+      ],
+      "all_checks": [
+        {
+          "path": "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+          "line": 114,
+          "source": "torch.testing.assert_close(out, baseline, rtol=5e-1, atol=1.5e-1)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+        "test_cutlass_int8_gemm_m_sweep",
+        "442"
+      ],
+      "source_sha256": "ce02bee6c3b0deb69bb94861f431784e4b4d2bfb9b7d5f199fb1f4e41ffe2457",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "INT8 scaled GEMM output matches FP32 dequantized group-broadcast matmul (cast before bias) at rtol=0.1, atol=1.0.",
+      "input_state": "N=K in [32,64,96], M=1..127, scale granularities and bias",
+      "scope_limit": "Custom-op opcheck is additional registration/schema checking, not a numerical reference oracle.",
+      "definition_line": 442,
+      "end_line": 449,
+      "decorators": [
+        {
+          "line": 435,
+          "source": "pytest.mark.parametrize(\n    \"a_scale_group_shape\", [PER_TOKEN_GROUP_SHAPE, TENSORWISE_GROUP_SHAPE]\n)"
+        },
+        {
+          "line": 438,
+          "source": "pytest.mark.parametrize(\n    \"b_scale_group_shape\", [PER_OUT_CH_GROUP_SHAPE, TENSORWISE_GROUP_SHAPE]\n)"
+        },
+        {
+          "line": 441,
+          "source": "pytest.mark.parametrize(\"use_bias\", [True, False])"
+        }
+      ],
+      "checks": [],
+      "full_test_source": "def test_cutlass_int8_gemm_m_sweep(\n    a_scale_group_shape, b_scale_group_shape, use_bias: bool\n):\n    for nk in range(32, 128, 32):\n        for m in range(1, 128):\n            cutlass_int8_gemm_helper(\n                m, nk, nk, a_scale_group_shape, b_scale_group_shape, use_bias\n            )",
+      "shared_helper_sources": [
+        {
+          "definition_line": 119,
+          "end_line": 147,
+          "decorators": [],
+          "checks": [
+            {
+              "line": 145,
+              "source": "torch.testing.assert_close(out, baseline, rtol=1e-1, atol=1e0)"
+            }
+          ],
+          "full_test_source": "def cutlass_int8_gemm_helper(\n    m: int,\n    n: int,\n    k: int,\n    a_scale_group_shape: tuple,\n    b_scale_group_shape: tuple,\n    use_bias: bool,\n    out_dtype: type[torch.dtype] = torch.bfloat16,\n    device: str = \"cuda\",\n):\n    # Test for a cutlass kernel with per-token activation quantization\n    # and per-output channel weight quantization.\n    a = to_int8(torch.randn((m, k), device=device) * 5)\n    b = to_int8(torch.randn((n, k), device=device).t() * 5)\n\n    a_scales_shape = scale_shape(a.shape, a_scale_group_shape)\n    b_scales_shape = scale_shape(b.shape, b_scale_group_shape)\n\n    scale_a = torch.randn(a_scales_shape, device=device, dtype=torch.float32)\n    scale_b = torch.randn(b_scales_shape, device=device, dtype=torch.float32)\n\n    bias = torch.rand((n,), device=device, dtype=out_dtype) * 10 if use_bias else None\n\n    out = ops.cutlass_scaled_mm(a, b, scale_a, scale_b, out_dtype, bias)\n    baseline = baseline_scaled_mm(a, b, scale_a, scale_b, out_dtype, bias)\n\n    torch.testing.assert_close(out, baseline, rtol=1e-1, atol=1e0)\n\n    opcheck(torch.ops._C.cutlass_scaled_mm, (out, a, b, scale_a, scale_b, bias))"
+        }
+      ],
+      "all_checks": [
+        {
+          "path": "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+          "line": 145,
+          "source": "torch.testing.assert_close(out, baseline, rtol=1e-1, atol=1e0)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+        "test_cutlass_int8_azp_bias_fold",
+        "457"
+      ],
+      "source_sha256": "ce02bee6c3b0deb69bb94861f431784e4b4d2bfb9b7d5f199fb1f4e41ffe2457",
+      "unit_id": null,
+      "property": "unconditional_skip_prevents_numerical_oracle_execution",
+      "input_state": "Unconditional @pytest.mark.skip",
+      "scope_limit": "Body has numerical comparisons, but this collected definition is unconditionally skipped because bias folding loses precision.",
+      "definition_line": 457,
+      "end_line": 498,
+      "decorators": [
+        {
+          "line": 452,
+          "source": "pytest.mark.parametrize(\"m\", [32, 64, 128])"
+        },
+        {
+          "line": 453,
+          "source": "pytest.mark.parametrize(\"n\", [16, 32, 64])"
+        },
+        {
+          "line": 454,
+          "source": "pytest.mark.parametrize(\"k\", [64, 128, 256])"
+        },
+        {
+          "line": 455,
+          "source": "pytest.mark.parametrize(\"out_dtype\", [torch.bfloat16, torch.float16])"
+        },
+        {
+          "line": 456,
+          "source": "pytest.mark.skip"
+        }
+      ],
+      "checks": [
+        {
+          "line": 479,
+          "source": "torch.testing.assert_close(a_dq, scale_a * aq_f32 + azp_a)"
+        },
+        {
+          "line": 485,
+          "source": "assert azp_bias.shape == (1, n)"
+        },
+        {
+          "line": 486,
+          "source": "assert azp_bias[0, :].shape == (n,)"
+        },
+        {
+          "line": 497,
+          "source": "torch.testing.assert_close(out, baseline_dq, rtol=1e-2, atol=1e0)"
+        },
+        {
+          "line": 498,
+          "source": "torch.testing.assert_close(out, baseline_q, rtol=1e-2, atol=1e0)"
+        }
+      ],
+      "full_test_source": "def test_cutlass_int8_azp_bias_fold(m: int, n: int, k: int, out_dtype: torch.dtype):\n    # Currently, the test is failing because folding azp into\n    # 16-bit bias loses too much precision\n    scale_a = torch.randn((1, 1), device=\"cuda\", dtype=torch.float32) / 10\n    scale_b = torch.randn((1, n), device=\"cuda\", dtype=torch.float32) / 10\n\n    aq_i8 = rand_int8((m, k))\n    bq_i8 = rand_int8((n, k)).t()\n\n    aq_i32 = aq_i8.to(dtype=torch.int32)\n    bq_i32 = bq_i8.to(dtype=torch.int32)\n\n    aq_f32 = aq_i8.to(dtype=torch.float32)\n    bq_f32 = bq_i8.to(dtype=torch.float32)\n\n    b_dq = scale_b * bq_f32\n\n    azp_a = torch.rand((1,), device=\"cuda\", dtype=torch.float32) * 10 + 1.5\n    azp_aq_i8 = (azp_a / scale_a).to(dtype=torch.int8)\n    azp_a = azp_aq_i8.to(dtype=torch.float32) * scale_a  # correct for rounding\n\n    a_dq = scale_a * (aq_i32 + azp_aq_i8).to(dtype=torch.float32)\n    torch.testing.assert_close(a_dq, scale_a * aq_f32 + azp_a)\n\n    baseline_dq = torch.mm(a_dq, b_dq).to(out_dtype)\n\n    J = torch.ones((1, k), device=\"cuda\", dtype=torch.float32)\n    azp_bias = (azp_a * scale_b * (J @ bq_f32)).to(out_dtype)\n    assert azp_bias.shape == (1, n)\n    assert azp_bias[0, :].shape == (n,)\n\n    baseline_q = (\n        scale_a.to(device=\"cpu\")\n        * scale_b.to(device=\"cpu\")\n        * ((aq_i32 + azp_aq_i8).to(device=\"cpu\") @ bq_i32.to(device=\"cpu\"))\n    ).to(dtype=out_dtype, device=\"cuda\")\n\n    out = ops.cutlass_scaled_mm(\n        aq_i8, bq_i8, scale_a, scale_b, out_dtype=out_dtype, bias=azp_bias[0, :]\n    )\n    torch.testing.assert_close(out, baseline_dq, rtol=1e-2, atol=1e0)\n    torch.testing.assert_close(out, baseline_q, rtol=1e-2, atol=1e0)",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+          "line": 479,
+          "source": "torch.testing.assert_close(a_dq, scale_a * aq_f32 + azp_a)"
+        },
+        {
+          "path": "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+          "line": 485,
+          "source": "assert azp_bias.shape == (1, n)"
+        },
+        {
+          "path": "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+          "line": 486,
+          "source": "assert azp_bias[0, :].shape == (n,)"
+        },
+        {
+          "path": "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+          "line": 497,
+          "source": "torch.testing.assert_close(out, baseline_dq, rtol=1e-2, atol=1e0)"
+        },
+        {
+          "path": "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+          "line": 498,
+          "source": "torch.testing.assert_close(out, baseline_q, rtol=1e-2, atol=1e0)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+        "test_cutlass_int8_azp",
+        "507"
+      ],
+      "source_sha256": "ce02bee6c3b0deb69bb94861f431784e4b4d2bfb9b7d5f199fb1f4e41ffe2457",
+      "unit_id": "compute.operator_reference_relation",
+      "property": "Asymmetric INT8 GEMM matches both dequantized FP32 matmul and CPU INT32 matmul plus scales/bias, atol=1e-3 and rtol=1e-2 BF16 or 1e-3 FP16.",
+      "input_state": "M=[32,64,128], N=[16,32,64], K=[64,128,256], BF16/FP16, optional bias, per-token or tensor activation zero point",
+      "scope_limit": "Custom-op opcheck is additional registration/schema checking, not a numerical reference oracle.",
+      "definition_line": 507,
+      "end_line": 573,
+      "decorators": [
+        {
+          "line": 501,
+          "source": "pytest.mark.parametrize(\"m\", [32, 64, 128])"
+        },
+        {
+          "line": 502,
+          "source": "pytest.mark.parametrize(\"n\", [16, 32, 64])"
+        },
+        {
+          "line": 503,
+          "source": "pytest.mark.parametrize(\"k\", [64, 128, 256])"
+        },
+        {
+          "line": 504,
+          "source": "pytest.mark.parametrize(\"out_dtype\", [torch.bfloat16, torch.float16])"
+        },
+        {
+          "line": 505,
+          "source": "pytest.mark.parametrize(\"use_bias\", [True, False])"
+        },
+        {
+          "line": 506,
+          "source": "pytest.mark.parametrize(\"azp_per_token\", [True, False])"
+        }
+      ],
+      "checks": [
+        {
+          "line": 528,
+          "source": "torch.testing.assert_close(a_dq, scale_a * aq_f32 - azp_a, rtol=1e-4, atol=1e-3)"
+        },
+        {
+          "line": 561,
+          "source": "torch.testing.assert_close(out, baseline_dq, rtol=rtol, atol=atol)"
+        },
+        {
+          "line": 562,
+          "source": "torch.testing.assert_close(out, baseline_q, rtol=rtol, atol=atol)"
+        }
+      ],
+      "full_test_source": "def test_cutlass_int8_azp(\n    m: int, n: int, k: int, out_dtype: torch.dtype, use_bias: bool, azp_per_token: bool\n):\n    m_azp = m if azp_per_token else 1\n    scale_a = torch.randn((m_azp, 1), device=\"cuda\", dtype=torch.float32) / 10\n    scale_b = torch.randn((1, n), device=\"cuda\", dtype=torch.float32) / 10\n\n    aq_i8 = rand_int8((m, k))\n    aq_i32 = aq_i8.to(dtype=torch.int32)\n    aq_f32 = aq_i8.to(dtype=torch.float32)\n\n    bq_i8 = rand_int8((n, k)).t()\n    bq_i32 = bq_i8.to(dtype=torch.int32)\n    bq_f32 = bq_i8.to(dtype=torch.float32)\n    b_dq = scale_b * bq_f32\n\n    azp_a = torch.rand((m_azp, 1), device=\"cuda\", dtype=torch.float32) * 10 + 1.5\n    azp_aq_i8 = (azp_a / scale_a).to(dtype=torch.int8)\n    azp_a = azp_aq_i8.to(dtype=torch.float32) * scale_a  # correct for rounding\n\n    a_dq = scale_a * (aq_i32 - azp_aq_i8).to(dtype=torch.float32)\n    torch.testing.assert_close(a_dq, scale_a * aq_f32 - azp_a, rtol=1e-4, atol=1e-3)\n\n    if use_bias:\n        bias = torch.rand((1, n), device=\"cuda\", dtype=out_dtype) * 10 + 2.5\n    else:\n        bias = torch.zeros((1, n), device=\"cuda\", dtype=out_dtype)\n\n    baseline_dq = (torch.mm(a_dq, b_dq) + bias).to(out_dtype)\n\n    # int32 mm not supported on CUDA\n    a_noazp_i32_cpu = (aq_i32 - azp_aq_i8).to(device=\"cpu\")\n    cq = (a_noazp_i32_cpu @ bq_i32.to(device=\"cpu\")).to(device=\"cuda\")\n    baseline_q = (scale_a * scale_b * cq + bias).to(dtype=out_dtype)\n\n    # Hadamard is just the sum of the cols\n    azp_adj_i32 = bq_i32.sum(dim=0, keepdim=True, dtype=torch.int32)\n    azp_i32 = azp_aq_i8.to(dtype=torch.int32)\n    func_bias = bias if use_bias else None\n\n    if azp_per_token:\n        out = ops.cutlass_scaled_mm_azp(\n            aq_i8, bq_i8, scale_a, scale_b, out_dtype, azp_adj_i32, azp_i32, func_bias\n        )\n    else:\n        azp_with_adj_i32 = azp_i32 * azp_adj_i32\n        out = ops.cutlass_scaled_mm_azp(\n            aq_i8, bq_i8, scale_a, scale_b, out_dtype, azp_with_adj_i32, None, func_bias\n        )\n\n    # bfloat16 precision is 7-bit mantissa -> 2^-8 ~ 0.4%\n    # float16 precision is 10-bit mantissa -> 2^-11 ~ 0.05%\n    rtol = 1e-2 if out_dtype == torch.bfloat16 else 1e-3\n    atol = 1e-3\n    torch.testing.assert_close(out, baseline_dq, rtol=rtol, atol=atol)\n    torch.testing.assert_close(out, baseline_q, rtol=rtol, atol=atol)\n\n    if azp_per_token:\n        opcheck(\n            torch.ops._C.cutlass_scaled_mm_azp,\n            (out, aq_i8, bq_i8, scale_a, scale_b, azp_adj_i32, azp_i32, func_bias),\n        )\n    else:\n        opcheck(\n            torch.ops._C.cutlass_scaled_mm_azp,\n            (out, aq_i8, bq_i8, scale_a, scale_b, azp_with_adj_i32, None, func_bias),\n        )",
+      "shared_helper_sources": [],
+      "all_checks": [
+        {
+          "path": "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+          "line": 528,
+          "source": "torch.testing.assert_close(a_dq, scale_a * aq_f32 - azp_a, rtol=1e-4, atol=1e-3)"
+        },
+        {
+          "path": "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+          "line": 561,
+          "source": "torch.testing.assert_close(out, baseline_dq, rtol=rtol, atol=atol)"
+        },
+        {
+          "path": "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+          "line": 562,
+          "source": "torch.testing.assert_close(out, baseline_q, rtol=rtol, atol=atol)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+        "test_cutlass_support_opcheck",
+        "649"
+      ],
+      "source_sha256": "ce02bee6c3b0deb69bb94861f431784e4b4d2bfb9b7d5f199fb1f4e41ffe2457",
+      "unit_id": null,
+      "property": "custom_operator_registration_opcheck_requires_distinct_unit",
+      "input_state": "capability_int from current platform",
+      "scope_limit": "Calls tests.kernels.utils.opcheck on a capability predicate, with no expected capability verdict or numerical output asserted.",
+      "definition_line": 649,
+      "end_line": 650,
+      "decorators": [],
+      "checks": [],
+      "full_test_source": "def test_cutlass_support_opcheck():\n    opcheck(torch.ops._C.cutlass_scaled_mm_supports_fp8, (capability_int,))",
+      "shared_helper_sources": [],
+      "all_checks": []
+    }
+  ]
+}

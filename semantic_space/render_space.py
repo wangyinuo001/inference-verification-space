@@ -155,13 +155,16 @@ def render_svg(data: dict) -> str:
     by_id = {unit["id"]: unit for unit in units}
     group_counts: dict[str, int] = {}
     positions: dict[str, tuple[float, float]] = {}
+    preflight_count = sum(u["kind"] != "composite" and u["phase"] == "preflight" for u in units)
+    graph_start = max(350, 145 + max(0, preflight_count - 1) * 56 + 92)
+    diagnostic_units = [u for u in units if u["phase"] == "diagnostic"]
     for unit in units:
-        if unit["kind"] == "composite":
+        if unit["kind"] == "composite" or unit["phase"] == "diagnostic":
             continue
         phase = unit["phase"]
         index = group_counts.get(phase, 0)
         group_counts[phase] = index + 1
-        positions[unit["id"]] = (85, 145 + index * 56) if phase == "preflight" else (PHASE_X[phase], 350 + index * 58)
+        positions[unit["id"]] = (85, 145 + index * 56) if phase == "preflight" else (PHASE_X[phase], graph_start + index * 58)
     positions["response.valid"] = (560, 130)
     positions["embedding.valid"] = (860, 130)
     positions["spec.target_semantics"] = (PHASE_X["sampling"], 220)
@@ -172,6 +175,11 @@ def render_svg(data: dict) -> str:
     lowest_unit = max(y for x, y in positions.values() if y >= 350)
     guide_bottom = max(612, lowest_unit + 26)
     legend_y = max(670, lowest_unit + 76)
+    diagnostic_heading_y = guide_bottom + 48
+    for index, unit in enumerate(diagnostic_units):
+        positions[unit["id"]] = (105 + (index % 7) * 165, diagnostic_heading_y + 43 + (index // 7) * 58)
+    if diagnostic_units:
+        legend_y = max(legend_y, max(positions[u["id"]][1] for u in diagnostic_units) + 65)
     svg_height = legend_y + 28
 
     parts = [
@@ -181,12 +189,14 @@ def render_svg(data: dict) -> str:
         '<text x="32" y="38" class="heading">推理系统的验证单元</text>',
         '<text x="32" y="60" class="sub">横向为请求流程；部署条件位于请求进入前。</text>',
         '<text x="32" y="110" class="phase">部署条件与组合性质</text>',
-        '<line x1="32" y1="290" x2="1245" y2="290" stroke="#ddd9e0"/>',
+        f'<line x1="32" y1="{graph_start-60}" x2="1245" y2="{graph_start-60}" stroke="#ddd9e0"/>',
     ]
     for phase, label in PHASES:
         x = PHASE_X[phase]
-        parts.append(f'<text x="{x}" y="317" text-anchor="middle" class="phase phase-heading" data-phase="{phase}">{e(label)}</text>')
-        parts.append(f'<line x1="{x}" y1="328" x2="{x}" y2="{guide_bottom}" stroke="#eeeaf0"/>')
+        parts.append(f'<text x="{x}" y="{graph_start-33}" text-anchor="middle" class="phase phase-heading" data-phase="{phase}">{e(label)}</text>')
+        parts.append(f'<line x1="{x}" y1="{graph_start-22}" x2="{x}" y2="{guide_bottom}" stroke="#eeeaf0"/>')
+    if diagnostic_units:
+        parts.append(f'<text x="32" y="{diagnostic_heading_y}" class="phase phase-heading" data-phase="diagnostic">验证工具的检查</text>')
 
     for relation in data["relations"]:
         x1, y1 = positions[relation["parent"]]
@@ -214,6 +224,7 @@ def render_svg(data: dict) -> str:
             "shared": ("#e9f2ee", "#8bb6a6"),
             "local": ("#f0f0f2", "#a9a9ae"),
             "deployment": ("#f0f0f2", "#a9a9ae"),
+            "diagnostic_artifact": ("#f0f0f2", "#a9a9ae"),
         }
         fill, stroke = ("#fff", "#75348b") if composite else scope_colors[unit["state_scope"]]
         label_class = "composite-label" if composite else "node-label"

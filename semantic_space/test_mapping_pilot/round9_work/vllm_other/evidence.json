@@ -1,0 +1,249 @@
+{
+  "snapshot": "vllm-20261105",
+  "assigned_entries": 10685,
+  "reviewed_entries": 311,
+  "pending_entries": 10374,
+  "file_reviews": [
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/test_top_k_per_row.py",
+      "source_sha256": "f31c077abd7f234c70913f4175035dfa4f1021b0f9fc1acfea4684645b282135",
+      "review": "Preserves batch1 numerical review and adds complete-body rereview of12 formerly pending checks using now-accepted dispatch/call/output units; chunk partition tests remain pending."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/openai/parser/test_harmony_utils.py",
+      "source_sha256": "af8c49407dcc30066775b6bb40001bf283423955862e39b845a099b156c86e16",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/openai/test_penalty_default_resolution.py",
+      "source_sha256": "a44d3e4ddefa58253a2e8aad6a15fc98e99f4f4e984ab2b0bb85dfa9d5877aaa",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/pooling/scoring/test_bi_encoder_online.py",
+      "source_sha256": "a14509c61a54047980ab15850cf9f7429d352ddb035be2e5c757cb05d58a029b",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/pooling/scoring/test_cross_encoder_online.py",
+      "source_sha256": "2ecec4dce4e19def58112c53ad8ea51049872c6f0c48c44ad1f3b85ebac9c311",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/pooling/scoring/test_late_interaction_online.py",
+      "source_sha256": "10d3a640705227aa6e51b3e20de29a1dda11b247397dfbf7fb7e621000261c79",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/attention/test_cpu_attn.py",
+      "source_sha256": "7c27a62b9751a0bf14c984adcebcbfd13a4f12195de34397572cc4ac946a168e",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/helion/test_fused_qk_norm_rope.py",
+      "source_sha256": "a3d16f783afc781e17524086ec0140e0f84d58e5ee85ae6474f2e5ff9dc66a55",
+      "review": "RDNA full file and helper/fixture chain individually reviewed; Helion assigned closest/fallback test bodies, FakeTensor helper, cache-reset setup, and concrete picker implementation reviewed."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/helion/test_per_token_group_fp8_quant.py",
+      "source_sha256": "1f70d7fd4496c4633001131528f8c7889fec26053668abc47cfbe7aef67088b4",
+      "review": "RDNA full file and helper/fixture chain individually reviewed; Helion assigned closest/fallback test bodies, FakeTensor helper, cache-reset setup, and concrete picker implementation reviewed."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/helion/test_rms_norm_per_block_quant.py",
+      "source_sha256": "e63ebafc2cd4185836126c227f9af9c9c5bd62562eab194bf9f4203ceb8df1ee",
+      "review": "RDNA full file and helper/fixture chain individually reviewed; Helion assigned closest/fallback test bodies, FakeTensor helper, cache-reset setup, and concrete picker implementation reviewed."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/helion/test_silu_and_mul_per_block_quant.py",
+      "source_sha256": "b893a10905f421e398937f1b571bd12ef2edee5aff67d893ac85031eb0031fad",
+      "review": "RDNA full file and helper/fixture chain individually reviewed; Helion assigned closest/fallback test bodies, FakeTensor helper, cache-reset setup, and concrete picker implementation reviewed."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/quantization/test_rdna3_w4a16_determinism.py",
+      "source_sha256": "5cf107c5c09223c3c683271b7152009f9e805cacc6755342767adbc4b1b02936",
+      "review": "RDNA full file and helper/fixture chain individually reviewed; Helion assigned closest/fallback test bodies, FakeTensor helper, cache-reset setup, and concrete picker implementation reviewed."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/test_weight_utils.py",
+      "source_sha256": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/models/kimi_k3/test_amd_latent_moe_runner.py",
+      "source_sha256": "d0e58128524417240ffa884563a987e8c9a40186f23b9c0f207079a5f78f9587",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/models/language/pooling_mteb_test/test_baai.py",
+      "source_sha256": "1baf1d10e88fc0f73f01ba4dd02000af28f1ae28d6bc812dc6238790a4510473",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/models/language/pooling_mteb_test/test_gte.py",
+      "source_sha256": "e41334ab16372ba1185ee6c5d0d6acad6f58db90e992972068af85ec88675deb",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/models/language/pooling_mteb_test/test_intfloat.py",
+      "source_sha256": "0045f8d5fee8e1f53d616961486267551e75bc5cd0da0c96b7cd3ff6e4fd4e09",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/models/language/pooling_mteb_test/test_nemotron.py",
+      "source_sha256": "e7b222f2396b5f6624ee4882a5df56c2f7ff80ef64b891e79a394b3302655bc1",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/models/language/pooling_mteb_test/test_nomic.py",
+      "source_sha256": "90d871e9061f6f4c7a6ae32588547363a765694c030838588e934db9f744bc5b",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/models/language/pooling_mteb_test/test_snowflake_arctic_embed.py",
+      "source_sha256": "567dd409a03dbebd3c33f5f602e0ccf97f6d5002d33bafa1da9dc1df6c8c442b",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/models/language/pooling_mteb_test/test_st_projector.py",
+      "source_sha256": "45d49fce73e8d33a2ac15b93381b46157fc33e511008dc5ff90e9a1388cba95e",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/quantization/test_blackwell_moe.py",
+      "source_sha256": "732fb99563ea5c66f252dbf963fc505632b573c88e984d0454fcd2403719f9ff",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/test_ray_env.py",
+      "source_sha256": "e943262a51911aa0f71009ea068efaddad530adf67ddbb6afe8f9784dedaa6df",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_glm47_moe.py",
+      "source_sha256": "38868aa1a5aeac40bb2935eaeeb9821eeb3a7a1041f3f9bdd0a5eb04d646ff86",
+      "review": "Read test function assertions, shared fixtures and parser/converter implementation; mapping is limited to the actual asserted parser property.",
+      "product_path": "vllm/parser/glm47_moe.py"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_granite.py",
+      "source_sha256": "fb2152c532f01f0f84fc27f203f4667d4461569508600eb8e38e8a3cc08caab5",
+      "review": "Read test function assertions, shared fixtures and parser/converter implementation; mapping is limited to the actual asserted parser property.",
+      "product_path": "vllm/parser/granite.py"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_minimax_m2.py",
+      "source_sha256": "37fecd4201d806661e55a7bf0ce6af7ab17c785b173144f010f68c07358fed76",
+      "review": "Read test function assertions, shared fixtures and parser/converter implementation; mapping is limited to the actual asserted parser property.",
+      "product_path": "vllm/parser/minimax_m2.py"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_pooler_heads.py",
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "review": "Reviewed test bodies and local _make_metadata helper; direct assertions kept at their actual granularity. Product classes checked in seqwise/tokwise heads and methods."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_pooler_methods.py",
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "review": "Reviewed test bodies and local _make_metadata helper; direct assertions kept at their actual granularity. Product classes checked in seqwise/tokwise heads and methods."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/mamba/cpu/test_cpu_gdn_ops.py",
+      "source_sha256": "cd204fb7f909177f829dc5158bd4480c7b52ed17e9054b813ed9baa79a9d75e8",
+      "review": "Full file read, including explicit gated-delta recurrence, FP32 convolution oracle, state-layout helpers and native/Torch execution wrappers."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/quantization/test_cutlass_scaled_mm.py",
+      "source_sha256": "ce02bee6c3b0deb69bb94861f431784e4b4d2bfb9b7d5f199fb1f4e41ffe2457",
+      "review": "Every assigned entry reviewed, both GEMM helpers and shared baseline; unconditional skip and opcheck-only entry remain pending."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/test_shuffle_rows.py",
+      "source_sha256": "d98b02cb8fb09e848dd5224365d96dc6f276fc4a4cca53fc480892f586a5e2a9",
+      "review": "Complete file read and each assigned test individually classified against concrete assertions and shared helper reference."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/moe/test_grouped_topk.py",
+      "source_sha256": "06d2ed9294a25b990133b2ac6c5952f1047a239f7d8046509c1418920e9e37a7",
+      "review": "Complete file read and each assigned test individually classified against concrete assertions and shared helper reference."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/moe/test_rocm_aiter_topk.py",
+      "source_sha256": "c1a4496f04386e3169e48d22a9414f3af7f8f8cf7035f2ec0adf8d42718d6395",
+      "review": "Complete file read and each assigned test individually classified against concrete assertions and shared helper reference."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/test_cpu_fused_sampling.py",
+      "source_sha256": "8e356f306b812b79b4720429c33d2658683d09f99c3f70b76d46c2918a21befd",
+      "review": "Complete file read and each assigned test individually classified against concrete assertions and shared helper reference."
+    }
+  ],
+  "extraction": {
+    "located": 10641,
+    "syntax_error": 36,
+    "definition_not_located": 8,
+    "source_packets": "source-packets.jsonl",
+    "canonical_family_index": "canonical-families.tsv"
+  },
+  "exclusion": "vLLM tests/v1, tests/distributed, source_test_file_unresolved and Rust allocated elsewhere",
+  "batch_evidence": [
+    "evidence-batch1.json",
+    "evidence-batch3.json",
+    "evidence-batch4.json",
+    "evidence-batch5.json",
+    "evidence-batch6.json",
+    "evidence-batch7.json",
+    "evidence-batch8.json",
+    "evidence-batch9.json",
+    "evidence-batch10.json"
+  ],
+  "note": "crosswalk contains only source-reviewed batches 1, 3, 4, 5, 6, 7, 8, 9 and 10; derender batch2 remains provisional and is excluded.",
+  "source_reviewed_pending_entries": 110,
+  "review_stage_note": "The assigned corpus was source-scanned; only completed batch entries are source-reviewed. Mapped counts do not include scan-only pending entries or unverified batch2."
+}

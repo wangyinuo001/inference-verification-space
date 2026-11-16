@@ -1,0 +1,36 @@
+{
+  "batch": "parser_engine_minimax_granite_glm47",
+  "file_reviews": [
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_glm47_moe.py",
+      "source_sha256": "38868aa1a5aeac40bb2935eaeeb9821eeb3a7a1041f3f9bdd0a5eb04d646ff86",
+      "review": "Read test function assertions, shared fixtures and parser/converter implementation; mapping is limited to the actual asserted parser property.",
+      "product_path": "vllm/parser/glm47_moe.py"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_granite.py",
+      "source_sha256": "fb2152c532f01f0f84fc27f203f4667d4461569508600eb8e38e8a3cc08caab5",
+      "review": "Read test function assertions, shared fixtures and parser/converter implementation; mapping is limited to the actual asserted parser property.",
+      "product_path": "vllm/parser/granite.py"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_minimax_m2.py",
+      "source_sha256": "37fecd4201d806661e55a7bf0ce6af7ab17c785b173144f010f68c07358fed76",
+      "review": "Read test function assertions, shared fixtures and parser/converter implementation; mapping is limited to the actual asserted parser property.",
+      "product_path": "vllm/parser/minimax_m2.py"
+    }
+  ],
+  "shared_helpers": [
+    "tests/parser/engine/streaming_helpers.py:20-75",
+    "tests/parser/engine/trace_builder.py:281-292",
+    "tests/parser/engine/replay_harness.py:368-410"
+  ],
+  "counts": {
+    "scope": 58,
+    "mapped": 27,
+    "pending": 31
+  }
+}

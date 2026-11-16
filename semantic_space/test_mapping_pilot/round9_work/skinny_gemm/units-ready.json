@@ -1,0 +1,50 @@
+{
+  "units": [
+    {
+      "id": "compute.kernel_plan_consistency",
+      "name": "计算计划与支持条件对应",
+      "kind": "obligation",
+      "phase": "model_execution",
+      "state_scope": "deployment",
+      "conditions": [
+        "kernel_selection_profile",
+        "operator_profile"
+      ],
+      "property": "计算计划的形状键与配置一致，分块和向量宽度满足形状约束，计划选用的实现具有对应编译实例。",
+      "observable": [
+        "shape_key",
+        "selected_config",
+        "compiled_specializations",
+        "dispatch_plan"
+      ],
+      "oracle": "检查键与参数对应、整除及分块条件，并核对计划与分派表、已编译实例的关系；各入口记录实际检查的子性质。",
+      "framework_scope": [
+        "vllm"
+      ],
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/models/kimi_k3/nvidia/low_latency_gemm.py",
+            "line": 647,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/model_executor/kernels/linear/cute_dsl/skinny_gemm.py",
+            "line": 20,
+            "kind": "source"
+          },
+          {
+            "path": "tests/kernels/test_bf16_skinny_gemm.py",
+            "line": 191,
+            "kind": "existing_test"
+          },
+          {
+            "path": "tests/kernels/test_bf16_skinny_gemm.py",
+            "line": 1047,
+            "kind": "existing_test"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,1579 @@
+{
+  "condition_dimensions": [
+    {
+      "id": "diagnostic_dump_pair",
+      "type": "structured",
+      "fields": [
+        "baseline_tensor",
+        "target_tensor",
+        "shape",
+        "dtype",
+        "comparison_threshold",
+        "alignment_policy",
+        "filter_policy"
+      ],
+      "observed_values": [],
+      "constraint": "These are diagnostic artifacts and options; comparison record validity does not imply model execution correctness."
+    },
+    {
+      "id": "grammar_compilation_context",
+      "type": "structured",
+      "fields": [
+        "constraint_type",
+        "schema_text",
+        "backend",
+        "cache_state",
+        "future_state",
+        "poll_count",
+        "poll_limit",
+        "request_id",
+        "reasoning_flag",
+        "thinking_budget",
+        "rank_ready_and_failed_sets"
+      ],
+      "observed_values": [],
+      "constraint": "Bind concrete request/helper fixtures and mock boundaries. Source review does not demonstrate actual grammar compilation, GPU inference or rank communication."
+    },
+    {
+      "id": "weight_diagnostic_context",
+      "type": "structured",
+      "fields": [
+        "tensor_names",
+        "tensor_values",
+        "tensor_dtype",
+        "tensor_device",
+        "snapshot_state",
+        "comparison_flags",
+        "quantization_scales",
+        "parallel_rank_metadata"
+      ],
+      "observed_values": [],
+      "constraint": "Diagnostic checker behavior under explicit fixtures; a matching hash is not a proof of collision freedom or end-to-end model correctness."
+    },
+    {
+      "id": "reasoning_parser_context",
+      "type": "structured",
+      "fields": [
+        "formatted_input",
+        "chunk_boundaries",
+        "reasoning_start_marker",
+        "reasoning_end_marker",
+        "tool_start_marker",
+        "force_reasoning",
+        "stream_reasoning",
+        "declared_tool_schemas"
+      ],
+      "observed_values": [],
+      "constraint": "Bind the supplied formatted text and parser flags; reasoning-channel placement and downstream tool parsing are separate observed outputs."
+    },
+    {
+      "id": "forward_buffer_context",
+      "type": "structured",
+      "fields": [
+        "slot_specification",
+        "raw_batch_size",
+        "padded_batch_size",
+        "raw_token_count",
+        "padded_token_count",
+        "padding_policy",
+        "source_presence",
+        "source_values",
+        "share_pool",
+        "parallel_rank_metadata"
+      ],
+      "observed_values": [],
+      "constraint": "Buffer registration, copying, padding and alias relations are checked under concrete shapes and CPU fixtures; graph replay and cross-stream ordering require separate evidence."
+    }
+  ],
+  "units": [
+    {
+      "id": "input.embedding_override_binding",
+      "name": "替换向量与目标 token 位置对应",
+      "kind": "obligation",
+      "phase": "admission",
+      "state_scope": "request",
+      "conditions": [
+        "input_form",
+        "request_kind"
+      ],
+      "property": "输入提供的向量与指定 token 占位位置一一对应；批量或 query/item 拼接后保持该位置关系，数量不一致时拒绝。",
+      "observable": [
+        "token_ids",
+        "override_positions",
+        "embedding_vectors",
+        "rejection_reason"
+      ],
+      "oracle": "检查替换位置、向量值与数量；非法占位数应触发明确拒绝。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/managers/tokenizer_manager.py",
+            "line": 1210,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/managers/tokenizer_manager_score_mixin.py",
+            "line": 323,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/managers/tokenizer_manager_score_mixin.py",
+            "line": 396,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/prefill_only/test_embed_overrides.py",
+            "line": 49,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/registered/prefill_only/test_embed_overrides.py",
+            "line": 51,
+            "kind": "existing_oracle"
+          }
+        ],
+        "vllm": [
+          {
+            "path": "vllm/inputs/llm.py",
+            "line": 133,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/inputs/engine.py",
+            "line": 72,
+            "kind": "source"
+          },
+          {
+            "path": "tests/test_request_input_bounds.py",
+            "line": 92,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "tests/renderers/test_hf.py",
+            "line": 121,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang",
+        "vllm"
+      ],
+      "candidate_status": "proposed; unit relation and crosswalk require parent integration",
+      "semantic_domain": "inference_request"
+    },
+    {
+      "id": "diagnostic.parallel_tensor_reconstruction_plan",
+      "name": "诊断张量重建计划遵守分片关系",
+      "kind": "obligation",
+      "phase": "diagnostic",
+      "state_scope": "diagnostic_artifact",
+      "conditions": [
+        "parallel_topology"
+      ],
+      "property": "给定维度注释与 rank 拓扑，比较器构造与分片关系对应的重建操作及分组，并拒绝不一致的布局。",
+      "observable": [
+        "reconstruction_operations",
+        "axis_groups",
+        "rejection_reason"
+      ],
+      "oracle": "对照维度注释和 rank 元数据检查操作顺序、rank 分组或拒绝结果。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/debug_utils/comparator/aligner/unsharder/planner.py",
+            "line": 31,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/debug_utils/comparator/aligner/unsharder/test_planner.py",
+            "line": 27,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/registered/debug_utils/comparator/aligner/unsharder/test_planner.py",
+            "line": 34,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ],
+      "candidate_status": "proposed; unit relation and crosswalk require parent integration",
+      "semantic_domain": "diagnostic_support"
+    },
+    {
+      "id": "diagnostic.parallel_axis_dependency",
+      "name": "诊断并行轴依赖关系正确",
+      "kind": "obligation",
+      "phase": "diagnostic",
+      "state_scope": "diagnostic_artifact",
+      "conditions": [
+        "parallel_topology"
+      ],
+      "property": "根据维度与 rank 注释识别依赖轴，检查复制轴声明的正交性；冲突声明应拒绝。",
+      "observable": [
+        "axis_dependency",
+        "replicated_axis_validity",
+        "rejection_reason"
+      ],
+      "oracle": "对照声明的轴与 rank 元数据检查依赖谓词或拒绝结果。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/debug_utils/comparator/aligner/unsharder/planner.py",
+            "line": 117,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/debug_utils/comparator/aligner/unsharder/planner.py",
+            "line": 186,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/debug_utils/comparator/aligner/unsharder/planner.py",
+            "line": 248,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/debug_utils/comparator/aligner/unsharder/test_planner.py",
+            "line": 1020,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/registered/debug_utils/comparator/aligner/unsharder/test_planner.py",
+            "line": 1040,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ],
+      "candidate_status": "proposed; unit relation and crosswalk require parent integration",
+      "semantic_domain": "diagnostic_support"
+    },
+    {
+      "id": "diagnostic.comparator_report_relation",
+      "name": "诊断比较结果对应基线与目标转储",
+      "kind": "obligation",
+      "phase": "diagnostic",
+      "state_scope": "diagnostic_artifact",
+      "conditions": [
+        "diagnostic_dump_pair"
+      ],
+      "property": "给定基线、目标张量转储和比较配置，输出记录、汇总与退出状态对应被比较的值、形状及声明的过滤和对齐方式。",
+      "observable": [
+        "comparison_records",
+        "summary_counts",
+        "exit_status",
+        "report_artifact"
+      ],
+      "oracle": "用构造的基线和目标转储检查逐张量记录、分类、汇总、退出状态与报告。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/debug_utils/comparator/entrypoint.py",
+            "line": 65,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/debug_utils/comparator/entrypoint.py",
+            "line": 325,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/debug_utils/comparator/test_entrypoint.py",
+            "line": 43,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/registered/debug_utils/comparator/test_entrypoint.py",
+            "line": 49,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ],
+      "candidate_status": "proposed; unit relation and crosswalk require parent integration",
+      "semantic_domain": "diagnostic_support"
+    },
+    {
+      "id": "deployment.network_endpoint_representation",
+      "name": "网络端点解析与格式化保持地址",
+      "kind": "obligation",
+      "phase": "preflight",
+      "state_scope": "deployment",
+      "conditions": [
+        "deployment_configuration"
+      ],
+      "property": "IPv4、IPv6 和主机名端点的解析与 URI 格式化保持主机和端口；不合法的文本在建立通信前被拒绝。",
+      "observable": [
+        "host",
+        "port",
+        "family",
+        "formatted_uri",
+        "rejection_reason"
+      ],
+      "oracle": "对照输入地址检查解析字段、往返格式和非法输入的拒绝。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/utils/network.py",
+            "line": 436,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/utils/test_network_address.py",
+            "line": 18,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/registered/utils/test_network_address.py",
+            "line": 20,
+            "kind": "existing_oracle"
+          }
+        ],
+        "vllm": [
+          {
+            "path": "vllm/utils/network_utils.py",
+            "line": 130,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/utils/network_utils.py",
+            "line": 142,
+            "kind": "source"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang",
+        "vllm"
+      ],
+      "candidate_status": "proposed; unit relation and crosswalk require parent integration",
+      "semantic_domain": "inference_deployment"
+    },
+    {
+      "id": "constraint.diagnostics",
+      "name": "语法编译诊断字段记录",
+      "kind": "obligation",
+      "phase": "diagnostic",
+      "state_scope": "diagnostic_artifact",
+      "conditions": [
+        "grammar_compilation_context"
+      ],
+      "property": "语法统计实例的默认值、可变字段隔离与编译耗时记录符合各字段声明。",
+      "observable": [
+        "compilation_time",
+        "schema_count",
+        "ebnf_size",
+        "is_cache_hit",
+        "is_grammar_aborted",
+        "tree_traversal_time",
+        "dispatch_type",
+        "num_timeout"
+      ],
+      "oracle": "新实例字段等于断言的 None/False/空列表/0；修改一个实例的遍历列表不改变另一个；带统计对象的编译计时为非空正数。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/constrained/base_grammar_backend.py",
+            "line": 31,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/constrained/base_grammar_backend.py",
+            "line": 178,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+            "line": 41,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+            "line": 55,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+            "line": 177,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ],
+      "candidate_status": "proposed; requires parent integration",
+      "semantic_domain": "diagnostic_support"
+    },
+    {
+      "id": "constraint.object_state",
+      "name": "语法对象终止状态",
+      "kind": "obligation",
+      "phase": "decode",
+      "state_scope": "request",
+      "conditions": [
+        "grammar_compilation_context"
+      ],
+      "property": "给定语法对象状态，终止谓词对应该对象声明的状态。",
+      "observable": [
+        "is_terminated"
+      ],
+      "oracle": "构造基础语法对象后 is_terminated() 返回 False；本批尚无 token 推进后的终止状态检查。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/constrained/base_grammar_backend.py",
+            "line": 61,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+            "line": 63,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ],
+      "candidate_status": "proposed; requires parent integration",
+      "semantic_domain": "inference_request"
+    },
+    {
+      "id": "constraint.compile_outcome",
+      "name": "语法编译分派与错误结果",
+      "kind": "obligation",
+      "phase": "admission",
+      "state_scope": "request",
+      "conditions": [
+        "grammar_compilation_context"
+      ],
+      "property": "按指定语法类型分派编译；不支持、未知类型和失败输入返回声明的无效对象、空结果或异常并保留错误信息。",
+      "observable": [
+        "dispatch_key_type",
+        "dispatch_key_string",
+        "grammar_result_type",
+        "error_message",
+        "raised_exception"
+      ],
+      "oracle": "用四种明确语法键检查基础分派返回 InvalidGrammarObject；未知键触发 ValueError 并保留键和值；无效对象保留默认或指定错误文本；mock 返回 None 时结果为 None。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/constrained/base_grammar_backend.py",
+            "line": 123,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/constrained/base_grammar_backend.py",
+            "line": 178,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/constrained/base_grammar_backend.py",
+            "line": 160,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+            "line": 75,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+            "line": 79,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+            "line": 147,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ],
+      "candidate_status": "proposed; requires parent integration",
+      "semantic_domain": "inference_request"
+    },
+    {
+      "id": "constraint.compilation_cache",
+      "name": "语法编译缓存与副本隔离",
+      "kind": "obligation",
+      "phase": "admission",
+      "state_scope": "process",
+      "conditions": [
+        "grammar_compilation_context"
+      ],
+      "property": "语法键确定缓存命中；命中返回声明的请求副本并初始化推理状态，未命中返回编译任务，重置失效旧条目。",
+      "observable": [
+        "cache_key",
+        "cached_object_identity",
+        "returned_copy_identity",
+        "cache_hit",
+        "future_identity",
+        "reasoning_initialization_call"
+      ],
+      "oracle": "插入后键对应原对象；命中标志为真、copy 调用一次并返回副本，副本接收推理标志；重置删除旧条目并使后续查询未命中；重复未命中产生两个独立 Future。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/constrained/base_grammar_backend.py",
+            "line": 198,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/constrained/base_grammar_backend.py",
+            "line": 209,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/constrained/base_grammar_backend.py",
+            "line": 212,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+            "line": 95,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+            "line": 101,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+            "line": 113,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ],
+      "candidate_status": "proposed; requires parent integration",
+      "semantic_domain": "inference_request"
+    },
+    {
+      "id": "constraint.backend_selection",
+      "name": "约束后端选择与参数绑定",
+      "kind": "obligation",
+      "phase": "preflight",
+      "state_scope": "deployment",
+      "conditions": [
+        "grammar_compilation_context"
+      ],
+      "property": "配置、注册表和 tokenizer 能力确定约束后端及推理包装；初始化参数按声明传递，不支持组合被拒绝或按策略降级。",
+      "observable": [
+        "registry_initializer",
+        "selected_backend_identity",
+        "constructor_arguments",
+        "reasoner_wrapper_type",
+        "wrapped_backend_identity",
+        "effective_backend_name",
+        "raised_exception"
+      ],
+      "oracle": "将配置和注册函数的预期结果与后端身份、构造参数和推理包装对象逐项比较；禁用后端为 None；未知名称或 strict+none 报错；指定 tokenizer 不支持异常触发有效后端改为 none。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/constrained/base_grammar_backend.py",
+            "line": 219,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/constrained/base_grammar_backend.py",
+            "line": 223,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+            "line": 252,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+            "line": 257,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+            "line": 286,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ],
+      "candidate_status": "proposed; requires parent integration",
+      "semantic_domain": "inference_request"
+    },
+    {
+      "id": "constraint.request_dispatch",
+      "name": "请求约束键与初始化路径",
+      "kind": "obligation",
+      "phase": "admission",
+      "state_scope": "request",
+      "conditions": [
+        "grammar_compilation_context"
+      ],
+      "property": "请求约束字段和推理标志确定语法键、普通编译或严格推理初始化路径，所得语法与请求对应。",
+      "observable": [
+        "grammar_key",
+        "request_grammar_identity",
+        "enqueue_result",
+        "require_reasoning_argument",
+        "strict_initializer_calls"
+      ],
+      "oracle": "对请求 JSON/regex/EBNF/tag 字段检查实际 grammar_key；JSON 与 regex 同时指定时选择 JSON；后端收到请求推理标志；严格无约束请求绑定 strict initializer 结果，受约束请求走普通分派。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/constrained/grammar_manager.py",
+            "line": 89,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/constrained/test_grammar_manager.py",
+            "line": 146,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/constrained/test_grammar_manager.py",
+            "line": 158,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/constrained/test_grammar_manager.py",
+            "line": 169,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ],
+      "candidate_status": "proposed; requires parent integration",
+      "semantic_domain": "inference_request"
+    },
+    {
+      "id": "constraint.wait_queue",
+      "name": "语法等待队列就绪迁移",
+      "kind": "obligation",
+      "phase": "admission",
+      "state_scope": "scheduler",
+      "conditions": [
+        "grammar_compilation_context"
+      ],
+      "property": "缓存、编译 Future 和请求完成状态确定等待、返回与移出队列的请求身份，未就绪请求保留并累积轮询次数。",
+      "observable": [
+        "queued_request_ids",
+        "ready_request_ids",
+        "request_grammar_identity",
+        "grammar_wait_ct",
+        "queue_length",
+        "has_waiting_grammars",
+        "cache_set_calls"
+      ],
+      "oracle": "比较迁移前后的请求身份集合与队列长度：完成项返回并移出，未完成项保留并递增 wait_ct，已结束请求移出；缓存命中不入队，空队列返回空集合。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/constrained/grammar_manager.py",
+            "line": 142,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/constrained/grammar_manager.py",
+            "line": 64,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/constrained/grammar_manager.py",
+            "line": 89,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/constrained/test_grammar_manager.py",
+            "line": 99,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/constrained/test_grammar_manager.py",
+            "line": 135,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/constrained/test_grammar_manager.py",
+            "line": 198,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ],
+      "candidate_status": "proposed; requires parent integration",
+      "semantic_domain": "inference_request"
+    },
+    {
+      "id": "constraint.request_abort",
+      "name": "语法编译失败与取消传播",
+      "kind": "obligation",
+      "phase": "admission",
+      "state_scope": "request",
+      "conditions": [
+        "grammar_compilation_context"
+      ],
+      "property": "无可用后端、编译失败、超时或取消条件按请求身份传播终止状态和原因；超时记录无效编译结果。",
+      "observable": [
+        "request_id",
+        "future_cancel_calls",
+        "abort_calls",
+        "abort_reason",
+        "returned_grammar_type",
+        "timeout_cache_key",
+        "timeout_cache_result_type"
+      ],
+      "oracle": "按 abort_all 或 rid 前缀检查取消与终止调用；无后端、无效编译结果和 Future 异常产生对应终止原因；wait_ct 达上限时请求返回、终止且为原键缓存 InvalidGrammarObject。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/constrained/grammar_manager.py",
+            "line": 67,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/constrained/grammar_manager.py",
+            "line": 142,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/constrained/test_grammar_manager.py",
+            "line": 211,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/constrained/test_grammar_manager.py",
+            "line": 225,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/constrained/test_grammar_manager.py",
+            "line": 323,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ],
+      "candidate_status": "proposed; requires parent integration",
+      "semantic_domain": "inference_request"
+    },
+    {
+      "id": "constraint.reasoning_budget",
+      "name": "请求推理预算与缓存隔离",
+      "kind": "obligation",
+      "phase": "admission",
+      "state_scope": "request",
+      "conditions": [
+        "grammar_compilation_context"
+      ],
+      "property": "请求指定的推理预算应用于其语法对象；请求级修改不污染共享编译缓存副本。",
+      "observable": [
+        "request_thinking_budget",
+        "request_grammar_max_think_tokens",
+        "cached_grammar_max_think_tokens",
+        "cache_key",
+        "request_grammar_identity"
+      ],
+      "oracle": "命中缓存、严格无约束及 Future 完成路径把请求预算 7/3/4 写入请求语法；Future 完成例缓存副本预算仍为 99，且缓存键保持原 schema。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/constrained/grammar_manager.py",
+            "line": 82,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/constrained/grammar_manager.py",
+            "line": 142,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/constrained/test_grammar_manager.py",
+            "line": 283,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/constrained/test_grammar_manager.py",
+            "line": 297,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/constrained/test_grammar_manager.py",
+            "line": 571,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ],
+      "candidate_status": "proposed; requires parent integration",
+      "semantic_domain": "inference_request"
+    },
+    {
+      "id": "constraint.rank_readiness",
+      "name": "多秩语法就绪与失败同步",
+      "kind": "obligation",
+      "phase": "admission",
+      "state_scope": "scheduler",
+      "conditions": [
+        "grammar_compilation_context"
+      ],
+      "property": "按参与秩就绪集合交集和失败集合并集决定请求的迁移与终止。",
+      "observable": [
+        "per_rank_ready_index_sets",
+        "per_rank_failed_index_sets",
+        "returned_request_ids",
+        "remaining_request_ids",
+        "abort_reason"
+      ],
+      "oracle": "两个 mock rank 的就绪集合 {0} 和 {0,1} 仅释放交集请求0并保留请求1；失败集合 {0} 与空集的并集使请求0按超时终止并移出。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/constrained/grammar_manager.py",
+            "line": 142,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/constrained/test_grammar_manager.py",
+            "line": 611,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/constrained/test_grammar_manager.py",
+            "line": 641,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ],
+      "candidate_status": "proposed; requires parent integration",
+      "semantic_domain": "inference_request"
+    },
+    {
+      "id": "diagnostic.weight_probe_generation",
+      "name": "诊断随机探针保持张量属性",
+      "kind": "obligation",
+      "phase": "diagnostic",
+      "state_scope": "diagnostic_artifact",
+      "conditions": [
+        "weight_diagnostic_context"
+      ],
+      "property": "为权重诊断生成的探针保持输入张量的类型、形状与设备，遵守声明的取值域且不改写输入。",
+      "observable": [
+        "probe_dtype",
+        "probe_shape",
+        "probe_device",
+        "minimum_value",
+        "maximum_value",
+        "distinct_value_count",
+        "input_tensor_values"
+      ],
+      "oracle": "比较探针与输入元数据；浮点值在 [0,1)，整数位于 dtype 范围并有多个值，布尔样本含真和假；调用前后输入张量 assert_close。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/utils/weight_checker.py",
+            "line": 209,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/utils/test_weight_checker.py",
+            "line": 139,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/utils/test_weight_checker.py",
+            "line": 147,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ],
+      "candidate_status": "proposed; requires parent integration",
+      "semantic_domain": "diagnostic_support"
+    },
+    {
+      "id": "diagnostic.weight_comparison_projection",
+      "name": "权重诊断比较表示与过滤",
+      "kind": "obligation",
+      "phase": "diagnostic",
+      "state_scope": "diagnostic_artifact",
+      "conditions": [
+        "weight_diagnostic_context"
+      ],
+      "property": "按名称与量化格式生成有序的待比较表示，保留逻辑名字、比较标志与数值；声明排除项仍可用于诊断但不决定相等失败。",
+      "observable": [
+        "projected_tensor_names",
+        "projected_compare_flags",
+        "projected_tensor_values",
+        "projected_entry_order"
+      ],
+      "oracle": "对照显式预期三元组流逐项比较长度、名称、标志和 assert_close 数值；FP8 解量化项先于原始权重/尺度，原始量化项和排除缓冲区标志为 false；FP8 参考共用 block_quant_dequant。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/utils/weight_checker.py",
+            "line": 226,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/utils/weight_checker.py",
+            "line": 48,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/utils/test_weight_checker.py",
+            "line": 56,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/utils/test_weight_checker.py",
+            "line": 56,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/utils/test_weight_checker.py",
+            "line": 186,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/registered/unit/utils/test_weight_checker.py",
+            "line": 241,
+            "kind": "existing_test"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ],
+      "candidate_status": "proposed; requires parent integration",
+      "semantic_domain": "diagnostic_support"
+    },
+    {
+      "id": "diagnostic.weight_comparison_verdict",
+      "name": "权重诊断比较判定",
+      "kind": "obligation",
+      "phase": "diagnostic",
+      "state_scope": "diagnostic_artifact",
+      "conditions": [
+        "weight_diagnostic_context"
+      ],
+      "property": "比较流的名字、标志和长度必须一致；需要比较的张量按声明相等谓词决定失败并提供对象定位，排除项差异不触发该失败。",
+      "observable": [
+        "expected_names",
+        "actual_names",
+        "compare_flags",
+        "stream_lengths",
+        "elementwise_equality",
+        "raised_exception",
+        "error_tensor_name",
+        "max_abs_error"
+      ],
+      "oracle": "名字/标志不一致触发 AssertionError，长度不一致触发 ValueError；compare=True 张量逐元素不等触发含名称和误差的异常；compare=False 差异及未变/恢复的模型通过同一异常门。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/utils/weight_checker.py",
+            "line": 164,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/utils/weight_checker.py",
+            "line": 85,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/utils/weight_checker.py",
+            "line": 179,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/utils/test_weight_checker.py",
+            "line": 323,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ],
+      "candidate_status": "proposed; requires parent integration",
+      "semantic_domain": "diagnostic_support"
+    },
+    {
+      "id": "diagnostic.weight_snapshot_isolation",
+      "name": "权重诊断快照隔离",
+      "kind": "obligation",
+      "phase": "diagnostic",
+      "state_scope": "diagnostic_artifact",
+      "conditions": [
+        "weight_diagnostic_context"
+      ],
+      "property": "诊断快照包含指定参数与缓冲区，保留采集时值并与后续模型状态变更隔离。",
+      "observable": [
+        "snapshot_tensor_names",
+        "snapshot_tensor_devices",
+        "snapshot_tensor_values",
+        "live_tensor_values"
+      ],
+      "oracle": "快照名字集合等于两个参数加四个缓冲区；CUDA 模型快照移至 CPU；将 live w 填为99后快照 w 与原值 assert_close。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/utils/weight_checker.py",
+            "line": 70,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/utils/test_weight_checker.py",
+            "line": 388,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/utils/test_weight_checker.py",
+            "line": 393,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ],
+      "candidate_status": "proposed; requires parent integration",
+      "semantic_domain": "diagnostic_support"
+    },
+    {
+      "id": "diagnostic.weight_probe_reset",
+      "name": "权重诊断扰动保持存储与排除项",
+      "kind": "obligation",
+      "phase": "diagnostic",
+      "state_scope": "diagnostic_artifact",
+      "conditions": [
+        "weight_diagnostic_context"
+      ],
+      "property": "诊断扰动按声明原地改写正常参数，保持存储身份并保留排除缓冲区的值。",
+      "observable": [
+        "parameter_storage_pointer",
+        "parameter_values_before_after",
+        "excluded_buffer_values_before_after"
+      ],
+      "oracle": "正常 w 的 data_ptr 不变且值改变；三个匹配排除模式的缓冲区在重置前后 assert_close。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/utils/weight_checker.py",
+            "line": 79,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/utils/test_weight_checker.py",
+            "line": 408,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/utils/test_weight_checker.py",
+            "line": 414,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ],
+      "candidate_status": "proposed; requires parent integration",
+      "semantic_domain": "diagnostic_support"
+    },
+    {
+      "id": "diagnostic.weight_action_dispatch",
+      "name": "权重诊断动作分派",
+      "kind": "obligation",
+      "phase": "diagnostic",
+      "state_scope": "diagnostic_artifact",
+      "conditions": [
+        "weight_diagnostic_context"
+      ],
+      "property": "诊断接口将声明动作映射到对应处理器并返回其结果，未知动作给出明确错误。",
+      "observable": [
+        "action_name",
+        "handler_call_counts",
+        "returned_value",
+        "raised_exception_message"
+      ],
+      "oracle": "四个声明动作各调用对应 mock handler 一次；snapshot/compare 返回 None；未知动作异常包含 Unsupported。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/utils/weight_checker.py",
+            "line": 57,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/utils/test_weight_checker.py",
+            "line": 481,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/utils/test_weight_checker.py",
+            "line": 487,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ],
+      "candidate_status": "proposed; requires parent integration",
+      "semantic_domain": "diagnostic_support"
+    },
+    {
+      "id": "diagnostic.weight_checksum_record",
+      "name": "权重诊断校验记录对应内容与拓扑",
+      "kind": "obligation",
+      "phase": "diagnostic",
+      "state_scope": "diagnostic_artifact",
+      "conditions": [
+        "weight_diagnostic_context"
+      ],
+      "property": "诊断校验记录包含被纳入的张量散列与执行拓扑元数据；固定输入散列稳定、具体内容变化可观察且不改写输入。",
+      "observable": [
+        "per_tensor_checksum",
+        "included_tensor_names",
+        "record_keys",
+        "parallelism_info",
+        "checksum_length",
+        "hex_parse_result",
+        "input_tensor_values"
+      ],
+      "oracle": "检查记录键和纳入名字集合、十六位可解析十六进制张量散列、fake runner 的 TP/DP/PP 字段；相同输入记录相同，指定权重修改使散列改变，散列调用不修改输入；Pydantic 验证嵌套拓扑类型。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/utils/weight_checker.py",
+            "line": 102,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/utils/weight_checker.py",
+            "line": 142,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/utils/weight_checker.py",
+            "line": 160,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/utils/test_weight_checker.py",
+            "line": 492,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/utils/test_weight_checker.py",
+            "line": 540,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ],
+      "candidate_status": "proposed; requires parent integration",
+      "semantic_domain": "diagnostic_support"
+    },
+    {
+      "id": "response.reasoning_content_partition",
+      "name": "推理文本与普通内容按标记分离",
+      "property": "按声明的推理起止标记、工具起始标记和强制推理模式，将输入内容分为推理与普通输出；流式不完整标记先缓冲，工具边界保留在普通输出供后续解析。",
+      "observable": [
+        "reasoning_text",
+        "normal_text",
+        "partial_marker_buffering"
+      ],
+      "oracle": "对照显式输入检查两通道的精确文本或子串存在/缺失；闭合与未闭合推理块、工具边界、分块标记和 force_reasoning 各自保留条件。",
+      "kind": "obligation",
+      "phase": "output",
+      "state_scope": "request",
+      "conditions": [
+        "reasoning_parser_context"
+      ],
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/parser/reasoning_parser.py",
+            "line": 62,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/parser/reasoning_parser.py",
+            "line": 112,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/function_call/test_kimik2_detector.py",
+            "line": 306,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/registered/function_call/test_kimik2_detector.py",
+            "line": 318,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ],
+      "candidate_status": "proposed; requires parent integration",
+      "semantic_domain": "inference_request"
+    },
+    {
+      "id": "response.reasoning_tool_composition",
+      "name": "推理分离后工具解析保留内容对应",
+      "property": "推理解析器输出的普通片段输入工具解析器后，推理内容与最终工具调用分别对应原始格式化输出，工具标记不混入已分离的推理内容。",
+      "observable": [
+        "reasoning_text",
+        "downstream_tool_names",
+        "downstream_tool_call_count",
+        "assembled_tool_arguments"
+      ],
+      "oracle": "用两个真实本地解析器顺序处理相同文本或分块，分别核对推理内容、工具调用数/顺序/名字，以及该测试实际断言的参数字符串或 JSON；未断言的参数不推断通过。",
+      "kind": "obligation",
+      "phase": "output",
+      "state_scope": "request",
+      "conditions": [
+        "reasoning_parser_context"
+      ],
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/parser/reasoning_parser.py",
+            "line": 112,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/function_call/kimik2_detector.py",
+            "line": 205,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/function_call/test_kimik2_detector.py",
+            "line": 521,
+            "kind": "existing_test"
+          },
+          {
+            "path": "test/registered/function_call/test_kimik2_detector.py",
+            "line": 559,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ],
+      "candidate_status": "proposed; requires parent integration",
+      "semantic_domain": "inference_request"
+    },
+    {
+      "id": "model.forward_buffer_registration",
+      "name": "前向缓冲区注册与配置有效性",
+      "kind": "obligation",
+      "phase": "forward",
+      "state_scope": "process",
+      "conditions": [
+        "forward_buffer_context"
+      ],
+      "property": "前向缓冲区按名称、轴、形状、类型和启用状态建立；非法轴、重复名称或未分配的读取被拒绝，分配值遵守初始化策略。",
+      "observable": [
+        "slot_names",
+        "slot_enabled",
+        "buffer_shape",
+        "buffer_dtype",
+        "buffer_device",
+        "initial_buffer_values",
+        "raised_exception"
+      ],
+      "oracle": "逐项核对注册后的名字集合、启用状态、shape/dtype/device 与初始化值；指定非法轴、重复名和分配前访问触发相应异常。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/model_executor/cuda_graph_buffer_registry.py",
+            "line": 189,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/model_executor/cuda_graph_buffer_registry.py",
+            "line": 211,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/model_executor/cuda_graph_buffer_registry.py",
+            "line": 311,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+            "line": 71,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+            "line": 86,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ],
+      "candidate_status": "proposed; requires parent integration",
+      "semantic_domain": "inference_request"
+    },
+    {
+      "id": "model.forward_buffer_fill",
+      "name": "前向输入复制与补齐区域关系",
+      "kind": "obligation",
+      "phase": "forward",
+      "state_scope": "process",
+      "conditions": [
+        "forward_buffer_context"
+      ],
+      "property": "前向缓冲区活动区域绑定本次批次或侧输入；补齐区域按零、哨兵、保留或只初始化策略处理，桶外存储保持声明状态。",
+      "observable": [
+        "active_region_values",
+        "padded_region_values",
+        "beyond_bucket_values",
+        "source_tensor_values",
+        "batch_axis",
+        "token_axis",
+        "registered_slot_names"
+      ],
+      "oracle": "比较显式源张量与目标活动区；用预先污染的尾部区分 ZERO、FILL_SENTINEL、KEEP_PAD/FILL_ONCE，检查桶外值及二维切片；缺失源不复制，嵌套/侧输入按源长度绑定。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/model_executor/cuda_graph_buffer_registry.py",
+            "line": 379,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/model_executor/cuda_graph_buffer_registry.py",
+            "line": 227,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/model_executor/cuda_graph_buffer_registry.py",
+            "line": 507,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/model_executor/cuda_graph_buffer_registry.py",
+            "line": 780,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+            "line": 254,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+            "line": 290,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ],
+      "candidate_status": "proposed; requires parent integration",
+      "semantic_domain": "inference_request"
+    },
+    {
+      "id": "model.forward_buffer_view",
+      "name": "前向批次视图绑定与字段保留",
+      "kind": "obligation",
+      "phase": "forward",
+      "state_scope": "process",
+      "conditions": [
+        "forward_buffer_context"
+      ],
+      "property": "抽取的前向批次使用指定补齐尺寸的缓冲区视图，同时保留未注册或本次缺失字段；计算字段按策略暴露，原模板保持不变。",
+      "observable": [
+        "extracted_batch_size",
+        "extracted_shapes",
+        "buffer_data_ptr",
+        "carried_field_identity",
+        "optional_field_presence",
+        "template_state"
+      ],
+      "oracle": "核对抽取对象与槽位 data_ptr、补齐长度及形状；非槽字段和禁用计算字段保持原对象或值，缺失普通字段保持 None，计算槽即使模板 None 仍暴露；模板身份/尺寸不变。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/model_executor/cuda_graph_buffer_registry.py",
+            "line": 471,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/model_executor/cuda_graph_buffer_registry.py",
+            "line": 211,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+            "line": 389,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+            "line": 466,
+            "kind": "existing_oracle"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ],
+      "candidate_status": "proposed; requires parent integration",
+      "semantic_domain": "inference_request"
+    },
+    {
+      "id": "model.forward_buffer_storage_sharing",
+      "name": "前向缓冲区存储共享符合键与来源",
+      "kind": "obligation",
+      "phase": "forward",
+      "state_scope": "process",
+      "conditions": [
+        "forward_buffer_context"
+      ],
+      "property": "前向缓冲区按声明的共享键复用同一存储或保持独立；采用已有来源时绑定其存储，注册顺序不改变同键或异键的共享关系。",
+      "observable": [
+        "slot_name",
+        "buffer_numel",
+        "buffer_dtype",
+        "buffer_device",
+        "buffer_shape",
+        "data_ptr",
+        "source_data_ptr",
+        "registration_order"
+      ],
+      "oracle": "用 data_ptr 比较关闭共享、同键共享、不同大小隔离及前后注册顺序；来源采用场景必须与指定源张量指针一致。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/model_executor/cuda_graph_buffer_registry.py",
+            "line": 311,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+            "line": 723,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+            "line": 734,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "python/sglang/srt/model_executor/input_buffers.py",
+            "line": 16,
+            "kind": "source"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ],
+      "candidate_status": "proposed; requires parent integration",
+      "semantic_domain": "inference_request"
+    },
+    {
+      "id": "model.forward_buffer_computed_fields",
+      "name": "前向缓冲区派生字段与复制顺序",
+      "kind": "obligation",
+      "phase": "forward",
+      "state_scope": "process",
+      "conditions": [
+        "forward_buffer_context"
+      ],
+      "property": "前向输入复制完成后执行派生字段更新；结果对应本次原始/补齐计数、参与分片和复制开关，而非陈旧输入值。",
+      "observable": [
+        "post_fill_output_values",
+        "raw_num_tokens",
+        "padded_num_tokens",
+        "attn_tp_rank",
+        "attn_tp_size",
+        "local_nonpadded_count",
+        "global_token_count"
+      ],
+      "oracle": "用复制后乘十验证 hook 顺序；核对 hook 上下文4/8、未聚合复制值7、聚合全局计数4，以及TP2/rank0把全局100夹紧至本地4的结果。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/model_executor/cuda_graph_buffer_registry.py",
+            "line": 379,
+            "kind": "source"
+          },
+          {
+            "path": "python/sglang/srt/model_executor/cuda_graph_buffer_registry.py",
+            "line": 507,
+            "kind": "source"
+          },
+          {
+            "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+            "line": 531,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "test/registered/unit/model_executor/test_cuda_graph_buffer_registry.py",
+            "line": 947,
+            "kind": "existing_oracle"
+          },
+          {
+            "path": "python/sglang/srt/model_executor/forward_batch_info.py",
+            "line": 200,
+            "kind": "source"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ],
+      "candidate_status": "proposed; requires parent integration",
+      "semantic_domain": "inference_request"
+    }
+  ],
+  "source_batch": "SGLang 0.5.14 pinned source, round9 SGLang review; vLLM 20261105 evidence only where stated"
+}

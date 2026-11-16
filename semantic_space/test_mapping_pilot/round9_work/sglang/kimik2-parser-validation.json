@@ -1,0 +1,10 @@
+{
+  "entries": 45,
+  "existing_unit": 31,
+  "proposed_units": 14,
+  "oracle_references": 110,
+  "source_hashes_verified": true,
+  "source_lines_nonempty": true,
+  "unique_entry_keys": true,
+  "runtime_executed": false
+}

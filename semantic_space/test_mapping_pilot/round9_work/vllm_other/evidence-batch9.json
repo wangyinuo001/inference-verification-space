@@ -1,0 +1,717 @@
+{
+  "batch": "previously_pending_topk",
+  "counts": {
+    "scope": 12,
+    "mapped": 12,
+    "pending": 0
+  },
+  "file_reviews": [
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/test_top_k_per_row.py",
+      "source_sha256": "f31c077abd7f234c70913f4175035dfa4f1021b0f9fc1acfea4684645b282135",
+      "review": "Preserves batch1 numerical review and adds complete-body rereview of12 formerly pending checks using now-accepted dispatch/call/output units; chunk partition tests remain pending."
+    }
+  ],
+  "product_sources": [
+    {
+      "path": "vllm/model_executor/layers/indexer_topk.py",
+      "lines": [
+        174,
+        264,
+        324,
+        405
+      ],
+      "source_sha256": "a19a4a4d8574512b98a3682e0a8e69bdd8e41ee0695996a3eee5630b64fbf413"
+    },
+    {
+      "path": "vllm/_aiter_ops.py",
+      "lines": [
+        2962,
+        3002
+      ],
+      "source_sha256": "a907c9dacee4ed19c35a76943a18720b8180bfc24a701a96668cb73f8fd61938"
+    }
+  ],
+  "entries": [
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_top_k_per_row.py",
+        "test_aiter_c4a_topk_kernel_selection",
+        "889"
+      ],
+      "source_sha256": "f31c077abd7f234c70913f4175035dfa4f1021b0f9fc1acfea4684645b282135",
+      "unit_id": "compute.kernel_dispatch_binding",
+      "property": "Compressed-indexer AITER predicate accepts/rejects explicit prefill/decode compression/row/length cases and rejects when disabled.",
+      "definition_line": 889,
+      "end_line": 928,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 912,
+          "source": "assert is_supported(**kwargs) is True"
+        },
+        {
+          "line": 925,
+          "source": "assert is_supported(**kwargs) is False"
+        },
+        {
+          "line": 928,
+          "source": "assert is_supported(is_prefill=True, compress_ratio=4, num_rows=1) is False"
+        }
+      ],
+      "full_test_source": "def test_aiter_c4a_topk_kernel_selection(monkeypatch) -> None:\n    from vllm._aiter_ops import rocm_aiter_ops\n\n    _enable_aiter_topk(monkeypatch)\n    is_supported = rocm_aiter_ops.is_indexer_top_k_supported\n\n    eligible_cases = [\n        dict(is_prefill=True, compress_ratio=4, num_rows=1),\n        dict(is_prefill=False, compress_ratio=4, num_rows=1, max_valid_seq_len=65_536),\n        dict(\n            is_prefill=False,\n            compress_ratio=4,\n            num_rows=257,\n            max_valid_seq_len=250_000,\n        ),\n        dict(\n            is_prefill=False,\n            compress_ratio=2,\n            num_rows=384,\n            max_valid_seq_len=1_048_576,\n        ),\n    ]\n    for kwargs in eligible_cases:\n        assert is_supported(**kwargs) is True\n\n    ineligible_cases = [\n        dict(is_prefill=True, compress_ratio=1, num_rows=1),\n        dict(is_prefill=False, compress_ratio=4, num_rows=1, max_valid_seq_len=65_537),\n        dict(\n            is_prefill=False,\n            compress_ratio=4,\n            num_rows=256,\n            max_valid_seq_len=125_000,\n        ),\n    ]\n    for kwargs in ineligible_cases:\n        assert is_supported(**kwargs) is False\n\n    _enable_aiter_topk(monkeypatch, enabled=False)\n    assert is_supported(is_prefill=True, compress_ratio=4, num_rows=1) is False",
+      "shared_helper_sources": [
+        {
+          "definition_line": 881,
+          "end_line": 886,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _enable_aiter_topk(monkeypatch, enabled: bool = True) -> None:\n    from vllm._aiter_ops import rocm_aiter_ops\n\n    monkeypatch.setattr(\n        rocm_aiter_ops, \"is_indexer_top_k_enabled\", lambda: enabled, raising=True\n    )"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_top_k_per_row.py",
+        "test_aiter_dsa_topk_kernel_selection",
+        "931"
+      ],
+      "source_sha256": "f31c077abd7f234c70913f4175035dfa4f1021b0f9fc1acfea4684645b282135",
+      "unit_id": "compute.kernel_dispatch_binding",
+      "property": "Uncompressed DSA accepts topk2048 decode and >=32768 prefill, rejects other topk or short/unknown prefill length and disabled AITER.",
+      "definition_line": 931,
+      "end_line": 972,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 945,
+          "source": "assert is_supported(compress_ratio=1, topk_tokens=2048, **kwargs) is True"
+        },
+        {
+          "line": 946,
+          "source": "assert is_supported(compress_ratio=1, topk_tokens=1024, **kwargs) is False"
+        },
+        {
+          "line": 947,
+          "source": "assert is_supported(compress_ratio=1, **kwargs) is False"
+        },
+        {
+          "line": 951,
+          "source": "assert (\n            is_supported(\n                is_prefill=True,\n                compress_ratio=1,\n                num_rows=1,\n                max_valid_seq_len=max_valid_seq_len,\n                topk_tokens=2048,\n            )\n            is False\n        )"
+        },
+        {
+          "line": 963,
+          "source": "assert (\n        is_supported(\n            is_prefill=False,\n            compress_ratio=1,\n            num_rows=1,\n            max_valid_seq_len=1_048_576,\n            topk_tokens=2048,\n        )\n        is False\n    )"
+        }
+      ],
+      "full_test_source": "def test_aiter_dsa_topk_kernel_selection(monkeypatch) -> None:\n    \"\"\"The uncompressed DSA indexer takes AITER for k=2048 on every decode\n    shape, including FULL-graph decode bounded only by max_model_len, and on\n    prefill chunks whose rows reach 32K tokens.\"\"\"\n    from vllm._aiter_ops import rocm_aiter_ops\n\n    _enable_aiter_topk(monkeypatch)\n    is_supported = rocm_aiter_ops.is_indexer_top_k_supported\n\n    for kwargs in (\n        dict(is_prefill=True, num_rows=16_384, max_valid_seq_len=32_768),\n        dict(is_prefill=False, num_rows=1, max_valid_seq_len=1_048_576),\n        dict(is_prefill=False, num_rows=256, max_valid_seq_len=4096),\n    ):\n        assert is_supported(compress_ratio=1, topk_tokens=2048, **kwargs) is True\n        assert is_supported(compress_ratio=1, topk_tokens=1024, **kwargs) is False\n        assert is_supported(compress_ratio=1, **kwargs) is False\n\n    # Short prefill chunks stay on the in-tree kernel.\n    for max_valid_seq_len in (None, 32_767):\n        assert (\n            is_supported(\n                is_prefill=True,\n                compress_ratio=1,\n                num_rows=1,\n                max_valid_seq_len=max_valid_seq_len,\n                topk_tokens=2048,\n            )\n            is False\n        )\n\n    _enable_aiter_topk(monkeypatch, enabled=False)\n    assert (\n        is_supported(\n            is_prefill=False,\n            compress_ratio=1,\n            num_rows=1,\n            max_valid_seq_len=1_048_576,\n            topk_tokens=2048,\n        )\n        is False\n    )",
+      "shared_helper_sources": [
+        {
+          "definition_line": 881,
+          "end_line": 886,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _enable_aiter_topk(monkeypatch, enabled: bool = True) -> None:\n    from vllm._aiter_ops import rocm_aiter_ops\n\n    monkeypatch.setattr(\n        rocm_aiter_ops, \"is_indexer_top_k_enabled\", lambda: enabled, raising=True\n    )"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_top_k_per_row.py",
+        "test_dsv4_native_top_k_window",
+        "975"
+      ],
+      "source_sha256": "f31c077abd7f234c70913f4175035dfa4f1021b0f9fc1acfea4684645b282135",
+      "unit_id": "compute.kernel_dispatch_binding",
+      "property": "Native DSV4 preference holds only for tested topk512,row128,column524288; row385,column1048577,or topk1024 cases reject.",
+      "definition_line": 975,
+      "end_line": 984,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 981,
+          "source": "assert prefers_native(num_rows=128, num_columns=524_288, topk_tokens=512) is True"
+        },
+        {
+          "line": 982,
+          "source": "assert prefers_native(num_rows=385, num_columns=524_288, topk_tokens=512) is False"
+        },
+        {
+          "line": 983,
+          "source": "assert prefers_native(num_rows=128, num_columns=1_048_577, topk_tokens=512) is False"
+        },
+        {
+          "line": 984,
+          "source": "assert prefers_native(num_rows=128, num_columns=524_288, topk_tokens=1024) is False"
+        }
+      ],
+      "full_test_source": "def test_dsv4_native_top_k_window() -> None:\n    \"\"\"The in-tree decode kernel's measured advantage band over AITER, which\n    applies to the DSV4 indexer only.\"\"\"\n    from vllm._aiter_ops import rocm_aiter_ops\n\n    prefers_native = rocm_aiter_ops.dsv4_indexer_prefers_native_top_k\n    assert prefers_native(num_rows=128, num_columns=524_288, topk_tokens=512) is True\n    assert prefers_native(num_rows=385, num_columns=524_288, topk_tokens=512) is False\n    assert prefers_native(num_rows=128, num_columns=1_048_577, topk_tokens=512) is False\n    assert prefers_native(num_rows=128, num_columns=524_288, topk_tokens=1024) is False",
+      "shared_helper_sources": []
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_top_k_per_row.py",
+        "test_cooperative_topk_512_tie_workspace_is_per_row",
+        "1568"
+      ],
+      "source_sha256": "f31c077abd7f234c70913f4175035dfa4f1021b0f9fc1acfea4684645b282135",
+      "unit_id": "compute.output_constraints",
+      "property": "For two rows with distinct tie scores, row0 selected IDs are all>=2048, excluding its lower-score prefix; no full top-k reference equality.",
+      "definition_line": 1568,
+      "end_line": 1596,
+      "decorators": [
+        {
+          "line": 1566,
+          "source": "pytest.mark.skipif(not _has_device_capability(90), reason=\"This test requires SM90+\")"
+        },
+        {
+          "line": 1567,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 1593,
+          "source": "assert torch.all(row0 >= 2048), (\n        \"cooperative_topk TopK=512 selected row-0 low-score indices, likely \"\n        \"from overlapping tie_ws rows\"\n    )"
+        }
+      ],
+      "full_test_source": "def test_cooperative_topk_512_tie_workspace_is_per_row() -> None:\n    \"\"\"Regression test for TopK=512 tie workspace row overlap.\"\"\"\n    torch.set_default_device(\"cuda:0\")\n\n    top_k = 512\n    num_rows = 2\n    stride = 65536\n    lengths = torch.tensor([40960, 65536], dtype=torch.int32, device=\"cuda\")\n    logits = torch.full(\n        (num_rows, stride), float(\"-inf\"), dtype=torch.float32, device=\"cuda\"\n    )\n\n    # Row 0 must never select these low indices: many better row-0 ties exist.\n    logits[0, :2048] = -10.0\n    logits[0, 2048 : lengths[0]] = 1.0\n    # Row 1 has higher exact tie scores. With the old row * TopK tie_ws stride,\n    # these row-1 ties could overwrite row 0's TopK=512 refinement workspace.\n    logits[1, : lengths[1]] = 2.0\n\n    indices = torch.empty((num_rows, top_k), dtype=torch.int32, device=\"cuda\")\n    workspace = torch.empty(RADIX_TOPK_WORKSPACE_SIZE, dtype=torch.uint8, device=\"cuda\")\n    torch.ops._C.cooperative_topk(logits, lengths, indices, workspace, top_k, stride)\n    torch.accelerator.synchronize()\n\n    row0 = indices[0].cpu()\n    assert torch.all(row0 >= 2048), (\n        \"cooperative_topk TopK=512 selected row-0 low-score indices, likely \"\n        \"from overlapping tie_ws rows\"\n    )",
+      "shared_helper_sources": [
+        {
+          "definition_line": 21,
+          "end_line": 22,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _has_device_capability(major: int) -> bool:\n    return current_platform.is_cuda() and current_platform.has_device_capability(major)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_top_k_per_row.py",
+        "test_cooperative_topk_overflow_nan",
+        "1885"
+      ],
+      "source_sha256": "f31c077abd7f234c70913f4175035dfa4f1021b0f9fc1acfea4684645b282135",
+      "unit_id": "compute.output_constraints",
+      "property": "With2048 injected NaNs and topk512, all selected IDs are unique,in-range and reference NaN input positions.",
+      "definition_line": 1885,
+      "end_line": 1903,
+      "decorators": [
+        {
+          "line": 1878,
+          "source": "pytest.mark.skipif(\n    not _has_cooperative_topk(), reason=\"This test requires cooperative_topk\"\n)"
+        },
+        {
+          "line": 1881,
+          "source": "pytest.mark.parametrize(\"num_rows\", [1, 9, 64])"
+        },
+        {
+          "line": 1882,
+          "source": "pytest.mark.parametrize(\"seq_len\", [65536, 262144, 1048576])"
+        },
+        {
+          "line": 1883,
+          "source": "pytest.mark.parametrize(\"dtype\", [torch.float32, torch.bfloat16])"
+        },
+        {
+          "line": 1884,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 1900,
+          "source": "assert torch.all((indices >= 0) & (indices < seq_len))"
+        },
+        {
+          "line": 1902,
+          "source": "assert torch.all(sorted_indices[:, 1:] != sorted_indices[:, :-1])"
+        },
+        {
+          "line": 1903,
+          "source": "assert torch.isnan(logits.gather(1, indices.long())).all()"
+        }
+      ],
+      "full_test_source": "def test_cooperative_topk_overflow_nan(\n    num_rows: int, seq_len: int, dtype: torch.dtype\n) -> None:\n    # More NaNs than top_k overflow the top coarse bin. The exact keys must\n    # order NaN above +inf as the coarse bins do (and as torch.topk does).\n    top_k = 512\n    gen = torch.Generator(device=\"cuda\").manual_seed(0)\n    logits = torch.randn((num_rows, seq_len), generator=gen, device=\"cuda\").to(dtype)\n    nan_pos = torch.rand((num_rows, seq_len), generator=gen, device=\"cuda\")\n    logits.scatter_(1, nan_pos.topk(4 * top_k, dim=1).indices, float(\"nan\"))\n    lengths = torch.full((num_rows,), seq_len, dtype=torch.int32, device=\"cuda\")\n    indices = torch.empty((num_rows, top_k), dtype=torch.int32, device=\"cuda\")\n\n    _run_topk_backend(\"cooperative_topk\", logits, lengths, indices, top_k, seq_len)\n    torch.accelerator.synchronize()\n    assert torch.all((indices >= 0) & (indices < seq_len))\n    sorted_indices = indices.sort(dim=1).values\n    assert torch.all(sorted_indices[:, 1:] != sorted_indices[:, :-1])\n    assert torch.isnan(logits.gather(1, indices.long())).all()",
+      "shared_helper_sources": [
+        {
+          "definition_line": 60,
+          "end_line": 105,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _run_topk_backend(\n    backend: str,\n    logits: torch.Tensor,\n    lengths: torch.Tensor,\n    indices: torch.Tensor,\n    top_k: int,\n    max_seq_len: int,\n    next_n: int = 1,\n) -> None:\n    if backend == \"top_k_per_row_decode\":\n        torch.ops._C.top_k_per_row_decode(\n            logits,\n            next_n,\n            lengths,\n            indices,\n            indices.shape[0],\n            logits.stride(0),\n            logits.stride(1),\n            top_k,\n        )\n    elif backend == \"persistent_topk\":\n        workspace = torch.empty(\n            RADIX_TOPK_WORKSPACE_SIZE, dtype=torch.uint8, device=\"cuda\"\n        )\n        torch.ops._C.persistent_topk(\n            logits, lengths, indices, workspace, top_k, max_seq_len\n        )\n    elif backend == \"cooperative_topk\":\n        if indices.shape[0] > 64:\n            pytest.skip(\n                \"cooperative_topk supports <=64 rows; \"\n                \"persistent_topk covers larger batches\"\n            )\n        if logits.stride(0) % 4 != 0:\n            pytest.skip(\n                \"cooperative_topk requires row stride divisible by 4; \"\n                \"persistent_topk covers unaligned strides\"\n            )\n        workspace = torch.empty(\n            RADIX_TOPK_WORKSPACE_SIZE, dtype=torch.uint8, device=\"cuda\"\n        )\n        torch.ops._C.cooperative_topk(\n            logits, lengths, indices, workspace, top_k, max_seq_len\n        )\n    else:\n        raise ValueError(f\"Unknown top-k backend: {backend}\")"
+        },
+        {
+          "definition_line": 25,
+          "end_line": 28,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _has_cooperative_topk() -> bool:\n    return _has_device_capability(\n        90\n    ) and not current_platform.is_device_capability_family(120)"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_top_k_per_row.py",
+        "test_persistent_topk_masked_row_tail",
+        "2331"
+      ],
+      "source_sha256": "f31c077abd7f234c70913f4175035dfa4f1021b0f9fc1acfea4684645b282135",
+      "unit_id": "compute.output_constraints",
+      "property": "For lengths k+1..k+4 and masked fill, selected IDs are unique and within valid length and include all declared finite columns; padded tail cannot be selected.",
+      "definition_line": 2331,
+      "end_line": 2363,
+      "decorators": [
+        {
+          "line": 2325,
+          "source": "pytest.mark.skipif(not current_platform.is_cuda(), reason=\"This test requires CUDA\")"
+        },
+        {
+          "line": 2326,
+          "source": "pytest.mark.parametrize(\"top_k\", [512, 1024, 2048])"
+        },
+        {
+          "line": 2327,
+          "source": "pytest.mark.parametrize(\"extra\", [1, 2, 3, 4])"
+        },
+        {
+          "line": 2328,
+          "source": "pytest.mark.parametrize(\"num_finite\", [0, 100])"
+        },
+        {
+          "line": 2329,
+          "source": "pytest.mark.parametrize(\"fill\", [float(\"-inf\"), -1e30])"
+        },
+        {
+          "line": 2330,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 2358,
+          "source": "assert all(0 <= i < seq_len for i in selected), (\n            f\"row {row}: indices outside [0, {seq_len}): \"\n            f\"{sorted(i for i in selected if not 0 <= i < seq_len)}\"\n        )"
+        },
+        {
+          "line": 2362,
+          "source": "assert len(set(selected)) == top_k"
+        },
+        {
+          "line": 2363,
+          "source": "assert set(finite_cols[row].cpu().tolist()) <= set(selected)"
+        }
+      ],
+      "full_test_source": "def test_persistent_topk_masked_row_tail(\n    top_k: int, extra: int, num_finite: int, fill: float\n) -> None:\n    \"\"\"Rows with fewer than k scores above the -inf bin put the 2048-bin\n    threshold in the -inf bin. The float4 tail lanes past a row whose length\n    is not a multiple of 4 must not be selected.\"\"\"\n    set_random_seed(0)\n    num_rows = 4\n    seq_len = top_k + extra\n    stride = seq_len + 8\n    # Finite padding past each row; it must never be read or selected.\n    logits = torch.zeros(num_rows, stride, dtype=torch.float32, device=\"cuda\")\n    logits[:, :seq_len] = fill\n    finite_cols = torch.stack(\n        [torch.randperm(seq_len, device=\"cuda\")[:num_finite] for _ in range(num_rows)]\n    )\n    if num_finite:\n        logits.scatter_(\n            1, finite_cols, torch.randn(num_rows, num_finite, device=\"cuda\")\n        )\n    lengths = torch.full((num_rows,), seq_len, dtype=torch.int32, device=\"cuda\")\n    indices = torch.full((num_rows, top_k), -2, dtype=torch.int32, device=\"cuda\")\n    _run_topk_backend(\"persistent_topk\", logits, lengths, indices, top_k, stride)\n    torch.accelerator.synchronize()\n\n    for row in range(num_rows):\n        selected = indices[row].cpu().tolist()\n        assert all(0 <= i < seq_len for i in selected), (\n            f\"row {row}: indices outside [0, {seq_len}): \"\n            f\"{sorted(i for i in selected if not 0 <= i < seq_len)}\"\n        )\n        assert len(set(selected)) == top_k\n        assert set(finite_cols[row].cpu().tolist()) <= set(selected)",
+      "shared_helper_sources": [
+        {
+          "definition_line": 60,
+          "end_line": 105,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _run_topk_backend(\n    backend: str,\n    logits: torch.Tensor,\n    lengths: torch.Tensor,\n    indices: torch.Tensor,\n    top_k: int,\n    max_seq_len: int,\n    next_n: int = 1,\n) -> None:\n    if backend == \"top_k_per_row_decode\":\n        torch.ops._C.top_k_per_row_decode(\n            logits,\n            next_n,\n            lengths,\n            indices,\n            indices.shape[0],\n            logits.stride(0),\n            logits.stride(1),\n            top_k,\n        )\n    elif backend == \"persistent_topk\":\n        workspace = torch.empty(\n            RADIX_TOPK_WORKSPACE_SIZE, dtype=torch.uint8, device=\"cuda\"\n        )\n        torch.ops._C.persistent_topk(\n            logits, lengths, indices, workspace, top_k, max_seq_len\n        )\n    elif backend == \"cooperative_topk\":\n        if indices.shape[0] > 64:\n            pytest.skip(\n                \"cooperative_topk supports <=64 rows; \"\n                \"persistent_topk covers larger batches\"\n            )\n        if logits.stride(0) % 4 != 0:\n            pytest.skip(\n                \"cooperative_topk requires row stride divisible by 4; \"\n                \"persistent_topk covers unaligned strides\"\n            )\n        workspace = torch.empty(\n            RADIX_TOPK_WORKSPACE_SIZE, dtype=torch.uint8, device=\"cuda\"\n        )\n        torch.ops._C.cooperative_topk(\n            logits, lengths, indices, workspace, top_k, max_seq_len\n        )\n    else:\n        raise ValueError(f\"Unknown top-k backend: {backend}\")"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_top_k_per_row.py",
+        "test_sparse_indexer_topk_backend_resolution",
+        "2656"
+      ],
+      "source_sha256": "f31c077abd7f234c70913f4175035dfa4f1021b0f9fc1acfea4684645b282135",
+      "unit_id": "compute.kernel_dispatch_binding",
+      "property": "Auto follows cooperative→persistent→per_row constraints; explicit backends honor support or raise matching errors; BF16 compatibility respects16-byte row alignment.",
+      "definition_line": 2656,
+      "end_line": 2752,
+      "decorators": [
+        {
+          "line": 2654,
+          "source": "pytest.mark.skipif(not current_platform.is_cuda(), reason=\"requires CUDA\")"
+        },
+        {
+          "line": 2655,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 2692,
+          "source": "assert (\n            resolve(\"auto\", k=512, num_rows=AUTO_COOPERATIVE_MAX_ROWS) == \"cooperative\"\n        )"
+        },
+        {
+          "line": 2695,
+          "source": "assert resolve(\"auto\", k=512, num_rows=8) == \"cooperative\""
+        },
+        {
+          "line": 2698,
+          "source": "assert (\n            resolve(\"auto\", k=512, num_rows=AUTO_COOPERATIVE_MAX_ROWS + 1)\n            == \"persistent\"\n        )"
+        },
+        {
+          "line": 2702,
+          "source": "assert resolve(\"auto\", k=512, num_rows=128) == \"persistent\""
+        },
+        {
+          "line": 2705,
+          "source": "assert (\n            resolve(\"auto\", unaligned_logits, num_rows=AUTO_COOPERATIVE_MAX_ROWS)\n            == \"cooperative\"\n        )"
+        },
+        {
+          "line": 2710,
+          "source": "assert resolve(\"auto\", unaligned_logits, num_rows=128) == \"persistent\""
+        },
+        {
+          "line": 2713,
+          "source": "assert resolve(\"auto\", k=5000) == \"per_row\""
+        },
+        {
+          "line": 2716,
+          "source": "assert resolve(\"per_row\") == \"per_row\""
+        },
+        {
+          "line": 2717,
+          "source": "assert resolve(\"torch\") == \"torch\""
+        },
+        {
+          "line": 2718,
+          "source": "assert resolve(\"persistent\") == \"persistent\""
+        },
+        {
+          "line": 2720,
+          "source": "assert resolve(\"cooperative\") == \"cooperative\""
+        },
+        {
+          "line": 2722,
+          "source": "assert resolve(\"flashinfer\") == \"flashinfer\""
+        },
+        {
+          "line": 2725,
+          "source": "assert resolve(\"deep_select\", num_rows=1) == \"deep_select\""
+        },
+        {
+          "line": 2726,
+          "source": "pytest.raises(RuntimeError, match=\"constraints\")"
+        },
+        {
+          "line": 2730,
+          "source": "pytest.raises(RuntimeError, match=\"num_rows must be <= 64\")"
+        },
+        {
+          "line": 2732,
+          "source": "pytest.raises(RuntimeError, match=\"topk_tokens must be in\")"
+        },
+        {
+          "line": 2734,
+          "source": "pytest.raises(RuntimeError, match=\"topk_tokens must be in\")"
+        },
+        {
+          "line": 2737,
+          "source": "pytest.raises(RuntimeError, match=\"SM100a/SM103a\")"
+        },
+        {
+          "line": 2747,
+          "source": "assert takes_bf16(\"cooperative\", logits.to(torch.bfloat16)) == has_coop"
+        },
+        {
+          "line": 2752,
+          "source": "assert not takes_bf16(\"cooperative\", bf16_unaligned)"
+        }
+      ],
+      "full_test_source": "def test_sparse_indexer_topk_backend_resolution() -> None:\n    \"\"\"Auto heuristic chain and fail-fast validation of explicit backends.\"\"\"\n    from vllm.config import VllmConfig, set_current_vllm_config\n    from vllm.model_executor.layers.indexer_topk import SparseIndexerTopk\n\n    # 1024B-aligned stride: 131072 * 4 bytes.\n    logits = torch.randn(64, 131072, dtype=torch.float32, device=\"cuda\")\n    # 4-divisible (cooperative TMA ok) but not 1024B-aligned (DeepSelect no):\n    # 131076 * 4 = 524304 bytes.\n    unaligned_logits = torch.randn(128, 131076, dtype=torch.float32, device=\"cuda\")[\n        :, :131072\n    ]\n\n    def resolve(\n        backend: str,\n        t: torch.Tensor = logits,\n        k: int = 2048,\n        num_rows: int = 64,\n    ) -> str:\n        cfg = VllmConfig(kernel_config={\"sparse_indexer_topk_backend\": backend})\n        with set_current_vllm_config(cfg):\n            return SparseIndexerTopk().resolve_backend(t, k, num_rows)\n\n    is_sm100 = current_platform.is_device_capability_family(100)\n    has_coop = _has_cooperative_topk()\n    has_fi = _has_flashinfer_topk()\n\n    # \"auto\" is the chain cooperative -> persistent -> per_row, with the\n    # cooperative/persistent switch at cooperative_topk's cluster-wave row\n    # limit. It must never select the opt-in backends by itself.\n    if has_coop:\n        from vllm.model_executor.layers.indexer_topk import (\n            AUTO_COOPERATIVE_MAX_ROWS,\n        )\n\n        # cooperative for every batch within its cluster-wave row limit...\n        assert (\n            resolve(\"auto\", k=512, num_rows=AUTO_COOPERATIVE_MAX_ROWS) == \"cooperative\"\n        )\n        assert resolve(\"auto\", k=512, num_rows=8) == \"cooperative\"\n        # ...persistent past the row limit, even where DeepSelect would be\n        # applicable.\n        assert (\n            resolve(\"auto\", k=512, num_rows=AUTO_COOPERATIVE_MAX_ROWS + 1)\n            == \"persistent\"\n        )\n        assert resolve(\"auto\", k=512, num_rows=128) == \"persistent\"\n        # 16B-aligned (cooperative TMA ok) but not DeepSelect-aligned: the\n        # same row-limit logic applies.\n        assert (\n            resolve(\"auto\", unaligned_logits, num_rows=AUTO_COOPERATIVE_MAX_ROWS)\n            == \"cooperative\"\n        )\n    # ...and persistent past the row limit.\n    assert resolve(\"auto\", unaligned_logits, num_rows=128) == \"persistent\"\n    # Unsupported topk (outside {512, 1024, 2048} for the workspace kernels)\n    # -> per_row fallback.\n    assert resolve(\"auto\", k=5000) == \"per_row\"\n\n    # Explicit values are returned as-is when constraints are met.\n    assert resolve(\"per_row\") == \"per_row\"\n    assert resolve(\"torch\") == \"torch\"\n    assert resolve(\"persistent\") == \"persistent\"\n    if has_coop:\n        assert resolve(\"cooperative\") == \"cooperative\"\n    if has_fi:\n        assert resolve(\"flashinfer\") == \"flashinfer\"\n    if is_sm100:\n        # Explicit deep_select has no row-count requirement.\n        assert resolve(\"deep_select\", num_rows=1) == \"deep_select\"\n        with pytest.raises(RuntimeError, match=\"constraints\"):\n            resolve(\"deep_select\", unaligned_logits)\n\n    # Fail-fast on unmet constraints.\n    with pytest.raises(RuntimeError, match=\"num_rows must be <= 64\"):\n        resolve(\"cooperative\", num_rows=128)\n    with pytest.raises(RuntimeError, match=\"topk_tokens must be in\"):\n        resolve(\"persistent\", k=3000)\n    with pytest.raises(RuntimeError, match=\"topk_tokens must be in\"):\n        resolve(\"cooperative\", k=3000)\n    if not is_sm100:\n        with pytest.raises(RuntimeError, match=\"SM100a/SM103a\"):\n            resolve(\"deep_select\")\n\n    def takes_bf16(backend: str, t: torch.Tensor, num_rows: int = 64) -> bool:\n        cfg = VllmConfig(kernel_config={\"sparse_indexer_topk_backend\": backend})\n        with set_current_vllm_config(cfg):\n            return SparseIndexerTopk().takes_bf16_logits(t, 2048, num_rows)\n\n    # cooperative_topk reads BF16 rows as-is when they are 16B-aligned\n    # (8 elements).\n    assert takes_bf16(\"cooperative\", logits.to(torch.bfloat16)) == has_coop\n    # Row stride 131076 is 8B- but not 16B-aligned in BF16.\n    bf16_unaligned = torch.randn(64, 131076, dtype=torch.bfloat16, device=\"cuda\")[\n        :, :131072\n    ]\n    assert not takes_bf16(\"cooperative\", bf16_unaligned)",
+      "shared_helper_sources": [
+        {
+          "definition_line": 25,
+          "end_line": 28,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _has_cooperative_topk() -> bool:\n    return _has_device_capability(\n        90\n    ) and not current_platform.is_device_capability_family(120)"
+        },
+        {
+          "definition_line": 2504,
+          "end_line": 2510,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _has_flashinfer_topk() -> bool:\n    if not current_platform.is_cuda():\n        return False\n    # find_spec only: importing flashinfer initializes CUDA at import time.\n    import importlib.util\n\n    return importlib.util.find_spec(\"flashinfer\") is not None"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_top_k_per_row.py",
+        "test_sparse_indexer_topk_aiter_requires_rocm",
+        "2773"
+      ],
+      "source_sha256": "f31c077abd7f234c70913f4175035dfa4f1021b0f9fc1acfea4684645b282135",
+      "unit_id": "compute.kernel_dispatch_binding",
+      "property": "Explicit AITER backend on CUDA raises RuntimeError containing ROCm.",
+      "definition_line": 2773,
+      "end_line": 2777,
+      "decorators": [
+        {
+          "line": 2772,
+          "source": "pytest.mark.skipif(not current_platform.is_cuda(), reason=\"requires CUDA\")"
+        }
+      ],
+      "checks": [
+        {
+          "line": 2776,
+          "source": "pytest.raises(RuntimeError, match=\"ROCm\")"
+        }
+      ],
+      "full_test_source": "def test_sparse_indexer_topk_aiter_requires_rocm() -> None:\n    \"\"\"Explicitly requesting the ROCm-only backend must fail fast elsewhere.\"\"\"\n    logits = torch.randn(8, 4096, dtype=torch.float32, device=\"cuda\")\n    with pytest.raises(RuntimeError, match=\"ROCm\"):\n        _make_topk(\"aiter\").resolve_backend(logits, 2048, 8)",
+      "shared_helper_sources": [
+        {
+          "definition_line": 2763,
+          "end_line": 2769,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _make_topk(backend: str):\n    from vllm.config import VllmConfig, set_current_vllm_config\n    from vllm.model_executor.layers.indexer_topk import SparseIndexerTopk\n\n    cfg = VllmConfig(kernel_config={\"sparse_indexer_topk_backend\": backend})\n    with set_current_vllm_config(cfg):\n        return SparseIndexerTopk()"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_top_k_per_row.py",
+        "test_sparse_indexer_topk_backend_resolution_aiter",
+        "2781"
+      ],
+      "source_sha256": "f31c077abd7f234c70913f4175035dfa4f1021b0f9fc1acfea4684645b282135",
+      "unit_id": "compute.kernel_dispatch_binding",
+      "property": "On ROCm, auto stays per_row, explicit eligible AITER resolves; unsupported k,disabled tuned kernels,or disabled AITER raise specific RuntimeErrors.",
+      "definition_line": 2781,
+      "end_line": 2806,
+      "decorators": [
+        {
+          "line": 2780,
+          "source": "pytest.mark.skipif(not current_platform.is_rocm(), reason=\"requires ROCm\")"
+        }
+      ],
+      "checks": [
+        {
+          "line": 2792,
+          "source": "assert _make_topk(\"auto\").resolve_backend(logits, 2048, 8) == \"per_row\""
+        },
+        {
+          "line": 2793,
+          "source": "assert _make_topk(\"aiter\").resolve_backend(logits, 2048, 8) == \"aiter\""
+        },
+        {
+          "line": 2795,
+          "source": "assert _make_topk(\"aiter\").resolve_backend(logits, 512, 8) == \"aiter\""
+        },
+        {
+          "line": 2796,
+          "source": "pytest.raises(RuntimeError, match=\"topk_tokens must be in\")"
+        },
+        {
+          "line": 2800,
+          "source": "pytest.raises(RuntimeError, match=\"no tuned indexer top-k kernels\")"
+        },
+        {
+          "line": 2804,
+          "source": "assert _make_topk(\"auto\").resolve_backend(logits, 2048, 8) == \"per_row\""
+        },
+        {
+          "line": 2805,
+          "source": "pytest.raises(RuntimeError, match=\"VLLM_ROCM_USE_AITER\")"
+        }
+      ],
+      "full_test_source": "def test_sparse_indexer_topk_backend_resolution_aiter(monkeypatch) -> None:\n    \"\"\"Aiter is opt-in only: \"auto\" never selects it (the shape-dependent perf\n    gate lives at the call site), and an explicit request validates hard\n    capability only.\"\"\"\n\n    def decode_kernel(*args, **kwargs) -> None:\n        pass\n\n    _patch_aiter_topk(monkeypatch, decode_kernel)\n    logits = torch.randn(8, 4096, dtype=torch.float32, device=\"cuda\")\n\n    assert _make_topk(\"auto\").resolve_backend(logits, 2048, 8) == \"per_row\"\n    assert _make_topk(\"aiter\").resolve_backend(logits, 2048, 8) == \"aiter\"\n    # Shapes the call-site perf gate would decline still resolve.\n    assert _make_topk(\"aiter\").resolve_backend(logits, 512, 8) == \"aiter\"\n    with pytest.raises(RuntimeError, match=\"topk_tokens must be in\"):\n        _make_topk(\"aiter\").resolve_backend(logits, 3000, 8)\n\n    _enable_aiter_topk(monkeypatch, enabled=False)\n    with pytest.raises(RuntimeError, match=\"no tuned indexer top-k kernels\"):\n        _make_topk(\"aiter\").resolve_backend(logits, 2048, 8)\n\n    _patch_aiter_topk(monkeypatch, decode_kernel, enabled=False)\n    assert _make_topk(\"auto\").resolve_backend(logits, 2048, 8) == \"per_row\"\n    with pytest.raises(RuntimeError, match=\"VLLM_ROCM_USE_AITER\"):\n        _make_topk(\"aiter\").resolve_backend(logits, 2048, 8)",
+      "shared_helper_sources": [
+        {
+          "definition_line": 2755,
+          "end_line": 2760,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _patch_aiter_topk(monkeypatch, decode_kernel, enabled: bool = True) -> None:\n    from vllm._aiter_ops import rocm_aiter_ops\n\n    _enable_aiter_topk(monkeypatch, enabled=enabled)\n    monkeypatch.setattr(rocm_aiter_ops, \"is_enabled\", lambda: enabled, raising=True)\n    monkeypatch.setattr(rocm_aiter_ops, \"indexer_top_k_decode\", decode_kernel)"
+        },
+        {
+          "definition_line": 881,
+          "end_line": 886,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _enable_aiter_topk(monkeypatch, enabled: bool = True) -> None:\n    from vllm._aiter_ops import rocm_aiter_ops\n\n    monkeypatch.setattr(\n        rocm_aiter_ops, \"is_indexer_top_k_enabled\", lambda: enabled, raising=True\n    )"
+        },
+        {
+          "definition_line": 2763,
+          "end_line": 2769,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _make_topk(backend: str):\n    from vllm.config import VllmConfig, set_current_vllm_config\n    from vllm.model_executor.layers.indexer_topk import SparseIndexerTopk\n\n    cfg = VllmConfig(kernel_config={\"sparse_indexer_topk_backend\": backend})\n    with set_current_vllm_config(cfg):\n        return SparseIndexerTopk()"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_top_k_per_row.py",
+        "test_sparse_indexer_topk_aiter_applies_no_shape_gate",
+        "2811"
+      ],
+      "source_sha256": "f31c077abd7f234c70913f4175035dfa4f1021b0f9fc1acfea4684645b282135",
+      "unit_id": "compute.kernel_dispatch_binding",
+      "property": "Explicit supported AITER dispatch calls mocked AITER twice despite crossing call-site performance threshold and never uses native fallback.",
+      "definition_line": 2811,
+      "end_line": 2834,
+      "decorators": [
+        {
+          "line": 2809,
+          "source": "pytest.mark.skipif(not current_platform.is_rocm(), reason=\"requires ROCm\")"
+        },
+        {
+          "line": 2810,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 2834,
+          "source": "assert len(calls) == 2"
+        }
+      ],
+      "full_test_source": "def test_sparse_indexer_topk_aiter_applies_no_shape_gate(monkeypatch) -> None:\n    \"\"\"Shape-dependent perf gating belongs to the call site: once \"aiter\" is\n    requested the dispatcher must run it for every supported k, including the\n    k=512 band the in-tree kernel wins on DSV4's compressed-KV logits.\"\"\"\n    from vllm.model_executor.layers import indexer_topk\n\n    calls: list[tuple] = []\n    _patch_aiter_topk(monkeypatch, lambda *args: calls.append(args))\n    monkeypatch.setattr(\n        indexer_topk.ops,\n        \"top_k_per_row_decode\",\n        lambda *args: pytest.fail(\"an explicit aiter request must not fall back\"),\n    )\n\n    num_rows = 8\n    logits = torch.randn(num_rows, 4096, dtype=torch.float32, device=\"cuda\")\n    seq_lens = torch.full((num_rows, 1), 4096, dtype=torch.int32, device=\"cuda\")\n    indices = torch.empty((num_rows, 512), dtype=torch.int32, device=\"cuda\")\n    op = _make_topk(\"aiter\")\n\n    op(logits, seq_lens, 1, indices, 512, 4096)\n    # Past the compressed-context boundary the call-site gate declines on.\n    op(logits, seq_lens, 1, indices, 512, 4 * (64 * 1024 + 1))\n    assert len(calls) == 2",
+      "shared_helper_sources": [
+        {
+          "definition_line": 2755,
+          "end_line": 2760,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _patch_aiter_topk(monkeypatch, decode_kernel, enabled: bool = True) -> None:\n    from vllm._aiter_ops import rocm_aiter_ops\n\n    _enable_aiter_topk(monkeypatch, enabled=enabled)\n    monkeypatch.setattr(rocm_aiter_ops, \"is_enabled\", lambda: enabled, raising=True)\n    monkeypatch.setattr(rocm_aiter_ops, \"indexer_top_k_decode\", decode_kernel)"
+        },
+        {
+          "definition_line": 881,
+          "end_line": 886,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _enable_aiter_topk(monkeypatch, enabled: bool = True) -> None:\n    from vllm._aiter_ops import rocm_aiter_ops\n\n    monkeypatch.setattr(\n        rocm_aiter_ops, \"is_indexer_top_k_enabled\", lambda: enabled, raising=True\n    )"
+        },
+        {
+          "definition_line": 2763,
+          "end_line": 2769,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _make_topk(backend: str):\n    from vllm.config import VllmConfig, set_current_vllm_config\n    from vllm.model_executor.layers.indexer_topk import SparseIndexerTopk\n\n    cfg = VllmConfig(kernel_config={\"sparse_indexer_topk_backend\": backend})\n    with set_current_vllm_config(cfg):\n        return SparseIndexerTopk()"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_top_k_per_row.py",
+        "test_sparse_indexer_topk_auto_stays_on_per_row",
+        "2839"
+      ],
+      "source_sha256": "f31c077abd7f234c70913f4175035dfa4f1021b0f9fc1acfea4684645b282135",
+      "unit_id": "compute.kernel_dispatch_binding",
+      "property": "Auto ROCm topk1024 invokes native per-row mock exactly once and never invokes AITER.",
+      "definition_line": 2839,
+      "end_line": 2859,
+      "decorators": [
+        {
+          "line": 2837,
+          "source": "pytest.mark.skipif(not current_platform.is_rocm(), reason=\"requires ROCm\")"
+        },
+        {
+          "line": 2838,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 2859,
+          "source": "assert len(calls) == 1"
+        }
+      ],
+      "full_test_source": "def test_sparse_indexer_topk_auto_stays_on_per_row(monkeypatch) -> None:\n    \"\"\"The \"auto\" chain must not reach AITER on its own: the decode top-k runs\n    through top_k_per_row_decode unless the caller asks for the aiter backend.\"\"\"\n    from vllm.model_executor.layers import indexer_topk\n\n    def decode_kernel(*args, **kwargs) -> None:\n        pytest.fail(\"AITER is opt-in only\")\n\n    _patch_aiter_topk(monkeypatch, decode_kernel)\n    calls: list[tuple] = []\n    monkeypatch.setattr(\n        indexer_topk.ops, \"top_k_per_row_decode\", lambda *args: calls.append(args)\n    )\n\n    num_rows = 8\n    logits = torch.randn(num_rows, 4096, dtype=torch.float32, device=\"cuda\")\n    seq_lens = torch.full((num_rows, 1), 4096, dtype=torch.int32, device=\"cuda\")\n    indices = torch.empty((num_rows, 1024), dtype=torch.int32, device=\"cuda\")\n\n    _make_topk(\"auto\")(logits, seq_lens, 1, indices, 1024, 4096)\n    assert len(calls) == 1",
+      "shared_helper_sources": [
+        {
+          "definition_line": 2755,
+          "end_line": 2760,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _patch_aiter_topk(monkeypatch, decode_kernel, enabled: bool = True) -> None:\n    from vllm._aiter_ops import rocm_aiter_ops\n\n    _enable_aiter_topk(monkeypatch, enabled=enabled)\n    monkeypatch.setattr(rocm_aiter_ops, \"is_enabled\", lambda: enabled, raising=True)\n    monkeypatch.setattr(rocm_aiter_ops, \"indexer_top_k_decode\", decode_kernel)"
+        },
+        {
+          "definition_line": 881,
+          "end_line": 886,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _enable_aiter_topk(monkeypatch, enabled: bool = True) -> None:\n    from vllm._aiter_ops import rocm_aiter_ops\n\n    monkeypatch.setattr(\n        rocm_aiter_ops, \"is_indexer_top_k_enabled\", lambda: enabled, raising=True\n    )"
+        },
+        {
+          "definition_line": 2763,
+          "end_line": 2769,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _make_topk(backend: str):\n    from vllm.config import VllmConfig, set_current_vllm_config\n    from vllm.model_executor.layers.indexer_topk import SparseIndexerTopk\n\n    cfg = VllmConfig(kernel_config={\"sparse_indexer_topk_backend\": backend})\n    with set_current_vllm_config(cfg):\n        return SparseIndexerTopk()"
+        }
+      ]
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/kernels/test_top_k_per_row.py",
+        "test_sparse_indexer_topk_aiter_expands_mtp_row_ends",
+        "2864"
+      ],
+      "source_sha256": "f31c077abd7f234c70913f4175035dfa4f1021b0f9fc1acfea4684645b282135",
+      "unit_id": "compute.kernel_call_binding",
+      "property": "Two-step decode seq_lens[100,200] is forwarded to AITER with next_n1 and expanded row ends[99,100,199,200].",
+      "definition_line": 2864,
+      "end_line": 2890,
+      "decorators": [
+        {
+          "line": 2862,
+          "source": "pytest.mark.skipif(not current_platform.is_rocm(), reason=\"requires ROCm\")"
+        },
+        {
+          "line": 2863,
+          "source": "torch.inference_mode()"
+        }
+      ],
+      "checks": [
+        {
+          "line": 2889,
+          "source": "assert recorded[\"next_n\"] == 1"
+        },
+        {
+          "line": 2890,
+          "source": "assert recorded[\"row_ends\"] == [99, 100, 199, 200]"
+        }
+      ],
+      "full_test_source": "def test_sparse_indexer_topk_aiter_expands_mtp_row_ends(monkeypatch) -> None:\n    \"\"\"AITER's decode kernel only implements the next_n == 1 form, so spec\n    decode batches must be handed the equivalent expanded per-row ends.\"\"\"\n    from vllm.model_executor.layers import indexer_topk\n\n    recorded: dict = {}\n\n    def decode_kernel(logits, next_n, seq_lens, *args, **kwargs) -> None:\n        recorded[\"next_n\"] = next_n\n        recorded[\"row_ends\"] = seq_lens.tolist()\n\n    _patch_aiter_topk(monkeypatch, decode_kernel)\n    monkeypatch.setattr(\n        indexer_topk.ops,\n        \"top_k_per_row_decode\",\n        lambda *args: pytest.fail(\"an explicit aiter request must not fall back\"),\n    )\n\n    next_n = 2\n    logits = torch.randn(4, 4096, dtype=torch.float32, device=\"cuda\")\n    seq_lens = torch.tensor([[100], [200]], dtype=torch.int32, device=\"cuda\")\n    indices = torch.empty((4, 1024), dtype=torch.int32, device=\"cuda\")\n\n    _make_topk(\"aiter\")(logits, seq_lens, next_n, indices, 1024, 800)\n\n    assert recorded[\"next_n\"] == 1\n    assert recorded[\"row_ends\"] == [99, 100, 199, 200]",
+      "shared_helper_sources": [
+        {
+          "definition_line": 2755,
+          "end_line": 2760,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _patch_aiter_topk(monkeypatch, decode_kernel, enabled: bool = True) -> None:\n    from vllm._aiter_ops import rocm_aiter_ops\n\n    _enable_aiter_topk(monkeypatch, enabled=enabled)\n    monkeypatch.setattr(rocm_aiter_ops, \"is_enabled\", lambda: enabled, raising=True)\n    monkeypatch.setattr(rocm_aiter_ops, \"indexer_top_k_decode\", decode_kernel)"
+        },
+        {
+          "definition_line": 881,
+          "end_line": 886,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _enable_aiter_topk(monkeypatch, enabled: bool = True) -> None:\n    from vllm._aiter_ops import rocm_aiter_ops\n\n    monkeypatch.setattr(\n        rocm_aiter_ops, \"is_indexer_top_k_enabled\", lambda: enabled, raising=True\n    )"
+        },
+        {
+          "definition_line": 2763,
+          "end_line": 2769,
+          "decorators": [],
+          "checks": [],
+          "full_test_source": "def _make_topk(backend: str):\n    from vllm.config import VllmConfig, set_current_vllm_config\n    from vllm.model_executor.layers.indexer_topk import SparseIndexerTopk\n\n    cfg = VllmConfig(kernel_config={\"sparse_indexer_topk_backend\": backend})\n    with set_current_vllm_config(cfg):\n        return SparseIndexerTopk()"
+        }
+      ]
+    }
+  ]
+}

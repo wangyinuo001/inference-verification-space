@@ -1,0 +1,175 @@
+{
+  "batch": "largest_canonical_ast_families",
+  "family_method": "Full function AST shape, call targets, attribute names, comparison operators and control structure retained; local names and literal values normalized. Family membership routes review but does not assign properties. In the six Kimi K3 distributed tests, the check-dispatch string changes the target property and is split explicitly.",
+  "file_reviews": [
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/openai/parser/test_harmony_utils.py",
+      "source_sha256": "af8c49407dcc30066775b6bb40001bf283423955862e39b845a099b156c86e16",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/openai/test_penalty_default_resolution.py",
+      "source_sha256": "a44d3e4ddefa58253a2e8aad6a15fc98e99f4f4e984ab2b0bb85dfa9d5877aaa",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/pooling/scoring/test_bi_encoder_online.py",
+      "source_sha256": "a14509c61a54047980ab15850cf9f7429d352ddb035be2e5c757cb05d58a029b",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/pooling/scoring/test_cross_encoder_online.py",
+      "source_sha256": "2ecec4dce4e19def58112c53ad8ea51049872c6f0c48c44ad1f3b85ebac9c311",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/pooling/scoring/test_late_interaction_online.py",
+      "source_sha256": "10d3a640705227aa6e51b3e20de29a1dda11b247397dfbf7fb7e621000261c79",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/attention/test_cpu_attn.py",
+      "source_sha256": "7c27a62b9751a0bf14c984adcebcbfd13a4f12195de34397572cc4ac946a168e",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/helion/test_fused_qk_norm_rope.py",
+      "source_sha256": "a3d16f783afc781e17524086ec0140e0f84d58e5ee85ae6474f2e5ff9dc66a55",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/helion/test_per_token_group_fp8_quant.py",
+      "source_sha256": "1f70d7fd4496c4633001131528f8c7889fec26053668abc47cfbe7aef67088b4",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/helion/test_rms_norm_per_block_quant.py",
+      "source_sha256": "e63ebafc2cd4185836126c227f9af9c9c5bd62562eab194bf9f4203ceb8df1ee",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/helion/test_silu_and_mul_per_block_quant.py",
+      "source_sha256": "b893a10905f421e398937f1b571bd12ef2edee5aff67d893ac85031eb0031fad",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/quantization/test_rdna3_w4a16_determinism.py",
+      "source_sha256": "5cf107c5c09223c3c683271b7152009f9e805cacc6755342767adbc4b1b02936",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/test_weight_utils.py",
+      "source_sha256": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/models/kimi_k3/test_amd_latent_moe_runner.py",
+      "source_sha256": "d0e58128524417240ffa884563a987e8c9a40186f23b9c0f207079a5f78f9587",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/models/language/pooling_mteb_test/test_baai.py",
+      "source_sha256": "1baf1d10e88fc0f73f01ba4dd02000af28f1ae28d6bc812dc6238790a4510473",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/models/language/pooling_mteb_test/test_gte.py",
+      "source_sha256": "e41334ab16372ba1185ee6c5d0d6acad6f58db90e992972068af85ec88675deb",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/models/language/pooling_mteb_test/test_intfloat.py",
+      "source_sha256": "0045f8d5fee8e1f53d616961486267551e75bc5cd0da0c96b7cd3ff6e4fd4e09",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/models/language/pooling_mteb_test/test_nemotron.py",
+      "source_sha256": "e7b222f2396b5f6624ee4882a5df56c2f7ff80ef64b891e79a394b3302655bc1",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/models/language/pooling_mteb_test/test_nomic.py",
+      "source_sha256": "90d871e9061f6f4c7a6ae32588547363a765694c030838588e934db9f744bc5b",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/models/language/pooling_mteb_test/test_snowflake_arctic_embed.py",
+      "source_sha256": "567dd409a03dbebd3c33f5f602e0ccf97f6d5002d33bafa1da9dc1df6c8c442b",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/models/language/pooling_mteb_test/test_st_projector.py",
+      "source_sha256": "45d49fce73e8d33a2ac15b93381b46157fc33e511008dc5ff90e9a1388cba95e",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/quantization/test_blackwell_moe.py",
+      "source_sha256": "732fb99563ea5c66f252dbf963fc505632b573c88e984d0454fcd2403719f9ff",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/test_ray_env.py",
+      "source_sha256": "e943262a51911aa0f71009ea068efaddad530adf67ddbb6afe8f9784dedaa6df",
+      "review": "Reviewed representative function and relevant common helper; each member retains its assertion source or common helper oracle and unique literal conditions. Mappings are local property checks, not full end-to-end proof."
+    }
+  ],
+  "reviewed_entries": 49,
+  "needs_space_entries": 68,
+  "family_sizes": {
+    "ae320c83c7be6415": 19,
+    "58f25b607873213e": 10,
+    "56d07904f01b1952": 9,
+    "178979f1323aa4bc": 8,
+    "57fe65d2e2038f5e": 8,
+    "68845ea80b2dfbae": 8,
+    "20baf70894f3be32": 7,
+    "d0e71c6fdd764d0a": 7,
+    "f14b245e58022565": 7,
+    "5d90c4a98a136d47": 6,
+    "7395da991507846c": 6,
+    "807eecb34bad0df3": 6,
+    "db8ebef1e534b339": 6,
+    "32f911a94a1c4865": 5,
+    "3b54c4348f791eac": 5
+  },
+  "shared_helper_refs": [
+    "tests/models/language/pooling_mteb_test/mteb_embed_utils.py:276",
+    "tests/models/language/pooling/embed_utils.py:40",
+    "tests/kernels/attention/test_cpu_attn.py:706",
+    "tests/models/kimi_k3/test_amd_latent_moe_runner.py:126"
+  ]
+}

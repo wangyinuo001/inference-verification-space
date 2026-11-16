@@ -1,0 +1,92 @@
+{
+  "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb",
+  "unit_count": 10,
+  "source_references": 80,
+  "source_files": 13,
+  "vllm_only_units": [
+    "resource.shared_region_population",
+    "distributed.empty_attention_partition_identity"
+  ],
+  "replacements_file": "seed-evidence-replacements.json",
+  "related_empty_prefix_chunk_evidence": [
+    {
+      "path": "python/sglang/srt/layers/attention/trtllm_mla_backend.py",
+      "line": 1014,
+      "kind": "source",
+      "source": "seq_lens_kv=forward_batch.prefix_chunk_seq_lens[chunk_idx],",
+      "source_sha256": "b83137cfc31a095425062aab3d80835cd670b4190cf13ada14c7802b63fddb8d",
+      "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+    },
+    {
+      "path": "python/sglang/srt/layers/attention/trtllm_mla_backend.py",
+      "line": 1023,
+      "kind": "source",
+      "source": "# The TRT-LLM ragged attention cubin kernel does not correctly",
+      "source_sha256": "b83137cfc31a095425062aab3d80835cd670b4190cf13ada14c7802b63fddb8d",
+      "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+    },
+    {
+      "path": "python/sglang/srt/layers/attention/trtllm_mla_backend.py",
+      "line": 1030,
+      "kind": "source",
+      "source": "if forward_batch.prefix_chunk_has_zero_kv[chunk_idx]:",
+      "source_sha256": "b83137cfc31a095425062aab3d80835cd670b4190cf13ada14c7802b63fddb8d",
+      "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+    },
+    {
+      "path": "python/sglang/srt/layers/attention/trtllm_mla_backend.py",
+      "line": 1032,
+      "kind": "source",
+      "source": "fixup_zero_kv_rows(",
+      "source_sha256": "b83137cfc31a095425062aab3d80835cd670b4190cf13ada14c7802b63fddb8d",
+      "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+    },
+    {
+      "path": "python/sglang/jit_kernel/fixup_zero_kv.py",
+      "line": 43,
+      "kind": "source",
+      "source": "module = _jit_fixup_module(out.dtype)",
+      "source_sha256": "a791f3d018a1d5cef908c8926da60b774da887148b7ef79a47b654e08e4389e3",
+      "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+    },
+    {
+      "path": "python/sglang/jit_kernel/fixup_zero_kv.py",
+      "line": 44,
+      "kind": "source",
+      "source": "module.fixup_zero_kv_rows(out, lse, kv_lens, cum_seq_lens, max_seq_len)",
+      "source_sha256": "a791f3d018a1d5cef908c8926da60b774da887148b7ef79a47b654e08e4389e3",
+      "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+    },
+    {
+      "path": "python/sglang/jit_kernel/csrc/attention/fixup_zero_kv.cuh",
+      "line": 65,
+      "kind": "source",
+      "source": "if (kv_lens[seq_idx] > 0) return;",
+      "source_sha256": "24afc7367477528b8bf139568c832fed58ab6a7c125092f6c2e1e9c9d5219996",
+      "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+    },
+    {
+      "path": "python/sglang/jit_kernel/csrc/attention/fixup_zero_kv.cuh",
+      "line": 77,
+      "kind": "source",
+      "source": "vec_zero_fill(out + tok * out_stride, out_stride);",
+      "source_sha256": "24afc7367477528b8bf139568c832fed58ab6a7c125092f6c2e1e9c9d5219996",
+      "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+    },
+    {
+      "path": "python/sglang/jit_kernel/csrc/attention/fixup_zero_kv.cuh",
+      "line": 78,
+      "kind": "source",
+      "source": "vec_neginf_fill(lse + tok * lse_stride, lse_stride);",
+      "source_sha256": "24afc7367477528b8bf139568c832fed58ab6a7c125092f6c2e1e9c9d5219996",
+      "snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+    }
+  ],
+  "checks": [
+    "git HEAD exactly matches admitted SHA",
+    "Every selected anchor is nonempty",
+    "All selected source files rehashed after body review",
+    "Property notes distinguish partial evidence and framework differences",
+    "No newer-main references remain in active unit evidence"
+  ]
+}

@@ -1,0 +1,2192 @@
+[
+  {
+    "test_name": "test_inc_config_parser_exact_match",
+    "line": 303,
+    "end_line": 321,
+    "unit_id": "deployment.effective_configuration",
+    "checks": [
+      {
+        "line": 318,
+        "expression": "layer_config.bits == 8"
+      },
+      {
+        "line": 319,
+        "expression": "layer_config.group_size == 64"
+      },
+      {
+        "line": 320,
+        "expression": "layer_config.sym is False"
+      },
+      {
+        "line": 321,
+        "expression": "layer_config.quantized is True"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "e07d932baa52837a493a2afa5c2b73a96f018b1e70fcda2bcf307505bb0369f1",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:303；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_inc_model_prefix_early_exit",
+    "line": 324,
+    "end_line": 337,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 337,
+        "expression": "isinstance(result, UnquantizedLinearMethod)"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "7e9a99a6880129f249db003bd12b6ea7a05ead925078b0239f5fb775300a4360",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:324；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_inc_get_quant_method_unquantized_parallel_lm_head_returns_unquantized",
+    "line": 340,
+    "end_line": 351,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 351,
+        "expression": "isinstance(method, UnquantizedLinearMethod)"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "6c4a6068158c0bb55d53da108d599fdcda88eaa555673bf4adb52fd0e691d497",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:340；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_inc_get_quant_method_unquantized_unknown_layer_returns_none",
+    "line": 354,
+    "end_line": 362,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 362,
+        "expression": "method is None"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "3e879e854cc0c42334a2f327f49dfca5089ad9d3c9488b88731108cffa0575c8",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:354；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_inc_get_quant_method_unquantized_layer_with_model_prefix",
+    "line": 378,
+    "end_line": 388,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 388,
+        "expression": "isinstance(method, UnquantizedLinearMethod)"
+      }
+    ],
+    "decorators": [
+      "pytest.mark.parametrize('layer_factory', [pytest.param(lambda: object.__new__(LinearBase), id='LinearBase'), pytest.param(lambda: object.__new__(ParallelLMHead), id='ParallelLMHead')])"
+    ],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "21b94cbf167968542ce9ae7645840277b3210b74e1477ae9e7d0093f1a2475e3",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:378；装饰条件：pytest.mark.parametrize('layer_factory', [pytest.param(lambda: object.__new__(LinearBase), id='LinearBase'), pytest.param(lambda: object.__new__(ParallelLMHead), id='ParallelLMHead')])。"
+  },
+  {
+    "test_name": "test_inc_get_quant_method_unquantized_routed_experts_with_model_prefix",
+    "line": 391,
+    "end_line": 413,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 412,
+        "expression": "isinstance(method, DummyUnquantizedFusedMoEMethod)"
+      },
+      {
+        "line": 413,
+        "expression": "method.moe_config is None"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "df725a29b7c454a87f173c7caafac1af1de09979ccd11eb73c13916be3474345",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:391；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_inc_get_quant_method_unknown_layer_with_model_prefix_returns_none",
+    "line": 416,
+    "end_line": 423,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 423,
+        "expression": "method is None"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "086d2e2815b7bb1e26fd23c9f35cfcc8318ccfc0553d42461899a893a946cae9",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:416；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_inc_config_parser_regex_match",
+    "line": 426,
+    "end_line": 443,
+    "unit_id": "deployment.effective_configuration",
+    "checks": [
+      {
+        "line": 441,
+        "expression": "layer_config.bits == 8"
+      },
+      {
+        "line": 442,
+        "expression": "layer_config.group_size == 64"
+      },
+      {
+        "line": 443,
+        "expression": "layer_config.sym is False"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "f71d333ba24514f2eeec923fdf6a84306550bc329765dd50840fd924b554a4ed",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:426；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_inc_config_parser_invalid_regex_ignored",
+    "line": 446,
+    "end_line": 463,
+    "unit_id": "deployment.effective_configuration",
+    "checks": [
+      {
+        "line": 461,
+        "expression": "layer_config.bits == 4"
+      },
+      {
+        "line": 462,
+        "expression": "layer_config.group_size == 128"
+      },
+      {
+        "line": 463,
+        "expression": "layer_config.sym is True"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "e5bedfa6ee6281ace0e7e3775c1533a1c2c6327e32f7cc314cf7fd5a0cb6d694",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:446；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_inc_config_parser_block_name_to_quantize_marks_unquantized",
+    "line": 466,
+    "end_line": 476,
+    "unit_id": "deployment.effective_configuration",
+    "checks": [
+      {
+        "line": 473,
+        "expression": "layer_config.bits == 16"
+      },
+      {
+        "line": 474,
+        "expression": "layer_config.group_size == -1"
+      },
+      {
+        "line": 475,
+        "expression": "layer_config.sym is True"
+      },
+      {
+        "line": 476,
+        "expression": "layer_config.quantized is False"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "76a90ab43d49c799f41c65171df7d3fe2b4bcfa8c6fb860f0d9eb53e515d3c72",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:466；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_inc_config_parser_parallel_lm_head_defaults_to_unquantized",
+    "line": 479,
+    "end_line": 486,
+    "unit_id": "deployment.effective_configuration",
+    "checks": [
+      {
+        "line": 485,
+        "expression": "layer_config.quantized is False"
+      },
+      {
+        "line": 486,
+        "expression": "layer_config.bits == 16"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "776fb0a441fe0a90c7ad22670ed25c897969c8c8ea3d6c2de325326ee9d00aa3",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:479；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_inc_config_parser_suffix_match_for_lm_head",
+    "line": 489,
+    "end_line": 507,
+    "unit_id": "deployment.effective_configuration",
+    "checks": [
+      {
+        "line": 504,
+        "expression": "layer_config.quantized is True"
+      },
+      {
+        "line": 505,
+        "expression": "layer_config.bits == 4"
+      },
+      {
+        "line": 506,
+        "expression": "layer_config.group_size == 128"
+      },
+      {
+        "line": 507,
+        "expression": "layer_config.sym is True"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "82f15281f6b5c6e4d3a1bfa6cd0f246f7f6c998decf5539cbb3dfbbd196d39be",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:489；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_inc_config_parser_fused_moe_requires_consistent_configs",
+    "line": 510,
+    "end_line": 527,
+    "unit_id": "deployment.configuration_admissibility",
+    "checks": [
+      {
+        "line": 526,
+        "expression": "pytest.raises(ValueError, match='requires consistent quant config')"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "da145367a66e17480bc5e1a012e12db9f420ced987c0c26defdb1a7dd5fefdd6",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:510；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_inc_config_parser_fused_module_requires_consistent_configs",
+    "line": 530,
+    "end_line": 553,
+    "unit_id": "deployment.configuration_admissibility",
+    "checks": [
+      {
+        "line": 552,
+        "expression": "pytest.raises(ValueError, match='requires consistent quant config')"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "dde2e81a13bb365267240f4df65d0389a672ba9254a5d1f02abccf9a567cb9c2",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:530；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_inc_mxfp8",
+    "line": 556,
+    "end_line": 568,
+    "unit_id": "deployment.effective_configuration",
+    "checks": [
+      {
+        "line": 565,
+        "expression": "config.weight_bits == 8"
+      },
+      {
+        "line": 566,
+        "expression": "config.group_size == 32"
+      },
+      {
+        "line": 567,
+        "expression": "config.data_type == 'mx_fp'"
+      },
+      {
+        "line": 568,
+        "expression": "config.packing_format == 'auto_round:llm_compressor'"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "0ec0055e9f4a98e218d2c0459b845c82fff0d1035dada8a012fdd00a6bb137ff",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:556；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_inc_config_rejects_invalid_mxfp8_activation_config",
+    "line": 571,
+    "end_line": 586,
+    "unit_id": "deployment.configuration_admissibility",
+    "checks": [
+      {
+        "line": 572,
+        "expression": "pytest.raises(AssertionError, match='act_dynamic=True')"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "eccbfd5fd71a8f726402948f4110d8f032c84ca143de280b4a044e51cf366f02",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:571；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_inc_layer_config_mx_fp_helpers",
+    "line": 589,
+    "end_line": 601,
+    "unit_id": "deployment.effective_configuration",
+    "checks": [
+      {
+        "line": 600,
+        "expression": "layer_config.is_mxfp4 is True"
+      },
+      {
+        "line": 601,
+        "expression": "layer_config.is_mxfp8 is False"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "5d3f715e39e08a59e0731032cbd47c4123aa491d65a106b86d0f64754065bba4",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:589；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_inc_config_accepts_block_fp8",
+    "line": 604,
+    "end_line": 611,
+    "unit_id": "deployment.effective_configuration",
+    "checks": [
+      {
+        "line": 607,
+        "expression": "config.weight_bits == 8"
+      },
+      {
+        "line": 608,
+        "expression": "config.group_size == (128, 128)"
+      },
+      {
+        "line": 609,
+        "expression": "config.sym is True"
+      },
+      {
+        "line": 610,
+        "expression": "config.data_type == 'fp'"
+      },
+      {
+        "line": 611,
+        "expression": "config.packing_format == 'auto_round:fp8'"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "9da7637f27f58bd32f2d9dd93f3a16b7c7a3aefb377135548ee031c1ad121e09",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:604；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_inc_config_rejects_invalid_block_fp8_activation_config",
+    "line": 614,
+    "end_line": 616,
+    "unit_id": "deployment.configuration_admissibility",
+    "checks": [
+      {
+        "line": 615,
+        "expression": "pytest.raises(AssertionError, match='act_dynamic=True')"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "daabfbef9fcfa996d6c3d42da21a78aba482c8ddf0dc369e6e63a1ab8b078f2a",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:614；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_inc_layer_config_fp8_block_helper",
+    "line": 619,
+    "end_line": 631,
+    "unit_id": "deployment.effective_configuration",
+    "checks": [
+      {
+        "line": 630,
+        "expression": "layer_config.is_fp8_block is True"
+      },
+      {
+        "line": 631,
+        "expression": "layer_config.is_wna16_int is False"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "e45779720a623bd3a06dd40e1b7cba8a7209a95ff7340c74cf170f6bea390282",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:619；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_inc_resolve_scheme_selects_fp8_block",
+    "line": 634,
+    "end_line": 647,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 647,
+        "expression": "isinstance(scheme, INCFp8Scheme)"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "ab013ff9b854098c0fef6a5c599195924c1d5775a873da3240c5201fcfe76782",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:634；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_inc_resolve_scheme_selects_wna16",
+    "line": 650,
+    "end_line": 663,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 663,
+        "expression": "isinstance(scheme, INCWna16Scheme)"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "6e635b8f7065f46b7e22c46e1d34c92570189a9f9c1ea51fea7046e2350f6773",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:650；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_wna16_cuda_low_bit_linear_routes_to_humming",
+    "line": 670,
+    "end_line": 692,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 691,
+        "expression": "method is expected_method"
+      },
+      {
+        "line": 692,
+        "expression": "captured['layer_config'] is layer_config"
+      }
+    ],
+    "decorators": [
+      "pytest.mark.parametrize('bits', [2, 3])",
+      "pytest.mark.parametrize('packing_format', ['auto_round:auto_gptq', 'auto_round:auto_awq'])"
+    ],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "2fea1a502e85b07d073458b25b0c36ca8657da0fef6baabca81c06e03ede5d5a",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:670；装饰条件：pytest.mark.parametrize('bits', [2, 3]); pytest.mark.parametrize('packing_format', ['auto_round:auto_gptq', 'auto_round:auto_awq'])。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_wna16_cuda_low_bit_moe_routes_to_humming",
+    "line": 696,
+    "end_line": 723,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 721,
+        "expression": "method is expected_method"
+      },
+      {
+        "line": 722,
+        "expression": "captured['layer'] is layer"
+      },
+      {
+        "line": 723,
+        "expression": "captured['layer_config'] is layer_config"
+      }
+    ],
+    "decorators": [
+      "pytest.mark.parametrize('bits', [2, 3])"
+    ],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "340dba82f96bdd5e9a0f1ad4278b1e1b6d73c1a35a6070af07895c0e2787d16a",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:696；装饰条件：pytest.mark.parametrize('bits', [2, 3])。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_wna16_cuda_high_bit_skips_humming",
+    "line": 731,
+    "end_line": 753,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 752,
+        "expression": "called['humming'] is False"
+      },
+      {
+        "line": 753,
+        "expression": "isinstance(method, INCLinearMethod)"
+      }
+    ],
+    "decorators": [
+      "pytest.mark.skipif(not current_platform.is_cuda(), reason='This test only exercises the CUDA Marlin path.')",
+      "pytest.mark.parametrize('bits', [4, 8])"
+    ],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "2f5878b76e17204f74cabc6961a24690d2b14895aefef9f888662704e40e045e",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:731；装饰条件：pytest.mark.skipif(not current_platform.is_cuda(), reason='This test only exercises the CUDA Marlin path.'); pytest.mark.parametrize('bits', [4, 8])。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_inc_config_accepts_mxfp_family_llm_compressor",
+    "line": 756,
+    "end_line": 774,
+    "unit_id": "deployment.effective_configuration",
+    "checks": [
+      {
+        "line": 772,
+        "expression": "config.sym is True"
+      },
+      {
+        "line": 773,
+        "expression": "layer_config.is_mxfp4 is True"
+      },
+      {
+        "line": 774,
+        "expression": "isinstance(resolve_scheme(layer_config), INCMxfp4Scheme)"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "d4cbc075cd440a03c25244b86c286af8b0848f1148ab0f93dee719aec583140b",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:756；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_qwen3_1p7b_mxfp4_autoround_uses_mxfp4_linear_scheme",
+    "line": 777,
+    "end_line": 821,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 795,
+        "expression": "INCConfig.override_quantization_method({'quant_method': 'auto-round'}, user_quant=None) == 'inc'"
+      },
+      {
+        "line": 814,
+        "expression": "isinstance(ignored_method, UnquantizedLinearMethod)"
+      },
+      {
+        "line": 815,
+        "expression": "layer_config.bits == 4"
+      },
+      {
+        "line": 816,
+        "expression": "layer_config.group_size == 32"
+      },
+      {
+        "line": 817,
+        "expression": "layer_config.is_mxfp4 is True"
+      },
+      {
+        "line": 818,
+        "expression": "isinstance(resolve_scheme(layer_config), INCMxfp4Scheme)"
+      },
+      {
+        "line": 819,
+        "expression": "isinstance(method, INCLinearMethod)"
+      },
+      {
+        "line": 820,
+        "expression": "isinstance(method.scheme, INCMxfp4LinearMethod)"
+      },
+      {
+        "line": 821,
+        "expression": "isinstance(method.scheme.kernel, DummyKernel)"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "8e0283db7232319ad375f4ff98163b71022b1f0daa12834465cf2efdc45ea31b",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:777；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_qwen3_30b_a3b_w4a16_autoround_routes_to_gptq_moe",
+    "line": 824,
+    "end_line": 859,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 854,
+        "expression": "method is expected_method"
+      },
+      {
+        "line": 855,
+        "expression": "captured['layer'] is layer"
+      },
+      {
+        "line": 856,
+        "expression": "captured['layer_config'].bits == 4"
+      },
+      {
+        "line": 857,
+        "expression": "captured['layer_config'].group_size == 32"
+      },
+      {
+        "line": 858,
+        "expression": "captured['layer_config'].is_gptq is True"
+      },
+      {
+        "line": 859,
+        "expression": "captured['layer_config'].is_wna16_int is True"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "63bcedfbc680a633c990c3c3ab7ea17e5eced63d72dcd44713553667ecac9cee",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:824；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_qwen3_30b_a3b_mxfp4_autoround_routes_to_mxfp4_moe",
+    "line": 862,
+    "end_line": 893,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 887,
+        "expression": "isinstance(ignored_method, UnquantizedLinearMethod)"
+      },
+      {
+        "line": 888,
+        "expression": "layer_config.bits == 4"
+      },
+      {
+        "line": 889,
+        "expression": "layer_config.group_size == 32"
+      },
+      {
+        "line": 890,
+        "expression": "layer_config.is_mxfp4 is True"
+      },
+      {
+        "line": 891,
+        "expression": "isinstance(resolve_scheme(layer_config), INCMxfp4Scheme)"
+      },
+      {
+        "line": 892,
+        "expression": "isinstance(method, DummyMxfp4MoEMethod)"
+      },
+      {
+        "line": 893,
+        "expression": "method.moe_config is layer.moe_config"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "ae3084bc32873c5c2847fa51386bc4722564e84983dd6d558dc3737a46d7a2dd",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:862；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_qwen3_30b_a3b_mxfp8_autoround_routes_to_mxfp8_moe",
+    "line": 896,
+    "end_line": 935,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 929,
+        "expression": "isinstance(linear_method, INCLinearMethod)"
+      },
+      {
+        "line": 930,
+        "expression": "isinstance(linear_method.scheme, INCMxfp8LinearScheme)"
+      },
+      {
+        "line": 931,
+        "expression": "isinstance(moe_method, INCMxfp8MoEMethod)"
+      },
+      {
+        "line": 932,
+        "expression": "moe_method.mxfp8_backend is expected_backend"
+      },
+      {
+        "line": 933,
+        "expression": "moe_method.experts_cls is expected_experts_cls"
+      },
+      {
+        "line": 934,
+        "expression": "captured['moe_config'] == layer.moe_config"
+      },
+      {
+        "line": 935,
+        "expression": "isinstance(gate_method, UnquantizedLinearMethod)"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "9c65d6d8f4db6d5727ee252414c22753dbc5e972d714f070780f64d9613a4b57",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:896；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_inc_mxfp8_moe_method_registers_block_scaled_weights",
+    "line": 938,
+    "end_line": 1000,
+    "unit_id": "model.parameter_storage_layout",
+    "checks": [
+      {
+        "line": 976,
+        "expression": "method.mxfp8_backend is expected_backend"
+      },
+      {
+        "line": 977,
+        "expression": "method.experts_cls is expected_experts_cls"
+      },
+      {
+        "line": 978,
+        "expression": "method.weight_block_size == [1, 32]"
+      },
+      {
+        "line": 979,
+        "expression": "layer.w13_weight.shape == (2, 64, 64)"
+      },
+      {
+        "line": 980,
+        "expression": "layer.w2_weight.shape == (2, 64, 32)"
+      },
+      {
+        "line": 981,
+        "expression": "layer.w13_weight.dtype is torch.float8_e4m3fn"
+      },
+      {
+        "line": 982,
+        "expression": "layer.w2_weight.dtype is torch.float8_e4m3fn"
+      },
+      {
+        "line": 983,
+        "expression": "layer.w13_weight_scale.shape == (2, 64, 2)"
+      },
+      {
+        "line": 984,
+        "expression": "layer.w2_weight_scale.shape == (2, 64, 1)"
+      },
+      {
+        "line": 985,
+        "expression": "layer.w13_weight_scale.dtype is torch.uint8"
+      },
+      {
+        "line": 986,
+        "expression": "layer.w2_weight_scale.dtype is torch.uint8"
+      },
+      {
+        "line": 987,
+        "expression": "layer.w13_weight_scale.quant_method == 'block'"
+      },
+      {
+        "line": 988,
+        "expression": "layer.w2_weight_scale.quant_method == 'block'"
+      },
+      {
+        "line": 993,
+        "expression": "pytest.raises(ValueError, match='hidden_size divisible by 32')"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "abfd55a02875238e3fa6312e191a669becd9754573b4d32aad275f60c643b899",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:938；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。同时检查不满足块大小的权重创建被拒绝；未执行真实 MoE 数值对照。"
+  },
+  {
+    "test_name": "test_inc_mxfp4_linear_method_registers_and_processes_weights",
+    "line": 1003,
+    "end_line": 1057,
+    "unit_id": "model.parameter_storage_layout",
+    "checks": [
+      {
+        "line": 1044,
+        "expression": "layer.weight_packed.shape == (48, 32)"
+      },
+      {
+        "line": 1045,
+        "expression": "layer.weight_packed.dtype is torch.uint8"
+      },
+      {
+        "line": 1046,
+        "expression": "layer.weight_scale.shape == (48, 2)"
+      },
+      {
+        "line": 1047,
+        "expression": "layer.weight_scale.dtype is torch.uint8"
+      },
+      {
+        "line": 1048,
+        "expression": "layer.logical_widths == [16, 32]"
+      },
+      {
+        "line": 1049,
+        "expression": "layer.input_size_per_partition == 64"
+      },
+      {
+        "line": 1050,
+        "expression": "layer.output_size_per_partition == 48"
+      },
+      {
+        "line": 1055,
+        "expression": "layer.weight.data.data_ptr() == packed_data.data_ptr()"
+      },
+      {
+        "line": 1056,
+        "expression": "layer.weight_packed is layer.weight"
+      },
+      {
+        "line": 1057,
+        "expression": "captured['processed_layer'] is layer"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "1aa95fc4d406440978de0a2bd4a7dd091501587f82862764b7a88eac6e3497cd",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1003；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。同时检查后处理后数据指针及替身矩阵乘调用参数；此项没有真实内核数值判定。"
+  },
+  {
+    "test_name": "test_inc_mxfp4_moe_method_preserves_checkpoint_packing",
+    "line": 1067,
+    "end_line": 1154,
+    "unit_id": "model.parameter_storage_layout",
+    "checks": [
+      {
+        "line": 1133,
+        "expression": "method.experts_cls is expected_experts_cls"
+      },
+      {
+        "line": 1134,
+        "expression": "layer.w13_weight_packed.shape == (2, 64, 32)"
+      },
+      {
+        "line": 1135,
+        "expression": "layer.w2_weight_packed.shape == (2, 64, 16)"
+      },
+      {
+        "line": 1136,
+        "expression": "layer.w13_weight_scale.shape == (2, 64, 2)"
+      },
+      {
+        "line": 1137,
+        "expression": "layer.w2_weight_scale.shape == (2, 64, 1)"
+      },
+      {
+        "line": 1143,
+        "expression": "layer.w13_weight.data.data_ptr() == w13_packed_data.data_ptr()"
+      },
+      {
+        "line": 1144,
+        "expression": "layer.w2_weight.data.data_ptr() == w2_packed_data.data_ptr()"
+      },
+      {
+        "line": 1145,
+        "expression": "layer.w13_weight_packed is layer.w13_weight"
+      },
+      {
+        "line": 1146,
+        "expression": "layer.w2_weight_packed is layer.w2_weight"
+      },
+      {
+        "line": 1147,
+        "expression": "captured['quant_config_kwargs']['w1_scale'] is layer.w13_weight_scale"
+      },
+      {
+        "line": 1148,
+        "expression": "captured['quant_config_kwargs']['w2_scale'] is layer.w2_weight_scale"
+      },
+      {
+        "line": 1149,
+        "expression": "captured['kernel_kwargs']['moe_quant_config'] is expected_quant_config"
+      },
+      {
+        "line": 1150,
+        "expression": "captured['kernel_kwargs']['moe_config'] is expected_moe_config"
+      },
+      {
+        "line": 1151,
+        "expression": "captured['kernel_kwargs']['experts_cls'] is expected_experts_cls"
+      },
+      {
+        "line": 1152,
+        "expression": "captured['kernel_kwargs']['routing_tables'] == 'routing-tables'"
+      },
+      {
+        "line": 1153,
+        "expression": "captured['processed_layer'] is layer"
+      },
+      {
+        "line": 1154,
+        "expression": "method.moe_kernel is expected_kernel"
+      }
+    ],
+    "decorators": [
+      "pytest.mark.parametrize(('moe_backend', 'is_xpu', 'mxfp4_backend'), [('auto', True, Mxfp4MoeBackend.XPU), ('b12x', False, Mxfp4MoeBackend.B12X_MXFP4_MXFP8)])"
+    ],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "5626515c61eb315caea0b4dd4b938f8b2f0d96f5f5a5218c5ceea9b376b6701f",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1067；装饰条件：pytest.mark.parametrize(('moe_backend', 'is_xpu', 'mxfp4_backend'), [('auto', True, Mxfp4MoeBackend.XPU), ('b12x', False, Mxfp4MoeBackend.B12X_MXFP4_MXFP8)])。包含平台或计算后端替身，结论限于该受控调用条件。检查打包参数别名与路由表的透传；计算后端使用替身。"
+  },
+  {
+    "test_name": "test_wna16_xpu_moe_routes_to_gptq_moe",
+    "line": 1157,
+    "end_line": 1196,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 1194,
+        "expression": "method is expected_method"
+      },
+      {
+        "line": 1195,
+        "expression": "captured['layer'] is layer"
+      },
+      {
+        "line": 1196,
+        "expression": "captured['layer_config'].is_gptq is True"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "889259efc12e8ad17fc670a6fdac89bc6b0b5eb2bb562c7de5ea3825f2230350",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1157；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_wna16_xpu_moe_prefers_ark_when_moe_kernel_available",
+    "line": 1199,
+    "end_line": 1239,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 1236,
+        "expression": "isinstance(method, DummyArkMethod)"
+      },
+      {
+        "line": 1237,
+        "expression": "captured['quant_config'].weight_bits == 4"
+      },
+      {
+        "line": 1238,
+        "expression": "captured['quant_config'].group_size == 32"
+      },
+      {
+        "line": 1239,
+        "expression": "captured['moe_config'] is layer.moe_config"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "d4624f47522c837dd909be25107ad4f7b6217b862e03bf80b3cecaaeb2959ff5",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1199；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_wna16_xpu_moe_falls_back_when_ark_lacks_moe_kernel",
+    "line": 1242,
+    "end_line": 1278,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 1278,
+        "expression": "method is expected_method"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "c0a71171ddf948602be5710881827c64248e4f557d144ae297f83c9578fe9070",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1242；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_wna16_xpu_moe_ark_backend_requested_but_unavailable_raises",
+    "line": 1281,
+    "end_line": 1301,
+    "unit_id": "deployment.configuration_admissibility",
+    "checks": [
+      {
+        "line": 1295,
+        "expression": "pytest.raises(NotImplementedError, match='ARK MoE kernels are unavailable')"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "edbfb9d1362e62d3fd52570c16bffabb231321e0ccff25ae69393d8e5cc819a2",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1281；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_wna16_xpu_moe_w4a16_backend_overrides_available_ark",
+    "line": 1304,
+    "end_line": 1336,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 1336,
+        "expression": "method is expected_method"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "8d518083f051f64e44cb1e74ac652293405b09e051c3ffc1c6cc001175b95787",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1304；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_inc_resolve_scheme_selects_mxfp8",
+    "line": 1339,
+    "end_line": 1352,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 1352,
+        "expression": "isinstance(scheme, INCMxfp8Scheme)"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "864e57dc1718c236ad479e6c6b8423ed9b4abc092d69f92133a7f23336bf132f",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1339；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_inc_mxfp8_linear_scheme_delegates_to_kernel",
+    "line": 1374,
+    "end_line": 1422,
+    "unit_id": "compute.kernel_call_binding",
+    "checks": [
+      {
+        "line": 1413,
+        "expression": "layer.weight.shape == (64, 64)"
+      },
+      {
+        "line": 1414,
+        "expression": "layer.weight.dtype == torch.float8_e4m3fn"
+      },
+      {
+        "line": 1415,
+        "expression": "layer.weight_scale.shape == (64, 2)"
+      },
+      {
+        "line": 1416,
+        "expression": "layer.weight_scale.dtype == torch.uint8"
+      },
+      {
+        "line": 1421,
+        "expression": "result == 'applied'"
+      },
+      {
+        "line": 1422,
+        "expression": "[call[0] for call in kernel.calls] == ['process', 'apply']"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "13fc6cf098164a9084a7e1994095581aa485b9c1ffc2d1e69f6eac460a86c96b",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1374；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_inc_mxfp8_linear_scheme_requires_block_32_input",
+    "line": 1425,
+    "end_line": 1441,
+    "unit_id": "deployment.configuration_admissibility",
+    "checks": [
+      {
+        "line": 1432,
+        "expression": "pytest.raises(ValueError, match='divisible by 32')"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "17f5b120cbf8576e69df79ffb29d90a2cfdd7311d52ad8cd938623bc191d6b7c",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1425；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_inc_linear_method_delegates",
+    "line": 1444,
+    "end_line": 1465,
+    "unit_id": "compute.kernel_call_binding",
+    "checks": [
+      {
+        "line": 1460,
+        "expression": "result == 'applied'"
+      },
+      {
+        "line": 1461,
+        "expression": "[call[0] for call in scheme.calls] == ['create_weights', 'process_weights_after_loading', 'apply_weights']"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "56da66429e92f94d39e34580ba6a0c16eb9f6ea1e026354b7f95c08bd97a6527",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1444；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_inc_fp8_linear_scheme_delegates_to_fp8_linear_method",
+    "line": 1468,
+    "end_line": 1541,
+    "unit_id": "compute.kernel_call_binding",
+    "checks": [
+      {
+        "line": 1533,
+        "expression": "captured['quant_config'].is_checkpoint_fp8_serialized is True"
+      },
+      {
+        "line": 1534,
+        "expression": "captured['quant_config'].activation_scheme == 'dynamic'"
+      },
+      {
+        "line": 1535,
+        "expression": "captured['quant_config'].weight_block_size == [128, 128]"
+      },
+      {
+        "line": 1536,
+        "expression": "result == 'applied'"
+      },
+      {
+        "line": 1537,
+        "expression": "[call[0] for call in captured['method'].calls] == ['create_weights', 'process_weights_after_loading', 'apply']"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "18ec0856314f1a25c92129887eb380fb2f6f690d3c8e5e423df46b8a4ead3bdd",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1468；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_wna16_xpu_prefers_ark_when_available",
+    "line": 1544,
+    "end_line": 1563,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 1562,
+        "expression": "isinstance(method, INCLinearMethod)"
+      },
+      {
+        "line": 1563,
+        "expression": "isinstance(method.scheme, INCARKLinearMethod)"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "e584e804b46815ff925efbaa73f16e2467f24488fd623390beef3f1fd53a68aa",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1544；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_inc_config_from_config_accepts_xpu_int2",
+    "line": 1566,
+    "end_line": 1586,
+    "unit_id": "deployment.effective_configuration",
+    "checks": [
+      {
+        "line": 1581,
+        "expression": "config.weight_bits == 2"
+      },
+      {
+        "line": 1582,
+        "expression": "config.group_size == 64"
+      },
+      {
+        "line": 1583,
+        "expression": "config.sym is True"
+      },
+      {
+        "line": 1584,
+        "expression": "config.data_type == 'int'"
+      },
+      {
+        "line": 1585,
+        "expression": "config.packing_format == 'auto_round:auto_gptq'"
+      },
+      {
+        "line": 1586,
+        "expression": "config.backend == 'auto'"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "032fc29e1c8e78d7933c3e601d0bed2df4c4e3ab72aaebeb3eb982a4a425d69f",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1566；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_wna16_xpu_int2_prefers_ark_when_available",
+    "line": 1589,
+    "end_line": 1608,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 1607,
+        "expression": "isinstance(method, INCLinearMethod)"
+      },
+      {
+        "line": 1608,
+        "expression": "isinstance(method.scheme, INCARKLinearMethod)"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "6a8b07c11830846dc0ec81446647bf164e1c387cf2619a79b13a34d984cf7e18",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1589；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_wna16_xpu_int2_requires_ark_when_unavailable",
+    "line": 1611,
+    "end_line": 1628,
+    "unit_id": "deployment.configuration_admissibility",
+    "checks": [
+      {
+        "line": 1619,
+        "expression": "pytest.raises(NotImplementedError, match='INC int2 on XPU requires the ARK backend')"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "d0174dcf9cf48da045e2609c23822f229502a0fe2341fa1de59781c445558356",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1611；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_wna16_xpu_int2_unsupported_config_still_raises",
+    "line": 1631,
+    "end_line": 1641,
+    "unit_id": "deployment.configuration_admissibility",
+    "checks": [
+      {
+        "line": 1635,
+        "expression": "pytest.raises(NotImplementedError, match='unsupported config')"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "cc595eeacbbb1e2fa18085e1d6b216cbd4344d1f4219f8439a7213ebc910a96e",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1631；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_inc_ark_linear_method_xpu_int2_create_weights",
+    "line": 1644,
+    "end_line": 1688,
+    "unit_id": "model.parameter_storage_layout",
+    "checks": [
+      {
+        "line": 1678,
+        "expression": "method.pack_factor == 16"
+      },
+      {
+        "line": 1679,
+        "expression": "layer.qweight.shape == (4, 64)"
+      },
+      {
+        "line": 1680,
+        "expression": "layer.qweight.dtype == torch.int32"
+      },
+      {
+        "line": 1681,
+        "expression": "layer.scales.shape == (1, 64)"
+      },
+      {
+        "line": 1682,
+        "expression": "layer.scales.dtype == torch.bfloat16"
+      },
+      {
+        "line": 1683,
+        "expression": "layer.qzeros.shape == (1, 4)"
+      },
+      {
+        "line": 1684,
+        "expression": "layer.qzeros.dtype == torch.int32"
+      },
+      {
+        "line": 1685,
+        "expression": "not hasattr(layer, 'g_idx')"
+      },
+      {
+        "line": 1686,
+        "expression": "layer.in_features == 64"
+      },
+      {
+        "line": 1687,
+        "expression": "layer.out_features == 64"
+      },
+      {
+        "line": 1688,
+        "expression": "layer.params_dtype == torch.bfloat16"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "2306a094b4af043e79c5da587633154c2f9847fc03c3a4ce13db1ded9459490e",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1644；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_wna16_xpu_falls_back_when_ark_unavailable",
+    "line": 1691,
+    "end_line": 1707,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 1706,
+        "expression": "isinstance(method, INCLinearMethod)"
+      },
+      {
+        "line": 1707,
+        "expression": "isinstance(method.scheme, INCXPULinearMethod)"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "3a5f21875574143a8e26f2c3cf59cd3b3b111c379627595542db6219a27d2059",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1691；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_wna16_cpu_gptq_prefers_ark_when_available",
+    "line": 1710,
+    "end_line": 1729,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 1728,
+        "expression": "isinstance(method, INCLinearMethod)"
+      },
+      {
+        "line": 1729,
+        "expression": "isinstance(method.scheme, INCARKLinearMethod)"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "0be0b2cb8380ef487aba2d92c0b55c1f1718ef949483bcef093bd926bab11001",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1710；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_wna16_cpu_gptq_raises_when_ark_and_marlin_unavailable",
+    "line": 1732,
+    "end_line": 1752,
+    "unit_id": "deployment.configuration_admissibility",
+    "checks": [
+      {
+        "line": 1746,
+        "expression": "pytest.raises(NotImplementedError, match='Only 4-bit and 8-bit symmetric')"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "d6d12a3250ac963a09a935ceae6bf24a3f5b4c43b35d70d86804ab9826189d40",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1732；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_wna16_linear_gptq_uses_auto_gptq_when_supported",
+    "line": 1755,
+    "end_line": 1778,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 1774,
+        "expression": "isinstance(scheme.linear_method, DummyMethod)"
+      },
+      {
+        "line": 1775,
+        "expression": "isinstance(captured['cfg'], AutoGPTQConfig)"
+      },
+      {
+        "line": 1776,
+        "expression": "captured['cfg'].weight_bits == 4"
+      },
+      {
+        "line": 1777,
+        "expression": "captured['cfg'].group_size == 128"
+      },
+      {
+        "line": 1778,
+        "expression": "captured['cfg'].is_sym is True"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "dfeddbbbadb28175fd011917c123205c02cefc566c36cf312f3068fc505e238d",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1755；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_wna16_linear_gptq_unsupported_config_raises",
+    "line": 1781,
+    "end_line": 1783,
+    "unit_id": "deployment.configuration_admissibility",
+    "checks": [
+      {
+        "line": 1782,
+        "expression": "pytest.raises(NotImplementedError, match='Only 4-bit and 8-bit symmetric')"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "4f3740fa8bae788103f7863dea07ee8f0940eabd99806aebef7c4a0a9ba1c0af",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1781；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_inc_get_quant_method_unquantized_linear_returns_unquantized",
+    "line": 1786,
+    "end_line": 1792,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 1792,
+        "expression": "isinstance(method, UnquantizedLinearMethod)"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "2e53daeae051783e89802e421e8b6c19ac3b2c6fef78b97388d9b8a6d3e1dd22",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1786；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_inc_get_quant_method_unquantized_moe_returns_unquantized",
+    "line": 1795,
+    "end_line": 1816,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 1815,
+        "expression": "isinstance(method, DummyUnquantizedFusedMoEMethod)"
+      },
+      {
+        "line": 1816,
+        "expression": "method.moe_config is None"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "80bf2df6c7fa7fccca79a1a9c003edc733e4a1933f11a8d6060296146fdee723",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1795；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_inc_get_quant_method_linear_uses_resolved_scheme",
+    "line": 1819,
+    "end_line": 1835,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 1835,
+        "expression": "method is sentinel"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "e76b0ae5a43b5558fa936012dab21b8e5d1bfe3868e34d7b12cb26aaae985fd9",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1819；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_inc_get_quant_method_lm_head_uses_suffix_match",
+    "line": 1838,
+    "end_line": 1863,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 1863,
+        "expression": "method is sentinel"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "10a7994f27924149a6aed69d60f91818f587c513b5031953a3a3ea81617fdf82",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1838；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_inc_get_quant_method_moe_uses_resolved_scheme",
+    "line": 1866,
+    "end_line": 1882,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 1882,
+        "expression": "method is sentinel"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "d64893a31727d85441dea06fb566633a5d85b5bb2136b6b15b61db9c1fcdbc4a",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1866；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_resolve_gptq_moe_falls_back_to_moe_wna16",
+    "line": 1885,
+    "end_line": 1938,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 1930,
+        "expression": "captured['from_config'] == {'quant_method': 'gptq', 'bits': 4, 'group_size': 128, 'sym': True, 'lm_head': False}"
+      },
+      {
+        "line": 1937,
+        "expression": "captured['cfg'] is built_config"
+      },
+      {
+        "line": 1938,
+        "expression": "captured['moe'] is DummyLayer.moe_config"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "a1d0a63a1787cc8fb60478b98a765d0116fdcc06a2a01a2ef637108485242434",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1885；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_resolve_gptq_moe_uses_auto_gptq_when_supported",
+    "line": 1941,
+    "end_line": 1973,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 1969,
+        "expression": "isinstance(captured['cfg'], AutoGPTQConfig)"
+      },
+      {
+        "line": 1970,
+        "expression": "captured['cfg'].weight_bits == 4"
+      },
+      {
+        "line": 1971,
+        "expression": "captured['cfg'].group_size == 128"
+      },
+      {
+        "line": 1972,
+        "expression": "captured['cfg'].is_sym is True"
+      },
+      {
+        "line": 1973,
+        "expression": "captured['moe'] is DummyLayer.moe_config"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "c340aa9a4d8d10d98dfa69ad64dfc1742b7d7468ecf8f04e12a55548ae96233b",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1941；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_resolve_awq_moe_uses_marlin_when_supported",
+    "line": 1976,
+    "end_line": 2017,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 2015,
+        "expression": "captured['cfg'].weight_bits == 4"
+      },
+      {
+        "line": 2016,
+        "expression": "captured['cfg'].zero_point is True"
+      },
+      {
+        "line": 2017,
+        "expression": "captured['moe'] is DummyLayer.moe_config"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "c68845a95af88034889851194f3cd2ff2afcf1452b25de50d0bed3458fd978ee",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:1976；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_default_backend_keeps_ark_preference",
+    "line": 2306,
+    "end_line": 2318,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 2317,
+        "expression": "isinstance(method, INCLinearMethod)"
+      },
+      {
+        "line": 2318,
+        "expression": "isinstance(method.scheme, INCARKLinearMethod)"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "06902a8ebd24cc88c01b32d0c6a4a08416611b4d6c675570a7630840382ff928",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2306；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_w4a8_backend_overrides_available_ark",
+    "line": 2321,
+    "end_line": 2332,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 2329,
+        "expression": "isinstance(method.scheme, INCXPUW4A8LinearMethod)"
+      },
+      {
+        "line": 2330,
+        "expression": "not isinstance(method.scheme, INCARKLinearMethod)"
+      },
+      {
+        "line": 2332,
+        "expression": "isinstance(method.scheme, INCXPULinearMethod)"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "5221eb6f70488c6d1559597d9ab6c20e91645cd9eabb74ac861683079f2e4c80",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2321；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_w4a16_backend_overrides_available_ark",
+    "line": 2335,
+    "end_line": 2343,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 2341,
+        "expression": "isinstance(method.scheme, INCXPULinearMethod)"
+      },
+      {
+        "line": 2342,
+        "expression": "not isinstance(method.scheme, INCXPUW4A8LinearMethod)"
+      },
+      {
+        "line": 2343,
+        "expression": "not isinstance(method.scheme, INCARKLinearMethod)"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "6f65085c07b71f78f75133d512e83a233b0d048eefa44d7bf0bf95d94e402b0f",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2335；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_ark_backend_requested_but_unavailable_raises",
+    "line": 2346,
+    "end_line": 2352,
+    "unit_id": "deployment.configuration_admissibility",
+    "checks": [
+      {
+        "line": 2351,
+        "expression": "pytest.raises(NotImplementedError, match='auto_round_kernel is unavailable')"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "bb060978553e7d3f7d8a4817b2943e52924bf1d0f93a3707fa3d72c6b0b4563d",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2346；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_onednn_backends_reject_int2",
+    "line": 2356,
+    "end_line": 2363,
+    "unit_id": "deployment.configuration_admissibility",
+    "checks": [
+      {
+        "line": 2362,
+        "expression": "pytest.raises(NotImplementedError, match='only supports int4')"
+      }
+    ],
+    "decorators": [
+      "pytest.mark.parametrize('backend', ['w4a16', 'w4a8'])"
+    ],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "eb35e1cdf57974055baea8ee52c5433c6cd95906ea7f48f942afe9284238161c",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2356；装饰条件：pytest.mark.parametrize('backend', ['w4a16', 'w4a8'])。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_w4a8_rejects_unaligned_group_size",
+    "line": 2367,
+    "end_line": 2374,
+    "unit_id": "deployment.configuration_admissibility",
+    "checks": [
+      {
+        "line": 2373,
+        "expression": "pytest.raises(NotImplementedError, match='multiple of 32')"
+      }
+    ],
+    "decorators": [
+      "pytest.mark.parametrize('group_size', [48, -1, 0])"
+    ],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "eb6293224c3ee2c82fe78bd26d939cf32e67e0e5a1a898843b4ec3ece62e1542",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2367；装饰条件：pytest.mark.parametrize('group_size', [48, -1, 0])。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_w4a8_accepts_aligned_group_size",
+    "line": 2378,
+    "end_line": 2385,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 2385,
+        "expression": "isinstance(method.scheme, INCXPUW4A8LinearMethod)"
+      }
+    ],
+    "decorators": [
+      "pytest.mark.parametrize('group_size', [128, 64, 32])"
+    ],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "5eea9a6152f5c33831d04f9d2d0111fbf394019086af6bb1eacb5da11cf0c8d2",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2378；装饰条件：pytest.mark.parametrize('group_size', [128, 64, 32])。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_w4a8_requires_the_kernel",
+    "line": 2388,
+    "end_line": 2399,
+    "unit_id": "deployment.configuration_admissibility",
+    "checks": [
+      {
+        "line": 2398,
+        "expression": "pytest.raises(NotImplementedError, match='int4_gemm_w4a8')"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "e96d5c0ad078531f443ceb8c1efbea4e3cc405b483201c26ae12c93c7d931716",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2388；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_invalid_backend_value_raises",
+    "line": 2402,
+    "end_line": 2407,
+    "unit_id": "deployment.configuration_admissibility",
+    "checks": [
+      {
+        "line": 2406,
+        "expression": "pytest.raises(ValueError, match=_BACKEND_ENV)"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "50cea6345334cc05bd1957c81f7be4d7c562e7d773c68550837d7f5edeb266e0",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2402；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_rejects_unaligned_input_partition",
+    "line": 2422,
+    "end_line": 2426,
+    "unit_id": "deployment.configuration_admissibility",
+    "checks": [
+      {
+        "line": 2425,
+        "expression": "pytest.raises(NotImplementedError, match='multiples of 8.*input=132')"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "109e02bb15467855e0e3f183ba8e1ca9d0f76174fdb5f51cac259dfcd065342c",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2422；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_rejects_unaligned_output_partition",
+    "line": 2429,
+    "end_line": 2433,
+    "unit_id": "deployment.configuration_admissibility",
+    "checks": [
+      {
+        "line": 2432,
+        "expression": "pytest.raises(NotImplementedError, match='multiples of 8.*output=60')"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "e76770e66a3dce189c0edd020c0c5d9d456e46b52ad0ea9b6365cdcd2d633698",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2429；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_rejects_unaligned_sum_of_output_partitions",
+    "line": 2436,
+    "end_line": 2441,
+    "unit_id": "deployment.configuration_admissibility",
+    "checks": [
+      {
+        "line": 2440,
+        "expression": "pytest.raises(NotImplementedError, match='multiples of 8.*output=76')"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "2ee93be21dbeef67478ec49bcef21c08ebd56493e621e5ded96b40eb46e2e6d6",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2436；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_reports_both_unaligned_dims",
+    "line": 2444,
+    "end_line": 2454,
+    "unit_id": "deployment.configuration_admissibility",
+    "checks": [
+      {
+        "line": 2448,
+        "expression": "pytest.raises(NotImplementedError)"
+      },
+      {
+        "line": 2453,
+        "expression": "'input=132' in str(excinfo.value)"
+      },
+      {
+        "line": 2454,
+        "expression": "'output=60' in str(excinfo.value)"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "c70921a629bb5f00cb6c13636ae69522371af42574c8d70ce6ff8d7ba2359a39",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2444；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_accepts_aligned_partition_shape",
+    "line": 2457,
+    "end_line": 2465,
+    "unit_id": "model.parameter_storage_layout",
+    "checks": [
+      {
+        "line": 2465,
+        "expression": "layer.qweight.shape == (96 // 8, 72)"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "add828263f330b4aac7d663611f774ef161029c3dcf63915afb3c1888418de15",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2457；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_w4a16_accepts_unaligned_partition_shape",
+    "line": 2468,
+    "end_line": 2474,
+    "unit_id": "model.parameter_storage_layout",
+    "checks": [
+      {
+        "line": 2474,
+        "expression": "layer.scales.shape[1] == 60"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "25aae04ac6978b2770a88e9afa6623ce9ed7f3afbf17bc9b71b3ce8474a1d72a",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2468；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "test_keeps_fp16_scales",
+    "line": 2482,
+    "end_line": 2498,
+    "unit_id": "model.parameter_representation_relation",
+    "checks": [
+      {
+        "line": 2494,
+        "expression": "layer.scales_fp16.dtype is torch.float16"
+      },
+      {
+        "line": 2495,
+        "expression": "layer.scales_fp16.shape == layer.scales.shape"
+      },
+      {
+        "line": 2496,
+        "expression": "torch.equal(layer.scales_fp16.data.float(), layer.scales.data.float())"
+      },
+      {
+        "line": 2498,
+        "expression": "layer.scales.dtype is torch.bfloat16"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "a921f918246d5301537f8f5961747647d1009bc5d014de36a5f3416e187664ed",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2482；装饰条件：无函数级参数装饰。本例填充值为 0.125，在两种精度中均可精确表示；同时保留 BF16 原缩放量。"
+  },
+  {
+    "test_name": "test_reuses_w4a16_weight_layout",
+    "line": 2501,
+    "end_line": 2513,
+    "unit_id": "model.parameter_representation_relation",
+    "checks": [
+      {
+        "line": 2508,
+        "expression": "layer.qweight.dtype is torch.int32"
+      },
+      {
+        "line": 2509,
+        "expression": "layer.qweight.shape == (IN_FEATURES // 8, OUT_FEATURES)"
+      },
+      {
+        "line": 2510,
+        "expression": "torch.equal(layer.qweight.data, qweight_before)"
+      },
+      {
+        "line": 2512,
+        "expression": "layer.qzeros.dtype is torch.int8"
+      },
+      {
+        "line": 2513,
+        "expression": "layer.qzeros.tolist() == [8]"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "c8e81299c7a27f35a28d216782dae3ac017280ad138159cef2fa43d79f60c6f9",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2501；装饰条件：无函数级参数装饰。比较打包权重与处理前克隆张量逐元素相等，零点为固定值 8。"
+  },
+  {
+    "test_name": "test_falls_back_to_w4a16_for_small_batches",
+    "line": 2521,
+    "end_line": 2545,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 2544,
+        "expression": "calls == [(tokens, IN_FEATURES)]"
+      },
+      {
+        "line": 2545,
+        "expression": "out.shape == (tokens, OUT_FEATURES)"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "2e6e1501721f2d88153d8f81160e7b1e473e660049965f3c0771075a42ca1988",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2521；装饰条件：无函数级参数装饰。包含平台或计算后端替身，结论限于该受控调用条件。阈值以下调用回退路径；另一内核替身会主动使测试失败。"
+  },
+  {
+    "test_name": "test_calls_kernel_at_threshold",
+    "line": 2549,
+    "end_line": 2597,
+    "unit_id": "compute.kernel_call_binding",
+    "checks": [
+      {
+        "line": 2570,
+        "expression": "captured['quant_args'] == ((tokens, IN_FEATURES), True, 8)"
+      },
+      {
+        "line": 2583,
+        "expression": "quant_x.dtype is torch.int8"
+      },
+      {
+        "line": 2585,
+        "expression": "x_scale.dtype is torch.float16"
+      },
+      {
+        "line": 2586,
+        "expression": "w_scale.dtype is torch.float16"
+      },
+      {
+        "line": 2587,
+        "expression": "w_scale is layer.scales_fp16"
+      },
+      {
+        "line": 2588,
+        "expression": "x_zero.dtype is torch.int32"
+      },
+      {
+        "line": 2589,
+        "expression": "qweight is layer.qweight"
+      },
+      {
+        "line": 2590,
+        "expression": "w_zp is layer.qzeros"
+      },
+      {
+        "line": 2591,
+        "expression": "group_size == 128"
+      },
+      {
+        "line": 2592,
+        "expression": "group_idx is None"
+      },
+      {
+        "line": 2593,
+        "expression": "bias is None"
+      },
+      {
+        "line": 2596,
+        "expression": "out.dtype is torch.bfloat16"
+      },
+      {
+        "line": 2597,
+        "expression": "out.shape == (tokens, OUT_FEATURES)"
+      }
+    ],
+    "decorators": [
+      "requires_xpu_ops"
+    ],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "d89ce9b54304b2a8a42bd71f5ea9a113c3eba6ed3deac9dd95a79341af4805c4",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2549；装饰条件：requires_xpu_ops。包含平台或计算后端替身，结论限于该受控调用条件。阈值处检查量化参数、GEMM 参数对象及类型、结果类型；数值内核是替身。"
+  },
+  {
+    "test_name": "test_scales_are_fp16_for_any_activation_dtype",
+    "line": 2602,
+    "end_line": 2619,
+    "unit_id": "compute.kernel_call_binding",
+    "checks": [
+      {
+        "line": 2617,
+        "expression": "captured['gemm_args'][1].dtype is torch.float16"
+      },
+      {
+        "line": 2618,
+        "expression": "captured['gemm_args'][4].dtype is torch.float16"
+      },
+      {
+        "line": 2619,
+        "expression": "out.dtype is act_dtype"
+      }
+    ],
+    "decorators": [
+      "requires_xpu_ops",
+      "pytest.mark.parametrize('act_dtype', [torch.bfloat16, torch.float16])"
+    ],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "4a1f52f0e2f142d47a243829324174bc1c08ba6ed7a6dfc6090440d1b8ab7e7a",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2602；装饰条件：requires_xpu_ops; pytest.mark.parametrize('act_dtype', [torch.bfloat16, torch.float16])。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_forwards_bias_to_kernel",
+    "line": 2623,
+    "end_line": 2636,
+    "unit_id": "compute.kernel_call_binding",
+    "checks": [
+      {
+        "line": 2636,
+        "expression": "captured['gemm_args'][8] is bias"
+      }
+    ],
+    "decorators": [
+      "requires_xpu_ops"
+    ],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "9e300a8933e496052cdada833925a6c3ed34370f9e8e0581f351fb267b9e1d94",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2623；装饰条件：requires_xpu_ops。包含平台或计算后端替身，结论限于该受控调用条件。"
+  },
+  {
+    "test_name": "test_preserves_leading_dims",
+    "line": 2640,
+    "end_line": 2653,
+    "unit_id": "compute.kernel_call_binding",
+    "checks": [
+      {
+        "line": 2652,
+        "expression": "out.shape == (4, tokens, OUT_FEATURES)"
+      },
+      {
+        "line": 2653,
+        "expression": "out.dtype is torch.bfloat16"
+      }
+    ],
+    "decorators": [
+      "requires_xpu_ops"
+    ],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "211a0da1b6af5970ea5dcf5d3af4e1cb343d9c553a454625f443051df47cf043",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2640；装饰条件：requires_xpu_ops。包含平台或计算后端替身，结论限于该受控调用条件。仅检查高维输入的前导形状和输出类型恢复。"
+  },
+  {
+    "test_name": "test_batch_gate_uses_flattened_token_count",
+    "line": 2657,
+    "end_line": 2677,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 2677,
+        "expression": "out.shape == (4, tokens // 4, OUT_FEATURES)"
+      }
+    ],
+    "decorators": [
+      "requires_xpu_ops"
+    ],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "1bcc1cfb6f47068ffc1eec6edc31c0c8ecfc14442046bc10cb775514e4cbc5d5",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2657；装饰条件：requires_xpu_ops。包含平台或计算后端替身，结论限于该受控调用条件。用展平后的 token 总数选择路径；检查输出形状，未比较计算值。"
+  },
+  {
+    "test_name": "test_e2e_generates_with_real_weights",
+    "line": 2687,
+    "end_line": 2702,
+    "unit_id": "quality.sample_semantic_expectation",
+    "checks": [
+      {
+        "line": 2702,
+        "expression": "'Paris' in out[0][1]"
+      }
+    ],
+    "decorators": [
+      "requires_w4a8_kernel",
+      "pytest.mark.parametrize('model', E2E_MODELS)"
+    ],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "bd3748559201f1828caca54e9c35ee5f6ae7f4666f54a1df5227b017d4d22dcf",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2687；装饰条件：requires_w4a8_kernel; pytest.mark.parametrize('model', E2E_MODELS)。包含平台或计算后端替身，结论限于该受控调用条件。需要真实 XPU 内核和模型权重；样本条件是回答中包含 Paris。"
+  },
+  {
+    "test_name": "test_e2e_selects_w4a8_for_every_linear",
+    "line": 2706,
+    "end_line": 2736,
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      {
+        "line": 2733,
+        "expression": "shapes"
+      },
+      {
+        "line": 2734,
+        "expression": "all((i % 8 == 0 and o % 8 == 0 for i, o in shapes))"
+      }
+    ],
+    "decorators": [
+      "requires_w4a8_kernel"
+    ],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "80948dc8e822546f11781ed2b8c37a9a4c94921e49b42c2c592189d1b025fb7a",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2706；装饰条件：requires_w4a8_kernel。包含平台或计算后端替身，结论限于该受控调用条件。仅检查收集到的 W4A8 层集合非空及其分片对齐，没有断言所有 Linear 均在该集合中。"
+  },
+  {
+    "test_name": "TestGetLayerConfigFusedQKV::test_exact_fusion_key_match",
+    "line": 2031,
+    "end_line": 2044,
+    "unit_id": "deployment.effective_configuration",
+    "checks": [
+      {
+        "line": 2044,
+        "expression": "bits == 8"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "ac19fa8f25381c7c62500fd242760d5421921cbbd8ddd3c9d6c51bb6f95ce11b",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2031；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "TestGetLayerConfigFusedQKV::test_false_substring_match_does_not_override",
+    "line": 2046,
+    "end_line": 2072,
+    "unit_id": "deployment.effective_configuration",
+    "checks": [
+      {
+        "line": 2072,
+        "expression": "bits == 4"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "799ee9d7a49fecf6323e94894873d60a3a31319079776d901948b64da17f0ba8",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2046；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "TestGetLayerConfigFusedQKV::test_real_qkv_fusion_key_still_resolves",
+    "line": 2074,
+    "end_line": 2087,
+    "unit_id": "deployment.effective_configuration",
+    "checks": [
+      {
+        "line": 2087,
+        "expression": "bits == 8"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "688ffae8d11d4303e247346e9745dc165dcdfbf4712570a1de93b9ef7c82770f",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2074；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "TestGetLayerConfigFusedQKV::test_mixed_fp16_and_int4_fused_layer",
+    "line": 2089,
+    "end_line": 2102,
+    "unit_id": "deployment.configuration_admissibility",
+    "checks": [
+      {
+        "line": 2101,
+        "expression": "pytest.raises(ValueError, match='consistent quant config')"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "2f7768ea03c8e41755854b209c9023eb14bbcc65d2e587a8f8ca456bdbf7459c",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2089；装饰条件：无函数级参数装饰。"
+  },
+  {
+    "test_name": "TestGetLayerConfigFusedQKV::test_fusion_triggered_by_regex_configured_sub_name",
+    "line": 2104,
+    "end_line": 2121,
+    "unit_id": "deployment.effective_configuration",
+    "checks": [
+      {
+        "line": 2121,
+        "expression": "bits == 8"
+      }
+    ],
+    "decorators": [],
+    "source_sha256": "931070d3a47d67da423032512bef3e312d8376e06a5105e7fabbc907c78f3d9b",
+    "function_sha256": "e9073506930bd5d929ddf11fa0cec06de67fa7bf758045bff36d3bbe74db3c44",
+    "conditions": "输入构造、fixture 与替身范围见 tests/quantization/test_auto_round.py:2104；装饰条件：无函数级参数装饰。"
+  }
+]

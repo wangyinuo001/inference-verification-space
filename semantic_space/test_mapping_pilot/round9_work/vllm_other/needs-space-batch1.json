@@ -1,0 +1,26 @@
+[
+  {
+    "id": "compute.kernel_dispatch_binding",
+    "property": "在声明的硬件能力、算子输入形状、步长、精度和配置下，算子入口选择支持的实现后端，显式指定后端遵守其支持约束，自动后端选择遵守既定优先级与回退规则。",
+    "oracle": "对照入口的后端解析规则与预期分支，检查选中的实现或拒绝结果；该检查不蕴含数值输出正确。",
+    "vllm_source": [
+      "vllm/model_executor/layers/indexer_topk.py:174",
+      "tests/kernels/test_top_k_per_row.py:889",
+      "tests/kernels/test_top_k_per_row.py:2656"
+    ],
+    "sglang_analogue": "未在本批源码核查；暂不宣称跨框架已确认。",
+    "status": "proposed_needs_dual_framework_review"
+  },
+  {
+    "id": "compute.chunk_partition_contract",
+    "property": "按输入行数和预算生成的连续切片恰好覆盖有效行，切片不重叠且满足声明的容量约束；无效或关闭预算使用定义好的回退。",
+    "oracle": "检查切片起止、相邻连接、覆盖与容量上界。",
+    "vllm_source": [
+      "vllm/model_executor/layers/sparse_attn_indexer.py:354",
+      "tests/kernels/test_top_k_per_row.py:2941",
+      "tests/kernels/test_top_k_per_row.py:2959"
+    ],
+    "sglang_analogue": "未在本批源码核查；暂不宣称跨框架已确认。",
+    "status": "proposed_needs_dual_framework_review"
+  }
+]

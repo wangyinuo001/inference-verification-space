@@ -79,6 +79,10 @@ def main() -> None:
     supplement = {key(row): row for row in read(supplement_path)} if supplement_path.exists() else {}
     assert not (supplement.keys() & direct_properties.keys())
     direct_properties.update(supplement)
+    round9_path = HERE / "reviewed-round9-crosswalk.tsv"
+    round9 = {key(row): row for row in read(round9_path)} if round9_path.exists() else {}
+    assert not (round9.keys() & direct_properties.keys())
+    direct_properties.update(round9)
     pending_path = HERE / "reviewed-supplement-pending.json"
     pending = {key(r): r for r in json.loads(pending_path.read_text())} if pending_path.exists() else {}
     runtime_path = HERE / "background_evidence/runtime-entries.tsv"

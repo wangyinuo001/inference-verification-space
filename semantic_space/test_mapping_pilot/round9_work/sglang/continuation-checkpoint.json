@@ -1,0 +1,22 @@
+{
+  "this_continuation_entries": 210,
+  "this_continuation_predicate_source_refs": 528,
+  "this_continuation_by_rule": {
+    "sglang_kimik2_explicit_source_review": 45,
+    "sglang_grammar_lifecycle_explicit_source_review": 74,
+    "sglang_weight_checker_explicit_source_review": 52,
+    "sglang_forward_buffer_explicit_source_review": 39
+  },
+  "cumulative_mapping_row_counts": {
+    "crosswalk.tsv": 704,
+    "proposed-crosswalk.tsv": 438
+  },
+  "cumulative_unique_mapped_entries": 1142,
+  "pending_rows": 7366,
+  "source_hashes_verified": 19,
+  "nine_columns": true,
+  "unique_new_entry_keys": true,
+  "oracle_lines_nonempty": true,
+  "runtime_tests_executed": false,
+  "gpu_work": false
+}

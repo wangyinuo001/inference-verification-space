@@ -1,0 +1,217 @@
+[
+  {
+    "id": "support.cli_option_compatibility",
+    "name": "压测工具命令行选项兼容",
+    "property": "比较 Rust/Python 压测命令行选项、别名、默认值及明确允许的差异。"
+  },
+  {
+    "id": "response.observed_payload_contract",
+    "name": "响应中的被检查字段与内容",
+    "property": "在测试声明的请求和模拟上游输出下，比较响应状态、被断言的载荷字段、终止状态或文本。响应状态检查与内容、时序检查分别保存。"
+  },
+  {
+    "id": "output.finalization",
+    "name": "输出与停止状态一致",
+    "property": "按照显式 token/文本片段与结束原因，检查字符边界、终止 token 或 completion 区间。"
+  },
+  {
+    "id": "request.declared_admission_contract",
+    "name": "请求接受或拒绝符合声明条件",
+    "property": "对给定请求格式、字段范围、资源名称或参数组合，检查校验结果、错误信息或允许的 HTTP 状态集合；具体允许集合按入口记录。"
+  },
+  {
+    "id": "response.stream_event_lifecycle",
+    "name": "响应事件与内容项生命周期",
+    "property": "检查事件的顺序、内容项身份、结束与错误事件，以及测试实际比较的响应持久化或检索字段。"
+  },
+  {
+    "id": "tool.call_parse_relation",
+    "name": "输出解析的内容与工具调用对应",
+    "property": "根据给定输出标记与解析选项，检查正文、推理文本、工具名称和参数的对应。"
+  },
+  {
+    "id": "response.logprob_identity",
+    "name": "返回概率项与 token 对应",
+    "property": "检查生成与提示 token 的身份、候选、概率字段及流式汇总。"
+  },
+  {
+    "id": "input.prompt_text_rendering",
+    "name": "聊天提示词与工具选择对应",
+    "property": "检查渲染请求中工具声明与工具选择的传递。"
+  },
+  {
+    "id": "support.external_grammar_replay",
+    "name": "外部语法回放命令结果",
+    "property": "此 Rust 入口调用外部 Python 回放程序并检查退出状态；其具体语法性质需展开外部脚本后确定。"
+  },
+  {
+    "id": "support.helper_definition",
+    "name": "测试辅助函数",
+    "property": "该源码定义提供公共测试过程、配置、分词或请求辅助操作，不能单独按命名视为已收集的独立测试。"
+  },
+  {
+    "id": "worker.registration_configuration",
+    "name": "工作节点身份与注册配置",
+    "property": "核对节点角色、rank、地址、配置一致性及注册/移除后的状态；各入口保存实际检查的字段和异常条件。"
+  },
+  {
+    "id": "distributed.control_delivery",
+    "name": "跨进程请求、控制命令与结果交付",
+    "property": "检查控制消息、请求结果和错误的交付，以及多节点响应的汇总或一致性；保留接收端与调用上下文。"
+  },
+  {
+    "id": "schedule.coordinated_progress",
+    "name": "多节点协调状态与执行波次",
+    "property": "检查协调消息、波次与 rank/前端状态的对应及广播行为。"
+  },
+  {
+    "id": "abort.request_id_binding",
+    "name": "取消命令与请求身份绑定",
+    "property": "检查丢弃流或按外部标识取消时，发出的 abort 请求与内部请求标识集合对应。"
+  },
+  {
+    "id": "service.lifecycle_health",
+    "name": "服务生命周期与健康状态",
+    "property": "在初始化、等待、睡眠、唤醒、暂停或运行错误后检查服务可用性、超时与健康状态。"
+  },
+  {
+    "id": "cache.block_identity_encoding",
+    "name": "缓存块身份编码",
+    "property": "根据给定 token 与元数据计算的块标识与明确参考值一致。"
+  },
+  {
+    "id": "schedule.work_distribution",
+    "name": "工作节点选择与请求对应",
+    "property": "按候选节点、负载、键或策略，检查实际被选择的节点、分布或策略状态；仅成功状态的入口不证明分配公平性。"
+  },
+  {
+    "id": "response.batch_metadata_binding",
+    "name": "生成批次与返回元数据对应",
+    "property": "检查 token、概率、路由信息、权重版本及时间戳的合并或维度约束。"
+  },
+  {
+    "id": "request.field_binding",
+    "name": "请求字段规范化与传递",
+    "property": "检查请求标识、采样参数、工具、前缀分离元数据或任务字段在序列化、规范化及转发中保持声明的对应关系。"
+  },
+  {
+    "id": "service.measurement_record",
+    "name": "服务指标与追踪记录",
+    "property": "核对指标计数、聚合字段、跟踪标识或导出事件与输入记录和观察到的操作对应；不据此判定模型性能达标。"
+  },
+  {
+    "id": "support.fixture_or_example_contract",
+    "name": "测试工具、样本或局部示例检查",
+    "property": "检查测试专用分词器、mock 服务、样本、局部构造的请求/配置或第三方工具行为；记录被测对象，不能直接提升为真实推理执行的保障。"
+  },
+  {
+    "id": "cache.distributed_index_state",
+    "name": "跨节点缓存索引与节点状态",
+    "property": "检查缓存事件同步、节点增删及并发更新后的索引查询与成员关系。"
+  },
+  {
+    "id": "service.failure_admission_recovery",
+    "name": "服务失败后的接纳、恢复与重试",
+    "property": "在给定失败、取消或恢复操作序列中检查断路状态、探测数量、失败计数、请求状态或实际重试结果；未断言的阈值和次数不作为已检查性质。"
+  },
+  {
+    "id": "response.failure_contract",
+    "name": "失败响应与超时返回",
+    "property": "检查不可达节点、连接中断或超时的响应分类、可见字段及测试设置的时间界限。"
+  },
+  {
+    "id": "service.inflight_accounting",
+    "name": "在途请求占用与释放",
+    "property": "检查请求完成、失败、断连和负载守卫退出后，在途计数与资源持有状态按生命周期更新。"
+  },
+  {
+    "id": "service.shutdown_completion",
+    "name": "服务关闭与在途请求收尾",
+    "property": "检查关闭请求后在途响应完成情况或退出时间界限。"
+  },
+  {
+    "id": "response.forwarded_headers",
+    "name": "代理响应头遵守传递策略",
+    "property": "检查允许的端到端字段保留、逐跳字段移除及 Host/长度等字段的处理。"
+  },
+  {
+    "id": "service.endpoint_observed_fields",
+    "name": "管理与服务接口的可观察字段",
+    "property": "对实际调用的接口检查状态与响应对象中明确断言的字段；缓存清理接口成功不代表缓存内容已逐项核验。"
+  },
+  {
+    "id": "service.configured_request_success",
+    "name": "配置下请求可完成",
+    "property": "在声明的路由或安全配置下检查请求完成状态；这些入口未必检查策略选择、身份一致或加密通道。"
+  },
+  {
+    "id": "support.incomplete_test_body",
+    "name": "仅搭建环境或未完成的测试",
+    "property": "源码只搭建环境、保留待实现检查，或使用恒真的断言；未建立其名称声称的检查。"
+  },
+  {
+    "id": "rerank.result_contract",
+    "name": "重排任务输出与索引关系",
+    "property": "检查重排结果排序、top-k、原文保留和用量字段与声明的分数及输入对应。"
+  },
+  {
+    "id": "response.history_store",
+    "name": "会话与响应记录的存取隔离",
+    "property": "检查会话或响应的创建、查询、删除、元数据与共享条目在不同标识下的可见性。"
+  },
+  {
+    "id": "response.usage_accounting",
+    "name": "响应使用量字段对应",
+    "property": "检查用量字段在格式转换中保留明确的数值和计量字段。"
+  },
+  {
+    "id": "request.effective_sampling_parameters",
+    "name": "默认请求参数生效",
+    "property": "检查未显式设置的推理参数按声明的默认策略规范化。"
+  },
+  {
+    "id": "tool.execution_binding",
+    "name": "外部工具注册与调用结果",
+    "property": "检查工具连接、目录、schema、执行和失败时的返回与目标工具对应。"
+  },
+  {
+    "id": "abort.delivery_persistence",
+    "name": "断连或取消后的响应与持久化",
+    "property": "按 store 选项和执行阶段检查上游停止、输出停止、继续收集或保存结果的行为；保存相关时间界限与缓冲允许量。"
+  },
+  {
+    "id": "deployment.configuration_admissibility",
+    "name": "持久化后端配置可接受性",
+    "property": "检查启用指定历史存储后端时，必需配置缺失会失败、有效组合可接受。"
+  },
+  {
+    "id": "deployment.effective_configuration",
+    "name": "路由构造配置",
+    "property": "检查按指定配置构造路由器后登记的节点数等被断言字段。"
+  },
+  {
+    "id": "request.access_control",
+    "name": "请求身份与权限判定",
+    "property": "根据给定凭据、签名、角色和请求路径检查接受/拒绝或身份字段；不把功能查找测试解释为常量时间证明。"
+  },
+  {
+    "id": "request.transport_authentication",
+    "name": "TLS 连接与对端身份验证",
+    "property": "按 CA、服务端证书及客户端凭据检查 TLS/mTLS 连接成功或失败。"
+  },
+  {
+    "id": "embedding.routing_text",
+    "name": "向量请求的路由文本投影",
+    "property": "检查字符串或 token 输入转换为路由文本的规则，不检查模型生成的向量数值。"
+  },
+  {
+    "id": "service.extension_registration",
+    "name": "服务扩展模块注册与调用记录",
+    "property": "检查扩展模块注册、移除、重复键、失败状态或执行指标。执行结果允许失败的入口不被记为扩展输出正确。"
+  },
+  {
+    "id": "input.text_tokenization",
+    "name": "分词结果与参考 token 对应",
+    "property": "按模型分词器和样本条件，将分词结果与固定参考 token ID 对比，同时检查有效样本计数。"
+  }
+]

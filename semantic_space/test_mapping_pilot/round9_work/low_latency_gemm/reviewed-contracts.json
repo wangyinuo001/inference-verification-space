@@ -1,0 +1,1558 @@
+[
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_correctness",
+    "line": 75,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        33,
+        "assert out.device.type == 'cuda', f'{context}: not on CUDA'"
+      ],
+      [
+        34,
+        "assert torch.isfinite(out).all(), f'{context}: NaN/Inf'"
+      ],
+      [
+        38,
+        "assert cos > min_cos_sim, f'{context}: cos_sim {cos:.6f} < {min_cos_sim} (abs_err={(out.float() - ref.float()).abs().max().item():.2e})'"
+      ],
+      [
+        80,
+        "assert out.dtype == torch.float32"
+      ],
+      [
+        81,
+        "assert out.shape == (M, N)"
+      ],
+      [
+        82,
+        "_assert_close(out, _ref(a, b), context=f'{a_dtype} M={M} {desc}')"
+      ]
+    ],
+    "input_and_call_source": "def test_correctness(M, N, K, desc, a_dtype):\n    torch.manual_seed(42)\n    a = torch.randn(M, K, device=\"cuda\").to(a_dtype)\n    b = torch.randn(N, K, dtype=torch.float32, device=\"cuda\")\n    out = _gemm(a, b)\n    assert out.dtype == torch.float32\n    assert out.shape == (M, N)\n    _assert_close(out, _ref(a, b), context=f\"{a_dtype} M={M} {desc}\")",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:75。参数装饰：pytest.mark.parametrize('a_dtype', A_DTYPES); pytest.mark.parametrize('M', [1, 2, 4, 8, 16]); pytest.mark.parametrize('N,K,desc', SHAPES, ids=[s[2] for s in SHAPES])。共享 _assert_close 检查 CUDA、有限性和展平输出的余弦相似度，默认阈值 0.99；调用显式覆盖时使用该值。打印的最大绝对误差不是通过阈值。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_small_K",
+    "line": 91,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        33,
+        "assert out.device.type == 'cuda', f'{context}: not on CUDA'"
+      ],
+      [
+        34,
+        "assert torch.isfinite(out).all(), f'{context}: NaN/Inf'"
+      ],
+      [
+        38,
+        "assert cos > min_cos_sim, f'{context}: cos_sim {cos:.6f} < {min_cos_sim} (abs_err={(out.float() - ref.float()).abs().max().item():.2e})'"
+      ],
+      [
+        95,
+        "_assert_close(_gemm(a, b), _ref(a, b), context=f'small_K={K}')"
+      ]
+    ],
+    "input_and_call_source": "def test_small_K(K):\n    torch.manual_seed(42)\n    a = torch.randn(4, K, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(64, K, dtype=torch.float32, device=\"cuda\")\n    _assert_close(_gemm(a, b), _ref(a, b), context=f\"small_K={K}\")",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:91。参数装饰：pytest.mark.parametrize('K', [16, 32, 64, 128, 256, 512, 1024, 1536])。共享 _assert_close 检查 CUDA、有限性和展平输出的余弦相似度，默认阈值 0.99；调用显式覆盖时使用该值。打印的最大绝对误差不是通过阈值。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_K_sweep",
+    "line": 104,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        33,
+        "assert out.device.type == 'cuda', f'{context}: not on CUDA'"
+      ],
+      [
+        34,
+        "assert torch.isfinite(out).all(), f'{context}: NaN/Inf'"
+      ],
+      [
+        38,
+        "assert cos > min_cos_sim, f'{context}: cos_sim {cos:.6f} < {min_cos_sim} (abs_err={(out.float() - ref.float()).abs().max().item():.2e})'"
+      ],
+      [
+        108,
+        "_assert_close(_gemm(a, b), _ref(a, b), context=f'K={K}')"
+      ]
+    ],
+    "input_and_call_source": "def test_K_sweep(K):\n    torch.manual_seed(42)\n    a = torch.randn(8, K, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(64, K, dtype=torch.float32, device=\"cuda\")\n    _assert_close(_gemm(a, b), _ref(a, b), context=f\"K={K}\")",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:104。参数装饰：pytest.mark.parametrize('K', [2048, 2304, 2880, 3072, 4096, 5120, 7168])。共享 _assert_close 检查 CUDA、有限性和展平输出的余弦相似度，默认阈值 0.99；调用显式覆盖时使用该值。打印的最大绝对误差不是通过阈值。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_minimax_m2",
+    "line": 117,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        33,
+        "assert out.device.type == 'cuda', f'{context}: not on CUDA'"
+      ],
+      [
+        34,
+        "assert torch.isfinite(out).all(), f'{context}: NaN/Inf'"
+      ],
+      [
+        38,
+        "assert cos > min_cos_sim, f'{context}: cos_sim {cos:.6f} < {min_cos_sim} (abs_err={(out.float() - ref.float()).abs().max().item():.2e})'"
+      ],
+      [
+        121,
+        "_assert_close(_gemm(a, b), _ref(a, b), context=f'MiniMax-M2 M={M}')"
+      ]
+    ],
+    "input_and_call_source": "def test_minimax_m2(M):\n    torch.manual_seed(42)\n    a = torch.randn(M, 3072, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(256, 3072, dtype=torch.float32, device=\"cuda\")\n    _assert_close(_gemm(a, b), _ref(a, b), context=f\"MiniMax-M2 M={M}\")",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:117。参数装饰：pytest.mark.parametrize('M', [1, 4, 8, 16, 32])。共享 _assert_close 检查 CUDA、有限性和展平输出的余弦相似度，默认阈值 0.99；调用显式覆盖时使用该值。打印的最大绝对误差不是通过阈值。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_single_token",
+    "line": 134,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        33,
+        "assert out.device.type == 'cuda', f'{context}: not on CUDA'"
+      ],
+      [
+        34,
+        "assert torch.isfinite(out).all(), f'{context}: NaN/Inf'"
+      ],
+      [
+        38,
+        "assert cos > min_cos_sim, f'{context}: cos_sim {cos:.6f} < {min_cos_sim} (abs_err={(out.float() - ref.float()).abs().max().item():.2e})'"
+      ],
+      [
+        139,
+        "assert out.shape == (1, N)"
+      ],
+      [
+        140,
+        "_assert_close(out, _ref(a, b), context=f'M=1 {N}x{K}')"
+      ]
+    ],
+    "input_and_call_source": "def test_single_token(N, K):\n    torch.manual_seed(42)\n    a = torch.randn(1, K, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(N, K, dtype=torch.float32, device=\"cuda\")\n    out = _gemm(a, b)\n    assert out.shape == (1, N)\n    _assert_close(out, _ref(a, b), context=f\"M=1 {N}x{K}\")",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:134。参数装饰：pytest.mark.parametrize('N,K', [(256, 3072), (256, 7168), (8, 4096)], ids=['MiniMax-M2', 'DSV3-sized', 'Mixtral'])。共享 _assert_close 检查 CUDA、有限性和展平输出的余弦相似度，默认阈值 0.99；调用显式覆盖时使用该值。打印的最大绝对误差不是通过阈值。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_arbitrary_N",
+    "line": 149,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        33,
+        "assert out.device.type == 'cuda', f'{context}: not on CUDA'"
+      ],
+      [
+        34,
+        "assert torch.isfinite(out).all(), f'{context}: NaN/Inf'"
+      ],
+      [
+        38,
+        "assert cos > min_cos_sim, f'{context}: cos_sim {cos:.6f} < {min_cos_sim} (abs_err={(out.float() - ref.float()).abs().max().item():.2e})'"
+      ],
+      [
+        154,
+        "assert out.shape == (4, N)"
+      ],
+      [
+        155,
+        "_assert_close(out, _ref(a, b), context=f'N={N}')"
+      ]
+    ],
+    "input_and_call_source": "def test_arbitrary_N(N):\n    torch.manual_seed(42)\n    a = torch.randn(4, 3072, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(N, 3072, dtype=torch.float32, device=\"cuda\")\n    out = _gemm(a, b)\n    assert out.shape == (4, N)\n    _assert_close(out, _ref(a, b), context=f\"N={N}\")",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:149。参数装饰：pytest.mark.parametrize('N', [1, 3, 16, 64, 256])。共享 _assert_close 检查 CUDA、有限性和展平输出的余弦相似度，默认阈值 0.99；调用显式覆盖时使用该值。打印的最大绝对误差不是通过阈值。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_large_values",
+    "line": 163,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        33,
+        "assert out.device.type == 'cuda', f'{context}: not on CUDA'"
+      ],
+      [
+        34,
+        "assert torch.isfinite(out).all(), f'{context}: NaN/Inf'"
+      ],
+      [
+        38,
+        "assert cos > min_cos_sim, f'{context}: cos_sim {cos:.6f} < {min_cos_sim} (abs_err={(out.float() - ref.float()).abs().max().item():.2e})'"
+      ],
+      [
+        168,
+        "assert torch.isfinite(out).all()"
+      ],
+      [
+        169,
+        "_assert_close(out, _ref(a, b), context='large_values')"
+      ]
+    ],
+    "input_and_call_source": "def test_large_values():\n    torch.manual_seed(42)\n    a = torch.randn(4, 5120, dtype=torch.bfloat16, device=\"cuda\") * 100\n    b = torch.randn(128, 5120, dtype=torch.float32, device=\"cuda\") * 100\n    out = _gemm(a, b)\n    assert torch.isfinite(out).all()\n    _assert_close(out, _ref(a, b), context=\"large_values\")",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:163。参数装饰：。共享 _assert_close 检查 CUDA、有限性和展平输出的余弦相似度，默认阈值 0.99；调用显式覆盖时使用该值。打印的最大绝对误差不是通过阈值。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_near_zero",
+    "line": 172,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.output_constraints",
+    "checks": [
+      [
+        177,
+        "assert torch.isfinite(out).all()"
+      ],
+      [
+        178,
+        "assert out.abs().max() < 1.0"
+      ]
+    ],
+    "input_and_call_source": "def test_near_zero():\n    torch.manual_seed(42)\n    a = torch.randn(4, 4096, dtype=torch.bfloat16, device=\"cuda\") * 1e-4\n    b = torch.randn(64, 4096, dtype=torch.float32, device=\"cuda\") * 1e-4\n    out = _gemm(a, b)\n    assert torch.isfinite(out).all()\n    assert out.abs().max() < 1.0",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:172。参数装饰：。此项没有与完整矩阵乘参考进行数值对照。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_zeros",
+    "line": 181,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        184,
+        "assert (_gemm(a, b) == 0).all()"
+      ]
+    ],
+    "input_and_call_source": "def test_zeros():\n    a = torch.zeros(4, 2048, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(64, 2048, dtype=torch.float32, device=\"cuda\")\n    assert (_gemm(a, b) == 0).all()",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:181。参数装饰：。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_ones",
+    "line": 187,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        33,
+        "assert out.device.type == 'cuda', f'{context}: not on CUDA'"
+      ],
+      [
+        34,
+        "assert torch.isfinite(out).all(), f'{context}: NaN/Inf'"
+      ],
+      [
+        38,
+        "assert cos > min_cos_sim, f'{context}: cos_sim {cos:.6f} < {min_cos_sim} (abs_err={(out.float() - ref.float()).abs().max().item():.2e})'"
+      ],
+      [
+        190,
+        "_assert_close(_gemm(a, b), _ref(a, b), context='ones')"
+      ]
+    ],
+    "input_and_call_source": "def test_ones():\n    a = torch.ones(1, 4096, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(32, 4096, dtype=torch.float32, device=\"cuda\")\n    _assert_close(_gemm(a, b), _ref(a, b), context=\"ones\")",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:187。参数装饰：。共享 _assert_close 检查 CUDA、有限性和展平输出的余弦相似度，默认阈值 0.99；调用显式覆盖时使用该值。打印的最大绝对误差不是通过阈值。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_output_fp32",
+    "line": 198,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.output_constraints",
+    "checks": [
+      [
+        202,
+        "assert _gemm(a, b).dtype == torch.float32"
+      ]
+    ],
+    "input_and_call_source": "def test_output_fp32():\n    torch.manual_seed(42)\n    a = torch.randn(4, 5120, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(128, 5120, dtype=torch.float32, device=\"cuda\")\n    assert _gemm(a, b).dtype == torch.float32",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:198。参数装饰：。此项没有与完整矩阵乘参考进行数值对照。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_deterministic",
+    "line": 212,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.execution_relation",
+    "checks": [
+      [
+        216,
+        "torch.testing.assert_close(_gemm(a, b), _gemm(a, b), atol=0, rtol=0)"
+      ]
+    ],
+    "input_and_call_source": "def test_deterministic(M, K):\n    torch.manual_seed(42)\n    a = torch.randn(M, K, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(64, K, dtype=torch.float32, device=\"cuda\")\n    torch.testing.assert_close(_gemm(a, b), _gemm(a, b), atol=0, rtol=0)",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:212。参数装饰：pytest.mark.parametrize('M', [1, 4, 8, 16]); pytest.mark.parametrize('K', [1024, 3072, 7168])。比较的两侧及相等/相似阈值见调用表达式；相同输出本身不建立相对正确参考的一致性。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_bf16_vs_fp32_activations",
+    "line": 224,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.execution_relation",
+    "checks": [
+      [
+        33,
+        "assert out.device.type == 'cuda', f'{context}: not on CUDA'"
+      ],
+      [
+        34,
+        "assert torch.isfinite(out).all(), f'{context}: NaN/Inf'"
+      ],
+      [
+        38,
+        "assert cos > min_cos_sim, f'{context}: cos_sim {cos:.6f} < {min_cos_sim} (abs_err={(out.float() - ref.float()).abs().max().item():.2e})'"
+      ],
+      [
+        233,
+        "_assert_close(out_bf16, out_fp32, min_cos_sim=0.999, context='bf16_vs_fp32_activations')"
+      ]
+    ],
+    "input_and_call_source": "def test_bf16_vs_fp32_activations():\n    \"\"\"bf16 and fp32 activations on same data should roughly agree.\"\"\"\n    torch.manual_seed(42)\n    K, N = 4096, 128\n    a_bf16 = torch.randn(4, K, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(N, K, dtype=torch.float32, device=\"cuda\")\n    out_bf16 = _gemm(a_bf16, b)\n    a_fp32 = a_bf16.float()\n    out_fp32 = _gemm(a_fp32, b)\n    _assert_close(\n        out_bf16, out_fp32, min_cos_sim=0.999, context=\"bf16_vs_fp32_activations\"\n    )",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:224。参数装饰：。共享 _assert_close 检查 CUDA、有限性和展平输出的余弦相似度，默认阈值 0.99；调用显式覆盖时使用该值。打印的最大绝对误差不是通过阈值。比较的两侧及相等/相似阈值见调用表达式；相同输出本身不建立相对正确参考的一致性。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_cudagraph",
+    "line": 246,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        33,
+        "assert out.device.type == 'cuda', f'{context}: not on CUDA'"
+      ],
+      [
+        34,
+        "assert torch.isfinite(out).all(), f'{context}: NaN/Inf'"
+      ],
+      [
+        38,
+        "assert cos > min_cos_sim, f'{context}: cos_sim {cos:.6f} < {min_cos_sim} (abs_err={(out.float() - ref.float()).abs().max().item():.2e})'"
+      ],
+      [
+        258,
+        "_assert_close(out, _ref(a, b), context=f'cudagraph M={M} K={K}')"
+      ]
+    ],
+    "input_and_call_source": "def test_cudagraph(M, K, N):\n    torch.manual_seed(42)\n    a = torch.randn(M, K, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(N, K, dtype=torch.float32, device=\"cuda\")\n    _gemm(a, b)\n    torch.accelerator.synchronize()\n    g = torch.cuda.CUDAGraph()\n    with torch.cuda.graph(g):\n        out = _gemm(a, b)\n    for _ in range(5):\n        g.replay()\n    torch.accelerator.synchronize()\n    _assert_close(out, _ref(a, b), context=f\"cudagraph M={M} K={K}\")",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:246。参数装饰：pytest.mark.parametrize('M,K,N', [(4, 3072, 256), (16, 5120, 128)], ids=['MiniMax', 'DeepSeek'])。共享 _assert_close 检查 CUDA、有限性和展平输出的余弦相似度，默认阈值 0.99；调用显式覆盖时使用该值。打印的最大绝对误差不是通过阈值。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_cudagraph_20x_replay",
+    "line": 261,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.execution_relation",
+    "checks": [
+      [
+        276,
+        "torch.testing.assert_close(results[0], results[i], atol=0, rtol=0, msg=f'Replay {i} differs')"
+      ]
+    ],
+    "input_and_call_source": "def test_cudagraph_20x_replay():\n    torch.manual_seed(42)\n    a = torch.randn(4, 4096, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(64, 4096, dtype=torch.float32, device=\"cuda\")\n    _gemm(a, b)\n    torch.accelerator.synchronize()\n    g = torch.cuda.CUDAGraph()\n    with torch.cuda.graph(g):\n        out = _gemm(a, b)\n    results = []\n    for _ in range(20):\n        g.replay()\n        torch.accelerator.synchronize()\n        results.append(out.clone())\n    for i in range(1, len(results)):\n        torch.testing.assert_close(\n            results[0], results[i], atol=0, rtol=0, msg=f\"Replay {i} differs\"\n        )",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:261。参数装饰：。比较的两侧及相等/相似阈值见调用表达式；相同输出本身不建立相对正确参考的一致性。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_cudagraph_input_update",
+    "line": 281,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        33,
+        "assert out.device.type == 'cuda', f'{context}: not on CUDA'"
+      ],
+      [
+        34,
+        "assert torch.isfinite(out).all(), f'{context}: NaN/Inf'"
+      ],
+      [
+        38,
+        "assert cos > min_cos_sim, f'{context}: cos_sim {cos:.6f} < {min_cos_sim} (abs_err={(out.float() - ref.float()).abs().max().item():.2e})'"
+      ],
+      [
+        293,
+        "_assert_close(out, _ref(a, b), context='cudagraph input update')"
+      ]
+    ],
+    "input_and_call_source": "def test_cudagraph_input_update():\n    torch.manual_seed(42)\n    a = torch.randn(4, 5120, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(128, 5120, dtype=torch.float32, device=\"cuda\")\n    _gemm(a, b)\n    torch.accelerator.synchronize()\n    g = torch.cuda.CUDAGraph()\n    with torch.cuda.graph(g):\n        out = _gemm(a, b)\n    a.copy_(torch.randn_like(a))\n    g.replay()\n    torch.accelerator.synchronize()\n    _assert_close(out, _ref(a, b), context=\"cudagraph input update\")",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:281。参数装饰：。共享 _assert_close 检查 CUDA、有限性和展平输出的余弦相似度，默认阈值 0.99；调用显式覆盖时使用该值。打印的最大绝对误差不是通过阈值。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_invalid_weight_dtype",
+    "line": 301,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.input_admissibility",
+    "checks": [
+      [
+        304,
+        "pytest.raises(ValueError)"
+      ]
+    ],
+    "input_and_call_source": "def test_invalid_weight_dtype():\n    a = torch.randn(4, 4096, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(64, 4096, dtype=torch.bfloat16, device=\"cuda\")\n    with pytest.raises(ValueError):\n        _gemm(a, b)",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:301。参数装饰：。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_invalid_device_cpu",
+    "line": 308,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.input_admissibility",
+    "checks": [
+      [
+        311,
+        "pytest.raises(ValueError)"
+      ]
+    ],
+    "input_and_call_source": "def test_invalid_device_cpu():\n    a = torch.randn(4, 4096, dtype=torch.bfloat16)\n    b = torch.randn(64, 4096, dtype=torch.float32)\n    with pytest.raises(ValueError):\n        _gemm(a, b)",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:308。参数装饰：。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_invalid_1d_input",
+    "line": 315,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.input_admissibility",
+    "checks": [
+      [
+        318,
+        "pytest.raises(ValueError)"
+      ]
+    ],
+    "input_and_call_source": "def test_invalid_1d_input():\n    a = torch.randn(4096, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(64, 4096, dtype=torch.float32, device=\"cuda\")\n    with pytest.raises(ValueError):\n        _gemm(a, b)",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:315。参数装饰：。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_invalid_activation_dtype",
+    "line": 322,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.input_admissibility",
+    "checks": [
+      [
+        325,
+        "pytest.raises(ValueError)"
+      ]
+    ],
+    "input_and_call_source": "def test_invalid_activation_dtype():\n    a = torch.ones(4, 4096, dtype=torch.int32, device=\"cuda\")\n    b = torch.randn(64, 4096, dtype=torch.float32, device=\"cuda\")\n    with pytest.raises(ValueError):\n        _gemm(a, b)",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:322。参数装饰：。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_invalid_output_dtype",
+    "line": 329,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.input_admissibility",
+    "checks": [
+      [
+        332,
+        "pytest.raises(ValueError)"
+      ]
+    ],
+    "input_and_call_source": "def test_invalid_output_dtype():\n    a = torch.randn(4, 4096, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(64, 4096, dtype=torch.float32, device=\"cuda\")\n    with pytest.raises(ValueError):\n        _gemm(a, b, torch.bfloat16)",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:329。参数装饰：。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_invalid_k_mismatch",
+    "line": 336,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.input_admissibility",
+    "checks": [
+      [
+        339,
+        "pytest.raises(ValueError)"
+      ]
+    ],
+    "input_and_call_source": "def test_invalid_k_mismatch():\n    a = torch.randn(4, 4096, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(64, 2048, dtype=torch.float32, device=\"cuda\")\n    with pytest.raises(ValueError):\n        _gemm(a, b)",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:336。参数装饰：。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_invalid_non_contiguous",
+    "line": 343,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.input_admissibility",
+    "checks": [
+      [
+        347,
+        "pytest.raises(ValueError)"
+      ]
+    ],
+    "input_and_call_source": "def test_invalid_non_contiguous():\n    base = torch.randn(4, 8192, dtype=torch.bfloat16, device=\"cuda\")\n    a = base[:, ::2]\n    b = torch.randn(64, 4096, dtype=torch.float32, device=\"cuda\")\n    with pytest.raises(ValueError):\n        _gemm(a, b)",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:343。参数装饰：。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_gate_linear_uses_ll_fp32w_for_fp32_weight_fast_path",
+    "line": 401,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      [
+        420,
+        "assert bias is None"
+      ],
+      [
+        421,
+        "assert out.shape == (4, 64)"
+      ],
+      [
+        422,
+        "assert out.dtype == torch.float32"
+      ],
+      [
+        423,
+        "assert len(calls) == 1"
+      ],
+      [
+        424,
+        "assert calls[0][0] is x"
+      ],
+      [
+        425,
+        "assert calls[0][1] is gate.weight"
+      ]
+    ],
+    "input_and_call_source": "def test_gate_linear_uses_ll_fp32w_for_fp32_weight_fast_path(monkeypatch, x_dtype):\n    gate = _make_gate_linear_fp32w(monkeypatch, params_dtype=torch.float32)\n    x = torch.randn(4, 2048, dtype=x_dtype, device=\"cuda\")\n    calls = []\n\n    def fake_ll_fp32w_gemm(hidden_states, router_weight):\n        calls.append((hidden_states, router_weight))\n        return torch.full(\n            (hidden_states.shape[0], router_weight.shape[0]),\n            1.0,\n            dtype=torch.float32,\n            device=hidden_states.device,\n        )\n\n    monkeypatch.setattr(\n        \"vllm.model_executor.kernels.linear.cute_dsl.ll_fp32w.LL_FP32W_GEMM_KERNEL\",\n        fake_ll_fp32w_gemm,\n    )\n    out, bias = gate(x)\n    assert bias is None\n    assert out.shape == (4, 64)\n    assert out.dtype == torch.float32\n    assert len(calls) == 1\n    assert calls[0][0] is x\n    assert calls[0][1] is gate.weight",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:401。参数装饰：pytest.mark.parametrize('x_dtype', [torch.bfloat16, torch.float16, torch.float32])。记录替身内核、能力标志及 TP=1 fixture；此项只支持实际断言的分派或参数传递结论。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_gate_linear_uses_ll_fp32w_when_cpp_tier_disabled",
+    "line": 435,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      [
+        462,
+        "assert len(calls) == 1"
+      ],
+      [
+        463,
+        "assert calls[0][0] is x"
+      ],
+      [
+        464,
+        "assert calls[0][1] is gate.weight"
+      ],
+      [
+        465,
+        "assert torch.all(out == 2.0)"
+      ]
+    ],
+    "input_and_call_source": "def test_gate_linear_uses_ll_fp32w_when_cpp_tier_disabled(\n    monkeypatch, input_size, output_size, M\n):\n    gate = _make_gate_linear_fp32w(\n        monkeypatch,\n        params_dtype=torch.float32,\n        input_size=input_size,\n        output_size=output_size,\n    )\n    gate.allow_fp32_router_gemm = False\n    x = torch.randn(M, input_size, dtype=torch.bfloat16, device=\"cuda\")\n    calls = []\n\n    def fake_ll_fp32w_gemm(hidden_states, router_weight):\n        calls.append((hidden_states, router_weight))\n        return torch.full(\n            (hidden_states.shape[0], router_weight.shape[0]),\n            2.0,\n            dtype=torch.float32,\n            device=hidden_states.device,\n        )\n\n    monkeypatch.setattr(\n        \"vllm.model_executor.kernels.linear.cute_dsl.ll_fp32w.LL_FP32W_GEMM_KERNEL\",\n        fake_ll_fp32w_gemm,\n    )\n    out, _ = gate(x)\n    assert len(calls) == 1\n    assert calls[0][0] is x\n    assert calls[0][1] is gate.weight\n    assert torch.all(out == 2.0)",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:435。参数装饰：pytest.mark.parametrize(('input_size', 'output_size', 'M'), PREFERRED_FP32W_GATE_CASES)。记录替身内核、能力标志及 TP=1 fixture；此项只支持实际断言的分派或参数传递结论。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_gate_linear_uses_cpp_fp32_router_for_supported_cpp_shape",
+    "line": 469,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      [
+        476,
+        "assert gate.allow_fp32_router_gemm"
+      ],
+      [
+        489,
+        "assert out.shape == (M, 256)"
+      ],
+      [
+        490,
+        "assert out.dtype == torch.float32"
+      ]
+    ],
+    "input_and_call_source": "def test_gate_linear_uses_cpp_fp32_router_for_supported_cpp_shape(monkeypatch, M):\n    gate = _make_gate_linear_fp32w(\n        monkeypatch,\n        params_dtype=torch.float32,\n        input_size=3072,\n        output_size=256,\n    )\n    assert gate.allow_fp32_router_gemm\n    x = torch.randn(M, 3072, dtype=torch.bfloat16, device=\"cuda\")\n\n    def fail_ll_fp32w_gemm(hidden_states, router_weight):\n        raise AssertionError(\n            \"ll_fp32w_gemm should not bypass fp32_router_gemm_dispatch\"\n        )\n\n    monkeypatch.setattr(\n        \"vllm.model_executor.kernels.linear.cute_dsl.ll_fp32w.LL_FP32W_GEMM_KERNEL\",\n        fail_ll_fp32w_gemm,\n    )\n    out, _ = gate(x)\n    assert out.shape == (M, 256)\n    assert out.dtype == torch.float32",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:469。参数装饰：pytest.mark.parametrize('M', [8, 16, 32])。记录替身内核、能力标志及 TP=1 fixture；此项只支持实际断言的分派或参数传递结论。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_gate_linear_bf16_weight_skips_ll_fp32w",
+    "line": 493,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      [
+        495,
+        "assert not gate.allow_ll_fp32w_gemm"
+      ],
+      [
+        506,
+        "assert out.shape == (4, 64)"
+      ],
+      [
+        507,
+        "assert out.dtype == torch.float32"
+      ]
+    ],
+    "input_and_call_source": "def test_gate_linear_bf16_weight_skips_ll_fp32w(monkeypatch):\n    gate = _make_gate_linear_fp32w(monkeypatch, params_dtype=torch.bfloat16)\n    assert not gate.allow_ll_fp32w_gemm\n    x = torch.randn(4, 2048, dtype=torch.bfloat16, device=\"cuda\")\n\n    def fail_ll_fp32w_gemm(hidden_states, router_weight):\n        raise AssertionError(\"ll_fp32w_gemm should not run for bf16 weights\")\n\n    monkeypatch.setattr(\n        \"vllm.model_executor.kernels.linear.cute_dsl.ll_fp32w.LL_FP32W_GEMM_KERNEL\",\n        fail_ll_fp32w_gemm,\n    )\n    out, _ = gate(x)\n    assert out.shape == (4, 64)\n    assert out.dtype == torch.float32",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:493。参数装饰：。记录替身内核、能力标志及 TP=1 fixture；此项只支持实际断言的分派或参数传递结论。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_gate_linear_set_out_dtype_enables_ll_fp32w",
+    "line": 510,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      [
+        514,
+        "assert not gate.allow_ll_fp32w_gemm"
+      ],
+      [
+        516,
+        "assert gate.allow_ll_fp32w_gemm"
+      ]
+    ],
+    "input_and_call_source": "def test_gate_linear_set_out_dtype_enables_ll_fp32w(monkeypatch):\n    gate = _make_gate_linear_fp32w(\n        monkeypatch, params_dtype=torch.float32, out_dtype=None\n    )\n    assert not gate.allow_ll_fp32w_gemm\n    gate.set_out_dtype(torch.float32)\n    assert gate.allow_ll_fp32w_gemm",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:510。参数装饰：。记录替身内核、能力标志及 TP=1 fixture；此项只支持实际断言的分派或参数传递结论。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_gate_linear_non_fp32_out_dtype_disables_ll_fp32w",
+    "line": 519,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      [
+        524,
+        "assert not gate.allow_ll_fp32w_gemm"
+      ]
+    ],
+    "input_and_call_source": "def test_gate_linear_non_fp32_out_dtype_disables_ll_fp32w(monkeypatch):\n    gate = _make_gate_linear_fp32w(\n        monkeypatch, params_dtype=torch.float32, out_dtype=None\n    )\n    gate.set_out_dtype(torch.bfloat16)\n    assert not gate.allow_ll_fp32w_gemm",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:519。参数装饰：。记录替身内核、能力标志及 TP=1 fixture；此项只支持实际断言的分派或参数传递结论。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_fp32w_gemm.py",
+    "test_name": "test_gate_linear_m_gt_32_skips_ll_fp32w",
+    "line": 527,
+    "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      [
+        539,
+        "assert out.shape == (33, 64)"
+      ],
+      [
+        540,
+        "assert out.dtype == torch.float32"
+      ]
+    ],
+    "input_and_call_source": "def test_gate_linear_m_gt_32_skips_ll_fp32w(monkeypatch):\n    gate = _make_gate_linear_fp32w(monkeypatch, params_dtype=torch.float32)\n    x = torch.randn(33, 2048, dtype=torch.bfloat16, device=\"cuda\")\n\n    def fail_ll_fp32w_gemm(hidden_states, router_weight):\n        raise AssertionError(\"ll_fp32w_gemm should not run for M > 32\")\n\n    monkeypatch.setattr(\n        \"vllm.model_executor.kernels.linear.cute_dsl.ll_fp32w.LL_FP32W_GEMM_KERNEL\",\n        fail_ll_fp32w_gemm,\n    )\n    out, _ = gate(x)\n    assert out.shape == (33, 64)\n    assert out.dtype == torch.float32",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_fp32w_gemm.py:527。参数装饰：。记录替身内核、能力标志及 TP=1 fixture；此项只支持实际断言的分派或参数传递结论。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_c1_pdl_kernel_is_selected_automatically",
+    "line": 72,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      [
+        92,
+        "assert calls == [('c1_pdl', 1), ('default', 2)]"
+      ]
+    ],
+    "input_and_call_source": "def test_c1_pdl_kernel_is_selected_automatically(monkeypatch):\n    from vllm.model_executor.kernels.linear.cute_dsl import ll_bf16\n\n    calls = []\n\n    def default_kernel(hidden_states, router_weight, output_dtype):\n        calls.append((\"default\", hidden_states.shape[0]))\n        return hidden_states\n\n    def c1_pdl_kernel(hidden_states, router_weight, output_dtype):\n        calls.append((\"c1_pdl\", hidden_states.shape[0]))\n        return hidden_states\n\n    monkeypatch.setattr(ll_bf16, \"ll_bf16_gemm_kernel\", default_kernel)\n    monkeypatch.setattr(ll_bf16, \"ll_bf16_gemm_c1_pdl_kernel\", c1_pdl_kernel)\n    weight = torch.empty(4, 8, device=\"cuda\", dtype=torch.bfloat16)\n\n    ll_bf16.ll_bf16_gemm(torch.empty(1, 8, device=\"cuda\", dtype=torch.bfloat16), weight)\n    ll_bf16.ll_bf16_gemm(torch.empty(2, 8, device=\"cuda\", dtype=torch.bfloat16), weight)\n\n    assert calls == [(\"c1_pdl\", 1), (\"default\", 2)]",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:72。参数装饰：。记录替身内核、能力标志及 TP=1 fixture；此项只支持实际断言的分派或参数传递结论。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_dotprod",
+    "line": 116,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        32,
+        "assert out.device.type == 'cuda', f'{context}: not on CUDA'"
+      ],
+      [
+        33,
+        "assert torch.isfinite(out).all(), f'{context}: NaN/Inf'"
+      ],
+      [
+        37,
+        "assert cos > min_cos_sim, f'{context}: cos_sim {cos:.6f} < {min_cos_sim} (abs_err={(out.float() - ref.float()).abs().max().item():.2e})'"
+      ],
+      [
+        121,
+        "assert out.dtype == torch.float32"
+      ],
+      [
+        122,
+        "assert out.shape == (M, N)"
+      ],
+      [
+        123,
+        "_assert_close(out, _ref(a, b), context=f'dotprod {M}x{N}x{K}')"
+      ]
+    ],
+    "input_and_call_source": "def test_dotprod(M, N, K, desc):\n    torch.manual_seed(42)\n    a = torch.randn(M, K, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(N, K, dtype=torch.bfloat16, device=\"cuda\")\n    out = _gemm(a, b)\n    assert out.dtype == torch.float32\n    assert out.shape == (M, N)\n    _assert_close(out, _ref(a, b), context=f\"dotprod {M}x{N}x{K}\")",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:116。参数装饰：pytest.mark.parametrize('M', [1, 2, 3, 4]); pytest.mark.parametrize('N,K,desc', SHAPES, ids=[s[2] for s in SHAPES])。共享 _assert_close 检查 CUDA、有限性和展平输出的余弦相似度，默认阈值 0.99；调用显式覆盖时使用该值。打印的最大绝对误差不是通过阈值。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_dotprod_small_K",
+    "line": 127,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        32,
+        "assert out.device.type == 'cuda', f'{context}: not on CUDA'"
+      ],
+      [
+        33,
+        "assert torch.isfinite(out).all(), f'{context}: NaN/Inf'"
+      ],
+      [
+        37,
+        "assert cos > min_cos_sim, f'{context}: cos_sim {cos:.6f} < {min_cos_sim} (abs_err={(out.float() - ref.float()).abs().max().item():.2e})'"
+      ],
+      [
+        132,
+        "_assert_close(_gemm(a, b), _ref(a, b), context=f'small_K M={M}')"
+      ]
+    ],
+    "input_and_call_source": "def test_dotprod_small_K(M):\n    \"\"\"K<2048 forces dot-product regardless of M.\"\"\"\n    torch.manual_seed(42)\n    a = torch.randn(M, 1024, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(64, 1024, dtype=torch.bfloat16, device=\"cuda\")\n    _assert_close(_gemm(a, b), _ref(a, b), context=f\"small_K M={M}\")",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:127。参数装饰：pytest.mark.parametrize('M', [1, 4, 8, 16])。共享 _assert_close 检查 CUDA、有限性和展平输出的余弦相似度，默认阈值 0.99；调用显式覆盖时使用该值。打印的最大绝对误差不是通过阈值。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_dotprod_K_sweep",
+    "line": 136,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        32,
+        "assert out.device.type == 'cuda', f'{context}: not on CUDA'"
+      ],
+      [
+        33,
+        "assert torch.isfinite(out).all(), f'{context}: NaN/Inf'"
+      ],
+      [
+        37,
+        "assert cos > min_cos_sim, f'{context}: cos_sim {cos:.6f} < {min_cos_sim} (abs_err={(out.float() - ref.float()).abs().max().item():.2e})'"
+      ],
+      [
+        140,
+        "_assert_close(_gemm(a, b), _ref(a, b), context=f'K={K}')"
+      ]
+    ],
+    "input_and_call_source": "def test_dotprod_K_sweep(K):\n    torch.manual_seed(42)\n    a = torch.randn(4, K, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(32, K, dtype=torch.bfloat16, device=\"cuda\")\n    _assert_close(_gemm(a, b), _ref(a, b), context=f\"K={K}\")",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:136。参数装饰：pytest.mark.parametrize('K', [16, 32, 64, 128, 256, 512, 1024, 1536])。共享 _assert_close 检查 CUDA、有限性和展平输出的余弦相似度，默认阈值 0.99；调用显式覆盖时使用该值。打印的最大绝对误差不是通过阈值。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_splitk",
+    "line": 150,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        32,
+        "assert out.device.type == 'cuda', f'{context}: not on CUDA'"
+      ],
+      [
+        33,
+        "assert torch.isfinite(out).all(), f'{context}: NaN/Inf'"
+      ],
+      [
+        37,
+        "assert cos > min_cos_sim, f'{context}: cos_sim {cos:.6f} < {min_cos_sim} (abs_err={(out.float() - ref.float()).abs().max().item():.2e})'"
+      ],
+      [
+        155,
+        "assert out.dtype == torch.float32"
+      ],
+      [
+        156,
+        "assert out.shape == (M, N)"
+      ],
+      [
+        157,
+        "_assert_close(out, _ref(a, b), context=f'splitk {M}x{N}x{K}')"
+      ]
+    ],
+    "input_and_call_source": "def test_splitk(M, N, K, desc):\n    torch.manual_seed(42)\n    a = torch.randn(M, K, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(N, K, dtype=torch.bfloat16, device=\"cuda\")\n    out = _gemm(a, b)\n    assert out.dtype == torch.float32\n    assert out.shape == (M, N)\n    _assert_close(out, _ref(a, b), context=f\"splitk {M}x{N}x{K}\")",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:150。参数装饰：pytest.mark.parametrize('M', [5, 6, 8, 12, 16]); pytest.mark.parametrize('N,K,desc', SHAPES_SPLITK, ids=[s[2] for s in SHAPES_SPLITK])。共享 _assert_close 检查 CUDA、有限性和展平输出的余弦相似度，默认阈值 0.99；调用显式覆盖时使用该值。打印的最大绝对误差不是通过阈值。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_splitk_K_sweep",
+    "line": 161,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        32,
+        "assert out.device.type == 'cuda', f'{context}: not on CUDA'"
+      ],
+      [
+        33,
+        "assert torch.isfinite(out).all(), f'{context}: NaN/Inf'"
+      ],
+      [
+        37,
+        "assert cos > min_cos_sim, f'{context}: cos_sim {cos:.6f} < {min_cos_sim} (abs_err={(out.float() - ref.float()).abs().max().item():.2e})'"
+      ],
+      [
+        166,
+        "_assert_close(_gemm(a, b), _ref(a, b), context=f'splitk K={K}')"
+      ]
+    ],
+    "input_and_call_source": "def test_splitk_K_sweep(K):\n    \"\"\"Includes non-tile-aligned K (2880) and uneven split (2304).\"\"\"\n    torch.manual_seed(42)\n    a = torch.randn(8, K, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(64, K, dtype=torch.bfloat16, device=\"cuda\")\n    _assert_close(_gemm(a, b), _ref(a, b), context=f\"splitk K={K}\")",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:161。参数装饰：pytest.mark.parametrize('K', [2048, 2304, 2880, 3072, 4096, 5120, 7168, 14400])。共享 _assert_close 检查 CUDA、有限性和展平输出的余弦相似度，默认阈值 0.99；调用显式覆盖时使用该值。打印的最大绝对误差不是通过阈值。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_dispatch_boundary",
+    "line": 176,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        32,
+        "assert out.device.type == 'cuda', f'{context}: not on CUDA'"
+      ],
+      [
+        33,
+        "assert torch.isfinite(out).all(), f'{context}: NaN/Inf'"
+      ],
+      [
+        37,
+        "assert cos > min_cos_sim, f'{context}: cos_sim {cos:.6f} < {min_cos_sim} (abs_err={(out.float() - ref.float()).abs().max().item():.2e})'"
+      ],
+      [
+        181,
+        "_assert_close(_gemm(a, b), _ref(a, b), context=f'M={M} K={K} ({path})')"
+      ]
+    ],
+    "input_and_call_source": "def test_dispatch_boundary(M, K):\n    torch.manual_seed(42)\n    a = torch.randn(M, K, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(64, K, dtype=torch.bfloat16, device=\"cuda\")\n    path = \"splitk\" if M > 4 and K >= 2048 else \"dotprod\"\n    _assert_close(_gemm(a, b), _ref(a, b), context=f\"M={M} K={K} ({path})\")",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:176。参数装饰：pytest.mark.parametrize('M', [4, 5]); pytest.mark.parametrize('K', [2032, 2048])。共享 _assert_close 检查 CUDA、有限性和展平输出的余弦相似度，默认阈值 0.99；调用显式覆盖时使用该值。打印的最大绝对误差不是通过阈值。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_arbitrary_N_dotprod",
+    "line": 190,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        32,
+        "assert out.device.type == 'cuda', f'{context}: not on CUDA'"
+      ],
+      [
+        33,
+        "assert torch.isfinite(out).all(), f'{context}: NaN/Inf'"
+      ],
+      [
+        37,
+        "assert cos > min_cos_sim, f'{context}: cos_sim {cos:.6f} < {min_cos_sim} (abs_err={(out.float() - ref.float()).abs().max().item():.2e})'"
+      ],
+      [
+        195,
+        "assert out.shape == (4, N)"
+      ],
+      [
+        196,
+        "_assert_close(out, _ref(a, b), context=f'dotprod N={N}')"
+      ]
+    ],
+    "input_and_call_source": "def test_arbitrary_N_dotprod(N):\n    torch.manual_seed(42)\n    a = torch.randn(4, 2048, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(N, 2048, dtype=torch.bfloat16, device=\"cuda\")\n    out = _gemm(a, b)\n    assert out.shape == (4, N)\n    _assert_close(out, _ref(a, b), context=f\"dotprod N={N}\")",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:190。参数装饰：pytest.mark.parametrize('N', [1, 3, 7, 16, 17, 64, 128, 256, 384])。共享 _assert_close 检查 CUDA、有限性和展平输出的余弦相似度，默认阈值 0.99；调用显式覆盖时使用该值。打印的最大绝对误差不是通过阈值。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_arbitrary_N_splitk",
+    "line": 200,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        32,
+        "assert out.device.type == 'cuda', f'{context}: not on CUDA'"
+      ],
+      [
+        33,
+        "assert torch.isfinite(out).all(), f'{context}: NaN/Inf'"
+      ],
+      [
+        37,
+        "assert cos > min_cos_sim, f'{context}: cos_sim {cos:.6f} < {min_cos_sim} (abs_err={(out.float() - ref.float()).abs().max().item():.2e})'"
+      ],
+      [
+        205,
+        "assert out.shape == (8, N)"
+      ],
+      [
+        206,
+        "_assert_close(out, _ref(a, b), context=f'splitk N={N}')"
+      ]
+    ],
+    "input_and_call_source": "def test_arbitrary_N_splitk(N):\n    torch.manual_seed(42)\n    a = torch.randn(8, 4096, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(N, 4096, dtype=torch.bfloat16, device=\"cuda\")\n    out = _gemm(a, b)\n    assert out.shape == (8, N)\n    _assert_close(out, _ref(a, b), context=f\"splitk N={N}\")",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:200。参数装饰：pytest.mark.parametrize('N', [1, 8, 16, 17, 64, 128, 256])。共享 _assert_close 检查 CUDA、有限性和展平输出的余弦相似度，默认阈值 0.99；调用显式覆盖时使用该值。打印的最大绝对误差不是通过阈值。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_single_token",
+    "line": 219,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        32,
+        "assert out.device.type == 'cuda', f'{context}: not on CUDA'"
+      ],
+      [
+        33,
+        "assert torch.isfinite(out).all(), f'{context}: NaN/Inf'"
+      ],
+      [
+        37,
+        "assert cos > min_cos_sim, f'{context}: cos_sim {cos:.6f} < {min_cos_sim} (abs_err={(out.float() - ref.float()).abs().max().item():.2e})'"
+      ],
+      [
+        224,
+        "assert out.shape == (1, N)"
+      ],
+      [
+        225,
+        "_assert_close(out, _ref(a, b), context=f'M=1 {N}x{K}')"
+      ]
+    ],
+    "input_and_call_source": "def test_single_token(N, K):\n    torch.manual_seed(42)\n    a = torch.randn(1, K, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(N, K, dtype=torch.bfloat16, device=\"cuda\")\n    out = _gemm(a, b)\n    assert out.shape == (1, N)\n    _assert_close(out, _ref(a, b), context=f\"M=1 {N}x{K}\")",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:219。参数装饰：pytest.mark.parametrize('N,K', [(256, 7168), (256, 14400), (8, 4096), (384, 7168), (264, 6144)], ids=['DSV3', 'DSV4-Flash', 'Mixtral', 'DSV4-Pro', 'Inkling'])。共享 _assert_close 检查 CUDA、有限性和展平输出的余弦相似度，默认阈值 0.99；调用显式覆盖时使用该值。打印的最大绝对误差不是通过阈值。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_inkling_max_tokens",
+    "line": 228,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        32,
+        "assert out.device.type == 'cuda', f'{context}: not on CUDA'"
+      ],
+      [
+        33,
+        "assert torch.isfinite(out).all(), f'{context}: NaN/Inf'"
+      ],
+      [
+        37,
+        "assert cos > min_cos_sim, f'{context}: cos_sim {cos:.6f} < {min_cos_sim} (abs_err={(out.float() - ref.float()).abs().max().item():.2e})'"
+      ],
+      [
+        233,
+        "assert out.shape == (64, 264)"
+      ],
+      [
+        234,
+        "_assert_close(out, _ref(a, b), context='Inkling M=64')"
+      ]
+    ],
+    "input_and_call_source": "def test_inkling_max_tokens():\n    torch.manual_seed(42)\n    a = torch.randn(64, 6144, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(264, 6144, dtype=torch.bfloat16, device=\"cuda\")\n    out = _gemm(a, b)\n    assert out.shape == (64, 264)\n    _assert_close(out, _ref(a, b), context=\"Inkling M=64\")",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:228。参数装饰：。共享 _assert_close 检查 CUDA、有限性和展平输出的余弦相似度，默认阈值 0.99；调用显式覆盖时使用该值。打印的最大绝对误差不是通过阈值。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_large_values",
+    "line": 243,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        32,
+        "assert out.device.type == 'cuda', f'{context}: not on CUDA'"
+      ],
+      [
+        33,
+        "assert torch.isfinite(out).all(), f'{context}: NaN/Inf'"
+      ],
+      [
+        37,
+        "assert cos > min_cos_sim, f'{context}: cos_sim {cos:.6f} < {min_cos_sim} (abs_err={(out.float() - ref.float()).abs().max().item():.2e})'"
+      ],
+      [
+        248,
+        "assert torch.isfinite(out).all()"
+      ],
+      [
+        249,
+        "_assert_close(out, _ref(a, b), context=f'large M={M}')"
+      ]
+    ],
+    "input_and_call_source": "def test_large_values(M, K):\n    torch.manual_seed(42)\n    a = torch.randn(M, K, dtype=torch.bfloat16, device=\"cuda\") * 100\n    b = torch.randn(64, K, dtype=torch.bfloat16, device=\"cuda\") * 100\n    out = _gemm(a, b)\n    assert torch.isfinite(out).all()\n    _assert_close(out, _ref(a, b), context=f\"large M={M}\")",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:243。参数装饰：pytest.mark.parametrize('M,K', [(4, 2048), (8, 4096)], ids=['dotprod', 'splitk'])。共享 _assert_close 检查 CUDA、有限性和展平输出的余弦相似度，默认阈值 0.99；调用显式覆盖时使用该值。打印的最大绝对误差不是通过阈值。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_near_zero",
+    "line": 252,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.output_constraints",
+    "checks": [
+      [
+        257,
+        "assert torch.isfinite(out).all()"
+      ],
+      [
+        258,
+        "assert out.abs().max() < 1.0"
+      ]
+    ],
+    "input_and_call_source": "def test_near_zero():\n    torch.manual_seed(42)\n    a = torch.randn(4, 2048, dtype=torch.bfloat16, device=\"cuda\") * 1e-4\n    b = torch.randn(64, 2048, dtype=torch.bfloat16, device=\"cuda\") * 1e-4\n    out = _gemm(a, b)\n    assert torch.isfinite(out).all()\n    assert out.abs().max() < 1.0",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:252。参数装饰：。此项没有与完整矩阵乘参考进行数值对照。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_zeros",
+    "line": 261,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        264,
+        "assert (_gemm(a, b) == 0).all()"
+      ]
+    ],
+    "input_and_call_source": "def test_zeros():\n    a = torch.zeros(4, 2048, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(64, 2048, dtype=torch.bfloat16, device=\"cuda\")\n    assert (_gemm(a, b) == 0).all()",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:261。参数装饰：。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_ones",
+    "line": 267,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        32,
+        "assert out.device.type == 'cuda', f'{context}: not on CUDA'"
+      ],
+      [
+        33,
+        "assert torch.isfinite(out).all(), f'{context}: NaN/Inf'"
+      ],
+      [
+        37,
+        "assert cos > min_cos_sim, f'{context}: cos_sim {cos:.6f} < {min_cos_sim} (abs_err={(out.float() - ref.float()).abs().max().item():.2e})'"
+      ],
+      [
+        270,
+        "_assert_close(_gemm(a, b), _ref(a, b), context='ones')"
+      ]
+    ],
+    "input_and_call_source": "def test_ones():\n    a = torch.ones(1, 2048, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(32, 2048, dtype=torch.bfloat16, device=\"cuda\")\n    _assert_close(_gemm(a, b), _ref(a, b), context=\"ones\")",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:267。参数装饰：。共享 _assert_close 检查 CUDA、有限性和展平输出的余弦相似度，默认阈值 0.99；调用显式覆盖时使用该值。打印的最大绝对误差不是通过阈值。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_output_fp32",
+    "line": 279,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.output_constraints",
+    "checks": [
+      [
+        283,
+        "assert _gemm(a, b).dtype == torch.float32"
+      ]
+    ],
+    "input_and_call_source": "def test_output_fp32(M, K):\n    torch.manual_seed(42)\n    a = torch.randn(M, K, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(64, K, dtype=torch.bfloat16, device=\"cuda\")\n    assert _gemm(a, b).dtype == torch.float32",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:279。参数装饰：pytest.mark.parametrize('M,K', [(4, 2048), (8, 4096)], ids=['dotprod', 'splitk'])。此项没有与完整矩阵乘参考进行数值对照。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_deterministic",
+    "line": 294,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.execution_relation",
+    "checks": [
+      [
+        298,
+        "torch.testing.assert_close(_gemm(a, b), _gemm(a, b), atol=0, rtol=0)"
+      ]
+    ],
+    "input_and_call_source": "def test_deterministic(M, K):\n    torch.manual_seed(42)\n    a = torch.randn(M, K, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(128, K, dtype=torch.bfloat16, device=\"cuda\")\n    torch.testing.assert_close(_gemm(a, b), _gemm(a, b), atol=0, rtol=0)",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:294。参数装饰：pytest.mark.parametrize('M,K', [(1, 4096), (4, 4096), (5, 4096), (8, 4096), (16, 4096)])。比较的两侧及相等/相似阈值见调用表达式；相同输出本身不建立相对正确参考的一致性。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_dotprod_vs_splitk",
+    "line": 307,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.execution_relation",
+    "checks": [
+      [
+        32,
+        "assert out.device.type == 'cuda', f'{context}: not on CUDA'"
+      ],
+      [
+        33,
+        "assert torch.isfinite(out).all(), f'{context}: NaN/Inf'"
+      ],
+      [
+        37,
+        "assert cos > min_cos_sim, f'{context}: cos_sim {cos:.6f} < {min_cos_sim} (abs_err={(out.float() - ref.float()).abs().max().item():.2e})'"
+      ],
+      [
+        312,
+        "_assert_close(_gemm(a, b)[:4], _gemm(a[:4], b), min_cos_sim=0.999, context=f'cross-kernel K={K}')"
+      ]
+    ],
+    "input_and_call_source": "def test_dotprod_vs_splitk(K):\n    \"\"\"First 4 rows from split-K (M=5) match dot-product (M=4).\"\"\"\n    torch.manual_seed(42)\n    a = torch.randn(5, K, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(64, K, dtype=torch.bfloat16, device=\"cuda\")\n    _assert_close(\n        _gemm(a, b)[:4],\n        _gemm(a[:4], b),\n        min_cos_sim=0.999,\n        context=f\"cross-kernel K={K}\",\n    )",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:307。参数装饰：pytest.mark.parametrize('K', [2048, 4096, 7168])。共享 _assert_close 检查 CUDA、有限性和展平输出的余弦相似度，默认阈值 0.99；调用显式覆盖时使用该值。打印的最大绝对误差不是通过阈值。比较的两侧及相等/相似阈值见调用表达式；相同输出本身不建立相对正确参考的一致性。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_cudagraph",
+    "line": 326,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        32,
+        "assert out.device.type == 'cuda', f'{context}: not on CUDA'"
+      ],
+      [
+        33,
+        "assert torch.isfinite(out).all(), f'{context}: NaN/Inf'"
+      ],
+      [
+        37,
+        "assert cos > min_cos_sim, f'{context}: cos_sim {cos:.6f} < {min_cos_sim} (abs_err={(out.float() - ref.float()).abs().max().item():.2e})'"
+      ],
+      [
+        339,
+        "_assert_close(out, _ref(a, b), context=f'cudagraph M={M}')"
+      ]
+    ],
+    "input_and_call_source": "def test_cudagraph(M, K):\n    torch.manual_seed(42)\n    a = torch.randn(M, K, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(64, K, dtype=torch.bfloat16, device=\"cuda\")\n    _gemm(a, b)\n    torch.accelerator.synchronize()\n\n    g = torch.cuda.CUDAGraph()\n    with torch.cuda.graph(g):\n        out = _gemm(a, b)\n    for _ in range(5):\n        g.replay()\n    torch.accelerator.synchronize()\n    _assert_close(out, _ref(a, b), context=f\"cudagraph M={M}\")",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:326。参数装饰：pytest.mark.parametrize('M,K', [(4, 2048), (8, 4096)], ids=['dotprod', 'splitk'])。共享 _assert_close 检查 CUDA、有限性和展平输出的余弦相似度，默认阈值 0.99；调用显式覆盖时使用该值。打印的最大绝对误差不是通过阈值。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_cudagraph_20x_replay",
+    "line": 342,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.execution_relation",
+    "checks": [
+      [
+        358,
+        "torch.testing.assert_close(results[0], results[i], atol=0, rtol=0, msg=f'Replay {i} differs')"
+      ]
+    ],
+    "input_and_call_source": "def test_cudagraph_20x_replay():\n    torch.manual_seed(42)\n    a = torch.randn(4, 4096, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(256, 4096, dtype=torch.bfloat16, device=\"cuda\")\n    _gemm(a, b)\n    torch.accelerator.synchronize()\n\n    g = torch.cuda.CUDAGraph()\n    with torch.cuda.graph(g):\n        out = _gemm(a, b)\n    results = []\n    for _ in range(20):\n        g.replay()\n        torch.accelerator.synchronize()\n        results.append(out.clone())\n    for i in range(1, len(results)):\n        torch.testing.assert_close(\n            results[0], results[i], atol=0, rtol=0, msg=f\"Replay {i} differs\"\n        )",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:342。参数装饰：。比较的两侧及相等/相似阈值见调用表达式；相同输出本身不建立相对正确参考的一致性。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_cudagraph_input_update",
+    "line": 363,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        32,
+        "assert out.device.type == 'cuda', f'{context}: not on CUDA'"
+      ],
+      [
+        33,
+        "assert torch.isfinite(out).all(), f'{context}: NaN/Inf'"
+      ],
+      [
+        37,
+        "assert cos > min_cos_sim, f'{context}: cos_sim {cos:.6f} < {min_cos_sim} (abs_err={(out.float() - ref.float()).abs().max().item():.2e})'"
+      ],
+      [
+        376,
+        "_assert_close(out, _ref(a, b), context='cudagraph input update')"
+      ]
+    ],
+    "input_and_call_source": "def test_cudagraph_input_update():\n    torch.manual_seed(42)\n    a = torch.randn(4, 2048, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(64, 2048, dtype=torch.bfloat16, device=\"cuda\")\n    _gemm(a, b)\n    torch.accelerator.synchronize()\n\n    g = torch.cuda.CUDAGraph()\n    with torch.cuda.graph(g):\n        out = _gemm(a, b)\n    a.copy_(torch.randn_like(a))\n    g.replay()\n    torch.accelerator.synchronize()\n    _assert_close(out, _ref(a, b), context=\"cudagraph input update\")",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:363。参数装饰：。共享 _assert_close 检查 CUDA、有限性和展平输出的余弦相似度，默认阈值 0.99；调用显式覆盖时使用该值。打印的最大绝对误差不是通过阈值。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_gate_linear_uses_ll_bf16_for_bf16_fast_path",
+    "line": 417,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      [
+        436,
+        "assert bias is None"
+      ],
+      [
+        437,
+        "assert out.shape == (4, 64)"
+      ],
+      [
+        438,
+        "assert out.dtype == torch.float32"
+      ],
+      [
+        439,
+        "assert len(calls) == 1"
+      ],
+      [
+        440,
+        "assert calls[0][0] is x"
+      ],
+      [
+        441,
+        "assert calls[0][1] is gate.weight"
+      ]
+    ],
+    "input_and_call_source": "def test_gate_linear_uses_ll_bf16_for_bf16_fast_path(monkeypatch):\n    gate = _make_gate_linear(monkeypatch, params_dtype=torch.bfloat16)\n    x = torch.randn(4, 2048, dtype=torch.bfloat16, device=\"cuda\")\n    calls = []\n\n    def fake_ll_bf16_gemm(hidden_states, router_weight):\n        calls.append((hidden_states, router_weight))\n        return torch.full(\n            (hidden_states.shape[0], router_weight.shape[0]),\n            1.0,\n            dtype=torch.float32,\n            device=hidden_states.device,\n        )\n\n    monkeypatch.setattr(\n        \"vllm.model_executor.kernels.linear.cute_dsl.ll_bf16.ll_bf16_gemm\",\n        fake_ll_bf16_gemm,\n    )\n    out, bias = gate(x)\n    assert bias is None\n    assert out.shape == (4, 64)\n    assert out.dtype == torch.float32\n    assert len(calls) == 1\n    assert calls[0][0] is x\n    assert calls[0][1] is gate.weight",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:417。参数装饰：。记录替身内核、能力标志及 TP=1 fixture；此项只支持实际断言的分派或参数传递结论。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_gate_linear_fp32_weight_falls_back",
+    "line": 444,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      [
+        446,
+        "assert not gate.allow_ll_bf16_gemm"
+      ],
+      [
+        457,
+        "assert out.shape == (4, 64)"
+      ],
+      [
+        458,
+        "assert out.dtype == torch.float32"
+      ]
+    ],
+    "input_and_call_source": "def test_gate_linear_fp32_weight_falls_back(monkeypatch):\n    gate = _make_gate_linear(monkeypatch, params_dtype=torch.float32)\n    assert not gate.allow_ll_bf16_gemm\n    x = torch.randn(4, 2048, dtype=torch.bfloat16, device=\"cuda\")\n\n    def fail_ll_bf16_gemm(hidden_states, router_weight):\n        raise AssertionError(\"ll_bf16_gemm should not run for fp32 weights\")\n\n    monkeypatch.setattr(\n        \"vllm.model_executor.kernels.linear.cute_dsl.ll_bf16.ll_bf16_gemm\",\n        fail_ll_bf16_gemm,\n    )\n    out, _ = gate(x)\n    assert out.shape == (4, 64)\n    assert out.dtype == torch.float32",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:444。参数装饰：。记录替身内核、能力标志及 TP=1 fixture；此项只支持实际断言的分派或参数传递结论。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_gate_linear_non_bf16_activation_falls_back",
+    "line": 461,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      [
+        473,
+        "assert out.shape == (4, 64)"
+      ],
+      [
+        474,
+        "assert out.dtype == torch.float32"
+      ]
+    ],
+    "input_and_call_source": "def test_gate_linear_non_bf16_activation_falls_back(monkeypatch):\n    gate = _make_gate_linear(monkeypatch, params_dtype=torch.bfloat16)\n    x = torch.randn(4, 2048, dtype=torch.float16, device=\"cuda\")\n\n    def fail_ll_bf16_gemm(hidden_states, router_weight):\n        raise AssertionError(\"ll_bf16_gemm should not run for non-bf16 activations\")\n\n    monkeypatch.setattr(\n        \"vllm.model_executor.kernels.linear.cute_dsl.ll_bf16.ll_bf16_gemm\",\n        fail_ll_bf16_gemm,\n    )\n    out, _ = gate(x)\n    assert out.shape == (4, 64)\n    assert out.dtype == torch.float32",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:461。参数装饰：。记录替身内核、能力标志及 TP=1 fixture；此项只支持实际断言的分派或参数传递结论。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_gate_linear_set_out_dtype_enables_ll_bf16",
+    "line": 477,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      [
+        479,
+        "assert not gate.allow_ll_bf16_gemm"
+      ],
+      [
+        481,
+        "assert gate.allow_ll_bf16_gemm"
+      ]
+    ],
+    "input_and_call_source": "def test_gate_linear_set_out_dtype_enables_ll_bf16(monkeypatch):\n    gate = _make_gate_linear(monkeypatch, params_dtype=torch.bfloat16, out_dtype=None)\n    assert not gate.allow_ll_bf16_gemm\n    gate.set_out_dtype(torch.float32)\n    assert gate.allow_ll_bf16_gemm",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:477。参数装饰：。记录替身内核、能力标志及 TP=1 fixture；此项只支持实际断言的分派或参数传递结论。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_gate_linear_non_fp32_out_dtype_disables_ll_bf16",
+    "line": 484,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      [
+        487,
+        "assert not gate.allow_ll_bf16_gemm"
+      ]
+    ],
+    "input_and_call_source": "def test_gate_linear_non_fp32_out_dtype_disables_ll_bf16(monkeypatch):\n    gate = _make_gate_linear(monkeypatch, params_dtype=torch.bfloat16, out_dtype=None)\n    gate.set_out_dtype(torch.bfloat16)\n    assert not gate.allow_ll_bf16_gemm",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:484。参数装饰：。记录替身内核、能力标志及 TP=1 fixture；此项只支持实际断言的分派或参数传递结论。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_gate_linear_m_gt_16_falls_back",
+    "line": 490,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.kernel_dispatch_binding",
+    "checks": [
+      [
+        502,
+        "assert out.shape == (17, 64)"
+      ],
+      [
+        503,
+        "assert out.dtype == torch.float32"
+      ]
+    ],
+    "input_and_call_source": "def test_gate_linear_m_gt_16_falls_back(monkeypatch):\n    gate = _make_gate_linear(monkeypatch, params_dtype=torch.bfloat16)\n    x = torch.randn(17, 2048, dtype=torch.bfloat16, device=\"cuda\")\n\n    def fail_ll_bf16_gemm(hidden_states, router_weight):\n        raise AssertionError(\"ll_bf16_gemm should not run for M > 16\")\n\n    monkeypatch.setattr(\n        \"vllm.model_executor.kernels.linear.cute_dsl.ll_bf16.ll_bf16_gemm\",\n        fail_ll_bf16_gemm,\n    )\n    out, _ = gate(x)\n    assert out.shape == (17, 64)\n    assert out.dtype == torch.float32",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:490。参数装饰：。记录替身内核、能力标志及 TP=1 fixture；此项只支持实际断言的分派或参数传递结论。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_invalid_dtype",
+    "line": 519,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.input_admissibility",
+    "checks": [
+      [
+        522,
+        "pytest.raises(ValueError, match='dtype=bfloat16')"
+      ]
+    ],
+    "input_and_call_source": "def test_invalid_dtype(M, K, N, dtype):\n    a = torch.randn(M, K, device=\"cuda\", dtype=dtype)\n    b = torch.randn(N, K, device=\"cuda\", dtype=dtype)\n    with pytest.raises(ValueError, match=\"dtype=bfloat16\"):\n        _gemm(a, b)",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:519。参数装饰：pytest.mark.parametrize('M,K,N,dtype', [pytest.param(4, 2048, 64, torch.float32, id='fp32_input'), pytest.param(4, 2048, 64, torch.float16, id='fp16_input'), pytest.param(8, 4096, 64, torch.float32, id='fp32_splitk_path')])。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_invalid_device_cpu",
+    "line": 526,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.input_admissibility",
+    "checks": [
+      [
+        529,
+        "pytest.raises(ValueError, match='device_type=cuda')"
+      ]
+    ],
+    "input_and_call_source": "def test_invalid_device_cpu():\n    a = torch.randn(4, 2048, dtype=torch.bfloat16)\n    b = torch.randn(64, 2048, dtype=torch.bfloat16)\n    with pytest.raises(ValueError, match=\"device_type=cuda\"):\n        _gemm(a, b)",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:526。参数装饰：。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_invalid_1d_input",
+    "line": 533,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.input_admissibility",
+    "checks": [
+      [
+        536,
+        "pytest.raises(ValueError, match='2D tensors')"
+      ]
+    ],
+    "input_and_call_source": "def test_invalid_1d_input():\n    a = torch.randn(2048, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(64, 2048, dtype=torch.bfloat16, device=\"cuda\")\n    with pytest.raises(ValueError, match=\"2D tensors\"):\n        _gemm(a, b)",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:533。参数装饰：。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_mismatched_K",
+    "line": 540,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.input_admissibility",
+    "checks": [
+      [
+        543,
+        "pytest.raises(ValueError, match='matching K dimensions')"
+      ]
+    ],
+    "input_and_call_source": "def test_mismatched_K():\n    a = torch.randn(4, 2048, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(64, 1024, dtype=torch.bfloat16, device=\"cuda\")\n    with pytest.raises(ValueError, match=\"matching K dimensions\"):\n        _gemm(a, b)",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:540。参数装饰：。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_invalid_K_divisibility",
+    "line": 547,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.input_admissibility",
+    "checks": [
+      [
+        551,
+        "pytest.raises(ValueError, match='K to be divisible by 8')"
+      ]
+    ],
+    "input_and_call_source": "def test_invalid_K_divisibility():\n    a = torch.randn(4, 2049, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(64, 2049, dtype=torch.bfloat16, device=\"cuda\")\n\n    with pytest.raises(ValueError, match=\"K to be divisible by 8\"):\n        _gemm(a, b)",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:547。参数装饰：。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_non_contiguous_input",
+    "line": 555,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.input_admissibility",
+    "checks": [
+      [
+        558,
+        "assert not a.is_contiguous()"
+      ],
+      [
+        559,
+        "pytest.raises(ValueError, match='contiguous row-major')"
+      ]
+    ],
+    "input_and_call_source": "def test_non_contiguous_input():\n    a = torch.randn(2048, 4, dtype=torch.bfloat16, device=\"cuda\").T\n    b = torch.randn(64, 2048, dtype=torch.bfloat16, device=\"cuda\")\n    assert not a.is_contiguous()\n    with pytest.raises(ValueError, match=\"contiguous row-major\"):\n        _gemm(a, b)",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:555。参数装饰：。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_invalid_output_dtype",
+    "line": 563,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.input_admissibility",
+    "checks": [
+      [
+        566,
+        "pytest.raises(ValueError, match='output_dtype=torch.float32')"
+      ]
+    ],
+    "input_and_call_source": "def test_invalid_output_dtype():\n    a = torch.randn(4, 2048, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(64, 2048, dtype=torch.bfloat16, device=\"cuda\")\n    with pytest.raises(ValueError, match=\"output_dtype=torch.float32\"):\n        from vllm.model_executor.kernels.linear.cute_dsl.ll_bf16 import ll_bf16_gemm\n\n        ll_bf16_gemm(a, b, output_dtype=torch.float16)",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:563。参数装饰：。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_cache_miss_compiles_dotprod",
+    "line": 572,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        32,
+        "assert out.device.type == 'cuda', f'{context}: not on CUDA'"
+      ],
+      [
+        33,
+        "assert torch.isfinite(out).all(), f'{context}: NaN/Inf'"
+      ],
+      [
+        37,
+        "assert cos > min_cos_sim, f'{context}: cos_sim {cos:.6f} < {min_cos_sim} (abs_err={(out.float() - ref.float()).abs().max().item():.2e})'"
+      ],
+      [
+        580,
+        "assert out.shape == (3, 17)"
+      ],
+      [
+        581,
+        "_assert_close(out, _ref(a, b), context='cache miss dotprod')"
+      ]
+    ],
+    "input_and_call_source": "def test_cache_miss_compiles_dotprod():\n    from vllm.model_executor.kernels.linear.cute_dsl.ll_bf16 import LLBf16Gemm\n\n    torch.manual_seed(42)\n    a = torch.randn(3, 64, dtype=torch.bfloat16, device=\"cuda\")\n    b = torch.randn(17, 64, dtype=torch.bfloat16, device=\"cuda\")\n    kernel = LLBf16Gemm()\n    out = kernel(a, b)\n    assert out.shape == (3, 17)\n    _assert_close(out, _ref(a, b), context=\"cache miss dotprod\")",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:572。参数装饰：。共享 _assert_close 检查 CUDA、有限性和展平输出的余弦相似度，默认阈值 0.99；调用显式覆盖时使用该值。打印的最大绝对误差不是通过阈值。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/kernels/test_ll_bf16_gemm.py",
+    "test_name": "test_bf16_output_and_fp32_cache_coexist",
+    "line": 587,
+    "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+    "unit_id": "compute.operator_reference_relation",
+    "checks": [
+      [
+        596,
+        "assert actual.dtype == dtype"
+      ],
+      [
+        598,
+        "torch.testing.assert_close(actual, reference, rtol=0.008, atol=1e-05)"
+      ],
+      [
+        605,
+        "torch.testing.assert_close(actual, reference, rtol=0.008, atol=1e-05)"
+      ]
+    ],
+    "input_and_call_source": "def test_bf16_output_and_fp32_cache_coexist(M, N):\n    \"\"\"BF16 epilogues retain FP32 accumulation and can replay with new inputs.\"\"\"\n    from vllm.model_executor.kernels.linear.cute_dsl.ll_bf16 import ll_bf16_gemm\n\n    torch.manual_seed(42)\n    x = torch.randn(M, 5120, device=\"cuda\", dtype=torch.bfloat16)\n    w = torch.randn(N, 5120, device=\"cuda\", dtype=torch.bfloat16) * 0.01\n    for dtype in (torch.float32, torch.bfloat16):\n        actual = ll_bf16_gemm(x, w, output_dtype=dtype)\n        assert actual.dtype == dtype\n        reference = (x.double() @ w.double().T).to(dtype)\n        torch.testing.assert_close(actual, reference, rtol=0.008, atol=1e-5)\n    graph = torch.cuda.CUDAGraph()\n    with torch.cuda.graph(graph):\n        actual = ll_bf16_gemm(x, w, output_dtype=torch.bfloat16)\n    x.normal_()\n    graph.replay()\n    reference = (x.double() @ w.double().T).bfloat16()\n    torch.testing.assert_close(actual, reference, rtol=0.008, atol=1e-5)",
+    "conditions": "CUDA、SM90+ 与 cuteDSL 可用性由模块标记及自动 fixture 检查；参数、形状、精度、随机种子与输入值见 tests/kernels/test_ll_bf16_gemm.py:587。参数装饰：pytest.mark.parametrize('M', [1, 2, 8, 16]); pytest.mark.parametrize('N', [1792, 3584]); torch.inference_mode()。"
+  }
+]

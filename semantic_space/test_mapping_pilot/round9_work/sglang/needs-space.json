@@ -1,0 +1,97 @@
+[
+  {
+    "id": "input.embedding_override_binding",
+    "kind": "obligation",
+    "phase": "admission",
+    "state_scope": "request",
+    "name": "Embedding override vectors bind to their declared token positions",
+    "property": "Provided embedding vectors replace exactly the intended placeholder positions in each query/item sequence; batching and ordering preserve this binding, while inconsistent counts are rejected.",
+    "conditions": [
+      "input_form",
+      "request_kind"
+    ],
+    "sglang_evidence": [
+      "test/registered/prefill_only/test_embed_overrides.py:114",
+      "python/sglang/srt/managers/tokenizer_manager.py",
+      "python/sglang/srt/managers/tokenizer_manager_score_mixin.py"
+    ],
+    "vllm_evidence": [
+      "vllm/inputs/llm.py:133",
+      "tests/test_request_input_bounds.py:84",
+      "tests/renderers/test_hf.py:92"
+    ],
+    "difference": "SGLang uses a placeholder token and PositionalEmbeds for scoring query/items; vLLM accepts prompt_embeds and validates mask/placeholder positions in its input processor/renderer."
+  },
+  {
+    "id": "diagnostic.parallel_tensor_reconstruction_plan",
+    "kind": "obligation",
+    "phase": "diagnostic",
+    "state_scope": "diagnostic_artifact",
+    "name": "Parallel tensor reconstruction plan follows declared sharding",
+    "property": "Given tensor dimension annotations and rank topology, a diagnostic comparator chooses a reconstruction sequence and rank groups consistent with the declared sharding, and rejects inconsistent layouts.",
+    "conditions": [
+      "execution_layout"
+    ],
+    "sglang_evidence": [
+      "test/registered/debug_utils/comparator/aligner/unsharder/test_planner.py:24",
+      "python/sglang/srt/debug_utils/comparator/aligner/unsharder/planner.py"
+    ],
+    "vllm_evidence": [],
+    "difference": "No matching vLLM diagnostic reconstruction test located in this batch; this is an SGLang-specific auxiliary diagnostic obligation, not whole-request correctness."
+  },
+  {
+    "id": "diagnostic.parallel_axis_dependency",
+    "kind": "obligation",
+    "phase": "diagnostic",
+    "state_scope": "diagnostic_artifact",
+    "name": "Parallel axis dependency and replication declarations are consistent",
+    "property": "Given dimension and rank annotations, dependent and replicated axes are identified consistently; invalid dependent or overlapping replication claims are rejected.",
+    "conditions": [
+      "execution_layout"
+    ],
+    "sglang_evidence": [
+      "test/registered/debug_utils/comparator/aligner/unsharder/test_planner.py:1540",
+      "python/sglang/srt/debug_utils/comparator/aligner/unsharder/planner.py"
+    ],
+    "vllm_evidence": [],
+    "difference": "Auxiliary comparator planning; no corresponding vLLM obligation established in this batch."
+  },
+  {
+    "id": "diagnostic.comparator_report_relation",
+    "kind": "obligation",
+    "phase": "diagnostic",
+    "state_scope": "diagnostic_artifact",
+    "name": "Comparator report reflects declared baseline/target dump relation",
+    "property": "For specified baseline and target diagnostic dumps and comparison options, emitted comparison records, summary, exit status and optional report follow the measured tensor relation and declared filtering/alignment policy.",
+    "conditions": [
+      "execution_layout"
+    ],
+    "sglang_evidence": [
+      "test/registered/debug_utils/comparator/test_entrypoint.py:2775",
+      "python/sglang/srt/debug_utils/comparator/entrypoint.py"
+    ],
+    "vllm_evidence": [],
+    "difference": "Diagnostic comparator extension; a vLLM analogue has not been established in this source batch."
+  },
+  {
+    "id": "deployment.network_endpoint_representation",
+    "kind": "obligation",
+    "phase": "preflight",
+    "state_scope": "deployment",
+    "name": "Configured network endpoint has correct canonical representation",
+    "property": "For supported IPv4, IPv6 and hostname forms, host and port parsing and URI formatting preserve the address; malformed forms are rejected before transport setup.",
+    "conditions": [
+      "deployment_configuration"
+    ],
+    "sglang_evidence": [
+      "test/registered/utils/test_network_address.py:22",
+      "python/sglang/srt/utils/network.py"
+    ],
+    "vllm_evidence": [
+      "vllm/utils/network_utils.py:119",
+      "vllm/utils/network_utils.py:128",
+      "vllm/utils/network_utils.py:141"
+    ],
+    "difference": "SGLang uses immutable NetworkAddress with parse/to_url/to_tcp; vLLM provides split_host_port/join_host_port and IPv6 validation functions. Both express address representation, not live reachability."
+  }
+]

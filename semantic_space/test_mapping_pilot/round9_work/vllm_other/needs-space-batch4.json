@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "id": "output.reasoning_content_token_boundary",
+      "property": "Reasoning end and content-start token IDs are chosen for the current turn, including implicit tool-call boundary and prior-turn isolation.",
+      "evidence": [
+        "tests/parser/engine/test_glm47_moe.py:62-118",
+        "tests/parser/engine/test_minimax_m2.py:363-385",
+        "vllm/parser/engine/parser_engine.py:733-754"
+      ]
+    },
+    {
+      "id": "output.tool_argument_fragment_boundary",
+      "property": "Partial streamed tool argument text is emitted or retained at syntax boundaries without consuming an incomplete end tag or next parameter.",
+      "evidence": [
+        "tests/parser/engine/test_minimax_m2.py:327-359",
+        "tests/parser/engine/test_glm47_moe.py:308-328",
+        "vllm/parser/minimax_m2.py:115"
+      ]
+    },
+    {
+      "id": "output.tool_argument_conversion_cost",
+      "property": "Parser argument conversion calls remain bounded as an argument grows and closed argument pairs are parsed once.",
+      "evidence": [
+        "tests/parser/engine/test_minimax_m2.py:295-325",
+        "tests/parser/engine/test_glm47_moe.py:191-306",
+        "vllm/parser/engine/parser_engine.py:674"
+      ]
+    }
+  ]
+}

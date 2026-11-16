@@ -1,0 +1,26 @@
+{
+  "status": "checkpoint_source_review_validated",
+  "mapped_entries": 311,
+  "pending_entries": 10374,
+  "assigned_scanned_entries": 10685,
+  "source_file_hash_checks": 42,
+  "active_new_units": {
+    "compute.recurrent_state_transition": 2,
+    "sampling.distribution_relation": 5,
+    "sampling.randomness_relation": 2
+  },
+  "no_runtime_execution": true,
+  "batch2_excluded": true,
+  "reserved_parent_paths_untouched": true,
+  "evidence_batches": [
+    1,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ]
+}

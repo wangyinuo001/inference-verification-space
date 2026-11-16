@@ -1,0 +1,6 @@
+snapshot	path	test_name	line	reason	evidence_source
+vllm	tests/kernels/moe/test_grouped_topk.py	test_grouped_topk_padding_opcheck	173	custom_operator_opcheck_only_requires_registration_contract	tests/kernels/moe/test_grouped_topk.py:173
+vllm	tests/kernels/moe/test_rocm_aiter_topk.py	test_rocm_aiter_biased_grouped_topk_custom_op_registration	33	custom_operator_registration_only_existence_and_callable	tests/kernels/moe/test_rocm_aiter_topk.py:36;tests/kernels/moe/test_rocm_aiter_topk.py:39
+vllm	tests/kernels/moe/test_rocm_aiter_topk.py	test_rocm_aiter_grouped_topk_custom_op_registration	42	custom_operator_registration_only_existence_and_callable	tests/kernels/moe/test_rocm_aiter_topk.py:45;tests/kernels/moe/test_rocm_aiter_topk.py:48
+vllm	tests/kernels/moe/test_rocm_aiter_topk.py	test_rocm_aiter_topk_gating_custom_op_registration	224	custom_operator_registration_only_callable	tests/kernels/moe/test_rocm_aiter_topk.py:225
+vllm	tests/kernels/test_cpu_fused_sampling.py	TestMemory::test_fused_no_intermediate_allocs	235	needs_resource_observation_contract:positive net Python tracemalloc snapshot allocation over50 calls is less than16*128256*4 bytes; does not measure all native tensor allocations	tests/kernels/test_cpu_fused_sampling.py:252

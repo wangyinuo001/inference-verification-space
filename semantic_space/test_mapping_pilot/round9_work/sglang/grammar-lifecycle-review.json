@@ -1,0 +1,986 @@
+{
+  "review_method": "Complete source/helper read followed by explicit 74-case manifest; AST only transcribes predicates, no automatic semantic classification. Four assertion-free smoke definitions remain pending.",
+  "files_sha256": {
+    "test/registered/unit/constrained/test_base_grammar_backend.py": "1dd19a20d1b7ac87a5b9f4132afd3fdf71847336b355233fc941c6cc2f89966f",
+    "test/registered/unit/constrained/test_grammar_manager.py": "453ff9ad26b2d0cbdf311ba80f210cea0929d97b8de1a623429497d683a88712",
+    "python/sglang/srt/constrained/base_grammar_backend.py": "9a2523717e4d5e9040017b27b8f6b126cbc5489f061a47e5a8adcfa96200a52f",
+    "python/sglang/srt/constrained/grammar_manager.py": "ef54d7c183028cf77b182bc7131082640e477dfc2fe060029166ffd447741abf",
+    "python/sglang/srt/constrained/reasoner_grammar_backend.py": "ce542a54f58c733197664ebd849e97f15e3ee4b2f2cfe62751261babb8fbbefd"
+  },
+  "cases": [
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestGrammarStats::test_defaults",
+      "line": 39,
+      "end_line": 48,
+      "unit_id": "constraint.diagnostics",
+      "reviewed_semantics": "Fresh GrammarStats exposes None timing/schema/size/dispatch fields, false hit/abort flags, empty traversal timings and zero timeouts.",
+      "source_body": "def test_defaults(self):\n        stats = GrammarStats()\n        self.assertIsNone(stats.compilation_time)\n        self.assertIsNone(stats.schema_count)\n        self.assertIsNone(stats.ebnf_size)\n        self.assertFalse(stats.is_cache_hit)\n        self.assertFalse(stats.is_grammar_aborted)\n        self.assertEqual(stats.tree_traversal_time, [])\n        self.assertIsNone(stats.dispatch_type)\n        self.assertEqual(stats.num_timeout, 0)",
+      "oracle_lines": [
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestGrammarStats::test_tree_traversal_time_mutable_default",
+      "line": 50,
+      "end_line": 55,
+      "unit_id": "constraint.diagnostics",
+      "reviewed_semantics": "Appending 0.1 to one instance traversal timings leaves the other instance list empty.",
+      "source_body": "def test_tree_traversal_time_mutable_default(self):\n        \"\"\"Ensure each instance gets its own list.\"\"\"\n        s1 = GrammarStats()\n        s2 = GrammarStats()\n        s1.tree_traversal_time.append(0.1)\n        self.assertEqual(len(s2.tree_traversal_time), 0)",
+      "oracle_lines": [
+        55
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestBaseGrammarObject::test_is_terminated_default",
+      "line": 61,
+      "end_line": 63,
+      "unit_id": "constraint.object_state",
+      "reviewed_semantics": "Fresh abstract grammar reports is_terminated() false; no accepted-token behavior is tested.",
+      "source_body": "def test_is_terminated_default(self):\n        obj = BaseGrammarObject()\n        self.assertFalse(obj.is_terminated())",
+      "oracle_lines": [
+        63
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestInvalidGrammarObject::test_default_error_message",
+      "line": 73,
+      "end_line": 75,
+      "unit_id": "constraint.compile_outcome",
+      "reviewed_semantics": "Default invalid grammar carries the literal Unknown grammar error diagnostic.",
+      "source_body": "def test_default_error_message(self):\n        obj = InvalidGrammarObject()\n        self.assertEqual(obj.error_message, \"Unknown grammar error\")",
+      "oracle_lines": [
+        75
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestInvalidGrammarObject::test_custom_error_message",
+      "line": 77,
+      "end_line": 79,
+      "unit_id": "constraint.compile_outcome",
+      "reviewed_semantics": "Invalid grammar preserves the supplied Regex compilation failed diagnostic.",
+      "source_body": "def test_custom_error_message(self):\n        obj = InvalidGrammarObject(\"Regex compilation failed\")\n        self.assertEqual(obj.error_message, \"Regex compilation failed\")",
+      "oracle_lines": [
+        79
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestBaseGrammarBackend::test_set_and_get_cache",
+      "line": 91,
+      "end_line": 96,
+      "unit_id": "constraint.compilation_cache",
+      "reviewed_semantics": "Inserting JSON schema key stores the identical grammar object under that key.",
+      "source_body": "def test_set_and_get_cache(self):\n        obj = BaseGrammarObject()\n        key = (\"json\", '{\"type\": \"object\"}')\n        self.backend.set_cache(key, obj)\n        self.assertIn(key, self.backend.cache)\n        self.assertIs(self.backend.cache[key], obj)",
+      "oracle_lines": [
+        95,
+        96
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestBaseGrammarBackend::test_reset_clears_cache",
+      "line": 98,
+      "end_line": 101,
+      "unit_id": "constraint.compilation_cache",
+      "reviewed_semantics": "Reset removes the previously inserted schema cache entry.",
+      "source_body": "def test_reset_clears_cache(self):\n        self.backend.set_cache((\"json\", \"schema\"), BaseGrammarObject())\n        self.backend.reset()\n        self.assertEqual(len(self.backend.cache), 0)",
+      "oracle_lines": [
+        101
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestBaseGrammarBackend::test_cache_hit_returns_copy",
+      "line": 103,
+      "end_line": 115,
+      "unit_id": "constraint.compilation_cache",
+      "reviewed_semantics": "Cache hit reports true, invokes one copy and returns that copy rather than the stored object.",
+      "source_body": "def test_cache_hit_returns_copy(self):\n        \"\"\"Cache hit should return a copy of the cached object.\"\"\"\n        mock_copy = BaseGrammarObject()\n        obj = MagicMock(spec=BaseGrammarObject)\n        obj.copy.return_value = mock_copy\n\n        key = (\"json\", \"schema\")\n        self.backend.set_cache(key, obj)\n        result, cache_hit = self.backend.get_cached_or_future_value(key, False)\n\n        self.assertTrue(cache_hit)\n        obj.copy.assert_called_once()\n        self.assertIs(result, mock_copy)",
+      "oracle_lines": [
+        113,
+        114,
+        115
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestBaseGrammarBackend::test_cache_hit_inits_reasoning",
+      "line": 117,
+      "end_line": 125,
+      "unit_id": "constraint.compilation_cache",
+      "reviewed_semantics": "Cache-hit copied object receives maybe_init_reasoning(True).",
+      "source_body": "def test_cache_hit_inits_reasoning(self):\n        obj = MagicMock(spec=BaseGrammarObject)\n        copied = MagicMock(spec=BaseGrammarObject)\n        obj.copy.return_value = copied\n\n        key = (\"json\", \"schema\")\n        self.backend.set_cache(key, obj)\n        self.backend.get_cached_or_future_value(key, True)\n        copied.maybe_init_reasoning.assert_called_once_with(True)",
+      "oracle_lines": [
+        125
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestBaseGrammarBackend::test_cache_miss_returns_future",
+      "line": 127,
+      "end_line": 134,
+      "unit_id": "constraint.compilation_cache",
+      "reviewed_semantics": "Uncached JSON schema returns hit=false and a Future whose base backend result is InvalidGrammarObject within five seconds.",
+      "source_body": "def test_cache_miss_returns_future(self):\n        key = (\"json\", \"schema\")\n        result, cache_hit = self.backend.get_cached_or_future_value(key, False)\n        self.assertFalse(cache_hit)\n        self.assertIsInstance(result, Future)\n        # The future should complete (dispatch_json returns InvalidGrammarObject)\n        value = result.result(timeout=5)\n        self.assertIsInstance(value, InvalidGrammarObject)",
+      "oracle_lines": [
+        130,
+        131,
+        134
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestBaseGrammarBackend::test_all_dispatch_methods_unsupported",
+      "line": 136,
+      "end_line": 147,
+      "unit_id": "constraint.compile_outcome",
+      "reviewed_semantics": "Base dispatch for JSON, regex, EBNF and structural tag returns InvalidGrammarObject for the four explicit arguments.",
+      "source_body": "def test_all_dispatch_methods_unsupported(self):\n        \"\"\"All dispatch methods on base class return InvalidGrammarObject.\"\"\"\n        cases = [\n            (\"dispatch_json\", (\"schema\",)),\n            (\"dispatch_regex\", (\"[a-z]+\",)),\n            (\"dispatch_ebnf\", (\"root ::= 'hello'\",)),\n            (\"dispatch_structural_tag\", (\"{}\",)),\n        ]\n        for method_name, args in cases:\n            with self.subTest(method=method_name):\n                result = getattr(self.backend, method_name)(*args)\n                self.assertIsInstance(result, InvalidGrammarObject)",
+      "oracle_lines": [
+        147
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestBaseGrammarBackend::test_dispatch_fallback_raises",
+      "line": 149,
+      "end_line": 151,
+      "unit_id": "constraint.compile_outcome",
+      "reviewed_semantics": "Fallback dispatch of unknown/value raises ValueError.",
+      "source_body": "def test_dispatch_fallback_raises(self):\n        with self.assertRaises(ValueError):\n            self.backend.dispatch_fallback(\"unknown\", \"value\")",
+      "oracle_lines": [
+        150
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestBaseGrammarBackend::test_init_value_dispatch_routes_all_types",
+      "line": 153,
+      "end_line": 164,
+      "unit_id": "constraint.compile_outcome",
+      "reviewed_semantics": "Each of four grammar-type dispatch inputs reaches an unsupported base result; no per-handler mock call assertion exists.",
+      "source_body": "def test_init_value_dispatch_routes_all_types(self):\n        \"\"\"_init_value_dispatch routes all grammar types to their dispatch methods.\"\"\"\n        cases = [\n            (\"json\", \"schema\"),\n            (\"regex\", \"[a-z]+\"),\n            (\"ebnf\", \"root ::= 'x'\"),\n            (\"structural_tag\", \"{}\"),\n        ]\n        for grammar_type, value in cases:\n            with self.subTest(grammar_type=grammar_type):\n                result = self.backend._init_value_dispatch((grammar_type, value), False)\n                self.assertIsInstance(result, InvalidGrammarObject)",
+      "oracle_lines": [
+        164
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestBaseGrammarBackend::test_init_value_dispatch_unknown_type_raises",
+      "line": 166,
+      "end_line": 168,
+      "unit_id": "constraint.compile_outcome",
+      "reviewed_semantics": "Dispatching unknown_type/value raises ValueError.",
+      "source_body": "def test_init_value_dispatch_unknown_type_raises(self):\n        with self.assertRaises(ValueError):\n            self.backend._init_value_dispatch((\"unknown_type\", \"value\"), False)",
+      "oracle_lines": [
+        167
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestBaseGrammarBackend::test_init_value_dispatch_sets_compilation_time",
+      "line": 170,
+      "end_line": 178,
+      "unit_id": "constraint.diagnostics",
+      "reviewed_semantics": "Mock JSON compiler with GrammarStats acquires non-None strictly positive compilation_time.",
+      "source_body": "def test_init_value_dispatch_sets_compilation_time(self):\n        \"\"\"When grammar has stats, compilation_time should be set.\"\"\"\n        mock_grammar = MagicMock(spec=BaseGrammarObject)\n        mock_grammar.grammar_stats = GrammarStats()\n        self.backend.dispatch_json = MagicMock(return_value=mock_grammar)\n\n        result = self.backend._init_value_dispatch((\"json\", \"schema\"), False)\n        self.assertIsNotNone(result.grammar_stats.compilation_time)\n        self.assertGreater(result.grammar_stats.compilation_time, 0)",
+      "oracle_lines": [
+        177,
+        178
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestBaseGrammarBackend::test_reset_then_miss",
+      "line": 188,
+      "end_line": 201,
+      "unit_id": "constraint.compilation_cache",
+      "reviewed_semantics": "The same schema changes from cache hit to miss/Future after reset.",
+      "source_body": "def test_reset_then_miss(self):\n        \"\"\"After reset, previously cached keys should be misses.\"\"\"\n        key = (\"json\", \"schema\")\n        obj = MagicMock(spec=BaseGrammarObject)\n        obj.copy.return_value = obj\n        self.backend.set_cache(key, obj)\n\n        _, hit = self.backend.get_cached_or_future_value(key, False)\n        self.assertTrue(hit)\n\n        self.backend.reset()\n        result, hit = self.backend.get_cached_or_future_value(key, False)\n        self.assertFalse(hit)\n        self.assertIsInstance(result, Future)",
+      "oracle_lines": [
+        196,
+        200,
+        201
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestBaseGrammarBackend::test_dispatch_fallback_error_message_content",
+      "line": 203,
+      "end_line": 208,
+      "unit_id": "constraint.compile_outcome",
+      "reviewed_semantics": "Fallback ValueError contains both custom_type and custom_value.",
+      "source_body": "def test_dispatch_fallback_error_message_content(self):\n        \"\"\"dispatch_fallback error should include the key type and value.\"\"\"\n        with self.assertRaises(ValueError) as ctx:\n            self.backend.dispatch_fallback(\"custom_type\", \"custom_value\")\n        self.assertIn(\"custom_type\", str(ctx.exception))\n        self.assertIn(\"custom_value\", str(ctx.exception))",
+      "oracle_lines": [
+        205,
+        207,
+        208
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestBaseGrammarBackend::test_init_value_dispatch_none_grammar",
+      "line": 210,
+      "end_line": 214,
+      "unit_id": "constraint.compile_outcome",
+      "reviewed_semantics": "JSON compiler mocked to return None yields None without assuming a stats object.",
+      "source_body": "def test_init_value_dispatch_none_grammar(self):\n        \"\"\"When dispatch returns None, should not crash on stats check.\"\"\"\n        self.backend.dispatch_json = MagicMock(return_value=None)\n        result = self.backend._init_value_dispatch((\"json\", \"schema\"), False)\n        self.assertIsNone(result)",
+      "oracle_lines": [
+        214
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestBaseGrammarBackend::test_cache_miss_duplicate_key_submits_separate_futures",
+      "line": 216,
+      "end_line": 236,
+      "unit_id": "constraint.compilation_cache",
+      "reviewed_semantics": "Two same-key misses return distinct Futures, false hit flags and independently complete with invalid base grammar objects.",
+      "source_body": "def test_cache_miss_duplicate_key_submits_separate_futures(self):\n        \"\"\"Two cache misses for the same key each get their own Future.\n\n        The backend does not deduplicate in-flight compilations — that is\n        handled at the GrammarManager level via grammar_queue. Each call\n        to get_cached_or_future_value with an uncached key submits a new\n        task to the executor.\"\"\"\n        key = (\"json\", \"schema\")\n        result1, hit1 = self.backend.get_cached_or_future_value(key, False)\n        result2, hit2 = self.backend.get_cached_or_future_value(key, False)\n\n        self.assertFalse(hit1)\n        self.assertFalse(hit2)\n        self.assertIsInstance(result1, Future)\n        self.assertIsInstance(result2, Future)\n        # They are independent futures, not shared\n        self.assertIsNot(result1, result2)\n\n        # Both should complete successfully\n        self.assertIsInstance(result1.result(timeout=5), InvalidGrammarObject)\n        self.assertIsInstance(result2.result(timeout=5), InvalidGrammarObject)",
+      "oracle_lines": [
+        227,
+        228,
+        229,
+        230,
+        232,
+        235,
+        236
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestRegisterGrammarBackend::test_register_and_use",
+      "line": 249,
+      "end_line": 252,
+      "unit_id": "constraint.backend_selection",
+      "reviewed_semantics": "Registering my_backend inserts its name into the registry; invocation is not asserted.",
+      "source_body": "def test_register_and_use(self):\n        mock_init = MagicMock(return_value=\"custom_backend\")\n        register_grammar_backend(\"my_backend\", mock_init)\n        self.assertIn(\"my_backend\", GRAMMAR_BACKEND_REGISTRY)",
+      "oracle_lines": [
+        252
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestRegisterGrammarBackend::test_overwrite_registration",
+      "line": 254,
+      "end_line": 259,
+      "unit_id": "constraint.backend_selection",
+      "reviewed_semantics": "Second registration of dup replaces first initializer; direct registry invocation returns second.",
+      "source_body": "def test_overwrite_registration(self):\n        register_grammar_backend(\"dup\", lambda *a: \"first\")\n        register_grammar_backend(\"dup\", lambda *a: \"second\")\n        self.assertEqual(\n            GRAMMAR_BACKEND_REGISTRY[\"dup\"](None, None, None, None), \"second\"\n        )",
+      "oracle_lines": [
+        257
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestCreateGrammarBackend::test_none_backend_returns_none",
+      "line": 283,
+      "end_line": 286,
+      "unit_id": "constraint.backend_selection",
+      "reviewed_semantics": "Factory with grammar_backend=none and strict thinking disabled returns None.",
+      "source_body": "def test_none_backend_returns_none(self):\n        args = self._make_server_args(\"none\")\n        result = create_grammar_backend(args, None, 32000)\n        self.assertIsNone(result)",
+      "oracle_lines": [
+        286
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestCreateGrammarBackend::test_none_backend_with_strict_thinking_raises",
+      "line": 288,
+      "end_line": 291,
+      "unit_id": "constraint.backend_selection",
+      "reviewed_semantics": "none backend plus strict thinking raises ValueError matching enable-strict-thinking.",
+      "source_body": "def test_none_backend_with_strict_thinking_raises(self):\n        args = self._make_server_args(\"none\", enable_strict_thinking=True)\n        with self.assertRaisesRegex(ValueError, \"enable-strict-thinking\"):\n            create_grammar_backend(args, None, 32000)",
+      "oracle_lines": [
+        290
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestCreateGrammarBackend::test_invalid_backend_raises",
+      "line": 293,
+      "end_line": 296,
+      "unit_id": "constraint.backend_selection",
+      "reviewed_semantics": "Unknown backend name is rejected with ValueError.",
+      "source_body": "def test_invalid_backend_raises(self):\n        args = self._make_server_args(\"nonexistent_backend\")\n        with self.assertRaises(ValueError):\n            create_grammar_backend(args, None, 32000)",
+      "oracle_lines": [
+        295
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestCreateGrammarBackend::test_custom_registered_backend",
+      "line": 298,
+      "end_line": 303,
+      "unit_id": "constraint.backend_selection",
+      "reviewed_semantics": "Custom registered factory returns the registered mock object identity.",
+      "source_body": "def test_custom_registered_backend(self):\n        mock_backend = MagicMock()\n        register_grammar_backend(\"test_custom\", lambda *a: mock_backend)\n        args = self._make_server_args(\"test_custom\")\n        result = create_grammar_backend(args, \"tok\", 32000, {1, 2})\n        self.assertIs(result, mock_backend)",
+      "oracle_lines": [
+        303
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestCreateGrammarBackend::test_custom_backend_receives_args",
+      "line": 305,
+      "end_line": 320,
+      "unit_id": "constraint.backend_selection",
+      "reviewed_semantics": "Custom initializer receives tokenizer my_tok, vocab_size 50000 and EOS set {0,2}; server_args receipt is recorded but not asserted.",
+      "source_body": "def test_custom_backend_receives_args(self):\n        received = {}\n\n        def init_fn(server_args, tokenizer, vocab_size, eos_token_ids):\n            received[\"server_args\"] = server_args\n            received[\"tokenizer\"] = tokenizer\n            received[\"vocab_size\"] = vocab_size\n            received[\"eos_token_ids\"] = eos_token_ids\n            return MagicMock()\n\n        register_grammar_backend(\"capture\", init_fn)\n        args = self._make_server_args(\"capture\")\n        create_grammar_backend(args, \"my_tok\", 50000, {0, 2})\n        self.assertEqual(received[\"tokenizer\"], \"my_tok\")\n        self.assertEqual(received[\"vocab_size\"], 50000)\n        self.assertEqual(received[\"eos_token_ids\"], {0, 2})",
+      "oracle_lines": [
+        318,
+        319,
+        320
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestCreateGrammarBackend::test_custom_backend_skips_reasoner_wrapping",
+      "line": 322,
+      "end_line": 332,
+      "unit_id": "constraint.backend_selection",
+      "reviewed_semantics": "Custom registry backend returns directly despite reasoning_parser=deepseek-r1.",
+      "source_body": "def test_custom_backend_skips_reasoner_wrapping(self):\n        \"\"\"Custom registered backends return directly, bypassing reasoner wrapping.\"\"\"\n        mock_inner = MagicMock(spec=BaseGrammarBackend)\n        register_grammar_backend(\"inner_r\", lambda *a: mock_inner)\n\n        args = self._make_server_args(\"inner_r\", reasoning_parser=\"deepseek-r1\")\n        tokenizer = MagicMock()\n\n        result = create_grammar_backend(args, tokenizer, 32000)\n        # Custom backends return early, no reasoner wrapping applied\n        self.assertIs(result, mock_inner)",
+      "oracle_lines": [
+        332
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestCreateGrammarBackend::test_outlines_backend",
+      "line": 335,
+      "end_line": 343,
+      "unit_id": "constraint.backend_selection",
+      "reviewed_semantics": "Outlines factory forwards tok and whitespace pattern and returns constructor result identity.",
+      "source_body": "def test_outlines_backend(self, mock_outlines_cls):\n        mock_backend = MagicMock(spec=BaseGrammarBackend)\n        mock_outlines_cls.return_value = mock_backend\n        args = self._make_server_args(\"outlines\")\n        args.constrained_json_whitespace_pattern = r\"\\s*\"\n\n        result = create_grammar_backend(args, \"tok\", 32000)\n        mock_outlines_cls.assert_called_once_with(\"tok\", whitespace_pattern=r\"\\s*\")\n        self.assertIs(result, mock_backend)",
+      "oracle_lines": [
+        342,
+        343
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestCreateGrammarBackend::test_xgrammar_backend",
+      "line": 346,
+      "end_line": 356,
+      "unit_id": "constraint.backend_selection",
+      "reviewed_semantics": "XGrammar factory forwards tokenizer, vocabulary 32000, EOS [1,2] and any_whitespace=False and returns constructor result.",
+      "source_body": "def test_xgrammar_backend(self, mock_xgrammar_cls):\n        mock_backend = MagicMock(spec=BaseGrammarBackend)\n        mock_xgrammar_cls.return_value = mock_backend\n        args = self._make_server_args(\"xgrammar\")\n        args.constrained_json_disable_any_whitespace = True\n\n        result = create_grammar_backend(args, \"tok\", 32000, {1, 2})\n        mock_xgrammar_cls.assert_called_once_with(\n            \"tok\", vocab_size=32000, model_eos_token_ids=[1, 2], any_whitespace=False\n        )\n        self.assertIs(result, mock_backend)",
+      "oracle_lines": [
+        353,
+        356
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestCreateGrammarBackend::test_xgrammar_unsupported_tokenizer_falls_back_to_none",
+      "line": 359,
+      "end_line": 369,
+      "unit_id": "constraint.backend_selection",
+      "reviewed_semantics": "Mock XGrammar unsupported-tokenizer exception yields None and changes grammar_backend to none.",
+      "source_body": "def test_xgrammar_unsupported_tokenizer_falls_back_to_none(self, mock_xgrammar_cls):\n        from sglang.srt.constrained.xgrammar_backend import TokenizerNotSupportedError\n\n        mock_xgrammar_cls.side_effect = TokenizerNotSupportedError(\n            \"unsupported tokenizer\"\n        )\n        args = self._make_server_args(\"xgrammar\")\n\n        result = create_grammar_backend(args, \"tok\", 32000, {1})\n        self.assertIsNone(result)\n        self.assertEqual(args.grammar_backend, \"none\")",
+      "oracle_lines": [
+        368,
+        369
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestCreateGrammarBackend::test_llguidance_backend",
+      "line": 372,
+      "end_line": 383,
+      "unit_id": "constraint.backend_selection",
+      "reviewed_semantics": "Guidance factory forwards tokenizer, any_whitespace=True and whitespace pattern and returns constructor result.",
+      "source_body": "def test_llguidance_backend(self, mock_guidance_cls):\n        mock_backend = MagicMock(spec=BaseGrammarBackend)\n        mock_guidance_cls.return_value = mock_backend\n        args = self._make_server_args(\"llguidance\")\n        args.constrained_json_disable_any_whitespace = False\n        args.constrained_json_whitespace_pattern = r\"\\s+\"\n\n        result = create_grammar_backend(args, \"tok\", 32000)\n        mock_guidance_cls.assert_called_once_with(\n            tokenizer=\"tok\", any_whitespace=True, whitespace_pattern=r\"\\s+\"\n        )\n        self.assertIs(result, mock_backend)",
+      "oracle_lines": [
+        380,
+        383
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestCreateGrammarBackend::test_reasoner_wrapping_on_builtin_backend",
+      "line": 386,
+      "end_line": 402,
+      "unit_id": "constraint.backend_selection",
+      "reviewed_semantics": "Builtin Outlines with deepseek-r1 and think_end_id=42 is wrapped in ReasonerGrammarBackend containing the mock backend.",
+      "source_body": "def test_reasoner_wrapping_on_builtin_backend(self, mock_outlines_cls):\n        \"\"\"Non-custom backends get wrapped with ReasonerGrammarBackend.\"\"\"\n        from sglang.srt.constrained.reasoner_grammar_backend import (\n            ReasonerGrammarBackend,\n        )\n\n        mock_backend = MagicMock(spec=BaseGrammarBackend)\n        mock_backend.is_support_token_filter = False\n        mock_outlines_cls.return_value = mock_backend\n        args = self._make_server_args(\"outlines\", reasoning_parser=\"deepseek-r1\")\n        tokenizer = MagicMock()\n        # encode must return a single-token list for think_start/end tokens\n        tokenizer.encode.return_value = [42]\n\n        result = create_grammar_backend(args, tokenizer, 32000, think_end_id=42)\n        self.assertIsInstance(result, ReasonerGrammarBackend)\n        self.assertIs(result.grammar_backend, mock_backend)",
+      "oracle_lines": [
+        401,
+        402
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestCreateGrammarBackend::test_no_reasoner_wrapping_without_think_end_id",
+      "line": 405,
+      "end_line": 413,
+      "unit_id": "constraint.backend_selection",
+      "reviewed_semantics": "Missing think_end_id prevents wrapping despite configured reasoning parser.",
+      "source_body": "def test_no_reasoner_wrapping_without_think_end_id(self, mock_outlines_cls):\n        \"\"\"Without think_end_id passed in, no reasoner wrapping.\"\"\"\n        mock_backend = MagicMock(spec=BaseGrammarBackend)\n        mock_outlines_cls.return_value = mock_backend\n        args = self._make_server_args(\"outlines\", reasoning_parser=\"deepseek-r1\")\n        tokenizer = MagicMock(spec=[])  # No think_end_id attribute\n\n        result = create_grammar_backend(args, tokenizer, 32000, think_end_id=None)\n        self.assertIs(result, mock_backend)",
+      "oracle_lines": [
+        413
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestCreateGrammarBackend::test_no_reasoner_wrapping_without_reasoning_parser",
+      "line": 416,
+      "end_line": 424,
+      "unit_id": "constraint.backend_selection",
+      "reviewed_semantics": "Missing reasoning parser prevents wrapping despite think_end_id=42.",
+      "source_body": "def test_no_reasoner_wrapping_without_reasoning_parser(self, mock_outlines_cls):\n        \"\"\"Without reasoning_parser, no reasoner wrapping even with think_end_id.\"\"\"\n        mock_backend = MagicMock(spec=BaseGrammarBackend)\n        mock_outlines_cls.return_value = mock_backend\n        args = self._make_server_args(\"outlines\", reasoning_parser=None)\n        tokenizer = MagicMock()\n\n        result = create_grammar_backend(args, tokenizer, 32000, think_end_id=42)\n        self.assertIs(result, mock_backend)",
+      "oracle_lines": [
+        424
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_base_grammar_backend.py",
+      "test_name": "TestCreateGrammarBackend::test_xgrammar_eos_none",
+      "line": 427,
+      "end_line": 434,
+      "unit_id": "constraint.backend_selection",
+      "reviewed_semantics": "XGrammar constructor receives model_eos_token_ids=None when factory EOS argument is None.",
+      "source_body": "def test_xgrammar_eos_none(self, mock_xgrammar_cls):\n        \"\"\"eos_token_ids=None should pass None, not an empty list.\"\"\"\n        mock_xgrammar_cls.return_value = MagicMock(spec=BaseGrammarBackend)\n        args = self._make_server_args(\"xgrammar\")\n\n        create_grammar_backend(args, \"tok\", 32000, None)\n        _, kwargs = mock_xgrammar_cls.call_args\n        self.assertIsNone(kwargs[\"model_eos_token_ids\"])",
+      "oracle_lines": [
+        434
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestGrammarManagerInit::test_init_with_backend",
+      "line": 80,
+      "end_line": 87,
+      "unit_id": "constraint.backend_selection",
+      "reviewed_semantics": "Mock factory backend is installed and initial grammar queue length is zero.",
+      "source_body": "def test_init_with_backend(self, mock_create):\n        mock_create.return_value = MagicMock(spec=BaseGrammarBackend)\n        scheduler = _make_scheduler(\"xgrammar\")\n        scheduler.server_args.skip_tokenizer_init = False\n\n        mgr = GrammarManager(scheduler)\n        self.assertIsNotNone(mgr.grammar_backend)\n        self.assertEqual(len(mgr), 0)",
+      "oracle_lines": [
+        86,
+        87
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestGrammarManagerInit::test_init_skip_tokenizer",
+      "line": 89,
+      "end_line": 92,
+      "unit_id": "constraint.backend_selection",
+      "reviewed_semantics": "skip_tokenizer_init=True produces no grammar backend.",
+      "source_body": "def test_init_skip_tokenizer(self):\n        scheduler = _make_scheduler(skip_tokenizer=True)\n        mgr = GrammarManager(scheduler)\n        self.assertIsNone(mgr.grammar_backend)",
+      "oracle_lines": [
+        92
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestGrammarManagerInit::test_len_and_has_waiting",
+      "line": 95,
+      "end_line": 100,
+      "unit_id": "constraint.wait_queue",
+      "reviewed_semantics": "Fresh manager has zero queue length and no waiting grammar.",
+      "source_body": "def test_len_and_has_waiting(self, mock_create):\n        mock_create.return_value = None\n        scheduler = _make_scheduler()\n        mgr = GrammarManager(scheduler)\n        self.assertEqual(len(mgr), 0)\n        self.assertFalse(mgr.has_waiting_grammars())",
+      "oracle_lines": [
+        99,
+        100
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestGrammarManagerInit::test_clear_resets_backend",
+      "line": 103,
+      "end_line": 111,
+      "unit_id": "constraint.compilation_cache",
+      "reviewed_semantics": "Manager clear calls backend reset exactly once.",
+      "source_body": "def test_clear_resets_backend(self, mock_create):\n        mock_backend = MagicMock(spec=BaseGrammarBackend)\n        mock_create.return_value = mock_backend\n        scheduler = _make_scheduler()\n        scheduler.server_args.skip_tokenizer_init = False\n\n        mgr = GrammarManager(scheduler)\n        mgr.clear()\n        mock_backend.reset.assert_called_once()",
+      "oracle_lines": [
+        111
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestProcessReqWithGrammar::test_no_constraint_returns_false",
+      "line": 131,
+      "end_line": 136,
+      "unit_id": "constraint.wait_queue",
+      "reviewed_semantics": "Unconstrained request is not enqueued and returns false.",
+      "source_body": "def test_no_constraint_returns_false(self):\n        mgr = self._make_mgr()\n        req = _make_req()  # No constraints\n        result = mgr.process_req_with_grammar(req)\n        self.assertFalse(result)\n        self.assertEqual(len(mgr.grammar_queue), 0)",
+      "oracle_lines": [
+        135,
+        136
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestProcessReqWithGrammar::test_json_schema_cache_miss",
+      "line": 138,
+      "end_line": 148,
+      "unit_id": "constraint.request_dispatch",
+      "reviewed_semantics": "JSON schema miss enqueues one request, returns true and binds key (json, object schema).",
+      "source_body": "def test_json_schema_cache_miss(self):\n        mgr = self._make_mgr()\n        future = Future()\n        mgr.grammar_backend.get_cached_or_future_value.return_value = (future, False)\n\n        req = _make_req(json_schema='{\"type\": \"object\"}')\n        result = mgr.process_req_with_grammar(req)\n\n        self.assertTrue(result)\n        self.assertEqual(len(mgr.grammar_queue), 1)\n        self.assertEqual(req.grammar_key, (\"json\", '{\"type\": \"object\"}'))",
+      "oracle_lines": [
+        146,
+        147,
+        148
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestProcessReqWithGrammar::test_regex_cache_miss",
+      "line": 150,
+      "end_line": 159,
+      "unit_id": "constraint.request_dispatch",
+      "reviewed_semantics": "Regex miss returns true and binds key (regex, [a-z]+).",
+      "source_body": "def test_regex_cache_miss(self):\n        mgr = self._make_mgr()\n        future = Future()\n        mgr.grammar_backend.get_cached_or_future_value.return_value = (future, False)\n\n        req = _make_req(regex=\"[a-z]+\")\n        result = mgr.process_req_with_grammar(req)\n\n        self.assertTrue(result)\n        self.assertEqual(req.grammar_key, (\"regex\", \"[a-z]+\"))",
+      "oracle_lines": [
+        158,
+        159
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestProcessReqWithGrammar::test_ebnf_cache_miss",
+      "line": 161,
+      "end_line": 170,
+      "unit_id": "constraint.request_dispatch",
+      "reviewed_semantics": "EBNF miss returns true and binds key (ebnf, root hello rule).",
+      "source_body": "def test_ebnf_cache_miss(self):\n        mgr = self._make_mgr()\n        future = Future()\n        mgr.grammar_backend.get_cached_or_future_value.return_value = (future, False)\n\n        req = _make_req(ebnf=\"root ::= 'hello'\")\n        result = mgr.process_req_with_grammar(req)\n\n        self.assertTrue(result)\n        self.assertEqual(req.grammar_key, (\"ebnf\", \"root ::= 'hello'\"))",
+      "oracle_lines": [
+        169,
+        170
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestProcessReqWithGrammar::test_structural_tag_cache_miss",
+      "line": 172,
+      "end_line": 184,
+      "unit_id": "constraint.request_dispatch",
+      "reviewed_semantics": "Structural tag miss returns true and binds the explicit structures/triggers JSON key.",
+      "source_body": "def test_structural_tag_cache_miss(self):\n        mgr = self._make_mgr()\n        future = Future()\n        mgr.grammar_backend.get_cached_or_future_value.return_value = (future, False)\n\n        req = _make_req(structural_tag='{\"structures\": [], \"triggers\": []}')\n        result = mgr.process_req_with_grammar(req)\n\n        self.assertTrue(result)\n        self.assertEqual(\n            req.grammar_key,\n            (\"structural_tag\", '{\"structures\": [], \"triggers\": []}'),\n        )",
+      "oracle_lines": [
+        180,
+        181
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestProcessReqWithGrammar::test_cache_hit_returns_false",
+      "line": 186,
+      "end_line": 200,
+      "unit_id": "constraint.wait_queue",
+      "reviewed_semantics": "Cache-hit grammar is bound by identity to request; no queue insertion and return false.",
+      "source_body": "def test_cache_hit_returns_false(self):\n        \"\"\"Cache hit should NOT add to grammar queue.\"\"\"\n        mgr = self._make_mgr()\n        grammar_obj = MagicMock(spec=BaseGrammarObject)\n        mgr.grammar_backend.get_cached_or_future_value.return_value = (\n            grammar_obj,\n            True,\n        )\n\n        req = _make_req(json_schema='{\"type\": \"object\"}')\n        result = mgr.process_req_with_grammar(req)\n\n        self.assertFalse(result)\n        self.assertEqual(len(mgr.grammar_queue), 0)\n        self.assertIs(req.grammar, grammar_obj)",
+      "oracle_lines": [
+        198,
+        199,
+        200
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestProcessReqWithGrammar::test_cache_hit_invalid_grammar_aborts",
+      "line": 202,
+      "end_line": 213,
+      "unit_id": "constraint.request_abort",
+      "reviewed_semantics": "Cached invalid grammar returns false and aborts once with bad schema in reason.",
+      "source_body": "def test_cache_hit_invalid_grammar_aborts(self):\n        \"\"\"Cache hit with InvalidGrammarObject should abort the request.\"\"\"\n        mgr = self._make_mgr()\n        invalid = InvalidGrammarObject(\"bad schema\")\n        mgr.grammar_backend.get_cached_or_future_value.return_value = (invalid, True)\n\n        req = _make_req(json_schema=\"bad\")\n        result = mgr.process_req_with_grammar(req)\n\n        self.assertFalse(result)\n        req.set_finish_with_abort.assert_called_once()\n        self.assertIn(\"bad schema\", req.set_finish_with_abort.call_args[0][0])",
+      "oracle_lines": [
+        211,
+        212,
+        213
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestProcessReqWithGrammar::test_no_backend_aborts",
+      "line": 215,
+      "end_line": 227,
+      "unit_id": "constraint.request_abort",
+      "reviewed_semantics": "Constrained request without backend returns false and aborts once with not supported reason.",
+      "source_body": "def test_no_backend_aborts(self):\n        \"\"\"No grammar backend should abort request.\"\"\"\n        scheduler = _make_scheduler()\n        scheduler.server_args.skip_tokenizer_init = True\n        mgr = GrammarManager(scheduler)\n        mgr.grammar_backend = None\n\n        req = _make_req(json_schema='{\"type\": \"object\"}')\n        result = mgr.process_req_with_grammar(req)\n\n        self.assertFalse(result)\n        req.set_finish_with_abort.assert_called_once()\n        self.assertIn(\"not supported\", req.set_finish_with_abort.call_args[0][0])",
+      "oracle_lines": [
+        225,
+        226,
+        227
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestProcessReqWithGrammar::test_json_takes_priority_over_other_constraints",
+      "line": 229,
+      "end_line": 237,
+      "unit_id": "constraint.request_dispatch",
+      "reviewed_semantics": "When both JSON schema and regex are populated, grammar_key is the JSON schema key.",
+      "source_body": "def test_json_takes_priority_over_other_constraints(self):\n        \"\"\"When json_schema is set, it should be used regardless of other fields.\"\"\"\n        mgr = self._make_mgr()\n        future = Future()\n        mgr.grammar_backend.get_cached_or_future_value.return_value = (future, False)\n\n        req = _make_req(json_schema='{\"type\": \"object\"}', regex=\"[a-z]+\")\n        mgr.process_req_with_grammar(req)\n        self.assertEqual(req.grammar_key, (\"json\", '{\"type\": \"object\"}'))",
+      "oracle_lines": [
+        237
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestProcessReqWithGrammar::test_require_reasoning_forwarded_to_backend",
+      "line": 239,
+      "end_line": 254,
+      "unit_id": "constraint.request_dispatch",
+      "reviewed_semantics": "Backend lookup receives JSON schema key and require_reasoning=True exactly once.",
+      "source_body": "def test_require_reasoning_forwarded_to_backend(self):\n        \"\"\"require_reasoning from the request should be passed to the backend.\"\"\"\n        mgr = self._make_mgr()\n        grammar_obj = MagicMock(spec=BaseGrammarObject)\n        mgr.grammar_backend.get_cached_or_future_value.return_value = (\n            grammar_obj,\n            True,\n        )\n\n        req = _make_req(json_schema=\"schema\")\n        req.require_reasoning = True\n        mgr.process_req_with_grammar(req)\n\n        mgr.grammar_backend.get_cached_or_future_value.assert_called_once_with(\n            (\"json\", \"schema\"), True\n        )",
+      "oracle_lines": [
+        252
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestProcessReqWithGrammar::test_has_waiting_grammars_after_enqueue",
+      "line": 256,
+      "end_line": 265,
+      "unit_id": "constraint.wait_queue",
+      "reviewed_semantics": "A schema miss changes has_waiting_grammars from false to true and len(manager) to one.",
+      "source_body": "def test_has_waiting_grammars_after_enqueue(self):\n        mgr = self._make_mgr()\n        future = Future()\n        mgr.grammar_backend.get_cached_or_future_value.return_value = (future, False)\n\n        self.assertFalse(mgr.has_waiting_grammars())\n        req = _make_req(json_schema=\"schema\")\n        mgr.process_req_with_grammar(req)\n        self.assertTrue(mgr.has_waiting_grammars())\n        self.assertEqual(len(mgr), 1)",
+      "oracle_lines": [
+        261,
+        264,
+        265
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestProcessReqWithGrammar::test_cache_hit_applies_request_thinking_budget",
+      "line": 267,
+      "end_line": 283,
+      "unit_id": "constraint.reasoning_budget",
+      "reviewed_semantics": "Cache-hit ReasonerGrammarObject receives request thinking_budget=7 in place of initial 99.",
+      "source_body": "def test_cache_hit_applies_request_thinking_budget(self):\n        mgr = self._make_mgr()\n        grammar_obj = ReasonerGrammarObject(\n            grammar=None, think_end_id=0, max_think_tokens=99\n        )\n        mgr.grammar_backend.get_cached_or_future_value.return_value = (\n            grammar_obj,\n            True,\n        )\n\n        req = _make_req(\n            json_schema=\"schema\",\n            custom_params={\"thinking_budget\": 7},\n        )\n        mgr.process_req_with_grammar(req)\n\n        self.assertEqual(req.grammar.max_think_tokens, 7)",
+      "oracle_lines": [
+        283
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestProcessReqWithGrammar::test_strict_reasoning_grammar_applies_request_thinking_budget",
+      "line": 285,
+      "end_line": 298,
+      "unit_id": "constraint.reasoning_budget",
+      "reviewed_semantics": "Strict unconstrained reasoning request binds returned grammar identity and applies thinking_budget=3 in place of 99.",
+      "source_body": "def test_strict_reasoning_grammar_applies_request_thinking_budget(self):\n        mgr = self._make_mgr()\n        mgr._enable_strict_thinking = True\n        grammar_obj = ReasonerGrammarObject(\n            grammar=None, think_end_id=0, max_think_tokens=99\n        )\n        mgr.grammar_backend.init_strict_reasoning_grammar.return_value = grammar_obj\n\n        req = _make_req(custom_params={\"thinking_budget\": 3})\n        req.require_reasoning = True\n        mgr.process_req_with_grammar(req)\n\n        self.assertIs(req.grammar, grammar_obj)\n        self.assertEqual(req.grammar.max_think_tokens, 3)",
+      "oracle_lines": [
+        297,
+        298
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestAbortRequests::test_abort_by_rid_prefix",
+      "line": 311,
+      "end_line": 324,
+      "unit_id": "constraint.request_abort",
+      "reviewed_semantics": "Matching request-id abort cancels its Future once and marks request aborted once.",
+      "source_body": "def test_abort_by_rid_prefix(self):\n        mgr = self._make_mgr_with_queue()\n        req = _make_req(rid=\"req-123\")\n        future = MagicMock(spec=Future)\n        req.grammar = future\n        mgr.grammar_queue.append(req)\n\n        abort_req = MagicMock()\n        abort_req.abort_all = False\n        abort_req.rid = \"req-123\"\n\n        mgr.abort_requests(abort_req)\n        future.cancel.assert_called_once()\n        req.set_finish_with_abort.assert_called_once()",
+      "oracle_lines": [
+        323,
+        324
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestAbortRequests::test_abort_non_matching_rid",
+      "line": 326,
+      "end_line": 337,
+      "unit_id": "constraint.request_abort",
+      "reviewed_semantics": "Nonmatching req-999 is not marked aborted for abort prefix req-123.",
+      "source_body": "def test_abort_non_matching_rid(self):\n        mgr = self._make_mgr_with_queue()\n        req = _make_req(rid=\"req-999\")\n        req.grammar = MagicMock(spec=Future)\n        mgr.grammar_queue.append(req)\n\n        abort_req = MagicMock()\n        abort_req.abort_all = False\n        abort_req.rid = \"req-123\"\n\n        mgr.abort_requests(abort_req)\n        req.set_finish_with_abort.assert_not_called()",
+      "oracle_lines": [
+        337
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestAbortRequests::test_abort_all",
+      "line": 339,
+      "end_line": 354,
+      "unit_id": "constraint.request_abort",
+      "reviewed_semantics": "abort_all marks all three queued requests aborted once each.",
+      "source_body": "def test_abort_all(self):\n        mgr = self._make_mgr_with_queue()\n        reqs = []\n        for i in range(3):\n            req = _make_req(rid=f\"req-{i}\")\n            req.grammar = MagicMock(spec=Future)\n            mgr.grammar_queue.append(req)\n            reqs.append(req)\n\n        abort_req = MagicMock()\n        abort_req.abort_all = True\n        abort_req.rid = \"\"\n\n        mgr.abort_requests(abort_req)\n        for req in reqs:\n            req.set_finish_with_abort.assert_called_once()",
+      "oracle_lines": [
+        354
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestAbortRequests::test_abort_prefix_match",
+      "line": 364,
+      "end_line": 376,
+      "unit_id": "constraint.request_abort",
+      "reviewed_semantics": "Abort prefix req-123 matches queued req-123-suffix and marks it aborted once.",
+      "source_body": "def test_abort_prefix_match(self):\n        \"\"\"rid.startswith means prefix matching, not exact matching.\"\"\"\n        mgr = self._make_mgr_with_queue()\n        req = _make_req(rid=\"req-123-suffix\")\n        req.grammar = MagicMock(spec=Future)\n        mgr.grammar_queue.append(req)\n\n        abort_req = MagicMock()\n        abort_req.abort_all = False\n        abort_req.rid = \"req-123\"\n\n        mgr.abort_requests(abort_req)\n        req.set_finish_with_abort.assert_called_once()",
+      "oracle_lines": [
+        376
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestGetReadyGrammarRequests::test_ready_future_returns_req",
+      "line": 392,
+      "end_line": 412,
+      "unit_id": "constraint.wait_queue",
+      "reviewed_semantics": "Completed Future returns its request and grammar identity, populates cache once and removes queue item.",
+      "source_body": "def test_ready_future_returns_req(self):\n        mgr = self._make_mgr()\n\n        grammar_obj = MagicMock(spec=BaseGrammarObject)\n        grammar_obj.copy.return_value = grammar_obj\n        future = Future()\n        future.set_result(grammar_obj)\n\n        req = _make_req(json_schema=\"schema\")\n        req.grammar = future\n        req.grammar_key = (\"json\", \"schema\")\n        mgr.grammar_queue.append(req)\n\n        result = mgr.get_ready_grammar_requests()\n        self.assertEqual(len(result), 1)\n        self.assertIs(result[0], req)\n        self.assertIs(req.grammar, grammar_obj)\n        # Cache should be set\n        mgr.grammar_backend.set_cache.assert_called_once()\n        # Queue should be empty\n        self.assertEqual(len(mgr.grammar_queue), 0)",
+      "oracle_lines": [
+        406,
+        407,
+        408,
+        410,
+        412
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestGetReadyGrammarRequests::test_invalid_grammar_aborts_req",
+      "line": 414,
+      "end_line": 431,
+      "unit_id": "constraint.request_abort",
+      "reviewed_semantics": "Completed InvalidGrammarObject returns one request and aborts it once with compile error reason.",
+      "source_body": "def test_invalid_grammar_aborts_req(self):\n        mgr = self._make_mgr()\n\n        invalid = InvalidGrammarObject(\"compile error\")\n        invalid_copy = InvalidGrammarObject(\"compile error\")\n        invalid.copy = MagicMock(return_value=invalid_copy)\n        future = Future()\n        future.set_result(invalid)\n\n        req = _make_req(json_schema=\"bad\")\n        req.grammar = future\n        req.grammar_key = (\"json\", \"bad\")\n        mgr.grammar_queue.append(req)\n\n        result = mgr.get_ready_grammar_requests()\n        self.assertEqual(len(result), 1)\n        req.set_finish_with_abort.assert_called_once()\n        self.assertIn(\"compile error\", req.set_finish_with_abort.call_args[0][0])",
+      "oracle_lines": [
+        429,
+        430,
+        431
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestGetReadyGrammarRequests::test_aborted_req_removed_from_queue",
+      "line": 433,
+      "end_line": 443,
+      "unit_id": "constraint.wait_queue",
+      "reviewed_semantics": "Already-finished request with grammar=None is returned and removed from queue.",
+      "source_body": "def test_aborted_req_removed_from_queue(self):\n        mgr = self._make_mgr()\n\n        req = _make_req(json_schema=\"schema\")\n        req.finished.return_value = True  # Already aborted\n        req.grammar = None\n        mgr.grammar_queue.append(req)\n\n        result = mgr.get_ready_grammar_requests()\n        self.assertEqual(len(result), 1)\n        self.assertEqual(len(mgr.grammar_queue), 0)",
+      "oracle_lines": [
+        442,
+        443
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestGetReadyGrammarRequests::test_timeout_aborts_req",
+      "line": 445,
+      "end_line": 466,
+      "unit_id": "constraint.request_abort",
+      "reviewed_semantics": "Incomplete Future with max_poll_iterations=1 times out, returns one request, aborts with timed out reason and caches InvalidGrammarObject for its key.",
+      "source_body": "def test_timeout_aborts_req(self):\n        mgr = self._make_mgr()\n        mgr.SGLANG_GRAMMAR_MAX_POLL_ITERATIONS = 1\n\n        future = Future()  # Never completes\n        req = _make_req(json_schema=\"slow\")\n        req.grammar = future\n        req.grammar_key = (\"json\", \"slow\")\n        req.grammar_wait_ct = 0\n        mgr.grammar_queue.append(req)\n\n        # First call: not ready, increments wait_ct to 1 (== max_poll)\n        result = mgr.get_ready_grammar_requests()\n        # Should timeout and abort\n        self.assertEqual(len(result), 1)\n        req.set_finish_with_abort.assert_called_once()\n        self.assertIn(\"timed out\", req.set_finish_with_abort.call_args[0][0])\n        # Cache should store InvalidGrammarObject for timeout\n        mgr.grammar_backend.set_cache.assert_called_once()\n        cached_key, cached_val = mgr.grammar_backend.set_cache.call_args[0]\n        self.assertEqual(cached_key, (\"json\", \"slow\"))\n        self.assertIsInstance(cached_val, InvalidGrammarObject)",
+      "oracle_lines": [
+        459,
+        460,
+        461,
+        463,
+        465,
+        466
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestGetReadyGrammarRequests::test_pending_future_stays_in_queue",
+      "line": 468,
+      "end_line": 483,
+      "unit_id": "constraint.wait_queue",
+      "reviewed_semantics": "Incomplete Future below max=100 stays queued, returns no request and increments wait count to one.",
+      "source_body": "def test_pending_future_stays_in_queue(self):\n        \"\"\"Futures that aren't done stay in the queue.\"\"\"\n        mgr = self._make_mgr()\n        mgr.SGLANG_GRAMMAR_MAX_POLL_ITERATIONS = 100  # High to avoid timeout\n\n        future = Future()  # Never completes\n        req = _make_req(json_schema=\"pending\")\n        req.grammar = future\n        req.grammar_key = (\"json\", \"pending\")\n        req.grammar_wait_ct = 0\n        mgr.grammar_queue.append(req)\n\n        result = mgr.get_ready_grammar_requests()\n        self.assertEqual(len(result), 0)\n        self.assertEqual(len(mgr.grammar_queue), 1)\n        self.assertEqual(req.grammar_wait_ct, 1)",
+      "oracle_lines": [
+        481,
+        482,
+        483
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestGetReadyGrammarRequests::test_mixed_ready_and_pending",
+      "line": 485,
+      "end_line": 511,
+      "unit_id": "constraint.wait_queue",
+      "reviewed_semantics": "Mixed complete/incomplete futures return only ready request and retain only pending request by identity.",
+      "source_body": "def test_mixed_ready_and_pending(self):\n        mgr = self._make_mgr()\n        mgr.SGLANG_GRAMMAR_MAX_POLL_ITERATIONS = 100\n\n        # Ready request\n        grammar_obj = MagicMock(spec=BaseGrammarObject)\n        grammar_obj.copy.return_value = grammar_obj\n        done_future = Future()\n        done_future.set_result(grammar_obj)\n        ready_req = _make_req(json_schema=\"ready\", rid=\"r1\")\n        ready_req.grammar = done_future\n        ready_req.grammar_key = (\"json\", \"ready\")\n\n        # Pending request\n        pending_future = Future()\n        pending_req = _make_req(json_schema=\"pending\", rid=\"r2\")\n        pending_req.grammar = pending_future\n        pending_req.grammar_key = (\"json\", \"pending\")\n        pending_req.grammar_wait_ct = 0\n\n        mgr.grammar_queue = [ready_req, pending_req]\n\n        result = mgr.get_ready_grammar_requests()\n        self.assertEqual(len(result), 1)\n        self.assertIs(result[0], ready_req)\n        self.assertEqual(len(mgr.grammar_queue), 1)\n        self.assertIs(mgr.grammar_queue[0], pending_req)",
+      "oracle_lines": [
+        508,
+        509,
+        510,
+        511
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestGetReadyGrammarRequests::test_empty_queue",
+      "line": 513,
+      "end_line": 518,
+      "unit_id": "constraint.wait_queue",
+      "reviewed_semantics": "Empty queue produces no ready requests and remains empty.",
+      "source_body": "def test_empty_queue(self):\n        \"\"\"get_ready_grammar_requests on empty queue should return empty list.\"\"\"\n        mgr = self._make_mgr()\n        result = mgr.get_ready_grammar_requests()\n        self.assertEqual(len(result), 0)\n        self.assertEqual(len(mgr.grammar_queue), 0)",
+      "oracle_lines": [
+        517,
+        518
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestGetReadyGrammarRequests::test_progressive_timeout",
+      "line": 520,
+      "end_line": 536,
+      "unit_id": "constraint.request_abort",
+      "reviewed_semantics": "Wait count two with maximum three reaches timeout on next poll and aborts once with timed out reason.",
+      "source_body": "def test_progressive_timeout(self):\n        \"\"\"Request with partial wait_ct should timeout after remaining iterations.\"\"\"\n        mgr = self._make_mgr()\n        mgr.SGLANG_GRAMMAR_MAX_POLL_ITERATIONS = 3\n\n        future = Future()  # Never completes\n        req = _make_req(json_schema=\"slow\")\n        req.grammar = future\n        req.grammar_key = (\"json\", \"slow\")\n        req.grammar_wait_ct = 2  # Already waited 2 iterations\n        mgr.grammar_queue.append(req)\n\n        # wait_ct increments to 3 (== max), should timeout\n        result = mgr.get_ready_grammar_requests()\n        self.assertEqual(len(result), 1)\n        req.set_finish_with_abort.assert_called_once()\n        self.assertIn(\"timed out\", req.set_finish_with_abort.call_args[0][0])",
+      "oracle_lines": [
+        534,
+        535,
+        536
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestGetReadyGrammarRequests::test_future_exception_creates_invalid_grammar_object",
+      "line": 538,
+      "end_line": 553,
+      "unit_id": "constraint.request_abort",
+      "reviewed_semantics": "Future RuntimeError becomes invalid grammar on returned request and invokes abort once.",
+      "source_body": "def test_future_exception_creates_invalid_grammar_object(self):\n        \"\"\"A future that raised an exception should create InvalidGrammarObject, not crash.\"\"\"\n        mgr = self._make_mgr()\n\n        future = Future()\n        future.set_exception(RuntimeError(\"compilation crashed\"))\n\n        req = _make_req(json_schema=\"crash\")\n        req.grammar = future\n        req.grammar_key = (\"json\", \"crash\")\n        mgr.grammar_queue.append(req)\n\n        result = mgr.get_ready_grammar_requests()\n        self.assertEqual(len(result), 1)\n        self.assertIsInstance(result[0].grammar, InvalidGrammarObject)\n        req.set_finish_with_abort.assert_called_once()",
+      "oracle_lines": [
+        551,
+        552,
+        553
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestGetReadyGrammarRequests::test_ready_future_applies_request_budget_without_polluting_cache",
+      "line": 555,
+      "end_line": 575,
+      "unit_id": "constraint.reasoning_budget",
+      "reviewed_semantics": "Completed grammar applies request budget=4 while cached copy retains original budget=99 and original schema key.",
+      "source_body": "def test_ready_future_applies_request_budget_without_polluting_cache(self):\n        mgr = self._make_mgr()\n\n        grammar_obj = ReasonerGrammarObject(\n            grammar=None, think_end_id=0, max_think_tokens=99\n        )\n        future = Future()\n        future.set_result(grammar_obj)\n\n        req = _make_req(json_schema=\"schema\", custom_params={\"thinking_budget\": 4})\n        req.grammar = future\n        req.grammar_key = (\"json\", \"schema\")\n        mgr.grammar_queue.append(req)\n\n        result = mgr.get_ready_grammar_requests()\n\n        self.assertEqual(len(result), 1)\n        self.assertEqual(req.grammar.max_think_tokens, 4)\n        cached_key, cached_value = mgr.grammar_backend.set_cache.call_args[0]\n        self.assertEqual(cached_key, (\"json\", \"schema\"))\n        self.assertEqual(cached_value.max_think_tokens, 99)",
+      "oracle_lines": [
+        571,
+        572,
+        574,
+        575
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestGetReadyGrammarRequests::test_multi_rank_sync_intersects_ready_unions_failed",
+      "line": 578,
+      "end_line": 615,
+      "unit_id": "constraint.rank_readiness",
+      "reviewed_semantics": "Mock two-rank readiness sets {0} and {0,1} return request zero and retain request one; this case has no failed set.",
+      "source_body": "def test_multi_rank_sync_intersects_ready_unions_failed(self, mock_all_gather):\n        \"\"\"With multiple ranks, ready = intersection, failed = union.\"\"\"\n        mgr = self._make_mgr()\n        mgr.grammar_sync_size = 2  # Enable multi-rank path\n\n        # Two requests: idx 0 ready on both ranks, idx 1 ready only on rank 0\n        grammar_obj = MagicMock(spec=BaseGrammarObject)\n        grammar_obj.copy.return_value = grammar_obj\n        done_future = Future()\n        done_future.set_result(grammar_obj)\n\n        req0 = _make_req(json_schema=\"s0\", rid=\"r0\")\n        req0.grammar = done_future\n        req0.grammar_key = (\"json\", \"s0\")\n\n        pending_future = Future()\n        req1 = _make_req(json_schema=\"s1\", rid=\"r1\")\n        req1.grammar = pending_future\n        req1.grammar_key = (\"json\", \"s1\")\n        req1.grammar_wait_ct = 0\n\n        mgr.grammar_queue = [req0, req1]\n        mgr.SGLANG_GRAMMAR_MAX_POLL_ITERATIONS = 100\n\n        # Simulate all_gather: rank 0 has {0} ready, rank 1 has {0,1} ready\n        def fake_all_gather(output_list, _obj, group=None):  # noqa: ARG001\n            output_list[0] = ({0}, set())  # rank 0: only idx 0 ready\n            output_list[1] = ({0, 1}, set())  # rank 1: both ready\n\n        mock_all_gather.side_effect = fake_all_gather\n\n        result = mgr.get_ready_grammar_requests()\n        # Intersection of ready: {0} ∩ {0,1} = {0}\n        self.assertEqual(len(result), 1)\n        self.assertIs(result[0], req0)\n        # req1 stays in queue\n        self.assertEqual(len(mgr.grammar_queue), 1)\n        self.assertIs(mgr.grammar_queue[0], req1)",
+      "oracle_lines": [
+        611,
+        612,
+        614,
+        615
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestGetReadyGrammarRequests::test_multi_rank_sync_unions_failed",
+      "line": 618,
+      "end_line": 644,
+      "unit_id": "constraint.rank_readiness",
+      "reviewed_semantics": "Mock two-rank failure sets {0} and empty propagate timeout abort and remove request from queue.",
+      "source_body": "def test_multi_rank_sync_unions_failed(self, mock_all_gather):\n        \"\"\"Failed requests from any rank should be unioned.\"\"\"\n        mgr = self._make_mgr()\n        mgr.grammar_sync_size = 2\n        mgr.SGLANG_GRAMMAR_MAX_POLL_ITERATIONS = 1\n\n        pending_future = Future()  # Never completes\n        req = _make_req(json_schema=\"slow\", rid=\"r0\")\n        req.grammar = pending_future\n        req.grammar_key = (\"json\", \"slow\")\n        req.grammar_wait_ct = 0\n\n        mgr.grammar_queue = [req]\n\n        # Simulate: rank 0 has no ready and idx 0 failed, rank 1 has no ready/failed\n        def fake_all_gather(output_list, _obj, group=None):  # noqa: ARG001\n            output_list[0] = (set(), {0})  # rank 0: idx 0 timed out\n            output_list[1] = (set(), set())  # rank 1: nothing\n\n        mock_all_gather.side_effect = fake_all_gather\n\n        result = mgr.get_ready_grammar_requests()\n        # Union of failed: {} ∪ {0} = {0}\n        self.assertEqual(len(result), 1)\n        req.set_finish_with_abort.assert_called_once()\n        self.assertIn(\"timed out\", req.set_finish_with_abort.call_args[0][0])\n        self.assertEqual(len(mgr.grammar_queue), 0)",
+      "oracle_lines": [
+        641,
+        642,
+        643,
+        644
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestStrictReasoningPaths::test_strict_unconstrained_request_gets_strict_grammar",
+      "line": 658,
+      "end_line": 670,
+      "unit_id": "constraint.request_dispatch",
+      "reviewed_semantics": "Strict unconstrained require_reasoning=True binds strict grammar, returns false and calls strict initializer once with True.",
+      "source_body": "def test_strict_unconstrained_request_gets_strict_grammar(self):\n        \"\"\"Request without json_schema/regex/ebnf should get strict-only grammar.\"\"\"\n        mgr = self._make_mgr()\n        grammar_obj = MagicMock()\n        mgr.grammar_backend.init_strict_reasoning_grammar.return_value = grammar_obj\n\n        req = _make_req()  # No constraint\n        req.require_reasoning = True\n        result = mgr.process_req_with_grammar(req)\n\n        self.assertFalse(result)  # Not added to grammar queue\n        self.assertIs(req.grammar, grammar_obj)\n        mgr.grammar_backend.init_strict_reasoning_grammar.assert_called_once_with(True)",
+      "oracle_lines": [
+        668,
+        669,
+        670
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestStrictReasoningPaths::test_strict_unconstrained_no_reasoning_flag",
+      "line": 672,
+      "end_line": 683,
+      "unit_id": "constraint.request_dispatch",
+      "reviewed_semantics": "Strict unconstrained require_reasoning=False binds strict grammar and calls strict initializer once with False.",
+      "source_body": "def test_strict_unconstrained_no_reasoning_flag(self):\n        \"\"\"Unconstrained request with require_reasoning=False still gets strict grammar.\"\"\"\n        mgr = self._make_mgr()\n        grammar_obj = MagicMock()\n        mgr.grammar_backend.init_strict_reasoning_grammar.return_value = grammar_obj\n\n        req = _make_req()\n        req.require_reasoning = False\n        mgr.process_req_with_grammar(req)\n\n        self.assertIs(req.grammar, grammar_obj)\n        mgr.grammar_backend.init_strict_reasoning_grammar.assert_called_once_with(False)",
+      "oracle_lines": [
+        682,
+        683
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestStrictReasoningPaths::test_strict_unconstrained_none_grammar_is_fine",
+      "line": 685,
+      "end_line": 694,
+      "unit_id": "constraint.request_dispatch",
+      "reviewed_semantics": "Strict initializer returning None leaves request grammar None.",
+      "source_body": "def test_strict_unconstrained_none_grammar_is_fine(self):\n        \"\"\"If init_strict_reasoning_grammar returns None, req.grammar stays None.\"\"\"\n        mgr = self._make_mgr()\n        mgr.grammar_backend.init_strict_reasoning_grammar.return_value = None\n\n        req = _make_req()\n        req.require_reasoning = True\n        mgr.process_req_with_grammar(req)\n\n        self.assertIsNone(req.grammar)",
+      "oracle_lines": [
+        694
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestStrictReasoningPaths::test_strict_constrained_request_uses_normal_dispatch",
+      "line": 696,
+      "end_line": 707,
+      "unit_id": "constraint.request_dispatch",
+      "reviewed_semantics": "Strict constrained JSON request takes queued normal dispatch and never calls strict initializer.",
+      "source_body": "def test_strict_constrained_request_uses_normal_dispatch(self):\n        \"\"\"Request with json_schema should go through normal dispatch, not strict path.\"\"\"\n        mgr = self._make_mgr()\n        future = MagicMock(spec=Future)\n        mgr.grammar_backend.get_cached_or_future_value.return_value = (future, False)\n\n        req = _make_req(json_schema='{\"type\": \"object\"}')\n        req.require_reasoning = True\n        result = mgr.process_req_with_grammar(req)\n\n        self.assertTrue(result)  # Added to grammar queue\n        mgr.grammar_backend.init_strict_reasoning_grammar.assert_not_called()",
+      "oracle_lines": [
+        706,
+        707
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestStrictReasoningPaths::test_strict_not_set_skips_strict_path",
+      "line": 709,
+      "end_line": 719,
+      "unit_id": "constraint.request_dispatch",
+      "reviewed_semantics": "Disabled strict-thinking path leaves unconstrained grammar None and does not call strict initializer.",
+      "source_body": "def test_strict_not_set_skips_strict_path(self):\n        \"\"\"When _enable_strict_thinking=False, unconstrained requests get no grammar.\"\"\"\n        mgr = self._make_mgr()\n        mgr._enable_strict_thinking = False\n\n        req = _make_req()\n        req.require_reasoning = True\n        mgr.process_req_with_grammar(req)\n\n        self.assertIsNone(req.grammar)\n        mgr.grammar_backend.init_strict_reasoning_grammar.assert_not_called()",
+      "oracle_lines": [
+        718,
+        719
+      ]
+    },
+    {
+      "path": "test/registered/unit/constrained/test_grammar_manager.py",
+      "test_name": "TestStrictReasoningPaths::test_future_exception_creates_invalid_grammar",
+      "line": 721,
+      "end_line": 739,
+      "unit_id": "constraint.request_abort",
+      "reviewed_semantics": "Strict manager Future RuntimeError becomes invalid grammar on one returned request and aborts once.",
+      "source_body": "def test_future_exception_creates_invalid_grammar(self):\n        \"\"\"Future.result() raising should create InvalidGrammarObject, not crash.\"\"\"\n        mgr = self._make_mgr()\n\n        future = Future()\n        future.set_exception(RuntimeError(\"compilation failed\"))\n\n        req = _make_req(json_schema='{\"type\": \"object\"}')\n        req.require_reasoning = True\n        req.grammar = future\n        req.grammar_key = (\"json\", '{\"type\": \"object\"}')\n        mgr.grammar_queue.append(req)\n\n        mgr.SGLANG_GRAMMAR_POLL_INTERVAL = 0.001\n        result = mgr.get_ready_grammar_requests()\n\n        self.assertEqual(len(result), 1)\n        self.assertIsInstance(result[0].grammar, InvalidGrammarObject)\n        req.set_finish_with_abort.assert_called_once()",
+      "oracle_lines": [
+        737,
+        738,
+        739
+      ]
+    }
+  ]
+}

@@ -1,0 +1,168 @@
+[
+  {
+    "id": "compute.kernel_dispatch_binding",
+    "property": "在声明的硬件能力、算子输入形状、步长、精度和配置下，算子入口选择支持的实现后端，显式指定后端遵守其支持约束，自动后端选择遵守既定优先级与回退规则。",
+    "oracle": "对照入口的后端解析规则与预期分支，检查选中的实现或拒绝结果；该检查不蕴含数值输出正确。",
+    "vllm_source": [
+      "vllm/model_executor/layers/indexer_topk.py:174",
+      "tests/kernels/test_top_k_per_row.py:889",
+      "tests/kernels/test_top_k_per_row.py:2656"
+    ],
+    "sglang_analogue": "未在本批源码核查；暂不宣称跨框架已确认。",
+    "status": "proposed_needs_dual_framework_review",
+    "current_disposition": "accepted_in_seed; original proposal retained for provenance"
+  },
+  {
+    "id": "compute.chunk_partition_contract",
+    "property": "按输入行数和预算生成的连续切片恰好覆盖有效行，切片不重叠且满足声明的容量约束；无效或关闭预算使用定义好的回退。",
+    "oracle": "检查切片起止、相邻连接、覆盖与容量上界。",
+    "vllm_source": [
+      "vllm/model_executor/layers/sparse_attn_indexer.py:354",
+      "tests/kernels/test_top_k_per_row.py:2941",
+      "tests/kernels/test_top_k_per_row.py:2959"
+    ],
+    "sglang_analogue": "未在本批源码核查；暂不宣称跨框架已确认。",
+    "status": "proposed_needs_dual_framework_review"
+  },
+  {
+    "id": "deployment.serving_backend_smoke",
+    "property": "在声明支持的模型、硬件、精度与后端组合下，服务能够启动并对基本请求返回非空结果。",
+    "vllm_test": "tests/quantization/test_blackwell_moe.py:43",
+    "vllm_source": "vllm/entrypoints/openai/completion/serving.py",
+    "scope_note": "仅启动与基本应答；不推断模型数值正确或性能。",
+    "status": "candidate_needs_dual_framework_review"
+  },
+  {
+    "id": "scoring.reference_relation",
+    "property": "同一查询与文档配对上的标量分数，在指定容差内与参考评分实现一致，输出条目数和顺序对应输入配对。",
+    "vllm_test": "tests/entrypoints/pooling/scoring/test_bi_encoder_online.py:99",
+    "scope_note": "标量 score 与向量 embedding 是不同可观察量。",
+    "status": "candidate_needs_dual_framework_review"
+  },
+  {
+    "id": "model.weight_layout_axis_interpretation",
+    "property": "权重形状、转置与分片维度确定的隐藏维和中间维与声明的检查点布局一致。",
+    "vllm_test": "tests/kernels/moe/test_moe_weight_loading_padded.py:31",
+    "vllm_source": "vllm/model_executor/layers/fused_moe/routed_experts.py:485",
+    "status": "candidate_needs_dual_framework_review"
+  },
+  {
+    "id": "compute.kernel_configuration_selection",
+    "property": "算子在输入形状、精度和设备能力条件下选择声明支持的内核配置或回退配置。",
+    "vllm_test": "tests/kernels/helion/test_fused_qk_norm_rope.py:111",
+    "scope_note": "只验证配置选择，不推断计算结果。",
+    "status": "candidate_needs_dual_framework_review"
+  },
+  {
+    "id": "distributed.expert_weight_ownership",
+    "property": "在专家并行布局下，各 rank 识别本地专家权重并跳过远端专家权重，同时保留共享权重和必要的量化尺度。",
+    "vllm_test": "tests/model_executor/model_loader/test_ep_weight_filter.py:175",
+    "vllm_source": "vllm/model_executor/model_loader/ep_weight_filter.py:68",
+    "status": "candidate_needs_dual_framework_review"
+  },
+  {
+    "id": "distributed.worker_environment_transfer_selection",
+    "property": "按内置及用户指定的环境变量前缀和显式名称，确定需要传给分布式 worker 的变量集合。",
+    "vllm_test": "tests/test_ray_env.py:21",
+    "vllm_source": "vllm/ray/ray_env.py:56",
+    "scope_note": "该源测试只检查待复制变量的选择，不检查真实 worker 环境。",
+    "status": "candidate_needs_dual_framework_review"
+  },
+  {
+    "id": "compute.repeatability",
+    "property": "在声明相同的输入、后端和执行条件下，重复算子执行的输出满足指定精度或位级重复性关系。",
+    "vllm_test": "tests/kernels/quantization/test_rdna3_w4a16_determinism.py:220",
+    "status": "candidate_needs_dual_framework_review"
+  },
+  {
+    "id": "output.reasoning_content_token_boundary",
+    "property": "Reasoning end and content-start token IDs are chosen for the current turn, including implicit tool-call boundary and prior-turn isolation.",
+    "evidence": [
+      "tests/parser/engine/test_glm47_moe.py:62-118",
+      "tests/parser/engine/test_minimax_m2.py:363-385",
+      "vllm/parser/engine/parser_engine.py:733-754"
+    ]
+  },
+  {
+    "id": "output.tool_argument_fragment_boundary",
+    "property": "Partial streamed tool argument text is emitted or retained at syntax boundaries without consuming an incomplete end tag or next parameter.",
+    "evidence": [
+      "tests/parser/engine/test_minimax_m2.py:327-359",
+      "tests/parser/engine/test_glm47_moe.py:308-328",
+      "vllm/parser/minimax_m2.py:115"
+    ]
+  },
+  {
+    "id": "output.tool_argument_conversion_cost",
+    "property": "Parser argument conversion calls remain bounded as an argument grows and closed argument pairs are parsed once.",
+    "evidence": [
+      "tests/parser/engine/test_minimax_m2.py:295-325",
+      "tests/parser/engine/test_glm47_moe.py:191-306",
+      "vllm/parser/engine/parser_engine.py:674"
+    ]
+  },
+  {
+    "id": "compute.recurrent_state_transition",
+    "status": "candidate_needs_framework_applicability_review",
+    "property": "GDN/causal convolution recurrence consumes the declared prior state and accepted-token history, updates only selected state slots/active columns, and makes carried state available to the next chunk without overwriting unrelated state.",
+    "oracle": "Compare explicit recurrence state, split-call continuation, indexed scratch-copyback and unused state sentinel columns; record numerical output and state identity/value checks separately.",
+    "conditions": [
+      "recurrence kind and layout",
+      "initial-state flag and slot indices",
+      "chunk boundaries",
+      "accepted-token counts",
+      "state dtype and rounding interval"
+    ],
+    "scope_note": "The ordinary operator-reference unit covers current output comparisons; it does not establish rollback history, next-call continuation or storage preservation. Candidate only; no SGLang applicability claim.",
+    "vllm_evidence": [
+      {
+        "path": "tests/kernels/mamba/cpu/test_cpu_gdn_ops.py",
+        "lines": [
+          296,
+          362,
+          461,
+          948,
+          951,
+          1181,
+          1184,
+          1438,
+          1558
+        ],
+        "source_sha256": "cd204fb7f909177f829dc5158bd4480c7b52ed17e9054b813ed9baa79a9d75e8"
+      },
+      {
+        "path": "vllm/model_executor/layers/mamba/ops/cpu/gdn_attention.py",
+        "lines": [
+          33,
+          44,
+          52,
+          93,
+          494,
+          566
+        ],
+        "source_sha256": "7354505b8bc49be458dd316426b91fe5261f282b45c4e7a69ad004ccb56653f5"
+      }
+    ],
+    "current_disposition": "accepted_in_seed; original proposal retained for provenance"
+  },
+  {
+    "id": "sampling.distribution_relation",
+    "status": "candidate_needs_framework_applicability_review",
+    "property": "Sample frequencies under declared logits, support, RNG seeds and sample size agree with the declared target distribution within explicit statistical thresholds.",
+    "scope_note": "Neither token support nor deterministic repeatability establishes distribution agreement. Preserve chi-square and head/tail frequency oracles and sample counts.",
+    "vllm_test": "tests/kernels/test_cpu_fused_sampling.py:46",
+    "vllm_source": "csrc/cpu/sampling_kernels.cpp:39",
+    "evidence": "evidence-batch8.json",
+    "current_disposition": "accepted_in_seed; original proposal retained for provenance"
+  },
+  {
+    "id": "sampling.randomness_relation",
+    "status": "candidate_needs_framework_applicability_review",
+    "property": "Declared changes of RNG seeds do not induce the specifically prohibited correlation between sampled token sequences.",
+    "scope_note": "Consecutive-seed one-token shift fraction is the actual test; it does not prove full statistical independence.",
+    "vllm_test": "tests/kernels/test_cpu_fused_sampling.py:73",
+    "vllm_source": "csrc/cpu/sampling_kernels.cpp:33",
+    "evidence": "evidence-batch8.json",
+    "current_disposition": "accepted_in_seed; original proposal retained for provenance"
+  }
+]

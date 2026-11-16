@@ -1,0 +1,2 @@
+# TSV rows may end in empty fields.
+*.tsv whitespace=-blank-at-eol

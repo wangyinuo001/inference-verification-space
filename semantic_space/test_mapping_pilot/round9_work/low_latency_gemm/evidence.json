@@ -1,0 +1,16 @@
+{
+  "file_reviews": [
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/test_ll_fp32w_gemm.py",
+      "source_sha256": "4ee7dfa4090f96bbc2e0e5682716147c0d02d0ff170ed6bb73429772588c222b",
+      "review": "Read every test, _ref/_assert_close/_gemm helpers, platform fixtures and GateLinear mock setup; distinguish reference, bounded output, execution relation, rejection and dispatch."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/test_ll_bf16_gemm.py",
+      "source_sha256": "7bc1cc7f7150f6bfd0ca19985a3b84f611bec1edb5d76081ae3329e0a8f91f59",
+      "review": "Read every test, _ref/_assert_close/_gemm helpers, platform fixtures and GateLinear mock setup; distinguish reference, bounded output, execution relation, rejection and dispatch."
+    }
+  ]
+}

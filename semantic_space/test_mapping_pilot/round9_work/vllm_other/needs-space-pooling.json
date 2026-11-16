@@ -1,0 +1,58 @@
+{
+  "candidates": [
+    {
+      "id": "model.pooling_transform_relation",
+      "name": "池化与输出变换遵守声明的计算关系",
+      "kind": "obligation",
+      "phase": "model_execution",
+      "state_scope": "request",
+      "conditions": ["pooling_method", "sequence_boundaries", "output_dimension", "normalization", "projection_or_score_head", "numeric_format"],
+      "property": "给定隐藏状态、序列边界和池化配置，选取或规约的 token、投影/评分、截断及归一化遵守对应方法的参考关系；仅形状断言只证明输出形状。",
+      "oracle": "构造可手算的隐藏状态与边界，分别比较所选 token 或规约结果及后续变换；保留每项测试实际核对的形状、值或类型粒度。",
+      "execution_boundary": "模型隐藏状态到池化或评分头输出；不含完整模型向量与 Hugging Face 参考向量的相似度比较。",
+      "evidence": {
+        "vllm": [
+          {"path": "vllm/model_executor/layers/pooler/seqwise/methods.py", "line": 37, "kind": "source"},
+          {"path": "vllm/model_executor/layers/pooler/seqwise/heads.py", "line": 33, "kind": "source"},
+          {"path": "tests/model_executor/layers/test_pooler_methods.py", "line": 199, "kind": "existing_test"},
+          {"path": "tests/model_executor/layers/test_pooler_methods.py", "line": 207, "kind": "existing_oracle"},
+          {"path": "tests/model_executor/layers/test_pooler_heads.py", "line": 161, "kind": "existing_test"},
+          {"path": "tests/model_executor/layers/test_pooler_heads.py", "line": 169, "kind": "existing_oracle"}
+        ],
+        "sglang": [
+          {"path": "python/sglang/srt/layers/pooler.py", "line": 46, "kind": "source"},
+          {"path": "python/sglang/srt/layers/pooler.py", "line": 108, "kind": "source"},
+          {"path": "test/registered/unit/layers/test_pooler_score_and_pool.py", "line": 114, "kind": "existing_test"},
+          {"path": "test/registered/unit/layers/test_pooler_score_and_pool.py", "line": 136, "kind": "existing_oracle"}
+        ]
+      },
+      "framework_difference": "固定 SGLang 0.5.14 的 pool_hidden_states 支持 LAST、CLS 与相应评分路径；vLLM 快照另有 Mean、All、Step、Matryoshka 及投影/归一化组合。具体方法作为适用条件而非共同必需实现。"
+    },
+    {
+      "id": "model.pooling_partial_prefill_state",
+      "name": "分块输入期间的池化状态与完成结果对应",
+      "kind": "obligation",
+      "phase": "model_execution",
+      "state_scope": "request",
+      "conditions": ["pooling_method", "chunk_boundaries", "sequence_completion", "execution_layout"],
+      "property": "未完成序列的池化中间状态按约定保留，完成时由各块组成的结果与完整输入的声明池化关系一致；已完成与未完成的请求互不混淆。",
+      "oracle": "按分块顺序输入同一隐藏状态，检查未完成时的输出与状态、完成时的拼接或规约结果，并与一次性输入路径比较。",
+      "execution_boundary": "模型隐藏状态块、请求完成标记与池化状态到最终池化输出；是有状态执行要求，不由一次性数值池化关系单独推出。",
+      "evidence": {
+        "vllm": [
+          {"path": "vllm/model_executor/layers/pooler/tokwise/methods.py", "line": 81, "kind": "source"},
+          {"path": "vllm/model_executor/layers/pooler/seqwise/methods.py", "line": 44, "kind": "source"},
+          {"path": "tests/model_executor/layers/test_pooler_methods.py", "line": 469, "kind": "existing_test"},
+          {"path": "tests/model_executor/layers/test_pooler_methods.py", "line": 493, "kind": "existing_oracle"},
+          {"path": "tests/model_executor/layers/test_pooler_methods.py", "line": 379, "kind": "existing_test"},
+          {"path": "tests/model_executor/layers/test_pooler_methods.py", "line": 393, "kind": "existing_oracle"}
+        ],
+        "sglang": [
+          {"path": "python/sglang/srt/layers/pooler.py", "line": 46, "kind": "source"},
+          {"path": "python/sglang/srt/layers/pooler.py", "line": 175, "kind": "source"}
+        ]
+      },
+      "framework_difference": "固定 SGLang 0.5.14 的 pooler.py 提供一次性 pool_hidden_states 和 forward 语义；该文件中未见与 vLLM tokwise hidden_states_cache 对应的状态路径，故 SGLang 这里只作为待进一步适用性核查，不作为已具测试支持。"
+    }
+  ]
+}

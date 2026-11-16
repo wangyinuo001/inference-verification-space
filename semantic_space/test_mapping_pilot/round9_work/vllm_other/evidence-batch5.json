@@ -1,0 +1,2109 @@
+{
+  "batch": "pooler_local",
+  "counts": {
+    "scope": 97,
+    "mapped": 83,
+    "pending": 14
+  },
+  "file_reviews": [
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_pooler_heads.py",
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "review": "Reviewed test bodies and local _make_metadata helper; direct assertions kept at their actual granularity. Product classes checked in seqwise/tokwise heads and methods."
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_pooler_methods.py",
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "review": "Reviewed test bodies and local _make_metadata helper; direct assertions kept at their actual granularity. Product classes checked in seqwise/tokwise heads and methods."
+    }
+  ],
+  "product_refs": [
+    "vllm/model_executor/layers/pooler/seqwise/methods.py:37",
+    "vllm/model_executor/layers/pooler/seqwise/heads.py:33",
+    "vllm/model_executor/layers/pooler/tokwise/methods.py:36",
+    "vllm/model_executor/layers/pooler/tokwise/heads.py:66"
+  ],
+  "ontology_candidate": "needs-space-pooling.json",
+  "entries": [
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestEmbeddingPoolerHead::test_passthrough",
+        "62"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 62,
+      "end_line": 67,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 67,
+          "source": "assert torch.equal(out, x)"
+        }
+      ],
+      "full_test_source": "def test_passthrough(self):\n        head = EmbeddingPoolerHead()\n        x = torch.randn(_BATCH, _HIDDEN)\n        meta = _make_metadata(_make_params(_BATCH))\n        out = head(x, meta)\n        assert torch.equal(out, x)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestEmbeddingPoolerHead::test_head_dtype",
+        "69"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 69,
+      "end_line": 74,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 74,
+          "source": "assert out.dtype == torch.float16"
+        }
+      ],
+      "full_test_source": "def test_head_dtype(self):\n        head = EmbeddingPoolerHead(head_dtype=torch.float16)\n        x = torch.randn(_BATCH, _HIDDEN)\n        meta = _make_metadata(_make_params(_BATCH))\n        out = head(x, meta)\n        assert out.dtype == torch.float16"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestEmbeddingPoolerHead::test_projector",
+        "76"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 76,
+      "end_line": 83,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 82,
+          "source": "assert out.shape == (_BATCH, 8)"
+        },
+        {
+          "line": 83,
+          "source": "assert torch.allclose(out, proj(x))"
+        }
+      ],
+      "full_test_source": "def test_projector(self):\n        proj = _linear(_HIDDEN, 8)\n        head = EmbeddingPoolerHead(projector=proj)\n        x = torch.randn(_BATCH, _HIDDEN)\n        meta = _make_metadata(_make_params(_BATCH))\n        out = head(x, meta)\n        assert out.shape == (_BATCH, 8)\n        assert torch.allclose(out, proj(x))"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestEmbeddingPoolerHead::test_matryoshka_uniform",
+        "85"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 85,
+      "end_line": 92,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 91,
+          "source": "assert out.shape == (_BATCH, 4)"
+        },
+        {
+          "line": 92,
+          "source": "assert torch.equal(out, x[..., :4])"
+        }
+      ],
+      "full_test_source": "def test_matryoshka_uniform(self):\n        head = EmbeddingPoolerHead()\n        x = torch.randn(_BATCH, _HIDDEN)\n        params = _make_params(_BATCH, dimensions=4)\n        meta = _make_metadata(params)\n        out = head(x, meta)\n        assert out.shape == (_BATCH, 4)\n        assert torch.equal(out, x[..., :4])"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestEmbeddingPoolerHead::test_matryoshka_mixed",
+        "94"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 94,
+      "end_line": 106,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 103,
+          "source": "assert isinstance(out, list)"
+        },
+        {
+          "line": 104,
+          "source": "assert len(out) == 2"
+        },
+        {
+          "line": 105,
+          "source": "assert out[0].shape[-1] == 4"
+        },
+        {
+          "line": 106,
+          "source": "assert out[1].shape[-1] == 8"
+        }
+      ],
+      "full_test_source": "def test_matryoshka_mixed(self):\n        head = EmbeddingPoolerHead()\n        x = torch.randn(2, _HIDDEN)\n        params = [\n            PoolingParams(task=\"embed\", dimensions=4),\n            PoolingParams(task=\"embed\", dimensions=8),\n        ]\n        meta = _make_metadata(params)\n        out = head(x, meta)\n        assert isinstance(out, list)\n        assert len(out) == 2\n        assert out[0].shape[-1] == 4\n        assert out[1].shape[-1] == 8"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestEmbeddingPoolerHead::test_matryoshka_mixed_with_none",
+        "108"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 108,
+      "end_line": 119,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 117,
+          "source": "assert isinstance(out, list)"
+        },
+        {
+          "line": 118,
+          "source": "assert out[0].shape[-1] == 4"
+        },
+        {
+          "line": 119,
+          "source": "assert torch.equal(out[1], x[1])"
+        }
+      ],
+      "full_test_source": "def test_matryoshka_mixed_with_none(self):\n        head = EmbeddingPoolerHead()\n        x = torch.randn(2, _HIDDEN)\n        params = [\n            PoolingParams(task=\"embed\", dimensions=4),\n            PoolingParams(task=\"embed\", dimensions=None),\n        ]\n        meta = _make_metadata(params)\n        out = head(x, meta)\n        assert isinstance(out, list)\n        assert out[0].shape[-1] == 4\n        assert torch.equal(out[1], x[1])"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestEmbeddingPoolerHead::test_activation_uniform_true",
+        "121"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 121,
+      "end_line": 128,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 128,
+          "source": "assert torch.allclose(norms, torch.ones(_BATCH), atol=1e-5)"
+        }
+      ],
+      "full_test_source": "def test_activation_uniform_true(self):\n        head = EmbeddingPoolerHead(activation=PoolerNormalize())\n        x = torch.randn(_BATCH, _HIDDEN)\n        params = _make_params(_BATCH, use_activation=True)\n        meta = _make_metadata(params)\n        out = head(x, meta)\n        norms = torch.linalg.norm(out, dim=-1)\n        assert torch.allclose(norms, torch.ones(_BATCH), atol=1e-5)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestEmbeddingPoolerHead::test_activation_uniform_false",
+        "130"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 130,
+      "end_line": 136,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 136,
+          "source": "assert torch.equal(out, x)"
+        }
+      ],
+      "full_test_source": "def test_activation_uniform_false(self):\n        head = EmbeddingPoolerHead(activation=PoolerNormalize())\n        x = torch.randn(_BATCH, _HIDDEN)\n        params = _make_params(_BATCH, use_activation=False)\n        meta = _make_metadata(params)\n        out = head(x, meta)\n        assert torch.equal(out, x)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestEmbeddingPoolerHead::test_activation_mixed_flags",
+        "138"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 138,
+      "end_line": 150,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 147,
+          "source": "assert isinstance(out, list)"
+        },
+        {
+          "line": 149,
+          "source": "assert torch.allclose(norm_0, torch.ones(1), atol=1e-5)"
+        },
+        {
+          "line": 150,
+          "source": "assert torch.equal(out[1], x[1])"
+        }
+      ],
+      "full_test_source": "def test_activation_mixed_flags(self):\n        head = EmbeddingPoolerHead(activation=PoolerNormalize())\n        x = torch.randn(2, _HIDDEN)\n        params = [\n            PoolingParams(task=\"embed\", use_activation=True),\n            PoolingParams(task=\"embed\", use_activation=False),\n        ]\n        meta = _make_metadata(params)\n        out = head(x, meta)\n        assert isinstance(out, list)\n        norm_0 = torch.linalg.norm(out[0], dim=-1)\n        assert torch.allclose(norm_0, torch.ones(1), atol=1e-5)\n        assert torch.equal(out[1], x[1])"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestEmbeddingPoolerHead::test_list_input_gets_stacked",
+        "152"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 152,
+      "end_line": 159,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 157,
+          "source": "assert out.shape == (_BATCH, _HIDDEN)"
+        },
+        {
+          "line": 159,
+          "source": "assert torch.equal(out, expected)"
+        }
+      ],
+      "full_test_source": "def test_list_input_gets_stacked(self):\n        head = EmbeddingPoolerHead()\n        tensors = [torch.randn(_HIDDEN) for _ in range(_BATCH)]\n        meta = _make_metadata(_make_params(_BATCH))\n        out = head(tensors, meta)\n        assert out.shape == (_BATCH, _HIDDEN)\n        expected = torch.stack(tensors)\n        assert torch.equal(out, expected)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestEmbeddingPoolerHead::test_projector_then_matryoshka",
+        "161"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 161,
+      "end_line": 169,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 168,
+          "source": "assert out.shape == (_BATCH, 4)"
+        },
+        {
+          "line": 169,
+          "source": "assert torch.equal(out, proj(x)[..., :4])"
+        }
+      ],
+      "full_test_source": "def test_projector_then_matryoshka(self):\n        proj = _linear(_HIDDEN, 8)\n        head = EmbeddingPoolerHead(projector=proj)\n        x = torch.randn(_BATCH, _HIDDEN)\n        params = _make_params(_BATCH, dimensions=4)\n        meta = _make_metadata(params)\n        out = head(x, meta)\n        assert out.shape == (_BATCH, 4)\n        assert torch.equal(out, proj(x)[..., :4])"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestEmbeddingPoolerHead::test_matryoshka_then_activation",
+        "171"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 171,
+      "end_line": 179,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 177,
+          "source": "assert out.shape == (_BATCH, 4)"
+        },
+        {
+          "line": 179,
+          "source": "assert torch.allclose(norms, torch.ones(_BATCH), atol=1e-5)"
+        }
+      ],
+      "full_test_source": "def test_matryoshka_then_activation(self):\n        head = EmbeddingPoolerHead(activation=PoolerNormalize())\n        x = torch.randn(_BATCH, _HIDDEN)\n        params = _make_params(_BATCH, dimensions=4, use_activation=True)\n        meta = _make_metadata(params)\n        out = head(x, meta)\n        assert out.shape == (_BATCH, 4)\n        norms = torch.linalg.norm(out, dim=-1)\n        assert torch.allclose(norms, torch.ones(_BATCH), atol=1e-5)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestEmbeddingPoolerHead::test_empty_batch",
+        "181"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 181,
+      "end_line": 186,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 186,
+          "source": "assert out.shape == (0, _HIDDEN)"
+        }
+      ],
+      "full_test_source": "def test_empty_batch(self):\n        head = EmbeddingPoolerHead()\n        x = torch.randn(0, _HIDDEN)\n        meta = _make_metadata([])\n        out = head(x, meta)\n        assert out.shape == (0, _HIDDEN)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestClassifierPoolerHead::test_passthrough",
+        "197"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 197,
+      "end_line": 202,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 202,
+          "source": "assert torch.equal(out, x)"
+        }
+      ],
+      "full_test_source": "def test_passthrough(self):\n        head = ClassifierPoolerHead()\n        x = torch.randn(_BATCH, _HIDDEN)\n        meta = _make_metadata(_make_params(_BATCH, task=\"classify\"))\n        out = head(x, meta)\n        assert torch.equal(out, x)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestClassifierPoolerHead::test_head_dtype",
+        "204"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 204,
+      "end_line": 209,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 209,
+          "source": "assert out.dtype == torch.float16"
+        }
+      ],
+      "full_test_source": "def test_head_dtype(self):\n        head = ClassifierPoolerHead(head_dtype=torch.float16)\n        x = torch.randn(_BATCH, _HIDDEN)\n        meta = _make_metadata(_make_params(_BATCH, task=\"classify\"))\n        out = head(x, meta)\n        assert out.dtype == torch.float16"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestClassifierPoolerHead::test_classifier",
+        "211"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 211,
+      "end_line": 218,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 217,
+          "source": "assert out.shape == (_BATCH, 3)"
+        },
+        {
+          "line": 218,
+          "source": "assert torch.allclose(out, clf(x))"
+        }
+      ],
+      "full_test_source": "def test_classifier(self):\n        clf = _linear(_HIDDEN, 3)\n        head = ClassifierPoolerHead(classifier=clf)\n        x = torch.randn(_BATCH, _HIDDEN)\n        meta = _make_metadata(_make_params(_BATCH, task=\"classify\"))\n        out = head(x, meta)\n        assert out.shape == (_BATCH, 3)\n        assert torch.allclose(out, clf(x))"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestClassifierPoolerHead::test_logit_mean",
+        "220"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 220,
+      "end_line": 225,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 225,
+          "source": "assert torch.allclose(out, x - 2.0)"
+        }
+      ],
+      "full_test_source": "def test_logit_mean(self):\n        head = ClassifierPoolerHead(logit_mean=2.0)\n        x = torch.randn(_BATCH, _HIDDEN)\n        meta = _make_metadata(_make_params(_BATCH, task=\"classify\"))\n        out = head(x, meta)\n        assert torch.allclose(out, x - 2.0)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestClassifierPoolerHead::test_logit_sigma",
+        "227"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 227,
+      "end_line": 232,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 232,
+          "source": "assert torch.allclose(out, x / 0.5)"
+        }
+      ],
+      "full_test_source": "def test_logit_sigma(self):\n        head = ClassifierPoolerHead(logit_sigma=0.5)\n        x = torch.randn(_BATCH, _HIDDEN)\n        meta = _make_metadata(_make_params(_BATCH, task=\"classify\"))\n        out = head(x, meta)\n        assert torch.allclose(out, x / 0.5)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestClassifierPoolerHead::test_platt_scaling_combined",
+        "234"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 234,
+      "end_line": 239,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 239,
+          "source": "assert torch.allclose(out, (x - 1.0) / 2.0)"
+        }
+      ],
+      "full_test_source": "def test_platt_scaling_combined(self):\n        head = ClassifierPoolerHead(logit_mean=1.0, logit_sigma=2.0)\n        x = torch.randn(_BATCH, _HIDDEN)\n        meta = _make_metadata(_make_params(_BATCH, task=\"classify\"))\n        out = head(x, meta)\n        assert torch.allclose(out, (x - 1.0) / 2.0)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestClassifierPoolerHead::test_activation_uniform_true",
+        "241"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 241,
+      "end_line": 248,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 248,
+          "source": "assert torch.allclose(norms, torch.ones(_BATCH), atol=1e-5)"
+        }
+      ],
+      "full_test_source": "def test_activation_uniform_true(self):\n        head = ClassifierPoolerHead(activation=PoolerNormalize())\n        x = torch.randn(_BATCH, _HIDDEN)\n        params = _make_params(_BATCH, task=\"classify\", use_activation=True)\n        meta = _make_metadata(params)\n        out = head(x, meta)\n        norms = torch.linalg.norm(out, dim=-1)\n        assert torch.allclose(norms, torch.ones(_BATCH), atol=1e-5)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestClassifierPoolerHead::test_activation_uniform_false",
+        "250"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 250,
+      "end_line": 256,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 256,
+          "source": "assert torch.equal(out, x)"
+        }
+      ],
+      "full_test_source": "def test_activation_uniform_false(self):\n        head = ClassifierPoolerHead(activation=PoolerNormalize())\n        x = torch.randn(_BATCH, _HIDDEN)\n        params = _make_params(_BATCH, task=\"classify\", use_activation=False)\n        meta = _make_metadata(params)\n        out = head(x, meta)\n        assert torch.equal(out, x)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestClassifierPoolerHead::test_activation_mixed_flags",
+        "258"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 258,
+      "end_line": 270,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 267,
+          "source": "assert isinstance(out, list)"
+        },
+        {
+          "line": 269,
+          "source": "assert torch.allclose(norm_0, torch.ones(1), atol=1e-5)"
+        },
+        {
+          "line": 270,
+          "source": "assert torch.equal(out[1], x[1])"
+        }
+      ],
+      "full_test_source": "def test_activation_mixed_flags(self):\n        head = ClassifierPoolerHead(activation=PoolerNormalize())\n        x = torch.randn(2, _HIDDEN)\n        params = [\n            PoolingParams(task=\"classify\", use_activation=True),\n            PoolingParams(task=\"classify\", use_activation=False),\n        ]\n        meta = _make_metadata(params)\n        out = head(x, meta)\n        assert isinstance(out, list)\n        norm_0 = torch.linalg.norm(out[0], dim=-1)\n        assert torch.allclose(norm_0, torch.ones(1), atol=1e-5)\n        assert torch.equal(out[1], x[1])"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestClassifierPoolerHead::test_list_input_gets_stacked",
+        "272"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 272,
+      "end_line": 279,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 277,
+          "source": "assert out.shape == (_BATCH, _HIDDEN)"
+        },
+        {
+          "line": 279,
+          "source": "assert torch.equal(out, expected)"
+        }
+      ],
+      "full_test_source": "def test_list_input_gets_stacked(self):\n        head = ClassifierPoolerHead()\n        tensors = [torch.randn(_HIDDEN) for _ in range(_BATCH)]\n        meta = _make_metadata(_make_params(_BATCH, task=\"classify\"))\n        out = head(tensors, meta)\n        assert out.shape == (_BATCH, _HIDDEN)\n        expected = torch.stack(tensors)\n        assert torch.equal(out, expected)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestClassifierPoolerHead::test_classifier_then_platt_scaling",
+        "281"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 281,
+      "end_line": 288,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 288,
+          "source": "assert torch.allclose(out, expected)"
+        }
+      ],
+      "full_test_source": "def test_classifier_then_platt_scaling(self):\n        clf = _linear(_HIDDEN, 3)\n        head = ClassifierPoolerHead(classifier=clf, logit_mean=1.0, logit_sigma=2.0)\n        x = torch.randn(_BATCH, _HIDDEN)\n        meta = _make_metadata(_make_params(_BATCH, task=\"classify\"))\n        out = head(x, meta)\n        expected = (clf(x) - 1.0) / 2.0\n        assert torch.allclose(out, expected)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestClassifierPoolerHead::test_empty_batch",
+        "290"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 290,
+      "end_line": 295,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 295,
+          "source": "assert out.shape == (0, _HIDDEN)"
+        }
+      ],
+      "full_test_source": "def test_empty_batch(self):\n        head = ClassifierPoolerHead()\n        x = torch.randn(0, _HIDDEN)\n        meta = _make_metadata([])\n        out = head(x, meta)\n        assert out.shape == (0, _HIDDEN)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestTokenEmbeddingPoolerHead::test_passthrough",
+        "306"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 306,
+      "end_line": 312,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 311,
+          "source": "assert out is x"
+        },
+        {
+          "line": 312,
+          "source": "assert torch.equal(out, x)"
+        }
+      ],
+      "full_test_source": "def test_passthrough(self):\n        head = TokenEmbeddingPoolerHead()\n        x = torch.randn(5, _HIDDEN)\n        param = PoolingParams(task=\"token_embed\")\n        out = head.forward_chunk(x, param)\n        assert out is x\n        assert torch.equal(out, x)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestTokenEmbeddingPoolerHead::test_none_chunked_prefill",
+        "314"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_partial_prefill_state",
+      "property": "Unfinished and finished rows retain their asserted None/value positions in a mixed pooler batch.",
+      "definition_line": 314,
+      "end_line": 318,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 318,
+          "source": "assert out is None"
+        }
+      ],
+      "full_test_source": "def test_none_chunked_prefill(self):\n        head = TokenEmbeddingPoolerHead()\n        param = PoolingParams(task=\"token_embed\")\n        out = head.forward_chunk(None, param)\n        assert out is None"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestTokenEmbeddingPoolerHead::test_head_dtype",
+        "320"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 320,
+      "end_line": 326,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 325,
+          "source": "assert out is not None"
+        },
+        {
+          "line": 326,
+          "source": "assert out.dtype == torch.float16"
+        }
+      ],
+      "full_test_source": "def test_head_dtype(self):\n        head = TokenEmbeddingPoolerHead(head_dtype=torch.float16)\n        x = torch.randn(5, _HIDDEN)\n        param = PoolingParams(task=\"token_embed\")\n        out = head.forward_chunk(x, param)\n        assert out is not None\n        assert out.dtype == torch.float16"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestTokenEmbeddingPoolerHead::test_projector",
+        "328"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 328,
+      "end_line": 336,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 334,
+          "source": "assert out is not None"
+        },
+        {
+          "line": 335,
+          "source": "assert out.shape == (5, 8)"
+        },
+        {
+          "line": 336,
+          "source": "assert torch.allclose(out, proj(x))"
+        }
+      ],
+      "full_test_source": "def test_projector(self):\n        proj = _linear(_HIDDEN, 8)\n        head = TokenEmbeddingPoolerHead(projector=proj)\n        x = torch.randn(5, _HIDDEN)\n        param = PoolingParams(task=\"token_embed\")\n        out = head.forward_chunk(x, param)\n        assert out is not None\n        assert out.shape == (5, 8)\n        assert torch.allclose(out, proj(x))"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestTokenEmbeddingPoolerHead::test_matryoshka_truncation",
+        "338"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 338,
+      "end_line": 345,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 343,
+          "source": "assert out is not None"
+        },
+        {
+          "line": 344,
+          "source": "assert out.shape == (5, 4)"
+        },
+        {
+          "line": 345,
+          "source": "assert torch.equal(out, x[..., :4])"
+        }
+      ],
+      "full_test_source": "def test_matryoshka_truncation(self):\n        head = TokenEmbeddingPoolerHead()\n        x = torch.randn(5, _HIDDEN)\n        param = PoolingParams(task=\"token_embed\", dimensions=4)\n        out = head.forward_chunk(x, param)\n        assert out is not None\n        assert out.shape == (5, 4)\n        assert torch.equal(out, x[..., :4])"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestTokenEmbeddingPoolerHead::test_activation_true",
+        "347"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 347,
+      "end_line": 353,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 353,
+          "source": "assert torch.allclose(norms, torch.ones(5), atol=1e-5)"
+        }
+      ],
+      "full_test_source": "def test_activation_true(self):\n        head = TokenEmbeddingPoolerHead(activation=PoolerNormalize())\n        x = torch.randn(5, _HIDDEN)\n        param = PoolingParams(task=\"token_embed\", use_activation=True)\n        out = head.forward_chunk(x, param)\n        norms = torch.linalg.norm(out, dim=-1)\n        assert torch.allclose(norms, torch.ones(5), atol=1e-5)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestTokenEmbeddingPoolerHead::test_activation_false",
+        "355"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 355,
+      "end_line": 360,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 360,
+          "source": "assert torch.equal(out, x)"
+        }
+      ],
+      "full_test_source": "def test_activation_false(self):\n        head = TokenEmbeddingPoolerHead(activation=PoolerNormalize())\n        x = torch.randn(5, _HIDDEN)\n        param = PoolingParams(task=\"token_embed\", use_activation=False)\n        out = head.forward_chunk(x, param)\n        assert torch.equal(out, x)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestTokenEmbeddingPoolerHead::test_projector_then_matryoshka",
+        "362"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 362,
+      "end_line": 370,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 368,
+          "source": "assert out is not None"
+        },
+        {
+          "line": 369,
+          "source": "assert out.shape == (5, 4)"
+        },
+        {
+          "line": 370,
+          "source": "assert torch.equal(out, proj(x)[..., :4])"
+        }
+      ],
+      "full_test_source": "def test_projector_then_matryoshka(self):\n        proj = _linear(_HIDDEN, 8)\n        head = TokenEmbeddingPoolerHead(projector=proj)\n        x = torch.randn(5, _HIDDEN)\n        param = PoolingParams(task=\"token_embed\", dimensions=4)\n        out = head.forward_chunk(x, param)\n        assert out is not None\n        assert out.shape == (5, 4)\n        assert torch.equal(out, proj(x)[..., :4])"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestTokenEmbeddingPoolerHead::test_matryoshka_then_activation",
+        "372"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 372,
+      "end_line": 380,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 377,
+          "source": "assert out is not None"
+        },
+        {
+          "line": 378,
+          "source": "assert out.shape == (5, 4)"
+        },
+        {
+          "line": 380,
+          "source": "assert torch.allclose(norms, torch.ones(5), atol=1e-5)"
+        }
+      ],
+      "full_test_source": "def test_matryoshka_then_activation(self):\n        head = TokenEmbeddingPoolerHead(activation=PoolerNormalize())\n        x = torch.randn(5, _HIDDEN)\n        param = PoolingParams(task=\"token_embed\", dimensions=4, use_activation=True)\n        out = head.forward_chunk(x, param)\n        assert out is not None\n        assert out.shape == (5, 4)\n        norms = torch.linalg.norm(out, dim=-1)\n        assert torch.allclose(norms, torch.ones(5), atol=1e-5)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestTokenEmbeddingPoolerHead::test_forward_mixed_batch_chunked_prefill",
+        "382"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_partial_prefill_state",
+      "property": "Unfinished and finished rows retain their asserted None/value positions in a mixed pooler batch.",
+      "definition_line": 382,
+      "end_line": 391,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 388,
+          "source": "assert len(out) == 3"
+        },
+        {
+          "line": 389,
+          "source": "assert torch.equal(out[0], pooled_data[0])"
+        },
+        {
+          "line": 390,
+          "source": "assert out[1] is None"
+        },
+        {
+          "line": 391,
+          "source": "assert torch.equal(out[2], pooled_data[2])"
+        }
+      ],
+      "full_test_source": "def test_forward_mixed_batch_chunked_prefill(self):\n        head = TokenEmbeddingPoolerHead()\n        pooled_data = [torch.randn(5, _HIDDEN), None, torch.randn(3, _HIDDEN)]\n        params = _make_params(3, task=\"token_embed\")\n        meta = _make_metadata(params)\n        out = head(pooled_data, meta)\n        assert len(out) == 3\n        assert torch.equal(out[0], pooled_data[0])\n        assert out[1] is None\n        assert torch.equal(out[2], pooled_data[2])"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestTokenEmbeddingPoolerHead::test_forward_empty_batch",
+        "393"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "An empty input batch yields the asserted empty pooler output.",
+      "definition_line": 393,
+      "end_line": 397,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 397,
+          "source": "assert out == []"
+        }
+      ],
+      "full_test_source": "def test_forward_empty_batch(self):\n        head = TokenEmbeddingPoolerHead()\n        meta = _make_metadata([])\n        out = head([], meta)\n        assert out == []"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestTokenClassifierPoolerHead::test_passthrough",
+        "408"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 408,
+      "end_line": 413,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 413,
+          "source": "assert torch.equal(out, x)"
+        }
+      ],
+      "full_test_source": "def test_passthrough(self):\n        head = TokenClassifierPoolerHead()\n        x = torch.randn(5, _HIDDEN)\n        param = PoolingParams(task=\"token_classify\")\n        out = head.forward_chunk(x, param)\n        assert torch.equal(out, x)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestTokenClassifierPoolerHead::test_none_chunked_prefill",
+        "415"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_partial_prefill_state",
+      "property": "Unfinished and finished rows retain their asserted None/value positions in a mixed pooler batch.",
+      "definition_line": 415,
+      "end_line": 419,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 419,
+          "source": "assert out is None"
+        }
+      ],
+      "full_test_source": "def test_none_chunked_prefill(self):\n        head = TokenClassifierPoolerHead()\n        param = PoolingParams(task=\"token_classify\")\n        out = head.forward_chunk(None, param)\n        assert out is None"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestTokenClassifierPoolerHead::test_head_dtype",
+        "421"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 421,
+      "end_line": 427,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 426,
+          "source": "assert out is not None"
+        },
+        {
+          "line": 427,
+          "source": "assert out.dtype == torch.float16"
+        }
+      ],
+      "full_test_source": "def test_head_dtype(self):\n        head = TokenClassifierPoolerHead(head_dtype=torch.float16)\n        x = torch.randn(5, _HIDDEN)\n        param = PoolingParams(task=\"token_classify\")\n        out = head.forward_chunk(x, param)\n        assert out is not None\n        assert out.dtype == torch.float16"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestTokenClassifierPoolerHead::test_classifier",
+        "429"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 429,
+      "end_line": 437,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 435,
+          "source": "assert out is not None"
+        },
+        {
+          "line": 436,
+          "source": "assert out.shape == (5, 3)"
+        },
+        {
+          "line": 437,
+          "source": "assert torch.allclose(out, clf(x))"
+        }
+      ],
+      "full_test_source": "def test_classifier(self):\n        clf = _linear(_HIDDEN, 3)\n        head = TokenClassifierPoolerHead(classifier=clf)\n        x = torch.randn(5, _HIDDEN)\n        param = PoolingParams(task=\"token_classify\")\n        out = head.forward_chunk(x, param)\n        assert out is not None\n        assert out.shape == (5, 3)\n        assert torch.allclose(out, clf(x))"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestTokenClassifierPoolerHead::test_logit_mean",
+        "439"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 439,
+      "end_line": 444,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 444,
+          "source": "assert torch.allclose(out, x - 2.0)"
+        }
+      ],
+      "full_test_source": "def test_logit_mean(self):\n        head = TokenClassifierPoolerHead(logit_mean=2.0)\n        x = torch.randn(5, _HIDDEN)\n        param = PoolingParams(task=\"token_classify\")\n        out = head.forward_chunk(x, param)\n        assert torch.allclose(out, x - 2.0)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestTokenClassifierPoolerHead::test_logit_sigma",
+        "446"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 446,
+      "end_line": 451,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 451,
+          "source": "assert torch.allclose(out, x / 0.5)"
+        }
+      ],
+      "full_test_source": "def test_logit_sigma(self):\n        head = TokenClassifierPoolerHead(logit_sigma=0.5)\n        x = torch.randn(5, _HIDDEN)\n        param = PoolingParams(task=\"token_classify\")\n        out = head.forward_chunk(x, param)\n        assert torch.allclose(out, x / 0.5)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestTokenClassifierPoolerHead::test_platt_scaling_combined",
+        "453"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 453,
+      "end_line": 458,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 458,
+          "source": "assert torch.allclose(out, (x - 1.0) / 2.0)"
+        }
+      ],
+      "full_test_source": "def test_platt_scaling_combined(self):\n        head = TokenClassifierPoolerHead(logit_mean=1.0, logit_sigma=2.0)\n        x = torch.randn(5, _HIDDEN)\n        param = PoolingParams(task=\"token_classify\")\n        out = head.forward_chunk(x, param)\n        assert torch.allclose(out, (x - 1.0) / 2.0)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestTokenClassifierPoolerHead::test_activation_true",
+        "460"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 460,
+      "end_line": 466,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 466,
+          "source": "assert torch.allclose(norms, torch.ones(5), atol=1e-5)"
+        }
+      ],
+      "full_test_source": "def test_activation_true(self):\n        head = TokenClassifierPoolerHead(activation=PoolerNormalize())\n        x = torch.randn(5, _HIDDEN)\n        param = PoolingParams(task=\"token_classify\", use_activation=True)\n        out = head.forward_chunk(x, param)\n        norms = torch.linalg.norm(out, dim=-1)\n        assert torch.allclose(norms, torch.ones(5), atol=1e-5)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestTokenClassifierPoolerHead::test_activation_false",
+        "468"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Local pooler head output is checked for the asserted value, shape, dtype, list layout or normalization under its supplied projector/classifier and truncation settings.",
+      "definition_line": 468,
+      "end_line": 473,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 473,
+          "source": "assert torch.equal(out, x)"
+        }
+      ],
+      "full_test_source": "def test_activation_false(self):\n        head = TokenClassifierPoolerHead(activation=PoolerNormalize())\n        x = torch.randn(5, _HIDDEN)\n        param = PoolingParams(task=\"token_classify\", use_activation=False)\n        out = head.forward_chunk(x, param)\n        assert torch.equal(out, x)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestTokenClassifierPoolerHead::test_forward_mixed_batch_chunked_prefill",
+        "475"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_partial_prefill_state",
+      "property": "Unfinished and finished rows retain their asserted None/value positions in a mixed pooler batch.",
+      "definition_line": 475,
+      "end_line": 484,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 481,
+          "source": "assert len(out) == 3"
+        },
+        {
+          "line": 482,
+          "source": "assert torch.equal(out[0], pooled_data[0])"
+        },
+        {
+          "line": 483,
+          "source": "assert out[1] is None"
+        },
+        {
+          "line": 484,
+          "source": "assert torch.equal(out[2], pooled_data[2])"
+        }
+      ],
+      "full_test_source": "def test_forward_mixed_batch_chunked_prefill(self):\n        head = TokenClassifierPoolerHead()\n        pooled_data = [torch.randn(5, _HIDDEN), None, torch.randn(3, _HIDDEN)]\n        params = _make_params(3, task=\"token_classify\")\n        meta = _make_metadata(params)\n        out = head(pooled_data, meta)\n        assert len(out) == 3\n        assert torch.equal(out[0], pooled_data[0])\n        assert out[1] is None\n        assert torch.equal(out[2], pooled_data[2])"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_heads.py",
+        "TestTokenClassifierPoolerHead::test_forward_empty_batch",
+        "486"
+      ],
+      "source_sha256": "e16aa3c73e4463ab4eed9cc064a176038dd3fa5f6e367bfd52948d5365ea240f",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "An empty input batch yields the asserted empty pooler output.",
+      "definition_line": 486,
+      "end_line": 490,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 490,
+          "source": "assert out == []"
+        }
+      ],
+      "full_test_source": "def test_forward_empty_batch(self):\n        head = TokenClassifierPoolerHead()\n        meta = _make_metadata([])\n        out = head([], meta)\n        assert out == []"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "test_build_pooling_cursor_caches_cpu_status",
+        "118"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_partial_prefill_state",
+      "property": "Pooling cursor reports the asserted finished mask and partial-prefill status for sliced request ranges.",
+      "definition_line": 118,
+      "end_line": 138,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 134,
+          "source": "assert cursor.is_partial_prefill() is True"
+        },
+        {
+          "line": 135,
+          "source": "assert cursor.get_finished_mask() == [True, False, False]"
+        },
+        {
+          "line": 136,
+          "source": "assert cursor[:1].is_partial_prefill() is False"
+        },
+        {
+          "line": 137,
+          "source": "assert cursor[1:2].is_partial_prefill() is True"
+        },
+        {
+          "line": 138,
+          "source": "assert cursor[1:].get_finished_mask() == [False, False]"
+        }
+      ],
+      "full_test_source": "def test_build_pooling_cursor_caches_cpu_status() -> None:\n    metadata = PoolingMetadata(\n        prompt_lens=torch.tensor([3, 4, 2], dtype=torch.long),\n        prompt_token_ids=None,\n        prompt_token_ids_cpu=None,\n        pooling_params=[PoolingParams(task=\"embed\") for _ in range(3)],\n        pooling_states=[PoolingStates() for _ in range(3)],\n    )\n    metadata.build_pooling_cursor(\n        np.array([3, 2, 2], dtype=np.int32),\n        seq_lens_cpu=torch.tensor([3, 2, 1], dtype=torch.long),\n        device=_CPU,\n    )\n\n    cursor = metadata.get_pooling_cursor()\n\n    assert cursor.is_partial_prefill() is True\n    assert cursor.get_finished_mask() == [True, False, False]\n    assert cursor[:1].is_partial_prefill() is False\n    assert cursor[1:2].is_partial_prefill() is True\n    assert cursor[1:].get_finished_mask() == [False, False]"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "TestCLSPool::test_extracts_first_token",
+        "154"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "CLS/LAST/MEAN output equals the asserted token selection or reference reduction for these sequence boundaries and dtype.",
+      "definition_line": 154,
+      "end_line": 162,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 162,
+          "source": "assert torch.equal(out, expected)"
+        }
+      ],
+      "full_test_source": "def test_extracts_first_token(self):\n        hidden = torch.tensor(\n            [[1.0, 2.0], [3.0, 4.0], [5.0, 6.0], [7.0, 8.0], [9.0, 10.0]]\n        )\n        metadata = _make_metadata([2, 3])\n        pooler = CLSPool()\n        out = pooler(hidden, metadata)\n        expected = torch.tensor([[1.0, 2.0], [5.0, 6.0]])\n        assert torch.equal(out, expected)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "TestCLSPool::test_rejects_partial_prefill",
+        "164"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_partial_prefill_state",
+      "property": "Pooler handles an incomplete sequence with the asserted last token, accumulated mean or rejection behavior.",
+      "definition_line": 164,
+      "end_line": 169,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 168,
+          "source": "pytest.raises(RuntimeError, match=\"partial prefill\")"
+        }
+      ],
+      "full_test_source": "def test_rejects_partial_prefill(self):\n        hidden = torch.tensor([[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]])\n        metadata = _make_metadata([3], num_scheduled_tokens=[2])\n        pooler = CLSPool()\n        with pytest.raises(RuntimeError, match=\"partial prefill\"):\n            pooler(hidden, metadata)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "TestLastPool::test_extracts_last_token",
+        "176"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "CLS/LAST/MEAN output equals the asserted token selection or reference reduction for these sequence boundaries and dtype.",
+      "definition_line": 176,
+      "end_line": 184,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 184,
+          "source": "assert torch.equal(out, expected)"
+        }
+      ],
+      "full_test_source": "def test_extracts_last_token(self):\n        hidden = torch.tensor(\n            [[1.0, 2.0], [3.0, 4.0], [5.0, 6.0], [7.0, 8.0], [9.0, 10.0]]\n        )\n        metadata = _make_metadata([2, 3])\n        pooler = LastPool()\n        out = pooler(hidden, metadata)\n        expected = torch.tensor([[3.0, 4.0], [9.0, 10.0]])\n        assert torch.equal(out, expected)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "TestLastPool::test_partial_prefill_extracts_last_scheduled",
+        "186"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_partial_prefill_state",
+      "property": "Pooler handles an incomplete sequence with the asserted last token, accumulated mean or rejection behavior.",
+      "definition_line": 186,
+      "end_line": 192,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 192,
+          "source": "assert torch.equal(out, expected)"
+        }
+      ],
+      "full_test_source": "def test_partial_prefill_extracts_last_scheduled(self):\n        hidden = torch.tensor([[1.0, 2.0], [3.0, 4.0]])\n        metadata = _make_metadata([4], num_scheduled_tokens=[2])\n        pooler = LastPool()\n        out = pooler(hidden, metadata)\n        expected = torch.tensor([[3.0, 4.0]])\n        assert torch.equal(out, expected)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "TestMeanPool::test_computes_mean",
+        "199"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "CLS/LAST/MEAN output equals the asserted token selection or reference reduction for these sequence boundaries and dtype.",
+      "definition_line": 199,
+      "end_line": 207,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 207,
+          "source": "assert torch.allclose(out, expected, atol=1e-5)"
+        }
+      ],
+      "full_test_source": "def test_computes_mean(self):\n        hidden = torch.tensor(\n            [[1.0, 2.0], [3.0, 4.0], [10.0, 20.0]], dtype=torch.float32\n        )\n        metadata = _make_metadata([2, 1])\n        pooler = MeanPool()\n        out = pooler(hidden, metadata)\n        expected = torch.tensor([[2.0, 3.0], [10.0, 20.0]], dtype=torch.float32)\n        assert torch.allclose(out, expected, atol=1e-5)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "TestMeanPool::test_single_token_is_identity",
+        "209"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "CLS/LAST/MEAN output equals the asserted token selection or reference reduction for these sequence boundaries and dtype.",
+      "definition_line": 209,
+      "end_line": 214,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 214,
+          "source": "assert torch.allclose(out, hidden, atol=1e-5)"
+        }
+      ],
+      "full_test_source": "def test_single_token_is_identity(self):\n        hidden = torch.tensor([[5.0, 10.0]], dtype=torch.float32)\n        metadata = _make_metadata([1])\n        pooler = MeanPool()\n        out = pooler(hidden, metadata)\n        assert torch.allclose(out, hidden, atol=1e-5)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "TestMeanPool::test_uniform_values_return_same",
+        "216"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "CLS/LAST/MEAN output equals the asserted token selection or reference reduction for these sequence boundaries and dtype.",
+      "definition_line": 216,
+      "end_line": 222,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 222,
+          "source": "assert torch.allclose(out, expected, atol=1e-5)"
+        }
+      ],
+      "full_test_source": "def test_uniform_values_return_same(self):\n        hidden = torch.full((4, 3), 7.0, dtype=torch.float32)\n        metadata = _make_metadata([4])\n        pooler = MeanPool()\n        out = pooler(hidden, metadata)\n        expected = torch.full((1, 3), 7.0, dtype=torch.float32)\n        assert torch.allclose(out, expected, atol=1e-5)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "TestMeanPool::test_multiple_sequences",
+        "224"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "CLS/LAST/MEAN output equals the asserted token selection or reference reduction for these sequence boundaries and dtype.",
+      "definition_line": 224,
+      "end_line": 238,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 238,
+          "source": "assert torch.allclose(out, expected, atol=1e-5)"
+        }
+      ],
+      "full_test_source": "def test_multiple_sequences(self):\n        hidden = torch.tensor(\n            [\n                [0.0, 0.0],\n                [2.0, 4.0],\n                [4.0, 8.0],\n                [10.0, 10.0],\n            ],\n            dtype=torch.float32,\n        )\n        metadata = _make_metadata([3, 1])\n        pooler = MeanPool()\n        out = pooler(hidden, metadata)\n        expected = torch.tensor([[2.0, 4.0], [10.0, 10.0]], dtype=torch.float32)\n        assert torch.allclose(out, expected, atol=1e-5)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "TestMeanPool::test_empty_batch",
+        "240"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "CLS/LAST/MEAN output equals the asserted token selection or reference reduction for these sequence boundaries and dtype.",
+      "definition_line": 240,
+      "end_line": 245,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 245,
+          "source": "assert out.shape == (0, 8)"
+        }
+      ],
+      "full_test_source": "def test_empty_batch(self):\n        hidden = torch.empty((0, 8), dtype=torch.float32)\n        metadata = _make_metadata([])\n        pooler = MeanPool()\n        out = pooler(hidden, metadata)\n        assert out.shape == (0, 8)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "TestMeanPool::test_rejects_partial_prefill",
+        "247"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_partial_prefill_state",
+      "property": "Pooler handles an incomplete sequence with the asserted last token, accumulated mean or rejection behavior.",
+      "definition_line": 247,
+      "end_line": 252,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 251,
+          "source": "pytest.raises(RuntimeError, match=\"partial prefill\")"
+        }
+      ],
+      "full_test_source": "def test_rejects_partial_prefill(self):\n        hidden = torch.tensor([[1.0, 2.0], [3.0, 4.0]], dtype=torch.float32)\n        metadata = _make_metadata([3], num_scheduled_tokens=[2])\n        pooler = MeanPool()\n        with pytest.raises(RuntimeError, match=\"partial prefill\"):\n            pooler(hidden, metadata)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "TestMeanPool::test_chunked_accumulation",
+        "254"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_partial_prefill_state",
+      "property": "Pooler handles an incomplete sequence with the asserted last token, accumulated mean or rejection behavior.",
+      "definition_line": 254,
+      "end_line": 267,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 267,
+          "source": "assert torch.allclose(out, expected, atol=1e-5)"
+        }
+      ],
+      "full_test_source": "def test_chunked_accumulation(self):\n        hidden = torch.arange(20, dtype=torch.float32).reshape(5, 4)\n        metadata = _make_metadata([3, 2])\n        pooler = MeanPool()\n        with patch(\n            \"vllm.model_executor.layers.pooler.seqwise.methods\"\n            \"._MEAN_POOL_ACCUMULATION_CHUNK_BYTES\",\n            16,\n        ):\n            out = pooler(hidden, metadata)\n        expected_seq0 = hidden[:3].float().mean(dim=0, keepdim=True)\n        expected_seq1 = hidden[3:].float().mean(dim=0, keepdim=True)\n        expected = torch.cat([expected_seq0, expected_seq1], dim=0)\n        assert torch.allclose(out, expected, atol=1e-5)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "TestMeanPool::test_upcasts_to_float32",
+        "269"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "CLS/LAST/MEAN output equals the asserted token selection or reference reduction for these sequence boundaries and dtype.",
+      "definition_line": 269,
+      "end_line": 276,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 274,
+          "source": "assert out.dtype == torch.float32"
+        },
+        {
+          "line": 276,
+          "source": "assert torch.allclose(out, expected, atol=1e-2)"
+        }
+      ],
+      "full_test_source": "def test_upcasts_to_float32(self):\n        hidden = torch.tensor([[1.0, 2.0], [3.0, 4.0]], dtype=torch.float16)\n        metadata = _make_metadata([2])\n        pooler = MeanPool()\n        out = pooler(hidden, metadata)\n        assert out.dtype == torch.float32\n        expected = torch.tensor([[2.0, 3.0]], dtype=torch.float32)\n        assert torch.allclose(out, expected, atol=1e-2)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "test_dispatch_seq_cls_honors_token_pooling_type",
+        "314"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Pooler dispatch produces the asserted per-request rows, offsets, dimensions or projected values for supplied task parameters.",
+      "definition_line": 314,
+      "end_line": 354,
+      "decorators": [
+        {
+          "line": 313,
+          "source": "pytest.mark.parametrize(\"tok_pooling_type\", [\"ALL\", \"STEP\"])"
+        }
+      ],
+      "checks": [
+        {
+          "line": 349,
+          "source": "assert len(outputs) == len(expected_rows)"
+        },
+        {
+          "line": 351,
+          "source": "torch.testing.assert_close(output, classifier(hidden[rows]))"
+        },
+        {
+          "line": 352,
+          "source": "assert pooler.get_pooling_updates(\"token_classify\").requires_token_ids == (\n        tok_pooling_type == \"STEP\"\n    )"
+        }
+      ],
+      "full_test_source": "def test_dispatch_seq_cls_honors_token_pooling_type(tok_pooling_type):\n    \"\"\"Filter STEP rows before classification; preserve all rows for resolved ALL.\"\"\"\n    pooler_config = PoolerConfig(\n        seq_pooling_type=\"LAST\", tok_pooling_type=tok_pooling_type\n    )\n    config = SimpleNamespace(\n        scheduler_config=_FakeSchedulerConfig(),\n        model_config=SimpleNamespace(\n            pooler_config=pooler_config,\n            head_dtype=None,\n            hf_config=PreTrainedConfig(num_labels=3),\n        ),\n    )\n    classifier = torch.nn.Linear(4, 3)\n    with set_current_vllm_config(config):\n        pooler = DispatchPooler.for_seq_cls(pooler_config, classifier=classifier)\n\n    token_ids = [[2, 99, 3, 99], [4, 99], [5, 6]]\n    params = [\n        PoolingParams(\n            task=\"token_classify\",\n            use_activation=False,\n            step_tag_id=99 if tok_pooling_type == \"STEP\" else None,\n        )\n        for _ in token_ids\n    ]\n    metadata = _make_metadata([4, 2, 2], token_ids=token_ids, pooling_params=params)\n    hidden = torch.arange(32, dtype=torch.float32).reshape(8, 4)\n    outputs = pooler(hidden, metadata)\n\n    expected_rows = (\n        [[1, 3], [5], []]\n        if tok_pooling_type == \"STEP\"\n        else [[0, 1, 2, 3], [4, 5], [6, 7]]\n    )\n    assert len(outputs) == len(expected_rows)\n    for output, rows in zip(outputs, expected_rows):\n        torch.testing.assert_close(output, classifier(hidden[rows]))\n    assert pooler.get_pooling_updates(\"token_classify\").requires_token_ids == (\n        tok_pooling_type == \"STEP\"\n    )"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "test_dispatch_single_task_preserves_dense_or_ragged_output",
+        "358"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Pooler dispatch produces the asserted per-request rows, offsets, dimensions or projected values for supplied task parameters.",
+      "definition_line": 358,
+      "end_line": 376,
+      "decorators": [
+        {
+          "line": 357,
+          "source": "pytest.mark.parametrize(\"dimensions\", [None, [2, 3, None]])"
+        }
+      ],
+      "checks": [
+        {
+          "line": 371,
+          "source": "assert isinstance(outputs, torch.Tensor)"
+        },
+        {
+          "line": 372,
+          "source": "torch.testing.assert_close(outputs, expected)"
+        },
+        {
+          "line": 374,
+          "source": "assert isinstance(outputs, list)"
+        },
+        {
+          "line": 376,
+          "source": "torch.testing.assert_close(output, row[:dimension])"
+        }
+      ],
+      "full_test_source": "def test_dispatch_single_task_preserves_dense_or_ragged_output(dimensions):\n    \"\"\"Dispatch must retain the sub-pooler's dense batch when rows are uniform.\"\"\"\n    pooler = DispatchPooler(\n        {\"embed\": SequencePooler(LastPool(), EmbeddingPoolerHead())}\n    )\n    params = [\n        PoolingParams(task=\"embed\", dimensions=d) for d in (dimensions or [None] * 3)\n    ]\n    metadata = _make_metadata([3, 2, 3], pooling_params=params)\n    hidden = torch.arange(32, dtype=torch.float32).reshape(8, 4)\n    outputs = pooler(hidden, metadata)\n    expected = hidden[[2, 4, 7]]\n    if dimensions is None:\n        assert isinstance(outputs, torch.Tensor)\n        torch.testing.assert_close(outputs, expected)\n    else:\n        assert isinstance(outputs, list)\n        for output, row, dimension in zip(outputs, expected, dimensions, strict=True):\n            torch.testing.assert_close(output, row[:dimension])"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "test_dispatch_single_task_keeps_unfinished_token_outputs",
+        "379"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_partial_prefill_state",
+      "property": "Mixed finished/unfinished request handling yields the asserted None and value positions.",
+      "definition_line": 379,
+      "end_line": 400,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 392,
+          "source": "assert isinstance(outputs, list)"
+        },
+        {
+          "line": 393,
+          "source": "assert outputs[0] is None and outputs[2] is None"
+        },
+        {
+          "line": 394,
+          "source": "torch.testing.assert_close(outputs[1], hidden[2:4])"
+        },
+        {
+          "line": 395,
+          "source": "torch.testing.assert_close(\n        metadata.pooling_states[0].hidden_states_cache[0], hidden[:2]\n    )"
+        },
+        {
+          "line": 398,
+          "source": "torch.testing.assert_close(\n        metadata.pooling_states[2].hidden_states_cache[0], hidden[4:]\n    )"
+        }
+      ],
+      "full_test_source": "def test_dispatch_single_task_keeps_unfinished_token_outputs():\n    \"\"\"Bypassing dispatch slicing must preserve chunked token-pooling state.\"\"\"\n    pooler = DispatchPooler(\n        {\"token_embed\": TokenPooler(TestAllPool._make_all_pool(chunked=True))}\n    )\n    metadata = _make_metadata(\n        [4, 2, 3],\n        tasks=[\"token_embed\"] * 3,\n        num_scheduled_tokens=[2, 2, 1],\n        seq_lens=[2, 2, 1],\n    )\n    hidden = torch.arange(20, dtype=torch.float32).reshape(5, 4)\n    outputs = pooler(hidden, metadata)\n    assert isinstance(outputs, list)\n    assert outputs[0] is None and outputs[2] is None\n    torch.testing.assert_close(outputs[1], hidden[2:4])\n    torch.testing.assert_close(\n        metadata.pooling_states[0].hidden_states_cache[0], hidden[:2]\n    )\n    torch.testing.assert_close(\n        metadata.pooling_states[2].hidden_states_cache[0], hidden[4:]\n    )"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "test_dispatch_mixed_tasks_preserves_token_offsets",
+        "403"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Pooler dispatch produces the asserted per-request rows, offsets, dimensions or projected values for supplied task parameters.",
+      "definition_line": 403,
+      "end_line": 418,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 414,
+          "source": "assert isinstance(outputs, list)"
+        },
+        {
+          "line": 418,
+          "source": "torch.testing.assert_close(output, expected)"
+        }
+      ],
+      "full_test_source": "def test_dispatch_mixed_tasks_preserves_token_offsets():\n    \"\"\"Mixed tasks still use group-relative indices and retain request order.\"\"\"\n    pooler = DispatchPooler(\n        {\n            \"embed\": SequencePooler(LastPool(), EmbeddingPoolerHead()),\n            \"token_embed\": TokenPooler(TestAllPool._make_all_pool()),\n        }\n    )\n    metadata = _make_metadata([2, 3, 1], tasks=[\"embed\", \"token_embed\", \"embed\"])\n    hidden = torch.arange(24, dtype=torch.float32).reshape(6, 4)\n    outputs = pooler(hidden, metadata)\n    assert isinstance(outputs, list)\n    for output, expected in zip(\n        outputs, [hidden[1], hidden[2:5], hidden[5]], strict=True\n    ):\n        torch.testing.assert_close(output, expected)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "TestAllPool::test_splits_by_sequence",
+        "438"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "AllPool output retains the asserted per-sequence hidden states.",
+      "definition_line": 438,
+      "end_line": 447,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 445,
+          "source": "assert len(out) == 2"
+        },
+        {
+          "line": 446,
+          "source": "assert torch.equal(out[0], hidden[:2])"
+        },
+        {
+          "line": 447,
+          "source": "assert torch.equal(out[1], hidden[2:])"
+        }
+      ],
+      "full_test_source": "def test_splits_by_sequence(self):\n        pooler = self._make_all_pool()\n        hidden = torch.tensor(\n            [[1.0, 2.0], [3.0, 4.0], [5.0, 6.0], [7.0, 8.0], [9.0, 10.0]]\n        )\n        metadata = _make_metadata([2, 3])\n        out = pooler(hidden, metadata)\n        assert len(out) == 2\n        assert torch.equal(out[0], hidden[:2])\n        assert torch.equal(out[1], hidden[2:])"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "TestAllPool::test_single_sequence",
+        "449"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "AllPool output retains the asserted per-sequence hidden states.",
+      "definition_line": 449,
+      "end_line": 455,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 454,
+          "source": "assert len(out) == 1"
+        },
+        {
+          "line": 455,
+          "source": "assert torch.equal(out[0], hidden)"
+        }
+      ],
+      "full_test_source": "def test_single_sequence(self):\n        pooler = self._make_all_pool()\n        hidden = torch.tensor([[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]])\n        metadata = _make_metadata([3])\n        out = pooler(hidden, metadata)\n        assert len(out) == 1\n        assert torch.equal(out[0], hidden)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "TestAllPool::test_chunked_prefill_returns_none_for_unfinished",
+        "457"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_partial_prefill_state",
+      "property": "AllPool retains unfinished chunks and returns the asserted concatenated or None result at sequence completion.",
+      "definition_line": 457,
+      "end_line": 467,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 466,
+          "source": "assert len(out) == 1"
+        },
+        {
+          "line": 467,
+          "source": "assert out[0] is None"
+        }
+      ],
+      "full_test_source": "def test_chunked_prefill_returns_none_for_unfinished(self):\n        pooler = self._make_all_pool(chunked=True)\n        hidden = torch.tensor([[1.0, 2.0], [3.0, 4.0]])\n        metadata = _make_metadata(\n            [4],\n            num_scheduled_tokens=[2],\n            seq_lens=[2],\n        )\n        out = pooler(hidden, metadata)\n        assert len(out) == 1\n        assert out[0] is None"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "TestAllPool::test_chunked_prefill_returns_concat_when_finished",
+        "469"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_partial_prefill_state",
+      "property": "AllPool retains unfinished chunks and returns the asserted concatenated or None result at sequence completion.",
+      "definition_line": 469,
+      "end_line": 493,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 479,
+          "source": "assert out1[0] is None"
+        },
+        {
+          "line": 491,
+          "source": "assert out2[0] is not None"
+        },
+        {
+          "line": 493,
+          "source": "assert torch.equal(out2[0], expected)"
+        }
+      ],
+      "full_test_source": "def test_chunked_prefill_returns_concat_when_finished(self):\n        pooler = self._make_all_pool(chunked=True)\n\n        chunk1 = torch.tensor([[1.0, 2.0], [3.0, 4.0]])\n        metadata1 = _make_metadata(\n            [4],\n            num_scheduled_tokens=[2],\n            seq_lens=[2],\n        )\n        out1 = pooler(chunk1, metadata1)\n        assert out1[0] is None\n        expected_chunk1 = chunk1.clone()\n        chunk1.zero_()\n\n        chunk2 = torch.tensor([[5.0, 6.0], [7.0, 8.0]])\n        metadata2 = _make_metadata(\n            [4],\n            num_scheduled_tokens=[2],\n            seq_lens=[4],\n        )\n        metadata2.pooling_states = metadata1.pooling_states\n        out2 = pooler(chunk2, metadata2)\n        assert out2[0] is not None\n        expected = torch.cat([expected_chunk1, chunk2], dim=0)\n        assert torch.equal(out2[0], expected)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "TestAllPool::test_chunked_prefill_single_shot_matches_non_chunked",
+        "496"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_partial_prefill_state",
+      "property": "AllPool retains unfinished chunks and returns the asserted concatenated or None result at sequence completion.",
+      "definition_line": 496,
+      "end_line": 511,
+      "decorators": [
+        {
+          "line": 495,
+          "source": "pytest.mark.parametrize(\"async_scheduling\", [False, True])"
+        }
+      ],
+      "checks": [
+        {
+          "line": 509,
+          "source": "assert len(out) == 2"
+        },
+        {
+          "line": 510,
+          "source": "assert torch.equal(out[0], expected[0])"
+        },
+        {
+          "line": 511,
+          "source": "assert torch.equal(out[1], expected[1])"
+        }
+      ],
+      "full_test_source": "def test_chunked_prefill_single_shot_matches_non_chunked(\n        self, async_scheduling: bool\n    ):\n        pooler = self._make_all_pool(chunked=True, async_scheduling=async_scheduling)\n        hidden = torch.tensor(\n            [[1.0, 2.0], [3.0, 4.0], [5.0, 6.0], [7.0, 8.0], [9.0, 10.0]]\n        )\n        expected = [hidden[:2].clone(), hidden[2:].clone()]\n        metadata = _make_metadata([2, 3])\n        out = pooler(hidden, metadata)\n        if async_scheduling:\n            # Finished outputs must own their storage under async scheduling.\n            hidden.zero_()\n        assert len(out) == 2\n        assert torch.equal(out[0], expected[0])\n        assert torch.equal(out[1], expected[1])"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "TestAllPool::test_chunked_prefill_mixed_finished_unfinished",
+        "524"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_partial_prefill_state",
+      "property": "AllPool retains unfinished chunks and returns the asserted concatenated or None result at sequence completion.",
+      "definition_line": 524,
+      "end_line": 535,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 533,
+          "source": "assert len(out) == 2"
+        },
+        {
+          "line": 534,
+          "source": "assert torch.equal(out[0], hidden[:2])"
+        },
+        {
+          "line": 535,
+          "source": "assert out[1] is None"
+        }
+      ],
+      "full_test_source": "def test_chunked_prefill_mixed_finished_unfinished(self):\n        pooler = self._make_all_pool(chunked=True)\n        hidden = torch.tensor([[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]])\n        metadata = _make_metadata(\n            [2, 4],\n            num_scheduled_tokens=[2, 1],\n            seq_lens=[2, 1],\n        )\n        out = pooler(hidden, metadata)\n        assert len(out) == 2\n        assert torch.equal(out[0], hidden[:2])\n        assert out[1] is None"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "TestStepPool::test_filters_by_step_tag_id",
+        "555"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "StepPool output contains the asserted token rows selected by step tag or returned-token IDs.",
+      "definition_line": 555,
+      "end_line": 564,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 562,
+          "source": "assert len(out) == 1"
+        },
+        {
+          "line": 564,
+          "source": "assert torch.equal(out[0], expected)"
+        }
+      ],
+      "full_test_source": "def test_filters_by_step_tag_id(self):\n        pooler = self._make_step_pool()\n        hidden = torch.tensor([[1.0, 2.0], [3.0, 4.0], [5.0, 6.0], [7.0, 8.0]])\n        token_ids = [[10, 99, 10, 20]]\n        params = [PoolingParams(task=\"token_classify\", step_tag_id=10)]\n        metadata = _make_metadata([4], token_ids=token_ids, pooling_params=params)\n        out = pooler(hidden, metadata)\n        assert len(out) == 1\n        expected = torch.tensor([[1.0, 2.0], [5.0, 6.0]])\n        assert torch.equal(out[0], expected)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "TestStepPool::test_filters_by_returned_token_ids",
+        "566"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "StepPool output contains the asserted token rows selected by step tag or returned-token IDs.",
+      "definition_line": 566,
+      "end_line": 575,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 573,
+          "source": "assert len(out) == 1"
+        },
+        {
+          "line": 575,
+          "source": "assert torch.equal(out[0], expected)"
+        }
+      ],
+      "full_test_source": "def test_filters_by_returned_token_ids(self):\n        pooler = self._make_step_pool()\n        hidden = torch.tensor([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])\n        token_ids = [[10, 20]]\n        params = [PoolingParams(task=\"token_classify\", returned_token_ids=[0, 2])]\n        metadata = _make_metadata([2], token_ids=token_ids, pooling_params=params)\n        out = pooler(hidden, metadata)\n        assert len(out) == 1\n        expected = torch.tensor([[1.0, 3.0], [4.0, 6.0]])\n        assert torch.equal(out[0], expected)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "TestStepPool::test_no_filtering_without_params",
+        "577"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "StepPool output contains the asserted token rows selected by step tag or returned-token IDs.",
+      "definition_line": 577,
+      "end_line": 585,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 584,
+          "source": "assert len(out) == 1"
+        },
+        {
+          "line": 585,
+          "source": "assert torch.equal(out[0], hidden)"
+        }
+      ],
+      "full_test_source": "def test_no_filtering_without_params(self):\n        pooler = self._make_step_pool()\n        hidden = torch.tensor([[1.0, 2.0], [3.0, 4.0]])\n        token_ids = [[10, 20]]\n        params = [PoolingParams(task=\"token_classify\")]\n        metadata = _make_metadata([2], token_ids=token_ids, pooling_params=params)\n        out = pooler(hidden, metadata)\n        assert len(out) == 1\n        assert torch.equal(out[0], hidden)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "TestStepPool::test_combined_step_tag_and_returned_token_ids",
+        "587"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "StepPool output contains the asserted token rows selected by step tag or returned-token IDs.",
+      "definition_line": 587,
+      "end_line": 602,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 600,
+          "source": "assert len(out) == 1"
+        },
+        {
+          "line": 602,
+          "source": "assert torch.equal(out[0], expected)"
+        }
+      ],
+      "full_test_source": "def test_combined_step_tag_and_returned_token_ids(self):\n        pooler = self._make_step_pool()\n        hidden = torch.tensor([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]])\n        token_ids = [[99, 10, 99]]\n        params = [\n            PoolingParams(\n                task=\"token_classify\",\n                step_tag_id=10,\n                returned_token_ids=[0, 2],\n            )\n        ]\n        metadata = _make_metadata([3], token_ids=token_ids, pooling_params=params)\n        out = pooler(hidden, metadata)\n        assert len(out) == 1\n        expected = torch.tensor([[4.0, 6.0]])\n        assert torch.equal(out[0], expected)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "TestStepPool::test_step_tag_id_no_match_returns_empty",
+        "604"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "StepPool output contains the asserted token rows selected by step tag or returned-token IDs.",
+      "definition_line": 604,
+      "end_line": 612,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 611,
+          "source": "assert len(out) == 1"
+        },
+        {
+          "line": 612,
+          "source": "assert out[0].shape == (0, 2)"
+        }
+      ],
+      "full_test_source": "def test_step_tag_id_no_match_returns_empty(self):\n        pooler = self._make_step_pool()\n        hidden = torch.tensor([[1.0, 2.0], [3.0, 4.0]])\n        token_ids = [[10, 20]]\n        params = [PoolingParams(task=\"token_classify\", step_tag_id=999)]\n        metadata = _make_metadata([2], token_ids=token_ids, pooling_params=params)\n        out = pooler(hidden, metadata)\n        assert len(out) == 1\n        assert out[0].shape == (0, 2)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "TestStepPool::test_chunked_prefill_propagates_none_for_unfinished",
+        "614"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_partial_prefill_state",
+      "property": "StepPool returns None for unfinished chunks and filtered values on completion.",
+      "definition_line": 614,
+      "end_line": 628,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 627,
+          "source": "assert len(out) == 1"
+        },
+        {
+          "line": 628,
+          "source": "assert out[0] is None"
+        }
+      ],
+      "full_test_source": "def test_chunked_prefill_propagates_none_for_unfinished(self):\n        pooler = self._make_step_pool(chunked=True)\n        hidden = torch.tensor([[1.0, 2.0], [3.0, 4.0]])\n        token_ids = [[10, 20, 30, 40]]\n        params = [PoolingParams(task=\"token_classify\", step_tag_id=10)]\n        metadata = _make_metadata(\n            [4],\n            token_ids=token_ids,\n            pooling_params=params,\n            num_scheduled_tokens=[2],\n            seq_lens=[2],\n        )\n        out = pooler(hidden, metadata)\n        assert len(out) == 1\n        assert out[0] is None"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "TestStepPool::test_chunked_prefill_filters_when_finished",
+        "630"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_partial_prefill_state",
+      "property": "StepPool returns None for unfinished chunks and filtered values on completion.",
+      "definition_line": 630,
+      "end_line": 639,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 637,
+          "source": "assert len(out) == 1"
+        },
+        {
+          "line": 639,
+          "source": "assert torch.equal(out[0], expected)"
+        }
+      ],
+      "full_test_source": "def test_chunked_prefill_filters_when_finished(self):\n        pooler = self._make_step_pool(chunked=True)\n        hidden = torch.tensor([[1.0, 2.0], [3.0, 4.0], [5.0, 6.0], [7.0, 8.0]])\n        token_ids = [[10, 99, 10, 20]]\n        params = [PoolingParams(task=\"token_classify\", step_tag_id=10)]\n        metadata = _make_metadata([4], token_ids=token_ids, pooling_params=params)\n        out = pooler(hidden, metadata)\n        assert len(out) == 1\n        expected = torch.tensor([[1.0, 2.0], [5.0, 6.0]])\n        assert torch.equal(out[0], expected)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "test_token_pooler_batches_projection_with_mixed_params",
+        "688"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_transform_relation",
+      "property": "Pooler dispatch produces the asserted per-request rows, offsets, dimensions or projected values for supplied task parameters.",
+      "definition_line": 688,
+      "end_line": 720,
+      "decorators": [
+        {
+          "line": 680,
+          "source": "pytest.mark.parametrize(\n    (\"overrides\", \"expected_calls\"),\n    [\n        pytest.param({}, 1, id=\"matching\"),\n        pytest.param({\"dimensions\": 2}, 3, id=\"mixed-dimensions\"),\n        pytest.param({\"use_activation\": False}, 2, id=\"mixed-activation\"),\n    ],\n)"
+        }
+      ],
+      "checks": [
+        {
+          "line": 718,
+          "source": "torch.testing.assert_close(actual, reference)"
+        },
+        {
+          "line": 719,
+          "source": "assert len(projections) == 1"
+        },
+        {
+          "line": 720,
+          "source": "assert len(activations) == expected_calls"
+        }
+      ],
+      "full_test_source": "def test_token_pooler_batches_projection_with_mixed_params(\n    overrides, expected_calls, monkeypatch\n):\n    monkeypatch.setenv(\"VLLM_BATCH_INVARIANT\", \"0\")\n    torch.manual_seed(0)\n    lengths = [3, 4, 2]\n    hidden = torch.randn(sum(lengths), 4, dtype=torch.bfloat16)\n    projector = torch.nn.Sequential(torch.nn.Linear(4, 3), torch.nn.Tanh())\n    activation = PoolerNormalize()\n    head = TokenEmbeddingPoolerHead(torch.float32, projector, activation)\n    params = [PoolingParams(task=\"token_embed\", use_activation=True) for _ in lengths]\n    for name, value in overrides.items():\n        setattr(params[1], name, value)\n    pooler = TokenPooler(TestAllPool._make_all_pool(async_scheduling=True), head)\n    metadata = _make_metadata(lengths, pooling_params=params)\n    expected = [\n        head.forward_chunk(chunk, param)\n        for chunk, param in zip(hidden.split(lengths), params, strict=True)\n    ]\n    projections, activations = [], []\n    with (\n        projector.register_forward_hook(\n            lambda _module, _inputs, output: projections.append(output)\n        ),\n        activation.register_forward_hook(\n            lambda _module, _inputs, output: activations.append(output)\n        ),\n    ):\n        outputs = pooler(hidden, metadata)\n    for actual, reference in zip(outputs, expected, strict=True):\n        torch.testing.assert_close(actual, reference)\n    assert len(projections) == 1\n    assert len(activations) == expected_calls"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "test_late_chunk_pool_matches_fp32_means_before_projection_and_normalization",
+        "734"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_partial_prefill_state",
+      "property": "Chunked pooling preserves the asserted cross-chunk reduction or request isolation after completion.",
+      "definition_line": 734,
+      "end_line": 754,
+      "decorators": [
+        {
+          "line": 723,
+          "source": "pytest.mark.parametrize(\n    (\"chunk_size\", \"dtype\", \"head_dtype\"),\n    [\n        (1, torch.float32, None),\n        (2, torch.float16, None),\n        (2, torch.bfloat16, torch.float32),\n        (7, torch.float32, None),\n        (10, torch.float32, None),\n        (2**63 - 1, torch.float32, None),\n    ],\n)"
+        }
+      ],
+      "checks": [
+        {
+          "line": 753,
+          "source": "torch.testing.assert_close(actual, expected)"
+        },
+        {
+          "line": 754,
+          "source": "assert actual.dtype == (head_dtype or dtype)"
+        }
+      ],
+      "full_test_source": "def test_late_chunk_pool_matches_fp32_means_before_projection_and_normalization(\n    chunk_size, dtype, head_dtype\n):\n    # Unequal norms expose the incorrect normalize-then-average implementation.\n    hidden = (torch.arange(28).reshape(7, 4) - 10).to(dtype)\n    projector = torch.nn.Linear(4, 3, bias=True).to(head_dtype or dtype)\n    head = TokenEmbeddingPoolerHead(head_dtype, projector, PoolerNormalize())\n    pooler = TokenPooler(TestAllPool._make_all_pool(), head)\n    params = PoolingParams(\n        task=\"token_embed\",\n        late_chunking_params=LateChunkingParams(chunk_size=chunk_size),\n        use_activation=True,\n    )\n    metadata = _make_metadata([7], pooling_params=[params])\n    actual = pooler(hidden, metadata)[0]\n    means = torch.stack(\n        [hidden[a : a + chunk_size].float().mean(0) for a in range(0, 7, chunk_size)]\n    ).to(head_dtype or dtype)\n    expected = torch.nn.functional.normalize(projector(means), p=2, dim=-1)\n    torch.testing.assert_close(actual, expected)\n    assert actual.dtype == (head_dtype or dtype)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "test_late_chunk_pool_reduces_before_nonlinear_projector",
+        "757"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_partial_prefill_state",
+      "property": "Chunked pooling preserves the asserted cross-chunk reduction or request isolation after completion.",
+      "definition_line": 757,
+      "end_line": 770,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 769,
+          "source": "torch.testing.assert_close(actual, expected)"
+        },
+        {
+          "line": 770,
+          "source": "assert not torch.allclose(actual, wrong_order)"
+        }
+      ],
+      "full_test_source": "def test_late_chunk_pool_reduces_before_nonlinear_projector():\n    hidden = torch.tensor([[2.0, 0.0], [0.0, 1.0]])\n    projector = torch.nn.Tanh()\n    head = TokenEmbeddingPoolerHead(projector=projector, activation=PoolerNormalize())\n    params = PoolingParams(\n        task=\"token_embed\",\n        late_chunking_params=LateChunkingParams(chunk_size=2),\n        use_activation=True,\n    )\n    actual = head.forward_chunk(hidden, params)\n    expected = torch.nn.functional.normalize(projector(hidden.mean(0, keepdim=True)))\n    wrong_order = torch.nn.functional.normalize(projector(hidden).mean(0, keepdim=True))\n    torch.testing.assert_close(actual, expected)\n    assert not torch.allclose(actual, wrong_order)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "test_late_chunk_pool_isolates_mixed_requests_and_owns_finished_storage",
+        "774"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_partial_prefill_state",
+      "property": "Chunked pooling preserves the asserted cross-chunk reduction or request isolation after completion.",
+      "definition_line": 774,
+      "end_line": 803,
+      "decorators": [
+        {
+          "line": 773,
+          "source": "pytest.mark.parametrize(\"late_chunking\", [False, True])"
+        }
+      ],
+      "checks": [
+        {
+          "line": 803,
+          "source": "torch.testing.assert_close(actual, reference)"
+        }
+      ],
+      "full_test_source": "def test_late_chunk_pool_isolates_mixed_requests_and_owns_finished_storage(\n    late_chunking,\n):\n    hidden = torch.arange(36, dtype=torch.float32).reshape(9, 4)\n    params = [\n        PoolingParams(\n            task=\"token_embed\", late_chunking_params=LateChunkingParams(chunk_size=2)\n        ),\n        PoolingParams(task=\"token_embed\"),\n        PoolingParams(\n            task=\"token_embed\", late_chunking_params=LateChunkingParams(chunk_size=1)\n        ),\n    ]\n    if not late_chunking:\n        for param in params:\n            param.late_chunking_params = None\n    pooler = TokenPooler(\n        TestAllPool._make_all_pool(async_scheduling=True), TokenEmbeddingPoolerHead()\n    )\n    outputs = pooler(hidden, _make_metadata([3, 4, 2], pooling_params=params))\n    expected = [\n        torch.stack([hidden[:2].mean(0), hidden[2]]),\n        hidden[3:7].clone(),\n        hidden[7:].clone(),\n    ]\n    if not late_chunking:\n        expected[0] = hidden[:3].clone()\n    hidden.fill_(-999)\n    for actual, reference in zip(outputs, expected):\n        torch.testing.assert_close(actual, reference)"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "test_bos_eos_filter_preserves_chunk_vectors_in_mixed_batch",
+        "808"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_partial_prefill_state",
+      "property": "Chunked pooling preserves the asserted cross-chunk reduction or request isolation after completion.",
+      "definition_line": 808,
+      "end_line": 832,
+      "decorators": [
+        {
+          "line": 806,
+          "source": "pytest.mark.parametrize(\"chunk_size\", [1, 2, 8])"
+        },
+        {
+          "line": 807,
+          "source": "pytest.mark.parametrize(\"embedding_size\", [1, 4])"
+        }
+      ],
+      "checks": [
+        {
+          "line": 831,
+          "source": "torch.testing.assert_close(chunked, expected)"
+        },
+        {
+          "line": 832,
+          "source": "torch.testing.assert_close(ordinary, hidden[6:9].squeeze(-1))"
+        }
+      ],
+      "full_test_source": "def test_bos_eos_filter_preserves_chunk_vectors_in_mixed_batch(\n    chunk_size, embedding_size\n):\n    hidden = torch.arange(10 * embedding_size, dtype=torch.float32).reshape(\n        10, embedding_size\n    )\n    pooler = BOSEOSFilter(\n        TokenPooler(TestAllPool._make_all_pool(), TokenEmbeddingPoolerHead()),\n        bos_token_id=101,\n        eos_token_id=102,\n    )\n    metadata = _make_metadata(\n        [5, 5],\n        token_ids=[[101, 1, 2, 3, 102]] * 2,\n        pooling_params=[\n            PoolingParams(\n                task=\"token_embed\", late_chunking_params=LateChunkingParams(chunk_size)\n            ),\n            PoolingParams(task=\"token_embed\"),\n        ],\n    )\n    chunked, ordinary = pooler(hidden, metadata)\n    expected = torch.stack([part.mean(0) for part in hidden[:5].split(chunk_size)])\n    torch.testing.assert_close(chunked, expected)\n    torch.testing.assert_close(ordinary, hidden[6:9].squeeze(-1))"
+    },
+    {
+      "key": [
+        "vllm",
+        "tests/model_executor/layers/test_pooler_methods.py",
+        "test_bos_eos_filter_waits_for_complete_chunk_vectors",
+        "835"
+      ],
+      "source_sha256": "bff754384c5dc283d220e4709fd3381bcf306ae3a881bb4b0663c9c733164503",
+      "unit_id": "model.pooling_partial_prefill_state",
+      "property": "Mixed finished/unfinished request handling yields the asserted None and value positions.",
+      "definition_line": 835,
+      "end_line": 864,
+      "decorators": [],
+      "checks": [
+        {
+          "line": 853,
+          "source": "assert pooler(hidden[:2], first) == [None]"
+        },
+        {
+          "line": 863,
+          "source": "torch.testing.assert_close(actual, torch.stack([hidden[:3].mean(0), hidden[3]]))"
+        },
+        {
+          "line": 864,
+          "source": "assert not last.pooling_states[0].hidden_states_cache"
+        }
+      ],
+      "full_test_source": "def test_bos_eos_filter_waits_for_complete_chunk_vectors():\n    pooler = BOSEOSFilter(\n        TokenPooler(\n            TestAllPool._make_all_pool(chunked=True), TokenEmbeddingPoolerHead()\n        ),\n        bos_token_id=101,\n    )\n    params = [\n        PoolingParams(task=\"token_embed\", late_chunking_params=LateChunkingParams(3))\n    ]\n    first = _make_metadata(\n        [4],\n        token_ids=[[101, 1, 2, 102]],\n        pooling_params=params,\n        num_scheduled_tokens=[2],\n        seq_lens=[2],\n    )\n    hidden = torch.arange(8, dtype=torch.float32).reshape(4, 2)\n    assert pooler(hidden[:2], first) == [None]\n    last = _make_metadata(\n        [4],\n        token_ids=[[101, 1, 2, 102]],\n        pooling_params=params,\n        num_scheduled_tokens=[2],\n        seq_lens=[4],\n    )\n    last.pooling_states = first.pooling_states\n    actual = pooler(hidden[2:], last)[0]\n    torch.testing.assert_close(actual, torch.stack([hidden[:3].mean(0), hidden[3]]))\n    assert not last.pooling_states[0].hidden_states_cache"
+    }
+  ]
+}

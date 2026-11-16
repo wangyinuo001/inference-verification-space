@@ -1,0 +1,3 @@
+snapshot	path	test_name	line	reason	evidence_source
+vllm	tests/kernels/quantization/test_cutlass_scaled_mm.py	test_cutlass_int8_azp_bias_fold	457	unconditional_skip_prevents_numerical_oracle_execution	tests/kernels/quantization/test_cutlass_scaled_mm.py:479;tests/kernels/quantization/test_cutlass_scaled_mm.py:485;tests/kernels/quantization/test_cutlass_scaled_mm.py:486;tests/kernels/quantization/test_cutlass_scaled_mm.py:497;tests/kernels/quantization/test_cutlass_scaled_mm.py:498
+vllm	tests/kernels/quantization/test_cutlass_scaled_mm.py	test_cutlass_support_opcheck	649	custom_operator_registration_opcheck_requires_distinct_unit	tests/kernels/quantization/test_cutlass_scaled_mm.py:649

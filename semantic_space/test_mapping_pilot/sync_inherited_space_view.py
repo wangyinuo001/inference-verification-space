@@ -124,7 +124,7 @@ def main() -> dict[str, int]:
         raise ValueError("Duplicate inherited crosswalk keys")
     payload = json.dumps(rows, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     reviewed_rows = []
-    for name in ("confirmed-property-crosswalk.tsv", "direct-property-crosswalk.tsv", "reviewed-supplement-crosswalk.tsv"):
+    for name in ("confirmed-property-crosswalk.tsv", "direct-property-crosswalk.tsv", "reviewed-supplement-crosswalk.tsv", "reviewed-round9-crosswalk.tsv"):
         if name == "reviewed-supplement-crosswalk.tsv" and not (HERE / name).exists():
             continue
         with (HERE / name).open(encoding="utf-8", newline="") as stream:

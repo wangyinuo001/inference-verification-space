@@ -1,0 +1,664 @@
+{
+  "review_method": "Complete test and WeightChecker implementation read; exact helper/fixture bindings reviewed. 52 explicit cases; each predicate retained separately. No CUDA tests run.",
+  "files_sha256": {
+    "test/registered/unit/utils/test_weight_checker.py": "be42994ff4bd6d8176f70b1dce6cbafa543a4c8f7a2b278293707103be98742b",
+    "python/sglang/srt/utils/weight_checker.py": "7bcfde4e0bc66cd265d99a4625345b8448e810d770a85b3579ab6ee60d15ec83",
+    "python/sglang/srt/managers/mm_utils.py": "184f10ac176e884ecab78e1c3a11595952c9b96ae6dd4478d906b3b713dc5219",
+    "python/sglang/srt/layers/quantization/fp8_utils.py": "3fd8442f6f9a90418cfb98e62b99d2951060e1f69e21a40f3c1c54c33b48b578",
+    "python/sglang/test/test_utils.py": "e77134cf62bb72a2a93648f4d7a3ee30d60f60b9f068a16d888187307f661914"
+  },
+  "cases": [
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 135,
+      "test_name": "TestRandomLike::test_floating_point_preserves_dtype_shape_device",
+      "unit_id": "diagnostic.weight_probe_generation",
+      "reviewed_semantics": "For float32/float16/bfloat16 inputs, generated tensor preserves dtype/shape/device and has positive absolute sum.",
+      "source_body": "def test_floating_point_preserves_dtype_shape_device(self):\n        for dtype in (torch.float32, torch.float16, torch.bfloat16):\n            t = torch.zeros(8, 4, dtype=dtype)\n            out = _random_like(t)\n            self.assertEqual(out.dtype, dtype)\n            self.assertEqual(out.shape, t.shape)\n            self.assertEqual(out.device, t.device)\n            self.assertGreater(out.float().abs().sum().item(), 0)",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:139",
+        "test/registered/unit/utils/test_weight_checker.py:140",
+        "test/registered/unit/utils/test_weight_checker.py:141",
+        "test/registered/unit/utils/test_weight_checker.py:142"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 144,
+      "test_name": "TestRandomLike::test_bool_returns_bool_with_both_values",
+      "unit_id": "diagnostic.weight_probe_generation",
+      "reviewed_semantics": "1024-element bool probe preserves tensor metadata and includes both true and false values.",
+      "source_body": "def test_bool_returns_bool_with_both_values(self):\n        t = torch.zeros(1024, dtype=torch.bool)\n        out = _random_like(t)\n        self.assertEqual(out.dtype, torch.bool)\n        self.assertEqual(out.shape, t.shape)\n        self.assertEqual(out.device, t.device)\n        self.assertTrue(out.any().item())\n        self.assertFalse(out.all().item())",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:147",
+        "test/registered/unit/utils/test_weight_checker.py:148",
+        "test/registered/unit/utils/test_weight_checker.py:149",
+        "test/registered/unit/utils/test_weight_checker.py:150",
+        "test/registered/unit/utils/test_weight_checker.py:151"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 153,
+      "test_name": "TestRandomLike::test_int_returns_correct_dtype_in_range",
+      "unit_id": "diagnostic.weight_probe_generation",
+      "reviewed_semantics": "int8/int32/int64 probes preserve dtype/shape, fall within dtype bounds, and have more than one distinct value.",
+      "source_body": "def test_int_returns_correct_dtype_in_range(self):\n        for dtype in (torch.int8, torch.int32, torch.int64):\n            t = torch.zeros(256, dtype=dtype)\n            out = _random_like(t)\n            self.assertEqual(out.dtype, dtype)\n            self.assertEqual(out.shape, t.shape)\n            info = torch.iinfo(dtype)\n            self.assertGreaterEqual(out.min().item(), info.min)\n            self.assertLessEqual(out.max().item(), info.max)\n            self.assertGreater(out.unique().numel(), 1)",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:157",
+        "test/registered/unit/utils/test_weight_checker.py:158",
+        "test/registered/unit/utils/test_weight_checker.py:160",
+        "test/registered/unit/utils/test_weight_checker.py:161",
+        "test/registered/unit/utils/test_weight_checker.py:162"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 164,
+      "test_name": "TestRandomLike::test_floating_point_values_in_unit_range",
+      "unit_id": "diagnostic.weight_probe_generation",
+      "reviewed_semantics": "1024-element float32 probe values lie in [0,1).",
+      "source_body": "def test_floating_point_values_in_unit_range(self):\n        t = torch.zeros(1024, dtype=torch.float32)\n        out = _random_like(t)\n        self.assertGreaterEqual(out.min().item(), 0.0)\n        self.assertLess(out.max().item(), 1.0)",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:167",
+        "test/registered/unit/utils/test_weight_checker.py:168"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 170,
+      "test_name": "TestRandomLike::test_does_not_mutate_input",
+      "unit_id": "diagnostic.weight_probe_generation",
+      "reviewed_semantics": "Generating a probe leaves the input tensor of sixteen fives unchanged.",
+      "source_body": "def test_does_not_mutate_input(self):\n        t = torch.full((16,), 5.0)\n        before = t.clone()\n        _random_like(t)\n        torch.testing.assert_close(t, before)",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:174"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 186,
+      "test_name": "TestPostprocessTensors::test_no_quant_yields_raw_with_should_compare_true",
+      "unit_id": "diagnostic.weight_comparison_projection",
+      "reviewed_semantics": "Nonquantized weight and bias retain names/order/values and compare=True.",
+      "source_body": "def test_no_quant_yields_raw_with_should_compare_true(self):\n        a = torch.randn(4)\n        b = torch.randn(4)\n        raw = {\"a.weight\": a, \"b.bias\": b}\n        _assert_triples_close(\n            _postprocess_tensors(raw, set()),\n            [(\"a.weight\", True, a), (\"b.bias\", True, b)],\n        )",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:56",
+        "test/registered/unit/utils/test_weight_checker.py:62",
+        "test/registered/unit/utils/test_weight_checker.py:63",
+        "test/registered/unit/utils/test_weight_checker.py:64"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 195,
+      "test_name": "TestPostprocessTensors::test_weight_alone_without_scale_inv_does_not_trigger_dequant",
+      "unit_id": "diagnostic.weight_comparison_projection",
+      "reviewed_semantics": "Weight without matching inverse scale remains a raw compare=True entry.",
+      "source_body": "def test_weight_alone_without_scale_inv_does_not_trigger_dequant(self):\n        w = torch.randn(4)\n        raw = {\"x.weight\": w}\n        _assert_triples_close(_postprocess_tensors(raw, set()), [(\"x.weight\", True, w)])",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:56",
+        "test/registered/unit/utils/test_weight_checker.py:62",
+        "test/registered/unit/utils/test_weight_checker.py:63",
+        "test/registered/unit/utils/test_weight_checker.py:64"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 202,
+      "test_name": "TestPostprocessTensors::test_skips_cos_sin_cache_substring",
+      "unit_id": "diagnostic.weight_comparison_projection",
+      "reviewed_semantics": "cos_sin_cache-name tensor is retained with compare=False; ordinary layer weight remains compare=True.",
+      "source_body": "def test_skips_cos_sin_cache_substring(self):\n        cache = torch.randn(8)\n        plain = torch.randn(4)\n        raw = {\n            \"model.rotary_emb.cos_sin_cache\": cache,\n            \"model.layers.0.weight\": plain,\n        }\n        _assert_triples_close(\n            _postprocess_tensors(raw, set()),\n            [\n                (\"model.rotary_emb.cos_sin_cache\", False, cache),\n                (\"model.layers.0.weight\", True, plain),\n            ],\n        )",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:56",
+        "test/registered/unit/utils/test_weight_checker.py:62",
+        "test/registered/unit/utils/test_weight_checker.py:63",
+        "test/registered/unit/utils/test_weight_checker.py:64"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 217,
+      "test_name": "TestPostprocessTensors::test_skips_inv_freq_substring",
+      "unit_id": "diagnostic.weight_comparison_projection",
+      "reviewed_semantics": "rotary inv_freq-name tensor is retained with compare=False.",
+      "source_body": "def test_skips_inv_freq_substring(self):\n        t = torch.randn(4)\n        _assert_triples_close(\n            _postprocess_tensors({\"model.rotary_emb.inv_freq\": t}, set()),\n            [(\"model.rotary_emb.inv_freq\", False, t)],\n        )",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:56",
+        "test/registered/unit/utils/test_weight_checker.py:62",
+        "test/registered/unit/utils/test_weight_checker.py:63",
+        "test/registered/unit/utils/test_weight_checker.py:64"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 224,
+      "test_name": "TestPostprocessTensors::test_skips_weight_fp32_substring",
+      "unit_id": "diagnostic.weight_comparison_projection",
+      "reviewed_semantics": "gate _weight_fp32-name tensor is retained with compare=False.",
+      "source_body": "def test_skips_weight_fp32_substring(self):\n        t = torch.randn(4)\n        _assert_triples_close(\n            _postprocess_tensors({\"model.layers.0.mlp.gate._weight_fp32\": t}, set()),\n            [(\"model.layers.0.mlp.gate._weight_fp32\", False, t)],\n        )",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:56",
+        "test/registered/unit/utils/test_weight_checker.py:62",
+        "test/registered/unit/utils/test_weight_checker.py:63",
+        "test/registered/unit/utils/test_weight_checker.py:64"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 231,
+      "test_name": "TestPostprocessTensors::test_substring_match_not_endswith",
+      "unit_id": "diagnostic.weight_comparison_projection",
+      "reviewed_semantics": "Skip pattern inside weird.cos_sin_cache.foo.bar, not only a suffix, yields compare=False.",
+      "source_body": "def test_substring_match_not_endswith(self):\n        # Pattern can appear anywhere in the name, not just at the end.\n        t = torch.randn(4)\n        _assert_triples_close(\n            _postprocess_tensors({\"weird.cos_sin_cache.foo.bar\": t}, set()),\n            [(\"weird.cos_sin_cache.foo.bar\", False, t)],\n        )",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:56",
+        "test/registered/unit/utils/test_weight_checker.py:62",
+        "test/registered/unit/utils/test_weight_checker.py:63",
+        "test/registered/unit/utils/test_weight_checker.py:64"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 241,
+      "test_name": "TestPostprocessTensors::test_fp8_quant_pair_with_int32_scale_dequants_via_ue8m0",
+      "unit_id": "diagnostic.weight_comparison_projection",
+      "reviewed_semantics": "FP8 weight with int32 packed UE8M0 scale projects to BF16 dequant compare=True followed by original weight/scale compare=False; reference uses the same block_quant_dequant helper with original FP32 scale.",
+      "source_body": "def test_fp8_quant_pair_with_int32_scale_dequants_via_ue8m0(self):\n        qweight, sf_fp32, sf_packed_int32 = _build_fp8_quant_pair()\n        raw = {\"x.weight\": qweight, \"x.weight_scale_inv\": sf_packed_int32}\n\n        # Reference: ue8m0 path inside _postprocess_tensors should eventually\n        # call block_quant_dequant with the unpacked fp32 scale.\n        expected_dequant = block_quant_dequant(\n            qweight, sf_fp32, block_size=[128, 128], dtype=torch.bfloat16\n        )\n        _assert_triples_close(\n            _postprocess_tensors(raw, set()),\n            [\n                (\"x.weight\", True, expected_dequant),\n                (\"x.weight\", False, qweight),\n                (\"x.weight_scale_inv\", False, sf_packed_int32),\n            ],\n        )",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:56",
+        "test/registered/unit/utils/test_weight_checker.py:62",
+        "test/registered/unit/utils/test_weight_checker.py:63",
+        "test/registered/unit/utils/test_weight_checker.py:64"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 259,
+      "test_name": "TestPostprocessTensors::test_fp8_quant_pair_with_fp32_scale_dequants_directly",
+      "unit_id": "diagnostic.weight_comparison_projection",
+      "reviewed_semantics": "FP8 weight with FP32 scale projects to BF16 dequant then raw weight/scale marked false; reference shares the block_quant_dequant implementation, so it does not independently validate that helper.",
+      "source_body": "def test_fp8_quant_pair_with_fp32_scale_dequants_directly(self):\n        qweight, sf_fp32, _ = _build_fp8_quant_pair()\n        raw = {\"x.weight\": qweight, \"x.weight_scale_inv\": sf_fp32}\n\n        expected_dequant = block_quant_dequant(\n            qweight, sf_fp32, block_size=[128, 128], dtype=torch.bfloat16\n        )\n        _assert_triples_close(\n            _postprocess_tensors(raw, set()),\n            [\n                (\"x.weight\", True, expected_dequant),\n                (\"x.weight\", False, qweight),\n                (\"x.weight_scale_inv\", False, sf_fp32),\n            ],\n        )",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:56",
+        "test/registered/unit/utils/test_weight_checker.py:62",
+        "test/registered/unit/utils/test_weight_checker.py:63",
+        "test/registered/unit/utils/test_weight_checker.py:64"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 275,
+      "test_name": "TestPostprocessTensors::test_fp8_quant_pair_yield_order_alongside_other_entries",
+      "unit_id": "diagnostic.weight_comparison_projection",
+      "reviewed_semantics": "Quantized pair dequant entry precedes raw weight and scale, followed by unquantized bias; flags and values follow the explicit expected stream.",
+      "source_body": "def test_fp8_quant_pair_yield_order_alongside_other_entries(self):\n        qweight, sf_fp32, _ = _build_fp8_quant_pair()\n        bias = torch.ones(4, device=\"cuda\")\n        raw = {\n            \"x.weight\": qweight,\n            \"x.weight_scale_inv\": sf_fp32,\n            \"y.bias\": bias,\n        }\n        expected_dequant = block_quant_dequant(\n            qweight, sf_fp32, block_size=[128, 128], dtype=torch.bfloat16\n        )\n        # All dequant entries come first, then a raw pass over every key.\n        _assert_triples_close(\n            _postprocess_tensors(raw, set()),\n            [\n                (\"x.weight\", True, expected_dequant),\n                (\"x.weight\", False, qweight),\n                (\"x.weight_scale_inv\", False, sf_fp32),\n                (\"y.bias\", True, bias),\n            ],\n        )",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:56",
+        "test/registered/unit/utils/test_weight_checker.py:62",
+        "test/registered/unit/utils/test_weight_checker.py:63",
+        "test/registered/unit/utils/test_weight_checker.py:64"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 297,
+      "test_name": "TestPostprocessTensors::test_only_scale_without_weight_does_not_trigger_dequant",
+      "unit_id": "diagnostic.weight_comparison_projection",
+      "reviewed_semantics": "Inverse scale without matching weight is kept as ordinary compare=True data.",
+      "source_body": "def test_only_scale_without_weight_does_not_trigger_dequant(self):\n        # Without the matching `.weight`, no quant pair forms; the scale_inv flows\n        # through as a normal entry with should_compare=True.\n        s = torch.zeros(1, 1, dtype=torch.int32)\n        _assert_triples_close(\n            _postprocess_tensors({\"x.weight_scale_inv\": s}, set()),\n            [(\"x.weight_scale_inv\", True, s)],\n        )",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:56",
+        "test/registered/unit/utils/test_weight_checker.py:62",
+        "test/registered/unit/utils/test_weight_checker.py:63",
+        "test/registered/unit/utils/test_weight_checker.py:64"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 314,
+      "test_name": "TestCheckTensors::test_passes_when_all_equal",
+      "unit_id": "diagnostic.weight_comparison_verdict",
+      "reviewed_semantics": "Two equal named tensors marked compare=True pass _check_tensors strict metadata and exact-value error gate.",
+      "source_body": "def test_passes_when_all_equal(self):\n        t = torch.ones(2, 2)\n        expect = [(\"a\", True, t.clone()), (\"b\", True, t.clone())]\n        actual = [(\"a\", True, t.clone()), (\"b\", True, t.clone())]\n        _check_tensors(expect_tensors=expect, actual_tensors=actual)",
+      "oracles": [
+        "python/sglang/srt/utils/weight_checker.py:179",
+        "python/sglang/srt/utils/weight_checker.py:180",
+        "python/sglang/srt/utils/weight_checker.py:206"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 320,
+      "test_name": "TestCheckTensors::test_raises_when_should_compare_true_and_diff",
+      "unit_id": "diagnostic.weight_comparison_verdict",
+      "reviewed_semantics": "Ones versus zeros marked compare=True raises an exception whose text contains name=a and max_abs_err.",
+      "source_body": "def test_raises_when_should_compare_true_and_diff(self):\n        expect = [(\"a\", True, torch.ones(2, 2))]\n        actual = [(\"a\", True, torch.zeros(2, 2))]\n        with self.assertRaises(Exception) as ctx:\n            _check_tensors(expect_tensors=expect, actual_tensors=actual)\n        msg = str(ctx.exception)\n        self.assertIn(\"name=a\", msg)\n        self.assertIn(\"max_abs_err\", msg)",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:323",
+        "test/registered/unit/utils/test_weight_checker.py:326",
+        "test/registered/unit/utils/test_weight_checker.py:327"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 329,
+      "test_name": "TestCheckTensors::test_passes_when_should_compare_false_even_if_diff",
+      "unit_id": "diagnostic.weight_comparison_verdict",
+      "reviewed_semantics": "Ones versus zeros marked compare=False is informational and does not trigger _check_tensors error gate.",
+      "source_body": "def test_passes_when_should_compare_false_even_if_diff(self):\n        # should_compare=False -> diff is logged, not raised.\n        expect = [(\"a\", False, torch.ones(2, 2))]\n        actual = [(\"a\", False, torch.zeros(2, 2))]\n        _check_tensors(expect_tensors=expect, actual_tensors=actual)",
+      "oracles": [
+        "python/sglang/srt/utils/weight_checker.py:179",
+        "python/sglang/srt/utils/weight_checker.py:180",
+        "python/sglang/srt/utils/weight_checker.py:206"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 335,
+      "test_name": "TestCheckTensors::test_asserts_on_name_mismatch",
+      "unit_id": "diagnostic.weight_comparison_verdict",
+      "reviewed_semantics": "Different tensor names a/b raise AssertionError even with equal values.",
+      "source_body": "def test_asserts_on_name_mismatch(self):\n        expect = [(\"a\", True, torch.ones(2, 2))]\n        actual = [(\"b\", True, torch.ones(2, 2))]\n        with self.assertRaises(AssertionError):\n            _check_tensors(expect_tensors=expect, actual_tensors=actual)",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:338"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 341,
+      "test_name": "TestCheckTensors::test_asserts_on_should_compare_mismatch",
+      "unit_id": "diagnostic.weight_comparison_verdict",
+      "reviewed_semantics": "Different compare flags for same tensor raise AssertionError.",
+      "source_body": "def test_asserts_on_should_compare_mismatch(self):\n        expect = [(\"a\", True, torch.ones(2, 2))]\n        actual = [(\"a\", False, torch.ones(2, 2))]\n        with self.assertRaises(AssertionError):\n            _check_tensors(expect_tensors=expect, actual_tensors=actual)",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:344"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 347,
+      "test_name": "TestCheckTensors::test_zip_strict_raises_on_length_mismatch",
+      "unit_id": "diagnostic.weight_comparison_verdict",
+      "reviewed_semantics": "Unequal stream lengths two/one raise ValueError through strict zip.",
+      "source_body": "def test_zip_strict_raises_on_length_mismatch(self):\n        t = torch.ones(2, 2)\n        expect = [(\"a\", True, t.clone()), (\"b\", True, t.clone())]\n        actual = [(\"a\", True, t.clone())]\n        with self.assertRaises(ValueError):\n            _check_tensors(expect_tensors=expect, actual_tensors=actual)",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:351"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 377,
+      "test_name": "TestSnapshot::test_captures_params_and_buffers",
+      "unit_id": "diagnostic.weight_snapshot_isolation",
+      "reviewed_semantics": "Snapshot contains both parameters and all four named buffers, including later comparison-skip buffers.",
+      "source_body": "def test_captures_params_and_buffers(self):\n        self.checker._snapshot()\n        keys = set(self.checker._snapshot_tensors.keys())\n        expected = {\n            \"w\",\n            \"b\",\n            \"running_mean\",\n            \"rotary_emb_cos_sin_cache\",\n            \"rotary_emb_freqs_cis\",\n            \"gate_proj_weight_fp32_cache\",\n        }\n        self.assertEqual(keys, expected)",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:388"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 390,
+      "test_name": "TestSnapshot::test_detaches_and_moves_to_cpu",
+      "unit_id": "diagnostic.weight_snapshot_isolation",
+      "reviewed_semantics": "CUDA-model snapshot lives on CPU and stays unchanged after live w is overwritten with 99.",
+      "source_body": "def test_detaches_and_moves_to_cpu(self):\n        self.checker._snapshot()\n        for tensor in self.checker._snapshot_tensors.values():\n            self.assertEqual(tensor.device.type, \"cpu\")\n        # Mutating the live model must not affect the snapshot copy.\n        original_w = self.checker._snapshot_tensors[\"w\"].clone()\n        with torch.no_grad():\n            self.model.w.data.fill_(99.0)\n        torch.testing.assert_close(self.checker._snapshot_tensors[\"w\"], original_w)",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:393",
+        "test/registered/unit/utils/test_weight_checker.py:398"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 403,
+      "test_name": "TestResetTensors::test_changes_normal_params_in_place",
+      "unit_id": "diagnostic.weight_probe_reset",
+      "reviewed_semantics": "Reset changes normal parameter w values while preserving its storage pointer.",
+      "source_body": "def test_changes_normal_params_in_place(self):\n        before_w = self.model.w.clone()\n        before_w_ptr = self.model.w.data_ptr()\n        self.checker._reset_tensors()\n        # In-place: storage pointer unchanged.\n        self.assertEqual(self.model.w.data_ptr(), before_w_ptr)\n        self.assertFalse(torch.equal(self.model.w, before_w))",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:408",
+        "test/registered/unit/utils/test_weight_checker.py:409"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 411,
+      "test_name": "TestResetTensors::test_skips_cos_sin_cache",
+      "unit_id": "diagnostic.weight_probe_reset",
+      "reviewed_semantics": "Reset preserves rotary_emb_cos_sin_cache tensor values.",
+      "source_body": "def test_skips_cos_sin_cache(self):\n        before = self.model.rotary_emb_cos_sin_cache.clone()\n        self.checker._reset_tensors()\n        torch.testing.assert_close(self.model.rotary_emb_cos_sin_cache, before)",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:414"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 416,
+      "test_name": "TestResetTensors::test_skips_freqs_cis",
+      "unit_id": "diagnostic.weight_probe_reset",
+      "reviewed_semantics": "Reset preserves rotary_emb_freqs_cis tensor values.",
+      "source_body": "def test_skips_freqs_cis(self):\n        before = self.model.rotary_emb_freqs_cis.clone()\n        self.checker._reset_tensors()\n        torch.testing.assert_close(self.model.rotary_emb_freqs_cis, before)",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:419"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 421,
+      "test_name": "TestResetTensors::test_skips_weight_fp32",
+      "unit_id": "diagnostic.weight_probe_reset",
+      "reviewed_semantics": "Reset preserves gate_proj_weight_fp32_cache tensor values.",
+      "source_body": "def test_skips_weight_fp32(self):\n        before = self.model.gate_proj_weight_fp32_cache.clone()\n        self.checker._reset_tensors()\n        torch.testing.assert_close(self.model.gate_proj_weight_fp32_cache, before)",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:424"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 429,
+      "test_name": "TestCompare::test_without_snapshot_raises",
+      "unit_id": "diagnostic.weight_comparison_verdict",
+      "reviewed_semantics": "Comparing before taking a snapshot raises AssertionError.",
+      "source_body": "def test_without_snapshot_raises(self):\n        with self.assertRaises(AssertionError):\n            self.checker._compare()",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:430"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 433,
+      "test_name": "TestCompare::test_passes_when_unchanged",
+      "unit_id": "diagnostic.weight_comparison_verdict",
+      "reviewed_semantics": "Snapshot followed by unchanged model passes exact-value comparison gate.",
+      "source_body": "def test_passes_when_unchanged(self):\n        self.checker._snapshot()\n        self.checker._compare()",
+      "oracles": [
+        "python/sglang/srt/utils/weight_checker.py:179",
+        "python/sglang/srt/utils/weight_checker.py:180",
+        "python/sglang/srt/utils/weight_checker.py:206"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 437,
+      "test_name": "TestCompare::test_fails_after_reset_on_normal_param",
+      "unit_id": "diagnostic.weight_comparison_verdict",
+      "reviewed_semantics": "Snapshot followed by reset fails comparison and names normal parameter w or b in the error.",
+      "source_body": "def test_fails_after_reset_on_normal_param(self):\n        self.checker._snapshot()\n        self.checker._reset_tensors()\n        with self.assertRaises(Exception) as ctx:\n            self.checker._compare()\n        msg = str(ctx.exception)\n        self.assertTrue((\"name=w\" in msg) or (\"name=b\" in msg))",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:440",
+        "test/registered/unit/utils/test_weight_checker.py:443"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 445,
+      "test_name": "TestCompare::test_passes_when_only_skipped_buffer_diverges",
+      "unit_id": "diagnostic.weight_comparison_verdict",
+      "reviewed_semantics": "Overwriting only skipped rotary cosine/sine cache with 99 does not trigger comparison failure.",
+      "source_body": "def test_passes_when_only_skipped_buffer_diverges(self):\n        self.checker._snapshot()\n        # Mutate a non-persistent skip-pattern buffer; compare must still pass.\n        with torch.no_grad():\n            self.model.rotary_emb_cos_sin_cache.fill_(99.0)\n        self.checker._compare()",
+      "oracles": [
+        "python/sglang/srt/utils/weight_checker.py:179",
+        "python/sglang/srt/utils/weight_checker.py:180",
+        "python/sglang/srt/utils/weight_checker.py:206"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 452,
+      "test_name": "TestCompare::test_passes_after_reset_then_restoring_normal_params",
+      "unit_id": "diagnostic.weight_comparison_verdict",
+      "reviewed_semantics": "Snapshot, reset, then manual restoration of all parameters and buffers passes comparison; actual loop restores skipped buffers too.",
+      "source_body": "def test_passes_after_reset_then_restoring_normal_params(self):\n        # Full lifecycle: reset (skips cos_sin_cache et al.), then restore non-skip\n        # params by hand. Compare must pass — proving reset+postprocess skip lists agree.\n        self.checker._snapshot()\n        snapshot = {k: v.clone() for k, v in self.checker._snapshot_tensors.items()}\n        self.checker._reset_tensors()\n        with torch.no_grad():\n            for name, tensor in self.model.named_parameters():\n                tensor.data.copy_(snapshot[name].to(tensor.device))\n            for name, tensor in self.model.named_buffers():\n                tensor.data.copy_(snapshot[name].to(tensor.device))\n        self.checker._compare()",
+      "oracles": [
+        "python/sglang/srt/utils/weight_checker.py:179",
+        "python/sglang/srt/utils/weight_checker.py:180",
+        "python/sglang/srt/utils/weight_checker.py:206"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 468,
+      "test_name": "TestHandle::test_routes_to_actions",
+      "unit_id": "diagnostic.weight_action_dispatch",
+      "reviewed_semantics": "snapshot/reset_tensors/compare/checksum actions call their corresponding mocked methods exactly once.",
+      "source_body": "def test_routes_to_actions(self):\n        with (\n            patch.object(self.checker, \"_snapshot\") as m_snap,\n            patch.object(self.checker, \"_reset_tensors\") as m_reset,\n            patch.object(self.checker, \"_compare\") as m_compare,\n            patch.object(\n                self.checker, \"_compute_checksum\", return_value={\"checksums\": {}}\n            ) as m_checksum,\n        ):\n            self.checker.handle(\"snapshot\")\n            self.checker.handle(\"reset_tensors\")\n            self.checker.handle(\"compare\")\n            self.checker.handle(\"checksum\")\n            m_snap.assert_called_once()\n            m_reset.assert_called_once()\n            m_compare.assert_called_once()\n            m_checksum.assert_called_once()",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:481",
+        "test/registered/unit/utils/test_weight_checker.py:482",
+        "test/registered/unit/utils/test_weight_checker.py:483",
+        "test/registered/unit/utils/test_weight_checker.py:484"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 486,
+      "test_name": "TestHandle::test_returns_none_for_non_checksum_actions",
+      "unit_id": "diagnostic.weight_action_dispatch",
+      "reviewed_semantics": "Snapshot action then compare action return None.",
+      "source_body": "def test_returns_none_for_non_checksum_actions(self):\n        self.assertIsNone(self.checker.handle(\"snapshot\"))\n        self.assertIsNone(self.checker.handle(\"compare\"))",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:487",
+        "test/registered/unit/utils/test_weight_checker.py:488"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 490,
+      "test_name": "TestHandle::test_returns_dict_for_checksum_action",
+      "unit_id": "diagnostic.weight_checksum_record",
+      "reviewed_semantics": "Checksum action returns a dictionary with checksums, per_gpu_checksum and parallelism_info.",
+      "source_body": "def test_returns_dict_for_checksum_action(self):\n        out = self.checker.handle(\"checksum\")\n        self.assertIsInstance(out, dict)\n        self.assertIn(\"checksums\", out)\n        self.assertIn(\"per_gpu_checksum\", out)\n        self.assertIn(\"parallelism_info\", out)",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:492",
+        "test/registered/unit/utils/test_weight_checker.py:493",
+        "test/registered/unit/utils/test_weight_checker.py:494",
+        "test/registered/unit/utils/test_weight_checker.py:495"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 497,
+      "test_name": "TestHandle::test_unknown_action_raises",
+      "unit_id": "diagnostic.weight_action_dispatch",
+      "reviewed_semantics": "Unknown nonsense_action raises an exception containing Unsupported.",
+      "source_body": "def test_unknown_action_raises(self):\n        with self.assertRaises(Exception) as ctx:\n            self.checker.handle(\"nonsense_action\")\n        self.assertIn(\"Unsupported\", str(ctx.exception))",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:498",
+        "test/registered/unit/utils/test_weight_checker.py:500"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 510,
+      "test_name": "TestIsNonPersistentBufferName::test_matches_cos_sin_cache_substring",
+      "unit_id": "diagnostic.weight_comparison_projection",
+      "reviewed_semantics": "Name predicate matches model.rotary_emb.cos_sin_cache.",
+      "source_body": "def test_matches_cos_sin_cache_substring(self):\n        self.assertTrue(\n            _is_non_persistent_buffer_name(\"model.rotary_emb.cos_sin_cache\")\n        )",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:511"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 515,
+      "test_name": "TestIsNonPersistentBufferName::test_matches_inv_freq_substring",
+      "unit_id": "diagnostic.weight_comparison_projection",
+      "reviewed_semantics": "Name predicate matches model.rotary_emb.inv_freq.",
+      "source_body": "def test_matches_inv_freq_substring(self):\n        self.assertTrue(_is_non_persistent_buffer_name(\"model.rotary_emb.inv_freq\"))",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:516"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 518,
+      "test_name": "TestIsNonPersistentBufferName::test_matches_freqs_cis_substring",
+      "unit_id": "diagnostic.weight_comparison_projection",
+      "reviewed_semantics": "Name predicate matches model.rotary_emb.freqs_cis.",
+      "source_body": "def test_matches_freqs_cis_substring(self):\n        self.assertTrue(_is_non_persistent_buffer_name(\"model.rotary_emb.freqs_cis\"))",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:519"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 521,
+      "test_name": "TestIsNonPersistentBufferName::test_matches_weight_fp32_substring",
+      "unit_id": "diagnostic.weight_comparison_projection",
+      "reviewed_semantics": "Name predicate matches model.layers.0.mlp.gate._weight_fp32.",
+      "source_body": "def test_matches_weight_fp32_substring(self):\n        self.assertTrue(\n            _is_non_persistent_buffer_name(\"model.layers.0.mlp.gate._weight_fp32\")\n        )",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:522"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 526,
+      "test_name": "TestIsNonPersistentBufferName::test_does_not_match_normal_param_names",
+      "unit_id": "diagnostic.weight_comparison_projection",
+      "reviewed_semantics": "Name predicate excludes ordinary mlp.weight and embed_tokens.weight.",
+      "source_body": "def test_does_not_match_normal_param_names(self):\n        self.assertFalse(_is_non_persistent_buffer_name(\"model.layers.0.mlp.weight\"))\n        self.assertFalse(_is_non_persistent_buffer_name(\"model.embed_tokens.weight\"))",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:527",
+        "test/registered/unit/utils/test_weight_checker.py:528"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 538,
+      "test_name": "TestHashTensor::test_stable_for_same_input",
+      "unit_id": "diagnostic.weight_checksum_record",
+      "reviewed_semantics": "Tensor hash agrees between arange(64,float32) and its CUDA clone.",
+      "source_body": "def test_stable_for_same_input(self):\n        t = torch.arange(64, dtype=torch.float32).cuda()\n        self.assertEqual(_hash_tensor(t), _hash_tensor(t.clone()))",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:540"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 542,
+      "test_name": "TestHashTensor::test_changes_with_data",
+      "unit_id": "diagnostic.weight_checksum_record",
+      "reviewed_semantics": "Tensor hash differs between the chosen all-zero and all-one CUDA tensors; no general collision freedom claim.",
+      "source_body": "def test_changes_with_data(self):\n        a = torch.zeros(64, dtype=torch.float32).cuda()\n        b = torch.ones(64, dtype=torch.float32).cuda()\n        self.assertNotEqual(_hash_tensor(a), _hash_tensor(b))",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:545"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 547,
+      "test_name": "TestHashTensor::test_returns_16_char_hex",
+      "unit_id": "diagnostic.weight_checksum_record",
+      "reviewed_semantics": "Hash of zero CUDA tensor has length sixteen and is parseable base sixteen.",
+      "source_body": "def test_returns_16_char_hex(self):\n        t = torch.zeros(64, dtype=torch.float32).cuda()\n        h = _hash_tensor(t)\n        self.assertEqual(len(h), 16)\n        int(h, 16)",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:550",
+        "test/registered/unit/utils/test_weight_checker.py:551"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 553,
+      "test_name": "TestHashTensor::test_does_not_mutate_input",
+      "unit_id": "diagnostic.weight_checksum_record",
+      "reviewed_semantics": "Hashing arange CUDA tensor leaves its values unchanged.",
+      "source_body": "def test_does_not_mutate_input(self):\n        t = torch.arange(64, dtype=torch.float32).cuda()\n        before = t.clone()\n        _hash_tensor(t)\n        torch.testing.assert_close(t, before)",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:557"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 584,
+      "test_name": "TestComputeChecksum::test_returns_dict_with_expected_top_level_keys",
+      "unit_id": "diagnostic.weight_checksum_record",
+      "reviewed_semantics": "Checksum dictionary has exactly checksums, per_gpu_checksum and parallelism_info keys.",
+      "source_body": "def test_returns_dict_with_expected_top_level_keys(self):\n        out = self.checker._compute_checksum()\n        self.assertEqual(\n            set(out.keys()), {\"checksums\", \"per_gpu_checksum\", \"parallelism_info\"}\n        )",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:586"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 590,
+      "test_name": "TestComputeChecksum::test_skips_non_persistent_buffers",
+      "unit_id": "diagnostic.weight_checksum_record",
+      "reviewed_semantics": "Checksum names include w,b,running_mean and exclude the three declared nonpersistent-pattern buffers.",
+      "source_body": "def test_skips_non_persistent_buffers(self):\n        out = self.checker._compute_checksum()\n        names = set(out[\"checksums\"].keys())\n        # Normal params and buffers are present.\n        self.assertIn(\"w\", names)\n        self.assertIn(\"b\", names)\n        self.assertIn(\"running_mean\", names)\n        # Non-persistent buffer patterns are filtered out.\n        self.assertNotIn(\"rotary_emb_cos_sin_cache\", names)\n        self.assertNotIn(\"rotary_emb_freqs_cis\", names)\n        self.assertNotIn(\"gate_proj_weight_fp32_cache\", names)",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:594",
+        "test/registered/unit/utils/test_weight_checker.py:595",
+        "test/registered/unit/utils/test_weight_checker.py:596",
+        "test/registered/unit/utils/test_weight_checker.py:598",
+        "test/registered/unit/utils/test_weight_checker.py:599",
+        "test/registered/unit/utils/test_weight_checker.py:600"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 602,
+      "test_name": "TestComputeChecksum::test_hashes_are_hex_strings",
+      "unit_id": "diagnostic.weight_checksum_record",
+      "reviewed_semantics": "Every per-tensor checksum has sixteen characters and is parseable base sixteen.",
+      "source_body": "def test_hashes_are_hex_strings(self):\n        out = self.checker._compute_checksum()\n        for name, h in out[\"checksums\"].items():\n            self.assertEqual(len(h), 16, f\"unexpected hash length for {name!r}\")\n            int(h, 16)",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:605",
+        "test/registered/unit/utils/test_weight_checker.py:606"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 608,
+      "test_name": "TestComputeChecksum::test_parallelism_info_reflects_runner_state",
+      "unit_id": "diagnostic.weight_checksum_record",
+      "reviewed_semantics": "Checksum parallelism metadata matches fake runner TP=2/4, DP=1/2, PP=0/1 and contains rank/size keys; rank/size values are not asserted.",
+      "source_body": "def test_parallelism_info_reflects_runner_state(self):\n        info = self.checker._compute_checksum()[\"parallelism_info\"]\n        self.assertEqual(info[\"tp_rank\"], 2)\n        self.assertEqual(info[\"tp_size\"], 4)\n        self.assertEqual(info[\"dp_rank\"], 1)\n        self.assertEqual(info[\"dp_size\"], 2)\n        self.assertEqual(info[\"pp_rank\"], 0)\n        self.assertEqual(info[\"pp_size\"], 1)\n        # rank/size come from torch.distributed; default to 0/1 when uninitialized.\n        self.assertIn(\"rank\", info)\n        self.assertIn(\"size\", info)",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:610",
+        "test/registered/unit/utils/test_weight_checker.py:611",
+        "test/registered/unit/utils/test_weight_checker.py:612",
+        "test/registered/unit/utils/test_weight_checker.py:613",
+        "test/registered/unit/utils/test_weight_checker.py:614",
+        "test/registered/unit/utils/test_weight_checker.py:615",
+        "test/registered/unit/utils/test_weight_checker.py:617",
+        "test/registered/unit/utils/test_weight_checker.py:618"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 620,
+      "test_name": "TestComputeChecksum::test_checksum_is_stable_for_unchanged_weights",
+      "unit_id": "diagnostic.weight_checksum_record",
+      "reviewed_semantics": "Two checksum records for unchanged model are equal.",
+      "source_body": "def test_checksum_is_stable_for_unchanged_weights(self):\n        first = self.checker._compute_checksum()\n        second = self.checker._compute_checksum()\n        self.assertEqual(first, second)",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:623"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 625,
+      "test_name": "TestComputeChecksum::test_checksum_changes_after_param_mutation",
+      "unit_id": "diagnostic.weight_checksum_record",
+      "reviewed_semantics": "Overwriting w with 99 changes that parameter checksum.",
+      "source_body": "def test_checksum_changes_after_param_mutation(self):\n        first = self.checker._compute_checksum()[\"checksums\"][\"w\"]\n        with torch.no_grad():\n            self.model.w.data.fill_(99.0)\n        second = self.checker._compute_checksum()[\"checksums\"][\"w\"]\n        self.assertNotEqual(first, second)",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:630"
+      ]
+    },
+    {
+      "path": "test/registered/unit/utils/test_weight_checker.py",
+      "line": 632,
+      "test_name": "TestComputeChecksum::test_validates_against_pydantic_schema",
+      "unit_id": "diagnostic.weight_checksum_record",
+      "reviewed_semantics": "Checksum record validates as ChecksumInfo with ParallelismInfo nested model.",
+      "source_body": "def test_validates_against_pydantic_schema(self):\n        out = self.checker._compute_checksum()\n        info = ChecksumInfo.model_validate(out)\n        self.assertIsInstance(info.parallelism_info, ParallelismInfo)",
+      "oracles": [
+        "test/registered/unit/utils/test_weight_checker.py:635"
+      ]
+    }
+  ]
+}

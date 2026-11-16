@@ -1,0 +1,20 @@
+[
+  {
+    "id": "sampling.distribution_relation",
+    "status": "candidate_needs_framework_applicability_review",
+    "property": "Sample frequencies under declared logits, support, RNG seeds and sample size agree with the declared target distribution within explicit statistical thresholds.",
+    "scope_note": "Neither token support nor deterministic repeatability establishes distribution agreement. Preserve chi-square and head/tail frequency oracles and sample counts.",
+    "vllm_test": "tests/kernels/test_cpu_fused_sampling.py:46",
+    "vllm_source": "csrc/cpu/sampling_kernels.cpp:39",
+    "evidence": "evidence-batch8.json"
+  },
+  {
+    "id": "sampling.randomness_relation",
+    "status": "candidate_needs_framework_applicability_review",
+    "property": "Declared changes of RNG seeds do not induce the specifically prohibited correlation between sampled token sequences.",
+    "scope_note": "Consecutive-seed one-token shift fraction is the actual test; it does not prove full statistical independence.",
+    "vllm_test": "tests/kernels/test_cpu_fused_sampling.py:73",
+    "vllm_source": "csrc/cpu/sampling_kernels.cpp:33",
+    "evidence": "evidence-batch8.json"
+  }
+]

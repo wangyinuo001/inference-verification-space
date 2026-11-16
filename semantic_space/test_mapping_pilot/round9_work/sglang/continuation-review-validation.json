@@ -1,0 +1,28 @@
+{
+  "reviewed_entries": 126,
+  "independent_predicate_references": 292,
+  "units": [
+    "constraint.diagnostics",
+    "constraint.object_state",
+    "constraint.compile_outcome",
+    "constraint.compilation_cache",
+    "constraint.backend_selection",
+    "constraint.request_dispatch",
+    "constraint.wait_queue",
+    "constraint.request_abort",
+    "constraint.reasoning_budget",
+    "constraint.rank_readiness",
+    "diagnostic.weight_probe_generation",
+    "diagnostic.weight_comparison_projection",
+    "diagnostic.weight_comparison_verdict",
+    "diagnostic.weight_snapshot_isolation",
+    "diagnostic.weight_probe_reset",
+    "diagnostic.weight_action_dispatch",
+    "diagnostic.weight_checksum_record"
+  ],
+  "source_hashes_verified": true,
+  "source_lines_nonempty": true,
+  "unique_entry_keys": true,
+  "framework_scope": "sglang only",
+  "runtime_executed": false
+}

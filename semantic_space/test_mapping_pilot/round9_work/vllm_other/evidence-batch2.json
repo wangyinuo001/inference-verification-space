@@ -1,0 +1,255 @@
+{
+  "batch": "derender_two_files_source_review",
+  "file_reviews": [
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "source_sha256": "4fec9dfe8f2cff0b321fa064d5bb0000823955faab4e673c576138eb7e451a3d",
+      "review": "Reviewed the source-grounded per-entry AST call and assertion packets, plus representative helper and implementation paths. Curated groups are emitted only when their actual assertion source supports the named local property; ungrouped or ambiguous cases stay pending. Broader full-function review remains to be done before treating this as final confirmation.",
+      "product_source": [
+        "vllm/entrypoints/scale_out/derender/serving.py:142",
+        "vllm/entrypoints/scale_out/derender/serving.py:294",
+        "vllm/renderers/online_derenderer.py:539",
+        "vllm/renderers/online_derenderer.py:1260"
+      ]
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+      "review": "Reviewed the source-grounded per-entry AST call and assertion packets, plus representative helper and implementation paths. Curated groups are emitted only when their actual assertion source supports the named local property; ungrouped or ambiguous cases stay pending. Broader full-function review remains to be done before treating this as final confirmation.",
+      "product_source": [
+        "vllm/entrypoints/scale_out/derender/serving.py:142",
+        "vllm/entrypoints/scale_out/derender/serving.py:294",
+        "vllm/renderers/online_derenderer.py:539",
+        "vllm/renderers/online_derenderer.py:1260"
+      ]
+    }
+  ],
+  "reviewed_entries": 97,
+  "pending_entries": 53,
+  "unit_counts": {
+    "response.delivery": 13,
+    "output.finalization": 9,
+    "response.usage_accounting": 4,
+    "response.logprob_identity": 10,
+    "response.logprob_text_decoding": 4,
+    "input.error_response_classification": 29,
+    "output.incremental_parse_relation": 14,
+    "response.stream_payload_consistency": 14
+  },
+  "exceptions": [
+    {
+      "test_name": "test_derender_chat_leading_space_seeded_from_prompt",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "test_derender_completion_leading_space_seeded_from_prompt",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "test_e2e_plain_roundtrip",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "test_e2e_token_identity",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "test_e2e_non_ascii_roundtrip",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "test_e2e_parsed_logprobs_follow_include_reasoning",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "test_e2e_parser_uses_caller_prompt_token_ids",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "test_e2e_harmony_plain_roundtrip",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "test_derender_chat_tool_call_id_matches_chat_completion",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "test_derender_chat_keeps_parser_tool_call_id",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "test_non_streaming_derender_initializes_parser_prefix",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "test_parsed_derender_leaves_out_stop_token_like_engine",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestDetokenizeDelta::test_empty_delta_passthrough",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestDetokenizeDelta::test_state_window_stays_bounded",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestDetokenizeDelta::test_truncated_multibyte_char_is_held_back",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestDetokenizeDelta::test_decode_params_mirror_engine",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestDetokenizeDelta::test_decode_params_default_without_request",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestDetokenizeDelta::test_decode_params_mistral_parser_follows_request",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestSeedStreamState::test_seeds_prev_token_ids_from_prompt_tail",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestSeedStreamState::test_byte_fallback_survives_state_round_trip",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestSeedStreamState::test_none_prompt_token_ids_returns_empty_state",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestSeedStreamState::test_empty_prompt_token_ids_returns_empty_state",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestPromptSeededLeadingSpace::test_chat_batch_seeded_via_explicit_prompt_token_ids",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestPromptSeededLeadingSpace::test_chat_batch_seeded_via_generate_response_fallback",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestPromptSeededLeadingSpace::test_chat_batch_explicit_takes_precedence_over_fallback",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestPromptSeededLeadingSpace::test_chat_batch_without_prompt_context_stays_unseeded",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestPromptSeededLeadingSpace::test_completion_batch_seeded",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "test_streaming_detokenization_runs_off_event_loop",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestDerenderCompletionStream::test_none_state_initialises_correctly",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestDerenderCompletionStream::test_skip_special_tokens_threaded",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestStreamLogprobs::test_completion_stream_logprobs_text_offset_absolute",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestStreamLogprobs::test_completion_offsets_include_skipped_special_tokens",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestStreamLogprobs::test_stream_logprob_state_stays_bounded",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestDerenderChatStream::test_parser_configured_missing_chat_request_raises",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestDerenderChatStreamParsed::test_finish_only_chunk_flushes",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestDerenderChatStreamParsed::test_chunking_invariance",
+      "reason": "curated_property_lacks_expected_assertion"
+    },
+    {
+      "test_name": "TestDerenderChatStreamParsed::test_replay_preserves_chunk_boundaries",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestDerenderChatStreamParsed::test_tool_call_id_pinned_across_chunks",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestDerenderChatStreamParsed::test_logprobs_attached_to_each_parsed_delta",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestDerenderChatStreamParsed::test_logprob_context_advances_without_logprobs",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestDerenderChatStreamHarmony::test_stream_matches_batch",
+      "reason": "curated_property_lacks_expected_assertion"
+    },
+    {
+      "test_name": "TestDerenderStreamStateValidation::test_negative_prefix_offset_rejected",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestDerenderStreamStateValidation::test_negative_read_offset_rejected",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestDerenderStreamStateValidation::test_prev_token_ids_over_cap_rejected",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestDerenderStreamStateValidation::test_prev_token_ids_at_cap_accepted",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestDerenderStreamStateValidation::test_output_chunk_lens_mismatch_rejected",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestDerenderStreamStateValidation::test_output_chunk_lens_zero_entry_rejected",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestDerenderStreamStateValidation::test_output_chunk_lens_matching_accepted",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "test_negative_prompt_token_ids_rejected",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestServingDerenderStreamValidation::test_missing_chat_request_without_parser_ok",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "TestServingDerenderStreamValidation::test_prompt_token_ids_present_with_parser_ok",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "test_streaming_usage_chunk",
+      "reason": "no_unique_curated_property"
+    },
+    {
+      "test_name": "test_stream_parsed_cjk_across_chunk_boundaries",
+      "reason": "no_unique_curated_property"
+    }
+  ]
+}

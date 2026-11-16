@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import os
 import subprocess
 from pathlib import Path
@@ -52,8 +53,10 @@ def validate() -> dict[str, int]:
     refs = 0
     for unit in data["units"]:
         assert unit["kind"] in {"obligation", "composite"}
+        assert unit["phase"] in {"preflight", "ingress", "scheduling", "cache", "transfer", "model_execution", "sampling", "output", "service", "abort", "diagnostic", "end_to_end", "whole_request"}, (unit["id"], unit["phase"])
         assert set(unit["conditions"]) <= dimensions, unit["id"]
         assert unit["property"] and unit["observable"] and unit["oracle"]
+        assert unit["state_scope"] in {"request", "shared", "local", "deployment", "diagnostic_artifact"}, unit["id"]
         if unit["kind"] == "obligation":
             scope = set(unit.get("framework_scope", roots))
             assert scope and scope <= set(roots), unit["id"]
@@ -70,6 +73,10 @@ def validate() -> dict[str, int]:
                 lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
                 assert 1 <= ref["line"] <= len(lines), (path, ref["line"])
                 assert lines[ref["line"] - 1].strip(), (path, ref["line"])
+                if "source_sha256" in ref:
+                    assert hashlib.sha256(path.read_bytes()).hexdigest() == ref["source_sha256"], (unit["id"], path, "source version")
+                if "source" in ref:
+                    assert lines[ref["line"] - 1].strip() == ref["source"].strip(), (unit["id"], path, ref["line"], "source anchor")
                 assert ref["kind"] in {"source", "existing_test", "existing_oracle"}
                 if "runtime_guard" in ref:
                     assert ref["kind"] == "source" and isinstance(ref["runtime_guard"], dict)
