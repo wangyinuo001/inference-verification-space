@@ -1,0 +1,33 @@
+{
+  "status": "ready_for_parent_merge",
+  "crosswalk_entries": 509,
+  "proposed_entries": 210,
+  "total_unique_entries": 719,
+  "new_entries_since_original_260": 459,
+  "vllm_snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385",
+  "sglang_snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb",
+  "new_candidate_unit": "cache.storage_layout_mapping",
+  "new_candidate_framework_scope": [
+    "vllm"
+  ],
+  "new_candidate_entries": 27,
+  "fixed_sglang_replacements": "seed-evidence-replacements.json",
+  "current_audit": "continuation-audit.json",
+  "integrity": "All oracle references nonempty; all pinned source SHA checked; crosswalk/proposed keys unique; 260 original entries retained; no test/GPU/server execution",
+  "files": {
+    "crosswalk.tsv": "bf0c17fbf1f1953a1ad20ec9e68f76565c38567c4a8955c6e306506fe1a485b0",
+    "proposed-crosswalk.tsv": "017188b2daede0e914fd08ab255d5cd541d0b2cbb5f33b1ac391fd61ca8269cb",
+    "reviewed-decisions.json": "7149c49cb65d51633e3a4f2fa3afee70a7d56231c2a8bed8d352a26d7fe3016c",
+    "evidence.json": "272ad75eee2a0f643fa8ba16d003eb185f1e5d0618c10fca8bf32cdd9dc6f8a1",
+    "proposed-evidence.json": "3aacf4e8c710f13912817d13001958fb5c0e3d3dcf5aea0e3944abd2f82f3f11",
+    "units-ready.json": "f890032e8e81d44f7100b4e7d549b18f5904b797dd4fddb70fb8c26f67b1a129",
+    "storage-layout-proposals.json": "ffd3681ab7bbf0069d552ec6bd6065fb384204759d6cab8f21bee41cc19bc5a4",
+    "pending-boundaries.json": "35756fc852e0d181a2b85745f1e1eacabe4c74645f63808396596515a21a7712"
+  },
+  "notes": [
+    "This continuation includes batches2-8 beyond initial104-entry batch.",
+    "Parent main ledger/seed/UI have not been changed.",
+    "Parent may merge new candidate only after reviewing its vLLM-only source contract.",
+    "Do not interpret test guard, artificial metadata fixture, descriptor-only check or successful return as stronger runtime numerical/IO guarantee."
+  ]
+}

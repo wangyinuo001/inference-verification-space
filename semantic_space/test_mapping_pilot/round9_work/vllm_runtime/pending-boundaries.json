@@ -1,0 +1,245 @@
+{
+  "entries": [
+    {
+      "path": "tests/distributed/test_quick_all_reduce.py",
+      "test_name": "test_custom_quick_allreduce_variable_input",
+      "reason": "Worker asserts numerical values but parent only join/is_alive; no exitcode assertion. Cannot promote worker numerical oracle to pytest entry. The test detects timeout/hang only."
+    },
+    {
+      "path": "tests/distributed/test_rocm_quick_reduce.py",
+      "test_name": "test_quick_reduce_regime_values",
+      "reason": "Only codec enum constants/table positivity/size-positive checks; no exact runtime selection or parsed configuration relation established."
+    },
+    {
+      "path": "tests/distributed/test_rocm_quick_reduce.py",
+      "test_name": "test_quick_reduce_regime_names",
+      "reason": "Only codec enum constants/table positivity/size-positive checks; no exact runtime selection or parsed configuration relation established."
+    },
+    {
+      "path": "tests/distributed/test_rocm_quick_reduce.py",
+      "test_name": "test_quick_allreduce_min_size_table",
+      "reason": "Only codec enum constants/table positivity/size-positive checks; no exact runtime selection or parsed configuration relation established."
+    },
+    {
+      "path": "tests/distributed/test_rocm_quick_reduce.py",
+      "test_name": "test_qr_max_size",
+      "reason": "Only codec enum constants/table positivity/size-positive checks; no exact runtime selection or parsed configuration relation established."
+    },
+    {
+      "path": "tests/distributed/test_dcp_a2a.py",
+      "test_name": "TestLSEWeightedCombine::test_importable",
+      "reason": "Callable existence and packing-lane count utility checks kept distinct from full reduce/output relation."
+    },
+    {
+      "path": "tests/distributed/test_dcp_a2a.py",
+      "test_name": "TestLSEWeightedCombine::test_lse_pack_dim",
+      "reason": "Callable existence and packing-lane count utility checks kept distinct from full reduce/output relation."
+    },
+    {
+      "path": "tests/distributed/test_comm_ops.py",
+      "test_name": "test_multi_process_tensor_parallel",
+      "reason": "Worker alternatives mix message delivery and arithmetic reduction; no single-property promotion of the entire parameterized entry."
+    },
+    {
+      "path": "tests/distributed/test_comm_ops.py",
+      "test_name": "test_multi_process_tensor_parallel_pipeline_parallel",
+      "reason": "Worker alternatives mix message delivery and arithmetic reduction; no single-property promotion of the entire parameterized entry."
+    },
+    {
+      "path": "tests/distributed/test_comm_ops.py",
+      "test_name": "test_cuda_communicator_checkpoint_rejects_symm_mem_workspace",
+      "reason": "Checkpoint operation capability and lazy wait lifecycle need suitable specific property; not startup config or GPU stream dependency."
+    },
+    {
+      "path": "tests/distributed/test_comm_ops.py",
+      "test_name": "test_async_intermediate_tensors_lazy_wait",
+      "reason": "Checkpoint operation capability and lazy wait lifecycle need suitable specific property; not startup config or GPU stream dependency."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_name": "test_moriio_wrapper_routes_valid_messages",
+      "reason": "mixed metadata routing/completion parameter cases"
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_name": "test_moriio_wrapper_rejects_invalid_messages",
+      "reason": "protocol admissibility needs specific unit"
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_name": "test_heterogeneous_tp_head_guard_allows_supported_layouts",
+      "reason": "These three are successful return/no-exception smoke checks without direct assertions; not promoted to the broader placement/completion property."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_name": "test_heterogeneous_tp_head_guard_allows_mla_layouts",
+      "reason": "These three are successful return/no-exception smoke checks without direct assertions; not promoted to the broader placement/completion property."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_moriio_transfer_completion.py",
+      "test_name": "test_wait_returns_immediately_when_nothing_pending",
+      "reason": "These three are successful return/no-exception smoke checks without direct assertions; not promoted to the broader placement/completion property."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_config.py",
+      "test_name": "test_kv_connector_allows_expandable_segments_with_sleep_mode",
+      "reason": "No direct assertions; successful-return admissibility only, kept separate from effective-state guarantee."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_config.py",
+      "test_name": "test_kv_connector_allows_expandable_segments_with_cumem_allocator",
+      "reason": "No direct assertions; successful-return admissibility only, kept separate from effective-state guarantee."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_config.py",
+      "test_name": "test_kv_connector_allows_other_alloc_conf",
+      "reason": "No direct assertions; successful-return admissibility only, kept separate from effective-state guarantee."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_config.py",
+      "test_name": "test_no_kv_connector_ignores_expandable_segments",
+      "reason": "No direct assertions; successful-return admissibility only, kept separate from effective-state guarantee."
+    },
+    {
+      "path": "tests/v1/attention/test_sparse_mla_backends.py",
+      "test_name": "test_unified_mla_prepares_batch_without_slot_mapping",
+      "reason": "Input slot_mapping is None; explicit prepare called and update skipped. Distinct from empty tensors or negative slots; do not claim empty-slot no-write guarantee."
+    },
+    {
+      "path": "tests/v1/attention/test_sparse_mla_backends.py",
+      "test_name": "test_hisparse_expanded_hash_keeps_union_bound",
+      "reason": "Subprocess nonzero exit plus generic launch failure does not identify exact failed device assertion. Four selected rows/unionbound3; keep distinct from startup config rejection."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_name": "test_register_finished_partial_tail_notifies_every_connector",
+      "reason": "Callback delegation or API override completeness only; no full transfer readiness/lifetime consequence asserted."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_name": "test_multi_connector_mem_pool_context_none",
+      "reason": "Provider selection/no-provider/multiple-provider conflict only; not shared-region attachment or resource lifetime."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_name": "test_multi_connector_forwards_mem_pool_context",
+      "reason": "Provider selection/no-provider/multiple-provider conflict only; not shared-region attachment or resource lifetime."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_name": "test_multi_connector_rejects_multiple_mem_pool_contexts",
+      "reason": "Provider selection/no-provider/multiple-provider conflict only; not shared-region attachment or resource lifetime."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_name": "test_cache_hit_sources_delegate_to_selected_connector",
+      "reason": "Delegates source-count dictionary object to selected connector; no recomputed token count/upper-bound check."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_name": "test_multi_example_connector_consistency",
+      "reason": "Compares two persisted copies and callback event ordering, but neither original KV reference nor model output equality. Preserve distinct cross-store consistency/property gap."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_name": "test_engine_id_conflict",
+      "reason": "Two fresh configs get distinct engine IDs; no request-to-transfer binding or socket endpoint proof."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_name": "test_multi_connector_handle_preemptions_integration",
+      "reason": "Callback delegation or API override completeness only; no full transfer readiness/lifetime consequence asserted."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_name": "TestMultiConnectorStats::test_build_kv_connector_stats_with_none",
+      "reason": "Reviewed complete stats body: typed deserialization/object preservation/aggregation/reset/exporter/logging contract. No existing seed unit for connector metric-payload algebra; not startup config, KV content or runtime message delivery."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_name": "TestMultiConnectorStats::test_build_kv_connector_stats_with_empty_dict",
+      "reason": "Reviewed complete stats body: typed deserialization/object preservation/aggregation/reset/exporter/logging contract. No existing seed unit for connector metric-payload algebra; not startup config, KV content or runtime message delivery."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_name": "TestMultiConnectorStats::test_build_kv_connector_stats_reconstructs_nixl_stats",
+      "reason": "Reviewed complete stats body: typed deserialization/object preservation/aggregation/reset/exporter/logging contract. No existing seed unit for connector metric-payload algebra; not startup config, KV content or runtime message delivery."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_name": "TestMultiConnectorStats::test_build_kv_connector_stats_with_multiple_connectors",
+      "reason": "Reviewed complete stats body: typed deserialization/object preservation/aggregation/reset/exporter/logging contract. No existing seed unit for connector metric-payload algebra; not startup config, KV content or runtime message delivery."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_name": "TestMultiConnectorStats::test_build_kv_connector_stats_raises_error_for_unknown_connector",
+      "reason": "Reviewed complete stats body: typed deserialization/object preservation/aggregation/reset/exporter/logging contract. No existing seed unit for connector metric-payload algebra; not startup config, KV content or runtime message delivery."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_name": "TestMultiConnectorStats::test_build_kv_connector_stats_with_already_instantiated_objects",
+      "reason": "Reviewed complete stats body: typed deserialization/object preservation/aggregation/reset/exporter/logging contract. No existing seed unit for connector metric-payload algebra; not startup config, KV content or runtime message delivery."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_name": "TestMultiConnectorStats::test_build_kv_connector_stats_with_mixed_objects_and_dicts",
+      "reason": "Reviewed complete stats body: typed deserialization/object preservation/aggregation/reset/exporter/logging contract. No existing seed unit for connector metric-payload algebra; not startup config, KV content or runtime message delivery."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_name": "TestMultiConnectorStats::test_build_kv_connector_stats_skips_connectors_without_custom_stats",
+      "reason": "Reviewed complete stats body: typed deserialization/object preservation/aggregation/reset/exporter/logging contract. No existing seed unit for connector metric-payload algebra; not startup config, KV content or runtime message delivery."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_name": "TestMultiConnectorStats::test_prom_metrics_passes_flat_data_to_children",
+      "reason": "Reviewed complete stats body: typed deserialization/object preservation/aggregation/reset/exporter/logging contract. No existing seed unit for connector metric-payload algebra; not startup config, KV content or runtime message delivery."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_name": "TestMultiConnectorStats::test_prom_metrics_skips_stats_only_connectors",
+      "reason": "Reviewed complete stats body: typed deserialization/object preservation/aggregation/reset/exporter/logging contract. No existing seed unit for connector metric-payload algebra; not startup config, KV content or runtime message delivery."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_name": "TestMultiConnectorStats::test_aggregate_same_connector",
+      "reason": "Reviewed complete stats body: typed deserialization/object preservation/aggregation/reset/exporter/logging contract. No existing seed unit for connector metric-payload algebra; not startup config, KV content or runtime message delivery."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_name": "TestMultiConnectorStats::test_aggregate_new_connector",
+      "reason": "Reviewed complete stats body: typed deserialization/object preservation/aggregation/reset/exporter/logging contract. No existing seed unit for connector metric-payload algebra; not startup config, KV content or runtime message delivery."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_name": "TestMultiConnectorStats::test_reduce",
+      "reason": "Reviewed complete stats body: typed deserialization/object preservation/aggregation/reset/exporter/logging contract. No existing seed unit for connector metric-payload algebra; not startup config, KV content or runtime message delivery."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_name": "TestMultiConnectorStats::test_log_renders_plain_scalars",
+      "reason": "Reviewed complete stats body: typed deserialization/object preservation/aggregation/reset/exporter/logging contract. No existing seed unit for connector metric-payload algebra; not startup config, KV content or runtime message delivery."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_name": "TestMultiConnectorStats::test_reset",
+      "reason": "Reviewed complete stats body: typed deserialization/object preservation/aggregation/reset/exporter/logging contract. No existing seed unit for connector metric-payload algebra; not startup config, KV content or runtime message delivery."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_name": "TestMultiConnectorStats::test_is_empty_with_multiple_connectors",
+      "reason": "Reviewed complete stats body: typed deserialization/object preservation/aggregation/reset/exporter/logging contract. No existing seed unit for connector metric-payload algebra; not startup config, KV content or runtime message delivery."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_name": "test_multi_connector_overrides_all_base_methods",
+      "reason": "Callback delegation or API override completeness only; no full transfer readiness/lifetime consequence asserted."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_name": "test_multi_connector_worker_metadata",
+      "reason": "Connector-indexed metadata aggregate/demultiplex with nested assertion callbacks; no actual transport. Needs exact metadata composition unit."
+    }
+  ],
+  "scope": "Explicit reviewed boundaries only; no automatic unresolved-property inference"
+}

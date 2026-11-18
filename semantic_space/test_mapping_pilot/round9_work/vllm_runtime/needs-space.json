@@ -498,6 +498,43 @@
       ],
       "sglang_snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb",
       "snapshot_scope_note": "Fixed snapshot supplies per-query ragged offsets or batch-selected page tables to top-k conversion; HiSparse initializes output to -1, binds request indices/top-k to swap-in and returns device locations. There is no claim that SGLang has vLLM SparseMLAIndexGroup cross-layer-sharing implementation."
+    },
+    {
+      "candidate_id": "cache.storage_layout_mapping",
+      "unit_id": "cache.storage_layout_mapping",
+      "property": "缓存页序列化为所声明的存储布局或从中恢复时，映射描述符保持逻辑层、头、token 或状态分量对应的地址、偏移、长度与次序；分片和副本写者按约定覆盖存储页，不支持的几何布局明确拒绝或采用声明的不透明页回退。",
+      "framework_scope": [
+        "vllm"
+      ],
+      "vllm_evidence": [
+        "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py:115",
+        "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py:139",
+        "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py:144",
+        "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py:292",
+        "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py:295",
+        "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py:296",
+        "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py:324",
+        "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py:327",
+        "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py:328",
+        "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py:339",
+        "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py:379",
+        "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py:389",
+        "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py:454",
+        "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py:458",
+        "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/layout.py:218",
+        "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/layout.py:264",
+        "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/layout.py:297",
+        "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/layout.py:301",
+        "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/layout.py:396",
+        "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/layout.py:409",
+        "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/layout.py:431",
+        "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/layout.py:621",
+        "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/layout.py:623",
+        "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py:144",
+        "tests/v1/kv_connector/unit/test_mooncake_store_layout.py:287"
+      ],
+      "sglang_evidence": [],
+      "scope_note": "Only fixed vLLM commit is asserted. This storage-page mapping obligation is distinct from P/D request transfer placement and from actual completed tier IO. No SGLang TP-portable storage-layout equivalence is claimed for admitted 49e384ce9d304648e9959666ecb8ce8cd98d0deb; a separate body-level comparison is required."
     }
   ],
   "status": "candidate_from_pinned_source; unit ids not yet added to shared space"

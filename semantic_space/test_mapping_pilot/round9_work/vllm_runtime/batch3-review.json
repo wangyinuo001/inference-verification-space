@@ -1,0 +1,14 @@
+{
+  "new_entries": 53,
+  "total_decisions": 330,
+  "files": [
+    "tests/v1/kv_connector/unit/test_tp_mapping.py",
+    "tests/v1/kv_connector/unit/test_moriio_tp_mapping.py",
+    "tests/v1/kv_connector/unit/test_moriio_kv_layout.py"
+  ],
+  "pending": [
+    "test_moriio_wrapper_routes_valid_messages: mixed metadata routing/completion parameter cases",
+    "test_moriio_wrapper_rejects_invalid_messages: protocol admissibility needs specific unit"
+  ],
+  "execution": "Pinned-source static audit only"
+}

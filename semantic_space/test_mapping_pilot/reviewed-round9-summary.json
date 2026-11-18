@@ -1,10 +1,10 @@
 {
   "full_scope": 31968,
-  "new_reviewed_mappings": 2032,
+  "new_reviewed_mappings": 2387,
   "proposed_unit_mappings_pending": 0,
   "by_framework": {
     "sglang": 1146,
-    "vllm": 886
+    "vllm": 1241
   },
   "complete": false
 }

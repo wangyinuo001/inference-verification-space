@@ -18892,6 +18892,201 @@
   {
     "key": [
       "vllm",
+      "tests/distributed/test_comm_ops.py",
+      "test_irecv_tensor_dict_send_allgather_postprocess_binds_keys",
+      "248"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61",
+    "oracle_source_sha256": {
+      "tests/distributed/test_comm_ops.py": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_comm_ops.py",
+      "test_cuda_communicator_checkpoints_flashinfer_workspaces",
+      "292"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61",
+    "oracle_source_sha256": {
+      "tests/distributed/test_comm_ops.py": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_comm_ops.py",
+      "test_cuda_communicator_suspend_detaches_flashinfer_workspaces",
+      "356"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61",
+    "oracle_source_sha256": {
+      "tests/distributed/test_comm_ops.py": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_comm_ops.py",
+      "test_cuda_communicator_resume_retries_failed_restore",
+      "385"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61",
+    "oracle_source_sha256": {
+      "tests/distributed/test_comm_ops.py": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_comm_ops.py",
+      "test_flashinfer_standalone_size_tuning",
+      "414"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61",
+    "oracle_source_sha256": {
+      "tests/distributed/test_comm_ops.py": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_comm_ops.py",
+      "test_flashinfer_standalone_workspace_size",
+      "441"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61",
+    "oracle_source_sha256": {
+      "tests/distributed/test_comm_ops.py": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_comm_ops.py",
+      "test_flashinfer_auto_backend_uses_group_topology",
+      "480"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61",
+    "oracle_source_sha256": {
+      "tests/distributed/test_comm_ops.py": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_comm_ops.py",
+      "test_flashinfer_workspace_failure_is_not_retried",
+      "505"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61",
+    "oracle_source_sha256": {
+      "tests/distributed/test_comm_ops.py": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_comm_ops.py",
+      "test_flashinfer_all_reduce_precedes_nccl",
+      "534"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61",
+    "oracle_source_sha256": {
+      "tests/distributed/test_comm_ops.py": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_comm_ops.py",
+      "test_aiter_all_gather_precedes_pynccl",
+      "555"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61",
+    "oracle_source_sha256": {
+      "tests/distributed/test_comm_ops.py": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_comm_ops.py",
+      "test_isend_object_posts_size_then_object_and_releases_on_wait",
+      "570"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61",
+    "oracle_source_sha256": {
+      "tests/distributed/test_comm_ops.py": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_comm_ops.py",
+      "test_isend_tensor_dict_includes_metadata_handle",
+      "610"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61",
+    "oracle_source_sha256": {
+      "tests/distributed/test_comm_ops.py": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_comm_ops.py",
+      "test_isend_tensor_dict_self_retains_for_fire_and_forget",
+      "639"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61",
+    "oracle_source_sha256": {
+      "tests/distributed/test_comm_ops.py": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_comm_ops.py",
+      "test_send_tensor_dict_sync_path_does_not_self_retain",
+      "681"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61",
+    "oracle_source_sha256": {
+      "tests/distributed/test_comm_ops.py": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_comm_ops.py",
+      "test_multi_process_pipeline_parallel",
+      "773"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61",
+    "oracle_source_sha256": {
+      "tests/distributed/test_comm_ops.py": "bd7cc82fb141c600202ac322439ba20d3eae8c06af8626671d2ce4ab8fe72e61"
+    }
+  },
+  {
+    "key": [
+      "vllm",
       "tests/distributed/test_custom_all_reduce.py",
       "test_all_reduce_mhc_matches_unfused_path",
       "213"
@@ -19113,6 +19308,487 @@
   {
     "key": [
       "vllm",
+      "tests/distributed/test_dcp_a2a.py",
+      "TestDCPCommBackendConfig::test_default_is_ag_rs",
+      "107"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_a2a.py": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_a2a.py",
+      "TestDCPCommBackendConfig::test_a2a_with_dcp_valid",
+      "113"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_a2a.py": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_a2a.py",
+      "TestDCPCommBackendConfig::test_invalid_backend_rejected",
+      "122"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_a2a.py": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_a2a.py",
+      "TestDCPCommBackendConfig::test_ag_rs_with_dcp_1_valid",
+      "129"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_a2a.py": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_a2a.py",
+      "TestLSEWeightedCombine::test_single_rank",
+      "155"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_a2a.py": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_a2a.py",
+      "TestLSEWeightedCombine::test_equal_lse",
+      "168"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_a2a.py": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_a2a.py",
+      "TestLSEWeightedCombine::test_dominant_rank",
+      "192"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_a2a.py": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_a2a.py",
+      "TestLSEWeightedCombine::test_empty_shard_ignores_undefined_output",
+      "215"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_a2a.py": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_a2a.py",
+      "TestLSEWeightedCombine::test_ag_rs_masks_empty_shard_and_padded_lse",
+      "225"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_a2a.py": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_a2a.py",
+      "TestLSEWeightedCombine::test_mathematically_correct",
+      "258"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_a2a.py": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_a2a.py",
+      "TestLSEWeightedCombine::test_return_lse",
+      "283"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_a2a.py": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_a2a.py",
+      "TestLSEWeightedCombine::test_base2_return_lse",
+      "309"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_a2a.py": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_a2a.py",
+      "TestPackedA2AKernels::test_pack_unpack_combine_matches_reference",
+      "362"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_a2a.py": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_a2a.py",
+      "TestPackedA2AKernels::test_empty_seq_lens_ignore_undefined_output",
+      "414"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_a2a.py": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_a2a.py",
+      "test_distributed_packed_a2a_matches_reference",
+      "576"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_a2a.py": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_a2a.py",
+      "test_distributed_packed_a2a_with_workspace_matches_reference",
+      "591"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_a2a.py": "6f59e80888d7fdef6323ea9605cebbb34a6e3fb58361b589f7ef132bf03ec4a1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py",
+      "TestDirectDCPGating::test_env_disabled_returns_none",
+      "144"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py",
+      "TestDirectDCPGating::test_forced_with_unsupported_dtype_raises",
+      "152"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py",
+      "TestDirectDCPGating::test_zero_ubatches_raises",
+      "166"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py",
+      "TestDirectDCPGating::test_auto_with_unsupported_dtype_returns_none",
+      "172"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py",
+      "TestDirectDCPGating::test_q_gather_env_disabled_returns_none",
+      "180"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py",
+      "TestDirectDCPGating::test_q_gather_flag_is_independent",
+      "195"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py",
+      "TestDirectDCPGating::test_kv_gather_env_disabled_returns_none",
+      "221"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py",
+      "TestDirectDCPGating::test_kv_gather_flag_is_independent",
+      "230"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py",
+      "TestDirectDCPGating::test_gather_requires_multicast",
+      "264"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py",
+      "TestDirectDCPGating::test_kv_gather_rejects_invalid_workspace_geometry",
+      "285"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py",
+      "TestDirectDCPGating::test_q_gather_rejects_invalid_workspace_geometry",
+      "299"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py",
+      "test_mla_dcp_manager_selects_direct_backends",
+      "335"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py",
+      "test_mla_dcp_manager_selects_fallback_backends",
+      "394"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py",
+      "test_dcp_workspace_covers_decode_width",
+      "468"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py",
+      "test_mla_dcp_manager_selects_pcp_combine",
+      "483"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py",
+      "test_dcp_chunk_workspace_alignment_covers_interleave",
+      "505"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py",
+      "test_sparse_mla_builder_initializes_dcp_manager",
+      "522"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py",
+      "test_sparse_mla_workspace_preserves_non_dcp_size",
+      "570"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py",
+      "test_distributed_direct_q_gather_cuda_graph_replay",
+      "747"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py",
+      "test_distributed_direct_kv_gather_matches_reference",
+      "823"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py",
+      "test_distributed_direct_a2a_matches_reference",
+      "1117"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_dcp_direct_a2a_lse_reduce.py": "70555e8cfaf26db77b74853697a63d26b2b403436be873e445906ab60dba875e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
       "tests/distributed/test_packed_tensor.py",
       "TestPackedIpcRoundtrip::test_roundtrip_basic",
       "776"
@@ -19329,6 +20005,578 @@
     "source_sha256": "369e03be99d3d30ecb37e7d6faba34d054b4ab390cb87ffeb511cc40fe87a2f3",
     "oracle_source_sha256": {
       "tests/distributed/test_pynccl.py": "369e03be99d3d30ecb37e7d6faba34d054b4ab390cb87ffeb511cc40fe87a2f3"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_quick_all_reduce.py",
+      "test_flydsl_int4_dispatch_falls_back_to_hip",
+      "121"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d",
+    "oracle_source_sha256": {
+      "tests/distributed/test_quick_all_reduce.py": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_quick_all_reduce.py",
+      "test_close_closes_flydsl_int4",
+      "142"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d",
+    "oracle_source_sha256": {
+      "tests/distributed/test_quick_all_reduce.py": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_quick_all_reduce.py",
+      "test_should_quick_allreduce_uses_builtin_min_size_when_unset",
+      "154"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d",
+    "oracle_source_sha256": {
+      "tests/distributed/test_quick_all_reduce.py": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_quick_all_reduce.py",
+      "test_should_quick_allreduce_uses_min_size_override",
+      "164"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d",
+    "oracle_source_sha256": {
+      "tests/distributed/test_quick_all_reduce.py": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_quick_all_reduce.py",
+      "test_quick_allreduce_min_size_env_unset",
+      "172"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d",
+    "oracle_source_sha256": {
+      "tests/distributed/test_quick_all_reduce.py": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_quick_all_reduce.py",
+      "test_quick_allreduce_min_size_env_converts_mb_to_bytes",
+      "181"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d",
+    "oracle_source_sha256": {
+      "tests/distributed/test_quick_all_reduce.py": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_quick_all_reduce.py",
+      "test_quick_allreduce_min_size_env_rejects_negative",
+      "190"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d",
+    "oracle_source_sha256": {
+      "tests/distributed/test_quick_all_reduce.py": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_quick_all_reduce.py",
+      "test_quick_allreduce_min_size_env_allows_equal_to_max",
+      "200"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d",
+    "oracle_source_sha256": {
+      "tests/distributed/test_quick_all_reduce.py": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_quick_all_reduce.py",
+      "test_quick_allreduce_min_size_env_rejects_larger_than_max",
+      "209"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d",
+    "oracle_source_sha256": {
+      "tests/distributed/test_quick_all_reduce.py": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_quick_all_reduce.py",
+      "test_quick_allreduce_quantization_min_size_env_unset",
+      "219"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d",
+    "oracle_source_sha256": {
+      "tests/distributed/test_quick_all_reduce.py": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_quick_all_reduce.py",
+      "test_quick_allreduce_quantization_min_size_env_converts_kb_to_bytes",
+      "228"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d",
+    "oracle_source_sha256": {
+      "tests/distributed/test_quick_all_reduce.py": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_quick_all_reduce.py",
+      "test_quick_allreduce_quantization_min_size_env_rejects_negative",
+      "237"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d",
+    "oracle_source_sha256": {
+      "tests/distributed/test_quick_all_reduce.py": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_quick_all_reduce.py",
+      "test_quick_allreduce_quantization_min_size_unset_uses_configured_codec",
+      "247"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d",
+    "oracle_source_sha256": {
+      "tests/distributed/test_quick_all_reduce.py": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_quick_all_reduce.py",
+      "test_quick_allreduce_quantization_min_size_uses_fp_below_threshold",
+      "254"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d",
+    "oracle_source_sha256": {
+      "tests/distributed/test_quick_all_reduce.py": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_quick_all_reduce.py",
+      "test_quick_allreduce_quantization_min_size_uses_configured_codec_at_threshold",
+      "261"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d",
+    "oracle_source_sha256": {
+      "tests/distributed/test_quick_all_reduce.py": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_quick_all_reduce.py",
+      "test_quick_allreduce_quantization_min_size_does_not_change_eligibility",
+      "268"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d",
+    "oracle_source_sha256": {
+      "tests/distributed/test_quick_all_reduce.py": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_quick_all_reduce.py",
+      "test_quick_allreduce_passes_dynamic_quant_level",
+      "278"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d",
+    "oracle_source_sha256": {
+      "tests/distributed/test_quick_all_reduce.py": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_quick_all_reduce.py",
+      "test_rocm_aiter_fused_rmsnorm_uses_aiter_qr_rmsnorm_for_prefill",
+      "303"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d",
+    "oracle_source_sha256": {
+      "tests/distributed/test_quick_all_reduce.py": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_quick_all_reduce.py",
+      "test_rocm_aiter_fused_rmsnorm_keeps_1stage_decode_path",
+      "418"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d",
+    "oracle_source_sha256": {
+      "tests/distributed/test_quick_all_reduce.py": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_quick_all_reduce.py",
+      "test_custom_quick_allreduce",
+      "604"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d",
+    "oracle_source_sha256": {
+      "tests/distributed/test_quick_all_reduce.py": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_quick_all_reduce.py",
+      "test_custom_quick_allreduce_bf16_cast",
+      "628"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d",
+    "oracle_source_sha256": {
+      "tests/distributed/test_quick_all_reduce.py": "62506d84cb906655de52b29dc741fdcf3f9a4f8ca13cea30605d0cd9a1fd892d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_rocm_quick_reduce.py",
+      "test_quick_reduce_quantization_env_var",
+      "650"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241",
+    "oracle_source_sha256": {
+      "tests/distributed/test_rocm_quick_reduce.py": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_rocm_quick_reduce.py",
+      "test_quick_reduce_quantization_default",
+      "657"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241",
+    "oracle_source_sha256": {
+      "tests/distributed/test_rocm_quick_reduce.py": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_rocm_quick_reduce.py",
+      "test_quick_reduce_cast_bf16_to_fp16_env_var",
+      "665"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241",
+    "oracle_source_sha256": {
+      "tests/distributed/test_rocm_quick_reduce.py": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_rocm_quick_reduce.py",
+      "test_quick_reduce_cast_bf16_to_fp16_default",
+      "674"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241",
+    "oracle_source_sha256": {
+      "tests/distributed/test_rocm_quick_reduce.py": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_rocm_quick_reduce.py",
+      "test_quick_reduce_max_size_env_var",
+      "682"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241",
+    "oracle_source_sha256": {
+      "tests/distributed/test_rocm_quick_reduce.py": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_rocm_quick_reduce.py",
+      "test_quick_reduce_max_size_default",
+      "692"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241",
+    "oracle_source_sha256": {
+      "tests/distributed/test_rocm_quick_reduce.py": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_rocm_quick_reduce.py",
+      "test_quick_allreduce_rocm_arch_available",
+      "708"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241",
+    "oracle_source_sha256": {
+      "tests/distributed/test_rocm_quick_reduce.py": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_rocm_quick_reduce.py",
+      "test_quick_allreduce_rocm_arch_available_handles_probe_failure",
+      "729"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241",
+    "oracle_source_sha256": {
+      "tests/distributed/test_rocm_quick_reduce.py": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_rocm_quick_reduce.py",
+      "test_quick_allreduce_rejects_disabled",
+      "747"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241",
+    "oracle_source_sha256": {
+      "tests/distributed/test_rocm_quick_reduce.py": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_rocm_quick_reduce.py",
+      "test_quick_allreduce_rejects_unsupported_dtype",
+      "754"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241",
+    "oracle_source_sha256": {
+      "tests/distributed/test_rocm_quick_reduce.py": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_rocm_quick_reduce.py",
+      "test_quick_allreduce_rejects_non_aligned_input",
+      "761"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241",
+    "oracle_source_sha256": {
+      "tests/distributed/test_rocm_quick_reduce.py": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_rocm_quick_reduce.py",
+      "test_quick_allreduce_rejects_non_contiguous_input",
+      "768"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241",
+    "oracle_source_sha256": {
+      "tests/distributed/test_rocm_quick_reduce.py": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_rocm_quick_reduce.py",
+      "test_quick_allreduce_rejects_input_smaller_than_threshold",
+      "775"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241",
+    "oracle_source_sha256": {
+      "tests/distributed/test_rocm_quick_reduce.py": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_rocm_quick_reduce.py",
+      "test_quick_allreduce_accepts_input_at_threshold",
+      "782"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241",
+    "oracle_source_sha256": {
+      "tests/distributed/test_rocm_quick_reduce.py": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_rocm_quick_reduce.py",
+      "test_quick_allreduce_rejects_input_larger_than_max_size",
+      "789"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241",
+    "oracle_source_sha256": {
+      "tests/distributed/test_rocm_quick_reduce.py": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_rocm_quick_reduce.py",
+      "test_quick_allreduce_bf16_uses_fp16_threshold_when_cast_enabled",
+      "796"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241",
+    "oracle_source_sha256": {
+      "tests/distributed/test_rocm_quick_reduce.py": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_rocm_quick_reduce.py",
+      "test_quick_allreduce_supported_world_sizes",
+      "806"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241",
+    "oracle_source_sha256": {
+      "tests/distributed/test_rocm_quick_reduce.py": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_rocm_quick_reduce.py",
+      "test_quick_allreduce_supported_dtypes",
+      "812"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241",
+    "oracle_source_sha256": {
+      "tests/distributed/test_rocm_quick_reduce.py": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_rocm_quick_reduce.py",
+      "test_quick_allreduce_two_gpu_correctness",
+      "841"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241",
+    "oracle_source_sha256": {
+      "tests/distributed/test_rocm_quick_reduce.py": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_rocm_quick_reduce.py",
+      "test_quick_allreduce_cudagraph_replay",
+      "851"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241",
+    "oracle_source_sha256": {
+      "tests/distributed/test_rocm_quick_reduce.py": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_rocm_quick_reduce.py",
+      "test_quick_allreduce_bf16_cast_mode",
+      "866"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241",
+    "oracle_source_sha256": {
+      "tests/distributed/test_rocm_quick_reduce.py": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_rocm_quick_reduce.py",
+      "test_quick_allreduce_llm_e2e",
+      "879"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241",
+    "oracle_source_sha256": {
+      "tests/distributed/test_rocm_quick_reduce.py": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_rocm_quick_reduce.py",
+      "test_quick_allreduce_llm_e2e_ray",
+      "888"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241",
+    "oracle_source_sha256": {
+      "tests/distributed/test_rocm_quick_reduce.py": "d295c9eaa3c138b2c43d8378b746fbcdb0d65a1fad6e62b16424c1fc0f6ea241"
     }
   },
   {
@@ -20941,6 +22189,3026 @@
     "source_sha256": "36ecb432a85826a11bd81d5e5b4ac27bd5c0ff526bb10eaf7df096865ebb7d06",
     "oracle_source_sha256": {
       "tests/v1/core/test_encoder_cache_manager.py": "36ecb432a85826a11bd81d5e5b4ac27bd5c0ff526bb10eaf7df096865ebb7d06"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_worker_kv_bytes_preserves_tensor_layout",
+      "526"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_offloading_skips_scratch_group",
+      "542"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_hisparse_offloads_only_indexer_group",
+      "574"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_hisparse_partial_group_size_survives_scheduler_flattening",
+      "604"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_zero_blocks_skips_tensor_layout_validation",
+      "640"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_prefill_context_parallelism_does_not_scale_group_blocks",
+      "649"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_dcp_scales_attention_but_not_mamba_group_blocks",
+      "662"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_dcp_scales_uniform_type_attention_group_blocks",
+      "695"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_dcp_scales_uniform_type_group_alongside_mamba",
+      "729"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_group_carries_the_chunks_the_tier_keeps_per_request",
+      "776"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_model_config_carries_the_longest_request",
+      "798"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_preserves_data_parallel_config",
+      "817"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_resolves_heterogeneous_hybrid_block_sizes",
+      "830"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_replicated_layout_enabled_for_pure_mla_tp_mp_single_node",
+      "846"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_replicated_layout_enabled_for_swa_mla",
+      "858"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_replicated_layout_dsv4_flash",
+      "867"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_replicated_layout_dsv3_2",
+      "877"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_replicated_layout_enabled_for_uniform_wrapper_mla",
+      "887"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_replicated_layout_excludes_unproven_cache_shapes",
+      "997"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_replicated_layout_supported_cache_shapes",
+      "1094"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_replicated_layout_for_dsa_style_groups",
+      "1117"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_replicated_layout_parallel_gate",
+      "1188"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_parallelism_agnostic_for_single_full_attention_group",
+      "1192"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_parallelism_agnostic_excluded",
+      "1231"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_canonical_layout_gate",
+      "1262"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_uncertifiable_canonical_layout_resets_replication",
+      "1274"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_canonical_layout_certifies_v2_model_runner",
+      "1315"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_canonical_mla_dsa_rows_are_tp_independent",
+      "1325"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_parallelism_agnostic_disabled_on_v2_model_runner",
+      "1360"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_accepts_blocks_per_chunk_for_heterogeneous_groups",
+      "1373"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_block_size_and_blocks_per_chunk_are_mutually_exclusive",
+      "1385"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+      "test_blocks_per_chunk_must_be_positive",
+      "1392"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_config.py": "217f609978223c51ceaf42193403cdecd86899265eaf205f43d210865ed4694e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_config.py",
+      "test_kv_connector",
+      "58"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "58f1c374f4631f1136c74c74e363fb5fafcb704d66b71e2362c4fd783212a5b1",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_config.py": "58f1c374f4631f1136c74c74e363fb5fafcb704d66b71e2362c4fd783212a5b1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_config.py",
+      "test_kv_connector_rejects_expandable_segments",
+      "142"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "58f1c374f4631f1136c74c74e363fb5fafcb704d66b71e2362c4fd783212a5b1",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_config.py": "58f1c374f4631f1136c74c74e363fb5fafcb704d66b71e2362c4fd783212a5b1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_config.py",
+      "test_sleep_mode_refuses_unsupported_kv_connector",
+      "177"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "58f1c374f4631f1136c74c74e363fb5fafcb704d66b71e2362c4fd783212a5b1",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_config.py": "58f1c374f4631f1136c74c74e363fb5fafcb704d66b71e2362c4fd783212a5b1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_config.py",
+      "test_mooncake_store_supports_sleep_with_explicit_rdma",
+      "190"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "58f1c374f4631f1136c74c74e363fb5fafcb704d66b71e2362c4fd783212a5b1",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_config.py": "58f1c374f4631f1136c74c74e363fb5fafcb704d66b71e2362c4fd783212a5b1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_config.py",
+      "test_kv_offloading_size_only_uses_native_default",
+      "221"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "58f1c374f4631f1136c74c74e363fb5fafcb704d66b71e2362c4fd783212a5b1",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_config.py": "58f1c374f4631f1136c74c74e363fb5fafcb704d66b71e2362c4fd783212a5b1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_config.py",
+      "test_nixl_connector_transfer_mode",
+      "242"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "58f1c374f4631f1136c74c74e363fb5fafcb704d66b71e2362c4fd783212a5b1",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_config.py": "58f1c374f4631f1136c74c74e363fb5fafcb704d66b71e2362c4fd783212a5b1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_hf3fs_metadata_server.py",
+      "TestRankFileMetadata::test_allocate_pages",
+      "30"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "077a93b19c0daa84247d1c6606c3d74344ef03bed9cc599fdd9b1d2b611e8c35",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_hf3fs_metadata_server.py": "077a93b19c0daa84247d1c6606c3d74344ef03bed9cc599fdd9b1d2b611e8c35"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_hf3fs_metadata_server.py",
+      "TestRankFileMetadata::test_release_pages_restores_count",
+      "39"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "077a93b19c0daa84247d1c6606c3d74344ef03bed9cc599fdd9b1d2b611e8c35",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_hf3fs_metadata_server.py": "077a93b19c0daa84247d1c6606c3d74344ef03bed9cc599fdd9b1d2b611e8c35"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_hf3fs_metadata_server.py",
+      "TestRankFileMetadata::test_release_pages_no_duplicates",
+      "47"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "077a93b19c0daa84247d1c6606c3d74344ef03bed9cc599fdd9b1d2b611e8c35",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_hf3fs_metadata_server.py": "077a93b19c0daa84247d1c6606c3d74344ef03bed9cc599fdd9b1d2b611e8c35"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_hf3fs_metadata_server.py",
+      "TestKeyMetadata::test_is_complete_false_until_all_ranks",
+      "64"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "077a93b19c0daa84247d1c6606c3d74344ef03bed9cc599fdd9b1d2b611e8c35",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_hf3fs_metadata_server.py": "077a93b19c0daa84247d1c6606c3d74344ef03bed9cc599fdd9b1d2b611e8c35"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_hf3fs_metadata_server.py",
+      "TestKeyMetadata::test_get_rank_page_returns_none_for_missing_rank",
+      "73"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "077a93b19c0daa84247d1c6606c3d74344ef03bed9cc599fdd9b1d2b611e8c35",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_hf3fs_metadata_server.py": "077a93b19c0daa84247d1c6606c3d74344ef03bed9cc599fdd9b1d2b611e8c35"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_hf3fs_metadata_server.py",
+      "TestKeyMetadata::test_get_all_pages",
+      "79"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "077a93b19c0daa84247d1c6606c3d74344ef03bed9cc599fdd9b1d2b611e8c35",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_hf3fs_metadata_server.py": "077a93b19c0daa84247d1c6606c3d74344ef03bed9cc599fdd9b1d2b611e8c35"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_hf3fs_metadata_server.py",
+      "TestGlobalMetadataStateAllocation::test_uninitialized_rank_raises_on_allocate",
+      "94"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "077a93b19c0daa84247d1c6606c3d74344ef03bed9cc599fdd9b1d2b611e8c35",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_hf3fs_metadata_server.py": "077a93b19c0daa84247d1c6606c3d74344ef03bed9cc599fdd9b1d2b611e8c35"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_hf3fs_metadata_server.py",
+      "TestGlobalMetadataStateAllocation::test_uninitialized_rank_raises_on_get_locations",
+      "100"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "077a93b19c0daa84247d1c6606c3d74344ef03bed9cc599fdd9b1d2b611e8c35",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_hf3fs_metadata_server.py": "077a93b19c0daa84247d1c6606c3d74344ef03bed9cc599fdd9b1d2b611e8c35"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_hf3fs_metadata_server.py",
+      "TestGlobalMetadataStateAllocation::test_basic_allocation_and_confirm",
+      "106"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "077a93b19c0daa84247d1c6606c3d74344ef03bed9cc599fdd9b1d2b611e8c35",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_hf3fs_metadata_server.py": "077a93b19c0daa84247d1c6606c3d74344ef03bed9cc599fdd9b1d2b611e8c35"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_hf3fs_metadata_server.py",
+      "TestGlobalMetadataStateAllocation::test_allocate_pages_cache_hit_does_not_leak_pages",
+      "119"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "077a93b19c0daa84247d1c6606c3d74344ef03bed9cc599fdd9b1d2b611e8c35",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_hf3fs_metadata_server.py": "077a93b19c0daa84247d1c6606c3d74344ef03bed9cc599fdd9b1d2b611e8c35"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_hf3fs_metadata_server.py",
+      "TestGlobalMetadataStateAllocation::test_allocate_pages_all_cache_hits_frees_all_slots",
+      "150"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "077a93b19c0daa84247d1c6606c3d74344ef03bed9cc599fdd9b1d2b611e8c35",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_hf3fs_metadata_server.py": "077a93b19c0daa84247d1c6606c3d74344ef03bed9cc599fdd9b1d2b611e8c35"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_hf3fs_metadata_server.py",
+      "TestGlobalMetadataStateAllocation::test_allocate_returns_minus_one_when_pool_exhausted",
+      "171"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "077a93b19c0daa84247d1c6606c3d74344ef03bed9cc599fdd9b1d2b611e8c35",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_hf3fs_metadata_server.py": "077a93b19c0daa84247d1c6606c3d74344ef03bed9cc599fdd9b1d2b611e8c35"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_hf3fs_metadata_server.py",
+      "TestGlobalMetadataStateAllocation::test_confirm_write_releases_pages",
+      "180"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "077a93b19c0daa84247d1c6606c3d74344ef03bed9cc599fdd9b1d2b611e8c35",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_hf3fs_metadata_server.py": "077a93b19c0daa84247d1c6606c3d74344ef03bed9cc599fdd9b1d2b611e8c35"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_hma_auto_config.py",
+      "test_hma_auto_config",
+      "78"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "92eac3e5034bdd8b9dc84a5539f1a1a4d684915101b82f275046425b965b26d0",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_hma_auto_config.py": "92eac3e5034bdd8b9dc84a5539f1a1a4d684915101b82f275046425b965b26d0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_hma_auto_config.py",
+      "test_explicit_hma_with_non_hma_connector_errors_at_factory",
+      "88"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "92eac3e5034bdd8b9dc84a5539f1a1a4d684915101b82f275046425b965b26d0",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_hma_auto_config.py": "92eac3e5034bdd8b9dc84a5539f1a1a4d684915101b82f275046425b965b26d0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_mooncake_store_layout.py",
+      "test_gdn_store_shards_round_trip_in_both_tp_directions",
+      "203"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "6a778365bf5ac7055efef82c9107db258537eb8cfef6132724866c7aad02fdef",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_mooncake_store_layout.py": "6a778365bf5ac7055efef82c9107db258537eb8cfef6132724866c7aad02fdef"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_mooncake_store_layout.py",
+      "test_mamba2_replicated_groups_round_trip_in_both_tp_directions",
+      "209"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "6a778365bf5ac7055efef82c9107db258537eb8cfef6132724866c7aad02fdef",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_mooncake_store_layout.py": "6a778365bf5ac7055efef82c9107db258537eb8cfef6132724866c7aad02fdef"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_mooncake_store_layout.py",
+      "test_tp_shared_layout_round_trip_across_tp_sizes",
+      "407"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "6a778365bf5ac7055efef82c9107db258537eb8cfef6132724866c7aad02fdef",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_mooncake_store_layout.py": "6a778365bf5ac7055efef82c9107db258537eb8cfef6132724866c7aad02fdef"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_mooncake_store_layout.py",
+      "test_attention_store_layout_round_trip_across_local_block_sizes",
+      "492"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "6a778365bf5ac7055efef82c9107db258537eb8cfef6132724866c7aad02fdef",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_mooncake_store_layout.py": "6a778365bf5ac7055efef82c9107db258537eb8cfef6132724866c7aad02fdef"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_hetero_tp_write.py",
+      "test_write_lands_every_shard_byte_exact",
+      "366"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "54506e9da71486db71bb9db0b50aeedc2cfc4a11c76115f766ad38620515f0d6",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_hetero_tp_write.py": "54506e9da71486db71bb9db0b50aeedc2cfc4a11c76115f766ad38620515f0d6"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_hetero_tp_write.py",
+      "test_write_refuses_peer_with_different_block_size",
+      "446"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "54506e9da71486db71bb9db0b50aeedc2cfc4a11c76115f766ad38620515f0d6",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_hetero_tp_write.py": "54506e9da71486db71bb9db0b50aeedc2cfc4a11c76115f766ad38620515f0d6"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_supported_layouts_compute_expected_geometry_and_offsets",
+      "258"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_kernel_block_layout_without_spec_dimensions_rejects_ambiguous_axes",
+      "283"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_mixed_layers_compute_distinct_offsets_per_layer",
+      "296"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_write_transfer_plan_caches_offsets_per_layer_geometry",
+      "341"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_write_scheduler_deduplicates_layers_and_seals_expected_count",
+      "406"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_hybrid_write_attention_uses_its_own_group_not_the_first_group",
+      "423"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_hybrid_write_posts_both_regions_before_layer_completion",
+      "444"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_write_completion_notifies_once_after_all_sealed_writes_finish",
+      "498"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_moriio_wrapper_waits_scoped_statuses_without_global_drain",
+      "559"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_write_failure_marks_terminal_and_clears_scheduled_state",
+      "586"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_schedule_write_rejects_terminal_transfer_without_recreating_state",
+      "604"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_late_remote_blocks_message_is_ignored_after_transfer_done",
+      "621"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_local_block_ids_longer_than_remote_raises",
+      "749"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_shorter_local_block_ids_still_transfers_only_what_decode_allocated",
+      "766"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_block_ids_must_fit_registered_regions",
+      "784"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_empty_local_block_ids_is_free_only_noop",
+      "801"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_registration_regions_do_not_split_interleaved_or_mla_cache",
+      "810"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_registration_regions_use_layer_num_blocks",
+      "853"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_unsupported_shape_raises_value_error",
+      "865"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_mamba_transfer_geometry_is_slot_strided",
+      "912"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_kda_conv_ssm_unpacks_padded_pages_as_aliasing_strided_views",
+      "929"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_kda_conv_ssm_accepts_strided_blocks_without_copying",
+      "965"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_kda_conv_ssm_rejects_noncontiguous_page_bytes",
+      "984"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_kda_conv_ssm_rejects_non_byte_packed_cache",
+      "997"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_mamba_transfer_geometry_requires_matching_slot_counts",
+      "1010"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_mamba_transfer_geometry_rejects_empty_caches",
+      "1018"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_mamba_conv_ssm_offsets_homogeneous_tp",
+      "1026"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_mamba_conv_ssm_offsets_heterogeneous_tp_is_gated",
+      "1067"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_local_mamba_slots_must_fit_registered_regions",
+      "1080"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_mamba_slot_counts_must_match",
+      "1095"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py",
+      "test_remote_mamba_slots_must_be_non_negative",
+      "1106"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": "8a24fea79bdbb172a2ef46e5641357cdd755d36a170ca2fe9cf8be06539c0f18"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_proxy_routing.py",
+      "test_full_slot_space_is_covered_uniformly",
+      "156"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "3fd35f2d48b429ecc4389305c146c8b7d0082d260e91ecb8e11ebfe286cc89c6",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_proxy_routing.py": "3fd35f2d48b429ecc4389305c146c8b7d0082d260e91ecb8e11ebfe286cc89c6"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_proxy_routing.py",
+      "test_instance_and_dp_rank_marginals_are_balanced",
+      "173"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "3fd35f2d48b429ecc4389305c146c8b7d0082d260e91ecb8e11ebfe286cc89c6",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_proxy_routing.py": "3fd35f2d48b429ecc4389305c146c8b7d0082d260e91ecb8e11ebfe286cc89c6"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_proxy_routing.py",
+      "test_tp_instance_forwards_no_dp_rank",
+      "189"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "3fd35f2d48b429ecc4389305c146c8b7d0082d260e91ecb8e11ebfe286cc89c6",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_proxy_routing.py": "3fd35f2d48b429ecc4389305c146c8b7d0082d260e91ecb8e11ebfe286cc89c6"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_proxy_routing.py",
+      "test_two_instance_dp8_gives_every_node_all_ranks",
+      "195"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "3fd35f2d48b429ecc4389305c146c8b7d0082d260e91ecb8e11ebfe286cc89c6",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_proxy_routing.py": "3fd35f2d48b429ecc4389305c146c8b7d0082d260e91ecb8e11ebfe286cc89c6"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_proxy_routing.py",
+      "test_consecutive_requests_alternate_instances",
+      "207"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "3fd35f2d48b429ecc4389305c146c8b7d0082d260e91ecb8e11ebfe286cc89c6",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_proxy_routing.py": "3fd35f2d48b429ecc4389305c146c8b7d0082d260e91ecb8e11ebfe286cc89c6"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_proxy_routing.py",
+      "test_discovery_heartbeat_progresses_while_worker_holds_gil",
+      "215"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "3fd35f2d48b429ecc4389305c146c8b7d0082d260e91ecb8e11ebfe286cc89c6",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_proxy_routing.py": "3fd35f2d48b429ecc4389305c146c8b7d0082d260e91ecb8e11ebfe286cc89c6"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_proxy_routing.py",
+      "test_discovery_heartbeat_exits_when_worker_dies",
+      "250"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "3fd35f2d48b429ecc4389305c146c8b7d0082d260e91ecb8e11ebfe286cc89c6",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_proxy_routing.py": "3fd35f2d48b429ecc4389305c146c8b7d0082d260e91ecb8e11ebfe286cc89c6"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_proxy_routing.py",
+      "test_discovery_heartbeat_recovers_after_router_outage",
+      "304"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "3fd35f2d48b429ecc4389305c146c8b7d0082d260e91ecb8e11ebfe286cc89c6",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_proxy_routing.py": "3fd35f2d48b429ecc4389305c146c8b7d0082d260e91ecb8e11ebfe286cc89c6"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_read_tp.py",
+      "test_equal_tp_read_lands_every_byte",
+      "316"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "419810e31c199c6a5ae02ecc488df767a768b73c493b82e1ac2d49a74b3e9e75",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_read_tp.py": "419810e31c199c6a5ae02ecc488df767a768b73c493b82e1ac2d49a74b3e9e75"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_read_tp.py",
+      "test_read_without_advertised_prefill_tp_is_homogeneous",
+      "324"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "419810e31c199c6a5ae02ecc488df767a768b73c493b82e1ac2d49a74b3e9e75",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_read_tp.py": "419810e31c199c6a5ae02ecc488df767a768b73c493b82e1ac2d49a74b3e9e75"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_read_tp.py",
+      "test_replicated_read_releases_every_holder",
+      "339"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "419810e31c199c6a5ae02ecc488df767a768b73c493b82e1ac2d49a74b3e9e75",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_read_tp.py": "419810e31c199c6a5ae02ecc488df767a768b73c493b82e1ac2d49a74b3e9e75"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_read_tp.py",
+      "test_flexible_mirror_spreads_reads_and_releases_every_holder",
+      "347"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "419810e31c199c6a5ae02ecc488df767a768b73c493b82e1ac2d49a74b3e9e75",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_read_tp.py": "419810e31c199c6a5ae02ecc488df767a768b73c493b82e1ac2d49a74b3e9e75"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_read_tp.py",
+      "test_xgmi_mirror_reads_the_fixed_source",
+      "368"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "419810e31c199c6a5ae02ecc488df767a768b73c493b82e1ac2d49a74b3e9e75",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_read_tp.py": "419810e31c199c6a5ae02ecc488df767a768b73c493b82e1ac2d49a74b3e9e75"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_read_tp.py",
+      "test_aborted_read_releases_every_holder",
+      "392"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "419810e31c199c6a5ae02ecc488df767a768b73c493b82e1ac2d49a74b3e9e75",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_read_tp.py": "419810e31c199c6a5ae02ecc488df767a768b73c493b82e1ac2d49a74b3e9e75"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_read_tp.py",
+      "test_failed_read_releases_every_holder",
+      "417"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "419810e31c199c6a5ae02ecc488df767a768b73c493b82e1ac2d49a74b3e9e75",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_read_tp.py": "419810e31c199c6a5ae02ecc488df767a768b73c493b82e1ac2d49a74b3e9e75"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_read_tp.py",
+      "test_head_read_rejects_peer_with_other_head_count",
+      "437"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "419810e31c199c6a5ae02ecc488df767a768b73c493b82e1ac2d49a74b3e9e75",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_read_tp.py": "419810e31c199c6a5ae02ecc488df767a768b73c493b82e1ac2d49a74b3e9e75"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_read_tp.py",
+      "test_head_read_rejects_block_ids_outside_the_cache",
+      "463"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "419810e31c199c6a5ae02ecc488df767a768b73c493b82e1ac2d49a74b3e9e75",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_read_tp.py": "419810e31c199c6a5ae02ecc488df767a768b73c493b82e1ac2d49a74b3e9e75"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_read_tp.py",
+      "test_head_read_rejects_more_local_than_remote_blocks",
+      "476"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "419810e31c199c6a5ae02ecc488df767a768b73c493b82e1ac2d49a74b3e9e75",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_read_tp.py": "419810e31c199c6a5ae02ecc488df767a768b73c493b82e1ac2d49a74b3e9e75"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_read_tp.py",
+      "test_read_holder_tp_ranks",
+      "499"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "419810e31c199c6a5ae02ecc488df767a768b73c493b82e1ac2d49a74b3e9e75",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_read_tp.py": "419810e31c199c6a5ae02ecc488df767a768b73c493b82e1ac2d49a74b3e9e75"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_routing_fairness.py",
+      "test_kv_read_load_is_hardware_fair",
+      "146"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "45e32d5b0b9b77af5ec887fee1d567a3848d0a684c3b9ea7e014122f0e06c537",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_routing_fairness.py": "45e32d5b0b9b77af5ec887fee1d567a3848d0a684c3b9ea7e014122f0e06c537"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_routing_fairness.py",
+      "test_flexible_gate_fires_only_for_tp_prefill_dp_decode",
+      "155"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "45e32d5b0b9b77af5ec887fee1d567a3848d0a684c3b9ea7e014122f0e06c537",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_routing_fairness.py": "45e32d5b0b9b77af5ec887fee1d567a3848d0a684c3b9ea7e014122f0e06c537"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_routing_fairness.py",
+      "test_symmetric_tp_is_a_bijection",
+      "165"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "45e32d5b0b9b77af5ec887fee1d567a3848d0a684c3b9ea7e014122f0e06c537",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_routing_fairness.py": "45e32d5b0b9b77af5ec887fee1d567a3848d0a684c3b9ea7e014122f0e06c537"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_routing_fairness.py",
+      "test_owner_dp_read_is_faithful_and_covers_every_rank",
+      "177"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "45e32d5b0b9b77af5ec887fee1d567a3848d0a684c3b9ea7e014122f0e06c537",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_routing_fairness.py": "45e32d5b0b9b77af5ec887fee1d567a3848d0a684c3b9ea7e014122f0e06c537"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_routing_fairness.py",
+      "test_flexible_round_robin_is_deterministic_uniform_and_staggered",
+      "190"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "45e32d5b0b9b77af5ec887fee1d567a3848d0a684c3b9ea7e014122f0e06c537",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_routing_fairness.py": "45e32d5b0b9b77af5ec887fee1d567a3848d0a684c3b9ea7e014122f0e06c537"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_routing_fairness.py",
+      "test_read_blocks_for_req_threads_chosen_tp",
+      "203"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "45e32d5b0b9b77af5ec887fee1d567a3848d0a684c3b9ea7e014122f0e06c537",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_routing_fairness.py": "45e32d5b0b9b77af5ec887fee1d567a3848d0a684c3b9ea7e014122f0e06c537"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_remote_tp_rank_same_tp_maps_to_self",
+      "30"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_remote_tp_rank_p4_d8_floor_maps_decode_to_prefill",
+      "39"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_remote_tp_rank_p8_d4_maps_to_first_prefill_rank_per_pair",
+      "52"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_remote_tp_rank_invalid_non_multiple_tp_raises",
+      "68"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_heterogeneous_tp_head_guard_rejects_split_kv_heads",
+      "110"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_expected_ack_count_for_homogeneous_or_smaller_consumer_tp_is_one",
+      "122"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_expected_ack_count_for_decode_fan_in",
+      "127"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_expected_ack_count_rejects_non_multiple_fan_in",
+      "131"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_plain_string_ack_is_backward_compatible_single_ack",
+      "136"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_structured_release_ack_waits_for_all_expected_acks",
+      "154"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_duplicate_ack_after_completion_does_not_resolve_twice",
+      "186"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_ack_for_non_live_transfer_is_ignored",
+      "225"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_worker_get_finished_counts_structured_release_fan_in",
+      "243"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_worker_reports_unexpected_heartbeat_exit",
+      "276"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_read_completion_sends_structured_release_with_consumer_tp_size",
+      "304"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_aborted_read_without_local_blocks_only_releases_remote_blocks",
+      "365"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_read_completion_waits_for_every_posted_read",
+      "413"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_failed_read_reports_blocks_only_without_hma",
+      "461"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_hybrid_step_barrier_fails_closed",
+      "472"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_step_barrier_awaits_every_read_before_forward",
+      "489"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_wait_for_layer_load_is_noop",
+      "513"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_step_barrier_without_mamba_does_not_raise_on_failure",
+      "524"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_step_barrier_failure_still_awaits_other_requests",
+      "617"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_hybrid_step_barrier_failure_does_not_wait",
+      "630"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_step_barrier_timeout_fails_closed_while_reads_in_flight",
+      "642"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_step_barrier_native_timeout_fails_closed_while_reads_in_flight",
+      "658"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_step_barrier_noop_when_no_reads_posted",
+      "678"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_write_mode_read_blocks_posts_no_read",
+      "699"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_producer_start_load_kv_posts_no_read",
+      "730"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py",
+      "test_requested_cudagraph_mode_is_never_overridden",
+      "759"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": "59933eefe496303422dc989a805f4f90e0662a27b905d4776278f36c1014d38c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_mapping.py",
+      "test_write_tp_mapping_targets",
+      "73"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "c57548cc97c9ef67a0dfc0863869f451c7a62db58ed66b5efc2118148b7efbf5",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_mapping.py": "c57548cc97c9ef67a0dfc0863869f451c7a62db58ed66b5efc2118148b7efbf5"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_mapping.py",
+      "test_mla_fan_in_with_mamba_still_writes_state_from_every_producer",
+      "81"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "c57548cc97c9ef67a0dfc0863869f451c7a62db58ed66b5efc2118148b7efbf5",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_mapping.py": "c57548cc97c9ef67a0dfc0863869f451c7a62db58ed66b5efc2118148b7efbf5"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_mapping.py",
+      "test_write_tp_mapping_rejects_unmappable_topologies",
+      "97"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "c57548cc97c9ef67a0dfc0863869f451c7a62db58ed66b5efc2118148b7efbf5",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_mapping.py": "c57548cc97c9ef67a0dfc0863869f451c7a62db58ed66b5efc2118148b7efbf5"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_mapping.py",
+      "test_every_consumer_head_and_state_slice_is_written_exactly_once",
+      "122"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "c57548cc97c9ef67a0dfc0863869f451c7a62db58ed66b5efc2118148b7efbf5",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_mapping.py": "c57548cc97c9ef67a0dfc0863869f451c7a62db58ed66b5efc2118148b7efbf5"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_mapping.py",
+      "test_head_slices_land_byte_exact",
+      "185"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "c57548cc97c9ef67a0dfc0863869f451c7a62db58ed66b5efc2118148b7efbf5",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_mapping.py": "c57548cc97c9ef67a0dfc0863869f451c7a62db58ed66b5efc2118148b7efbf5"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_mapping.py",
+      "test_head_slices_of_separate_kv_planes",
+      "230"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "c57548cc97c9ef67a0dfc0863869f451c7a62db58ed66b5efc2118148b7efbf5",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_mapping.py": "c57548cc97c9ef67a0dfc0863869f451c7a62db58ed66b5efc2118148b7efbf5"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_mapping.py",
+      "test_token_major_head_slices_merge_to_one_run_per_token",
+      "252"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "c57548cc97c9ef67a0dfc0863869f451c7a62db58ed66b5efc2118148b7efbf5",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_mapping.py": "c57548cc97c9ef67a0dfc0863869f451c7a62db58ed66b5efc2118148b7efbf5"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_mapping.py",
+      "test_mamba_state_fans_out_and_gathers_back",
+      "296"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "c57548cc97c9ef67a0dfc0863869f451c7a62db58ed66b5efc2118148b7efbf5",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_mapping.py": "c57548cc97c9ef67a0dfc0863869f451c7a62db58ed66b5efc2118148b7efbf5"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_mapping.py",
+      "test_mamba_state_rejects_mismatched_shards",
+      "335"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "c57548cc97c9ef67a0dfc0863869f451c7a62db58ed66b5efc2118148b7efbf5",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_mapping.py": "c57548cc97c9ef67a0dfc0863869f451c7a62db58ed66b5efc2118148b7efbf5"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_mapping.py",
+      "test_consumer_completes_after_every_writer_reported",
+      "353"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "c57548cc97c9ef67a0dfc0863869f451c7a62db58ed66b5efc2118148b7efbf5",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_mapping.py": "c57548cc97c9ef67a0dfc0863869f451c7a62db58ed66b5efc2118148b7efbf5"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_tp_mapping.py",
+      "test_consumer_write_failure_drops_partial_write_count",
+      "370"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "c57548cc97c9ef67a0dfc0863869f451c7a62db58ed66b5efc2118148b7efbf5",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_tp_mapping.py": "c57548cc97c9ef67a0dfc0863869f451c7a62db58ed66b5efc2118148b7efbf5"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_transfer_completion.py",
+      "test_timeout_must_be_positive_and_finite",
+      "42"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "c97e3112ed31fda7e909d522709b9b5332c5505f36b7df32498af7199262ad4f",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_transfer_completion.py": "c97e3112ed31fda7e909d522709b9b5332c5505f36b7df32498af7199262ad4f"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_transfer_completion.py",
+      "test_positive_finite_timeout_is_preserved",
+      "47"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "c97e3112ed31fda7e909d522709b9b5332c5505f36b7df32498af7199262ad4f",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_transfer_completion.py": "c97e3112ed31fda7e909d522709b9b5332c5505f36b7df32498af7199262ad4f"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_transfer_completion.py",
+      "test_poll_transfer_batch_considers_every_status",
+      "95"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "c97e3112ed31fda7e909d522709b9b5332c5505f36b7df32498af7199262ad4f",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_transfer_completion.py": "c97e3112ed31fda7e909d522709b9b5332c5505f36b7df32498af7199262ad4f"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_transfer_completion.py",
+      "test_wait_raises_with_detail",
+      "108"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "c97e3112ed31fda7e909d522709b9b5332c5505f36b7df32498af7199262ad4f",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_transfer_completion.py": "c97e3112ed31fda7e909d522709b9b5332c5505f36b7df32498af7199262ad4f"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_transfer_completion.py",
+      "test_wait_blocks_until_terminal",
+      "120"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "c97e3112ed31fda7e909d522709b9b5332c5505f36b7df32498af7199262ad4f",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_transfer_completion.py": "c97e3112ed31fda7e909d522709b9b5332c5505f36b7df32498af7199262ad4f"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_transfer_completion.py",
+      "test_native_wait_receives_all_statuses_and_a_positive_deadline",
+      "135"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "c97e3112ed31fda7e909d522709b9b5332c5505f36b7df32498af7199262ad4f",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_transfer_completion.py": "c97e3112ed31fda7e909d522709b9b5332c5505f36b7df32498af7199262ad4f"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_transfer_completion.py",
+      "test_native_wait_reports_failure_or_timeout",
+      "155"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "c97e3112ed31fda7e909d522709b9b5332c5505f36b7df32498af7199262ad4f",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_transfer_completion.py": "c97e3112ed31fda7e909d522709b9b5332c5505f36b7df32498af7199262ad4f"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_transfer_completion.py",
+      "test_wait_falls_back_without_native_status_enum",
+      "164"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "c97e3112ed31fda7e909d522709b9b5332c5505f36b7df32498af7199262ad4f",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_transfer_completion.py": "c97e3112ed31fda7e909d522709b9b5332c5505f36b7df32498af7199262ad4f"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_transfer_completion.py",
+      "test_nonblocking_poll_does_not_call_native_wait",
+      "173"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "c97e3112ed31fda7e909d522709b9b5332c5505f36b7df32498af7199262ad4f",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_transfer_completion.py": "c97e3112ed31fda7e909d522709b9b5332c5505f36b7df32498af7199262ad4f"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_transfer_completion.py",
+      "test_native_wait_drains_only_the_unscoped_status_snapshot",
+      "181"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "c97e3112ed31fda7e909d522709b9b5332c5505f36b7df32498af7199262ad4f",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_transfer_completion.py": "c97e3112ed31fda7e909d522709b9b5332c5505f36b7df32498af7199262ad4f"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_transfer_completion.py",
+      "test_native_wait_returns_once_the_statuses_succeed",
+      "204"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "c97e3112ed31fda7e909d522709b9b5332c5505f36b7df32498af7199262ad4f",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_transfer_completion.py": "c97e3112ed31fda7e909d522709b9b5332c5505f36b7df32498af7199262ad4f"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_transfer_completion.py",
+      "test_native_wait_after_a_failure_waits_for_in_flight_statuses_unless_fail_fast",
+      "218"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "c97e3112ed31fda7e909d522709b9b5332c5505f36b7df32498af7199262ad4f",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_transfer_completion.py": "c97e3112ed31fda7e909d522709b9b5332c5505f36b7df32498af7199262ad4f"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_unmap.py",
+      "test_exact_match_unmap_clears_both_tables",
+      "31"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "f5fcc273d983fbe054a5d783f61514933fef98bdccdaf0c0a25f3f850287aab7",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_unmap.py": "f5fcc273d983fbe054a5d783f61514933fef98bdccdaf0c0a25f3f850287aab7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_unmap.py",
+      "test_unmap_via_transfer_id_after_request_id_mutation",
+      "39"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "f5fcc273d983fbe054a5d783f61514933fef98bdccdaf0c0a25f3f850287aab7",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_unmap.py": "f5fcc273d983fbe054a5d783f61514933fef98bdccdaf0c0a25f3f850287aab7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_unmap.py",
+      "test_unmap_miss_is_noop_and_does_not_raise",
+      "50"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "f5fcc273d983fbe054a5d783f61514933fef98bdccdaf0c0a25f3f850287aab7",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_unmap.py": "f5fcc273d983fbe054a5d783f61514933fef98bdccdaf0c0a25f3f850287aab7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_unmap.py",
+      "test_exact_match_preferred_over_transfer_id_fallback",
+      "61"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "f5fcc273d983fbe054a5d783f61514933fef98bdccdaf0c0a25f3f850287aab7",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_unmap.py": "f5fcc273d983fbe054a5d783f61514933fef98bdccdaf0c0a25f3f850287aab7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py",
+      "test_execute_write_task_ip_is_per_task_under_overwrite",
+      "148"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py",
+      "test_deferred_task_ip_is_per_task_under_overwrite",
+      "164"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py",
+      "test_two_requests_resolve_distinct_hosts",
+      "181"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py",
+      "test_finalize_notify_port_uses_pod_local_rank",
+      "203"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py",
+      "test_finalize_port_ignores_stale_worker_dp_local",
+      "230"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py",
+      "test_finalize_single_pod_port_uses_global_rank",
+      "256"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py",
+      "test_execute_write_task_writes_every_fanout_target",
+      "276"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py",
+      "test_fanout_write_done_notifies_every_target_after_completion",
+      "325"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py",
+      "test_write_blocks_for_req_forwards_routing_to_schedule_write",
+      "366"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py",
+      "test_write_blocks_for_req_falls_back_when_multi_pod_hosts_empty",
+      "395"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py",
+      "test_write_blocks_for_req_schedules_mla_write_fanout",
+      "423"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py",
+      "test_fanout_write_retries_handshake_after_one_target_failed",
+      "468"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py",
+      "test_fanout_write_proceeds_once_every_target_session_exists",
+      "479"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py",
+      "test_rank_with_nothing_to_write_does_not_wait_for_a_handshake",
+      "490"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py",
+      "test_release_reaches_every_prefill_rank_and_no_other",
+      "517"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py",
+      "test_deferred_write_timeout_fails_transfer_on_every_decode_rank",
+      "542"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py",
+      "test_deferred_write_timeout_notifies_every_fanout_target",
+      "578"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py",
+      "test_write_scheduler_waits_for_worker_ack_past_defer_deadline",
+      "608"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py",
+      "test_write_failed_is_reported_as_failed_recving_on_owning_rank",
+      "629"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py",
+      "test_write_rejects_unmappable_tp_before_scheduling_any_layer",
+      "653"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py",
+      "test_remote_blocks_message_normalizes_to_grouped_block_ids",
+      "683"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py",
+      "test_empty_layer_plan_posts_no_rdma_write",
+      "694"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py",
+      "test_hybrid_write_requires_exactly_one_running_state_slot",
+      "715"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py": "5acafde9384ef92242778a1833bb13b856d5a2a04b5cc5e8b74de19cf0f74610"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_loaded_groups_follow_the_connector_serving_the_request",
+      "239"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "6e04b5b6f2c6e15b82e06187afa746e9a821a97f96d05302fb0102e0b232bf40",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_multi_connector.py": "6e04b5b6f2c6e15b82e06187afa746e9a821a97f96d05302fb0102e0b232bf40"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_multi_connector_children_use_configured_lookahead_hashes",
+      "1104"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "6e04b5b6f2c6e15b82e06187afa746e9a821a97f96d05302fb0102e0b232bf40",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_multi_connector.py": "6e04b5b6f2c6e15b82e06187afa746e9a821a97f96d05302fb0102e0b232bf40"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_multi_connector_hma_support_detection",
+      "1296"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "6e04b5b6f2c6e15b82e06187afa746e9a821a97f96d05302fb0102e0b232bf40",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_multi_connector.py": "6e04b5b6f2c6e15b82e06187afa746e9a821a97f96d05302fb0102e0b232bf40"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_divergent_local_hybrid_hit_capability_is_conservative",
+      "1328"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "6e04b5b6f2c6e15b82e06187afa746e9a821a97f96d05302fb0102e0b232bf40",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_multi_connector.py": "6e04b5b6f2c6e15b82e06187afa746e9a821a97f96d05302fb0102e0b232bf40"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_multi_connector_role_follows_children",
+      "1349"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "6e04b5b6f2c6e15b82e06187afa746e9a821a97f96d05302fb0102e0b232bf40",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_multi_connector.py": "6e04b5b6f2c6e15b82e06187afa746e9a821a97f96d05302fb0102e0b232bf40"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_multi_connector.py",
+      "test_multi_connector_mixed_hma_disables_hybrid_kv_cache",
+      "1372"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "6e04b5b6f2c6e15b82e06187afa746e9a821a97f96d05302fb0102e0b232bf40",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_multi_connector.py": "6e04b5b6f2c6e15b82e06187afa746e9a821a97f96d05302fb0102e0b232bf40"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_output_aggregator.py",
+      "test_aggregate_workers_output",
+      "96"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "e534d0aab7b1b84022fc1dd85bc4c0a1a1b9d0c5f988bcb4f99476416e6e32d7",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_output_aggregator.py": "e534d0aab7b1b84022fc1dd85bc4c0a1a1b9d0c5f988bcb4f99476416e6e32d7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_output_aggregator.py",
+      "test_aggregate_workers_output_with_expected_finished_count",
+      "158"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "e534d0aab7b1b84022fc1dd85bc4c0a1a1b9d0c5f988bcb4f99476416e6e32d7",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_output_aggregator.py": "e534d0aab7b1b84022fc1dd85bc4c0a1a1b9d0c5f988bcb4f99476416e6e32d7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_output_aggregator.py",
+      "test_replay_preserves_get_and_clear_fields",
+      "199"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "e534d0aab7b1b84022fc1dd85bc4c0a1a1b9d0c5f988bcb4f99476416e6e32d7",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_output_aggregator.py": "e534d0aab7b1b84022fc1dd85bc4c0a1a1b9d0c5f988bcb4f99476416e6e32d7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_output_aggregator.py",
+      "test_replay_completes_finished_recving_votes",
+      "241"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "e534d0aab7b1b84022fc1dd85bc4c0a1a1b9d0c5f988bcb4f99476416e6e32d7",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_output_aggregator.py": "e534d0aab7b1b84022fc1dd85bc4c0a1a1b9d0c5f988bcb4f99476416e6e32d7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_output_aggregator.py",
+      "test_salvaged_kv_cache_events_do_not_raise_quorum",
+      "263"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "e534d0aab7b1b84022fc1dd85bc4c0a1a1b9d0c5f988bcb4f99476416e6e32d7",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_output_aggregator.py": "e534d0aab7b1b84022fc1dd85bc4c0a1a1b9d0c5f988bcb4f99476416e6e32d7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_output_aggregator.py",
+      "test_salvaged_votes_dropped_live_votes_unaffected_lmcache_exact_quorum",
+      "284"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "e534d0aab7b1b84022fc1dd85bc4c0a1a1b9d0c5f988bcb4f99476416e6e32d7",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_output_aggregator.py": "e534d0aab7b1b84022fc1dd85bc4c0a1a1b9d0c5f988bcb4f99476416e6e32d7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_output_aggregator.py",
+      "test_salvaged_votes_dropped_live_votes_unaffected_mooncake_quorum",
+      "306"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "e534d0aab7b1b84022fc1dd85bc4c0a1a1b9d0c5f988bcb4f99476416e6e32d7",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_output_aggregator.py": "e534d0aab7b1b84022fc1dd85bc4c0a1a1b9d0c5f988bcb4f99476416e6e32d7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_output_aggregator.py",
+      "test_salvaged_event_votes_are_one_shot",
+      "327"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "e534d0aab7b1b84022fc1dd85bc4c0a1a1b9d0c5f988bcb4f99476416e6e32d7",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_output_aggregator.py": "e534d0aab7b1b84022fc1dd85bc4c0a1a1b9d0c5f988bcb4f99476416e6e32d7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_remote_decode_lifecycle.py",
+      "test_basic_lifecycle",
+      "21"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "89a08a3dea484a4d0a9c814aa95ecc8d9641ade2705fff73e5a06cdffd77d3d0",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_remote_decode_lifecycle.py": "89a08a3dea484a4d0a9c814aa95ecc8d9641ade2705fff73e5a06cdffd77d3d0",
+      "tests/v1/kv_connector/unit/utils.py": "5e7836c36317ebc3401467d8052946d10ede18eee8674d72b6a3aec7645eb65e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_remote_decode_lifecycle.py",
+      "test_short_prompt_lifecycle",
+      "117"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "89a08a3dea484a4d0a9c814aa95ecc8d9641ade2705fff73e5a06cdffd77d3d0",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_remote_decode_lifecycle.py": "89a08a3dea484a4d0a9c814aa95ecc8d9641ade2705fff73e5a06cdffd77d3d0",
+      "tests/v1/kv_connector/unit/utils.py": "5e7836c36317ebc3401467d8052946d10ede18eee8674d72b6a3aec7645eb65e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_remote_decode_lifecycle.py",
+      "test_prefix_cache_lifecycle",
+      "164"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "89a08a3dea484a4d0a9c814aa95ecc8d9641ade2705fff73e5a06cdffd77d3d0",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_remote_decode_lifecycle.py": "89a08a3dea484a4d0a9c814aa95ecc8d9641ade2705fff73e5a06cdffd77d3d0",
+      "tests/v1/kv_connector/unit/utils.py": "5e7836c36317ebc3401467d8052946d10ede18eee8674d72b6a3aec7645eb65e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_remote_decode_lifecycle.py",
+      "test_abort_during_kv_transfer",
+      "224"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "89a08a3dea484a4d0a9c814aa95ecc8d9641ade2705fff73e5a06cdffd77d3d0",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_remote_decode_lifecycle.py": "89a08a3dea484a4d0a9c814aa95ecc8d9641ade2705fff73e5a06cdffd77d3d0",
+      "tests/v1/kv_connector/unit/utils.py": "5e7836c36317ebc3401467d8052946d10ede18eee8674d72b6a3aec7645eb65e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_tp_mapping.py",
+      "TestTPMappingStructure::test_source_ranks_homogeneous",
+      "64"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "9dc6a48a27a98264fc2ae7b7a34e965536f48094afb817efaa6769a597ff48ed",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_tp_mapping.py": "9dc6a48a27a98264fc2ae7b7a34e965536f48094afb817efaa6769a597ff48ed"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_tp_mapping.py",
+      "TestTPMappingStructure::test_source_ranks_d_gt_p",
+      "68"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "9dc6a48a27a98264fc2ae7b7a34e965536f48094afb817efaa6769a597ff48ed",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_tp_mapping.py": "9dc6a48a27a98264fc2ae7b7a34e965536f48094afb817efaa6769a597ff48ed"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_tp_mapping.py",
+      "TestTPMappingStructure::test_source_ranks_p_gt_d",
+      "72"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "9dc6a48a27a98264fc2ae7b7a34e965536f48094afb817efaa6769a597ff48ed",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_tp_mapping.py": "9dc6a48a27a98264fc2ae7b7a34e965536f48094afb817efaa6769a597ff48ed"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_tp_mapping.py",
+      "test_head_sharded_draft_under_mla_target_gets_gqa_offset",
+      "85"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "9dc6a48a27a98264fc2ae7b7a34e965536f48094afb817efaa6769a597ff48ed",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_tp_mapping.py": "9dc6a48a27a98264fc2ae7b7a34e965536f48094afb817efaa6769a597ff48ed"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_tp_mapping.py",
+      "test_mla_dcp_source_ranks",
+      "121"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "9dc6a48a27a98264fc2ae7b7a34e965536f48094afb817efaa6769a597ff48ed",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_tp_mapping.py": "9dc6a48a27a98264fc2ae7b7a34e965536f48094afb817efaa6769a597ff48ed"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_tp_mapping.py",
+      "test_dcp_consumer_count_matches_readers",
+      "152"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "9dc6a48a27a98264fc2ae7b7a34e965536f48094afb817efaa6769a597ff48ed",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_tp_mapping.py": "9dc6a48a27a98264fc2ae7b7a34e965536f48094afb817efaa6769a597ff48ed"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_tp_mapping.py",
+      "TestBuildSrcSplitHandles::test_build_src_split_handles",
+      "201"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "9dc6a48a27a98264fc2ae7b7a34e965536f48094afb817efaa6769a597ff48ed",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_tp_mapping.py": "9dc6a48a27a98264fc2ae7b7a34e965536f48094afb817efaa6769a597ff48ed"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_tp_mapping.py",
+      "TestMambaPlanSplitHandles::test_fa_and_ssm_different_split_factors",
+      "234"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "9dc6a48a27a98264fc2ae7b7a34e965536f48094afb817efaa6769a597ff48ed",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_tp_mapping.py": "9dc6a48a27a98264fc2ae7b7a34e965536f48094afb817efaa6769a597ff48ed"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_tp_mapping.py",
+      "TestMambaPlanSplitHandles::test_hetero_block_size_splits",
+      "278"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "9dc6a48a27a98264fc2ae7b7a34e965536f48094afb817efaa6769a597ff48ed",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_tp_mapping.py": "9dc6a48a27a98264fc2ae7b7a34e965536f48094afb817efaa6769a597ff48ed"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_tp_mapping.py",
+      "TestMambaPlanSplitHandles::test_hetero_block_size_head_sharded_asserts",
+      "307"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "9dc6a48a27a98264fc2ae7b7a34e965536f48094afb817efaa6769a597ff48ed",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_tp_mapping.py": "9dc6a48a27a98264fc2ae7b7a34e965536f48094afb817efaa6769a597ff48ed"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_tp_mapping.py",
+      "test_csa_linear_tp_layout_boundary",
+      "342"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "9dc6a48a27a98264fc2ae7b7a34e965536f48094afb817efaa6769a597ff48ed",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_tp_mapping.py": "9dc6a48a27a98264fc2ae7b7a34e965536f48094afb817efaa6769a597ff48ed"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_transfer_topology_sharded.py",
+      "test_legacy_register_remote_engine_uses_pp_rank_zero",
+      "36"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "df81ab6c8f3053109e4aee8a9290dc0dd6cefb780a79bbd3ed3beb54eaf93623",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_transfer_topology_sharded.py": "df81ab6c8f3053109e4aee8a9290dc0dd6cefb780a79bbd3ed3beb54eaf93623"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_transfer_topology_sharded.py",
+      "test_register_remote_engine_stores_pp_ranks_separately",
+      "54"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "df81ab6c8f3053109e4aee8a9290dc0dd6cefb780a79bbd3ed3beb54eaf93623",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_transfer_topology_sharded.py": "df81ab6c8f3053109e4aee8a9290dc0dd6cefb780a79bbd3ed3beb54eaf93623"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_transfer_topology_sharded.py",
+      "test_helpers_use_requested_pp_rank",
+      "90"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "df81ab6c8f3053109e4aee8a9290dc0dd6cefb780a79bbd3ed3beb54eaf93623",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_transfer_topology_sharded.py": "df81ab6c8f3053109e4aee8a9290dc0dd6cefb780a79bbd3ed3beb54eaf93623"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_transfer_topology_sharded.py",
+      "test_engine_info_fields_have_backward_compatible_defaults",
+      "125"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "df81ab6c8f3053109e4aee8a9290dc0dd6cefb780a79bbd3ed3beb54eaf93623",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_transfer_topology_sharded.py": "df81ab6c8f3053109e4aee8a9290dc0dd6cefb780a79bbd3ed3beb54eaf93623"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_umbp_async_lookup.py",
+      "test_scheduler_async_lookup_defers_then_returns_hit",
+      "35"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "20f298323a47b17f054c65b944ab8de2d2f0b1c4f117506835bb92822b9f7f82",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_umbp_async_lookup.py": "20f298323a47b17f054c65b944ab8de2d2f0b1c4f117506835bb92822b9f7f82"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_umbp_async_lookup.py",
+      "test_async_lookup_discards_results_for_changed_request",
+      "104"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "20f298323a47b17f054c65b944ab8de2d2f0b1c4f117506835bb92822b9f7f82",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_umbp_async_lookup.py": "20f298323a47b17f054c65b944ab8de2d2f0b1c4f117506835bb92822b9f7f82"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_umbp_async_lookup.py",
+      "test_scheduler_reset_clears_pending_lookup_state",
+      "147"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "20f298323a47b17f054c65b944ab8de2d2f0b1c4f117506835bb92822b9f7f82",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_umbp_async_lookup.py": "20f298323a47b17f054c65b944ab8de2d2f0b1c4f117506835bb92822b9f7f82"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_umbp_async_lookup.py",
+      "test_async_lookup_failure_recomputes_and_allows_retry",
+      "170"
+    ],
+    "review_file": "round9_work/vllm_runtime/crosswalk.tsv",
+    "source_sha256": "20f298323a47b17f054c65b944ab8de2d2f0b1c4f117506835bb92822b9f7f82",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_umbp_async_lookup.py": "20f298323a47b17f054c65b944ab8de2d2f0b1c4f117506835bb92822b9f7f82"
     }
   },
   {
@@ -23619,6 +27887,363 @@
     "source_sha256": "3196dead9b1d928df07abbc8af0c704aade8f0d50bf066a433b6a134242210ec",
     "oracle_source_sha256": {
       "tests/v1/attention/test_sparse_mla_backends.py": "3196dead9b1d928df07abbc8af0c704aade8f0d50bf066a433b6a134242210ec"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py",
+      "test_split_nhd_placement_rank2_of_4",
+      "141"
+    ],
+    "review_file": "round9_work/vllm_runtime/proposed-crosswalk.tsv",
+    "source_sha256": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py",
+      "test_packed_nhd_placement_rank2_of_4",
+      "158"
+    ],
+    "review_file": "round9_work/vllm_runtime/proposed-crosswalk.tsv",
+    "source_sha256": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py",
+      "test_packed_hnd_placement_rank1_of_4",
+      "169"
+    ],
+    "review_file": "round9_work/vllm_runtime/proposed-crosswalk.tsv",
+    "source_sha256": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py",
+      "test_single_rank_coalesces_to_one_run",
+      "177"
+    ],
+    "review_file": "round9_work/vllm_runtime/proposed-crosswalk.tsv",
+    "source_sha256": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py",
+      "test_gqa_replicated_heads_rotate_writer",
+      "189"
+    ],
+    "review_file": "round9_work/vllm_runtime/proposed-crosswalk.tsv",
+    "source_sha256": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa",
+      "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py": "e0b3c6f9806a650e0370c43c5068fc31c0fec94615089e15fdf270d7d96f2b64"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py",
+      "test_mla_replicas_rotate_writer",
+      "211"
+    ],
+    "review_file": "round9_work/vllm_runtime/proposed-crosswalk.tsv",
+    "source_sha256": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py",
+      "test_dcp_interleaves_tokens_within_replicas",
+      "228"
+    ],
+    "review_file": "round9_work/vllm_runtime/proposed-crosswalk.tsv",
+    "source_sha256": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa",
+      "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py": "e0b3c6f9806a650e0370c43c5068fc31c0fec94615089e15fdf270d7d96f2b64"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py",
+      "test_mla_dcp_shards_latent_tokens",
+      "250"
+    ],
+    "review_file": "round9_work/vllm_runtime/proposed-crosswalk.tsv",
+    "source_sha256": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa",
+      "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py": "e0b3c6f9806a650e0370c43c5068fc31c0fec94615089e15fdf270d7d96f2b64"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py",
+      "test_pcp_tokens_and_tp_heads_compose",
+      "261"
+    ],
+    "review_file": "round9_work/vllm_runtime/proposed-crosswalk.tsv",
+    "source_sha256": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa",
+      "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py": "e0b3c6f9806a650e0370c43c5068fc31c0fec94615089e15fdf270d7d96f2b64"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py",
+      "test_interleave_chunks_stay_contiguous",
+      "272"
+    ],
+    "review_file": "round9_work/vllm_runtime/proposed-crosswalk.tsv",
+    "source_sha256": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa",
+      "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py": "e0b3c6f9806a650e0370c43c5068fc31c0fec94615089e15fdf270d7d96f2b64"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py",
+      "test_all_ranks_tile_canonical_page",
+      "288"
+    ],
+    "review_file": "round9_work/vllm_runtime/proposed-crosswalk.tsv",
+    "source_sha256": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa",
+    "oracle_source_sha256": {
+      "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py": "e0b3c6f9806a650e0370c43c5068fc31c0fec94615089e15fdf270d7d96f2b64"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py",
+      "test_cross_tp_store_load",
+      "320"
+    ],
+    "review_file": "round9_work/vllm_runtime/proposed-crosswalk.tsv",
+    "source_sha256": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py",
+      "test_cp_round_trip",
+      "340"
+    ],
+    "review_file": "round9_work/vllm_runtime/proposed-crosswalk.tsv",
+    "source_sha256": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py",
+      "test_replica_rotation_round_trip",
+      "352"
+    ],
+    "review_file": "round9_work/vllm_runtime/proposed-crosswalk.tsv",
+    "source_sha256": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py",
+      "test_fail_closed_cases",
+      "367"
+    ],
+    "review_file": "round9_work/vllm_runtime/proposed-crosswalk.tsv",
+    "source_sha256": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py",
+      "test_opaque_fallback_places_page_whole",
+      "404"
+    ],
+    "review_file": "round9_work/vllm_runtime/proposed-crosswalk.tsv",
+    "source_sha256": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa",
+      "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py": "e0b3c6f9806a650e0370c43c5068fc31c0fec94615089e15fdf270d7d96f2b64"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py",
+      "test_derive_mixed_model_with_dcp",
+      "437"
+    ],
+    "review_file": "round9_work/vllm_runtime/proposed-crosswalk.tsv",
+    "source_sha256": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py",
+      "test_derive_refuses_foreign_worker_groups",
+      "468"
+    ],
+    "review_file": "round9_work/vllm_runtime/proposed-crosswalk.tsv",
+    "source_sha256": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_mooncake_store_layout.py",
+      "test_tp_shared_layout_loads_partial_prefix_from_physical_block",
+      "137"
+    ],
+    "review_file": "round9_work/vllm_runtime/proposed-crosswalk.tsv",
+    "source_sha256": "6a778365bf5ac7055efef82c9107db258537eb8cfef6132724866c7aad02fdef",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_mooncake_store_layout.py": "6a778365bf5ac7055efef82c9107db258537eb8cfef6132724866c7aad02fdef"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_mooncake_store_layout.py",
+      "test_gdn_store_shard_segments_preserve_projection_boundaries",
+      "228"
+    ],
+    "review_file": "round9_work/vllm_runtime/proposed-crosswalk.tsv",
+    "source_sha256": "6a778365bf5ac7055efef82c9107db258537eb8cfef6132724866c7aad02fdef",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_mooncake_store_layout.py": "6a778365bf5ac7055efef82c9107db258537eb8cfef6132724866c7aad02fdef"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_mooncake_store_layout.py",
+      "test_rank_local_descriptors_match_reference",
+      "269"
+    ],
+    "review_file": "round9_work/vllm_runtime/proposed-crosswalk.tsv",
+    "source_sha256": "6a778365bf5ac7055efef82c9107db258537eb8cfef6132724866c7aad02fdef",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_mooncake_store_layout.py": "6a778365bf5ac7055efef82c9107db258537eb8cfef6132724866c7aad02fdef"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_mooncake_store_layout.py",
+      "test_rank_local_descriptors_handle_empty_and_invalid_chunks",
+      "294"
+    ],
+    "review_file": "round9_work/vllm_runtime/proposed-crosswalk.tsv",
+    "source_sha256": "6a778365bf5ac7055efef82c9107db258537eb8cfef6132724866c7aad02fdef",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_mooncake_store_layout.py": "6a778365bf5ac7055efef82c9107db258537eb8cfef6132724866c7aad02fdef"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_mooncake_store_layout.py",
+      "test_rank_local_layout_skips_block_padding",
+      "301"
+    ],
+    "review_file": "round9_work/vllm_runtime/proposed-crosswalk.tsv",
+    "source_sha256": "6a778365bf5ac7055efef82c9107db258537eb8cfef6132724866c7aad02fdef",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_mooncake_store_layout.py": "6a778365bf5ac7055efef82c9107db258537eb8cfef6132724866c7aad02fdef"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_mooncake_store_layout.py",
+      "test_rank_local_database_api_rejects_tp_shared_layout",
+      "339"
+    ],
+    "review_file": "round9_work/vllm_runtime/proposed-crosswalk.tsv",
+    "source_sha256": "6a778365bf5ac7055efef82c9107db258537eb8cfef6132724866c7aad02fdef",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_mooncake_store_layout.py": "6a778365bf5ac7055efef82c9107db258537eb8cfef6132724866c7aad02fdef"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_mooncake_store_layout.py",
+      "test_attention_store_chunk_is_independent_of_k3_local_pages",
+      "561"
+    ],
+    "review_file": "round9_work/vllm_runtime/proposed-crosswalk.tsv",
+    "source_sha256": "6a778365bf5ac7055efef82c9107db258537eb8cfef6132724866c7aad02fdef",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_mooncake_store_layout.py": "6a778365bf5ac7055efef82c9107db258537eb8cfef6132724866c7aad02fdef"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_mooncake_store_layout.py",
+      "test_chunk_descriptors_preserve_order_across_kernel_blocks",
+      "586"
+    ],
+    "review_file": "round9_work/vllm_runtime/proposed-crosswalk.tsv",
+    "source_sha256": "6a778365bf5ac7055efef82c9107db258537eb8cfef6132724866c7aad02fdef",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_mooncake_store_layout.py": "6a778365bf5ac7055efef82c9107db258537eb8cfef6132724866c7aad02fdef"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_connector/unit/test_mooncake_store_layout.py",
+      "test_tp_shared_layout_handles_kernel_blocked_compressed_states",
+      "626"
+    ],
+    "review_file": "round9_work/vllm_runtime/proposed-crosswalk.tsv",
+    "source_sha256": "6a778365bf5ac7055efef82c9107db258537eb8cfef6132724866c7aad02fdef",
+    "oracle_source_sha256": {
+      "tests/v1/kv_connector/unit/test_mooncake_store_layout.py": "6a778365bf5ac7055efef82c9107db258537eb8cfef6132724866c7aad02fdef"
     }
   },
   {

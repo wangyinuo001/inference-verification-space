@@ -541,7 +541,7 @@
 <text x="1205.0" y="697.8" text-anchor="middle" class="node-label" style="font-size:14px">
 <tspan x="1205.0" dy="0">在途资源释放</tspan>
 </text>
-<title>请求取消、重置或结束后，其资源在最后一个可能访问它的在途工作完成前不可重用，之后能够释放；其他请求的在途工作不延迟该资源的释放。</title></g>
+<title>请求取消、重置或结束后，仍可能被在途工作访问的资源不得重新分配；按资源身份核对相关访问的完成条件，再按声明的回收流程释放。</title></g>
 <g class="unit" data-unit="embedding.valid" data-phase="whole_request" data-level="goal" tabindex="0">
 <rect x="792.0" y="108.0" width="136" height="44" rx="8" fill="#fff" stroke="#75348b" stroke-width="2"/>
 <text x="860.0" y="134.8" text-anchor="middle" class="composite-label" style="font-size:14px">
@@ -626,7 +626,7 @@
 <text x="505.0" y="581.8" text-anchor="middle" class="node-label" style="font-size:14px">
 <tspan x="505.0" dy="0">传输就绪门禁</tspan>
 </text>
-<title>Decode 在目标请求的 KV 与元数据就绪后进入计算；失败或取消时不把未就绪的状态交给模型，并释放关联资源。</title></g>
+<title>Decode 在目标请求的 KV 与元数据达到声明的就绪条件后进入计算；失败或取消时终止等待并清理关联请求状态，物理缓存资源的重用另受在途访问完成条件约束。</title></g>
 <g class="unit" data-unit="input.video_frame_selection" data-phase="ingress" data-level="unit" tabindex="0">
 <rect x="17.0" y="1193.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
 <text x="85.0" y="1219.8" text-anchor="middle" class="node-label" style="font-size:14px">
@@ -1249,6 +1249,13 @@
 <tspan x="645.0" dy="16">段与复制顺序</tspan>
 </text>
 <title>前向输入复制完成后执行派生字段更新；结果对应本次原始/补齐计数、参与分片和复制开关，而非陈旧输入值。</title></g>
+<g class="unit" data-unit="cache.storage_layout_mapping" data-phase="cache" data-level="unit" tabindex="0">
+<rect x="297.0" y="1715.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="365.0" y="1733.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="365.0" dy="0">缓存本地布局与存</tspan>
+<tspan x="365.0" dy="16">储页映射</tspan>
+</text>
+<title>缓存页序列化为所声明的存储布局或从中恢复时，映射描述符保持逻辑层、头、token 或状态分量对应的地址、偏移、长度与次序；分片和副本写者按约定覆盖存储页，不支持的几何布局明确拒绝或采用声明的不透明页回退。</title></g>
 <line x1="33" y1="2383" x2="67" y2="2383" stroke="#8c6b9a" stroke-width="2"/><text x="74" y="2387" class="legend">分解</text>
 <line x1="157" y1="2383" x2="191" y2="2383" stroke="#70988c" stroke-width="2" stroke-dasharray="4 4"/><text x="198" y="2387" class="legend">前提依赖</text>
 <rect x="302" y="2371" width="30" height="22" rx="5" fill="#f3edf5" stroke="#bca6c7"/><text x="339" y="2387" class="legend">单请求状态</text>

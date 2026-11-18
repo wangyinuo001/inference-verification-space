@@ -1,27 +1,54 @@
 {
-  "crosswalk_entries": 181,
-  "proposed_entries": 183,
-  "total_unique_entries": 364,
-  "new_crosswalk_entries": 100,
-  "new_proposed_entries": 4,
-  "new_total_entries": 104,
+  "crosswalk_entries": 509,
+  "proposed_entries": 210,
+  "total_unique_entries": 719,
+  "new_crosswalk_entries": 428,
+  "new_proposed_entries": 31,
+  "new_total_entries": 459,
   "previous_records_retained": 260,
-  "helper_bound_new_entries": 20,
+  "helper_bound_new_entries": 52,
   "new_by_file": {
     "tests/v1/attention/test_mla_prefill_selector.py": 33,
     "tests/v1/attention/test_rocm_attention_backends_selection.py": 28,
     "tests/distributed/test_pynccl.py": 13,
     "tests/distributed/test_custom_all_reduce.py": 17,
-    "tests/v1/attention/test_sparse_mla_backends.py": 9
+    "tests/v1/attention/test_sparse_mla_backends.py": 9,
+    "tests/distributed/test_quick_all_reduce.py": 21,
+    "tests/distributed/test_rocm_quick_reduce.py": 23,
+    "tests/distributed/test_dcp_a2a.py": 16,
+    "tests/distributed/test_dcp_direct_a2a_lse_reduce.py": 21,
+    "tests/distributed/test_comm_ops.py": 15,
+    "tests/v1/kv_connector/unit/test_tp_mapping.py": 11,
+    "tests/v1/kv_connector/unit/test_moriio_tp_mapping.py": 11,
+    "tests/v1/kv_connector/unit/test_moriio_kv_layout.py": 31,
+    "tests/v1/kv_connector/unit/test_moriio_tp_ack.py": 30,
+    "tests/v1/kv_connector/unit/test_moriio_transfer_completion.py": 12,
+    "tests/v1/kv_connector/unit/test_moriio_write_done_routing.py": 23,
+    "tests/v1/kv_connector/unit/test_moriio_read_tp.py": 11,
+    "tests/v1/kv_connector/unit/test_moriio_hetero_tp_write.py": 2,
+    "tests/v1/kv_connector/unit/test_moriio_routing_fairness.py": 6,
+    "tests/v1/kv_connector/unit/test_moriio_proxy_routing.py": 8,
+    "tests/v1/kv_connector/unit/test_config.py": 6,
+    "tests/v1/kv_connector/unit/test_hma_auto_config.py": 2,
+    "tests/v1/kv_connector/unit/offloading_connector/test_config.py": 32,
+    "tests/v1/kv_connector/unit/test_output_aggregator.py": 8,
+    "tests/v1/kv_connector/unit/test_umbp_async_lookup.py": 4,
+    "tests/v1/kv_connector/unit/test_remote_decode_lifecycle.py": 4,
+    "tests/v1/kv_connector/unit/test_multi_connector.py": 6,
+    "tests/v1/kv_connector/unit/test_hf3fs_metadata_server.py": 13,
+    "tests/v1/kv_connector/unit/test_transfer_topology_sharded.py": 4,
+    "tests/v1/kv_connector/unit/test_moriio_unmap.py": 4,
+    "tests/v1/kv_connector/unit/test_mooncake_store_layout.py": 4
   },
-  "oracle_references_checked": 712,
+  "oracle_references_checked": 1658,
   "source_files_rehashed": 569,
   "new_units": [
     "compute.attention_scale_binding",
     "execution.stream_dependency",
-    "distributed.empty_attention_partition_identity"
+    "distributed.empty_attention_partition_identity",
+    "cache.storage_layout_mapping"
   ],
-  "pending_count": 5160,
+  "pending_count": 4828,
   "execution": "Static pinned-source review and artifact integrity only; no vLLM tests, GPUs or servers executed.",
   "checks": [
     "No duplicate entry across cumulative crosswalk/proposed",
@@ -29,10 +56,64 @@
     "All evidence file SHA256 match pinned source",
     "Each new decision SHA256 matches pinned source",
     "Helper body assertions and exact caller expression validated by builder",
-    "All crosswalk/proposed units exist in seed or units-ready"
+    "All crosswalk/proposed units exist in seed or units-ready",
+    "Exact input/call source validated; full reviewed definition and decorators retained",
+    "Reachable input constructors, fixtures and constants retained without automatic oracle promotion",
+    "Cross-file READ reference fixture retained with source hash",
+    "Same-line nested helper calls matched by both line and exact AST expression",
+    "Every SGLang replacement ref revalidated against pinned commit 49e384ce9d304648e9959666ecb8ce8cd98d0deb"
   ],
   "remaining_sparse_boundaries": [
     "No slot mapping is None, distinct from empty mapping or negative slots; keep pending",
     "Expanded union bound subprocess launch failure does not identify exact failed device assertion; keep pending"
-  ]
+  ],
+  "first_batch": {
+    "crosswalk_entries": 181,
+    "proposed_entries": 183,
+    "total_unique_entries": 364,
+    "new_crosswalk_entries": 100,
+    "new_proposed_entries": 4,
+    "new_total_entries": 104,
+    "previous_records_retained": 260,
+    "helper_bound_new_entries": 20,
+    "new_by_file": {
+      "tests/v1/attention/test_mla_prefill_selector.py": 33,
+      "tests/v1/attention/test_rocm_attention_backends_selection.py": 28,
+      "tests/distributed/test_pynccl.py": 13,
+      "tests/distributed/test_custom_all_reduce.py": 17,
+      "tests/v1/attention/test_sparse_mla_backends.py": 9
+    },
+    "oracle_references_checked": 712,
+    "source_files_rehashed": 569,
+    "new_units": [
+      "compute.attention_scale_binding",
+      "execution.stream_dependency",
+      "distributed.empty_attention_partition_identity"
+    ],
+    "pending_count": 5160,
+    "execution": "Static pinned-source review and artifact integrity only; no vLLM tests, GPUs or servers executed.",
+    "checks": [
+      "No duplicate entry across cumulative crosswalk/proposed",
+      "All oracle references point to nonempty source lines",
+      "All evidence file SHA256 match pinned source",
+      "Each new decision SHA256 matches pinned source",
+      "Helper body assertions and exact caller expression validated by builder",
+      "All crosswalk/proposed units exist in seed or units-ready",
+      "Exact input/call source validated; full reviewed definition and decorators retained",
+      "Reachable input constructors, fixtures and constants retained without automatic oracle promotion",
+      "Cross-file READ reference fixture retained with source hash",
+      "Same-line nested helper calls matched by both line and exact AST expression",
+      "Every SGLang replacement ref revalidated against pinned commit 49e384ce9d304648e9959666ecb8ce8cd98d0deb"
+    ],
+    "remaining_sparse_boundaries": [
+      "No slot mapping is None, distinct from empty mapping or negative slots; keep pending",
+      "Expanded union bound subprocess launch failure does not identify exact failed device assertion; keep pending"
+    ]
+  },
+  "sglang_snapshot_commit": "49e384ce9d304648e9959666ecb8ce8cd98d0deb",
+  "sglang_corrected_unit_count": 10,
+  "sglang_references_revalidated": 80,
+  "scope_correction": "distributed.empty_attention_partition_identity and resource.shared_region_population remain vllm-only; fixed SGLang prefix-chunk fixup does not establish DCP rank identity",
+  "vllm_snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385",
+  "storage_layout_proposal_entries": 27
 }

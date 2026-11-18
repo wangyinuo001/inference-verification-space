@@ -188,7 +188,7 @@
         "consumer_kind"
       ],
       "observed_values": [],
-      "constraint": "A resource is not reusable before the last work that may access that owner's resource completes; unrelated in-flight work does not delay its release."
+      "constraint": "Resource reuse requires completion or reliable revocation of every access that may still reach that resource incarnation. Reclamation progress depends on the declared completion and scheduling assumptions."
     },
     {
       "id": "cache_storage_transition",
@@ -5412,7 +5412,7 @@
         "execution_layout",
         "inflight_resource_profile"
       ],
-      "property": "请求取消、重置或结束后，其资源在最后一个可能访问它的在途工作完成前不可重用，之后能够释放；其他请求的在途工作不延迟该资源的释放。",
+      "property": "请求取消、重置或结束后，仍可能被在途工作访问的资源不得重新分配；按资源身份核对相关访问的完成条件，再按声明的回收流程释放。",
       "observable": [
         "inflight_steps",
         "transfer_ack",
@@ -5420,7 +5420,7 @@
         "free_pool",
         "resource_owner"
       ],
-      "oracle": "将终止事件与同一资源所有者的最后使用、完成和重新分配事件关联，检查过早复用、完成后释放及无关在途工作不阻碍释放。",
+      "oracle": "关联资源所有者、请求终止、在途访问、完成通知和重新分配事件，检查完成条件满足前不复用；完成后的回收进展按声明的队列与调度条件单独检查。",
       "evidence": {
         "vllm": [
           {
@@ -5447,6 +5447,14 @@
             "path": "tests/v1/core/test_deferred_block_free.py",
             "line": 378,
             "kind": "existing_test"
+          },
+          {
+            "path": "vllm/v1/core/sched/scheduler.py",
+            "line": 3269,
+            "kind": "source",
+            "source": "def _drain_deferred_frees(self):",
+            "source_sha256": "3df2bd7e78dbf479e515c00bd535f136817d35a1015588ebff5794a7afcc5989",
+            "snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385"
           }
         ],
         "sglang": [
@@ -5466,6 +5474,12 @@
             "kind": "existing_test"
           }
         ]
+      },
+      "verification_boundaries": {
+        "safety": "相关访问结束或可靠撤销前不重用资源。",
+        "progress": "回收时间依赖完成信号和回收队列进展；不要求无关工作永不延迟回收。",
+        "existing_evidence": "固定版本中的测试模拟步骤完成或 offload 确认，支持对应局部状态判断；传输后端停止语义须继续核查。",
+        "review": "docs/verifiable-infra-comparison-20261118.md"
       }
     },
     {
@@ -6102,7 +6116,7 @@
         "transfer_topology",
         "request_phase"
       ],
-      "property": "Decode 在目标请求的 KV 与元数据就绪后进入计算；失败或取消时不把未就绪的状态交给模型，并释放关联资源。",
+      "property": "Decode 在目标请求的 KV 与元数据达到声明的就绪条件后进入计算；失败或取消时终止等待并清理关联请求状态，物理缓存资源的重用另受在途访问完成条件约束。",
       "observable": [
         "transfer_poll_state",
         "metadata_readiness",
@@ -6110,7 +6124,7 @@
         "receiver_lifetime",
         "cache_ownership"
       ],
-      "oracle": "核对等待、成功和失败分支的状态转换及资源释放；既有调度和队列单元测试分别检查部分分支。",
+      "oracle": "核对接收等待、成功和失败分支的状态转换，以及请求身份、元数据和清理操作；物理资源能否重用需继续核对完成或停止信号的来源与语义。",
       "evidence": {
         "vllm": [
           {
@@ -6156,6 +6170,11 @@
             "kind": "existing_oracle"
           }
         ]
+      },
+      "verification_boundaries": {
+        "existing_evidence": "队列测试模拟接收完成或失败，核对调度资格、队列和清理调用。",
+        "cross_component_requirement": "接收完成、消费者可见性和物理页可重用分别判定；清理函数被调用不建立远端访问已停止。",
+        "review": "docs/verifiable-infra-comparison-20261118.md"
       }
     },
     {
@@ -11976,6 +11995,238 @@
       ],
       "semantic_domain": "inference_request",
       "state_owner": "process"
+    },
+    {
+      "id": "cache.storage_layout_mapping",
+      "name": "缓存本地布局与存储页映射",
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "phase": "cache",
+      "state_scope": "shared",
+      "conditions": [
+        "cache_storage_transition",
+        "parallel_topology",
+        "numeric_format",
+        "execution_layout"
+      ],
+      "property": "缓存页序列化为所声明的存储布局或从中恢复时，映射描述符保持逻辑层、头、token 或状态分量对应的地址、偏移、长度与次序；分片和副本写者按约定覆盖存储页，不支持的几何布局明确拒绝或采用声明的不透明页回退。",
+      "observable": [
+        "local_offsets",
+        "storage_offsets",
+        "segment_lengths",
+        "logical_block_ids",
+        "shard_ids",
+        "writer_coverage",
+        "layout_rejection_or_fallback"
+      ],
+      "oracle": "按声明布局展开描述符，与独立的字节位置计算或逻辑切片比较；检查本地页和选定写者对存储页的精确覆盖，以及不同 TP/块大小表示的往返。描述符检查不替代真实存储完成后的内容比较。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py",
+            "line": 115,
+            "kind": "source",
+            "source": "return (chunk * ctx.cp_size + ctx.total_cp_rank) * ctx.interleave + pos_in_chunk",
+            "source_sha256": "e0b3c6f9806a650e0370c43c5068fc31c0fec94615089e15fdf270d7d96f2b64",
+            "snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py",
+            "line": 139,
+            "kind": "source",
+            "source": "for chunk_start in range(0, num_tokens, ctx.interleave):",
+            "source_sha256": "e0b3c6f9806a650e0370c43c5068fc31c0fec94615089e15fdf270d7d96f2b64",
+            "snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py",
+            "line": 144,
+            "kind": "source",
+            "source": "region.canonical_offset",
+            "source_sha256": "e0b3c6f9806a650e0370c43c5068fc31c0fec94615089e15fdf270d7d96f2b64",
+            "snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py",
+            "line": 292,
+            "kind": "source",
+            "source": "return CanonicalPageMapping(",
+            "source_sha256": "e0b3c6f9806a650e0370c43c5068fc31c0fec94615089e15fdf270d7d96f2b64",
+            "snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py",
+            "line": 295,
+            "kind": "source",
+            "source": "runs=_interleave_cp_tokens([ByteRegion(0, 0, row, row)], bs, ctx),",
+            "source_sha256": "e0b3c6f9806a650e0370c43c5068fc31c0fec94615089e15fdf270d7d96f2b64",
+            "snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py",
+            "line": 296,
+            "kind": "source",
+            "source": "num_writers=ctx.tp_size // ctx.dcp_size,",
+            "source_sha256": "e0b3c6f9806a650e0370c43c5068fc31c0fec94615089e15fdf270d7d96f2b64",
+            "snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py",
+            "line": 324,
+            "kind": "source",
+            "source": "return CanonicalPageMapping(",
+            "source_sha256": "e0b3c6f9806a650e0370c43c5068fc31c0fec94615089e15fdf270d7d96f2b64",
+            "snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py",
+            "line": 327,
+            "kind": "source",
+            "source": "runs=_interleave_cp_tokens(regions, bs, ctx),",
+            "source_sha256": "e0b3c6f9806a650e0370c43c5068fc31c0fec94615089e15fdf270d7d96f2b64",
+            "snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py",
+            "line": 328,
+            "kind": "source",
+            "source": "num_writers=replication // ctx.dcp_size,",
+            "source_sha256": "e0b3c6f9806a650e0370c43c5068fc31c0fec94615089e15fdf270d7d96f2b64",
+            "snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py",
+            "line": 339,
+            "kind": "source",
+            "source": "0, rank * page_size_bytes, page_size_bytes, 1, page_size_bytes, page_size_bytes",
+            "source_sha256": "e0b3c6f9806a650e0370c43c5068fc31c0fec94615089e15fdf270d7d96f2b64",
+            "snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py",
+            "line": 379,
+            "kind": "source",
+            "source": "local = _run_intervals(mapping.runs, canonical=False)",
+            "source_sha256": "e0b3c6f9806a650e0370c43c5068fc31c0fec94615089e15fdf270d7d96f2b64",
+            "snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py",
+            "line": 389,
+            "kind": "source",
+            "source": "assert _is_exact_partition(stored, size), (",
+            "source_sha256": "e0b3c6f9806a650e0370c43c5068fc31c0fec94615089e15fdf270d7d96f2b64",
+            "snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py",
+            "line": 454,
+            "kind": "source",
+            "source": "per_rank = [",
+            "source_sha256": "e0b3c6f9806a650e0370c43c5068fc31c0fec94615089e15fdf270d7d96f2b64",
+            "snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/offloading/canonical_mapping.py",
+            "line": 458,
+            "kind": "source",
+            "source": "_verify_tiling(layer_name, per_rank)",
+            "source_sha256": "e0b3c6f9806a650e0370c43c5068fc31c0fec94615089e15fdf270d7d96f2b64",
+            "snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/layout.py",
+            "line": 218,
+            "kind": "source",
+            "source": "assert 0 < block_len <= block_stride",
+            "source_sha256": "1b92ec435764b6850a688c74c21e91d7419cd362040cb5524d8706896f68c521",
+            "snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/layout.py",
+            "line": 264,
+            "kind": "source",
+            "source": "self.block_stride = block_strides",
+            "source_sha256": "1b92ec435764b6850a688c74c21e91d7419cd362040cb5524d8706896f68c521",
+            "snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/layout.py",
+            "line": 297,
+            "kind": "source",
+            "source": "addrs = base[None, :] + bids[:, None] * stride[None, :]",
+            "source_sha256": "1b92ec435764b6850a688c74c21e91d7419cd362040cb5524d8706896f68c521",
+            "snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/layout.py",
+            "line": 301,
+            "kind": "source",
+            "source": "sizes = stride[None, :] * (block_counts[:, None] - 1) + blen[None, :]",
+            "source_sha256": "1b92ec435764b6850a688c74c21e91d7419cd362040cb5524d8706896f68c521",
+            "snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/layout.py",
+            "line": 396,
+            "kind": "source",
+            "source": "if np.any((local_shards < 0) | (local_shards >= self.shards_per_rank)):",
+            "source_sha256": "1b92ec435764b6850a688c74c21e91d7419cd362040cb5524d8706896f68c521",
+            "snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/layout.py",
+            "line": 409,
+            "kind": "source",
+            "source": "batch_sizes = cast(np.ndarray, self._chunk_sizes)[",
+            "source_sha256": "1b92ec435764b6850a688c74c21e91d7419cd362040cb5524d8706896f68c521",
+            "snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/layout.py",
+            "line": 431,
+            "kind": "source",
+            "source": "block_id = block_ids[block_index]",
+            "source_sha256": "1b92ec435764b6850a688c74c21e91d7419cd362040cb5524d8706896f68c521",
+            "snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/layout.py",
+            "line": 621,
+            "kind": "source",
+            "source": "addr_bases.append(cache.data_ptr() + offset)",
+            "source_sha256": "1b92ec435764b6850a688c74c21e91d7419cd362040cb5524d8706896f68c521",
+            "snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/layout.py",
+            "line": 623,
+            "kind": "source",
+            "source": "sizes.append(size)",
+            "source_sha256": "1b92ec435764b6850a688c74c21e91d7419cd362040cb5524d8706896f68c521",
+            "snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385"
+          },
+          {
+            "path": "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py",
+            "line": 144,
+            "kind": "existing_oracle",
+            "source": "assert mapping.canonical_page_size_bytes == 4 * 1024",
+            "source_sha256": "5251e3cb8d416af2a4b42ba4777ddf608adabeac1fb88ff4891880c1912fdaaa",
+            "snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385"
+          },
+          {
+            "path": "tests/v1/kv_connector/unit/test_mooncake_store_layout.py",
+            "line": 287,
+            "kind": "existing_oracle",
+            "source": "assert (chunk_addrs, chunk_sizes, block_id) == _rank_local_reference(",
+            "source_sha256": "6a778365bf5ac7055efef82c9107db258537eb8cfef6132724866c7aad02fdef",
+            "snapshot_commit": "76a0ccc209343971c6f4b56f6380a76202428385"
+          }
+        ]
+      },
+      "snapshot_evidence_note": "Only fixed vLLM commit is asserted. This storage-page mapping obligation is distinct from P/D request transfer placement and from actual completed tier IO. No SGLang TP-portable storage-layout equivalence is claimed for admitted 49e384ce9d304648e9959666ecb8ce8cd98d0deb; a separate body-level comparison is required."
     }
   ],
   "relations": [

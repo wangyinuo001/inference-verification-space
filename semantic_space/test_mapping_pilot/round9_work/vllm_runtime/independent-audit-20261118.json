@@ -1,0 +1,46 @@
+{
+  "date": "2026-11-18",
+  "reviewer": "independent parent-delegated source audit",
+  "scope": "Cumulative runtime continuation integrity and selected source-semantic reread; not a new manual reread of every one of 719 entries",
+  "integrity": {
+    "unique_entries": 719,
+    "mapped_to_existing_units": 509,
+    "proposed_unit_rows": 210,
+    "additional_vs_original_260": 459,
+    "oracle_references": 1658,
+    "source_files_rehashed": 569,
+    "sglang_refs_revalidated": 80,
+    "result": "passed"
+  },
+  "sampled_families": [
+    {
+      "path": "tests/v1/kv_connector/unit/test_remote_decode_lifecycle.py",
+      "review": "Read lifecycle implementation and test_basic_lifecycle plus short/prefix test setup. Reference counts are retained after local finish; synthetic finished_sending triggers cleanup. Row correctly states real CPU scheduler with synthetic runner outputs, not real RDMA completion."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_moriio_read_tp.py",
+      "review": "Read _read_all and _assert_released and entry callers. Byte equality is at line273 in directly nested _read_all. Release/count helper has separate target. CPU fake transport limitation correctly recorded."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/offloading_connector/test_canonical_mapping.py",
+      "review": "Read descriptor input builders, placement, writer election, DCP/PCP interleave, manual byte load/store round trips and rejection tests. Read production canonical_mapping local-to-canonical address calculation. Label matches descriptor algebra and bounded byte reconstruction, not storage service reliability."
+    },
+    {
+      "path": "tests/v1/kv_connector/unit/test_mooncake_store_layout.py",
+      "review": "Read empty/misaligned descriptor rejection, page-padding, requested chunk order and compressed-state byte tests. Recorded40/104byte lengths, explicit logical-slice oracle, and32byte expected content match assertions."
+    }
+  ],
+  "new_unit": {
+    "id": "cache.storage_layout_mapping",
+    "rows": 27,
+    "recommendation": "Accept as vLLM-supported source-derived candidate; retain vllm-only framework_scope until equivalent SGLang implementation is audited. Preserve per-entry descriptor-only versus CPU byte-copy distinction."
+  },
+  "corrections_required": [],
+  "caveats": [
+    "Integrity checks verify provenance and binding, not universal correctness of classification.",
+    "CPU generated finished_sending is not evidence that RDMA hardware stopped.",
+    "Canonical round trips reuse computed mapping for load and store; they check reconstruction/tiling, while exact-offset tests provide independent placement expectations.",
+    "Existing pending records with no assertion, missing child-process exit status, or sparse None-slot semantics remain pending."
+  ],
+  "execution": "Only audit script executed; no upstream tests, model, GPU or remote process execution."
+}

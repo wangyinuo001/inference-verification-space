@@ -1,0 +1,12 @@
+{
+  "new_entries": 35,
+  "total_decisions": 430,
+  "pending": [
+    "test_kv_connector_allows_expandable_segments_with_sleep_mode",
+    "test_kv_connector_allows_expandable_segments_with_cumem_allocator",
+    "test_kv_connector_allows_other_alloc_conf",
+    "test_no_kv_connector_ignores_expandable_segments"
+  ],
+  "pending_reason": "No direct assertions; successful-return admissibility only, kept separate from effective-state guarantee.",
+  "execution": "Pinned-source review; no source package imports, GPU, server, process or socket execution"
+}

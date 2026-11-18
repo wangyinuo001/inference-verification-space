@@ -37,7 +37,7 @@ def add(path,name,unit,prop,conditions,helper_names=(),oracle_lines=None):
             hc=review.direct_checks(hf,lines)
             chosen=[c['line'] for c in hc]
             if helper_name=='test_sparse_backend_decode_correctness':chosen=[1039,1040,1041,1046,1050]
-            decision['helper_oracles'].append(dict(path=path,function=helper_name,oracle_lines=chosen,call_line=call.lineno,call_expression=ast.unparse(call),binding='Explicit worker argument or direct helper call; worker inputs and reference assertions read. distributed_run joins and asserts each exitcode at test_pynccl.py:47; multi_process_parallel invokes target.remote and ray.get at tests/utils.py:1468,1476. Parametrized test_target alternatives are listed separately.'))
+            decision['helper_oracles'].append(dict(path=path,function=helper_name,oracle_lines=chosen,call_line=call.lineno,call_expression=ast.unparse(call),binding='Explicit worker argument or direct helper call; inputs and reference assertions read. Failure propagation is supported only by the attached transport source or reviewed same-file call graph. Parametrized worker alternatives are recorded separately.'))
     assert decision['oracle_lines'] or decision.get('helper_oracles')
     ledger['decisions'].append(decision);added.append(key)
 
@@ -178,10 +178,12 @@ for decision in ledger['decisions']:
     if not decision.get('helper_oracles'):continue
     refs=[]
     for helper in decision['helper_oracles']:
+        helper['binding']=helper['binding'].replace('Explicit worker argument or direct helper call; worker inputs and reference assertions read. distributed_run joins and asserts each exitcode at test_pynccl.py:47; multi_process_parallel invokes target.remote and ray.get at tests/utils.py:1468,1476. Parametrized test_target alternatives are listed separately.', 'Explicit worker argument or direct helper call; inputs and reference assertions read. Failure propagation is supported only by the attached transport source or reviewed same-file call graph. Parametrized worker alternatives are recorded separately.')
         if helper['call_expression'].startswith('distributed_run('):
             refs.extend([('tests/distributed/test_pynccl.py',38),('tests/distributed/test_pynccl.py',44),('tests/distributed/test_pynccl.py',47)])
         elif helper['call_expression'].startswith('multi_process_parallel('):
             refs.extend([('tests/utils.py',1468),('tests/utils.py',1476)])
+    refs.extend((v['path'],v['line']) for v in decision.get('helper_transport_evidence',[]))
     decision['helper_transport_evidence']=[]
     for refpath,line in sorted(set(refs)):
         b=(ROOT/refpath).read_bytes(); text=b.decode().splitlines()[line-1].strip()

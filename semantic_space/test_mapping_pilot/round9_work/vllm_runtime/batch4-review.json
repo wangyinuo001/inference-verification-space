@@ -1,0 +1,11 @@
+{
+  "new_entries": 65,
+  "total_decisions": 395,
+  "pending": [
+    "test_heterogeneous_tp_head_guard_allows_supported_layouts",
+    "test_heterogeneous_tp_head_guard_allows_mla_layouts",
+    "test_wait_returns_immediately_when_nothing_pending"
+  ],
+  "pending_reason": "These three are successful return/no-exception smoke checks without direct assertions; not promoted to the broader placement/completion property.",
+  "execution": "Source review only; no worker, subprocess, GPU, network or timer execution"
+}

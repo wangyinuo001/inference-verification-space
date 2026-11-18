@@ -1,0 +1,5 @@
+{
+  "new_entries": 25,
+  "total_decisions": 509,
+  "execution": "Source static only; no ctypes calls, storage, GPU or server execution"
+}

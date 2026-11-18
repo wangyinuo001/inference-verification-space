@@ -1,0 +1,7 @@
+{
+  "new_entries": 32,
+  "total_decisions": 462,
+  "complete_file": "tests/v1/kv_connector/unit/offloading_connector/test_config.py",
+  "entries_reviewed": 32,
+  "execution": "Pinned-source only; source code not imported/executed"
+}

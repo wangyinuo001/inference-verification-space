@@ -1,0 +1,12 @@
+{
+  "new_entries": 22,
+  "total_decisions": 484,
+  "complete_source_review_files": [
+    "test_multi_connector.py",
+    "test_output_aggregator.py",
+    "test_umbp_async_lookup.py",
+    "test_remote_decode_lifecycle.py"
+  ],
+  "multi_connector_unmapped": 26,
+  "execution": "Pinned-source only; no tests/model/threads/processes executed"
+}
