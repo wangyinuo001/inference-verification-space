@@ -1,11 +1,11 @@
 {
   "entries": 31968,
   "dispositions": {
-    "source_relation_classified": 19337,
-    "non_python_review": 164,
-    "supporting_record": 152,
-    "reviewed_property": 10407,
-    "unresolved_check": 1729,
+    "source_relation_classified": 17824,
+    "non_python_review": 96,
+    "supporting_record": 182,
+    "reviewed_property": 11976,
+    "unresolved_check": 1711,
     "helper_check": 105,
     "outside_scope": 68,
     "incomplete_test": 6
@@ -28,10 +28,10 @@
     "mock_interaction": 901,
     "warning": 3
   },
-  "checked_system_property_entries": 10407,
+  "checked_system_property_entries": 11976,
   "new_system_property_confirmations": 0,
   "records_with_multiple_relations": 14277,
-  "index_sha256": "77aff8445aa5fa28c29f7ccf41587599a850a24f96af82e5a29487bf635d2c07",
+  "index_sha256": "ad796b7193a711d69fb4587ca2639cfdf4c7e756cd5f4f57b1824376bec7b006",
   "labels": {
     "numeric_tolerance": "数值误差",
     "equality": "值相等",

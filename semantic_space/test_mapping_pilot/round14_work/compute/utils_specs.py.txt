@@ -1,0 +1,30 @@
+p='tests/model_executor/test_utils.py'
+impl=['vllm/model_executor/utils.py:79','vllm/model_executor/utils.py:126','vllm/model_executor/utils.py:165','vllm/model_executor/utils.py:270','vllm/model_executor/utils.py:288','vllm/model_executor/utils.py:303','vllm/model_executor/utils.py:311','vllm/model_executor/utils.py:338','vllm/model_executor/kernels/linear/mixed_precision/MPLinearKernel.py:80','vllm/model_executor/parameter.py:525','vllm/model_executor/layers/quantization/utils/humming/linear.py:37','vllm/model_executor/layers/fused_moe/modular_kernel.py:538','vllm/model_executor/layers/fused_moe/experts/trtllm_lora_moe.py:579','vllm/model_executor/layers/fused_moe/experts/trtllm_mxfp4_moe.py:37']
+names={
+'replace_parameter_preserves_custom_attribute':('model.parameter_binding','以普通Tensor或Parameter替换时，保留原参数身份、is_shuffled标记、相同字节数的存储地址，数值/device/stride与转置新数据一致。'),
+'replace_parameter_keeps_object_by_default':('model.parameter_storage_layout','TP group为单rank替身；改变形状、步幅或dtype后保留ModelWeightParameter对象及loader/dim元数据，容量不缩小，仅新数据能放入旧存储时保留地址，并核对值。'),
+'replace_parameter_online_quantization_frees_source':('model.parameter_storage_layout','模拟uses_meta_device量化策略，FP32权重替换BF16后存储字节数精确减半；不验证实际量化。'),
+'humming_replace_keeps_loaded_params':('model.parameter_binding','Humming替换将新weight绑定旧packed参数，将scale view绑定旧scale参数；保留旧大容量、正确新值及仅运行时名称。'),
+'replace_parameter_preserves_weight_loader':('model.parameter_binding','替换后普通loader函数不额外绑定self；实际调用记录精确收到当前参数和加载张量身份。'),
+'replace_parameter_weight_loader_comes_from_old_parameter':('model.parameter_binding','replacement含stale loader及私有字段时，沿用旧loader且不带入私有loader字段，同时保留新is_shuffled标记。'),
+'replace_parameter_does_not_rebind_plain_function_attribute':('model.parameter_binding','replacement普通函数属性保持同一函数对象，参数3调用仍返回6，无隐式self参数。'),
+'replace_parameter_preserves_bound_method_attribute':('model.parameter_binding','replacement已绑定方法保留原dispatcher接收者，调用7记录在原dispatcher。'),
+'replace_parameter_registers_new_param_for_requantization_source':('model.parameter_binding','old参数标记requantization_source时另建参数，旧全零数据保留，新参数全一。'),
+'move_parameter_aliases_one_param':('model.parameter_binding','checkpoint/runtime两名称指向同一参数；替换后双方值更新且loader/dim保留，kernel参数列表去重并随set_kernel_parameter切换运行时名称。'),
+'move_parameter_rejects_another_param':('model.parameter_binding','目标名称已被另一个参数占用时move_parameter抛ValueError；测试未另断言拒绝后的数据状态。'),
+'retired_param_keeps_data_but_is_not_live':('model.parameter_binding','retire保留scale数据但live查询及kernel列表隐藏它，set_kernel_parameter后恢复live身份。'),
+'replace_parameter_with_own_parameter_keeps_layout':('model.parameter_storage_layout','传回已登记PackedvLLMParameter时保持对象/类/loader/输入输出维和packing标签，数据保持新全一值。'),
+'kept_param_ops_skip_python_torch_function':('model.parameter_representation_relation','替换保留ModelWeightParameter类型，其torch-function判定与普通Parameter相同，eager加1返回普通Tensor且数值全2。'),
+'transposed_kept_param_keeps_checkpoint_dims':('model.parameter_representation_relation','MPLinearKernel变换先浅复制dim标签，实际权重变为2x3来源的转置，而保留参数的checkpoint input/output维仍为1/0。'),
+'copy_weight_prefault_copies_exact_bytes':('model.parameter_representation_relation','模拟集成GPU资格、实际CPU copy：scalar/empty/BF16/FP8/narrow/单元素stride输入复制后与连续clone逐字节相同。'),
+'copy_weight_prefault_maps_the_mmap_view':('resource.shared_region_population','模拟集成GPU资格，真实safetensors mmap输入和meta输出，通过/proc/self/smaps断言copy前驻留量不足、预触达后覆盖src全部字节；未测真实设备传输。'),
+'refill_derived':('model.parameter_binding','已有同形状派生张量原地刷新，改变形状或原来缺失时新绑定；返回身份与属性相同且值正确，始终不注册parameter。'),
+'mxfp4_lora_experts_keep_mxfp4_constants':('model.parameter_binding','绕过专家构造器仅测试keep_constants：继承MXFP4常量名及bias index，连续两个专家对象引用层中同一组张量；未运行MoE。')}
+add(p,impl,[('test_'+n,u,d) for n,(u,d) in names.items()])
+# Additional production paths read while checking the actual decoder/capture boundaries.
+extra={
+ 'tests/kernels/mhc/test_mhc_kernels.py':['vllm/models/deepseek_v41/amd/mhc.py:52','vllm/models/deepseek_v41/amd/model.py:314','vllm/models/deepseek_v41/nvidia/model.py:500','vllm/models/deepseek_v41/nvidia/dspark.py:215','vllm/models/deepseek_v4/nvidia/model.py:716','vllm/models/deepseek_v4/nvidia/model.py:1220','vllm/models/deepseek_v41/nvidia/ops/mega_mhc.py:47','vllm/model_executor/kernels/mhc/triton.py:167'],
+ 'tests/model_executor/layers/test_fused_shared_expert.py':['vllm/model_executor/layers/fused_moe/layer.py:77'],
+ 'tests/model_executor/test_routed_experts_capture.py':['vllm/model_executor/layers/fused_moe/router/base_router.py:282','vllm/config/vllm.py:3359']}
+for key,(u,d,im) in list(S.items()):
+ if key[0] in extra:S[key]=(u,d,im+extra[key[0]])

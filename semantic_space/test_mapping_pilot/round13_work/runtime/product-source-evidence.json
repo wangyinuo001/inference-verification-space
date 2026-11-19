@@ -1,0 +1,26 @@
+[
+  {
+    "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/mooncake_utils.py",
+    "line": 127,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "3d0e7deb704e6696a6e2f214055a6505235aaa02f556caa390d6a2fa17f46b95",
+    "source_excerpt": "async def register_worker(self, payload: RegisterWorkerPayload):\n        \"\"\"Handles registration of a prefiller worker.\"\"\"\n        if payload.dp_rank not in self.workers:\n            self.workers[payload.dp_rank] = EngineEntry(\n                engine_id=payload.engine_id,\n                worker_addr={},\n            )\n\n        dp_entry = self.workers[payload.dp_rank]\n        if dp_entry.engine_id != payload.engine_id:\n            raise HTTPException(\n                status_code=400,\n                detail=(\n                    f\"Engine ID mismatch for dp_rank={payload.dp_rank}: \"\n                    f\"expected {dp_entry.engine_id}, got {payload.engine_id}\"\n                ),\n            )\n        if payload.tp_rank not in dp_entry.worker_addr:\n            dp_entry.worker_addr[payload.tp_rank] = {}\n\n        tp_entry = dp_entry.worker_addr[payload.tp_rank]\n        existing = tp_entry.get(payload.pp_rank)\n        if existing is not None:\n            # A client timeout can fire after the server recorded the\n            # registration so an identical retry must not be an error.\n            if existing == payload.addr:\n                return {\"status\": \"ok\"}\n            raise HTTPException(\n                status_code=400,\n                detail=(\n                    f\"Worker with dp_rank={payload.dp_rank}, \"\n                    f\"tp_rank={payload.tp_rank}, pp_rank={payload.pp_rank} \"\n                    f\"is already registered at \"\n                    f\"{existing}, \"\n                    f\"but still want to register at {payload.addr}\"\n                ),\n            )\n\n        tp_entry[payload.pp_rank] = payload.addr\n        logger.debug(\n            \"Registered worker: engine_id=%s, dp_rank=%d, tp_rank=%d, pp_rank=%d at %s\",\n            payload.engine_id,\n            payload.dp_rank,\n            payload.tp_rank,\n            payload.pp_rank,\n            payload.addr,\n        )\n\n        return {\"status\": \"ok\"}"
+  },
+  {
+    "path": "vllm/distributed/kv_transfer/kv_connector/v1/umbp/runtime/embedded.py",
+    "line": 117,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "a9208fb4468cc50fc4f070a820daea43628029f915d75c604ae4edbabecb26b1",
+    "source_excerpt": "def start(self) -> None:\n        Path(self.path).parent.mkdir(parents=True, exist_ok=True)\n        if os.path.exists(self.path) and _socket_has_listener(self.path):\n            raise RuntimeError(\n                f\"UMBP lookup socket {self.path} is served by another live \"\n                \"engine; set lookup_instance to a distinct value for each \"\n                \"engine that serves this model on this host\"\n            )\n        with contextlib.suppress(FileNotFoundError):\n            os.unlink(self.path)\n        self._socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)\n        self._socket.bind(self.path)\n        self._owns_path = True\n        self._socket.listen(16)\n        self._socket.settimeout(0.2)\n        self._thread = threading.Thread(\n            target=self._serve,\n            name=\"umbp-embedded-lookup\",\n            daemon=True,\n        )\n        self._thread.start()"
+  },
+  {
+    "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/mooncake_connector.py",
+    "line": 3187,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "56a614c7d4416cd921937354782431f9ccc7df11511adb910b2ddf044d1d8c09",
+    "source_excerpt": "def _remember_peer_layout(\n        self,\n        meta: MooncakeXferMetadata,\n        prepared: tuple[list[TransferRegion], list[TransferRegion], str | None],\n    ) -> None:\n        local_regions, remote_regions, err = prepared\n        if err is not None or not meta.layout_id:\n            return\n        key = self._peer_layout_key(meta)\n        self._layout_by_peer[key] = (local_regions, remote_regions)\n        self._layout_by_peer.move_to_end(key)\n        while len(self._layout_by_peer) > _MAX_PEER_LAYOUTS:\n            self._layout_by_peer.popitem(last=False)"
+  }
+]

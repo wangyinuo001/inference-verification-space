@@ -1,0 +1,82 @@
+[
+  {
+    "id": "sampling_batch_transition_context",
+    "type": "structured",
+    "fields": [
+      "request_members",
+      "sampling_parameters",
+      "penalty_history",
+      "filter_indices",
+      "grammar_states",
+      "prepared_state",
+      "operation"
+    ],
+    "observed_values": [],
+    "constraint": "固定批次成员、采样参数和历史状态；区分数值断言、元数据断言与模拟回调检查。"
+  },
+  {
+    "id": "adaptive_speculation_context",
+    "type": "structured",
+    "fields": [
+      "candidate_steps",
+      "initial_steps",
+      "accepted_token_history",
+      "ema_alpha",
+      "warmup_batches",
+      "update_interval",
+      "hysteresis_thresholds",
+      "ceiling",
+      "batch_size",
+      "cuda_graph_sizes"
+    ],
+    "observed_values": [],
+    "constraint": "控制参数与接受历史共同定义步数演化；此维度不把预算控制视为输出分布等价性。"
+  },
+  {
+    "id": "extension_registry_context",
+    "type": "structured",
+    "fields": [
+      "registry_snapshot",
+      "requested_name",
+      "reserved_names",
+      "case_policy",
+      "override_policy",
+      "factory",
+      "interface",
+      "capabilities",
+      "configuration_hook"
+    ],
+    "observed_values": [],
+    "constraint": "隔离注册表与扩展对象；记录名称冲突、覆盖开关、能力约束和具体工厂/回调绑定。"
+  },
+  {
+    "id": "parser_selection_context",
+    "type": "structured",
+    "fields": [
+      "template",
+      "tokenizer_vocabulary",
+      "rule_order",
+      "explicit_parser",
+      "auto_mode",
+      "model_architecture",
+      "tokenizer_load_outcome"
+    ],
+    "observed_values": [],
+    "constraint": "按模板结构与词表签名选择解析方式，保留显式配置、默认配置和加载失败条件。"
+  },
+  {
+    "id": "request_identity_lifecycle_context",
+    "type": "structured",
+    "fields": [
+      "request_ids",
+      "active_state_map",
+      "output_finished_reason",
+      "abort_event",
+      "dispatch_failure",
+      "single_or_batch",
+      "notification_state"
+    ],
+    "observed_values": [],
+    "constraint": "区分活动、已结束和派发前失败的请求；同标识重提交必须以先前状态结束为前提。"
+  }
+]

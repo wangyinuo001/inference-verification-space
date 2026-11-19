@@ -1,0 +1,14 @@
+[
+  {
+    "snapshot": "vllm",
+    "path": "tests/v1/kv_connector/unit/test_mooncake_store_connector.py",
+    "line": 1261,
+    "reason": "测试中直接复制 RESET handler 分支，未调用生产 process_request；mock 顺序断言不能作为生产路径证据。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/v1/kv_connector/unit/test_mooncake_store_connector.py",
+    "line": 1317,
+    "reason": "测试中直接复制 RESET handler 分支，未调用生产 process_request；mock 顺序断言不能作为生产路径证据。"
+  }
+]

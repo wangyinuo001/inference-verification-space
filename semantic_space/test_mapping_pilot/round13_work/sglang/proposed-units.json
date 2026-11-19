@@ -1,0 +1,212 @@
+[
+  {
+    "id": "sampling.batch_state_transition",
+    "name": "采样批状态的初始化与成员变化",
+    "kind": "obligation",
+    "phase": "sampling",
+    "state_scope": "shared",
+    "conditions": [
+      "sampling_batch_transition_context"
+    ],
+    "property": "采样配置、累计惩罚及约束状态随批次创建、过滤、合并和释放进行相应更新；由成员需求决定启用标志，操作保留声明的批次关联与回调约定。",
+    "observable": [
+      "batch_members",
+      "required_flags",
+      "prepared_state",
+      "penalty_tensor_shape",
+      "grammar_callback",
+      "released_attributes"
+    ],
+    "oracle": "构造明确的批次成员和参数，核对每次操作后的字段、标志、形状、关联对象及回调实参；数值变换由独立 logits 检查给出。",
+    "framework_scope": [
+      "sglang"
+    ],
+    "semantic_domain": "inference_request",
+    "evidence": {
+      "sglang": [
+        {
+          "path": "python/sglang/srt/sampling/penaltylib/orchestrator.py",
+          "line": 13,
+          "kind": "source",
+          "source_sha256": "829be20bdfad1d6f92c9eb830f320602a92203ebbf692c7d92a325bfdc0dd2a9"
+        },
+        {
+          "path": "python/sglang/srt/sampling/sampling_batch_info.py",
+          "line": 24,
+          "kind": "source",
+          "source_sha256": "6dea35fc0e4a526ad866074fc9912359a753eb18d011e5383288e62f58c44fc1"
+        }
+      ]
+    }
+  },
+  {
+    "id": "spec.adaptive_budget_transition",
+    "name": "推测步数控制与批次路由",
+    "kind": "obligation",
+    "phase": "scheduling",
+    "state_scope": "shared",
+    "conditions": [
+      "adaptive_speculation_context"
+    ],
+    "property": "推测步数由声明的候选集合、接受历史和控制参数更新；warmup、更新周期、阈值、滞回和上限约束生效，批尺寸和图配置决定对应控制槽及可用图集合。",
+    "observable": [
+      "current_steps",
+      "ema_accept_len",
+      "warmup_counter",
+      "routed_slot",
+      "reachable_graph_sizes",
+      "configuration_error"
+    ],
+    "oracle": "输入固定历史序列，逐次核对步数、EMA、更新返回值和批次路由；检查非法候选配置被拒绝。",
+    "framework_scope": [
+      "sglang"
+    ],
+    "semantic_domain": "inference_request",
+    "evidence": {
+      "sglang": [
+        {
+          "path": "python/sglang/srt/speculative/adaptive_spec_params.py",
+          "line": 138,
+          "kind": "source",
+          "source_sha256": "4bc379bccb45d695b6727c073cef33599da92b20873e7785740e851ec0cec1a8"
+        },
+        {
+          "path": "python/sglang/srt/speculative/adaptive_spec_params.py",
+          "line": 260,
+          "kind": "source",
+          "source_sha256": "4bc379bccb45d695b6727c073cef33599da92b20873e7785740e851ec0cec1a8"
+        }
+      ]
+    }
+  },
+  {
+    "id": "deployment.extension_dispatch_contract",
+    "name": "扩展注册与执行入口选择",
+    "kind": "obligation",
+    "phase": "preflight",
+    "state_scope": "deployment",
+    "conditions": [
+      "extension_registry_context"
+    ],
+    "property": "扩展名称按声明规范注册和解析；重复或保留名称按约定拒绝，覆盖行为显式启用，已注册对象经接口与能力检查绑定到工厂、模板或配置回调。",
+    "observable": [
+      "resolved_object",
+      "registry_members",
+      "duplicate_error",
+      "factory_call",
+      "capability_rejection",
+      "callback_binding"
+    ],
+    "oracle": "检查名称到对象的对应、冲突异常、接口成员以及模拟工厂/回调的实参和返回值；模板注册另检查覆盖与单次设置约定。",
+    "framework_scope": [
+      "sglang"
+    ],
+    "semantic_domain": "inference_request",
+    "evidence": {
+      "sglang": [
+        {
+          "path": "python/sglang/srt/speculative/spec_registry.py",
+          "line": 189,
+          "kind": "source",
+          "source_sha256": "f2fec0582402aea24f840f9e7d3b79858499bb5dac163dd77994b51473d36334"
+        },
+        {
+          "path": "python/sglang/srt/parser/code_completion_parser.py",
+          "line": 58,
+          "kind": "source",
+          "source_sha256": "22b62a8c0ead66e61f16dcdb10e1887cd3168c67318337e1e09d30f893f27457"
+        }
+      ]
+    }
+  },
+  {
+    "id": "deployment.parser_selection",
+    "name": "模型模板与解析方式选择",
+    "kind": "obligation",
+    "phase": "ingress",
+    "state_scope": "deployment",
+    "conditions": [
+      "parser_selection_context"
+    ],
+    "property": "根据模板结构、词表标记、模型配置和显式解析开关选择对应解析或编码方式；按声明优先级处理重叠规则，并使用无匹配及加载失败的约定结果。",
+    "observable": [
+      "reasoning_parser",
+      "tool_call_parser",
+      "chat_encoding_spec",
+      "rule_order",
+      "fallback_value"
+    ],
+    "oracle": "构造模板与词表组合，检查解析器/编码标识及规则优先级；显式配置和 auto 配置分别验证。",
+    "framework_scope": [
+      "sglang"
+    ],
+    "semantic_domain": "inference_request",
+    "evidence": {
+      "sglang": [
+        {
+          "path": "python/sglang/srt/managers/template_detection.py",
+          "line": 335,
+          "kind": "source",
+          "source_sha256": "80d82f6ec4387725622766bc0751297c9fe08eebeef5465988900321f755b94a"
+        },
+        {
+          "path": "python/sglang/srt/managers/template_detection.py",
+          "line": 427,
+          "kind": "source",
+          "source_sha256": "80d82f6ec4387725622766bc0751297c9fe08eebeef5465988900321f755b94a"
+        },
+        {
+          "path": "python/sglang/srt/entrypoints/openai/serving_chat.py",
+          "line": 288,
+          "kind": "source",
+          "source_sha256": "3217a5a23dd0388c9506b80f343c584a9261210c0e0571f7071d6f7e3ee58278"
+        }
+      ]
+    }
+  },
+  {
+    "id": "request.identity_state_lifecycle",
+    "name": "请求标识与活动状态生命周期",
+    "kind": "obligation",
+    "phase": "scheduling",
+    "state_scope": "shared",
+    "conditions": [
+      "request_identity_lifecycle_context"
+    ],
+    "property": "活动请求标识与状态保持对应，重复活动标识按约定拒绝；完成、中止和派发前失败清除相应状态，使已终止标识可以重新使用，未完成请求继续保留状态。",
+    "observable": [
+      "rid_to_state",
+      "finished_flag",
+      "notification_event",
+      "duplicate_error",
+      "resubmission_result"
+    ],
+    "oracle": "用同一请求标识串接创建、输出、失败或中止及再次提交，核对状态表成员和终止/通知字段；单条与批量清理分别检查。",
+    "framework_scope": [
+      "sglang"
+    ],
+    "semantic_domain": "inference_request",
+    "evidence": {
+      "sglang": [
+        {
+          "path": "python/sglang/srt/managers/tokenizer_manager.py",
+          "line": 2817,
+          "kind": "source",
+          "source_sha256": "f7b0f64fc2f46dd0339e3e26f9481ac4b0fdb0ad31d501d925d8cada2bac9da2"
+        },
+        {
+          "path": "python/sglang/srt/managers/tokenizer_manager.py",
+          "line": 2862,
+          "kind": "source",
+          "source_sha256": "f7b0f64fc2f46dd0339e3e26f9481ac4b0fdb0ad31d501d925d8cada2bac9da2"
+        },
+        {
+          "path": "python/sglang/srt/managers/tokenizer_manager.py",
+          "line": 1839,
+          "kind": "source",
+          "source_sha256": "f7b0f64fc2f46dd0339e3e26f9481ac4b0fdb0ad31d501d925d8cada2bac9da2"
+        }
+      ]
+    }
+  }
+]

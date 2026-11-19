@@ -1,0 +1,8 @@
+[
+  {
+    "snapshot": "vllm",
+    "path": "tests/v1/kv_connector/unit/test_hf3fs_connector.py",
+    "line": 147,
+    "reason": "只调用本地 mock client.flush/close，未显式检查状态或持久化效果；未确认更强资源清理性质。"
+  }
+]

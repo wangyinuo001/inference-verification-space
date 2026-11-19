@@ -1,0 +1,74 @@
+[
+  {
+    "path": "vllm/v1/kv_offload/tiering/fs/manager.py",
+    "line": 216,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "ba63275b126ec3ddb2e9db33ce902c7b18704e5a4575f9ad8130cfdf055f254e",
+    "source_excerpt": "def lookup(self, key: OffloadKey, req_context: ReqContext) -> LookupResult:\n        result = self._lookup_manager.lookup(key, req_context)\n        if result is None:\n            return LookupResult.RETRY\n        return LookupResult.HIT if result else LookupResult.MISS"
+  },
+  {
+    "path": "vllm/v1/kv_offload/tiering/obj/manager.py",
+    "line": 290,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "aa4acc141b6559383b4ea6b8221163348d1efa2c1b8eca195b8e38a89ccebc5a",
+    "source_excerpt": "def lookup(self, key: OffloadKey, req_context: ReqContext) -> LookupResult:\n        result = self._lookup_manager.lookup(key, req_context)\n        if result is None:\n            return LookupResult.RETRY\n        return LookupResult.HIT if result else LookupResult.MISS"
+  },
+  {
+    "path": "vllm/v1/kv_offload/tiering/async_lookup.py",
+    "line": 146,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "1087b9dbc8c25e0a34e6bdeec2d4a2e6c78fb988237ca6c35158755847ec742b",
+    "source_excerpt": "def lookup(self, key: OffloadKey, req_context: ReqContext) -> bool | None:\n        \"\"\"Non-blocking lookup called from the scheduler thread.\n\n        Returns:\n            True  — block is present in this tier.\n            False — block is not present in this tier.\n            None  — result not yet available; retry next step.\n\n        \"\"\"\n        if self._need_to_drain:\n            self.drain_results()\n            self._need_to_drain = False\n        req_id = req_context.req_id\n        state = self._lookup_state.get(key)\n        if state is None:\n            state = LookupState(generation=self._next_generation)\n            self._next_generation += 1\n            self._lookup_state[key] = state\n            self._lookup_batch.append((key, req_context, state.generation))\n        state.request_ids.add(req_id)\n        self._req_keys.setdefault(req_id, set()).add(key)\n        return state.result"
+  },
+  {
+    "path": "vllm/v1/kv_offload/tiering/async_lookup.py",
+    "line": 234,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "1087b9dbc8c25e0a34e6bdeec2d4a2e6c78fb988237ca6c35158755847ec742b",
+    "source_excerpt": "def mark_present(self, keys: Collection[OffloadKey]) -> None:\n        \"\"\"Record that keys were successfully stored to this tier.\n\n        Unlike mark_miss(), which leaves a newer probe alone (#59096), a store\n        completion is newer information than any probe started before it, so\n        this supersedes them: advancing the generation makes a stale pending\n        batch entry fail flush()'s generation check and a stale in-flight\n        result fail drain_results()'s, before either phase assert is reached.\n\n        Keys with no cached entry are skipped, since a verdict with no owning\n        request could never be reclaimed. An in-flight entry whose requests all\n        finished is dropped; cleanup() already removed the reverse-index\n        entries, so its late result is simply ignored.\n        \"\"\"\n        for key in keys:\n            state = self._lookup_state.get(key)\n            if state is None or state.result is True:\n                continue\n            if not state.request_ids:\n                del self._lookup_state[key]\n                continue\n            # Generations are opaque identity tokens compared for equality\n            # only, so bumping one key cannot affect another key's results.\n            state.generation = self._next_generation\n            self._next_generation += 1\n            state.result = True\n            state.phase = LookupPhase.RESOLVED"
+  },
+  {
+    "path": "vllm/v1/kv_offload/tiering/manager.py",
+    "line": 699,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "893a3dee133584d13bd396c37809fd7738f4e2814523970583bf841bf8cb2db0",
+    "source_excerpt": "def lookup(\n        self,\n        key: OffloadKey,\n        req_context: ReqContext,\n        *,\n        exclude_tier_idx: int | None = None,\n    ) -> LookupResult:\n        \"\"\"Check whether a single chunk is offloaded and ready.\n\n        Algorithm:\n            1. Process any completed async jobs first.\n            2. Query primary tier — short-circuit on hit or in-flight.\n            3. On primary miss, query secondary tiers — stop on first\n               hit and initiate promotion.\n\n        Args:\n            key: Chunk hash to look up.\n            req_context: Per-request context.\n            exclude_tier_idx: Skip this tier index during the lookup.\n\n        Returns:\n            HIT       — chunk is ready in the primary tier.\n            HIT_PENDING — chunk found but not yet readable (write\n                        in-flight on the primary tier).\n            RETRY     — promotion started or a secondary tier is busy.\n            MISS      — chunk not found in any tier, primary is full\n                        and cannot accept a promotion, or promotions are\n                        held after a cache reset (see reset_cache()).\n\n        \"\"\"\n        # Poll first so a promotion that finished since the last call is\n        # already reflected as HIT (not stale HIT_PENDING/MISS) below, and\n        # so chunks freed by cascade or promotion completions are evictable\n        # in time for a promotion this lookup may initiate.\n        self._maybe_process_finished_jobs()\n\n        start_time = time.monotonic()\n        primary_hit = self.primary_tier.lookup(key, req_context)\n        lookup_duration = time.monotonic() - start_time\n        self._metrics.on_lookup(\n            req_context,\n            key,\n            self._metrics.primary_tier_label,\n            primary_hit,\n            lookup_duration,\n        )\n        if primary_hit is LookupResult.HIT:\n            return LookupResult.HIT\n        if primary_hit is LookupResult.HIT_PENDING:\n            return LookupResult.HIT_PENDING\n        if self._promotions_held:\n            return LookupResult.MISS\n\n        any_retry = False\n        for i, tier in enumerate(self.secondary_tiers):\n            if i == exclude_tier_idx:\n                continue\n            if not req_context.load_tier_filter.allows(tier.medium, tier.locality):\n                continue\n            labelvalues = self._metrics.tier_label(i)\n            start_time = time.monotonic()\n            result = tier.lookup(key, req_context)\n            lookup_duration = time.monotonic() - start_time\n            if result is LookupResult.HIT:\n                self._metrics.on_lookup(\n                    req_context,\n                    key,\n                    labelvalues,\n                    result,\n                    lookup_duration,\n                )\n                promoted = self._initiate_promotion(i, key, req_context)\n                return LookupResult.MISS if not promoted else LookupResult.HIT_PENDING\n            if result is LookupResult.RETRY:\n                any_retry = True\n            self._metrics.on_lookup(\n                req_context,\n                key,\n                labelvalues,\n                result,\n                lookup_duration,\n            )\n\n        if any_retry:\n            return LookupResult.RETRY\n        return LookupResult.MISS"
+  },
+  {
+    "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/coordinator.py",
+    "line": 59,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "b9366f44f19a29b1b01d46ebfbca89e9cd1f79850c3be00a0153a3b5b84f3969",
+    "source_excerpt": "def get_cached_block(\n        self,\n        block_hash: BlockHash,\n        group_ids: list[int],\n    ) -> list[KVCacheBlock] | None:\n        # Mirrors BlockPool.get_cached_block: hit only when every group_id\n        # (groups sharing a spec) has the hash cached.\n        if self._exists is None:\n            return [self._present_block] * len(group_ids)\n        h = bytes(block_hash)\n        if all((g, h) in self._exists for g in group_ids):\n            return [self._present_block] * len(group_ids)\n        return None"
+  },
+  {
+    "path": "vllm/distributed/kv_transfer/kv_connector/v1/umbp/runtime/embedded.py",
+    "line": 211,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "a9208fb4468cc50fc4f070a820daea43628029f915d75c604ae4edbabecb26b1",
+    "source_excerpt": "def lookup(self, keys: Sequence[str]) -> Sequence[bool]:\n        unavailable: list[tuple[int, int, int, int]]\n        if len(self._paths) == 1:\n            rank, path = next(iter(self._paths.items()))\n            try:\n                values = self._request(path, keys)\n                if len(values) != len(keys):\n                    raise ValueError(\"lookup returned an invalid result length\")\n                return self._lookup_result(keys, [bool(value) for value in values], [])\n            except (OSError, ValueError, IndexError):\n                unavailable = (\n                    [rank]\n                    if any(\n                        _rank_namespace_from_key_prefix(key.rpartition(\":\")[0] + \":\")\n                        == rank\n                        for key in keys\n                    )\n                    else []\n                )\n                return self._lookup_result(keys, [False] * len(keys), unavailable)\n        result = [False] * len(keys)\n        keys_by_rank: dict[tuple[int, int, int, int], list[tuple[int, str]]] = {}\n        unrouted: list[tuple[int, str]] = []\n        for index, key in enumerate(keys):\n            key_rank = _rank_namespace_from_key_prefix(key.rpartition(\":\")[0] + \":\")\n            if key_rank is None or key_rank not in self._paths:\n                unrouted.append((index, key))\n            else:\n                keys_by_rank.setdefault(key_rank, []).append((index, key))\n        unavailable = []\n        for rank, indexed_keys in keys_by_rank.items():\n            path = self._paths[rank]\n            try:\n                values = self._request(path, [key for _, key in indexed_keys])\n                if len(values) != len(indexed_keys):\n                    raise ValueError(\"lookup returned an invalid result length\")\n                for (index, _), value in zip(indexed_keys, values, strict=True):\n                    result[index] = bool(value)\n            except (OSError, ValueError, IndexError):\n                unavailable.append(rank)\n        for path in self._paths.values():\n            if not unrouted:\n                break\n            try:\n                values = self._request(path, [key for _, key in unrouted])\n                for (index, _), value in zip(unrouted, values, strict=True):\n                    result[index] = result[index] or bool(value)\n            except (OSError, ValueError):\n                continue\n        return self._lookup_result(keys, result, unavailable)"
+  },
+  {
+    "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/mooncake_connector.py",
+    "line": 2518,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "56a614c7d4416cd921937354782431f9ccc7df11511adb910b2ddf044d1d8c09",
+    "source_excerpt": "def unregister_kv_caches(self) -> None:\n        if self._kv_unregistered or not self.seen_base_addresses:\n            return\n        ret_value = self.engine.batch_unregister_memory(self.seen_base_addresses)\n        if ret_value != 0:\n            raise RuntimeError(\"Mooncake batch memory unregistration failed.\")\n        self._kv_unregistered = True"
+  },
+  {
+    "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/mooncake_connector.py",
+    "line": 2526,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "56a614c7d4416cd921937354782431f9ccc7df11511adb910b2ddf044d1d8c09",
+    "source_excerpt": "def restore_kv_caches(self) -> None:\n        if not self._kv_unregistered:\n            return\n        ret_value = self.engine.batch_register_memory(\n            self.seen_base_addresses, self._kv_data_lens\n        )\n        if ret_value != 0:\n            raise RuntimeError(\"Mooncake batch memory registration failed.\")\n        self._kv_unregistered = False"
+  }
+]

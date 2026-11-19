@@ -2,6 +2,7 @@
 
 import json
 import csv
+from reviewed_batches import batch_files
 import re
 import unittest
 
@@ -37,7 +38,9 @@ class InheritedSpaceViewTest(unittest.TestCase):
         self.assertEqual(len(checked), 891)
         root = VIEW.parent / "test_mapping_pilot"
         expected = []
-        for name in ("confirmed-property-crosswalk.tsv", "direct-property-crosswalk.tsv", "reviewed-supplement-crosswalk.tsv", "reviewed-round9-crosswalk.tsv", "reviewed-round10-crosswalk.tsv", "reviewed-round11-crosswalk.tsv"):
+        names = ["confirmed-property-crosswalk.tsv", "direct-property-crosswalk.tsv",
+                 "reviewed-supplement-crosswalk.tsv"] + [p.name for p in batch_files(root)]
+        for name in names:
             if (root / name).exists():
                 with (root / name).open(encoding="utf-8", newline="") as f:
                     expected.extend(csv.DictReader(f, delimiter="\t"))

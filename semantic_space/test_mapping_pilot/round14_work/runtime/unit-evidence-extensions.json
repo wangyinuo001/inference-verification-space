@@ -1,0 +1,82 @@
+[
+  {
+    "unit_id": "model.forward_buffer_storage_sharing",
+    "framework_scope_add": [
+      "vllm"
+    ],
+    "evidence_add": {
+      "vllm": [
+        {
+          "path": "vllm/v1/worker/gpu/pcp_manager.py",
+          "line": 447,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/worker/gpu/pcp_manager.py",
+          "line": 723,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/worker/gpu/pcp_manager.py",
+          "line": 827,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/worker/gpu/pcp_manager.py",
+          "line": 836,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/worker/gpu/ubatch_utils.py",
+          "line": 312,
+          "kind": "source"
+        }
+      ]
+    },
+    "source_reviews": [
+      {
+        "path": "vllm/v1/worker/gpu/pcp_manager.py",
+        "line": 447,
+        "kind": "source",
+        "snapshot": "vllm",
+        "source_sha256": "b58e5756649886ef6dcfba69e3cce74307bcbe2c10502d39fa3241084696f112",
+        "source_excerpt": "def input_buffers(self) -> InputBuffers:\n        assert self._input_buffers is not None\n        return self._input_buffers"
+      },
+      {
+        "path": "vllm/v1/worker/gpu/pcp_manager.py",
+        "line": 723,
+        "kind": "source",
+        "snapshot": "vllm",
+        "source_sha256": "b58e5756649886ef6dcfba69e3cce74307bcbe2c10502d39fa3241084696f112",
+        "source_excerpt": "def prepare_inputs_for_capture_or_profile(\n        self, input_batch: InputBatch\n    ) -> InputBatch:\n        \"\"\"Stage a capture or dummy batch in persistent PCP input buffers.\"\"\"\n        input_buffers = self.input_buffers\n        num_reqs = input_batch.num_reqs_after_padding\n        num_tokens = input_batch.num_tokens_after_padding\n        input_batch = replace(\n            input_batch,\n            input_ids=input_buffers.input_ids[:num_tokens].copy_(input_batch.input_ids),\n            positions=input_buffers.positions[:num_tokens].copy_(input_batch.positions),\n            is_padding=self.moe_is_padding(\n                input_buffers.is_padding[:num_tokens].copy_(input_batch.is_padding)\n            ),\n            query_start_loc=input_buffers.query_start_loc[: num_reqs + 1].copy_(\n                input_batch.query_start_loc\n            ),\n            seq_lens=input_buffers.seq_lens[:num_reqs].copy_(input_batch.seq_lens),\n        )\n        return input_batch"
+      },
+      {
+        "path": "vllm/v1/worker/gpu/pcp_manager.py",
+        "line": 827,
+        "kind": "source",
+        "snapshot": "vllm",
+        "source_sha256": "b58e5756649886ef6dcfba69e3cce74307bcbe2c10502d39fa3241084696f112",
+        "source_excerpt": "def get_draft_input_buffers(\n        self, input_buffers: InputBuffers, num_tokens: int\n    ) -> tuple[InputBatch | InputBuffers, torch.Tensor]:\n        \"\"\"Return draft inputs and their MoE routing padding mask.\"\"\"\n        batch = self.draft_prefill_batch\n        if batch is not None:\n            return batch, batch.is_padding\n        return input_buffers, self.moe_is_padding(input_buffers.is_padding[:num_tokens])"
+      },
+      {
+        "path": "vllm/v1/worker/gpu/pcp_manager.py",
+        "line": 836,
+        "kind": "source",
+        "snapshot": "vllm",
+        "source_sha256": "b58e5756649886ef6dcfba69e3cce74307bcbe2c10502d39fa3241084696f112",
+        "source_excerpt": "def prepare_draft_prefill(\n        self, input_batch: InputBatch, input_ids: torch.Tensor\n    ) -> None:\n        self.draft_prefill_batch = None\n        if input_batch is not self._global_batch or self._local_batch is None:\n            return\n        local_batch = self._local_batch\n        assert self._local_gather_idx is not None\n        num_local_tokens = self._local_gather_idx.shape[0]\n        torch.index_select(\n            input_ids,\n            0,\n            self._local_gather_idx,\n            out=local_batch.input_ids[:num_local_tokens],\n        )\n        self.draft_prefill_batch = local_batch"
+      },
+      {
+        "path": "vllm/v1/worker/gpu/ubatch_utils.py",
+        "line": 312,
+        "kind": "source",
+        "snapshot": "vllm",
+        "source_sha256": "2e38c3dac51091728c66f68d08e5a1ac2f9d5b878443669691841269cd937c9f",
+        "source_excerpt": "def __init__(\n        self,\n        vllm_config: VllmConfig,\n        device: torch.device,\n        model_state: ModelState,\n        attn_groups: list[list[AttentionGroup]],\n        kv_cache_config: KVCacheConfig,\n        max_num_reqs: int,\n    ):\n        self.vllm_config = vllm_config\n        self.parallel_config = vllm_config.parallel_config\n        self.num_ubatches = self.parallel_config.num_ubatches\n        self.dcp_size = self.parallel_config.decode_context_parallel_size\n        self.dcp_rank = get_dcp_group().rank_in_group if self.dcp_size > 1 else 0\n        self.cp_interleave = self.parallel_config.cp_kv_cache_interleave_size\n        self.device = device\n        self.model_state = model_state\n        self.attn_groups = attn_groups\n        self.kv_cache_config = kv_cache_config\n        # `query_start_loc` and `seq_lens` are rebased onto each microbatch's\n        # own token range, so they cannot be views of the full batch's buffers.\n        # Allocating up front keeps their addresses stable across replays.\n        self.ubatch_query_start_loc = [\n            torch.zeros(max_num_reqs + 1, dtype=torch.int32, device=device)\n            for _ in range(self.num_ubatches)\n        ]\n        self.ubatch_seq_lens = [\n            torch.zeros(max_num_reqs, dtype=torch.int32, device=device)\n            for _ in range(self.num_ubatches)\n        ]\n        self.ubatch_dcp_local_seq_lens = [\n            torch.zeros(max_num_reqs, dtype=torch.int32, device=device)\n            if self.dcp_size > 1\n            else None\n            for _ in range(self.num_ubatches)\n        ]\n        self.comm_stream = torch.cuda.Stream(device=device)\n        # Threads and graph capture must use the same compute stream.\n        self.capture_stream = torch.cuda.Stream(device=device)\n        # The microbatch threads plus the thread that starts them.\n        self.ready_barrier = threading.Barrier(self.num_ubatches + 1)\n        self._pending_finish: Callable[[], Any] | None = None\n        self.sm_control = create_sm_control_context(self.parallel_config)"
+      }
+    ],
+    "semantic_correspondence": "共同要求是前向缓冲区与声明来源/并发使用者之间的存储对应。vLLM PCP 使用持久输入来源，microbatch 分配独立重定位缓冲区；SGLang registry 通过注册共享键控制复用。",
+    "semantic_differences": "vLLM 没有同一注册键算法；不能用这些测试支持 SGLang 的注册顺序无关或同键复用判断。这里保留来源绑定、并发使用者隔离及 data_ptr/值保持的单项判定。",
+    "suggested_property": "前向缓冲区按声明的来源与并发使用者绑定存储；允许共享的缓冲区复用指定来源，同时存活且会独立写入的缓冲区保持隔离。注册键、注册顺序、批次视图及持久输入采用各实现的条件。"
+  }
+]

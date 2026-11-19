@@ -1,0 +1,13 @@
+{
+  "tests/v1/kv_connector/unit/offloading_connector/test_worker.py": "af195e0de0cf4b60a5e8bd3749b41458c4b98d4835849d790e86d8a56adcff78",
+  "tests/v1/kv_connector/unit/test_decode_bench_connector.py": "4e97fedee661512dee31f5ca84c0ee00f67e105ce22c587d328bb9983a081d06",
+  "tests/v1/kv_connector/unit/test_hf3fs_connector.py": "07cce6bfa9b78cd3f054a7472402adb02457b162974408009165bf4ab8329a53",
+  "tests/v1/kv_connector/unit/test_hisparse_stats.py": "18a0a987236d81c9d529f2668dc11174e457787ca3a8c065054ba914b48d0678",
+  "tests/v1/kv_connector/unit/test_nixl_heartbeat.py": "e6dfaa4deddceab7ea404d4c79726e3737f780e004942e65ae540fd466cf0160",
+  "tests/v1/kv_connector/unit/test_remote_prefill_lifecycle.py": "3c4abdeca3fa040bdcb75ff5cfbb551fe9f1844e4ae17d12749618b5e1b88414",
+  "tests/v1/kv_connector/unit/test_simple_cpu_offload_metrics.py": "149548469f323863ea1d72befe125fa91e4db6b4a14aee16fc3cd69380abd085",
+  "tests/v1/kv_connector/unit/test_umbp_events.py": "87a82c80a702a3602137f7b4cc0d6de080730113d605e29b1fd2c142e5691a65",
+  "tests/v1/worker/test_extensible_kv_cache.py": "5849d866eea07eb4a5bdc1e91081d3b81569243a108c183debe2384cd8acd227",
+  "tests/v1/worker/test_gpu_worker.py": "5431866aefead8928c6b99616682af80dd2dbcd526d608c94050c5203486ae7c",
+  "tests/v1/worker/test_gpu_worker_weight_transfer.py": "6207d97b7673c913ab8210b9723c97675058b998e42a6942617742ff797573ff"
+}

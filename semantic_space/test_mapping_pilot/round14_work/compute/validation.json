@@ -1,0 +1,30 @@
+{
+  "validated_rows": 205,
+  "files": 7,
+  "supporting_source_files": 36,
+  "proposed_units": [
+    "compute.tuning_configuration_binding",
+    "compute.kernel_registration_binding",
+    "compute.expert_route_capture_binding"
+  ],
+  "per_file": {
+    "tests/kernels/helion/test_config_manager.py": 22,
+    "tests/kernels/helion/test_register.py": 32,
+    "tests/kernels/mhc/test_mhc_kernels.py": 33,
+    "tests/model_executor/layers/test_fused_shared_expert.py": 48,
+    "tests/model_executor/test_jit_warmup.py": 25,
+    "tests/model_executor/test_routed_experts_capture.py": 26,
+    "tests/model_executor/test_utils.py": 19
+  },
+  "checks": [
+    "九字段与205个唯一索引入口对应",
+    "所有条目仍pending且排除round12/13/14其他crosswalk",
+    "断言锚点为纯path:line且存在",
+    "测试def行号匹配索引",
+    "每条conditions JSON含真实输入、fixture/helper/class及生产锚点",
+    "file_reviews与supporting_source_reviews SHA256一致",
+    "性质ID存在于seed或完整提案且条件维度有效"
+  ],
+  "upstream_execution": false,
+  "gpu_used": false
+}

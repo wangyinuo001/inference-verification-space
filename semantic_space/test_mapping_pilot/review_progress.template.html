@@ -101,15 +101,15 @@
           <button type="button" data-framework="all" class="active" aria-pressed="true">全部</button><button type="button" data-framework="vllm" aria-pressed="false">vLLM</button><button type="button" data-framework="sglang" aria-pressed="false">SGLang</button>
         </div>
         <input id="search" type="search" placeholder="搜索文件或测试名" aria-label="搜索文件或测试名">
-        <select id="statusFilter" aria-label="按检查进度筛选"><option value="all">全部状态</option><option value="g">已确认检查内容</option><option value="i">继承方法已定位，性质待核</option><option value="l">找到被测函数和检查</option><option value="h">找到检查，位置待核</option><option value="r">已读源码，还需细分</option><option value="s">找到相关函数</option><option value="m">找到相关代码</option><option value="p">大致找到所属环节</option><option value="x">涉及多处，待核对</option><option value="a">框架周边功能</option><option value="d">其他信息</option><option value="u">还没找到检查位置</option><option value="o">暂不属于推理验证</option></select>
+        <select id="statusFilter" aria-label="按检查进度筛选"><option value="all">全部状态</option><option value="g">已确认检查内容</option><option value="i">继承方法已定位，性质待核</option><option value="l">找到被测函数和检查</option><option value="h">找到检查，位置待核</option><option value="r">已读源码，还需细分</option><option value="s">找到相关函数</option><option value="m">找到相关代码</option><option value="p">大致找到所属环节</option><option value="x">涉及多处，待核对</option><option value="a">框架周边功能</option><option value="d">其他信息</option><option value="u">还没找到检查位置</option><option value="o">暂不属于推理验证</option><option value="q">已核对其他用途</option><option value="n">已确认未实现检查</option></select>
         <select id="relationFilter" aria-label="按检查内容筛选"><option value="all">全部检查内容</option></select>
         <span class="match-count" id="matchCount" aria-live="polite"></span>
         <p class="view-hint" id="viewHint">方格颜色是互斥的当前状态。总览按仓库和文件路径排列；搜索或筛选后收拢匹配入口，聚焦图后可用方向键浏览。</p>
         <p class="unit-context" id="unitContext" hidden></p>
       </div>
       <div class="canvas-wrap" id="canvasWrap"><canvas id="grid" role="group" tabindex="0" aria-describedby="viewHint" aria-label="按仓库和文件排列的测试入口状态方格；可用方向键逐格查看"></canvas><div class="empty-matrix" id="emptyMatrix" hidden>没有匹配的测试。可调整搜索词或状态筛选。</div></div>
-      <details class="legend" aria-label="颜色说明"><summary>绿色已确认；其他颜色表示不同的待核状态（展开查看全部 13 类）</summary><div class="legend-items">
-        <span><i style="background:#2e8b57"></i>已确认检查内容</span><span><i style="background:#558da9"></i>继承方法已定位，性质待核</span><span><i style="background:#278f9a"></i>找到被测函数和检查</span><span><i style="background:#69b4bc"></i>找到检查，位置待核</span><span><i style="background:#d6a345"></i>已读源码，还需细分</span><span><i style="background:#76418c"></i>找到相关函数</span><span><i style="background:#b9a0c9"></i>找到相关代码</span><span><i style="background:#a8c7da"></i>大致找到所属环节</span><span><i style="background:#d7c6a6"></i>涉及多处，待核对</span><span><i style="background:#d1d1d6"></i>框架周边功能</span><span><i style="background:#e5e1e7"></i>其他信息</span><span><i style="background:#df9475"></i>还没找到检查位置</span><span><i style="background:#f0f0f1;border:1px solid #d4d4d8"></i>暂不属于推理验证</span>
+      <details class="legend" aria-label="颜色说明"><summary>绿色表示已确认检查内容（展开查看全部状态）</summary><div class="legend-items">
+        <span><i style="background:#2e8b57"></i>已确认检查内容</span><span><i style="background:#558da9"></i>继承方法已定位，性质待核</span><span><i style="background:#278f9a"></i>找到被测函数和检查</span><span><i style="background:#69b4bc"></i>找到检查，位置待核</span><span><i style="background:#d6a345"></i>已读源码，还需细分</span><span><i style="background:#76418c"></i>找到相关函数</span><span><i style="background:#b9a0c9"></i>找到相关代码</span><span><i style="background:#a8c7da"></i>大致找到所属环节</span><span><i style="background:#d7c6a6"></i>涉及多处，待核对</span><span><i style="background:#d1d1d6"></i>框架周边功能</span><span><i style="background:#e5e1e7"></i>其他信息</span><span><i style="background:#df9475"></i>还没找到检查位置</span><span><i style="background:#f0f0f1;border:1px solid #d4d4d8"></i>暂不属于推理验证</span><span><i style="background:#92a7a3"></i>已核对其他用途</span><span><i style="background:#c4b6ae"></i>已确认未实现检查</span>
       </div></details>
     </section>
     <aside class="panel" id="details">
@@ -135,8 +135,8 @@
 </div>
 <script>
 const DATA = /*__DATA__*/;
-const COLORS = {g:'#2e8b57',i:'#558da9',l:'#278f9a',h:'#69b4bc',r:'#d6a345',s:'#76418c',m:'#b9a0c9',p:'#a8c7da',x:'#d7c6a6',a:'#d1d1d6',d:'#e5e1e7',u:'#df9475',o:'#f0f0f1'};
-const LABELS = {g:'已确认检查内容',i:'继承方法已定位，性质待核',l:'找到被测函数和检查',h:'找到检查，位置待核',r:'已读源码，还需细分',s:'找到相关函数',m:'找到相关代码',p:'大致找到所属环节',x:'涉及多处，待核对',a:'框架周边功能',d:'其他信息',u:'还没找到检查位置',o:'暂不属于推理验证'};
+const COLORS = {g:'#2e8b57',i:'#558da9',l:'#278f9a',h:'#69b4bc',r:'#d6a345',s:'#76418c',m:'#b9a0c9',p:'#a8c7da',x:'#d7c6a6',a:'#d1d1d6',d:'#e5e1e7',u:'#df9475',o:'#f0f0f1',q:'#92a7a3',n:'#c4b6ae'};
+const LABELS = {g:'已确认检查内容',i:'继承方法已定位，性质待核',l:'找到被测函数和检查',h:'找到检查，位置待核',r:'已读源码，还需细分',s:'找到相关函数',m:'找到相关代码',p:'大致找到所属环节',x:'涉及多处，待核对',a:'框架周边功能',d:'其他信息',u:'还没找到检查位置',o:'暂不属于推理验证',q:'已核对其他用途',n:'已确认未实现检查'};
 const EVIDENCE={object_candidates:'根据测试所在领域判断',direct_product_result_to_assertion:'被测函数的结果进入检查语句',domain_with_direct_call_oracle_link:'找到调用和检查，所属环节根据测试内容判断',source_target_disagrees_with_domain:'被测函数与测试名称指向不同环节，需核对'};
 const CHECKS={comparison:'比较结果',predicate:'检查条件',other_assertion:'其他断言',equality_call:'检查相等',expected_exception:'预期报错',numeric_close:'检查数值误差',other_oracle:'其他检查',explicit_failure:'明确标记失败',mock_call:'检查模拟调用'};
 const STAGES={deployment_preflight:'部署配置',request_entry:'请求进入',scheduling:'调度',cache:'缓存',transport:'远程传输',distributed_execution:'分布式执行',model_compute:'模型计算',sampling:'采样',response:'结果返回',service_behavior:'服务行为',cancellation:'取消',resource_lifecycle:'资源生命周期',task_quality:'任务质量'};
@@ -160,7 +160,7 @@ document.getElementById('greenCaption').textContent=`已确认检查内容，占
 document.getElementById('progressBar').style.width=((DATA.counts.g||0)/entries.length*100)+'%';
 document.getElementById('vllmGreen').textContent=fmt(DATA.frameworkCounts.vllm.g||0);
 document.getElementById('sglangGreen').textContent=fmt(DATA.frameworkCounts.sglang.g||0);
-for(const status of ['g','i','l','h','r','s','m','p','x','a','d','u','o']){
+for(const status of ['g','i','l','h','r','s','m','p','x','a','d','u','o','q','n']){
   const row=document.createElement('div');row.className='breakdown-row';
   const name=document.createElement('span'),dot=document.createElement('i'),count=document.createElement('b');
   dot.style.background=COLORS[status];name.append(dot,document.createTextNode(LABELS[status]));

@@ -1,0 +1,59 @@
+p='tests/model_executor/test_jit_warmup.py';impl=['vllm/model_executor/warmup/jit_warmup.py:105','vllm/model_executor/warmup/jit_warmup.py:561','vllm/model_executor/warmup/jit_warmup.py:651','vllm/model_executor/warmup/jit_warmup.py:1008','vllm/model_executor/warmup/jit_warmup_triton_helper.py:135']
+names={
+'triton_scalar_specialization_rep':'整数值按Triton类型范围、exact1和16整除类映射到明确代表值。',
+'triton_scalar_specialization_rep_rejects_out_of_range':'超出signed64至unsigned64联合范围的整数抛OverflowError。',
+'trace_dispatch_expands_ranges_dedupes_and_ignores_unused_inputs':'ToyKernel经生产AST tracer展开token1..5，去除重复block key并忽略未引用debug范围。',
+'warmup_range_uses_custom_advancement':'range使用next_power_of_2+1递增，得到block1/2/4/8/16。',
+'warmup_range_validates_custom_advancement':'同时指定step和advance或advance不递增时拒绝。',
+'warmup_cases_support_lambda_advancement':'warmup lambda递增倍增，展开1/2/4/8具体输入。',
+'compile_key_uses_defaults_locals_attributes_and_expressions':'生产AST evaluator解析ToyKernel默认参数、局部变量、属性、条件和运算，得到声明key。',
+'trace_dispatch_combines_zipped_rows_with_independent_values':'zip输入保持token/mode行关联，lanes独立轴做笛卡尔积，key顺序和数值明确匹配。',
+'trace_dispatch_filters_with_traced_predicate':'生产trace根据block*lanes<=4谓词过滤键。',
+'zip_inputs_validates_input_rows':'拒绝空行组、非mapping、空mapping、非字符串键及不一致行字段。',
+'trace_dispatch_rejects_bad_positional_groups_and_duplicates':'拒绝非zip位置组以及重复定义的dispatch字段。',
+'helper_calls_support_keywords_and_reject_star_kwargs':'helper具名关键字可解析为向上取整8，helper调用**kwargs被拒绝。',
+'dispatch_helper_calls_resolve_python_builtins':'max/min内置函数在compile key表达式中按输入解析。',
+'dispatch_body_must_be_local_assignments_then_compile_key_return':'dispatch函数体分支或非自身kwargs解包在构建阶段拒绝。',
+'dispatch_can_forward_compile_key_fields':'dispatch自身kwargs可转发compile key字段并与AST字段合并，重复及额外未知字段拒绝。',
+'forwarded_compile_key_fields_exclude_predicate_only_inputs':'只用于筛选的max_tokens不作为CompileKey字段转发。',
+'dispatch_supports_tuple_and_mapping_subscriptions':'元组与mapping下标表达式对应key值3和7。',
+'dispatch_reports_unsupported_expression_with_context':'不支持set表达式时错误包含表达式及支持类型说明。',
+'warmup_compiles_all_returned_keys_in_order':'记录型compile替身按预热key顺序收到1/2/4；无真实编译执行。',
+'runtime_cache_miss_compiles_and_caches_executor':'记录型compile为key1缓存对象，运行key1不重编，key2 miss仅新增一次。',
+'registry_records_only_inside_model_setup_context':'上下文外注册被忽略，内部相同请求去重且未开始compile。',
+'registry_capture':'capture装饰构造期收集一个请求，构造结束后注册不改变owner registry。',
+'registry_expands_requests_and_deduplicates_owner_keys':'同owner两个范围预热合并为1/2/4/8唯一keys，compile替身各接收一次。',
+'registry_passes_vllm_config_to_default_requests':'默认注册去重，并按方法签名传registry配置使compile key为bias7。',
+'registry_default_request_supports_config_free_kernel':'不接收配置的get_warmup_keys仍正常预热key7，compile为记录替身。'}
+add(p,impl,[('test_'+n,'compute.kernel_plan_consistency',d+' 生产追踪/编排代码处理测试定义的Toy kernel，不验证GPU编译器或数值内核。') for n,d in names.items()])
+DEFERRED.append({'snapshot':'vllm','path':p,'test_name':'test_get_ast_full_name_handles_names_attributes_and_other_nodes','reason':'仅AST名称解析工具，不单独确认为计算计划关系'})
+p='tests/model_executor/test_routed_experts_capture.py';impl=['vllm/model_executor/layers/fused_moe/routed_experts_capturer.py:45','vllm/model_executor/layers/fused_moe/routed_experts_capturer.py:187','vllm/model_executor/layers/fused_moe/modular_kernel.py:1670','vllm/distributed/aux_output_connector/worker.py:75']
+C='compute.expert_route_capture_binding'
+names={
+'base_router_capture_pre_eplb_mapping':'DummyRouter固定逻辑ID且映射函数加10，capture回调收到映射前ID而返回路由ID已加10；不是真实EPLB计算。',
+'public_binding_binds_target_model_router':'模拟MoERunner对象，公共binding将layer7绑定到router回调并传递原ID张量。',
+'public_binding_supports_direct_capture_source':'实现直接capture source协议的模块绑定layer3与原ID张量。',
+'public_binding_gives_monolithic_layers_a_sink':'替身monolithic专家绑定layer-owned sink，回调带正确layer5。',
+'public_binding_rejects_monolithic_without_replay_support':'替身monolithic专家声明不支持capture则binding拒绝。',
+'routed_experts_sink_holds_a_dispatched_batch':'CPU真实sink分配int16，容量按max_tokens乘EP或DP group展开。',
+'monolithic_capture_survives_kernel_rebuilds':'生产monolithic包装路径调用Toy专家，重建offset0/7后sink捕获当前ID，不支持capture的新专家拒绝；不验证MoE数学结果。',
+'routed_experts_capturer_single_dp_no_metadata':'绕过构造分配CPU缓冲，单DP无元数据时按层写完整topk行，尾部未写保持-1。',
+'single_dp_ep_capture_restores_tp_shards':'模拟TP gather返回完整含padding ID，图模式与缓冲复用下恢复有效行；单token不gather，其余两次。',
+'single_dp_tp_capture_does_not_regather_full_batch':'已完整或补齐的本地batch不调用TP gather，只拷贝有效token行。',
+'single_dp_tp_capture_rejects_unexpected_batch_without_writing':'输入行数与full/shard布局都不匹配时拒绝且整个buffer未改写。',
+'capture_uses_pre_sp_size_after_model_shards_padding_mask':'SP缩短mask后仍按原batch descriptor恢复3行，模拟gather一次并保留尾部。',
+'routed_experts_capturer_exposes_output_profile':'模拟CPU平台构造，专家数256输出uint8、257输出uint16，token维为3层x2专家且buffer容量8。',
+'routed_experts_capturer_narrows_snapshot':'内部int32存储准确ID，snapshot转换uint8/uint16并拥有不同指针且值相同。',
+'routed_experts_capturer_dp_naive_concatenated_all_ranks':'DP rank1从跨rank连接行中提取自己的2:5行。',
+'routed_experts_capturer_dp_modular_local_tokens':'已经是DP rank1局部行时直接完整保存。',
+'routed_experts_capturer_dp_ep_gathered_shards':'DP-major/TP-minor已gather数据按local_sizes跳过padding，提取rank1有效两行。',
+'routed_experts_capturer_sp_modular_gathers_tp_shards':'非连续TP局部分片先连续化再以dim0提交模拟gather，只保存有效3行。',
+'routed_experts_capturer_rejects_incomplete_dp_shard_groups':'local_sizes分片组数不能被DP rank数整除时拒绝，不写buffer。',
+'routed_experts_capturer_rejects_layer_before_restoring_rows':'越界layer -1/4在gather前拒绝且buffer未改写。',
+'routed_experts_capturer_dp_preserves_empty_and_unpadded_spans':'DP空rank/all-idle/无padding同尺寸等边界按声明span提取，不额外gather且尾部不写。',
+'routed_experts_capturer_dp_unexpected_batch_raises':'DP输入行数既非全局也非本地及分片长度时拒绝，原buffer保留。',
+'aux_output_worker_connector_binds_capture_on_non_output_rank':'模拟非首TP rank，建立capturer与模型绑定但无output store/buffer；prepare输出None且不snapshot。'}
+add(p,impl,[('test_'+n,C,d) for n,d in names.items()])
+add(p,impl,[('test_get_aux_output_connector_passes_config','compute.kernel_call_binding','替身AuxOutputWorkerConnector构造器收到原model及config且返回同一connector对象。'),('test_aux_output_worker_connector_default_capacity','deployment.effective_configuration','替身storage/缓冲构造器，按KV块数10、cache/hash块32/16、路由shape计算max_bytes2560、对象128bytes及pending16；构造阶段不提前分配。'),('test_v2_model_runner_accepts_routed_experts','deployment.configuration_admissibility','模拟配置及空entry_points时V2 runner不把routed experts capture列为不支持特性。')])
+PROPOSED.append({'id':C,'name':'专家路由捕获与层及token归属对应','kind':'obligation','phase':'model_execution','state_scope':'request','conditions':['operator_profile','parallel_layout','execution_layout'],'property':'专家路由捕获回调绑定当前模型层和声明阶段的逻辑专家ID，按DP/TP分片及有效token元数据恢复本rank行并去除填充；稳定快照保留ID值及输出类型，层或批布局不合法时拒绝且不写入，无效后端与重建后不支持捕获的实现不产出陈旧路由。','observable':['captured_expert_ids','layer_id','local_token_rows','capture_buffer','snapshot_dtype','capture_callback','rejection'],'oracle':'用明确路由ID和分片元数据核对回调、写入区域与快照，分别记录真实路由或替身路由、通信是否模拟及kernel重建条件。','framework_scope':['vllm'],'evidence':{'vllm':[{'path':'vllm/model_executor/layers/fused_moe/routed_experts_capturer.py','line':91,'kind':'source'},{'path':'vllm/model_executor/layers/fused_moe/routed_experts_capturer.py','line':187,'kind':'source'},{'path':'vllm/model_executor/layers/fused_moe/modular_kernel.py','line':1670,'kind':'source'},{'path':'tests/model_executor/test_routed_experts_capture.py','line':295,'kind':'existing_test'}]}})
+(OUT/'proposed-units.json').write_text(json.dumps(PROPOSED,ensure_ascii=False,indent=2))

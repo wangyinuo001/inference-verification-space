@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import ast
 import csv
+from reviewed_batches import batch_files
 import hashlib
 import json
 import re
@@ -60,15 +61,19 @@ def main():
     rust_reviews = {key(r): r for r in json.loads(rust_path.read_text())} if rust_path.exists() else {}
     artifact_path = HERE / "round9_work/file-record-roles.json"
     artifact_reviews = {key(r): r for r in json.loads(artifact_path.read_text())} if artifact_path.exists() else {}
+    additional_roles = HERE / "reviewed-record-roles.json"
+    if additional_roles.exists():
+        for record in json.loads(additional_roles.read_text()):
+            assert key(record) not in artifact_reviews
+            artifact_reviews[key(record)] = record
     round9_pending_path = HERE / "reviewed-round9-pending.json"
     if round9_pending_path.exists():
         pending.update({key(r): r for r in json.loads(round9_pending_path.read_text())})
     checked = {}
-    for name in ("confirmed-property-crosswalk.tsv", "direct-property-crosswalk.tsv",
-                 "inherited-property-crosswalk.tsv", "reviewed-supplement-crosswalk.tsv", "reviewed-round9-crosswalk.tsv", "reviewed-round10-crosswalk.tsv", "reviewed-round11-crosswalk.tsv"):
-        if not (HERE / name).exists():
-            assert name in {"reviewed-round10-crosswalk.tsv", "reviewed-round11-crosswalk.tsv"}
-            continue
+    names = ["confirmed-property-crosswalk.tsv", "direct-property-crosswalk.tsv",
+             "inherited-property-crosswalk.tsv", "reviewed-supplement-crosswalk.tsv"]
+    names.extend(path.name for path in batch_files())
+    for name in names:
         for row in read(HERE / name):
             assert key(row) not in checked, (name, key(row))
             checked[key(row)] = row

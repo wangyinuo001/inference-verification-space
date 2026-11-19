@@ -1,0 +1,128 @@
+[
+  {
+    "id": "response.transcription_text_projection",
+    "name": "转写输出的语言识别与可见文本投影",
+    "kind": "obligation",
+    "phase": "output",
+    "state_scope": "request",
+    "conditions": [
+      "transcription_projection_context"
+    ],
+    "property": "按声明的转写前缀协议识别语言和完成状态，去除已知控制标记并保留普通文本；不完整或无效前缀不产生完整结果。",
+    "observable": [
+      "language_code",
+      "visible_text",
+      "partial_prefix_status",
+      "control_token_set"
+    ],
+    "oracle": "构造含语言/任务/时间标记的解码字符串，检查语言、可见文本及不完整状态；同步核对语言表与约束表达式。",
+    "framework_scope": [
+      "sglang"
+    ],
+    "semantic_domain": "inference_request",
+    "evidence": {
+      "sglang": [
+        {
+          "path": "python/sglang/srt/entrypoints/openai/transcription_adapters/whisper.py",
+          "line": 187,
+          "kind": "source",
+          "source_sha256": "c73f73b6ad4815fa80ff9f4cbfbb5ac6160d7b1430e4e5155c303832f9ed1e9a"
+        }
+      ]
+    }
+  },
+  {
+    "id": "response.reasoning_parser_initial_state",
+    "name": "推理解析器初始状态与请求配置",
+    "kind": "obligation",
+    "phase": "output",
+    "state_scope": "request",
+    "conditions": [
+      "reasoning_parser_context"
+    ],
+    "property": "解析器根据模型标记约定、推理开关及上轮助手内容初始化状态，并传递流式与非空内容配置。",
+    "observable": [
+      "start_end_markers",
+      "initial_reasoning_state",
+      "stream_reasoning",
+      "previous_content",
+      "force_nonempty_content"
+    ],
+    "oracle": "检查构造后的标记、状态和配置字段；文本分离结果由相应解析检查另外给出。",
+    "framework_scope": [
+      "sglang"
+    ],
+    "semantic_domain": "inference_request",
+    "evidence": {
+      "sglang": [
+        {
+          "path": "python/sglang/srt/parser/reasoning_parser.py",
+          "line": 1057,
+          "kind": "source",
+          "source_sha256": "6e2518a9952af1cf96469d213b800f37363e5c7522e05dcfee625f4f1abad76f"
+        }
+      ]
+    }
+  },
+  {
+    "id": "input.content_format_selection",
+    "name": "提示模板内容表示选择",
+    "kind": "obligation",
+    "phase": "ingress",
+    "state_scope": "request",
+    "conditions": [
+      "chat_template_profile"
+    ],
+    "property": "解析模板对消息内容的使用方式，选择结构化内容块或纯字符串输入表示；无效和无匹配模板按声明的默认表示处理。",
+    "observable": [
+      "detected_content_format",
+      "template_parse_fallback"
+    ],
+    "oracle": "给定含循环、过滤器、切片等结构的模板文本，检查选择出的内容表示；不将格式选择等同于模板渲染正确。",
+    "framework_scope": [
+      "sglang"
+    ],
+    "semantic_domain": "inference_request",
+    "evidence": {
+      "sglang": [
+        {
+          "path": "python/sglang/srt/parser/jinja_template_utils.py",
+          "line": 81,
+          "kind": "source",
+          "source_sha256": "daf38098b98a1c6c186c3067829c4b17ae22a48db5d037da8db823eb442babbe"
+        }
+      ]
+    }
+  },
+  {
+    "id": "deployment.configuration_structure",
+    "name": "预处理配置结构校验",
+    "kind": "obligation",
+    "phase": "preflight",
+    "state_scope": "deployment",
+    "conditions": [
+      "configuration_resolution_profile"
+    ],
+    "property": "服务启动配置中的多模态预处理设置采用顶层映射及逐模态映射；不符合声明结构时报告相应字段的类型错误。",
+    "observable": [
+      "configuration_value",
+      "error_type",
+      "error_message"
+    ],
+    "oracle": "构造顶层和逐模态错误值，检查校验错误类型与消息。",
+    "framework_scope": [
+      "sglang"
+    ],
+    "semantic_domain": "inference_request",
+    "evidence": {
+      "sglang": [
+        {
+          "path": "python/sglang/srt/server_args.py",
+          "line": 2705,
+          "kind": "source",
+          "source_sha256": "e1eebd7fa8e5b0c7cb31371e24b4700dd2cdfe6c4b6edd0e417c6a71fade48b8"
+        }
+      ]
+    }
+  }
+]

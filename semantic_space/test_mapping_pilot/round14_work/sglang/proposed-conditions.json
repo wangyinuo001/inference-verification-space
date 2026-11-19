@@ -1,0 +1,85 @@
+[
+  {
+    "id": "trace_lifecycle_context",
+    "type": "structured",
+    "fields": [
+      "enabled",
+      "trace_level",
+      "module_filter",
+      "request_id",
+      "thread_rank",
+      "event_timestamps",
+      "slice_stack",
+      "serialization_state"
+    ],
+    "observed_values": [],
+    "constraint": "区分采集器配置、上下文操作与实际导出；本地对象检查不保证远端观测已收到。"
+  },
+  {
+    "id": "metric_adapter_context",
+    "type": "structured",
+    "fields": [
+      "metric_kind",
+      "name",
+      "label_names",
+      "label_values",
+      "replica_identity",
+      "bucket_boundaries",
+      "backend_availability",
+      "operation"
+    ],
+    "observed_values": [],
+    "constraint": "固定指标后端与标签接口；Mock 调用证据只支持适配关系。"
+  },
+  {
+    "id": "baseline_artifact_context",
+    "type": "structured",
+    "fields": [
+      "model",
+      "capture_signature",
+      "revision",
+      "manifest_rows",
+      "push_index",
+      "tensor_files",
+      "force",
+      "retention_days",
+      "weekly_archive",
+      "dry_run",
+      "HTTP_failure"
+    ],
+    "observed_values": [],
+    "constraint": "验证支持材料按显式身份、采集配置和保留策略操作；不把下载或上传成功等同于模型数值正确。"
+  },
+  {
+    "id": "hook_execution_context",
+    "type": "structured",
+    "fields": [
+      "target",
+      "hook_type",
+      "registration_order",
+      "descriptor_type",
+      "subclass",
+      "shared_references",
+      "apply_count"
+    ],
+    "observed_values": [],
+    "constraint": "固定目标、描述符和钩子组合；每项以实际输入与调用顺序为准。"
+  },
+  {
+    "id": "load_snapshot_transport_context",
+    "type": "structured",
+    "fields": [
+      "dp_size",
+      "dp_rank",
+      "transport",
+      "snapshot_sequence",
+      "timestamp",
+      "reader_state",
+      "endpoint",
+      "node_rank",
+      "reader_owner"
+    ],
+    "observed_values": [],
+    "constraint": "保留每副本身份及更新顺序，区分共享内存和 IPC；本机时序检查不代表所有网络故障。"
+  }
+]

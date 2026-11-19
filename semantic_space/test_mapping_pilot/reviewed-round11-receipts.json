@@ -4150,6 +4150,18 @@
     "source_sha256": "e647a057e6a8ab8286f08f403dac2793956682eeb81e6d2cacd230221991953e",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_fs_tier.py": "e647a057e6a8ab8286f08f403dac2793956682eeb81e6d2cacd230221991953e"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_fs_tier.py",
+      "test_name": "test_lookup_empty_tier",
+      "line": 216,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert results == [LookupResult.MISS, LookupResult.MISS]",
+      "conditions": "真实 FileSystemTierManager、临时磁盘文件和线程池；spec 为配置替身；部分测试注入 open/rename/O_DIRECT 失败。数据完整性仅由含张量/字节比较的入口确认。 参数化：",
+      "source_batch": "round11_work/runtime"
     }
   },
   {
@@ -4163,6 +4175,18 @@
     "source_sha256": "e647a057e6a8ab8286f08f403dac2793956682eeb81e6d2cacd230221991953e",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_fs_tier.py": "e647a057e6a8ab8286f08f403dac2793956682eeb81e6d2cacd230221991953e"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_fs_tier.py",
+      "test_name": "test_store_creates_file_and_lookup_succeeds",
+      "line": 222,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert len(results) == 1；assert results[0].success；assert lookup_and_wait(tier, [key(1)]) == [LookupResult.HIT]；assert os.path.exists(dest), f'Expected file at {dest}'",
+      "conditions": "真实 FileSystemTierManager、临时磁盘文件和线程池；spec 为配置替身；部分测试注入 open/rename/O_DIRECT 失败。数据完整性仅由含张量/字节比较的入口确认。 参数化：",
+      "source_batch": "round11_work/runtime"
     }
   },
   {
@@ -4176,6 +4200,18 @@
     "source_sha256": "e647a057e6a8ab8286f08f403dac2793956682eeb81e6d2cacd230221991953e",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_fs_tier.py": "e647a057e6a8ab8286f08f403dac2793956682eeb81e6d2cacd230221991953e"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_fs_tier.py",
+      "test_name": "test_store_marks_a_cached_miss_present",
+      "line": 234,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert lookup_and_wait(tier, [block_key]) == [LookupResult.MISS]；assert len(results) == 1；assert results[0].success；assert lookup_and_wait(tier, [block_key]) == [LookupResult.HIT]",
+      "conditions": "真实 FileSystemTierManager、临时磁盘文件和线程池；spec 为配置替身；部分测试注入 open/rename/O_DIRECT 失败。数据完整性仅由含张量/字节比较的入口确认。 参数化：",
+      "source_batch": "round11_work/runtime"
     }
   },
   {
@@ -4202,6 +4238,18 @@
     "source_sha256": "e647a057e6a8ab8286f08f403dac2793956682eeb81e6d2cacd230221991953e",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_fs_tier.py": "e647a057e6a8ab8286f08f403dac2793956682eeb81e6d2cacd230221991953e"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_fs_tier.py",
+      "test_name": "test_store_then_load_roundtrip",
+      "line": 292,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert all((r.success for r in store_results))；assert lookup_and_wait(tier, [key(1), key(2)]) == [LookupResult.HIT, LookupResult.HIT]；assert all((r.success for r in load_results))；assert os.path.exists(tier.file_mapper.get_file_name(k))",
+      "conditions": "真实 FileSystemTierManager、临时磁盘文件和线程池；spec 为配置替身；部分测试注入 open/rename/O_DIRECT 失败。数据完整性仅由含张量/字节比较的入口确认。 参数化：",
+      "source_batch": "round11_work/runtime"
     }
   },
   {
@@ -4345,6 +4393,18 @@
     "source_sha256": "e647a057e6a8ab8286f08f403dac2793956682eeb81e6d2cacd230221991953e",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_fs_tier.py": "e647a057e6a8ab8286f08f403dac2793956682eeb81e6d2cacd230221991953e"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_fs_tier.py",
+      "test_name": "test_batch_lookup_c_extension",
+      "line": 526,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert batch_lookup_C([]) == []；assert batch_lookup_C([all_exist[0]]) == [True]；assert batch_lookup_C([all_missing[0]]) == [False]；assert batch_lookup_C(all_exist) == [True, True, True]；assert batch_lookup_C(all_missing) == [False, False, False]；assert batch_lookup_C(paths) == [True, False, True, False, True, False]；pytest.raises(TypeError)",
+      "conditions": "真实 FileSystemTierManager、临时磁盘文件和线程池；spec 为配置替身；部分测试注入 open/rename/O_DIRECT 失败。数据完整性仅由含张量/字节比较的入口确认。 参数化：",
+      "source_batch": "round11_work/runtime"
     }
   },
   {
@@ -4358,6 +4418,18 @@
     "source_sha256": "e647a057e6a8ab8286f08f403dac2793956682eeb81e6d2cacd230221991953e",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_fs_tier.py": "e647a057e6a8ab8286f08f403dac2793956682eeb81e6d2cacd230221991953e"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_fs_tier.py",
+      "test_name": "test_batch_lookup_dispatch",
+      "line": 573,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert all((r.success for r in drain(tier)))；assert results == [LookupResult.HIT, LookupResult.MISS]",
+      "conditions": "真实 FileSystemTierManager、临时磁盘文件和线程池；spec 为配置替身；部分测试注入 open/rename/O_DIRECT 失败。数据完整性仅由含张量/字节比较的入口确认。 参数化：pytest.mark.parametrize('use_c_ext', [True, False])",
+      "source_batch": "round11_work/runtime"
     }
   },
   {
@@ -4384,6 +4456,18 @@
     "source_sha256": "e647a057e6a8ab8286f08f403dac2793956682eeb81e6d2cacd230221991953e",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_fs_tier.py": "e647a057e6a8ab8286f08f403dac2793956682eeb81e6d2cacd230221991953e"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_fs_tier.py",
+      "test_name": "test_failed_load_corrects_verdict_and_removes_corrupt_file",
+      "line": 614,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert all((r.success for r in drain(tier)))；assert lookup_and_wait(tier, [key(1)], ctx=ctx) == [LookupResult.HIT]；assert len(results) == 1 and results[0].success；assert tier.lookup(key(1), ctx) == LookupResult.HIT；assert os.path.exists(path)；assert len(results) == 1 and (not results[0].success)；assert not os.path.exists(path)；assert tier.lookup(key(1), ctx) == LookupResult.MISS；assert lm._lookup_batch == []；assert lookup_and_wait(tier, [key(1)], ctx=fresh) == [LookupResult.MISS]",
+      "conditions": "真实 FileSystemTierManager、临时磁盘文件和线程池；spec 为配置替身；部分测试注入 open/rename/O_DIRECT 失败。数据完整性仅由含张量/字节比较的入口确认。 参数化：pytest.mark.parametrize('use_c_ext', [True, False])",
+      "source_batch": "round11_work/runtime"
     }
   },
   {
@@ -4397,6 +4481,18 @@
     "source_sha256": "e647a057e6a8ab8286f08f403dac2793956682eeb81e6d2cacd230221991953e",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_fs_tier.py": "e647a057e6a8ab8286f08f403dac2793956682eeb81e6d2cacd230221991953e"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_fs_tier.py",
+      "test_name": "test_failed_load_after_abort_does_not_break_newer_probe",
+      "line": 666,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert all((r.success for r in drain(tier)))；assert lookup_and_wait(tier, [k], ctx=ctx_a) == [LookupResult.HIT]；assert tier.lookup(k, ctx_b) == LookupResult.RETRY；assert [r.success for r in drain(tier)] == [False]；assert tier.lookup(k, ctx_b) == LookupResult.MISS；assert time.monotonic() < deadline",
+      "conditions": "真实 FileSystemTierManager、临时磁盘文件和线程池；spec 为配置替身；部分测试注入 open/rename/O_DIRECT 失败。数据完整性仅由含张量/字节比较的入口确认。 参数化：",
+      "source_batch": "round11_work/runtime"
     }
   },
   {
@@ -4410,6 +4506,18 @@
     "source_sha256": "e647a057e6a8ab8286f08f403dac2793956682eeb81e6d2cacd230221991953e",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_fs_tier.py": "e647a057e6a8ab8286f08f403dac2793956682eeb81e6d2cacd230221991953e"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_fs_tier.py",
+      "test_name": "test_batched_partial_load_failure_keeps_loaded_blocks",
+      "line": 694,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert all((r.success for r in drain(tier)))；assert lookup_and_wait(tier, keys, ctx=ctx) == [LookupResult.HIT] * 3；assert len(results) == 1 and (not results[0].success)；assert tuple(results[0].successful_keys) == (key(1), key(2))；assert [tier.lookup(k, ctx) for k in keys] == [LookupResult.HIT, LookupResult.HIT, LookupResult.MISS]；assert lm._lookup_batch == []；assert lookup_and_wait(tier, keys, ctx=fresh) == [LookupResult.HIT, LookupResult.HIT, LookupResult.MISS]",
+      "conditions": "真实 FileSystemTierManager、临时磁盘文件和线程池；spec 为配置替身；部分测试注入 open/rename/O_DIRECT 失败。数据完整性仅由含张量/字节比较的入口确认。 参数化：pytest.mark.parametrize('use_c_ext', [True, False])",
+      "source_batch": "round11_work/runtime"
     }
   },
   {
@@ -4423,6 +4531,18 @@
     "source_sha256": "e647a057e6a8ab8286f08f403dac2793956682eeb81e6d2cacd230221991953e",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_fs_tier.py": "e647a057e6a8ab8286f08f403dac2793956682eeb81e6d2cacd230221991953e"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_fs_tier.py",
+      "test_name": "test_batched_load_first_block_fails_marks_whole_batch",
+      "line": 748,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert all((r.success for r in drain(tier)))；assert lookup_and_wait(tier, keys, ctx=ctx) == [LookupResult.HIT] * 3；assert len(results) == 1 and (not results[0].success)；assert results[0].successful_keys is None；assert [tier.lookup(k, ctx) for k in keys] == [LookupResult.MISS] * 3",
+      "conditions": "真实 FileSystemTierManager、临时磁盘文件和线程池；spec 为配置替身；部分测试注入 open/rename/O_DIRECT 失败。数据完整性仅由含张量/字节比较的入口确认。 参数化：pytest.mark.parametrize('use_c_ext', [True, False])",
+      "source_batch": "round11_work/runtime"
     }
   },
   {
@@ -4579,6 +4699,18 @@
     "source_sha256": "73970dd4036d081b05acf4504bfd52573bd5b0e703bb1bb04a745dc8669c9460",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_obj_tier.py": "73970dd4036d081b05acf4504bfd52573bd5b0e703bb1bb04a745dc8669c9460"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_obj_tier.py",
+      "test_name": "TestMockObjTierBasic::test_lookup_empty_tier",
+      "line": 314,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert lookup_and_wait(self.tier, [key(1)]) == [LookupResult.MISS]",
+      "conditions": "真实 ObjectStoreSecondaryTierManager；MockNixlAgent 只记录对象键集合和句柄状态，没有连接 S3，也不复制张量字节；人工异常与 PROC/DONE 返回驱动。 参数化：",
+      "source_batch": "round11_work/runtime"
     }
   },
   {
@@ -4592,6 +4724,18 @@
     "source_sha256": "73970dd4036d081b05acf4504bfd52573bd5b0e703bb1bb04a745dc8669c9460",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_obj_tier.py": "73970dd4036d081b05acf4504bfd52573bd5b0e703bb1bb04a745dc8669c9460"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_obj_tier.py",
+      "test_name": "TestMockObjTierBasic::test_store_and_lookup",
+      "line": 317,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert len(results) == 1；assert results[0].success；assert lookup_and_wait(self.tier, [key(1)]) == [LookupResult.HIT]",
+      "conditions": "真实 ObjectStoreSecondaryTierManager；MockNixlAgent 只记录对象键集合和句柄状态，没有连接 S3，也不复制张量字节；人工异常与 PROC/DONE 返回驱动。 参数化：",
+      "source_batch": "round11_work/runtime"
     }
   },
   {
@@ -4605,6 +4749,18 @@
     "source_sha256": "73970dd4036d081b05acf4504bfd52573bd5b0e703bb1bb04a745dc8669c9460",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_obj_tier.py": "73970dd4036d081b05acf4504bfd52573bd5b0e703bb1bb04a745dc8669c9460"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_obj_tier.py",
+      "test_name": "TestMockObjTierBasic::test_store_marks_a_cached_miss_present",
+      "line": 324,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert lookup_and_wait(self.tier, [block_key]) == [LookupResult.MISS]；assert len(results) == 1；assert results[0].success；assert lookup_and_wait(self.tier, [block_key]) == [LookupResult.HIT]",
+      "conditions": "真实 ObjectStoreSecondaryTierManager；MockNixlAgent 只记录对象键集合和句柄状态，没有连接 S3，也不复制张量字节；人工异常与 PROC/DONE 返回驱动。 参数化：",
+      "source_batch": "round11_work/runtime"
     }
   },
   {
@@ -4618,6 +4774,18 @@
     "source_sha256": "73970dd4036d081b05acf4504bfd52573bd5b0e703bb1bb04a745dc8669c9460",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_obj_tier.py": "73970dd4036d081b05acf4504bfd52573bd5b0e703bb1bb04a745dc8669c9460"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_obj_tier.py",
+      "test_name": "TestMockObjTierBasic::test_failed_store_does_not_mark_cached_miss_present",
+      "line": 334,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert lookup_and_wait(self.tier, [block_key]) == [LookupResult.MISS]；assert len(results) == 1；assert not results[0].success",
+      "conditions": "真实 ObjectStoreSecondaryTierManager；MockNixlAgent 只记录对象键集合和句柄状态，没有连接 S3，也不复制张量字节；人工异常与 PROC/DONE 返回驱动。 参数化：",
+      "source_batch": "round11_work/runtime"
     }
   },
   {
@@ -4631,6 +4799,18 @@
     "source_sha256": "73970dd4036d081b05acf4504bfd52573bd5b0e703bb1bb04a745dc8669c9460",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_obj_tier.py": "73970dd4036d081b05acf4504bfd52573bd5b0e703bb1bb04a745dc8669c9460"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_obj_tier.py",
+      "test_name": "TestMockObjTierBasic::test_lookup_unrelated_key_returns_false",
+      "line": 346,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert lookup_and_wait(self.tier, [key(999)]) == [LookupResult.MISS]",
+      "conditions": "真实 ObjectStoreSecondaryTierManager；MockNixlAgent 只记录对象键集合和句柄状态，没有连接 S3，也不复制张量字节；人工异常与 PROC/DONE 返回驱动。 参数化：",
+      "source_batch": "round11_work/runtime"
     }
   },
   {
@@ -4683,6 +4863,18 @@
     "source_sha256": "73970dd4036d081b05acf4504bfd52573bd5b0e703bb1bb04a745dc8669c9460",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_obj_tier.py": "73970dd4036d081b05acf4504bfd52573bd5b0e703bb1bb04a745dc8669c9460"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_obj_tier.py",
+      "test_name": "TestMockObjTierBasic::test_failed_load_marks_verdict_negative",
+      "line": 377,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert all((r.success for r in drain(self.tier)))；assert lookup_and_wait(self.tier, [key(1)], ctx=ctx) == [LookupResult.HIT]；assert len(results) == 1 and (not results[0].success)；assert lookup_and_wait(self.tier, [key(1)], ctx=ctx) == [LookupResult.MISS]",
+      "conditions": "真实 ObjectStoreSecondaryTierManager；MockNixlAgent 只记录对象键集合和句柄状态，没有连接 S3，也不复制张量字节；人工异常与 PROC/DONE 返回驱动。 参数化：",
+      "source_batch": "round11_work/runtime"
     }
   },
   {
@@ -4722,6 +4914,18 @@
     "source_sha256": "73970dd4036d081b05acf4504bfd52573bd5b0e703bb1bb04a745dc8669c9460",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_obj_tier.py": "73970dd4036d081b05acf4504bfd52573bd5b0e703bb1bb04a745dc8669c9460"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_obj_tier.py",
+      "test_name": "TestMockObjTierMultiBlock::test_store_multiple_blocks",
+      "line": 449,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert len(results) == 1；assert results[0].success；assert lookup_and_wait(tier, keys) == [LookupResult.HIT] * 8",
+      "conditions": "真实 ObjectStoreSecondaryTierManager；MockNixlAgent 只记录对象键集合和句柄状态，没有连接 S3，也不复制张量字节；人工异常与 PROC/DONE 返回驱动。 参数化：",
+      "source_batch": "round11_work/runtime"
     }
   },
   {
@@ -4735,6 +4939,18 @@
     "source_sha256": "73970dd4036d081b05acf4504bfd52573bd5b0e703bb1bb04a745dc8669c9460",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_obj_tier.py": "73970dd4036d081b05acf4504bfd52573bd5b0e703bb1bb04a745dc8669c9460"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_obj_tier.py",
+      "test_name": "TestMockObjTierMultiBlock::test_partial_block_lookup",
+      "line": 458,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert lookup_and_wait(tier, [key(0), key(1), key(2)]) == [LookupResult.HIT, LookupResult.HIT, LookupResult.MISS]",
+      "conditions": "真实 ObjectStoreSecondaryTierManager；MockNixlAgent 只记录对象键集合和句柄状态，没有连接 S3，也不复制张量字节；人工异常与 PROC/DONE 返回驱动。 参数化：",
+      "source_batch": "round11_work/runtime"
     }
   },
   {
@@ -4748,6 +4964,18 @@
     "source_sha256": "73970dd4036d081b05acf4504bfd52573bd5b0e703bb1bb04a745dc8669c9460",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_obj_tier.py": "73970dd4036d081b05acf4504bfd52573bd5b0e703bb1bb04a745dc8669c9460"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_obj_tier.py",
+      "test_name": "TestMockObjTierFailures::test_lookup_exception_returns_false",
+      "line": 470,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert lookup_and_wait(tier, [key(1)]) == [LookupResult.MISS]",
+      "conditions": "真实 ObjectStoreSecondaryTierManager；MockNixlAgent 只记录对象键集合和句柄状态，没有连接 S3，也不复制张量字节；人工异常与 PROC/DONE 返回驱动。 参数化：",
+      "source_batch": "round11_work/runtime"
     }
   },
   {
@@ -5086,6 +5314,18 @@
     "source_sha256": "5d89e8aea00a5cd132eb883824ebcb8d432c03a77d92db104b2a4a584f82f546",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_tiering_offloading.py": "5d89e8aea00a5cd132eb883824ebcb8d432c03a77d92db104b2a4a584f82f546"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_tiering_offloading.py",
+      "test_name": "TestExampleSecondaryTierManager::test_basic_store_and_lookup",
+      "line": 237,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert tier.lookup(chunks[0], _CTX) is LookupResult.MISS；assert tier.lookup(chunks[0], _CTX) is LookupResult.HIT；assert tier.lookup(chunks[1], _CTX) is LookupResult.HIT；assert tier.lookup(chunks[2], _CTX) is LookupResult.MISS",
+      "conditions": "真实 TieringOffloadingManager 和 CPU primary 账本；ExampleSecondaryTierManager 在进程内跟踪键与完成记录，mmap region 是基于 CPU tensor 的替身；hook 用 patch/wrap 记录；不验证远端 KV 内容。 参数化：",
+      "source_batch": "round11_work/runtime"
     }
   },
   {
@@ -5164,6 +5404,18 @@
     "source_sha256": "5d89e8aea00a5cd132eb883824ebcb8d432c03a77d92db104b2a4a584f82f546",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_tiering_offloading.py": "5d89e8aea00a5cd132eb883824ebcb8d432c03a77d92db104b2a4a584f82f546"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_tiering_offloading.py",
+      "test_name": "TestTieringOffloadingManager::test_basic_store_to_primary",
+      "line": 422,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert result is not None；assert len(result.keys_to_store) == 3；assert count_hits(self.primary_tier, chunks) == 3",
+      "conditions": "真实 TieringOffloadingManager 和 CPU primary 账本；ExampleSecondaryTierManager 在进程内跟踪键与完成记录，mmap region 是基于 CPU tensor 的替身；hook 用 patch/wrap 记录；不验证远端 KV 内容。 参数化：",
+      "source_batch": "round11_work/runtime"
     }
   },
   {
@@ -5203,6 +5455,18 @@
     "source_sha256": "5d89e8aea00a5cd132eb883824ebcb8d432c03a77d92db104b2a4a584f82f546",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_tiering_offloading.py": "5d89e8aea00a5cd132eb883824ebcb8d432c03a77d92db104b2a4a584f82f546"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_tiering_offloading.py",
+      "test_name": "TestTieringOffloadingManager::test_lookup_from_primary",
+      "line": 520,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert count_hits(self.manager, chunks) == 3",
+      "conditions": "真实 TieringOffloadingManager 和 CPU primary 账本；ExampleSecondaryTierManager 在进程内跟踪键与完成记录，mmap region 是基于 CPU tensor 的替身；hook 用 patch/wrap 记录；不验证远端 KV 内容。 参数化：",
+      "source_batch": "round11_work/runtime"
     }
   },
   {
@@ -5359,6 +5623,18 @@
     "source_sha256": "5d89e8aea00a5cd132eb883824ebcb8d432c03a77d92db104b2a4a584f82f546",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_tiering_offloading.py": "5d89e8aea00a5cd132eb883824ebcb8d432c03a77d92db104b2a4a584f82f546"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_tiering_offloading.py",
+      "test_name": "TestTieringOffloadingManager::test_partial_lookup",
+      "line": 938,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert count_hits(self.manager, chunks) == 3",
+      "conditions": "真实 TieringOffloadingManager 和 CPU primary 账本；ExampleSecondaryTierManager 在进程内跟踪键与完成记录，mmap region 是基于 CPU tensor 的替身；hook 用 patch/wrap 记录；不验证远端 KV 内容。 参数化：",
+      "source_batch": "round11_work/runtime"
     }
   },
   {
@@ -5424,6 +5700,18 @@
     "source_sha256": "5d89e8aea00a5cd132eb883824ebcb8d432c03a77d92db104b2a4a584f82f546",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_tiering_offloading.py": "5d89e8aea00a5cd132eb883824ebcb8d432c03a77d92db104b2a4a584f82f546"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_tiering_offloading.py",
+      "test_name": "TestTieringOffloadingManager::test_held_promotions_keep_primary_hits",
+      "line": 1042,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert self.manager.lookup(chunks[0], _CTX) is LookupResult.HIT；assert self.manager.lookup(chunks[1], _CTX) is LookupResult.MISS",
+      "conditions": "真实 TieringOffloadingManager 和 CPU primary 账本；ExampleSecondaryTierManager 在进程内跟踪键与完成记录，mmap region 是基于 CPU tensor 的替身；hook 用 patch/wrap 记录；不验证远端 KV 内容。 参数化：",
+      "source_batch": "round11_work/runtime"
     }
   },
   {
@@ -5437,6 +5725,18 @@
     "source_sha256": "5d89e8aea00a5cd132eb883824ebcb8d432c03a77d92db104b2a4a584f82f546",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_tiering_offloading.py": "5d89e8aea00a5cd132eb883824ebcb8d432c03a77d92db104b2a4a584f82f546"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_tiering_offloading.py",
+      "test_name": "TestTieringOffloadingManager::test_reset_holds_promotions_until_flushed",
+      "line": 1054,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert self.manager.lookup(chunk, _CTX) is LookupResult.MISS；assert self.manager.lookup(chunk, _CTX) is not LookupResult.MISS",
+      "conditions": "真实 TieringOffloadingManager 和 CPU primary 账本；ExampleSecondaryTierManager 在进程内跟踪键与完成记录，mmap region 是基于 CPU tensor 的替身；hook 用 patch/wrap 记录；不验证远端 KV 内容。 参数化：",
+      "source_batch": "round11_work/runtime"
     }
   },
   {
@@ -5658,6 +5958,18 @@
     "source_sha256": "5d89e8aea00a5cd132eb883824ebcb8d432c03a77d92db104b2a4a584f82f546",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_tiering_offloading.py": "5d89e8aea00a5cd132eb883824ebcb8d432c03a77d92db104b2a4a584f82f546"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_tiering_offloading.py",
+      "test_name": "TestTieringOffloadingManager::test_tier_filter_skips_filtered_secondary",
+      "line": 1659,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert self.manager.lookup(chunks[0], ctx) is LookupResult.HIT；assert self.manager.lookup(chunks[1], ctx) is LookupResult.MISS；tier1_lookup.assert_not_called()",
+      "conditions": "真实 TieringOffloadingManager 和 CPU primary 账本；ExampleSecondaryTierManager 在进程内跟踪键与完成记录，mmap region 是基于 CPU tensor 的替身；hook 用 patch/wrap 记录；不验证远端 KV 内容。 参数化：pytest.mark.parametrize('load_tier_filter', [TierFilter(matchers=(TierMatcher(medium=Medium.STORAGE),)), TierFilter(matchers=())], ids=['non_matching_medium', 'empty_no_load'])",
+      "source_batch": "round11_work/runtime"
     }
   },
   {
@@ -5671,6 +5983,18 @@
     "source_sha256": "5d89e8aea00a5cd132eb883824ebcb8d432c03a77d92db104b2a4a584f82f546",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_tiering_offloading.py": "5d89e8aea00a5cd132eb883824ebcb8d432c03a77d92db104b2a4a584f82f546"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_tiering_offloading.py",
+      "test_name": "TestTieringOffloadingManager::test_tier_filter_allows_matching_secondary",
+      "line": 1689,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert self.manager.lookup(chunks[0], ctx) is LookupResult.HIT_PENDING；tier1_lookup.assert_called()",
+      "conditions": "真实 TieringOffloadingManager 和 CPU primary 账本；ExampleSecondaryTierManager 在进程内跟踪键与完成记录，mmap region 是基于 CPU tensor 的替身；hook 用 patch/wrap 记录；不验证远端 KV 内容。 参数化：pytest.mark.parametrize('load_tier_filter', [TierFilter.ALL, TierFilter(matchers=(TierMatcher(medium=Medium.CPU),)), TierFilter(matchers=(TierMatcher(),))], ids=['all', 'explicit_cpu', 'unconstrained_matcher'])",
+      "source_batch": "round11_work/runtime"
     }
   },
   {
@@ -5684,6 +6008,18 @@
     "source_sha256": "5d89e8aea00a5cd132eb883824ebcb8d432c03a77d92db104b2a4a584f82f546",
     "oracle_source_sha256": {
       "tests/v1/kv_offload/tiering/test_tiering_offloading.py": "5d89e8aea00a5cd132eb883824ebcb8d432c03a77d92db104b2a4a584f82f546"
+    },
+    "classification_correction": {
+      "snapshot": "vllm",
+      "path": "tests/v1/kv_offload/tiering/test_tiering_offloading.py",
+      "test_name": "TestTieringOffloadingWithoutSecondaryTiers::test_works_without_secondary_tiers",
+      "line": 1707,
+      "old_unit_id": "cache.storage_existence_accounting",
+      "new_unit_id": "cache.storage_presence_verdict",
+      "reason": "原单元要求物理键到逻辑页数量换算；本项检查存在布尔值、命中/缺失/待查询或后端变化，不检查页计数分母。",
+      "property": "本项断言：assert result is not None；assert count_hits(manager, chunks) == 3",
+      "conditions": "真实 TieringOffloadingManager 和 CPU primary 账本；ExampleSecondaryTierManager 在进程内跟踪键与完成记录，mmap region 是基于 CPU tensor 的替身；hook 用 patch/wrap 记录；不验证远端 KV 内容。 参数化：",
+      "source_batch": "round11_work/runtime"
     }
   },
   {

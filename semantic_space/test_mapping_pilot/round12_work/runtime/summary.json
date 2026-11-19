@@ -1,0 +1,42 @@
+{
+  "mapped_entries": 235,
+  "reviewed_files": 8,
+  "already_reviewed_excluded": 6,
+  "by_file": {
+    "tests/v1/kv_connector/unit/test_mooncake_stats.py": 20,
+    "tests/v1/kv_connector/unit/test_mooncake_store_connector.py": 48,
+    "tests/v1/kv_connector/unit/test_mooncake_store_coordinator.py": 39,
+    "tests/v1/kv_connector/unit/test_multi_connector.py": 25,
+    "tests/v1/kv_connector/unit/test_nixl_desc_geometry.py": 28,
+    "tests/v1/worker/test_attn_utils.py": 22,
+    "tests/v1/worker/test_gpu_pcp_manager.py": 26,
+    "tests/v1/worker/test_gpu_ubatch_slicing.py": 27
+  },
+  "by_unit": {
+    "cache.async_lookup_lifecycle": 11,
+    "cache.block_copy_relation": 4,
+    "cache.event_configuration": 1,
+    "cache.event_payload_binding": 9,
+    "cache.hit_accounting": 15,
+    "cache.lifetime": 2,
+    "cache.storage_existence_accounting": 4,
+    "cache.storage_layout_mapping": 31,
+    "cache.storage_retention_mask": 23,
+    "cache.tier_transfer_content": 1,
+    "cache.transfer_request_byte_ranges": 6,
+    "compute.batch_partition_relation": 30,
+    "compute.execution_relation": 2,
+    "compute.kernel_dispatch_binding": 13,
+    "compute.microbatch_failure_delivery": 1,
+    "deployment.configuration_admissibility": 7,
+    "deployment.effective_configuration": 8,
+    "deployment.runtime_mode_binding": 1,
+    "model.forward_buffer_storage_sharing": 5,
+    "model.forward_buffer_view": 1,
+    "shared_resource.lifetime": 4,
+    "transfer.connector_delegation": 15,
+    "transfer.control_message_contract": 4,
+    "transfer.operation_metrics": 37
+  },
+  "runtime_execution": false
+}

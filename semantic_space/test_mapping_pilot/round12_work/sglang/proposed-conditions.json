@@ -1,0 +1,17 @@
+[
+  {
+    "id": "transcription_projection_context",
+    "type": "structured",
+    "fields": [
+      "language_token_vocabulary",
+      "task_marker",
+      "timestamp_mode",
+      "prefix_completeness",
+      "decoded_output",
+      "known_control_markers",
+      "output_snapshot_sequence"
+    ],
+    "observed_values": [],
+    "constraint": "Fix the transcription prefix protocol and timestamp mode; distinguish incomplete prefixes, unknown language tokens, recognized control tokens and ordinary spoken text. Tests inspect decoded strings and declared language/regex tables, not acoustic recognition quality."
+  }
+]

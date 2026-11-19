@@ -1,0 +1,340 @@
+[
+  {
+    "id": "cache.block_identity_encoding",
+    "name": "缓存块身份编码",
+    "property": "根据给定 token 与元数据计算的块标识与明确参考值一致。",
+    "kind": "obligation",
+    "phase": "cache",
+    "state_scope": "shared",
+    "conditions": [
+      "tokenization_profile",
+      "cache_state",
+      "request_batch_profile"
+    ],
+    "observable": [
+      "被断言的返回字段、状态或消息",
+      "断言目标及参考值"
+    ],
+    "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+    "framework_scope": [
+      "sglang",
+      "vllm"
+    ],
+    "evidence": {
+      "sglang": [
+        {
+          "path": "experimental/sgl-router/src/policies/kv_events/hash.rs",
+          "line": 57,
+          "kind": "source",
+          "source_sha256": "99131cdcc0e0f44737b3039427cd55f96c8f726171da15e42ff85c9aef58b486",
+          "source": "pub fn compute_block_hashes(token_ids: &[u32], block_size: usize) -> Vec<i64> {"
+        },
+        {
+          "path": "experimental/sgl-router/tests/component/policies/kv_events_hash_parity.rs",
+          "line": 61,
+          "kind": "existing_test"
+        }
+      ],
+      "vllm": [
+        {
+          "path": "rust/src/engine-core-client/src/client.rs",
+          "line": 729,
+          "kind": "source",
+          "source_sha256": "2fe43e30f2958be08f39e354e104f369a95042530d1f37a9480bbdfb1d168bb0",
+          "source": "            && let Some(hasher) = &self.prompt_block_hasher"
+        },
+        {
+          "path": "rust/src/engine-core-client/src/tests/client.rs",
+          "line": 2432,
+          "kind": "existing_test"
+        }
+      ]
+    },
+    "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+  },
+  {
+    "id": "cache.distributed_index_state",
+    "name": "跨节点缓存索引与节点状态",
+    "property": "检查缓存事件同步、节点增删及并发更新后的索引查询与成员关系。",
+    "kind": "obligation",
+    "phase": "cache",
+    "state_scope": "shared",
+    "conditions": [
+      "cache_event_profile",
+      "concurrent_request_profile",
+      "transfer_topology"
+    ],
+    "observable": [
+      "被断言的返回字段、状态或消息",
+      "断言目标及参考值"
+    ],
+    "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+    "framework_scope": [
+      "sglang"
+    ],
+    "evidence": {
+      "sglang": [
+        {
+          "path": "experimental/sgl-router/src/policies/kv_events/tree.rs",
+          "line": 291,
+          "kind": "source",
+          "source_sha256": "64764f9958f3a603e707d4964cec4add81e4dc84c3032e01b1b44f379b4fa8fd",
+          "source": "    fn insert(&mut self, worker: &KvWorkerId, parent_hash: Option<i64>, block_hashes: &[i64]) {"
+        },
+        {
+          "path": "experimental/sgl-router/src/policies/kv_events/tree.rs",
+          "line": 650,
+          "kind": "source",
+          "source_sha256": "64764f9958f3a603e707d4964cec4add81e4dc84c3032e01b1b44f379b4fa8fd",
+          "source": "    pub fn match_prefix(&self, parent_hash: Option<i64>, block_hashes: &[i64]) -> MatchResult {"
+        },
+        {
+          "path": "experimental/sgl-router/tests/component/policies/kv_events_tree_concurrent.rs",
+          "line": 42,
+          "kind": "existing_test"
+        }
+      ]
+    },
+    "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+  },
+  {
+    "id": "request.access_control",
+    "name": "请求身份与权限判定",
+    "property": "根据给定凭据、签名、角色和请求路径检查接受/拒绝或身份字段；不把功能查找测试解释为常量时间证明。",
+    "kind": "obligation",
+    "phase": "ingress",
+    "state_scope": "shared",
+    "conditions": [
+      "access_policy",
+      "request_api_kind",
+      "deployment_configuration"
+    ],
+    "observable": [
+      "被断言的返回字段、状态或消息",
+      "断言目标及参考值"
+    ],
+    "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+    "framework_scope": [
+      "sglang"
+    ],
+    "evidence": {
+      "sglang": [
+        {
+          "path": "sgl-model-gateway/src/lib.rs",
+          "line": 2,
+          "kind": "source",
+          "source_sha256": "be4dd7102d4a10377a5d51bbf254e5d0ddb74cd6247c074ca440f96b63d19cba",
+          "source": "pub use smg_auth as auth;"
+        },
+        {
+          "path": "sgl-model-gateway/src/server.rs",
+          "line": 1038,
+          "kind": "source",
+          "source_sha256": "312daf1d51ee4c8996a439dd5f5ee1787d8f15fec596c3483acbc1aa378b445a",
+          "source": "    let control_plane_auth_state ="
+        },
+        {
+          "path": "sgl-model-gateway/tests/security/auth_integration_test.rs",
+          "line": 153,
+          "kind": "existing_test"
+        }
+      ]
+    },
+    "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+  },
+  {
+    "id": "response.history_store",
+    "name": "会话与响应记录的存取隔离",
+    "property": "检查会话或响应的创建、查询、删除、元数据与共享条目在不同标识下的可见性。",
+    "kind": "obligation",
+    "phase": "output",
+    "state_scope": "shared",
+    "conditions": [
+      "request_api_kind",
+      "storage_backend_profile",
+      "semantic_response_profile"
+    ],
+    "observable": [
+      "被断言的返回字段、状态或消息",
+      "断言目标及参考值"
+    ],
+    "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+    "framework_scope": [
+      "sglang"
+    ],
+    "evidence": {
+      "sglang": [
+        {
+          "path": "sgl-model-gateway/src/server.rs",
+          "line": 296,
+          "kind": "source",
+          "source_sha256": "312daf1d51ee4c8996a439dd5f5ee1787d8f15fec596c3483acbc1aa378b445a",
+          "source": "async fn v1_conversations_create("
+        },
+        {
+          "path": "sgl-model-gateway/src/server.rs",
+          "line": 388,
+          "kind": "source",
+          "source_sha256": "312daf1d51ee4c8996a439dd5f5ee1787d8f15fec596c3483acbc1aa378b445a",
+          "source": "async fn v1_conversations_delete_item("
+        },
+        {
+          "path": "sgl-model-gateway/tests/api/responses_api_test.rs",
+          "line": 223,
+          "kind": "existing_test"
+        }
+      ]
+    },
+    "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+  },
+  {
+    "id": "schedule.coordinated_progress",
+    "name": "多节点协调状态与执行波次",
+    "property": "检查协调消息、波次与 rank/前端状态的对应及广播行为。",
+    "kind": "obligation",
+    "phase": "scheduling",
+    "state_scope": "shared",
+    "conditions": [
+      "parallel_topology",
+      "request_phase",
+      "concurrent_request_profile"
+    ],
+    "observable": [
+      "被断言的返回字段、状态或消息",
+      "断言目标及参考值"
+    ],
+    "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+    "framework_scope": [
+      "vllm"
+    ],
+    "evidence": {
+      "vllm": [
+        {
+          "path": "rust/src/engine-core-client/src/client.rs",
+          "line": 725,
+          "kind": "source",
+          "source_sha256": "2fe43e30f2958be08f39e354e104f369a95042530d1f37a9480bbdfb1d168bb0",
+          "source": "    pub async fn call(&self, mut req: EngineCoreRequest) -> Result<EngineCoreOutputStream> {"
+        },
+        {
+          "path": "rust/src/engine-core-client/src/coordinator/handle.rs",
+          "line": 107,
+          "kind": "source",
+          "source_sha256": "6c3ddcb24cddd4f8dad7638577d4b04c426b5799f86cdcdb77907d1e48b1d29b",
+          "source": "    pub(crate) fn snapshot(&self) -> CoordinatorStateSnapshot {"
+        },
+        {
+          "path": "rust/src/engine-core-client/src/tests/client.rs",
+          "line": 715,
+          "kind": "existing_test"
+        }
+      ]
+    },
+    "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+  },
+  {
+    "id": "service.shutdown_completion",
+    "name": "服务关闭与在途请求收尾",
+    "property": "检查关闭请求后在途响应完成情况或退出时间界限。",
+    "kind": "obligation",
+    "phase": "service",
+    "state_scope": "shared",
+    "conditions": [
+      "deployment_configuration",
+      "concurrent_request_profile",
+      "stream_fragment_profile"
+    ],
+    "observable": [
+      "被断言的返回字段、状态或消息",
+      "断言目标及参考值"
+    ],
+    "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+    "framework_scope": [
+      "sglang"
+    ],
+    "evidence": {
+      "sglang": [
+        {
+          "path": "experimental/sgl-router/src/main.rs",
+          "line": 188,
+          "kind": "source",
+          "source_sha256": "99f34b06d7b2119881c07ae645e86e5525a58153557913e25aa5a4502951160c",
+          "source": "    let serve = axum::serve(listener, app).with_graceful_shutdown(shutdown_signal(sigterm, sigint));"
+        },
+        {
+          "path": "experimental/sgl-router/tests/proxy/graceful_shutdown.rs",
+          "line": 91,
+          "kind": "existing_test"
+        }
+      ]
+    },
+    "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+  },
+  {
+    "id": "worker.registration_configuration",
+    "name": "工作节点身份与注册配置",
+    "property": "核对节点角色、rank、地址、配置一致性及注册/移除后的状态；各入口保存实际检查的字段和异常条件。",
+    "kind": "obligation",
+    "phase": "preflight",
+    "state_scope": "shared",
+    "conditions": [
+      "deployment_configuration",
+      "parallel_topology",
+      "remote_endpoint_profile"
+    ],
+    "observable": [
+      "被断言的返回字段、状态或消息",
+      "断言目标及参考值"
+    ],
+    "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+    "framework_scope": [
+      "sglang",
+      "vllm"
+    ],
+    "evidence": {
+      "sglang": [
+        {
+          "path": "experimental/sgl-router/src/workers/manager.rs",
+          "line": 206,
+          "kind": "source",
+          "source_sha256": "c721abeed9409b676b9c7c4cf57c6e09eab8b382bc0d041299c4e5effe963fe7",
+          "source": "async fn handle_discovery_event("
+        },
+        {
+          "path": "sgl-model-gateway/src/core/worker.rs",
+          "line": 703,
+          "kind": "source",
+          "source_sha256": "081560304a51536181d29908b9d23fa2ca5379c0a11a36071fd1a558ed1fc7a4",
+          "source": "    async fn check_health_async(&self) -> WorkerResult<()> {"
+        },
+        {
+          "path": "experimental/sgl-router/tests/component/discovery/static_urls.rs",
+          "line": 11,
+          "kind": "existing_test"
+        }
+      ],
+      "vllm": [
+        {
+          "path": "rust/src/engine-core-client/src/client.rs",
+          "line": 120,
+          "kind": "source",
+          "source_sha256": "2fe43e30f2958be08f39e354e104f369a95042530d1f37a9480bbdfb1d168bb0",
+          "source": "    pub fn validate(&self) -> Result<()> {"
+        },
+        {
+          "path": "rust/src/engine-core-client/src/client.rs",
+          "line": 345,
+          "kind": "source",
+          "source_sha256": "2fe43e30f2958be08f39e354e104f369a95042530d1f37a9480bbdfb1d168bb0",
+          "source": "    pub async fn connect(config: EngineCoreClientConfig) -> Result<Self> {"
+        },
+        {
+          "path": "rust/src/engine-core-client/src/tests/client.rs",
+          "line": 409,
+          "kind": "existing_test"
+        }
+      ]
+    },
+    "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+  }
+]

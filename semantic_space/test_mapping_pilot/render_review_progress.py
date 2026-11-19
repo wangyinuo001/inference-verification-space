@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+from reviewed_batches import batch_files
 import json
 from collections import Counter
 from pathlib import Path
@@ -79,16 +80,10 @@ def main() -> None:
     supplement = {key(row): row for row in read(supplement_path)} if supplement_path.exists() else {}
     assert not (supplement.keys() & direct_properties.keys())
     direct_properties.update(supplement)
-    round9_path = HERE / "reviewed-round9-crosswalk.tsv"
-    round9 = {key(row): row for row in read(round9_path)} if round9_path.exists() else {}
-    assert not (round9.keys() & direct_properties.keys())
-    direct_properties.update(round9)
-    for batch in ("round10", "round11"):
-        batch_path = HERE / f"reviewed-{batch}-crosswalk.tsv"
-        if batch_path.exists():
-            extra = {key(row): row for row in read(batch_path)}
-            assert not (extra.keys() & direct_properties.keys())
-            direct_properties.update(extra)
+    for batch_path in batch_files():
+        extra = {key(row): row for row in read(batch_path)}
+        assert not (extra.keys() & direct_properties.keys())
+        direct_properties.update(extra)
     pending_path = HERE / "reviewed-supplement-pending.json"
     pending = {key(r): r for r in json.loads(pending_path.read_text())} if pending_path.exists() else {}
     runtime_path = HERE / "background_evidence/runtime-entries.tsv"
@@ -109,6 +104,7 @@ def main() -> None:
     files: list[list[str]] = []
     file_ids: dict[tuple[str, str], int] = {}
     entries: list[list[str | int]] = []
+    delivery = {key(r): r for r in read(HERE / "full_delivery/all-entries.tsv")}
     counts: Counter[str] = Counter()
     framework_counts: dict[str, Counter[str]] = {"vllm": Counter(), "sglang": Counter()}
     stage_count = 0
@@ -130,6 +126,12 @@ def main() -> None:
                           bool(inherited_origin and inherited_origin["status"] == "resolved_unique"))
         if item_key in pending and status != "g":
             status = "r"
+        disposition = delivery.get(item_key, {})
+        if status != "g":
+            if disposition.get("review_status") in {"supporting_record_reviewed", "test_script_reviewed"}:
+                status = "q"
+            elif disposition.get("review_status") == "incomplete_test_reviewed":
+                status = "n"
         counts[status] += 1
         framework_counts[row["snapshot"]][status] += 1
         units = (checked["unit_id"] if checked else observed["source_reviewed_units"]) if status == "g" else (
@@ -141,7 +143,7 @@ def main() -> None:
             units, row["oracle_forms"], row["observation_subjects"][:150],
             placed["stage"], placed["stage_source"], placed["product_target"],
             placed["input_binding"],
-            checked["property"] if checked else pending[item_key]["reason"] if item_key in pending else observed["source_reviewed_property"] if status == "g" else "",
+            checked["property"] if checked else disposition.get("property", "") if status in {"q", "n"} else pending[item_key]["reason"] if item_key in pending else observed["source_reviewed_property"] if status == "g" else "",
             checked["oracle_source"] if checked else observed["oracle_sites_preview"] if status == "g" else "",
             inherited_origin["source_path"] if inherited_origin and inherited_origin["status"] == "resolved_unique" else "",
             int(inherited_origin["source_line"]) if inherited_origin and inherited_origin["status"] == "resolved_unique" else 0,

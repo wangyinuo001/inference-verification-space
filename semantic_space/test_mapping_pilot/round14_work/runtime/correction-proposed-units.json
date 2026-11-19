@@ -1,0 +1,103 @@
+[
+  {
+    "id": "cache.storage_presence_verdict",
+    "name": "存储存在性与查询状态对应",
+    "kind": "obligation",
+    "framework_scope": [
+      "vllm"
+    ],
+    "phase": "cache",
+    "state_scope": "shared",
+    "conditions": [
+      "storage_backend_profile",
+      "cache_state"
+    ],
+    "property": "根据查询键及所属分组报告存在、缺失或待查询状态；写入完成、读取失败和后端状态变化按声明规则更新判断，过期异步查询不得覆盖更新后的判断。多层路由及故障返回服从各自的查询策略。",
+    "observable": [
+      "query_keys",
+      "group_ids",
+      "lookup_verdict",
+      "query_generation",
+      "backend_state",
+      "lookup_diagnostics"
+    ],
+    "oracle": "按测试注入的后端存在集合、传输完成和故障时序逐项核对查询返回值；各项只承诺已记录的布尔值、状态或元数据断言。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/v1/kv_offload/tiering/fs/manager.py",
+          "line": 216,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/kv_offload/tiering/obj/manager.py",
+          "line": 290,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/kv_offload/tiering/async_lookup.py",
+          "line": 146,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/kv_offload/tiering/async_lookup.py",
+          "line": 234,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/kv_offload/tiering/manager.py",
+          "line": 699,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/coordinator.py",
+          "line": 59,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/distributed/kv_transfer/kv_connector/v1/umbp/runtime/embedded.py",
+          "line": 211,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "id": "cache.memory_registration_lifecycle",
+    "name": "缓存内存注册的注销与恢复",
+    "kind": "obligation",
+    "framework_scope": [
+      "vllm"
+    ],
+    "phase": "cache",
+    "state_scope": "shared",
+    "conditions": [
+      "storage_backend_profile",
+      "host_transfer_profile",
+      "cache_state"
+    ],
+    "property": "缓存注册记录保留底层地址与长度；注销和恢复按当前注册状态执行，重复操作不重复调用后端，后端错误沿声明路径报告。",
+    "observable": [
+      "base_addresses",
+      "registered_lengths",
+      "unregistered_flag",
+      "registration_calls",
+      "unregistration_calls"
+    ],
+    "oracle": "对注册后端记录调用，核查注销与恢复次数、地址和长度，以及失败后的状态；传输内容另由数据检查承担。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/mooncake_connector.py",
+          "line": 2518,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/mooncake_connector.py",
+          "line": 2526,
+          "kind": "source"
+        }
+      ]
+    }
+  }
+]

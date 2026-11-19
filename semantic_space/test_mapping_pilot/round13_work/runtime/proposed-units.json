@@ -1,0 +1,76 @@
+[
+  {
+    "id": "transfer.peer_registration",
+    "name": "传输端点注册与生命周期",
+    "phase": "transfer",
+    "conditions": [
+      "remote_endpoint_profile",
+      "transfer_topology",
+      "parallel_topology",
+      "inflight_resource_profile"
+    ],
+    "property": "传输端点按引擎与 rank 身份注册并提供查询，重复注册、端点冲突、启动失败与超时按协议返回；关闭和重新启动正确处理所持端口或 socket，注册重试有界。",
+    "observable": [
+      "registered_engine",
+      "rank_endpoints",
+      "registration_response",
+      "retry_count",
+      "socket_ownership",
+      "startup_status"
+    ],
+    "kind": "obligation",
+    "framework_scope": [
+      "vllm"
+    ],
+    "state_scope": "shared",
+    "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/mooncake_utils.py",
+          "line": 127,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/distributed/kv_transfer/kv_connector/v1/umbp/runtime/embedded.py",
+          "line": 117,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "id": "transfer.layout_handshake_reuse",
+    "name": "传输布局握手复用与失效",
+    "phase": "transfer",
+    "conditions": [
+      "transfer_topology",
+      "execution_layout",
+      "cache_state"
+    ],
+    "property": "传输双方依据布局身份复用已确认的地址关系；未知或失效布局触发重新发送，未支持布局确认的对端继续接收完整信息；缓存淘汰及重新注册后不复用旧布局。",
+    "observable": [
+      "layout_id",
+      "peer_layout_cache",
+      "acknowledged_peers",
+      "layout_miss_response",
+      "resend_payload",
+      "registration_generation"
+    ],
+    "kind": "obligation",
+    "framework_scope": [
+      "vllm"
+    ],
+    "state_scope": "shared",
+    "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/mooncake_connector.py",
+          "line": 3187,
+          "kind": "source"
+        }
+      ]
+    }
+  }
+]

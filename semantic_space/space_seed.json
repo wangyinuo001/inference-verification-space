@@ -1174,6 +1174,184 @@
       ],
       "observed_values": [],
       "constraint": "按明确的转储目录搜索规则区分直接文件、唯一子目录、空目录和歧义。"
+    },
+    {
+      "id": "transcription_projection_context",
+      "type": "structured",
+      "fields": [
+        "language_token_vocabulary",
+        "task_marker",
+        "timestamp_mode",
+        "prefix_completeness",
+        "decoded_output",
+        "known_control_markers",
+        "output_snapshot_sequence"
+      ],
+      "observed_values": [],
+      "constraint": "Fix the transcription prefix protocol and timestamp mode; distinguish incomplete prefixes, unknown language tokens, recognized control tokens and ordinary spoken text. Tests inspect decoded strings and declared language/regex tables, not acoustic recognition quality."
+    },
+    {
+      "id": "sampling_batch_transition_context",
+      "type": "structured",
+      "fields": [
+        "request_members",
+        "sampling_parameters",
+        "penalty_history",
+        "filter_indices",
+        "grammar_states",
+        "prepared_state",
+        "operation"
+      ],
+      "observed_values": [],
+      "constraint": "固定批次成员、采样参数和历史状态；区分数值断言、元数据断言与模拟回调检查。"
+    },
+    {
+      "id": "adaptive_speculation_context",
+      "type": "structured",
+      "fields": [
+        "candidate_steps",
+        "initial_steps",
+        "accepted_token_history",
+        "ema_alpha",
+        "warmup_batches",
+        "update_interval",
+        "hysteresis_thresholds",
+        "ceiling",
+        "batch_size",
+        "cuda_graph_sizes"
+      ],
+      "observed_values": [],
+      "constraint": "控制参数与接受历史共同定义步数演化；此维度不把预算控制视为输出分布等价性。"
+    },
+    {
+      "id": "extension_registry_context",
+      "type": "structured",
+      "fields": [
+        "registry_snapshot",
+        "requested_name",
+        "reserved_names",
+        "case_policy",
+        "override_policy",
+        "factory",
+        "interface",
+        "capabilities",
+        "configuration_hook"
+      ],
+      "observed_values": [],
+      "constraint": "隔离注册表与扩展对象；记录名称冲突、覆盖开关、能力约束和具体工厂/回调绑定。"
+    },
+    {
+      "id": "parser_selection_context",
+      "type": "structured",
+      "fields": [
+        "template",
+        "tokenizer_vocabulary",
+        "rule_order",
+        "explicit_parser",
+        "auto_mode",
+        "model_architecture",
+        "tokenizer_load_outcome"
+      ],
+      "observed_values": [],
+      "constraint": "按模板结构与词表签名选择解析方式，保留显式配置、默认配置和加载失败条件。"
+    },
+    {
+      "id": "request_identity_lifecycle_context",
+      "type": "structured",
+      "fields": [
+        "request_ids",
+        "active_state_map",
+        "output_finished_reason",
+        "abort_event",
+        "dispatch_failure",
+        "single_or_batch",
+        "notification_state"
+      ],
+      "observed_values": [],
+      "constraint": "区分活动、已结束和派发前失败的请求；同标识重提交必须以先前状态结束为前提。"
+    },
+    {
+      "id": "trace_lifecycle_context",
+      "type": "structured",
+      "fields": [
+        "enabled",
+        "trace_level",
+        "module_filter",
+        "request_id",
+        "thread_rank",
+        "event_timestamps",
+        "slice_stack",
+        "serialization_state"
+      ],
+      "observed_values": [],
+      "constraint": "区分采集器配置、上下文操作与实际导出；本地对象检查不保证远端观测已收到。"
+    },
+    {
+      "id": "metric_adapter_context",
+      "type": "structured",
+      "fields": [
+        "metric_kind",
+        "name",
+        "label_names",
+        "label_values",
+        "replica_identity",
+        "bucket_boundaries",
+        "backend_availability",
+        "operation"
+      ],
+      "observed_values": [],
+      "constraint": "固定指标后端与标签接口；Mock 调用证据只支持适配关系。"
+    },
+    {
+      "id": "baseline_artifact_context",
+      "type": "structured",
+      "fields": [
+        "model",
+        "capture_signature",
+        "revision",
+        "manifest_rows",
+        "push_index",
+        "tensor_files",
+        "force",
+        "retention_days",
+        "weekly_archive",
+        "dry_run",
+        "HTTP_failure"
+      ],
+      "observed_values": [],
+      "constraint": "验证支持材料按显式身份、采集配置和保留策略操作；不把下载或上传成功等同于模型数值正确。"
+    },
+    {
+      "id": "hook_execution_context",
+      "type": "structured",
+      "fields": [
+        "target",
+        "hook_type",
+        "registration_order",
+        "descriptor_type",
+        "subclass",
+        "shared_references",
+        "apply_count"
+      ],
+      "observed_values": [],
+      "constraint": "固定目标、描述符和钩子组合；每项以实际输入与调用顺序为准。"
+    },
+    {
+      "id": "load_snapshot_transport_context",
+      "type": "structured",
+      "fields": [
+        "dp_size",
+        "dp_rank",
+        "transport",
+        "snapshot_sequence",
+        "timestamp",
+        "reader_state",
+        "endpoint",
+        "node_rank",
+        "reader_owner"
+      ],
+      "observed_values": [],
+      "constraint": "保留每副本身份及更新顺序，区分共享内存和 IPC；本机时序检查不代表所有网络故障。"
     }
   ],
   "applicability_rules": [
@@ -3073,6 +3251,20 @@
             "path": "tests/v1/core/test_single_type_kv_cache_manager.py",
             "line": 184,
             "kind": "existing_oracle"
+          },
+          {
+            "path": "vllm/v1/core/encoder_cache_manager.py",
+            "line": 112,
+            "kind": "source",
+            "source": "def check_and_update_cache(self, request: Request, input_id: int) -> bool:",
+            "source_sha256": "68cca34767e91e3b33b0f8b67c3b534e5ee399fb8349adc1340a464549474fc6"
+          },
+          {
+            "path": "vllm/v1/core/encoder_cache_manager.py",
+            "line": 260,
+            "kind": "source",
+            "source": "def free_encoder_input(self, request: Request, input_id: int) -> None:",
+            "source_sha256": "68cca34767e91e3b33b0f8b67c3b534e5ee399fb8349adc1340a464549474fc6"
           }
         ],
         "sglang": [
@@ -3102,7 +3294,11 @@
             "kind": "existing_oracle"
           }
         ]
-      }
+      },
+      "framework_scope": [
+        "vllm",
+        "sglang"
+      ]
     },
     {
       "id": "cache.eviction_outcome",
@@ -4224,6 +4420,27 @@
             "path": "tests/v1/worker/cpu/test_cpu_logit_bias.py",
             "line": 139,
             "kind": "existing_oracle"
+          },
+          {
+            "path": "vllm/v1/sample/rejection_sampler.py",
+            "line": 362,
+            "kind": "source",
+            "source": "if sampling_metadata.allowed_token_ids_mask is not None:",
+            "source_sha256": "9f035dd0c5af33b29ffcc63e2192f7b2fb85f8a6b4ac89275ecb5698f7ca2ff1"
+          },
+          {
+            "path": "vllm/v1/sample/rejection_sampler.py",
+            "line": 367,
+            "kind": "source",
+            "source": "if bad_words_token_ids := sampling_metadata.bad_words_token_ids:",
+            "source_sha256": "9f035dd0c5af33b29ffcc63e2192f7b2fb85f8a6b4ac89275ecb5698f7ca2ff1"
+          },
+          {
+            "path": "vllm/v1/sample/rejection_sampler.py",
+            "line": 401,
+            "kind": "source",
+            "source": "frequency_penalties = sampling_metadata.frequency_penalties[repeat_indices]",
+            "source_sha256": "9f035dd0c5af33b29ffcc63e2192f7b2fb85f8a6b4ac89275ecb5698f7ca2ff1"
           }
         ],
         "sglang": [
@@ -4258,7 +4475,11 @@
             "kind": "existing_oracle"
           }
         ]
-      }
+      },
+      "framework_scope": [
+        "vllm",
+        "sglang"
+      ]
     },
     {
       "id": "tool.constraint_schema_construction",
@@ -9723,6 +9944,13 @@
             "path": "tests/v1/attention/test_sparse_mla_backends.py",
             "line": 1207,
             "kind": "existing_test"
+          },
+          {
+            "path": "vllm/v1/hisparse/runtime.py",
+            "line": 1292,
+            "kind": "source",
+            "source": "def swap_in(",
+            "source_sha256": "29659727cd515cb6ed496e254e6bbe174d33ed61f6479e96d61d47dac6afc0dd"
           }
         ],
         "sglang": [
@@ -11937,7 +12165,7 @@
       "conditions": [
         "forward_buffer_context"
       ],
-      "property": "前向缓冲区按声明的共享键复用同一存储或保持独立；采用已有来源时绑定其存储，注册顺序不改变同键或异键的共享关系。",
+      "property": "前向缓冲区按声明的来源与并发使用者绑定存储；允许共享的缓冲区复用指定来源，同时存活且会独立写入的缓冲区保持隔离。注册键、注册顺序、批次视图及持久输入采用各实现的条件。",
       "observable": [
         "slot_name",
         "buffer_numel",
@@ -11971,13 +12199,53 @@
             "line": 16,
             "kind": "source"
           }
+        ],
+        "vllm": [
+          {
+            "path": "vllm/v1/worker/gpu/pcp_manager.py",
+            "line": 447,
+            "kind": "source",
+            "source": "def input_buffers(self) -> InputBuffers:",
+            "source_sha256": "b58e5756649886ef6dcfba69e3cce74307bcbe2c10502d39fa3241084696f112"
+          },
+          {
+            "path": "vllm/v1/worker/gpu/pcp_manager.py",
+            "line": 723,
+            "kind": "source",
+            "source": "def prepare_inputs_for_capture_or_profile(",
+            "source_sha256": "b58e5756649886ef6dcfba69e3cce74307bcbe2c10502d39fa3241084696f112"
+          },
+          {
+            "path": "vllm/v1/worker/gpu/pcp_manager.py",
+            "line": 827,
+            "kind": "source",
+            "source": "def get_draft_input_buffers(",
+            "source_sha256": "b58e5756649886ef6dcfba69e3cce74307bcbe2c10502d39fa3241084696f112"
+          },
+          {
+            "path": "vllm/v1/worker/gpu/pcp_manager.py",
+            "line": 836,
+            "kind": "source",
+            "source": "def prepare_draft_prefill(",
+            "source_sha256": "b58e5756649886ef6dcfba69e3cce74307bcbe2c10502d39fa3241084696f112"
+          },
+          {
+            "path": "vllm/v1/worker/gpu/ubatch_utils.py",
+            "line": 312,
+            "kind": "source",
+            "source": "def __init__(",
+            "source_sha256": "2e38c3dac51091728c66f68d08e5a1ac2f9d5b878443669691841269cd937c9f"
+          }
         ]
       },
       "framework_scope": [
-        "sglang"
+        "sglang",
+        "vllm"
       ],
       "semantic_domain": "inference_request",
-      "state_owner": "process"
+      "state_owner": "process",
+      "framework_difference": "vLLM 没有同一注册键算法；不能用这些测试支持 SGLang 的注册顺序无关或同键复用判断。这里保留来源绑定、并发使用者隔离及 data_ptr/值保持的单项判定。",
+      "semantic_correspondence": "共同要求是前向缓冲区与声明来源/并发使用者之间的存储对应。vLLM PCP 使用持久输入来源，microbatch 分配独立重定位缓冲区；SGLang registry 通过注册共享键控制复用。"
     },
     {
       "id": "model.forward_buffer_computed_fields",
@@ -13694,6 +13962,1902 @@
       ],
       "semantic_domain": "diagnostic_support",
       "proposal_note": "支持工具性质，不归入推理请求路径；条件需按元数据/记录输入进一步细化。"
+    },
+    {
+      "id": "compute.batch_partition_relation",
+      "name": "批次拆分与重组对应",
+      "phase": "model_execution",
+      "conditions": [
+        "request_batch_profile",
+        "parallel_topology",
+        "execution_variant",
+        "request_phase"
+      ],
+      "property": "批次按请求与 token 边界划分后，各切片的长度、位置、缓存槽位及填充标记与原批次对应；按约定重排或合并后保留原始数据次序。",
+      "observable": [
+        "request_indices",
+        "query_start_loc",
+        "seq_lens",
+        "slot_mapping",
+        "padding_mask",
+        "merged_hidden_states"
+      ],
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "state_scope": "shared",
+      "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/worker/gpu/ubatch_utils.py",
+            "line": 54,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/worker/gpu/pcp_manager.py",
+            "line": 330,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "compute.microbatch_failure_delivery",
+      "name": "微批执行错误归属与返回",
+      "phase": "model_execution",
+      "conditions": [
+        "execution_variant",
+        "request_batch_profile"
+      ],
+      "property": "微批执行中出现异常时，将错误与对应微批标识一起交付调用方；在被检验的失败时序下，调用线程和失败微批线程能够退出。",
+      "observable": [
+        "exception_type",
+        "cause",
+        "microbatch_id",
+        "thread_alive"
+      ],
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "state_scope": "shared",
+      "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/worker/gpu/ubatch_utils.py",
+            "line": 553,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "cache.transfer_request_byte_ranges",
+      "name": "缓存传输的请求范围与字节对应",
+      "phase": "transfer",
+      "conditions": [
+        "transfer_topology",
+        "parallel_topology",
+        "execution_layout",
+        "cache_state"
+      ],
+      "property": "传输描述符把同一请求的逻辑 token 和缓存组件对应到本地与远端页；写入落在该请求拥有的区间内，所需页被完整覆盖，接收后的尾部按声明规则处理。",
+      "observable": [
+        "local_descriptors",
+        "remote_descriptors",
+        "request_owned_ranges",
+        "covered_tokens",
+        "destination_values",
+        "untouched_bytes"
+      ],
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "state_scope": "shared",
+      "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/nixl/base_worker.py",
+            "line": 2193,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/nixl/pull_worker.py",
+            "line": 138,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "cache.storage_retention_mask",
+      "name": "缓存保留与装载范围",
+      "phase": "cache",
+      "conditions": [
+        "operator_profile",
+        "cache_state",
+        "execution_layout",
+        "speculative_mode"
+      ],
+      "property": "缓存保存和装载掩码按 Attention 窗口、块大小、保留间隔与回放需求确定；命中范围内需要的块保持可恢复，掩码在不同长度和缓存组之间遵循声明的对应关系。",
+      "observable": [
+        "store_mask",
+        "lookup_mask",
+        "load_mask",
+        "cache_group",
+        "block_boundary"
+      ],
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "state_scope": "shared",
+      "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/coordinator.py",
+            "line": 264,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "transfer.connector_delegation",
+      "name": "传输组件的操作转发与结果归属",
+      "phase": "transfer",
+      "conditions": [
+        "transfer_topology",
+        "deployment_configuration",
+        "request_phase"
+      ],
+      "property": "组合或包装传输组件将操作参数转发到按角色、命中和资源规则选定的子组件，返回对应结果；子组件元数据按位置和类型保留，需广播的通知传递到所有相应组件。",
+      "observable": [
+        "selected_connector",
+        "call_arguments",
+        "returned_result",
+        "child_metadata",
+        "operation_notifications"
+      ],
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "state_scope": "shared",
+      "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/multi_connector.py",
+            "line": 469,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/connector.py",
+            "line": 382,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "transfer.operation_metrics",
+      "name": "传输操作的统计与报告",
+      "phase": "transfer",
+      "conditions": [
+        "transfer_topology",
+        "concurrent_request_profile",
+        "diagnostic_record_contract"
+      ],
+      "property": "传输成功、失败、过期和耗时样本按引擎及组件归属汇总；聚合、序列化、快照与重置保持计数和样本对应，报告类型符合指标接口。",
+      "observable": [
+        "transfer_count",
+        "failure_count",
+        "bytes",
+        "duration",
+        "engine_label",
+        "snapshot",
+        "prometheus_sample"
+      ],
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "state_scope": "shared",
+      "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/stats.py",
+            "line": 93,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/multi_connector.py",
+            "line": 469,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "transfer.control_message_contract",
+      "name": "传输控制消息编码与解析",
+      "phase": "transfer",
+      "conditions": [
+        "message_transport_profile",
+        "transfer_topology"
+      ],
+      "property": "查询、重置与响应消息具有可区分的操作标记；序列化和解析保留命中长度、尾部键及声明字段，调用方按响应状态得到对应结果。",
+      "observable": [
+        "message_tag",
+        "encoded_frames",
+        "decoded_response",
+        "success_status"
+      ],
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "state_scope": "shared",
+      "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/protocol.py",
+            "line": 53,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "cache.async_lookup_lifecycle",
+      "name": "异步缓存查询的复用与失效",
+      "phase": "cache",
+      "conditions": [
+        "cache_state",
+        "request_phase",
+        "inflight_resource_profile",
+        "concurrent_request_profile"
+      ],
+      "property": "异步查询按请求和查询内容保存 pending/完成状态；相同有效查询复用结果，内容变化或过期按规则刷新，取消、重置和关闭清除关联状态并限制新查询；预取数量遵守容量限制。",
+      "observable": [
+        "lookup_future",
+        "request_id",
+        "query_content",
+        "pending_count",
+        "cached_result",
+        "lookup_count",
+        "discarded_entries"
+      ],
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "state_scope": "shared",
+      "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/worker.py",
+            "line": 2810,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/scheduler.py",
+            "line": 244,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/umbp/scheduler.py",
+            "line": 374,
+            "kind": "source",
+            "source": "def get_num_new_matched_tokens(",
+            "source_sha256": "5396fd6be3cf2871de2fd8e079a25e941f3600cc6880fa4ab412ab08578e0db4"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/umbp/scheduler.py",
+            "line": 1439,
+            "kind": "source",
+            "source": "def reset_store(self) -> bool:",
+            "source_sha256": "5396fd6be3cf2871de2fd8e079a25e941f3600cc6880fa4ab412ab08578e0db4"
+          }
+        ]
+      }
+    },
+    {
+      "id": "response.transcription_text_projection",
+      "name": "转写输出的语言识别与可见文本投影",
+      "kind": "obligation",
+      "phase": "output",
+      "state_scope": "request",
+      "conditions": [
+        "transcription_projection_context"
+      ],
+      "property": "按声明的转写前缀协议识别语言和完成状态，去除已知控制标记并保留普通文本；不完整或无效前缀不产生完整结果。",
+      "observable": [
+        "language_code",
+        "visible_text",
+        "partial_prefix_status",
+        "control_token_set"
+      ],
+      "oracle": "构造含语言/任务/时间标记的解码字符串，检查语言、可见文本及不完整状态；同步核对语言表与约束表达式。",
+      "framework_scope": [
+        "sglang"
+      ],
+      "semantic_domain": "inference_request",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/entrypoints/openai/transcription_adapters/whisper.py",
+            "line": 187,
+            "kind": "source",
+            "source_sha256": "c73f73b6ad4815fa80ff9f4cbfbb5ac6160d7b1430e4e5155c303832f9ed1e9a"
+          }
+        ]
+      }
+    },
+    {
+      "id": "response.reasoning_parser_initial_state",
+      "name": "推理解析器初始状态与请求配置",
+      "kind": "obligation",
+      "phase": "output",
+      "state_scope": "request",
+      "conditions": [
+        "reasoning_parser_context"
+      ],
+      "property": "解析器根据模型标记约定、推理开关及上轮助手内容初始化状态，并传递流式与非空内容配置。",
+      "observable": [
+        "start_end_markers",
+        "initial_reasoning_state",
+        "stream_reasoning",
+        "previous_content",
+        "force_nonempty_content"
+      ],
+      "oracle": "检查构造后的标记、状态和配置字段；文本分离结果由相应解析检查另外给出。",
+      "framework_scope": [
+        "sglang"
+      ],
+      "semantic_domain": "inference_request",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/parser/reasoning_parser.py",
+            "line": 1057,
+            "kind": "source",
+            "source_sha256": "6e2518a9952af1cf96469d213b800f37363e5c7522e05dcfee625f4f1abad76f"
+          }
+        ]
+      }
+    },
+    {
+      "id": "input.content_format_selection",
+      "name": "提示模板内容表示选择",
+      "kind": "obligation",
+      "phase": "ingress",
+      "state_scope": "request",
+      "conditions": [
+        "chat_template_profile"
+      ],
+      "property": "解析模板对消息内容的使用方式，选择结构化内容块或纯字符串输入表示；无效和无匹配模板按声明的默认表示处理。",
+      "observable": [
+        "detected_content_format",
+        "template_parse_fallback"
+      ],
+      "oracle": "给定含循环、过滤器、切片等结构的模板文本，检查选择出的内容表示；不将格式选择等同于模板渲染正确。",
+      "framework_scope": [
+        "sglang"
+      ],
+      "semantic_domain": "inference_request",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/parser/jinja_template_utils.py",
+            "line": 81,
+            "kind": "source",
+            "source_sha256": "daf38098b98a1c6c186c3067829c4b17ae22a48db5d037da8db823eb442babbe"
+          }
+        ]
+      }
+    },
+    {
+      "id": "deployment.configuration_structure",
+      "name": "预处理配置结构校验",
+      "kind": "obligation",
+      "phase": "preflight",
+      "state_scope": "deployment",
+      "conditions": [
+        "configuration_resolution_profile"
+      ],
+      "property": "服务启动配置中的多模态预处理设置采用顶层映射及逐模态映射；不符合声明结构时报告相应字段的类型错误。",
+      "observable": [
+        "configuration_value",
+        "error_type",
+        "error_message"
+      ],
+      "oracle": "构造顶层和逐模态错误值，检查校验错误类型与消息。",
+      "framework_scope": [
+        "sglang"
+      ],
+      "semantic_domain": "inference_request",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/server_args.py",
+            "line": 2705,
+            "kind": "source",
+            "source_sha256": "e1eebd7fa8e5b0c7cb31371e24b4700dd2cdfe6c4b6edd0e417c6a71fade48b8"
+          }
+        ]
+      }
+    },
+    {
+      "id": "transfer.peer_registration",
+      "name": "传输端点注册与生命周期",
+      "phase": "transfer",
+      "conditions": [
+        "remote_endpoint_profile",
+        "transfer_topology",
+        "parallel_topology",
+        "inflight_resource_profile"
+      ],
+      "property": "传输端点按引擎与 rank 身份注册并提供查询，重复注册、端点冲突、启动失败与超时按协议返回；关闭和重新启动正确处理所持端口或 socket，注册重试有界。",
+      "observable": [
+        "registered_engine",
+        "rank_endpoints",
+        "registration_response",
+        "retry_count",
+        "socket_ownership",
+        "startup_status"
+      ],
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "state_scope": "shared",
+      "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/mooncake_utils.py",
+            "line": 127,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/umbp/runtime/embedded.py",
+            "line": 117,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "transfer.layout_handshake_reuse",
+      "name": "传输布局握手复用与失效",
+      "phase": "transfer",
+      "conditions": [
+        "transfer_topology",
+        "execution_layout",
+        "cache_state"
+      ],
+      "property": "传输双方依据布局身份复用已确认的地址关系；未知或失效布局触发重新发送，未支持布局确认的对端继续接收完整信息；缓存淘汰及重新注册后不复用旧布局。",
+      "observable": [
+        "layout_id",
+        "peer_layout_cache",
+        "acknowledged_peers",
+        "layout_miss_response",
+        "resend_payload",
+        "registration_generation"
+      ],
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "state_scope": "shared",
+      "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/mooncake_connector.py",
+            "line": 3187,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "cache.block_identity_encoding",
+      "name": "缓存块身份编码",
+      "property": "根据给定 token 与元数据计算的块标识与明确参考值一致。",
+      "kind": "obligation",
+      "phase": "cache",
+      "state_scope": "shared",
+      "conditions": [
+        "tokenization_profile",
+        "cache_state",
+        "request_batch_profile"
+      ],
+      "observable": [
+        "被断言的返回字段、状态或消息",
+        "断言目标及参考值"
+      ],
+      "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+      "framework_scope": [
+        "sglang",
+        "vllm"
+      ],
+      "evidence": {
+        "sglang": [
+          {
+            "path": "experimental/sgl-router/src/policies/kv_events/hash.rs",
+            "line": 57,
+            "kind": "source",
+            "source_sha256": "99131cdcc0e0f44737b3039427cd55f96c8f726171da15e42ff85c9aef58b486",
+            "source": "pub fn compute_block_hashes(token_ids: &[u32], block_size: usize) -> Vec<i64> {"
+          },
+          {
+            "path": "experimental/sgl-router/tests/component/policies/kv_events_hash_parity.rs",
+            "line": 61,
+            "kind": "existing_test"
+          }
+        ],
+        "vllm": [
+          {
+            "path": "rust/src/engine-core-client/src/client.rs",
+            "line": 729,
+            "kind": "source",
+            "source_sha256": "2fe43e30f2958be08f39e354e104f369a95042530d1f37a9480bbdfb1d168bb0",
+            "source": "            && let Some(hasher) = &self.prompt_block_hasher"
+          },
+          {
+            "path": "rust/src/engine-core-client/src/tests/client.rs",
+            "line": 2432,
+            "kind": "existing_test"
+          }
+        ]
+      },
+      "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+    },
+    {
+      "id": "cache.distributed_index_state",
+      "name": "跨节点缓存索引与节点状态",
+      "property": "检查缓存事件同步、节点增删及并发更新后的索引查询与成员关系。",
+      "kind": "obligation",
+      "phase": "cache",
+      "state_scope": "shared",
+      "conditions": [
+        "cache_event_profile",
+        "concurrent_request_profile",
+        "transfer_topology"
+      ],
+      "observable": [
+        "被断言的返回字段、状态或消息",
+        "断言目标及参考值"
+      ],
+      "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+      "framework_scope": [
+        "sglang"
+      ],
+      "evidence": {
+        "sglang": [
+          {
+            "path": "experimental/sgl-router/src/policies/kv_events/tree.rs",
+            "line": 291,
+            "kind": "source",
+            "source_sha256": "64764f9958f3a603e707d4964cec4add81e4dc84c3032e01b1b44f379b4fa8fd",
+            "source": "    fn insert(&mut self, worker: &KvWorkerId, parent_hash: Option<i64>, block_hashes: &[i64]) {"
+          },
+          {
+            "path": "experimental/sgl-router/src/policies/kv_events/tree.rs",
+            "line": 650,
+            "kind": "source",
+            "source_sha256": "64764f9958f3a603e707d4964cec4add81e4dc84c3032e01b1b44f379b4fa8fd",
+            "source": "    pub fn match_prefix(&self, parent_hash: Option<i64>, block_hashes: &[i64]) -> MatchResult {"
+          },
+          {
+            "path": "experimental/sgl-router/tests/component/policies/kv_events_tree_concurrent.rs",
+            "line": 42,
+            "kind": "existing_test"
+          }
+        ]
+      },
+      "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+    },
+    {
+      "id": "response.history_store",
+      "name": "会话与响应记录的存取隔离",
+      "property": "检查会话或响应的创建、查询、删除、元数据与共享条目在不同标识下的可见性。",
+      "kind": "obligation",
+      "phase": "output",
+      "state_scope": "shared",
+      "conditions": [
+        "request_api_kind",
+        "storage_backend_profile",
+        "semantic_response_profile"
+      ],
+      "observable": [
+        "被断言的返回字段、状态或消息",
+        "断言目标及参考值"
+      ],
+      "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+      "framework_scope": [
+        "sglang"
+      ],
+      "evidence": {
+        "sglang": [
+          {
+            "path": "sgl-model-gateway/src/server.rs",
+            "line": 296,
+            "kind": "source",
+            "source_sha256": "312daf1d51ee4c8996a439dd5f5ee1787d8f15fec596c3483acbc1aa378b445a",
+            "source": "async fn v1_conversations_create("
+          },
+          {
+            "path": "sgl-model-gateway/src/server.rs",
+            "line": 388,
+            "kind": "source",
+            "source_sha256": "312daf1d51ee4c8996a439dd5f5ee1787d8f15fec596c3483acbc1aa378b445a",
+            "source": "async fn v1_conversations_delete_item("
+          },
+          {
+            "path": "sgl-model-gateway/tests/api/responses_api_test.rs",
+            "line": 223,
+            "kind": "existing_test"
+          }
+        ]
+      },
+      "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+    },
+    {
+      "id": "schedule.coordinated_progress",
+      "name": "多节点协调状态与执行波次",
+      "property": "检查协调消息、波次与 rank/前端状态的对应及广播行为。",
+      "kind": "obligation",
+      "phase": "scheduling",
+      "state_scope": "shared",
+      "conditions": [
+        "parallel_topology",
+        "request_phase",
+        "concurrent_request_profile"
+      ],
+      "observable": [
+        "被断言的返回字段、状态或消息",
+        "断言目标及参考值"
+      ],
+      "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+      "framework_scope": [
+        "vllm"
+      ],
+      "evidence": {
+        "vllm": [
+          {
+            "path": "rust/src/engine-core-client/src/client.rs",
+            "line": 725,
+            "kind": "source",
+            "source_sha256": "2fe43e30f2958be08f39e354e104f369a95042530d1f37a9480bbdfb1d168bb0",
+            "source": "    pub async fn call(&self, mut req: EngineCoreRequest) -> Result<EngineCoreOutputStream> {"
+          },
+          {
+            "path": "rust/src/engine-core-client/src/coordinator/handle.rs",
+            "line": 107,
+            "kind": "source",
+            "source_sha256": "6c3ddcb24cddd4f8dad7638577d4b04c426b5799f86cdcdb77907d1e48b1d29b",
+            "source": "    pub(crate) fn snapshot(&self) -> CoordinatorStateSnapshot {"
+          },
+          {
+            "path": "rust/src/engine-core-client/src/tests/client.rs",
+            "line": 715,
+            "kind": "existing_test"
+          }
+        ]
+      },
+      "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+    },
+    {
+      "id": "service.shutdown_completion",
+      "name": "服务关闭与在途请求收尾",
+      "property": "检查关闭请求后在途响应完成情况或退出时间界限。",
+      "kind": "obligation",
+      "phase": "service",
+      "state_scope": "shared",
+      "conditions": [
+        "deployment_configuration",
+        "concurrent_request_profile",
+        "stream_fragment_profile"
+      ],
+      "observable": [
+        "被断言的返回字段、状态或消息",
+        "断言目标及参考值"
+      ],
+      "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+      "framework_scope": [
+        "sglang"
+      ],
+      "evidence": {
+        "sglang": [
+          {
+            "path": "experimental/sgl-router/src/main.rs",
+            "line": 188,
+            "kind": "source",
+            "source_sha256": "99f34b06d7b2119881c07ae645e86e5525a58153557913e25aa5a4502951160c",
+            "source": "    let serve = axum::serve(listener, app).with_graceful_shutdown(shutdown_signal(sigterm, sigint));"
+          },
+          {
+            "path": "experimental/sgl-router/tests/proxy/graceful_shutdown.rs",
+            "line": 91,
+            "kind": "existing_test"
+          }
+        ]
+      },
+      "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+    },
+    {
+      "id": "worker.registration_configuration",
+      "name": "工作节点身份与注册配置",
+      "property": "核对节点角色、rank、地址、配置一致性及注册/移除后的状态；各入口保存实际检查的字段和异常条件。",
+      "kind": "obligation",
+      "phase": "preflight",
+      "state_scope": "shared",
+      "conditions": [
+        "deployment_configuration",
+        "parallel_topology",
+        "remote_endpoint_profile"
+      ],
+      "observable": [
+        "被断言的返回字段、状态或消息",
+        "断言目标及参考值"
+      ],
+      "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+      "framework_scope": [
+        "sglang",
+        "vllm"
+      ],
+      "evidence": {
+        "sglang": [
+          {
+            "path": "experimental/sgl-router/src/workers/manager.rs",
+            "line": 206,
+            "kind": "source",
+            "source_sha256": "c721abeed9409b676b9c7c4cf57c6e09eab8b382bc0d041299c4e5effe963fe7",
+            "source": "async fn handle_discovery_event("
+          },
+          {
+            "path": "sgl-model-gateway/src/core/worker.rs",
+            "line": 703,
+            "kind": "source",
+            "source_sha256": "081560304a51536181d29908b9d23fa2ca5379c0a11a36071fd1a558ed1fc7a4",
+            "source": "    async fn check_health_async(&self) -> WorkerResult<()> {"
+          },
+          {
+            "path": "experimental/sgl-router/tests/component/discovery/static_urls.rs",
+            "line": 11,
+            "kind": "existing_test"
+          }
+        ],
+        "vllm": [
+          {
+            "path": "rust/src/engine-core-client/src/client.rs",
+            "line": 120,
+            "kind": "source",
+            "source_sha256": "2fe43e30f2958be08f39e354e104f369a95042530d1f37a9480bbdfb1d168bb0",
+            "source": "    pub fn validate(&self) -> Result<()> {"
+          },
+          {
+            "path": "rust/src/engine-core-client/src/client.rs",
+            "line": 345,
+            "kind": "source",
+            "source_sha256": "2fe43e30f2958be08f39e354e104f369a95042530d1f37a9480bbdfb1d168bb0",
+            "source": "    pub async fn connect(config: EngineCoreClientConfig) -> Result<Self> {"
+          },
+          {
+            "path": "rust/src/engine-core-client/src/tests/client.rs",
+            "line": 409,
+            "kind": "existing_test"
+          }
+        ]
+      },
+      "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+    },
+    {
+      "id": "sampling.batch_state_transition",
+      "name": "采样批状态的初始化与成员变化",
+      "kind": "obligation",
+      "phase": "sampling",
+      "state_scope": "shared",
+      "conditions": [
+        "sampling_batch_transition_context"
+      ],
+      "property": "采样配置、累计惩罚及约束状态随批次创建、过滤、合并和释放进行相应更新；由成员需求决定启用标志，操作保留声明的批次关联与回调约定。",
+      "observable": [
+        "batch_members",
+        "required_flags",
+        "prepared_state",
+        "penalty_tensor_shape",
+        "grammar_callback",
+        "released_attributes"
+      ],
+      "oracle": "构造明确的批次成员和参数，核对每次操作后的字段、标志、形状、关联对象及回调实参；数值变换由独立 logits 检查给出。",
+      "framework_scope": [
+        "sglang"
+      ],
+      "semantic_domain": "inference_request",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/sampling/penaltylib/orchestrator.py",
+            "line": 13,
+            "kind": "source",
+            "source_sha256": "829be20bdfad1d6f92c9eb830f320602a92203ebbf692c7d92a325bfdc0dd2a9"
+          },
+          {
+            "path": "python/sglang/srt/sampling/sampling_batch_info.py",
+            "line": 24,
+            "kind": "source",
+            "source_sha256": "6dea35fc0e4a526ad866074fc9912359a753eb18d011e5383288e62f58c44fc1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "spec.adaptive_budget_transition",
+      "name": "推测步数控制与批次路由",
+      "kind": "obligation",
+      "phase": "scheduling",
+      "state_scope": "shared",
+      "conditions": [
+        "adaptive_speculation_context"
+      ],
+      "property": "推测步数由声明的候选集合、接受历史和控制参数更新；warmup、更新周期、阈值、滞回和上限约束生效，批尺寸和图配置决定对应控制槽及可用图集合。",
+      "observable": [
+        "current_steps",
+        "ema_accept_len",
+        "warmup_counter",
+        "routed_slot",
+        "reachable_graph_sizes",
+        "configuration_error"
+      ],
+      "oracle": "输入固定历史序列，逐次核对步数、EMA、更新返回值和批次路由；检查非法候选配置被拒绝。",
+      "framework_scope": [
+        "sglang"
+      ],
+      "semantic_domain": "inference_request",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/speculative/adaptive_spec_params.py",
+            "line": 138,
+            "kind": "source",
+            "source_sha256": "4bc379bccb45d695b6727c073cef33599da92b20873e7785740e851ec0cec1a8"
+          },
+          {
+            "path": "python/sglang/srt/speculative/adaptive_spec_params.py",
+            "line": 260,
+            "kind": "source",
+            "source_sha256": "4bc379bccb45d695b6727c073cef33599da92b20873e7785740e851ec0cec1a8"
+          }
+        ]
+      }
+    },
+    {
+      "id": "deployment.extension_dispatch_contract",
+      "name": "扩展注册与执行入口选择",
+      "kind": "obligation",
+      "phase": "preflight",
+      "state_scope": "deployment",
+      "conditions": [
+        "extension_registry_context"
+      ],
+      "property": "扩展名称按声明规范注册和解析；重复或保留名称按约定拒绝，覆盖行为显式启用，已注册对象经接口与能力检查绑定到工厂、模板或配置回调。",
+      "observable": [
+        "resolved_object",
+        "registry_members",
+        "duplicate_error",
+        "factory_call",
+        "capability_rejection",
+        "callback_binding"
+      ],
+      "oracle": "检查名称到对象的对应、冲突异常、接口成员以及模拟工厂/回调的实参和返回值；模板注册另检查覆盖与单次设置约定。",
+      "framework_scope": [
+        "sglang"
+      ],
+      "semantic_domain": "inference_request",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/speculative/spec_registry.py",
+            "line": 189,
+            "kind": "source",
+            "source_sha256": "f2fec0582402aea24f840f9e7d3b79858499bb5dac163dd77994b51473d36334"
+          },
+          {
+            "path": "python/sglang/srt/parser/code_completion_parser.py",
+            "line": 58,
+            "kind": "source",
+            "source_sha256": "22b62a8c0ead66e61f16dcdb10e1887cd3168c67318337e1e09d30f893f27457"
+          }
+        ]
+      }
+    },
+    {
+      "id": "deployment.parser_selection",
+      "name": "模型模板与解析方式选择",
+      "kind": "obligation",
+      "phase": "ingress",
+      "state_scope": "deployment",
+      "conditions": [
+        "parser_selection_context"
+      ],
+      "property": "根据模板结构、词表标记、模型配置和显式解析开关选择对应解析或编码方式；按声明优先级处理重叠规则，并使用无匹配及加载失败的约定结果。",
+      "observable": [
+        "reasoning_parser",
+        "tool_call_parser",
+        "chat_encoding_spec",
+        "rule_order",
+        "fallback_value"
+      ],
+      "oracle": "构造模板与词表组合，检查解析器/编码标识及规则优先级；显式配置和 auto 配置分别验证。",
+      "framework_scope": [
+        "sglang"
+      ],
+      "semantic_domain": "inference_request",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/managers/template_detection.py",
+            "line": 335,
+            "kind": "source",
+            "source_sha256": "80d82f6ec4387725622766bc0751297c9fe08eebeef5465988900321f755b94a"
+          },
+          {
+            "path": "python/sglang/srt/managers/template_detection.py",
+            "line": 427,
+            "kind": "source",
+            "source_sha256": "80d82f6ec4387725622766bc0751297c9fe08eebeef5465988900321f755b94a"
+          },
+          {
+            "path": "python/sglang/srt/entrypoints/openai/serving_chat.py",
+            "line": 288,
+            "kind": "source",
+            "source_sha256": "3217a5a23dd0388c9506b80f343c584a9261210c0e0571f7071d6f7e3ee58278"
+          }
+        ]
+      }
+    },
+    {
+      "id": "request.identity_state_lifecycle",
+      "name": "请求标识与活动状态生命周期",
+      "kind": "obligation",
+      "phase": "scheduling",
+      "state_scope": "shared",
+      "conditions": [
+        "request_identity_lifecycle_context"
+      ],
+      "property": "活动请求标识与状态保持对应，重复活动标识按约定拒绝；完成、中止和派发前失败清除相应状态，使已终止标识可以重新使用，未完成请求继续保留状态。",
+      "observable": [
+        "rid_to_state",
+        "finished_flag",
+        "notification_event",
+        "duplicate_error",
+        "resubmission_result"
+      ],
+      "oracle": "用同一请求标识串接创建、输出、失败或中止及再次提交，核对状态表成员和终止/通知字段；单条与批量清理分别检查。",
+      "framework_scope": [
+        "sglang"
+      ],
+      "semantic_domain": "inference_request",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/managers/tokenizer_manager.py",
+            "line": 2817,
+            "kind": "source",
+            "source_sha256": "f7b0f64fc2f46dd0339e3e26f9481ac4b0fdb0ad31d501d925d8cada2bac9da2"
+          },
+          {
+            "path": "python/sglang/srt/managers/tokenizer_manager.py",
+            "line": 2862,
+            "kind": "source",
+            "source_sha256": "f7b0f64fc2f46dd0339e3e26f9481ac4b0fdb0ad31d501d925d8cada2bac9da2"
+          },
+          {
+            "path": "python/sglang/srt/managers/tokenizer_manager.py",
+            "line": 1839,
+            "kind": "source",
+            "source_sha256": "f7b0f64fc2f46dd0339e3e26f9481ac4b0fdb0ad31d501d925d8cada2bac9da2"
+          }
+        ]
+      }
+    },
+    {
+      "id": "diagnostic.cache_probe_initialization",
+      "name": "性能探针缓存按声明范围与格式初始化",
+      "phase": "cache",
+      "conditions": [
+        "numeric_format",
+        "execution_layout",
+        "cache_state"
+      ],
+      "property": "用于性能探针的人工缓存按指定组、块和生命周期写入；常数/随机值按缓存格式编码，需清零的布局清零，未选范围保持原值；一次性初始化和逐请求填充按声明模式执行。",
+      "observable": [
+        "selected_blocks",
+        "fill_metadata",
+        "cache_values",
+        "numeric_encoding",
+        "unselected_values"
+      ],
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "state_scope": "shared",
+      "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/decode_bench_connector.py",
+            "line": 563,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/decode_bench_connector.py",
+            "line": 679,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "model.weight_update_session",
+      "name": "权重更新会话顺序与失败状态",
+      "phase": "model_execution",
+      "conditions": [
+        "parameter_lifecycle",
+        "parameter_mapping",
+        "parallel_topology"
+      ],
+      "property": "更新会话按开始、分块接收和完成推进；载荷按目标 rank 与目标模型转发，错误后活动状态、未完成标记和目标恢复符合声明策略，目标模型与草稿模型的完成状态分别维护。",
+      "observable": [
+        "active_session",
+        "incomplete_targets",
+        "forwarded_payload",
+        "target_rank",
+        "target_model",
+        "reset_calls"
+      ],
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "state_scope": "shared",
+      "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/worker/gpu_worker.py",
+            "line": 1744,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/worker/gpu_worker.py",
+            "line": 1790,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/worker/gpu_worker.py",
+            "line": 1836,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "cache.virtual_allocation_contract",
+      "name": "缓存物理提交与视图保持对应",
+      "phase": "cache",
+      "conditions": [
+        "execution_layout",
+        "cache_state",
+        "configuration_resolution_profile"
+      ],
+      "property": "预留地址与实际提交页按块和层布局对应；扩展保留先前内容并清零新页，缩减、整理或释放后重建按声明规则重置内容；对外视图与传输描述符只覆盖实际提交范围。",
+      "observable": [
+        "committed_blocks",
+        "physical_bytes",
+        "segment_offsets",
+        "view_addresses",
+        "view_extents",
+        "cache_values"
+      ],
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "state_scope": "shared",
+      "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/worker/extensible_kv_cache.py",
+            "line": 177,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/worker/extensible_kv_cache.py",
+            "line": 206,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "resource.allocator_scope",
+      "name": "临时内存策略与资源借用按作用域恢复",
+      "phase": "service",
+      "conditions": [
+        "deployment_configuration",
+        "configuration_resolution_profile",
+        "inflight_resource_profile"
+      ],
+      "property": "初始化、profiling 或权重重载期间按后端能力临时调整分配器策略及缓存内存；正常和异常退出恢复先前限额与所有权状态，已经释放的资源不由非所有者恢复。",
+      "observable": [
+        "allocator_settings",
+        "memory_limit",
+        "release_calls",
+        "recommit_calls",
+        "operation_order",
+        "rejection"
+      ],
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "state_scope": "shared",
+      "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/worker/gpu_worker.py",
+            "line": 465,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/worker/extensible_kv_cache.py",
+            "line": 630,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/worker/extensible_kv_cache.py",
+            "line": 347,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "model.sleep_parameter_retention",
+      "name": "休眠参数保留与共享关系",
+      "phase": "model_execution",
+      "conditions": [
+        "parameter_lifecycle",
+        "parameter_mapping"
+      ],
+      "property": "休眠保留项按名称匹配选择，草稿私有参数与共享目标参数区分；恢复将保存值复制回原参数而保持存储地址，清除保存记录，未匹配的普通模式报告错误。",
+      "observable": [
+        "selected_parameter_names",
+        "shared_parameter_identity",
+        "restored_value",
+        "storage_pointer",
+        "saved_parameter_state"
+      ],
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "state_scope": "shared",
+      "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/worker/gpu_worker.py",
+            "line": 295,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/worker/gpu_worker.py",
+            "line": 307,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/worker/gpu_worker.py",
+            "line": 326,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "deployment.startup_plan_reuse",
+      "name": "启动容量计划的身份匹配与复用门禁",
+      "phase": "preflight",
+      "conditions": [
+        "deployment_configuration",
+        "configuration_resolution_profile",
+        "parallel_topology"
+      ],
+      "property": "持久化容量计划依据配置、软件、设备和 rank 身份匹配；格式版本及可用容量满足条件后应用，显式容量配置优先，身份或容量失配时保留重新测量路径。",
+      "observable": [
+        "plan_fingerprint",
+        "schema_version",
+        "free_memory",
+        "configured_kv_bytes",
+        "applied_plan"
+      ],
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "state_scope": "shared",
+      "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/worker/startup_plan.py",
+            "line": 41,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/worker/startup_plan.py",
+            "line": 87,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/worker/startup_plan.py",
+            "line": 134,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "cache.storage_presence_verdict",
+      "name": "存储存在性与查询状态对应",
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "phase": "cache",
+      "state_scope": "shared",
+      "conditions": [
+        "storage_backend_profile",
+        "cache_state"
+      ],
+      "property": "根据查询键及所属分组报告存在、缺失或待查询状态；写入完成、读取失败和后端状态变化按声明规则更新判断，过期异步查询不得覆盖更新后的判断。多层路由及故障返回服从各自的查询策略。",
+      "observable": [
+        "query_keys",
+        "group_ids",
+        "lookup_verdict",
+        "query_generation",
+        "backend_state",
+        "lookup_diagnostics"
+      ],
+      "oracle": "按测试注入的后端存在集合、传输完成和故障时序逐项核对查询返回值；各项只承诺已记录的布尔值、状态或元数据断言。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/kv_offload/tiering/fs/manager.py",
+            "line": 216,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/kv_offload/tiering/obj/manager.py",
+            "line": 290,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/kv_offload/tiering/async_lookup.py",
+            "line": 146,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/kv_offload/tiering/async_lookup.py",
+            "line": 234,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/kv_offload/tiering/manager.py",
+            "line": 699,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/coordinator.py",
+            "line": 59,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/umbp/runtime/embedded.py",
+            "line": 211,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "cache.memory_registration_lifecycle",
+      "name": "缓存内存注册的注销与恢复",
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "phase": "cache",
+      "state_scope": "shared",
+      "conditions": [
+        "storage_backend_profile",
+        "host_transfer_profile",
+        "cache_state"
+      ],
+      "property": "缓存注册记录保留底层地址与长度；注销和恢复按当前注册状态执行，重复操作不重复调用后端，后端错误沿声明路径报告。",
+      "observable": [
+        "base_addresses",
+        "registered_lengths",
+        "unregistered_flag",
+        "registration_calls",
+        "unregistration_calls"
+      ],
+      "oracle": "对注册后端记录调用，核查注销与恢复次数、地址和长度，以及失败后的状态；传输内容另由数据检查承担。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/mooncake_connector.py",
+            "line": 2518,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/mooncake_connector.py",
+            "line": 2526,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "compute.tuning_configuration_binding",
+      "name": "调优配置的键、存储与作用域绑定",
+      "kind": "obligation",
+      "phase": "model_execution",
+      "state_scope": "deployment",
+      "conditions": [
+        "kernel_selection_profile",
+        "operator_profile"
+      ],
+      "property": "调优配置按算子、平台和形状键检索，读写及表示转换保留键与配置字段；配置源路径按声明规则确定，共享管理器的初始化、复用及重置保持配置源作用域一致，缺失或无效配置返回声明的空结果或错误。",
+      "observable": [
+        "configuration_key",
+        "configuration_fields",
+        "configuration_source_path",
+        "manager_identity",
+        "lookup_error"
+      ],
+      "oracle": "比较配置读写前后的键和值、平台隔离、路径和管理器身份，逐项记录缺失/错误/重置条件。",
+      "framework_scope": [
+        "vllm"
+      ],
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/kernels/helion/config_manager.py",
+            "line": 47,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/kernels/helion/config_manager.py",
+            "line": 172,
+            "kind": "source"
+          },
+          {
+            "path": "tests/kernels/helion/test_config_manager.py",
+            "line": 154,
+            "kind": "existing_test"
+          }
+        ]
+      }
+    },
+    {
+      "id": "compute.kernel_registration_binding",
+      "name": "计算实现注册名称与包装对象绑定",
+      "kind": "obligation",
+      "phase": "model_execution",
+      "state_scope": "deployment",
+      "conditions": [
+        "kernel_selection_profile"
+      ],
+      "property": "计算实现的注册名称映射到声明的原函数、包装对象、模拟实现、可变参数约定与设置；查询和重复注册遵守约定的身份、缺失及拒绝行为，初始化后复用对应配置实现，禁用状态与登记状态按接口分别保留。",
+      "observable": [
+        "registered_name",
+        "kernel_wrapper_identity",
+        "raw_function",
+        "fake_implementation",
+        "mutation_metadata",
+        "registry_snapshot",
+        "disabled_state"
+      ],
+      "oracle": "对注册调用和查询返回的对象、元数据及名称逐项比较；明确模拟注册器和真实注册器的范围，不把登记成功当作数值正确。",
+      "framework_scope": [
+        "vllm"
+      ],
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/kernels/helion/register.py",
+            "line": 351,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/kernels/helion/register.py",
+            "line": 443,
+            "kind": "source"
+          },
+          {
+            "path": "tests/kernels/helion/test_register.py",
+            "line": 824,
+            "kind": "existing_test"
+          }
+        ]
+      }
+    },
+    {
+      "id": "compute.expert_route_capture_binding",
+      "name": "专家路由捕获与层及token归属对应",
+      "kind": "obligation",
+      "phase": "model_execution",
+      "state_scope": "request",
+      "conditions": [
+        "operator_profile",
+        "parallel_topology",
+        "execution_layout"
+      ],
+      "property": "专家路由捕获回调绑定当前模型层和声明阶段的逻辑专家ID，按DP/TP分片及有效token元数据恢复本rank行并去除填充；稳定快照保留ID值及输出类型，层或批布局不合法时拒绝且不写入，无效后端与重建后不支持捕获的实现不产出陈旧路由。",
+      "observable": [
+        "captured_expert_ids",
+        "layer_id",
+        "local_token_rows",
+        "capture_buffer",
+        "snapshot_dtype",
+        "capture_callback",
+        "rejection"
+      ],
+      "oracle": "用明确路由ID和分片元数据核对回调、写入区域与快照，分别记录真实路由或替身路由、通信是否模拟及kernel重建条件。",
+      "framework_scope": [
+        "vllm"
+      ],
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/model_executor/layers/fused_moe/routed_experts_capturer.py",
+            "line": 91,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/model_executor/layers/fused_moe/routed_experts_capturer.py",
+            "line": 187,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/model_executor/layers/fused_moe/modular_kernel.py",
+            "line": 1670,
+            "kind": "source"
+          },
+          {
+            "path": "tests/model_executor/test_routed_experts_capture.py",
+            "line": 295,
+            "kind": "existing_test"
+          }
+        ]
+      }
+    },
+    {
+      "id": "distributed.projection_result",
+      "name": "分片投影与完整参考结果一致",
+      "kind": "obligation",
+      "phase": "model_execution",
+      "state_scope": "shared",
+      "property": "分片线性投影及声明的归一化、残差计算经聚合或拼接后，与相同输入和权重上的完整参考计算满足数值容差。",
+      "observable": [
+        "assembled_output",
+        "reference_output",
+        "weight_shard",
+        "rank_inputs"
+      ],
+      "conditions": [
+        "parallel_topology",
+        "numeric_format",
+        "operator_profile"
+      ],
+      "oracle": "以 all_reduce 后的 routed/shared 输入、完整权重及 PyTorch rms_norm/linear 构造参考；预分片 unfused 路径比较 all-gather 后的完整投影。测试分别记录是否含共享残差。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/models/kimi_k3/amd/latent_moe_runner.py",
+            "line": 64,
+            "kind": "source",
+            "source": "def _shard_up_proj_tail(",
+            "source_sha256": "50c071957371564aa5c02b30dfd065f8f7dde78774886470e3c61f13a32d26cf"
+          },
+          {
+            "path": "vllm/models/kimi_k3/amd/linear.py",
+            "line": 153,
+            "kind": "source",
+            "source": "def forward(self, hidden_states: torch.Tensor) -> torch.Tensor:",
+            "source_sha256": "155e62ea469568d43a5f185d40f034a4074dfae75023c752dcbc2f33d682d663"
+          }
+        ]
+      },
+      "framework_scope": [
+        "vllm"
+      ]
+    },
+    {
+      "id": "cache.rewritten_copy_freshness",
+      "name": "缓存源写入后的副本失效与更新",
+      "kind": "obligation",
+      "phase": "cache",
+      "state_scope": "shared",
+      "property": "源缓存内容被重写后，相关旧副本失效，下一次装载返回当前源内容。",
+      "observable": [
+        "source_row",
+        "cached_row",
+        "invalidated_slot"
+      ],
+      "conditions": [
+        "cache_state",
+        "cache_storage_transition",
+        "execution_layout"
+      ],
+      "oracle": "先装载并保存旧值，再写入不同源值、执行失效、重新装载；检查新副本不同于旧值且等于当前源行。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/hisparse/runtime.py",
+            "line": 1116,
+            "kind": "source",
+            "source": "class HiSparseSlotInvalidator:",
+            "source_sha256": "29659727cd515cb6ed496e254e6bbe174d33ed61f6479e96d61d47dac6afc0dd"
+          },
+          {
+            "path": "vllm/v1/hisparse/runtime.py",
+            "line": 1292,
+            "kind": "source",
+            "source": "def swap_in(",
+            "source_sha256": "29659727cd515cb6ed496e254e6bbe174d33ed61f6479e96d61d47dac6afc0dd"
+          }
+        ]
+      },
+      "framework_scope": [
+        "vllm"
+      ]
+    },
+    {
+      "id": "request.credential_validation",
+      "name": "凭据校验与身份角色绑定",
+      "kind": "obligation",
+      "phase": "ingress",
+      "state_scope": "shared",
+      "property": "凭据按密钥、有效期、签发方、受众及重放策略校验；成功结果绑定正确身份与角色，失败结果保留相应原因。",
+      "observable": [
+        "validation_result",
+        "subject",
+        "role",
+        "replay_state"
+      ],
+      "conditions": [
+        "access_policy"
+      ],
+      "oracle": "网关公开的认证依赖接入测试使用本地 JWKS 服务和构造 token，比较成功/失败、主体、角色及重放结果。依赖 smg_auth 的内部实现未包含在当前源码快照中。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "sgl-model-gateway/src/lib.rs",
+            "line": 2,
+            "kind": "source",
+            "source": "pub use smg_auth as auth;",
+            "source_sha256": "be4dd7102d4a10377a5d51bbf254e5d0ddb74cd6247c074ca440f96b63d19cba"
+          },
+          {
+            "path": "sgl-model-gateway/src/server.rs",
+            "line": 1038,
+            "kind": "source",
+            "source": "let control_plane_auth_state =",
+            "source_sha256": "312daf1d51ee4c8996a439dd5f5ee1787d8f15fec596c3483acbc1aa378b445a"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ]
+    },
+    {
+      "id": "request.role_representation",
+      "name": "权限角色的解析与判定",
+      "kind": "obligation",
+      "phase": "ingress",
+      "state_scope": "request",
+      "property": "角色文本按约定大小写规则解析，管理员判定与得到的角色一致。",
+      "observable": [
+        "role_text",
+        "parsed_role",
+        "is_admin"
+      ],
+      "conditions": [
+        "access_policy"
+      ],
+      "oracle": "对控制平面公开角色类型直接调用解析和 is_admin，比较期望枚举与布尔值；不经过 HTTP 请求。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "sgl-model-gateway/src/lib.rs",
+            "line": 2,
+            "kind": "source",
+            "source": "pub use smg_auth as auth;",
+            "source_sha256": "be4dd7102d4a10377a5d51bbf254e5d0ddb74cd6247c074ca440f96b63d19cba"
+          },
+          {
+            "path": "sgl-model-gateway/src/server.rs",
+            "line": 1038,
+            "kind": "source",
+            "source": "let control_plane_auth_state =",
+            "source_sha256": "312daf1d51ee4c8996a439dd5f5ee1787d8f15fec596c3483acbc1aa378b445a"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ]
+    },
+    {
+      "id": "deployment.authentication_configuration",
+      "name": "认证与审计配置的生效状态",
+      "kind": "obligation",
+      "phase": "preflight",
+      "state_scope": "shared",
+      "property": "凭据配置是否有效决定认证状态是否建立；审计开关决定状态中审计记录器的启用标志。",
+      "observable": [
+        "authentication_state",
+        "audit_enabled",
+        "configuration_enabled"
+      ],
+      "conditions": [
+        "access_policy",
+        "deployment_configuration"
+      ],
+      "oracle": "分别构造空、禁用、API-key/JWT 和审计开关配置，检查 try_init/from_config/is_enabled 的返回状态；使用网关公开 smg_auth 依赖。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "sgl-model-gateway/src/lib.rs",
+            "line": 2,
+            "kind": "source",
+            "source": "pub use smg_auth as auth;",
+            "source_sha256": "be4dd7102d4a10377a5d51bbf254e5d0ddb74cd6247c074ca440f96b63d19cba"
+          },
+          {
+            "path": "sgl-model-gateway/src/server.rs",
+            "line": 1038,
+            "kind": "source",
+            "source": "let control_plane_auth_state =",
+            "source_sha256": "312daf1d51ee4c8996a439dd5f5ee1787d8f15fec596c3483acbc1aa378b445a"
+          }
+        ]
+      },
+      "framework_scope": [
+        "sglang"
+      ]
+    },
+    {
+      "id": "diagnostic.trace_context_lifecycle",
+      "name": "追踪上下文与事件生命周期",
+      "kind": "obligation",
+      "phase": "diagnostic",
+      "state_scope": "diagnostic_artifact",
+      "conditions": [
+        "trace_lifecycle_context"
+      ],
+      "property": "追踪开关、模块和等级控制记录是否建立；请求与线程上下文在创建、嵌套片段、事件归属、序列化、结束和中止时按声明规则保存与清理。",
+      "observable": [
+        "enabled",
+        "root_span",
+        "slice_stack",
+        "event_cache",
+        "serialized_context",
+        "thread_identity"
+      ],
+      "oracle": "构造显式时间戳与调用序列，检查上下文、栈、事件和序列化字段；无显式断言的入口仅检查调用无异常。",
+      "framework_scope": [
+        "sglang"
+      ],
+      "semantic_domain": "diagnostic_support",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/observability/trace.py",
+            "line": 261,
+            "kind": "source",
+            "source_sha256": "7d988ebe910ad5ffad782bdd6461ef7361309592135b174ee139dc31979abfc2"
+          },
+          {
+            "path": "python/sglang/srt/observability/trace.py",
+            "line": 221,
+            "kind": "source",
+            "source_sha256": "7d988ebe910ad5ffad782bdd6461ef7361309592135b174ee139dc31979abfc2"
+          }
+        ]
+      }
+    },
+    {
+      "id": "diagnostic.metric_adapter_contract",
+      "name": "指标适配与标签隔离",
+      "kind": "obligation",
+      "phase": "diagnostic",
+      "state_scope": "diagnostic_artifact",
+      "conditions": [
+        "metric_adapter_context"
+      ],
+      "property": "指标适配器按声明规则转换名称、桶边界和调用参数，将数值与对应标签传入指标后端；不同标签对象保持隔离，依赖缺失与非法标记调用按约定处理。",
+      "observable": [
+        "metric_name",
+        "metric_kind",
+        "boundaries",
+        "value",
+        "tags",
+        "backend_call",
+        "dependency_error"
+      ],
+      "oracle": "用记录调用的指标后端核对操作、数值、标签及桶参数，检查标签副本、错误调用及采集器类绑定。",
+      "framework_scope": [
+        "sglang"
+      ],
+      "semantic_domain": "diagnostic_support",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/observability/ray_wrappers.py",
+            "line": 69,
+            "kind": "source",
+            "source_sha256": "20f76d1316d3db577f9bc55c65e7f671b7a3791e6c4f516f3bd80d0712300924"
+          }
+        ]
+      }
+    },
+    {
+      "id": "diagnostic.baseline_artifact_lifecycle",
+      "name": "验证基线材料的选择与保存",
+      "kind": "obligation",
+      "phase": "diagnostic",
+      "state_scope": "diagnostic_artifact",
+      "conditions": [
+        "baseline_artifact_context"
+      ],
+      "property": "验证基线按模型、采集签名和记录次序定位；保存、覆盖、归档和删除遵守声明的材料命名与保留策略，远端临时故障按约定重试。",
+      "observable": [
+        "selected_run_path",
+        "manifest_rows",
+        "staged_files",
+        "retained_runs",
+        "deleted_runs",
+        "retry_calls"
+      ],
+      "oracle": "用本地临时材料和模拟存储 API，核对选中路径、manifest 字段、暂存文件及上传删除重试调用；此处不比较模型计算结果。",
+      "framework_scope": [
+        "sglang"
+      ],
+      "semantic_domain": "diagnostic_support",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/test/precision_baseline_store.py",
+            "line": 95,
+            "kind": "source",
+            "source_sha256": "2be0066e6d86ebfce6330769768d5c505b2588a13540f8d4707bedc606000e80"
+          },
+          {
+            "path": "python/sglang/test/precision_baseline_store.py",
+            "line": 199,
+            "kind": "source",
+            "source_sha256": "2be0066e6d86ebfce6330769768d5c505b2588a13540f8d4707bedc606000e80"
+          },
+          {
+            "path": "python/sglang/test/precision_baseline_store.py",
+            "line": 292,
+            "kind": "source",
+            "source_sha256": "2be0066e6d86ebfce6330769768d5c505b2588a13540f8d4707bedc606000e80"
+          }
+        ]
+      }
+    },
+    {
+      "id": "deployment.hook_execution_semantics",
+      "name": "扩展钩子的调用与替换语义",
+      "kind": "obligation",
+      "phase": "preflight",
+      "state_scope": "deployment",
+      "conditions": [
+        "hook_execution_context"
+      ],
+      "property": "扩展钩子按声明的前置、后置、环绕或替换模式传递参数和结果，保留类方法与静态方法的绑定，并遵守组合次序、引用传播和重复应用约束。",
+      "observable": [
+        "return_value",
+        "argument_sequence",
+        "call_order",
+        "descriptor_binding",
+        "propagated_reference",
+        "conflict_warning"
+      ],
+      "oracle": "在隔离的临时模块中构造函数和类，检查钩子组合后的返回值、调用次序、继承绑定、冲突信息与重复调用次数。",
+      "framework_scope": [
+        "sglang"
+      ],
+      "semantic_domain": "inference_request",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/plugins/hook_registry.py",
+            "line": 69,
+            "kind": "source",
+            "source_sha256": "fe214acac324cb2f019aa1dffe1ddcb6e4691862fdd1b6a0ad5033d8167e31e9"
+          },
+          {
+            "path": "python/sglang/srt/plugins/hook_registry.py",
+            "line": 352,
+            "kind": "source",
+            "source_sha256": "fe214acac324cb2f019aa1dffe1ddcb6e4691862fdd1b6a0ad5033d8167e31e9"
+          }
+        ]
+      }
+    },
+    {
+      "id": "scheduling.load_snapshot_delivery",
+      "name": "负载快照的按副本传递",
+      "kind": "obligation",
+      "phase": "scheduling",
+      "state_scope": "shared",
+      "conditions": [
+        "load_snapshot_transport_context"
+      ],
+      "property": "负载快照按副本标识传给读取方，读取结果保留对应字段及最新观测值；尚未发布时返回空结果，传输资源按声明方式关闭。",
+      "observable": [
+        "rank",
+        "load_fields",
+        "timestamp",
+        "latest_snapshot",
+        "empty_result",
+        "transport_cleanup"
+      ],
+      "oracle": "在本地共享文件和 IPC 通道写入带 rank 的显式快照，核对读取字段、更新与空结果；关闭后检查 IPC 资源。",
+      "framework_scope": [
+        "sglang"
+      ],
+      "semantic_domain": "inference_request",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "python/sglang/srt/managers/load_snapshot.py",
+            "line": 492,
+            "kind": "source",
+            "source_sha256": "7be3cb284dc95d3dc120cf379852a1ad10c1f3b00d73c79ee2ce0924fded8900"
+          },
+          {
+            "path": "python/sglang/srt/managers/load_snapshot.py",
+            "line": 593,
+            "kind": "source",
+            "source_sha256": "7be3cb284dc95d3dc120cf379852a1ad10c1f3b00d73c79ee2ce0924fded8900"
+          }
+        ]
+      }
     }
   ],
   "relations": [

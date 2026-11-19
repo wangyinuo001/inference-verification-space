@@ -1,0 +1,137 @@
+[
+  {
+    "id": "compute.tuning_configuration_binding",
+    "name": "调优配置的键、存储与作用域绑定",
+    "kind": "obligation",
+    "phase": "model_execution",
+    "state_scope": "deployment",
+    "conditions": [
+      "kernel_selection_profile",
+      "operator_profile"
+    ],
+    "property": "调优配置按算子、平台和形状键检索，读写及表示转换保留键与配置字段；配置源路径按声明规则确定，共享管理器的初始化、复用及重置保持配置源作用域一致，缺失或无效配置返回声明的空结果或错误。",
+    "observable": [
+      "configuration_key",
+      "configuration_fields",
+      "configuration_source_path",
+      "manager_identity",
+      "lookup_error"
+    ],
+    "oracle": "比较配置读写前后的键和值、平台隔离、路径和管理器身份，逐项记录缺失/错误/重置条件。",
+    "framework_scope": [
+      "vllm"
+    ],
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/kernels/helion/config_manager.py",
+          "line": 47,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/kernels/helion/config_manager.py",
+          "line": 172,
+          "kind": "source"
+        },
+        {
+          "path": "tests/kernels/helion/test_config_manager.py",
+          "line": 154,
+          "kind": "existing_test"
+        }
+      ]
+    }
+  },
+  {
+    "id": "compute.kernel_registration_binding",
+    "name": "计算实现注册名称与包装对象绑定",
+    "kind": "obligation",
+    "phase": "model_execution",
+    "state_scope": "deployment",
+    "conditions": [
+      "kernel_selection_profile"
+    ],
+    "property": "计算实现的注册名称映射到声明的原函数、包装对象、模拟实现、可变参数约定与设置；查询和重复注册遵守约定的身份、缺失及拒绝行为，初始化后复用对应配置实现，禁用状态与登记状态按接口分别保留。",
+    "observable": [
+      "registered_name",
+      "kernel_wrapper_identity",
+      "raw_function",
+      "fake_implementation",
+      "mutation_metadata",
+      "registry_snapshot",
+      "disabled_state"
+    ],
+    "oracle": "对注册调用和查询返回的对象、元数据及名称逐项比较；明确模拟注册器和真实注册器的范围，不把登记成功当作数值正确。",
+    "framework_scope": [
+      "vllm"
+    ],
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/kernels/helion/register.py",
+          "line": 351,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/kernels/helion/register.py",
+          "line": 443,
+          "kind": "source"
+        },
+        {
+          "path": "tests/kernels/helion/test_register.py",
+          "line": 824,
+          "kind": "existing_test"
+        }
+      ]
+    }
+  },
+  {
+    "id": "compute.expert_route_capture_binding",
+    "name": "专家路由捕获与层及token归属对应",
+    "kind": "obligation",
+    "phase": "model_execution",
+    "state_scope": "request",
+    "conditions": [
+      "operator_profile",
+      "parallel_topology",
+      "execution_layout"
+    ],
+    "property": "专家路由捕获回调绑定当前模型层和声明阶段的逻辑专家ID，按DP/TP分片及有效token元数据恢复本rank行并去除填充；稳定快照保留ID值及输出类型，层或批布局不合法时拒绝且不写入，无效后端与重建后不支持捕获的实现不产出陈旧路由。",
+    "observable": [
+      "captured_expert_ids",
+      "layer_id",
+      "local_token_rows",
+      "capture_buffer",
+      "snapshot_dtype",
+      "capture_callback",
+      "rejection"
+    ],
+    "oracle": "用明确路由ID和分片元数据核对回调、写入区域与快照，分别记录真实路由或替身路由、通信是否模拟及kernel重建条件。",
+    "framework_scope": [
+      "vllm"
+    ],
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/model_executor/layers/fused_moe/routed_experts_capturer.py",
+          "line": 91,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/model_executor/layers/fused_moe/routed_experts_capturer.py",
+          "line": 187,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/model_executor/layers/fused_moe/modular_kernel.py",
+          "line": 1670,
+          "kind": "source"
+        },
+        {
+          "path": "tests/model_executor/test_routed_experts_capture.py",
+          "line": 295,
+          "kind": "existing_test"
+        }
+      ]
+    }
+  }
+]

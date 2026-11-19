@@ -1,0 +1,8 @@
+[
+  {
+    "snapshot": "vllm",
+    "path": "tests/v1/kv_connector/unit/test_mooncake_connector.py",
+    "line": 972,
+    "reason": "本项自行创建 asyncio loop、线程和 failing_listener，再检查 run_coroutine_threadsafe 的异常传播；未调用生产 Mooncake listener，不能确认生产传输路径。"
+  }
+]

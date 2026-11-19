@@ -1,0 +1,252 @@
+[
+  {
+    "id": "diagnostic.cache_probe_initialization",
+    "name": "性能探针缓存按声明范围与格式初始化",
+    "phase": "cache",
+    "conditions": [
+      "numeric_format",
+      "execution_layout",
+      "cache_state"
+    ],
+    "property": "用于性能探针的人工缓存按指定组、块和生命周期写入；常数/随机值按缓存格式编码，需清零的布局清零，未选范围保持原值；一次性初始化和逐请求填充按声明模式执行。",
+    "observable": [
+      "selected_blocks",
+      "fill_metadata",
+      "cache_values",
+      "numeric_encoding",
+      "unselected_values"
+    ],
+    "kind": "obligation",
+    "framework_scope": [
+      "vllm"
+    ],
+    "state_scope": "shared",
+    "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/distributed/kv_transfer/kv_connector/v1/decode_bench_connector.py",
+          "line": 563,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/distributed/kv_transfer/kv_connector/v1/decode_bench_connector.py",
+          "line": 679,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "id": "model.weight_update_session",
+    "name": "权重更新会话顺序与失败状态",
+    "phase": "model_execution",
+    "conditions": [
+      "parameter_lifecycle",
+      "parameter_mapping",
+      "parallel_topology"
+    ],
+    "property": "更新会话按开始、分块接收和完成推进；载荷按目标 rank 与目标模型转发，错误后活动状态、未完成标记和目标恢复符合声明策略，目标模型与草稿模型的完成状态分别维护。",
+    "observable": [
+      "active_session",
+      "incomplete_targets",
+      "forwarded_payload",
+      "target_rank",
+      "target_model",
+      "reset_calls"
+    ],
+    "kind": "obligation",
+    "framework_scope": [
+      "vllm"
+    ],
+    "state_scope": "shared",
+    "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/v1/worker/gpu_worker.py",
+          "line": 1744,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/worker/gpu_worker.py",
+          "line": 1790,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/worker/gpu_worker.py",
+          "line": 1836,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "id": "cache.virtual_allocation_contract",
+    "name": "缓存物理提交与视图保持对应",
+    "phase": "cache",
+    "conditions": [
+      "execution_layout",
+      "cache_state",
+      "configuration_resolution_profile"
+    ],
+    "property": "预留地址与实际提交页按块和层布局对应；扩展保留先前内容并清零新页，缩减、整理或释放后重建按声明规则重置内容；对外视图与传输描述符只覆盖实际提交范围。",
+    "observable": [
+      "committed_blocks",
+      "physical_bytes",
+      "segment_offsets",
+      "view_addresses",
+      "view_extents",
+      "cache_values"
+    ],
+    "kind": "obligation",
+    "framework_scope": [
+      "vllm"
+    ],
+    "state_scope": "shared",
+    "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/v1/worker/extensible_kv_cache.py",
+          "line": 177,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/worker/extensible_kv_cache.py",
+          "line": 206,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "id": "resource.allocator_scope",
+    "name": "临时内存策略与资源借用按作用域恢复",
+    "phase": "service",
+    "conditions": [
+      "deployment_configuration",
+      "configuration_resolution_profile",
+      "inflight_resource_profile"
+    ],
+    "property": "初始化、profiling 或权重重载期间按后端能力临时调整分配器策略及缓存内存；正常和异常退出恢复先前限额与所有权状态，已经释放的资源不由非所有者恢复。",
+    "observable": [
+      "allocator_settings",
+      "memory_limit",
+      "release_calls",
+      "recommit_calls",
+      "operation_order",
+      "rejection"
+    ],
+    "kind": "obligation",
+    "framework_scope": [
+      "vllm"
+    ],
+    "state_scope": "shared",
+    "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/v1/worker/gpu_worker.py",
+          "line": 465,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/worker/extensible_kv_cache.py",
+          "line": 630,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/worker/extensible_kv_cache.py",
+          "line": 347,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "id": "model.sleep_parameter_retention",
+    "name": "休眠参数保留与共享关系",
+    "phase": "model_execution",
+    "conditions": [
+      "parameter_lifecycle",
+      "parameter_mapping"
+    ],
+    "property": "休眠保留项按名称匹配选择，草稿私有参数与共享目标参数区分；恢复将保存值复制回原参数而保持存储地址，清除保存记录，未匹配的普通模式报告错误。",
+    "observable": [
+      "selected_parameter_names",
+      "shared_parameter_identity",
+      "restored_value",
+      "storage_pointer",
+      "saved_parameter_state"
+    ],
+    "kind": "obligation",
+    "framework_scope": [
+      "vllm"
+    ],
+    "state_scope": "shared",
+    "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/v1/worker/gpu_worker.py",
+          "line": 295,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/worker/gpu_worker.py",
+          "line": 307,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/worker/gpu_worker.py",
+          "line": 326,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "id": "deployment.startup_plan_reuse",
+    "name": "启动容量计划的身份匹配与复用门禁",
+    "phase": "preflight",
+    "conditions": [
+      "deployment_configuration",
+      "configuration_resolution_profile",
+      "parallel_topology"
+    ],
+    "property": "持久化容量计划依据配置、软件、设备和 rank 身份匹配；格式版本及可用容量满足条件后应用，显式容量配置优先，身份或容量失配时保留重新测量路径。",
+    "observable": [
+      "plan_fingerprint",
+      "schema_version",
+      "free_memory",
+      "configured_kv_bytes",
+      "applied_plan"
+    ],
+    "kind": "obligation",
+    "framework_scope": [
+      "vllm"
+    ],
+    "state_scope": "shared",
+    "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/v1/worker/startup_plan.py",
+          "line": 41,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/worker/startup_plan.py",
+          "line": 87,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/worker/startup_plan.py",
+          "line": 134,
+          "kind": "source"
+        }
+      ]
+    }
+  }
+]

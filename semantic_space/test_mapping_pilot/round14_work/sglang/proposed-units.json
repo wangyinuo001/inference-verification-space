@@ -1,0 +1,203 @@
+[
+  {
+    "id": "diagnostic.trace_context_lifecycle",
+    "name": "追踪上下文与事件生命周期",
+    "kind": "obligation",
+    "phase": "diagnostic",
+    "state_scope": "diagnostic_artifact",
+    "conditions": [
+      "trace_lifecycle_context"
+    ],
+    "property": "追踪开关、模块和等级控制记录是否建立；请求与线程上下文在创建、嵌套片段、事件归属、序列化、结束和中止时按声明规则保存与清理。",
+    "observable": [
+      "enabled",
+      "root_span",
+      "slice_stack",
+      "event_cache",
+      "serialized_context",
+      "thread_identity"
+    ],
+    "oracle": "构造显式时间戳与调用序列，检查上下文、栈、事件和序列化字段；无显式断言的入口仅检查调用无异常。",
+    "framework_scope": [
+      "sglang"
+    ],
+    "semantic_domain": "diagnostic_support",
+    "evidence": {
+      "sglang": [
+        {
+          "path": "python/sglang/srt/observability/trace.py",
+          "line": 261,
+          "kind": "source",
+          "source_sha256": "7d988ebe910ad5ffad782bdd6461ef7361309592135b174ee139dc31979abfc2"
+        },
+        {
+          "path": "python/sglang/srt/observability/trace.py",
+          "line": 221,
+          "kind": "source",
+          "source_sha256": "7d988ebe910ad5ffad782bdd6461ef7361309592135b174ee139dc31979abfc2"
+        }
+      ]
+    }
+  },
+  {
+    "id": "diagnostic.metric_adapter_contract",
+    "name": "指标适配与标签隔离",
+    "kind": "obligation",
+    "phase": "diagnostic",
+    "state_scope": "diagnostic_artifact",
+    "conditions": [
+      "metric_adapter_context"
+    ],
+    "property": "指标适配器按声明规则转换名称、桶边界和调用参数，将数值与对应标签传入指标后端；不同标签对象保持隔离，依赖缺失与非法标记调用按约定处理。",
+    "observable": [
+      "metric_name",
+      "metric_kind",
+      "boundaries",
+      "value",
+      "tags",
+      "backend_call",
+      "dependency_error"
+    ],
+    "oracle": "用记录调用的指标后端核对操作、数值、标签及桶参数，检查标签副本、错误调用及采集器类绑定。",
+    "framework_scope": [
+      "sglang"
+    ],
+    "semantic_domain": "diagnostic_support",
+    "evidence": {
+      "sglang": [
+        {
+          "path": "python/sglang/srt/observability/ray_wrappers.py",
+          "line": 69,
+          "kind": "source",
+          "source_sha256": "20f76d1316d3db577f9bc55c65e7f671b7a3791e6c4f516f3bd80d0712300924"
+        }
+      ]
+    }
+  },
+  {
+    "id": "diagnostic.baseline_artifact_lifecycle",
+    "name": "验证基线材料的选择与保存",
+    "kind": "obligation",
+    "phase": "diagnostic",
+    "state_scope": "diagnostic_artifact",
+    "conditions": [
+      "baseline_artifact_context"
+    ],
+    "property": "验证基线按模型、采集签名和记录次序定位；保存、覆盖、归档和删除遵守声明的材料命名与保留策略，远端临时故障按约定重试。",
+    "observable": [
+      "selected_run_path",
+      "manifest_rows",
+      "staged_files",
+      "retained_runs",
+      "deleted_runs",
+      "retry_calls"
+    ],
+    "oracle": "用本地临时材料和模拟存储 API，核对选中路径、manifest 字段、暂存文件及上传删除重试调用；此处不比较模型计算结果。",
+    "framework_scope": [
+      "sglang"
+    ],
+    "semantic_domain": "diagnostic_support",
+    "evidence": {
+      "sglang": [
+        {
+          "path": "python/sglang/test/precision_baseline_store.py",
+          "line": 95,
+          "kind": "source",
+          "source_sha256": "2be0066e6d86ebfce6330769768d5c505b2588a13540f8d4707bedc606000e80"
+        },
+        {
+          "path": "python/sglang/test/precision_baseline_store.py",
+          "line": 199,
+          "kind": "source",
+          "source_sha256": "2be0066e6d86ebfce6330769768d5c505b2588a13540f8d4707bedc606000e80"
+        },
+        {
+          "path": "python/sglang/test/precision_baseline_store.py",
+          "line": 292,
+          "kind": "source",
+          "source_sha256": "2be0066e6d86ebfce6330769768d5c505b2588a13540f8d4707bedc606000e80"
+        }
+      ]
+    }
+  },
+  {
+    "id": "deployment.hook_execution_semantics",
+    "name": "扩展钩子的调用与替换语义",
+    "kind": "obligation",
+    "phase": "preflight",
+    "state_scope": "deployment",
+    "conditions": [
+      "hook_execution_context"
+    ],
+    "property": "扩展钩子按声明的前置、后置、环绕或替换模式传递参数和结果，保留类方法与静态方法的绑定，并遵守组合次序、引用传播和重复应用约束。",
+    "observable": [
+      "return_value",
+      "argument_sequence",
+      "call_order",
+      "descriptor_binding",
+      "propagated_reference",
+      "conflict_warning"
+    ],
+    "oracle": "在隔离的临时模块中构造函数和类，检查钩子组合后的返回值、调用次序、继承绑定、冲突信息与重复调用次数。",
+    "framework_scope": [
+      "sglang"
+    ],
+    "semantic_domain": "inference_request",
+    "evidence": {
+      "sglang": [
+        {
+          "path": "python/sglang/srt/plugins/hook_registry.py",
+          "line": 69,
+          "kind": "source",
+          "source_sha256": "fe214acac324cb2f019aa1dffe1ddcb6e4691862fdd1b6a0ad5033d8167e31e9"
+        },
+        {
+          "path": "python/sglang/srt/plugins/hook_registry.py",
+          "line": 352,
+          "kind": "source",
+          "source_sha256": "fe214acac324cb2f019aa1dffe1ddcb6e4691862fdd1b6a0ad5033d8167e31e9"
+        }
+      ]
+    }
+  },
+  {
+    "id": "scheduling.load_snapshot_delivery",
+    "name": "负载快照的按副本传递",
+    "kind": "obligation",
+    "phase": "scheduling",
+    "state_scope": "shared",
+    "conditions": [
+      "load_snapshot_transport_context"
+    ],
+    "property": "负载快照按副本标识传给读取方，读取结果保留对应字段及最新观测值；尚未发布时返回空结果，传输资源按声明方式关闭。",
+    "observable": [
+      "rank",
+      "load_fields",
+      "timestamp",
+      "latest_snapshot",
+      "empty_result",
+      "transport_cleanup"
+    ],
+    "oracle": "在本地共享文件和 IPC 通道写入带 rank 的显式快照，核对读取字段、更新与空结果；关闭后检查 IPC 资源。",
+    "framework_scope": [
+      "sglang"
+    ],
+    "semantic_domain": "inference_request",
+    "evidence": {
+      "sglang": [
+        {
+          "path": "python/sglang/srt/managers/load_snapshot.py",
+          "line": 492,
+          "kind": "source",
+          "source_sha256": "7be3cb284dc95d3dc120cf379852a1ad10c1f3b00d73c79ee2ce0924fded8900"
+        },
+        {
+          "path": "python/sglang/srt/managers/load_snapshot.py",
+          "line": 593,
+          "kind": "source",
+          "source_sha256": "7be3cb284dc95d3dc120cf379852a1ad10c1f3b00d73c79ee2ce0924fded8900"
+        }
+      ]
+    }
+  }
+]

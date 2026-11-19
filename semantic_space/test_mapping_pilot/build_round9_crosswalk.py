@@ -8,6 +8,7 @@ from __future__ import annotations
 import ast, csv, hashlib, json
 from collections import Counter
 from pathlib import Path
+from reviewed_batches import source_review_corrections, apply_source_review_correction
 HERE=Path(__file__).resolve().parent
 BATCH=HERE/'round9_work'
 PROJECT=HERE.parents[3]
@@ -39,6 +40,7 @@ def main(batch=None, label="round9", names=None, prior=()):
         existing.update(key(r) for r in read(HERE/name))
     existing.update(key(r) for r in read(HERE.parent/'oracle-review-queue.tsv') if r['source_review_status']=='mapped' and r['source_reviewed_units'])
     units={u['id'] for u in json.loads((HERE.parent/'space_seed.json').read_text())['units']}
+    corrections = source_review_corrections(HERE)
     cache={};out={};pending=[];receipts=[]
     def source(snapshot,path):
         k=(snapshot,path)
@@ -62,7 +64,8 @@ def main(batch=None, label="round9", names=None, prior=()):
                 assert k in index,k
                 assert all(r[x].strip() for x in FIELDS),k
                 if k in existing:continue
-                if r['unit_id'] not in units or 'candidate' in r['rule_id']:
+                r, correction = apply_source_review_correction(r, corrections)
+                if not set(r['unit_id'].split(';')) <= units or 'candidate' in r['rule_id']:
                     pending.append({**r,'review_file':str(path.relative_to(HERE)),'reason':'已核查具体检查内容，验证空间中的新单元尚未接入'})
                     continue
                 digest,lines,nodes=source(r['snapshot'],r['path'])
@@ -86,7 +89,10 @@ def main(batch=None, label="round9", names=None, prior=()):
                     check_hashes[check_path]=check_digest
                 assert k not in out or out[k]==r,('conflicting review',k)
                 out[k]=r
-                receipts.append({'key':k,'review_file':str(path.relative_to(HERE)),'source_sha256':digest,'oracle_source_sha256':check_hashes})
+                receipt={'key':k,'review_file':str(path.relative_to(HERE)),'source_sha256':digest,'oracle_source_sha256':check_hashes}
+                if correction:
+                    receipt['classification_correction'] = correction
+                receipts.append(receipt)
     rows=sorted(out.values(),key=lambda r:(r['snapshot'],r['path'],int(r['line']),r['test_name']))
     with (HERE/f'reviewed-{label}-crosswalk.tsv').open('w',newline='',encoding='utf-8') as f:
         w=csv.DictWriter(f,FIELDS,delimiter='\t',lineterminator='\n');w.writeheader();w.writerows(rows)

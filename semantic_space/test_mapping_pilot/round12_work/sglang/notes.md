@@ -1,0 +1,7 @@
+本批逐项阅读9个SGLang请求、转换与解析测试文件，提交211项性质映射，覆盖163项既有单元、48项拟新增单元。另有3项仅构造结果容器或验证Python结构协议，作为辅助记录。
+
+保留每项完整测试体、输入赋值、实际调用、精确断言，以及同文件fixture和辅助函数；24个测试或实现文件均记录SHA-256。未运行上游测试，不以Mock响应代表模型推理结果。
+
+拟新增4项分别为转写可见文本投影（19）、推理解析器初始状态（14）、模板内容表示选择（11）与预处理配置结构检查（4）。后两项分别只检查格式选择和配置类型错误，未强归为模板渲染或完整部署正确性。所有拟新增单元framework_scope为sglang，分别引用reasoning_parser_context、chat_template_profile及configuration_resolution_profile；转写投影另附结构化条件transcription_projection_context，待统一空间审查。
+
+crosswalk.tsv为全部映射，existing-units-crosswalk.tsv可先导入既有单元；proposed-units-crosswalk.tsv需待新增单元核定。oracle_source全部为path:line。文件哈希、唯一身份、有效源码行号及单元引用检查通过。

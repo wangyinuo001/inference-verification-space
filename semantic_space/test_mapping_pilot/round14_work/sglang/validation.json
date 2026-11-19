@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "mapped": 225,
+  "supporting_records": 12,
+  "hashed_files": 20,
+  "proposed_units": 5,
+  "checks": [
+    "unique identities",
+    "source SHA-256",
+    "test body SHA-256",
+    "pure oracle anchors",
+    "assertion locations",
+    "actual definition anchors",
+    "condition references"
+  ],
+  "upstream_tests_executed": false,
+  "GPU_used": false
+}

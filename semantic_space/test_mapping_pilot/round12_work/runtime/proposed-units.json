@@ -1,0 +1,297 @@
+[
+  {
+    "id": "compute.batch_partition_relation",
+    "name": "批次拆分与重组对应",
+    "phase": "model_execution",
+    "conditions": [
+      "request_batch_profile",
+      "parallel_topology",
+      "execution_variant",
+      "request_phase"
+    ],
+    "property": "批次按请求与 token 边界划分后，各切片的长度、位置、缓存槽位及填充标记与原批次对应；按约定重排或合并后保留原始数据次序。",
+    "observable": [
+      "request_indices",
+      "query_start_loc",
+      "seq_lens",
+      "slot_mapping",
+      "padding_mask",
+      "merged_hidden_states"
+    ],
+    "kind": "obligation",
+    "framework_scope": [
+      "vllm"
+    ],
+    "state_scope": "shared",
+    "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/v1/worker/gpu/ubatch_utils.py",
+          "line": 54,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/worker/gpu/pcp_manager.py",
+          "line": 330,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "id": "compute.microbatch_failure_delivery",
+    "name": "微批执行错误归属与返回",
+    "phase": "model_execution",
+    "conditions": [
+      "execution_variant",
+      "request_batch_profile"
+    ],
+    "property": "微批执行中出现异常时，将错误与对应微批标识一起交付调用方；在被检验的失败时序下，调用线程和失败微批线程能够退出。",
+    "observable": [
+      "exception_type",
+      "cause",
+      "microbatch_id",
+      "thread_alive"
+    ],
+    "kind": "obligation",
+    "framework_scope": [
+      "vllm"
+    ],
+    "state_scope": "shared",
+    "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/v1/worker/gpu/ubatch_utils.py",
+          "line": 553,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "id": "cache.transfer_request_byte_ranges",
+    "name": "缓存传输的请求范围与字节对应",
+    "phase": "transfer",
+    "conditions": [
+      "transfer_topology",
+      "parallel_topology",
+      "execution_layout",
+      "cache_state"
+    ],
+    "property": "传输描述符把同一请求的逻辑 token 和缓存组件对应到本地与远端页；写入落在该请求拥有的区间内，所需页被完整覆盖，接收后的尾部按声明规则处理。",
+    "observable": [
+      "local_descriptors",
+      "remote_descriptors",
+      "request_owned_ranges",
+      "covered_tokens",
+      "destination_values",
+      "untouched_bytes"
+    ],
+    "kind": "obligation",
+    "framework_scope": [
+      "vllm"
+    ],
+    "state_scope": "shared",
+    "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/distributed/kv_transfer/kv_connector/v1/nixl/base_worker.py",
+          "line": 2193,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/distributed/kv_transfer/kv_connector/v1/nixl/pull_worker.py",
+          "line": 138,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "id": "cache.storage_retention_mask",
+    "name": "缓存保留与装载范围",
+    "phase": "cache",
+    "conditions": [
+      "operator_profile",
+      "cache_state",
+      "execution_layout",
+      "speculative_mode"
+    ],
+    "property": "缓存保存和装载掩码按 Attention 窗口、块大小、保留间隔与回放需求确定；命中范围内需要的块保持可恢复，掩码在不同长度和缓存组之间遵循声明的对应关系。",
+    "observable": [
+      "store_mask",
+      "lookup_mask",
+      "load_mask",
+      "cache_group",
+      "block_boundary"
+    ],
+    "kind": "obligation",
+    "framework_scope": [
+      "vllm"
+    ],
+    "state_scope": "shared",
+    "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/coordinator.py",
+          "line": 264,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "id": "transfer.connector_delegation",
+    "name": "传输组件的操作转发与结果归属",
+    "phase": "transfer",
+    "conditions": [
+      "transfer_topology",
+      "deployment_configuration",
+      "request_phase"
+    ],
+    "property": "组合或包装传输组件将操作参数转发到按角色、命中和资源规则选定的子组件，返回对应结果；子组件元数据按位置和类型保留，需广播的通知传递到所有相应组件。",
+    "observable": [
+      "selected_connector",
+      "call_arguments",
+      "returned_result",
+      "child_metadata",
+      "operation_notifications"
+    ],
+    "kind": "obligation",
+    "framework_scope": [
+      "vllm"
+    ],
+    "state_scope": "shared",
+    "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/distributed/kv_transfer/kv_connector/v1/multi_connector.py",
+          "line": 469,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/connector.py",
+          "line": 382,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "id": "transfer.operation_metrics",
+    "name": "传输操作的统计与报告",
+    "phase": "transfer",
+    "conditions": [
+      "transfer_topology",
+      "concurrent_request_profile",
+      "diagnostic_dump_pair"
+    ],
+    "property": "传输成功、失败、过期和耗时样本按引擎及组件归属汇总；聚合、序列化、快照与重置保持计数和样本对应，报告类型符合指标接口。",
+    "observable": [
+      "transfer_count",
+      "failure_count",
+      "bytes",
+      "duration",
+      "engine_label",
+      "snapshot",
+      "prometheus_sample"
+    ],
+    "kind": "obligation",
+    "framework_scope": [
+      "vllm"
+    ],
+    "state_scope": "shared",
+    "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/stats.py",
+          "line": 93,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/distributed/kv_transfer/kv_connector/v1/multi_connector.py",
+          "line": 469,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "id": "transfer.control_message_contract",
+    "name": "传输控制消息编码与解析",
+    "phase": "transfer",
+    "conditions": [
+      "message_transport_profile",
+      "transfer_topology"
+    ],
+    "property": "查询、重置与响应消息具有可区分的操作标记；序列化和解析保留命中长度、尾部键及声明字段，调用方按响应状态得到对应结果。",
+    "observable": [
+      "message_tag",
+      "encoded_frames",
+      "decoded_response",
+      "success_status"
+    ],
+    "kind": "obligation",
+    "framework_scope": [
+      "vllm"
+    ],
+    "state_scope": "shared",
+    "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/protocol.py",
+          "line": 53,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "id": "cache.async_lookup_lifecycle",
+    "name": "异步缓存查询的复用与失效",
+    "phase": "cache",
+    "conditions": [
+      "cache_state",
+      "request_phase",
+      "inflight_resource_profile",
+      "concurrent_request_profile"
+    ],
+    "property": "异步查询按请求和查询内容保存 pending/完成状态；相同有效查询复用结果，内容变化或过期按规则刷新，取消、重置和关闭清除关联状态并限制新查询；预取数量遵守容量限制。",
+    "observable": [
+      "lookup_future",
+      "request_id",
+      "query_content",
+      "pending_count",
+      "cached_result",
+      "lookup_count",
+      "discarded_entries"
+    ],
+    "kind": "obligation",
+    "framework_scope": [
+      "vllm"
+    ],
+    "state_scope": "shared",
+    "oracle": "逐入口记录的实际值、结构、异常或调用断言；对应测试的替身、执行层次与输入条件见 evidence/crosswalk。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/worker.py",
+          "line": 2810,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/distributed/kv_transfer/kv_connector/v1/mooncake/store/scheduler.py",
+          "line": 244,
+          "kind": "source"
+        }
+      ]
+    }
+  }
+]

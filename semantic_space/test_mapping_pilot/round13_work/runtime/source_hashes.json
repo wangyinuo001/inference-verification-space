@@ -1,0 +1,8 @@
+{
+  "tests/v1/kv_connector/unit/test_lmcache_connector.py": "cd403739f0511e6994d4a98b872cd3e55f74bddee54aeda279de698d9789980e",
+  "tests/v1/kv_connector/unit/test_mooncake_connector.py": "4e07b1d84390ef706556fea3d1e7c2f65eba8e6531a7891f861d8d4a3c21d6cf",
+  "tests/v1/kv_connector/unit/test_moriio_connector.py": "5589d58dc02ed3a3cdf8411b85c95c2210e11a6cf055abe90c4e61262537a8ae",
+  "tests/v1/kv_connector/unit/test_umbp_core.py": "508267ebe77441a06c9e713d191c0018e4f43a33a244b8ca3f427ea0772e9f6e",
+  "tests/v1/kv_connector/unit/test_umbp_embedded.py": "9a9775ad8120cf11f2b0e1516cd82e0c8195ffcac465971c318bdb49a451aa79",
+  "tests/v1/kv_connector/unit/test_umbp_hybrid.py": "6a0bb38e8ac5d960aae9ff53a9323d14685fd3f82a977e5f0e175045a01b78ca"
+}

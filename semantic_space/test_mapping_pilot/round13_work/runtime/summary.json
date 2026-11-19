@@ -1,0 +1,37 @@
+{
+  "mapped_entries": 219,
+  "reviewed_files": 6,
+  "already_reviewed_excluded": 0,
+  "by_file": {
+    "tests/v1/kv_connector/unit/test_lmcache_connector.py": 24,
+    "tests/v1/kv_connector/unit/test_mooncake_connector.py": 63,
+    "tests/v1/kv_connector/unit/test_moriio_connector.py": 26,
+    "tests/v1/kv_connector/unit/test_umbp_core.py": 63,
+    "tests/v1/kv_connector/unit/test_umbp_embedded.py": 20,
+    "tests/v1/kv_connector/unit/test_umbp_hybrid.py": 23
+  },
+  "by_unit": {
+    "abort.other_requests_progress": 2,
+    "cache.event_payload_binding": 24,
+    "cache.hit_accounting": 10,
+    "cache.lifetime": 14,
+    "cache.namespace": 12,
+    "cache.offload_job_completion": 17,
+    "cache.state_invariants": 1,
+    "cache.storage_existence_accounting": 2,
+    "cache.storage_layout_mapping": 49,
+    "cache.storage_retention_mask": 26,
+    "cache.tier_transfer_content": 4,
+    "cache.transfer_address_registration": 1,
+    "deployment.configuration_admissibility": 7,
+    "deployment.effective_configuration": 12,
+    "deployment.network_endpoint_representation": 4,
+    "deployment.runtime_mode_binding": 1,
+    "disagg.kv_mapping": 6,
+    "disagg.transfer_gate": 9,
+    "transfer.control_message_contract": 1,
+    "transfer.layout_handshake_reuse": 5,
+    "transfer.peer_registration": 12
+  },
+  "runtime_execution": false
+}

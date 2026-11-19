@@ -1,0 +1,130 @@
+[
+  {
+    "path": "vllm/distributed/kv_transfer/kv_connector/v1/decode_bench_connector.py",
+    "line": 563,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "fd9b4943de3d9b0edc49f302d6ec11ca384d48e602380ca991c4e0ad241afa31",
+    "source_excerpt": "def _fill_blocks(self, group_idx: int, block_ids: list[int], num_tokens: int):\n        \"\"\"Fill specified blocks with dummy values for a specific KV cache group.\n\n        Args:\n            group_idx: The KV cache group index to fill\n            block_ids: List of block IDs to fill in this group\n            num_tokens: Total number of tokens to fill across these blocks\n\n        \"\"\"\n        if not block_ids:\n            return\n\n        assert self.kv_caches is not None\n\n        # Circular buffers may pack non-floating metadata alongside their\n        # floating-point state, so arbitrary fill values are not representation-safe.\n        fill_mean, fill_std = (\n            (0.0, 0.0)\n            if group_idx in self._zero_fill_group_ids\n            else (self.fill_mean, self.fill_std)\n        )\n\n        # Get the layers that belong to this group\n        layer_names = self.group_to_layers.get(group_idx, [])\n\n        # Fill only the layers in this group\n        for layer_name in layer_names:\n            if layer_name not in self.kv_caches:\n                logger.warning(\n                    \"DecodeBenchConnector: Layer %s not found in KV caches\", layer_name\n                )\n                continue\n\n            kv_cache = self.kv_caches[layer_name]\n\n            # Attention layers store KV as a single block-indexed tensor whose\n            # first dim is num_blocks; fill the requested block rows. Hybrid /\n            # linear-attention layers (e.g. Mamba, Kimi Delta Attention) store\n            # their state as a list/tuple of tensors that are NOT block-indexed\n            # — each tensor is a single state buffer with no num_blocks\n            # dimension — so fill each tensor in its entirety with the same\n            # dummy values.\n            if isinstance(kv_cache, torch.Tensor):\n                fill_dtype = self._fp8_dtypes.get(layer_name, kv_cache.dtype)\n                self._fill_block_tensor(\n                    kv_cache, block_ids, fill_mean, fill_std, fill_dtype\n                )\n            elif isinstance(kv_cache, (list, tuple)) and all(\n                isinstance(t, torch.Tensor) for t in kv_cache\n            ):\n                for state_tensor in kv_cache:\n                    self._fill_tensor(\n                        state_tensor, fill_mean, fill_std, state_tensor.dtype\n                    )\n            else:\n                logger.warning_once(\n                    \"DecodeBenchConnector: skipping fill for layer %s whose KV \"\n                    \"cache is %s, not a tensor or a list/tuple of tensors.\",\n                    layer_name,\n                    type(kv_cache).__name__,\n                )\n                continue\n\n        logger.debug(\n            \"DecodeBenchConnector: Filled %d blocks in group %d with %s values \"\n            \"(mean=%.3f, std=%.3f)\",\n            len(block_ids),\n            group_idx,\n            \"random\" if fill_std > 0 else \"constant\",\n            fill_mean,\n            fill_std,\n        )"
+  },
+  {
+    "path": "vllm/distributed/kv_transfer/kv_connector/v1/decode_bench_connector.py",
+    "line": 679,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "fd9b4943de3d9b0edc49f302d6ec11ca384d48e602380ca991c4e0ad241afa31",
+    "source_excerpt": "def _make_fill_values(\n        self,\n        size: tuple[int, ...],\n        device: torch.device,\n        dtype: torch.dtype,\n        fill_mean: float,\n        fill_std: float,\n    ) -> torch.Tensor:\n        \"\"\"Create constant or random fill values of ``dtype``, clamped to its\n        finite range. Non-floating dtypes (packed layouts) are filled with\n        zeros.\n        \"\"\"\n        if not dtype.is_floating_point:\n            if fill_mean or fill_std:\n                logger.warning_once(\n                    \"DecodeBenchConnector: %s KV caches do not hold plain \"\n                    \"floating-point values; filling them with zeros.\",\n                    dtype,\n                )\n            return torch.zeros(size, dtype=dtype, device=device)\n\n        finfo = torch.finfo(dtype)\n        if fill_std > 0:\n            sample_dtype = torch.float32\n            if dtype in (torch.float16, torch.bfloat16, torch.float32, torch.float64):\n                sample_dtype = dtype\n            values = torch.normal(\n                fill_mean, fill_std, size=size, device=device, dtype=sample_dtype\n            )\n            return values.clamp_(finfo.min, finfo.max).to(dtype)\n        fill_mean = min(max(fill_mean, finfo.min), finfo.max)\n        return torch.full(size, fill_mean, dtype=dtype, device=device)"
+  },
+  {
+    "path": "vllm/v1/worker/gpu_worker.py",
+    "line": 1744,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "a60f9d8c4935eb8e8949ea706a5922aae5df711c32599236319e6b145ad404da",
+    "source_excerpt": "def _start_weight_update(self, is_draft: bool = False) -> None:\n        self._check_weight_transfer_engine()\n        assert self.weight_transfer_engine is not None\n\n        if is_draft and not self.weight_transfer_engine.supports_draft_weight_update:\n            raise RuntimeError(\n                f\"{type(self.weight_transfer_engine).__name__} does not support \"\n                \"draft model weight updates.\"\n            )\n\n        if self._weight_update_active:\n            raise RuntimeError(\n                \"start_weight_update called while a weight update is already \"\n                \"active. Call finish_weight_update first.\"\n            )\n\n        draft_model = self.get_draft_model() if is_draft else None\n        try:\n            if is_draft:\n                self._set_draft_weight_update_target()\n            if draft_model is not None:\n                # Load through the unquantized target head, as without\n                # draft_lm_head_quantization; finish re-derives the copies.\n                share_source_lm_heads(draft_model)\n            # Starting may already move weights; only a successful finish\n            # restores them.\n            self._incomplete_weight_updates.add(is_draft)\n            self.weight_transfer_engine.start_weight_update()\n        except BaseException:\n            self.weight_transfer_engine.reset_weight_update_target()\n            if draft_model is not None:\n                restore_quantized_lm_heads(draft_model, refresh=False)\n            raise\n        # Engines may receive kernel-format weights, needing no room; so warn\n        # rather than fail when short.\n        self._weight_update_kv_cache_loan.enter_context(\n            kv_cache_lent_for_weight_update(\n                getattr(self.model_runner, \"extensible_kv_cache\", None),\n                draft_model or self.model_runner.get_model(),\n                reclaimable=self._kv_cache_reclaimable,\n                fail_if_short=False,\n            )\n        )\n        self._weight_update_active = True\n        self._weight_update_is_draft = is_draft"
+  },
+  {
+    "path": "vllm/v1/worker/gpu_worker.py",
+    "line": 1790,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "a60f9d8c4935eb8e8949ea706a5922aae5df711c32599236319e6b145ad404da",
+    "source_excerpt": "def update_weights(self, update_info: dict | list[dict]) -> None:\n        \"\"\"Receive one weight update chunk from the trainer.\n\n        start_weight_update must be called before update_weights and\n        finish_weight_update must be called after all chunks have been sent.\n        Every chunk loads into whichever model the session's start_weight_update\n        / start_draft_weight_update call selected.\n\n        Args:\n            update_info: Backend-specific update info, or a list indexed by\n                global worker rank across data parallel replicas.\n\n        \"\"\"\n        self._check_weight_transfer_engine()\n        assert self.weight_transfer_engine is not None\n\n        if not self._weight_update_active:\n            raise RuntimeError(\n                \"start_weight_update must be called before update_weights.\"\n            )\n\n        with set_current_vllm_config(self.vllm_config):\n            try:\n                if isinstance(update_info, list):\n                    parallel_config = self.vllm_config.parallel_config\n                    local_update_info = update_info[\n                        parallel_config.data_parallel_index * parallel_config.world_size\n                        + self.rank\n                    ]\n                else:\n                    local_update_info = update_info\n                self.weight_transfer_engine.update_weights(local_update_info)\n            except BaseException:\n                self._end_weight_update(refresh=False)\n                raise"
+  },
+  {
+    "path": "vllm/v1/worker/gpu_worker.py",
+    "line": 1836,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "a60f9d8c4935eb8e8949ea706a5922aae5df711c32599236319e6b145ad404da",
+    "source_excerpt": "def finish_weight_update(self) -> None:\n        \"\"\"Finish the current weight update session.\"\"\"\n        self._check_weight_transfer_engine()\n        assert self.weight_transfer_engine is not None\n\n        if not self._weight_update_active:\n            raise RuntimeError(\n                \"finish_weight_update called without a matching start_weight_update.\"\n            )\n\n        with set_current_vllm_config(self.vllm_config):\n            try:\n                self.weight_transfer_engine.finish_weight_update()\n            except BaseException:\n                if direct_reload_enabled():\n                    # a failed direct finish cannot be retried: end the\n                    # session so that a new full update can start\n                    self._end_weight_update(refresh=False)\n                raise\n            finally:\n                self._weight_update_kv_cache_loan.close()\n            self._end_weight_update(refresh=True)\n            self._incomplete_weight_updates.discard(self._weight_update_is_draft)\n\n        # Weight transfer bypasses GPUModelRunner.reload_weights().\n        if not self._weight_update_is_draft:\n            self.model_runner.reset_lora_state()"
+  },
+  {
+    "path": "vllm/v1/worker/extensible_kv_cache.py",
+    "line": 177,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "bab57da1737760d3ef45d816f42a6425c5d6ced3992d4261b1d1f344a5974c7b",
+    "source_excerpt": "def commit(\n        self, num_blocks: int, defragment: bool = False, shrink: bool = False\n    ) -> None:\n        \"\"\"Back the first num_blocks blocks; new blocks are zeroed.\n\n        Grow-only unless shrink is set, which remaps a smaller prefix and\n        discards contents. defragment remaps each segment as one driver\n        allocation (discarding contents): UCX cannot RDMA a range spanning\n        several allocations.\n        \"\"\"\n        num_blocks = min(num_blocks, self.capacity_blocks)\n        sizes = [num_blocks * stride for stride in self.segment_strides]\n        remap = (\n            defragment and not all(self.buffer.segments_backed_by_one_chunk(sizes))\n        ) or (shrink and num_blocks < self.num_committed_blocks)\n        if remap:\n            self.buffer.release_physical()\n            self.num_committed_blocks = 0\n        if num_blocks <= self.num_committed_blocks:\n            return\n        self.buffer.resize_segments_(sizes, zero_new=True)\n        self.num_committed_blocks = num_blocks\n        logger.debug(\n            \"Committed %d of %d KV cache blocks (%.2f GiB physical).\",\n            num_blocks,\n            self.capacity_blocks,\n            self.physical_bytes / (1 << 30),\n        )"
+  },
+  {
+    "path": "vllm/v1/worker/extensible_kv_cache.py",
+    "line": 206,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "bab57da1737760d3ef45d816f42a6425c5d6ced3992d4261b1d1f344a5974c7b",
+    "source_excerpt": "def committed_views(\n        self,\n        kv_cache_config: KVCacheConfig,\n        layout: KVCacheLayout,\n        kernel_block_sizes: list[int] | None = None,\n    ) -> dict[str, torch.Tensor] | None:\n        \"\"\"Per-layer views whose storage spans exactly the committed blocks.\n\n        `kv_cache_config.num_blocks` must equal the committed count. Connectors\n        derive extents from `untyped_storage().nbytes()`, so they must not see the\n        reservation. Host-resident layers are omitted. None for layouts whose\n        layers span several segments.\n        \"\"\"\n        if not layout.is_block_compact:\n            return None\n        assert kv_cache_config.num_blocks == self.num_committed_blocks\n        kv_caches: dict[str, torch.Tensor] = {}\n        for tensor in kv_cache_config.kv_cache_tensors:\n            if tensor.host_resident:\n                continue\n            group_id, spec = layer_spec_for_tensor(kv_cache_config, tensor)\n            if not spec.has_layer_views:\n                # Laid out by the layer itself over the raw buffer, as at\n                # allocation, now over just the committed blocks.\n                assert layout.is_block_outermost\n                raw_view = self.buffer.segment_view(0)\n                kv_caches.update((name, raw_view) for name in tensor.layers)\n                continue\n            kernel_block_size = layer_kernel_block_size(group_id, kernel_block_sizes)\n            for layer_idx, layer_name in enumerate(tensor.layers):\n                segment, offset = self._locate(\n                    tensor.offset + layer_idx * tensor.layer_stride\n                )\n                (view,) = create_kv_cache_views(\n                    self.buffer.segment_view(segment),\n                    spec,\n                    kv_cache_config.num_blocks,\n                    layout,\n                    replace(tensor, layers=[layer_name], offset=offset),\n                    kernel_block_size=kernel_block_size,\n                )\n                kv_caches[layer_name] = view\n        return kv_caches"
+  },
+  {
+    "path": "vllm/v1/worker/gpu_worker.py",
+    "line": 465,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "a60f9d8c4935eb8e8949ea706a5922aae5df711c32599236319e6b145ad404da",
+    "source_excerpt": "def _scoped_allocator_max_split(self, max_split_size_mb: int):\n        \"\"\"Limit CUDA/ROCm allocator splitting, restoring settings on exit.\"\"\"\n        if (\n            not current_platform.is_cuda_alike()\n            or torch.cuda.memory.get_allocator_backend() != \"native\"\n        ):\n            yield\n            return\n\n        get_settings = getattr(torch._C, \"_accelerator_getAllocatorSettings\", None)\n        if get_settings is not None:\n            original_settings = get_settings()\n        else:\n            original_settings = torch.cuda.memory._snapshot()[\"allocator_settings\"][\n                \"PYTORCH_CUDA_ALLOC_CONF\"\n            ]\n\n        # The setter resets other allocator options unless they are included.\n        prefix = original_settings.strip().rstrip(\",\")\n        settings = f\"max_split_size_mb:{max_split_size_mb}\"\n        if prefix:\n            settings = f\"{prefix},{settings}\"\n        try:\n            torch._C._accelerator_setAllocatorSettings(settings)\n            yield\n        finally:\n            torch._C._accelerator_setAllocatorSettings(original_settings)"
+  },
+  {
+    "path": "vllm/v1/worker/extensible_kv_cache.py",
+    "line": 630,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "bab57da1737760d3ef45d816f42a6425c5d6ced3992d4261b1d1f344a5974c7b",
+    "source_excerpt": "def kv_cache_lent_for_weight_update(\n    kv_cache: ExtensibleKVCache | None,\n    model: torch.nn.Module,\n    *,\n    reclaimable: bool,\n    fail_if_short: bool,\n) -> Iterator[None]:\n    \"\"\"Make room for a layerwise weight update of model within the context.\n\n    Only an extensible KV cache (kv_cache, None for a standard one) leaves\n    the free memory short, since it keeps free just the transients warmup\n    measured. When short, release the cache's physical memory for the\n    context if it holds nothing to keep (reclaimable); else fail before any\n    weight changes, when not even the largest layer fits and fail_if_short,\n    or warn. Torch's memory cap is lifted for the context.\n    \"\"\"\n    if kv_cache is None:\n        yield\n        return\n    lent = _release_for_weight_update(\n        kv_cache, model, reclaimable=reclaimable, fail_if_short=fail_if_short\n    )\n    # Weight processing allocates through torch, beyond the cap sized for\n    # serving.\n    torch_memory_limit = kv_cache.torch_memory_limit\n    if torch_memory_limit is not None:\n        kv_cache.set_torch_memory_limit(None)\n    try:\n        yield\n    finally:\n        if lent or torch_memory_limit is not None:\n            torch.accelerator.empty_cache()\n        if lent:\n            kv_cache.recommit()\n            if has_kv_transfer_group():\n                get_kv_transfer_group().restore_kv_caches()\n        if torch_memory_limit is not None:\n            kv_cache.set_torch_memory_limit(torch_memory_limit)"
+  },
+  {
+    "path": "vllm/v1/worker/extensible_kv_cache.py",
+    "line": 347,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "bab57da1737760d3ef45d816f42a6425c5d6ced3992d4261b1d1f344a5974c7b",
+    "source_excerpt": "def set_torch_memory_limit(self, num_bytes: int | None) -> None:\n        \"\"\"Cap what torch's caching allocator reserves on this device, or lift\n        the cap (None). At the cap it releases cached segments before growing,\n        rather than taking memory other allocations need.\"\"\"\n        self.torch_memory_limit = num_bytes\n        total = torch.accelerator.get_memory_info(self.buffer.device)[1]\n        fraction = 1.0 if num_bytes is None else min(num_bytes / total, 1.0)\n        # torch.accelerator has no per-process memory fraction.\n        torch.cuda.set_per_process_memory_fraction(fraction, self.buffer.device)"
+  },
+  {
+    "path": "vllm/v1/worker/gpu_worker.py",
+    "line": 295,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "a60f9d8c4935eb8e8949ea706a5922aae5df711c32599236319e6b145ad404da",
+    "source_excerpt": "def _get_sleep_parameters(self, model: nn.Module) -> dict[str, nn.Parameter]:\n        parameters = dict(model.named_parameters())\n        draft = self.get_draft_model()\n        if draft is not None:\n            shared = {id(parameter) for parameter in parameters.values()}\n            parameters.update(\n                (f\"draft.{name}\", parameter)\n                for name, parameter in draft.named_parameters()\n                if id(parameter) not in shared\n            )\n        return parameters"
+  },
+  {
+    "path": "vllm/v1/worker/gpu_worker.py",
+    "line": 307,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "a60f9d8c4935eb8e8949ea706a5922aae5df711c32599236319e6b145ad404da",
+    "source_excerpt": "def _save_sleep_parameters(self, model: nn.Module) -> None:\n        patterns = self.model_config.sleep_preserve_parameter_names\n        if not patterns:\n            self._sleep_saved_parameters = {}\n            return\n        parameters = self._get_sleep_parameters(model)\n        names: set[str] = set()\n        for pattern in patterns:\n            matches = fnmatch_filter(parameters, pattern)\n            if not matches and pattern != \"draft.*\":\n                raise ValueError(f\"No parameter matches sleep retention: {pattern}\")\n            names.update(matches)\n        self._sleep_saved_parameters = {\n            name: param.detach().to(\"cpu\")\n            for name, param in parameters.items()\n            if name in names and not param.is_cpu\n        }"
+  },
+  {
+    "path": "vllm/v1/worker/gpu_worker.py",
+    "line": 326,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "a60f9d8c4935eb8e8949ea706a5922aae5df711c32599236319e6b145ad404da",
+    "source_excerpt": "def _restore_sleep_parameters(self, model: nn.Module) -> None:\n        parameters = self._get_sleep_parameters(model)\n        for name, value in self._sleep_saved_parameters.items():\n            parameters[name].copy_(value)\n        self._sleep_saved_parameters.clear()"
+  },
+  {
+    "path": "vllm/v1/worker/startup_plan.py",
+    "line": 41,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "8d2b05956a8dfd612df21d5046053f34298d0f34195b34529d15c68dc748edff",
+    "source_excerpt": "def compute_plan_fingerprint(\n    vllm_config: VllmConfig, rank: int, world_size: int\n) -> str:\n    \"\"\"Hash everything the profiled KV-cache memory value depends on.\n\n    ``VllmConfig.compute_hash()`` covers the vLLM version and the model,\n    cache, parallel, and compilation configs, but deliberately contains no\n    device identity (``DeviceConfig.compute_hash`` is empty), so device\n    name, total memory, compute capability, and the torch/CUDA build are\n    added here. The vLLM version is also pinned as an explicit factor so\n    version invalidation holds no matter how ``compute_hash`` evolves.\n    Rank is included because per-rank memory use differs under TP/PP.\n    Driver-only changes are not part of the key; the free-memory gate at\n    apply time bounds the residual risk.\n    \"\"\"\n    # Imported here (as VllmConfig.compute_hash does) to avoid a cycle with\n    # the top-level vllm package.\n    from vllm import __version__ as vllm_version\n\n    capability = current_platform.get_device_capability()\n    factors = {\n        \"schema\": PLAN_SCHEMA_VERSION,\n        \"vllm\": vllm_version,\n        \"vllm_config\": vllm_config.compute_hash(),\n        \"device_name\": current_platform.get_device_name(),\n        \"device_total_memory\": current_platform.get_device_total_memory(),\n        \"device_capability\": str(capability) if capability else \"\",\n        \"torch\": torch.__version__,\n        \"cuda\": torch.version.cuda or \"\",\n        \"rank\": rank,\n        \"world_size\": world_size,\n    }\n    digest = hashlib.sha256(json.dumps(factors, sort_keys=True).encode()).hexdigest()\n    return digest[:16]"
+  },
+  {
+    "path": "vllm/v1/worker/startup_plan.py",
+    "line": 87,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "8d2b05956a8dfd612df21d5046053f34298d0f34195b34529d15c68dc748edff",
+    "source_excerpt": "def _load_plan(fingerprint: str) -> dict | None:\n    \"\"\"Load a plan for this fingerprint; None if absent or unreadable.\"\"\"\n    path = _plan_path(fingerprint)\n    try:\n        with open(path) as f:\n            plan = json.load(f)\n    except FileNotFoundError:\n        return None\n    except (OSError, json.JSONDecodeError) as e:\n        logger.warning(\"Ignoring unreadable startup plan %s: %s\", path, e)\n        return None\n    if (\n        plan.get(\"schema\") != PLAN_SCHEMA_VERSION\n        or plan.get(\"fingerprint\") != fingerprint\n    ):\n        return None\n    return plan"
+  },
+  {
+    "path": "vllm/v1/worker/startup_plan.py",
+    "line": 134,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "8d2b05956a8dfd612df21d5046053f34298d0f34195b34529d15c68dc748edff",
+    "source_excerpt": "def maybe_apply_startup_plan(worker: \"Worker\") -> None:\n    \"\"\"If enabled and ``--kv-cache-memory`` was not set explicitly, apply a\n    persisted plan by setting ``worker.cache_config.kv_cache_memory_bytes``.\n    No-op unless ``VLLM_ENABLE_STARTUP_PLAN=1``.\"\"\"\n    if (\n        not envs.VLLM_ENABLE_STARTUP_PLAN\n        or worker.cache_config.kv_cache_memory_bytes is not None\n    ):\n        return\n    fingerprint = compute_plan_fingerprint(\n        worker.vllm_config, worker.rank, worker.parallel_config.world_size\n    )\n    plan = _load_plan(fingerprint)\n    if plan is None:\n        return\n    current_free_memory = worker.init_snapshot.free_memory\n    kv_bytes = _applicable_kv_cache_memory_bytes(plan, current_free_memory)\n    if kv_bytes is None:\n        return\n    logger.info(\n        \"Applying persisted startup plan (fingerprint %s): \"\n        \"kv_cache_memory_bytes=%d (%.2f GiB), recorded free-memory \"\n        \"baseline %.2f GiB, current %.2f GiB. Memory profiling will \"\n        \"be skipped.\",\n        fingerprint,\n        kv_bytes,\n        kv_bytes / (1 << 30),\n        plan[\"free_memory_baseline\"] / (1 << 30),\n        current_free_memory / (1 << 30),\n    )\n    worker.cache_config.kv_cache_memory_bytes = kv_bytes"
+  }
+]
