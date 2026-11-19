@@ -1,0 +1,234 @@
+[
+  {
+    "id": "cache.block_copy_relation",
+    "name": "缓存逻辑块复制",
+    "phase": "cache",
+    "conditions": [
+      "cache_state",
+      "execution_layout",
+      "numeric_format"
+    ],
+    "property": "按逻辑块索引复制对应缓存内容，保留未指定目标与物理填充区域，复制后的目标值等于声明源值。",
+    "observable": [
+      "source_blocks",
+      "destination_blocks",
+      "copied_values",
+      "unchanged_padding"
+    ],
+    "kind": "obligation",
+    "state_scope": "shared",
+    "oracle": "按逐入口显式断言检查状态、参数或实际数据；mock 控制测试和真实数据比较分别记录，见 crosswalk/evidence。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/v1/worker/utils.py",
+          "line": 933,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "id": "transfer.session_progress",
+    "name": "传输会话进展与失败恢复",
+    "phase": "transfer",
+    "conditions": [
+      "request_phase",
+      "inflight_resource_profile",
+      "transfer_topology"
+    ],
+    "property": "传输会话依据确认、就绪、完成、失败和截止时间进入对应状态；可重试、终止和隔离结果分别交付，尚未终止的在途访问按状态保留。",
+    "observable": [
+      "ack_status",
+      "transfer_state",
+      "deadline",
+      "completed_keys",
+      "retryable_keys",
+      "quarantined_handles"
+    ],
+    "kind": "obligation",
+    "state_scope": "shared",
+    "oracle": "按逐入口显式断言检查状态、参数或实际数据；mock 控制测试和真实数据比较分别记录，见 crosswalk/evidence。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/distributed/ec_transfer/ec_connector/cpu/session.py",
+          "line": 121,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/distributed/ec_transfer/ec_connector/cpu/session.py",
+          "line": 145,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "id": "transfer.session_binding",
+    "name": "传输会话身份与兼容条件",
+    "phase": "transfer",
+    "conditions": [
+      "transfer_topology",
+      "input_form",
+      "execution_layout"
+    ],
+    "property": "传输请求、确认与完成通知携带一致的会话和对象标识；版本与兼容信息匹配后才能授权，读操作的源和目标块按请求对应。",
+    "observable": [
+      "session_id",
+      "object_hash",
+      "compatibility_hash",
+      "ack_status",
+      "source_blocks",
+      "destination_blocks"
+    ],
+    "kind": "obligation",
+    "state_scope": "shared",
+    "oracle": "按逐入口显式断言检查状态、参数或实际数据；mock 控制测试和真实数据比较分别记录，见 crosswalk/evidence。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/distributed/ec_transfer/ec_connector/cpu/session.py",
+          "line": 294,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "id": "cache.offload_job_completion",
+    "name": "缓存卸载任务完成与失败结果",
+    "phase": "cache",
+    "conditions": [
+      "cache_storage_transition",
+      "storage_backend_profile",
+      "inflight_resource_profile"
+    ],
+    "property": "异步卸载任务按身份汇报完成或失败，pending 任务继续等待；提交、内存注册、轮询或清理异常按约定处理，结果不被遗漏或重复交付。",
+    "observable": [
+      "job_id",
+      "pending_jobs",
+      "success",
+      "successful_keys",
+      "completion_results",
+      "registered_handles"
+    ],
+    "kind": "obligation",
+    "state_scope": "shared",
+    "oracle": "按逐入口显式断言检查状态、参数或实际数据；mock 控制测试和真实数据比较分别记录，见 crosswalk/evidence。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/v1/kv_offload/tiering/obj/manager.py",
+          "line": 384,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/kv_offload/tiering/fs/manager.py",
+          "line": 278,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "id": "cache.cascade_orchestration",
+    "name": "多层缓存迁移与请求生命周期",
+    "phase": "cache",
+    "conditions": [
+      "cache_storage_transition",
+      "cache_state",
+      "concurrent_request_profile",
+      "storage_backend_profile"
+    ],
+    "property": "多层缓存根据各层命中与写入状态安排下沉和晋升，保留请求上下文；共享键不重复晋升，未完成写入延迟级联和请求结束，失败或重置清理相应编排状态。",
+    "observable": [
+      "lookup_result",
+      "submitted_jobs",
+      "request_context",
+      "pending_primary_stores",
+      "request_finalization",
+      "load_source"
+    ],
+    "kind": "obligation",
+    "state_scope": "shared",
+    "oracle": "按逐入口显式断言检查状态、参数或实际数据；mock 控制测试和真实数据比较分别记录，见 crosswalk/evidence。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/v1/kv_offload/tiering/manager.py",
+          "line": 911,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "id": "cache.host_mirror_ordering",
+    "name": "主机缓存镜像的执行次序与写入角色",
+    "phase": "cache",
+    "conditions": [
+      "execution_variant",
+      "storage_writer_role_profile",
+      "parallel_topology",
+      "cache_storage_transition"
+    ],
+    "property": "主机镜像按计算完成、设备传输和后续使用的依赖顺序提交；不同执行路径不重复或漏掉应镜像的层，共享区域只由指定写入者更新和确认。",
+    "observable": [
+      "event_waits",
+      "mirror_submissions",
+      "active_layers",
+      "transfer_completion",
+      "writer_rank"
+    ],
+    "kind": "obligation",
+    "state_scope": "shared",
+    "oracle": "按逐入口显式断言检查状态、参数或实际数据；mock 控制测试和真实数据比较分别记录，见 crosswalk/evidence。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/distributed/kv_transfer/kv_connector/v1/hisparse/worker.py",
+          "line": 895,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "id": "cache.layer_storage_binding",
+    "name": "模型层与缓存存储对应",
+    "phase": "model_execution",
+    "conditions": [
+      "execution_layout",
+      "operator_profile",
+      "cache_state",
+      "forward_buffer_context"
+    ],
+    "property": "模型层、执行器和缓存组绑定对应存储视图与跟踪状态；共享组复用同一状态，不同组隔离；重新绑定、复制与清理遵守地址和布局约束。",
+    "observable": [
+      "layer_cache",
+      "runner_cache_order",
+      "group_state_identity",
+      "storage_addresses",
+      "tracker_shape",
+      "copied_values"
+    ],
+    "kind": "obligation",
+    "state_scope": "shared",
+    "oracle": "按逐入口显式断言检查状态、参数或实际数据；mock 控制测试和真实数据比较分别记录，见 crosswalk/evidence。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/v1/worker/utils.py",
+          "line": 844,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/worker/utils.py",
+          "line": 896,
+          "kind": "source"
+        }
+      ]
+    }
+  }
+]

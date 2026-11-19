@@ -1,0 +1,782 @@
+[
+  {
+    "id": "abort.request_id_binding",
+    "name": "取消命令与请求身份绑定",
+    "property": "检查丢弃流或按外部标识取消时，发出的 abort 请求与内部请求标识集合对应。",
+    "kind": "obligation",
+    "phase": "abort",
+    "state_scope": "request",
+    "conditions": [
+      "request_api_kind",
+      "concurrent_request_profile"
+    ],
+    "observable": [
+      "被断言的返回字段、状态或消息",
+      "断言目标及参考值"
+    ],
+    "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+    "framework_scope": [
+      "vllm"
+    ],
+    "evidence": {
+      "vllm": [
+        {
+          "path": "rust/src/engine-core-client/src/client/imp.rs",
+          "line": 427,
+          "kind": "source",
+          "source_sha256": "9917d5f805bbe7695e39a7466ba54b4121193089eb570f1c57942adcda47e375",
+          "source": "    pub async fn do_abort_requests("
+        },
+        {
+          "path": "rust/src/llm/src/lib.rs",
+          "line": 330,
+          "kind": "source",
+          "source_sha256": "7faeaab9b94fb875d599aa06651cea6662236c1c4fdc5955e40eb55e507092c6",
+          "source": "    pub async fn abort(&self, external_ids: &[String]) -> Result<()> {"
+        },
+        {
+          "path": "rust/src/engine-core-client/src/tests/client.rs",
+          "line": 1712,
+          "kind": "existing_test"
+        }
+      ]
+    },
+    "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+  },
+  {
+    "id": "distributed.control_delivery",
+    "name": "跨进程请求、控制命令与结果交付",
+    "property": "检查控制消息、请求结果和错误的交付，以及多节点响应的汇总或一致性；保留接收端与调用上下文。",
+    "kind": "obligation",
+    "phase": "transfer",
+    "state_scope": "shared",
+    "conditions": [
+      "message_transport_profile",
+      "parallel_topology"
+    ],
+    "observable": [
+      "被断言的返回字段、状态或消息",
+      "断言目标及参考值"
+    ],
+    "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+    "framework_scope": [
+      "vllm"
+    ],
+    "evidence": {
+      "vllm": [
+        {
+          "path": "rust/src/engine-core-client/src/client/imp.rs",
+          "line": 134,
+          "kind": "source",
+          "source_sha256": "9917d5f805bbe7695e39a7466ba54b4121193089eb570f1c57942adcda47e375",
+          "source": "    pub fn register_request("
+        },
+        {
+          "path": "rust/src/engine-core-client/src/client/imp.rs",
+          "line": 377,
+          "kind": "source",
+          "source_sha256": "9917d5f805bbe7695e39a7466ba54b4121193089eb570f1c57942adcda47e375",
+          "source": "    pub async fn send_to_engine<T>("
+        },
+        {
+          "path": "rust/src/engine-core-client/src/tests/client.rs",
+          "line": 443,
+          "kind": "existing_test"
+        }
+      ]
+    },
+    "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+  },
+  {
+    "id": "embedding.routing_text",
+    "name": "向量请求的路由文本投影",
+    "property": "检查字符串或 token 输入转换为路由文本的规则，不检查模型生成的向量数值。",
+    "kind": "obligation",
+    "phase": "ingress",
+    "state_scope": "request",
+    "conditions": [
+      "input_form",
+      "routing_profile"
+    ],
+    "observable": [
+      "被断言的返回字段、状态或消息",
+      "断言目标及参考值"
+    ],
+    "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+    "framework_scope": [
+      "sglang"
+    ],
+    "evidence": {
+      "sglang": [
+        {
+          "path": "sgl-model-gateway/src/lib.rs",
+          "line": 8,
+          "kind": "source",
+          "source_sha256": "be4dd7102d4a10377a5d51bbf254e5d0ddb74cd6247c074ca440f96b63d19cba",
+          "source": "pub use openai_protocol as protocols;"
+        },
+        {
+          "path": "sgl-model-gateway/tests/spec/embedding.rs",
+          "line": 46,
+          "kind": "existing_test"
+        }
+      ]
+    },
+    "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+  },
+  {
+    "id": "request.declared_admission_contract",
+    "name": "请求接受或拒绝符合声明条件",
+    "property": "对给定请求格式、字段范围、资源名称或参数组合，检查校验结果、错误信息或允许的 HTTP 状态集合；具体允许集合按入口记录。",
+    "kind": "obligation",
+    "phase": "ingress",
+    "state_scope": "request",
+    "conditions": [
+      "request_api_kind",
+      "input_error_profile",
+      "deployment_configuration"
+    ],
+    "observable": [
+      "被断言的返回字段、状态或消息",
+      "断言目标及参考值"
+    ],
+    "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+    "framework_scope": [
+      "sglang",
+      "vllm"
+    ],
+    "evidence": {
+      "sglang": [
+        {
+          "path": "sgl-model-gateway/src/server.rs",
+          "line": 536,
+          "kind": "source",
+          "source_sha256": "312daf1d51ee4c8996a439dd5f5ee1787d8f15fec596c3483acbc1aa378b445a",
+          "source": "pub fn build_app("
+        },
+        {
+          "path": "sgl-model-gateway/src/lib.rs",
+          "line": 8,
+          "kind": "source",
+          "source_sha256": "be4dd7102d4a10377a5d51bbf254e5d0ddb74cd6247c074ca440f96b63d19cba",
+          "source": "pub use openai_protocol as protocols;"
+        },
+        {
+          "path": "experimental/sgl-router/tests/proxy/chat_routing.rs",
+          "line": 509,
+          "kind": "existing_test"
+        }
+      ],
+      "vllm": [
+        {
+          "path": "rust/src/chat/src/request.rs",
+          "line": 684,
+          "kind": "source",
+          "source_sha256": "cef2ea4ba2f5085488749d0a1b31fc67396546ce89b7e12b0afd0a65a062c296",
+          "source": "    pub fn validate(&self) -> Result<()> {"
+        },
+        {
+          "path": "rust/src/server/src/routes/openai/responses/validate.rs",
+          "line": 18,
+          "kind": "source",
+          "source_sha256": "220f8d270ad97d94921f1476db0ae8715d25b11bbaffb8de7ba68cec58d11fcd",
+          "source": "/// Errors use the shared frontend envelope with numeric HTTP codes."
+        },
+        {
+          "path": "rust/src/chat/tests/chat.rs",
+          "line": 639,
+          "kind": "existing_test"
+        }
+      ]
+    },
+    "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+  },
+  {
+    "id": "request.field_binding",
+    "name": "请求字段规范化与传递",
+    "property": "检查请求标识、采样参数、工具、前缀分离元数据或任务字段在序列化、规范化及转发中保持声明的对应关系。",
+    "kind": "obligation",
+    "phase": "ingress",
+    "state_scope": "request",
+    "conditions": [
+      "request_api_kind",
+      "parameter_source_rule",
+      "request_batch_profile"
+    ],
+    "observable": [
+      "被断言的返回字段、状态或消息",
+      "断言目标及参考值"
+    ],
+    "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+    "framework_scope": [
+      "sglang",
+      "vllm"
+    ],
+    "evidence": {
+      "sglang": [
+        {
+          "path": "sgl-model-gateway/src/lib.rs",
+          "line": 8,
+          "kind": "source",
+          "source_sha256": "be4dd7102d4a10377a5d51bbf254e5d0ddb74cd6247c074ca440f96b63d19cba",
+          "source": "pub use openai_protocol as protocols;"
+        },
+        {
+          "path": "sgl-model-gateway/src/server.rs",
+          "line": 536,
+          "kind": "source",
+          "source_sha256": "312daf1d51ee4c8996a439dd5f5ee1787d8f15fec596c3483acbc1aa378b445a",
+          "source": "pub fn build_app("
+        },
+        {
+          "path": "experimental/sgl-router/tests/proxy/cache_aware_input_ids.rs",
+          "line": 119,
+          "kind": "existing_test"
+        }
+      ],
+      "vllm": [
+        {
+          "path": "rust/src/llm/src/request.rs",
+          "line": 1,
+          "kind": "source",
+          "source_sha256": "ed8362fd4eb3cc527715b1a3a326069a7b991ded096f255656b8f90357832ccd",
+          "source": "// SPDX-License-Identifier: Apache-2.0"
+        },
+        {
+          "path": "rust/src/server/src/routes/openai/responses.rs",
+          "line": 18,
+          "kind": "source",
+          "source_sha256": "c5a2776c23c3b3784ef8aa960a6e651abf21ec7302a4fbae23d2a8780d8082f3",
+          "source": "mod validate;"
+        },
+        {
+          "path": "rust/src/llm/tests/generate.rs",
+          "line": 604,
+          "kind": "existing_test"
+        }
+      ]
+    },
+    "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+  },
+  {
+    "id": "response.batch_metadata_binding",
+    "name": "生成批次与返回元数据对应",
+    "property": "检查 token、概率、路由信息、权重版本及时间戳的合并或维度约束。",
+    "kind": "obligation",
+    "phase": "output",
+    "state_scope": "request",
+    "conditions": [
+      "output_mode",
+      "request_batch_profile",
+      "stream_fragment_profile"
+    ],
+    "observable": [
+      "被断言的返回字段、状态或消息",
+      "断言目标及参考值"
+    ],
+    "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+    "framework_scope": [
+      "vllm"
+    ],
+    "evidence": {
+      "vllm": [
+        {
+          "path": "rust/src/engine-core-client/src/client/stream.rs",
+          "line": 31,
+          "kind": "source",
+          "source_sha256": "19136c944a83fa9fd3cbb76f56a3202eff7ec181f65ed86b54c2908553a0065c",
+          "source": "pub struct EngineCoreStreamOutput {"
+        },
+        {
+          "path": "rust/src/llm/src/output.rs",
+          "line": 1,
+          "kind": "source",
+          "source_sha256": "9f4e009ec92463b30790189f3efa7565e800999bbeca6dd97f62f49fa4626d08",
+          "source": "// SPDX-License-Identifier: Apache-2.0"
+        },
+        {
+          "path": "rust/src/llm/tests/generate.rs",
+          "line": 316,
+          "kind": "existing_test"
+        }
+      ]
+    },
+    "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+  },
+  {
+    "id": "response.failure_contract",
+    "name": "失败响应与超时返回",
+    "property": "检查不可达节点、连接中断或超时的响应分类、可见字段及测试设置的时间界限。",
+    "kind": "obligation",
+    "phase": "output",
+    "state_scope": "request",
+    "conditions": [
+      "remote_endpoint_profile",
+      "deployment_configuration"
+    ],
+    "observable": [
+      "被断言的返回字段、状态或消息",
+      "断言目标及参考值"
+    ],
+    "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+    "framework_scope": [
+      "sglang"
+    ],
+    "evidence": {
+      "sglang": [
+        {
+          "path": "experimental/sgl-router/src/server/routes/chat.rs",
+          "line": 96,
+          "kind": "source",
+          "source_sha256": "5412522479f92f7b4ea4e835dea6538d47524a0eac46d2d835186c2bfd21908f",
+          "source": "pub async fn chat_completions("
+        },
+        {
+          "path": "experimental/sgl-router/tests/proxy/chat_routing.rs",
+          "line": 94,
+          "kind": "existing_test"
+        }
+      ]
+    },
+    "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+  },
+  {
+    "id": "response.forwarded_headers",
+    "name": "代理请求头传递",
+    "property": "代理向下游传递允许的请求头，并按具体断言保留或过滤相应字段。",
+    "kind": "obligation",
+    "phase": "ingress",
+    "state_scope": "request",
+    "conditions": [
+      "request_api_kind",
+      "remote_endpoint_profile"
+    ],
+    "observable": [
+      "被断言的返回字段、状态或消息",
+      "断言目标及参考值"
+    ],
+    "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+    "framework_scope": [
+      "sglang"
+    ],
+    "evidence": {
+      "sglang": [
+        {
+          "path": "experimental/sgl-router/src/server/header_utils.rs",
+          "line": 10,
+          "kind": "source",
+          "source_sha256": "32d1971c539da31efa250403946dd331a1b8210a56ce23518145079a7d199eba",
+          "source": "pub fn should_forward_request_header(name: &HeaderName) -> bool {"
+        },
+        {
+          "path": "experimental/sgl-router/tests/proxy/header_forwarding.rs",
+          "line": 22,
+          "kind": "existing_test"
+        }
+      ]
+    },
+    "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+  },
+  {
+    "id": "response.observed_payload_contract",
+    "name": "响应中的被检查字段与内容",
+    "property": "在测试声明的请求和模拟上游输出下，比较响应状态、被断言的载荷字段、终止状态或文本。响应状态检查与内容、时序检查分别保存。",
+    "kind": "obligation",
+    "phase": "output",
+    "state_scope": "request",
+    "conditions": [
+      "semantic_response_profile",
+      "output_mode",
+      "stream_fragment_profile"
+    ],
+    "observable": [
+      "被断言的返回字段、状态或消息",
+      "断言目标及参考值"
+    ],
+    "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+    "framework_scope": [
+      "sglang",
+      "vllm"
+    ],
+    "evidence": {
+      "sglang": [
+        {
+          "path": "sgl-model-gateway/src/server.rs",
+          "line": 536,
+          "kind": "source",
+          "source_sha256": "312daf1d51ee4c8996a439dd5f5ee1787d8f15fec596c3483acbc1aa378b445a",
+          "source": "pub fn build_app("
+        },
+        {
+          "path": "sgl-model-gateway/src/routers/openai/responses/streaming.rs",
+          "line": 58,
+          "kind": "source",
+          "source_sha256": "bf94cc68df13dcf7d90fe45ddc8c7bfc68598ad2415651161e18d231ba19f37c",
+          "source": "pub(super) fn apply_event_transformations_inplace("
+        },
+        {
+          "path": "experimental/sgl-router/tests/proxy/chat_routing.rs",
+          "line": 68,
+          "kind": "existing_test"
+        }
+      ],
+      "vllm": [
+        {
+          "path": "rust/src/server/src/routes/openai/responses.rs",
+          "line": 18,
+          "kind": "source",
+          "source_sha256": "c5a2776c23c3b3784ef8aa960a6e651abf21ec7302a4fbae23d2a8780d8082f3",
+          "source": "mod validate;"
+        },
+        {
+          "path": "rust/src/engine-core-client/src/client/stream.rs",
+          "line": 31,
+          "kind": "source",
+          "source_sha256": "19136c944a83fa9fd3cbb76f56a3202eff7ec181f65ed86b54c2908553a0065c",
+          "source": "pub struct EngineCoreStreamOutput {"
+        },
+        {
+          "path": "rust/src/chat/tests/chat.rs",
+          "line": 326,
+          "kind": "existing_test"
+        }
+      ]
+    },
+    "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+  },
+  {
+    "id": "service.configured_request_success",
+    "name": "配置下请求可完成",
+    "property": "在声明的路由或安全配置下检查请求完成状态；这些入口未必检查策略选择、身份一致或加密通道。",
+    "kind": "obligation",
+    "phase": "service",
+    "state_scope": "request",
+    "conditions": [
+      "request_api_kind",
+      "routing_profile",
+      "deployment_configuration"
+    ],
+    "observable": [
+      "被断言的返回字段、状态或消息",
+      "断言目标及参考值"
+    ],
+    "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+    "framework_scope": [
+      "sglang"
+    ],
+    "evidence": {
+      "sglang": [
+        {
+          "path": "sgl-model-gateway/src/server.rs",
+          "line": 536,
+          "kind": "source",
+          "source_sha256": "312daf1d51ee4c8996a439dd5f5ee1787d8f15fec596c3483acbc1aa378b445a",
+          "source": "pub fn build_app("
+        },
+        {
+          "path": "sgl-model-gateway/tests/api/api_endpoints_test.rs",
+          "line": 579,
+          "kind": "existing_test"
+        }
+      ]
+    },
+    "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+  },
+  {
+    "id": "service.endpoint_observed_fields",
+    "name": "管理与服务接口的可观察字段",
+    "property": "对实际调用的接口检查状态与响应对象中明确断言的字段；缓存清理接口成功不代表缓存内容已逐项核验。",
+    "kind": "obligation",
+    "phase": "service",
+    "state_scope": "request",
+    "conditions": [
+      "request_api_kind",
+      "remote_endpoint_profile",
+      "deployment_configuration"
+    ],
+    "observable": [
+      "被断言的返回字段、状态或消息",
+      "断言目标及参考值"
+    ],
+    "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+    "framework_scope": [
+      "sglang"
+    ],
+    "evidence": {
+      "sglang": [
+        {
+          "path": "sgl-model-gateway/src/server.rs",
+          "line": 536,
+          "kind": "source",
+          "source_sha256": "312daf1d51ee4c8996a439dd5f5ee1787d8f15fec596c3483acbc1aa378b445a",
+          "source": "pub fn build_app("
+        },
+        {
+          "path": "sgl-model-gateway/tests/api/api_endpoints_test.rs",
+          "line": 303,
+          "kind": "existing_test"
+        }
+      ]
+    },
+    "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+  },
+  {
+    "id": "service.extension_registration",
+    "name": "服务扩展模块注册与调用记录",
+    "property": "检查扩展模块注册、移除、重复键、失败状态或执行指标。执行结果允许失败的入口不被记为扩展输出正确。",
+    "kind": "obligation",
+    "phase": "service",
+    "state_scope": "shared",
+    "conditions": [
+      "deployment_configuration",
+      "request_api_kind"
+    ],
+    "observable": [
+      "被断言的返回字段、状态或消息",
+      "断言目标及参考值"
+    ],
+    "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+    "framework_scope": [
+      "sglang"
+    ],
+    "evidence": {
+      "sglang": [
+        {
+          "path": "sgl-model-gateway/src/wasm/route.rs",
+          "line": 74,
+          "kind": "source",
+          "source_sha256": "0493cc7d09b4edd09428d45e775b68f3a67c0ccb3b718d5a65ca4b36de7e27b8",
+          "source": "pub async fn add_wasm_module("
+        },
+        {
+          "path": "sgl-model-gateway/src/wasm/route.rs",
+          "line": 159,
+          "kind": "source",
+          "source_sha256": "0493cc7d09b4edd09428d45e775b68f3a67c0ccb3b718d5a65ca4b36de7e27b8",
+          "source": "pub async fn remove_wasm_module("
+        },
+        {
+          "path": "sgl-model-gateway/tests/wasm_test.rs",
+          "line": 205,
+          "kind": "existing_test"
+        }
+      ]
+    },
+    "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+  },
+  {
+    "id": "service.failure_admission_recovery",
+    "name": "服务失败后的接纳、恢复与重试",
+    "property": "在给定失败、取消或恢复操作序列中检查断路状态、探测数量、失败计数、请求状态或实际重试结果；未断言的阈值和次数不作为已检查性质。",
+    "kind": "obligation",
+    "phase": "service",
+    "state_scope": "shared",
+    "conditions": [
+      "concurrent_request_profile",
+      "remote_endpoint_profile",
+      "deployment_configuration"
+    ],
+    "observable": [
+      "被断言的返回字段、状态或消息",
+      "断言目标及参考值"
+    ],
+    "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+    "framework_scope": [
+      "sglang"
+    ],
+    "evidence": {
+      "sglang": [
+        {
+          "path": "experimental/sgl-router/src/health/circuit_breaker.rs",
+          "line": 124,
+          "kind": "source",
+          "source_sha256": "0564abbbb683433644fb762d55c91056b0124bf74c420327627d600c2861fdf2",
+          "source": "    pub fn allow(&self) -> bool {"
+        },
+        {
+          "path": "sgl-model-gateway/src/core/circuit_breaker.rs",
+          "line": 148,
+          "kind": "source",
+          "source_sha256": "7a5ecd17248a243938ada4e859b7de006065ff0539990c9c21f36aedc81b583e",
+          "source": "    pub fn can_execute(&self) -> bool {"
+        },
+        {
+          "path": "sgl-model-gateway/src/server.rs",
+          "line": 536,
+          "kind": "source",
+          "source_sha256": "312daf1d51ee4c8996a439dd5f5ee1787d8f15fec596c3483acbc1aa378b445a",
+          "source": "pub fn build_app("
+        },
+        {
+          "path": "experimental/sgl-router/tests/component/health/circuit_breaker.rs",
+          "line": 15,
+          "kind": "existing_test"
+        }
+      ]
+    },
+    "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+  },
+  {
+    "id": "service.inflight_accounting",
+    "name": "在途请求占用与释放",
+    "property": "检查请求完成、失败、断连和负载守卫退出后，在途计数与资源持有状态按生命周期更新。",
+    "kind": "obligation",
+    "phase": "service",
+    "state_scope": "shared",
+    "conditions": [
+      "concurrent_request_profile",
+      "shared_resource_lifecycle_profile"
+    ],
+    "observable": [
+      "被断言的返回字段、状态或消息",
+      "断言目标及参考值"
+    ],
+    "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+    "framework_scope": [
+      "sglang"
+    ],
+    "evidence": {
+      "sglang": [
+        {
+          "path": "sgl-model-gateway/src/observability/inflight_tracker.rs",
+          "line": 44,
+          "kind": "source",
+          "source_sha256": "e3321ee555cfc6eb068df97f65aea20a95a49c40404ba3c3593de76fad9871d5",
+          "source": "    pub fn track(self: &Arc<Self>) -> InFlightGuard {"
+        },
+        {
+          "path": "sgl-model-gateway/src/core/worker.rs",
+          "line": 1115,
+          "kind": "source",
+          "source_sha256": "081560304a51536181d29908b9d23fa2ca5379c0a11a36071fd1a558ed1fc7a4",
+          "source": "    pub fn new(worker: Arc<dyn Worker>, headers: Option<&http::HeaderMap>) -> Self {"
+        },
+        {
+          "path": "experimental/sgl-router/tests/component/workers/concurrent_state.rs",
+          "line": 126,
+          "kind": "existing_test"
+        }
+      ]
+    },
+    "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+  },
+  {
+    "id": "service.lifecycle_health",
+    "name": "服务生命周期与健康状态",
+    "property": "在初始化、等待、睡眠、唤醒、暂停或运行错误后检查服务可用性、超时与健康状态。",
+    "kind": "obligation",
+    "phase": "service",
+    "state_scope": "shared",
+    "conditions": [
+      "deployment_configuration",
+      "concurrent_request_profile"
+    ],
+    "observable": [
+      "被断言的返回字段、状态或消息",
+      "断言目标及参考值"
+    ],
+    "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+    "framework_scope": [
+      "sglang",
+      "vllm"
+    ],
+    "evidence": {
+      "sglang": [
+        {
+          "path": "sgl-model-gateway/src/server.rs",
+          "line": 536,
+          "kind": "source",
+          "source_sha256": "312daf1d51ee4c8996a439dd5f5ee1787d8f15fec596c3483acbc1aa378b445a",
+          "source": "pub fn build_app("
+        },
+        {
+          "path": "sgl-model-gateway/src/core/worker.rs",
+          "line": 703,
+          "kind": "source",
+          "source_sha256": "081560304a51536181d29908b9d23fa2ca5379c0a11a36071fd1a558ed1fc7a4",
+          "source": "    async fn check_health_async(&self) -> WorkerResult<()> {"
+        },
+        {
+          "path": "sgl-model-gateway/tests/api/api_endpoints_test.rs",
+          "line": 20,
+          "kind": "existing_test"
+        }
+      ],
+      "vllm": [
+        {
+          "path": "rust/src/engine-core-client/src/client/imp.rs",
+          "line": 237,
+          "kind": "source",
+          "source_sha256": "9917d5f805bbe7695e39a7466ba54b4121193089eb570f1c57942adcda47e375",
+          "source": "    pub fn close_registries(&self, error: Arc<Error>) {"
+        },
+        {
+          "path": "rust/src/engine-core-client/src/tests/client.rs",
+          "line": 1855,
+          "kind": "existing_test"
+        }
+      ]
+    },
+    "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+  },
+  {
+    "id": "service.measurement_record",
+    "name": "服务指标与追踪记录",
+    "property": "核对指标计数、聚合字段、跟踪标识或导出事件与输入记录和观察到的操作对应；不据此判定模型性能达标。",
+    "kind": "obligation",
+    "phase": "service",
+    "state_scope": "shared",
+    "conditions": [
+      "workload_profile",
+      "remote_endpoint_profile",
+      "deployment_configuration"
+    ],
+    "observable": [
+      "被断言的返回字段、状态或消息",
+      "断言目标及参考值"
+    ],
+    "oracle": "按各入口记录的操作序列、输入参数、模拟边界及具体断言判定；存在性、相等、允许状态集合与时限分别保留。",
+    "framework_scope": [
+      "sglang",
+      "vllm"
+    ],
+    "evidence": {
+      "sglang": [
+        {
+          "path": "sgl-model-gateway/src/core/metrics_aggregator.rs",
+          "line": 15,
+          "kind": "source",
+          "source_sha256": "6494708098d40a14ae065556791a9e0565b51aa092318dc3d02e8b5a7d3f1021",
+          "source": "pub fn aggregate_metrics(metric_packs: Vec<MetricPack>) -> anyhow::Result<String> {"
+        },
+        {
+          "path": "experimental/sgl-router/src/server/routes/chat.rs",
+          "line": 86,
+          "kind": "source",
+          "source_sha256": "5412522479f92f7b4ea4e835dea6538d47524a0eac46d2d835186c2bfd21908f",
+          "source": "    fn drop(&mut self) {"
+        },
+        {
+          "path": "experimental/sgl-router/tests/proxy/chat_routing.rs",
+          "line": 211,
+          "kind": "existing_test"
+        }
+      ],
+      "vllm": [
+        {
+          "path": "rust/src/llm/src/request_metrics.rs",
+          "line": 25,
+          "kind": "source",
+          "source_sha256": "686bcb8d3f92ada42f3429296a3331e62e1e3ff1315713f1ad84a39c9462bbca",
+          "source": "pub struct RequestTimestamps {"
+        },
+        {
+          "path": "rust/src/llm/tests/generate.rs",
+          "line": 1024,
+          "kind": "existing_test"
+        }
+      ]
+    },
+    "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+  }
+]

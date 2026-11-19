@@ -83,11 +83,12 @@ def main() -> None:
     round9 = {key(row): row for row in read(round9_path)} if round9_path.exists() else {}
     assert not (round9.keys() & direct_properties.keys())
     direct_properties.update(round9)
-    round10_path = HERE / "reviewed-round10-crosswalk.tsv"
-    if round10_path.exists():
-        extra = {key(row): row for row in read(round10_path)}
-        assert not (extra.keys() & direct_properties.keys())
-        direct_properties.update(extra)
+    for batch in ("round10", "round11"):
+        batch_path = HERE / f"reviewed-{batch}-crosswalk.tsv"
+        if batch_path.exists():
+            extra = {key(row): row for row in read(batch_path)}
+            assert not (extra.keys() & direct_properties.keys())
+            direct_properties.update(extra)
     pending_path = HERE / "reviewed-supplement-pending.json"
     pending = {key(r): r for r in json.loads(pending_path.read_text())} if pending_path.exists() else {}
     runtime_path = HERE / "background_evidence/runtime-entries.tsv"

@@ -1,0 +1,72 @@
+[
+  {
+    "path": "vllm/v1/worker/utils.py",
+    "line": 933,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "fedcac3ac744656cb1e6f734389e9bfa4421c8f53b316809ed29bc0178cf5f2b"
+  },
+  {
+    "path": "vllm/distributed/ec_transfer/ec_connector/cpu/session.py",
+    "line": 121,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "5973548a919e13c866222b91d502686a6757a31e5a5664b879bf2887ed9fb212"
+  },
+  {
+    "path": "vllm/distributed/ec_transfer/ec_connector/cpu/session.py",
+    "line": 145,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "5973548a919e13c866222b91d502686a6757a31e5a5664b879bf2887ed9fb212"
+  },
+  {
+    "path": "vllm/distributed/ec_transfer/ec_connector/cpu/session.py",
+    "line": 294,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "5973548a919e13c866222b91d502686a6757a31e5a5664b879bf2887ed9fb212"
+  },
+  {
+    "path": "vllm/v1/kv_offload/tiering/obj/manager.py",
+    "line": 384,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "aa4acc141b6559383b4ea6b8221163348d1efa2c1b8eca195b8e38a89ccebc5a"
+  },
+  {
+    "path": "vllm/v1/kv_offload/tiering/fs/manager.py",
+    "line": 278,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "ba63275b126ec3ddb2e9db33ce902c7b18704e5a4575f9ad8130cfdf055f254e"
+  },
+  {
+    "path": "vllm/v1/kv_offload/tiering/manager.py",
+    "line": 911,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "893a3dee133584d13bd396c37809fd7738f4e2814523970583bf841bf8cb2db0"
+  },
+  {
+    "path": "vllm/distributed/kv_transfer/kv_connector/v1/hisparse/worker.py",
+    "line": 895,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "e07bfb44260b30a506208fd180b7530584338f9d6156acbc788ed794d3bd18f4"
+  },
+  {
+    "path": "vllm/v1/worker/utils.py",
+    "line": 844,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "fedcac3ac744656cb1e6f734389e9bfa4421c8f53b316809ed29bc0178cf5f2b"
+  },
+  {
+    "path": "vllm/v1/worker/utils.py",
+    "line": 896,
+    "kind": "source",
+    "snapshot": "vllm",
+    "source_sha256": "fedcac3ac744656cb1e6f734389e9bfa4421c8f53b316809ed29bc0178cf5f2b"
+  }
+]

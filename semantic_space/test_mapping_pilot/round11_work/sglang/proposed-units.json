@@ -1,0 +1,166 @@
+[
+  {
+    "id": "diagnostic.dimension_metadata_contract",
+    "name": "诊断维度元数据",
+    "kind": "obligation",
+    "phase": "diagnostic",
+    "state_scope": "diagnostic_artifact",
+    "conditions": [],
+    "property": "诊断工具对维度名称、融合关系、分片轴及修饰符进行解析和命名，保留声明对应关系并拒绝格式或约束冲突。",
+    "observable": [
+      "parsed_dimensions",
+      "axis_indices",
+      "dimension_names",
+      "validation_error"
+    ],
+    "oracle": "对显式维度字符串及构造张量检查解析结果、命名和异常。",
+    "evidence": {
+      "sglang": [
+        {
+          "path": "python/sglang/srt/debug_utils/comparator/dims_spec/dim_parser.py",
+          "line": 22,
+          "kind": "source",
+          "source_sha256": "b0520f348fc496a2a30dbecc9fc17162691626ef43912bf293e7c088f3099408"
+        },
+        {
+          "path": "python/sglang/srt/debug_utils/comparator/dims_spec/dims_parser.py",
+          "line": 18,
+          "kind": "source",
+          "source_sha256": "be475e593f7047b5c20ccf1dabbd71016ad946990c18ed884b5fef7ae75986c9"
+        },
+        {
+          "path": "python/sglang/srt/debug_utils/comparator/dims_spec/tensor_naming.py",
+          "line": 12,
+          "kind": "source",
+          "source_sha256": "529602f555d92b3742ae643c4da4d50e338b09cbef8de3f3429f72d530184b3f"
+        },
+        {
+          "path": "python/sglang/srt/debug_utils/comparator/dims_spec/types.py",
+          "line": 14,
+          "kind": "source",
+          "source_sha256": "382ae1758d94e30f30c8f479213300e37b483fef2b7021613548c8c504bb463d"
+        }
+      ]
+    },
+    "framework_scope": [
+      "sglang"
+    ],
+    "semantic_domain": "diagnostic_support",
+    "proposal_note": "支持工具性质，不归入推理请求路径；条件需按元数据/记录输入进一步细化。"
+  },
+  {
+    "id": "diagnostic.tensor_axis_alignment",
+    "name": "诊断张量轴对齐",
+    "kind": "obligation",
+    "phase": "diagnostic",
+    "state_scope": "diagnostic_artifact",
+    "conditions": [],
+    "property": "比较两侧张量时，根据维度语义建立轴置换、单例压缩和融合计划；声明冲突时返回诊断，不生成有效对齐计划。",
+    "observable": [
+      "axis_plan",
+      "aligned_shape",
+      "aligned_values",
+      "alignment_error"
+    ],
+    "oracle": "构造维度注释和张量，检查变换模式与对应形状或元素；具体保证随测试断言。",
+    "evidence": {
+      "sglang": [
+        {
+          "path": "python/sglang/srt/debug_utils/comparator/aligner/axis_aligner.py",
+          "line": 23,
+          "kind": "source",
+          "source_sha256": "5bd5cb33219bc892935ea5dec5f1c76dfec5bcb083f2027c55fa859a1e35e574"
+        }
+      ]
+    },
+    "framework_scope": [
+      "sglang"
+    ],
+    "semantic_domain": "diagnostic_support",
+    "proposal_note": "支持工具性质，不归入推理请求路径；条件需按元数据/记录输入进一步细化。"
+  },
+  {
+    "id": "diagnostic.record_schema_and_encoding",
+    "name": "诊断记录约束与表达",
+    "kind": "obligation",
+    "phase": "diagnostic",
+    "state_scope": "diagnostic_artifact",
+    "conditions": [],
+    "property": "诊断记录满足字段与计数约束，序列化和文字报告保留所声明的类别、字段、数值及诊断信息。",
+    "observable": [
+      "record_category",
+      "serialized_record",
+      "summary_counts",
+      "text_report"
+    ],
+    "oracle": "通过构造记录、非法字段和预期文本逐项检查结构约束、往返结果或格式。",
+    "evidence": {
+      "sglang": [
+        {
+          "path": "python/sglang/srt/debug_utils/comparator/output_types.py",
+          "line": 46,
+          "kind": "source",
+          "source_sha256": "e44d68b341983720d47ad2837ddad20e107b6dedc95ed2aabba0e3c004b03927"
+        },
+        {
+          "path": "python/sglang/srt/debug_utils/comparator/output_formatter.py",
+          "line": 48,
+          "kind": "source",
+          "source_sha256": "3467b9dd45ad860149e8b3fd28f5b6b75e10123641373d1bf06945727837b222"
+        },
+        {
+          "path": "python/sglang/srt/debug_utils/comparator/tensor_comparator/formatter.py",
+          "line": 33,
+          "kind": "source",
+          "source_sha256": "bfdfd8aa0faa6fec8ecd108175449564c6588186a91f19a950e50615bbb4fc53"
+        },
+        {
+          "path": "python/sglang/srt/debug_utils/comparator/aligner/token_aligner/smart/types.py",
+          "line": 16,
+          "kind": "source",
+          "source_sha256": "52fc9981a45d10033b41df08b962032da6b0f8b18a999f5e4649ec6d0c166669"
+        },
+        {
+          "path": "python/sglang/srt/debug_utils/comparator/aligner/unsharder/types.py",
+          "line": 11,
+          "kind": "source",
+          "source_sha256": "4d496ecf4478a23a85bb10094f383c762aa7a84998ba36bda157077f4affb5ae"
+        }
+      ]
+    },
+    "framework_scope": [
+      "sglang"
+    ],
+    "semantic_domain": "diagnostic_support",
+    "proposal_note": "支持工具性质，不归入推理请求路径；条件需按元数据/记录输入进一步细化。"
+  },
+  {
+    "id": "diagnostic.dump_input_discovery",
+    "name": "诊断转储输入发现",
+    "kind": "obligation",
+    "phase": "diagnostic",
+    "state_scope": "diagnostic_artifact",
+    "conditions": [],
+    "property": "给定目录，优先使用已有转储文件；否则定位唯一含转储的子目录，无数据或存在多个候选时拒绝歧义。",
+    "observable": [
+      "selected_directory",
+      "discovery_error"
+    ],
+    "oracle": "构造含转储文件的目录层级并检查选择路径和异常。",
+    "evidence": {
+      "sglang": [
+        {
+          "path": "python/sglang/srt/debug_utils/comparator/utils.py",
+          "line": 15,
+          "kind": "source",
+          "source_sha256": "f4fcca8b10e2800d5ceccca1ac7835f79c4a98cc6be3cd6a3945f80127c40681"
+        }
+      ]
+    },
+    "framework_scope": [
+      "sglang"
+    ],
+    "semantic_domain": "diagnostic_support",
+    "proposal_note": "支持工具性质，不归入推理请求路径；条件需按元数据/记录输入进一步细化。"
+  }
+]

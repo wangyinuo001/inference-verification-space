@@ -1,29 +1,29 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 2467" role="img" aria-label="推理系统的验证单元、层次和依赖">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 2583" role="img" aria-label="推理系统的验证单元、层次和依赖">
 <style>text{font-family:Arial,"PingFang SC","Noto Sans CJK SC",sans-serif}.heading{font-size:23px;font-weight:700;fill:#222}.sub{font-size:12px;fill:#62616a}.phase{font-size:13px;font-weight:700;fill:#34313a}.node-label{font-size:14px;font-weight:600;fill:#27222d}.composite-label{font-size:14px;font-weight:700;fill:#632b77}.legend{font-size:12px;fill:#4b4752}.edge{fill:none;stroke-width:1.5}.unit{cursor:pointer}</style>
-<rect width="1280" height="2467" fill="#fff"/>
+<rect width="1280" height="2583" fill="#fff"/>
 <text x="32" y="38" class="heading">推理系统的验证单元</text>
 <text x="32" y="60" class="sub">横向为请求流程；部署条件位于请求进入前。</text>
 <text x="32" y="110" class="phase">部署条件与组合性质</text>
 <line x1="32" y1="457" x2="1245" y2="457" stroke="#ddd9e0"/>
 <text x="85" y="484" text-anchor="middle" class="phase phase-heading" data-phase="ingress">请求进入</text>
-<line x1="85" y1="495" x2="85" y2="2225" stroke="#eeeaf0"/>
+<line x1="85" y1="495" x2="85" y2="2283" stroke="#eeeaf0"/>
 <text x="225" y="484" text-anchor="middle" class="phase phase-heading" data-phase="scheduling">调度</text>
-<line x1="225" y1="495" x2="225" y2="2225" stroke="#eeeaf0"/>
+<line x1="225" y1="495" x2="225" y2="2283" stroke="#eeeaf0"/>
 <text x="365" y="484" text-anchor="middle" class="phase phase-heading" data-phase="cache">缓存</text>
-<line x1="365" y1="495" x2="365" y2="2225" stroke="#eeeaf0"/>
+<line x1="365" y1="495" x2="365" y2="2283" stroke="#eeeaf0"/>
 <text x="505" y="484" text-anchor="middle" class="phase phase-heading" data-phase="transfer">远程传输</text>
-<line x1="505" y1="495" x2="505" y2="2225" stroke="#eeeaf0"/>
+<line x1="505" y1="495" x2="505" y2="2283" stroke="#eeeaf0"/>
 <text x="645" y="484" text-anchor="middle" class="phase phase-heading" data-phase="model_execution">模型计算</text>
-<line x1="645" y1="495" x2="645" y2="2225" stroke="#eeeaf0"/>
+<line x1="645" y1="495" x2="645" y2="2283" stroke="#eeeaf0"/>
 <text x="785" y="484" text-anchor="middle" class="phase phase-heading" data-phase="sampling">采样</text>
-<line x1="785" y1="495" x2="785" y2="2225" stroke="#eeeaf0"/>
+<line x1="785" y1="495" x2="785" y2="2283" stroke="#eeeaf0"/>
 <text x="925" y="484" text-anchor="middle" class="phase phase-heading" data-phase="output">结果返回</text>
-<line x1="925" y1="495" x2="925" y2="2225" stroke="#eeeaf0"/>
+<line x1="925" y1="495" x2="925" y2="2283" stroke="#eeeaf0"/>
 <text x="1065" y="484" text-anchor="middle" class="phase phase-heading" data-phase="service">服务运行</text>
-<line x1="1065" y1="495" x2="1065" y2="2225" stroke="#eeeaf0"/>
+<line x1="1065" y1="495" x2="1065" y2="2283" stroke="#eeeaf0"/>
 <text x="1205" y="484" text-anchor="middle" class="phase phase-heading" data-phase="abort">取消</text>
-<line x1="1205" y1="495" x2="1205" y2="2225" stroke="#eeeaf0"/>
-<text x="32" y="2273" class="phase phase-heading" data-phase="diagnostic">验证工具的检查</text>
+<line x1="1205" y1="495" x2="1205" y2="2283" stroke="#eeeaf0"/>
+<text x="32" y="2331" class="phase phase-heading" data-phase="diagnostic">验证工具的检查</text>
 <path class="edge" data-parent="distributed.message_delivery" data-child="shared_resource.buffer_slot_integrity" d="M 1065.0 771.0 C 1065.0 836.5, 1065.0 836.5, 1065.0 902.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: the chosen local channel stores an in-flight message in a reusable shared-memory ring slot</title></path>
 <path class="edge" data-parent="distributed.queue_wait_shutdown" data-child="distributed.message_delivery" d="M 1065.0 807.0 L 1065.0 749.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a waiting reader is awakened by a newly delivered message</title></path>
 <path class="edge" data-parent="shared_resource.object_handle_identity" data-child="shared_resource.buffer_slot_integrity" d="M 1065.0 887.0 C 1065.0 894.5, 1065.0 894.5, 1065.0 902.0" stroke="#70988c" stroke-opacity="0.28" stroke-dasharray="4 4"><title>requires: a handle refers to a buffer slot that can be reused under a new generation</title></path>
@@ -903,22 +903,22 @@
 </text>
 <title>输入提供的向量与指定 token 占位位置一一对应；批量或 query/item 拼接后保持该位置关系，数量不一致时拒绝。</title></g>
 <g class="unit" data-unit="diagnostic.parallel_tensor_reconstruction_plan" data-phase="diagnostic" data-level="unit" tabindex="0">
-<rect x="37.0" y="2294.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
-<text x="105.0" y="2312.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<rect x="37.0" y="2352.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
+<text x="105.0" y="2370.4" text-anchor="middle" class="node-label" style="font-size:13px">
 <tspan x="105.0" dy="0">诊断张量重建计划</tspan>
 <tspan x="105.0" dy="16">遵守分片关系</tspan>
 </text>
 <title>给定维度注释与 rank 拓扑，比较器构造与分片关系对应的重建操作及分组，并拒绝不一致的布局。</title></g>
 <g class="unit" data-unit="diagnostic.parallel_axis_dependency" data-phase="diagnostic" data-level="unit" tabindex="0">
-<rect x="202.0" y="2294.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
-<text x="270.0" y="2312.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<rect x="202.0" y="2352.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
+<text x="270.0" y="2370.4" text-anchor="middle" class="node-label" style="font-size:13px">
 <tspan x="270.0" dy="0">诊断并行轴依赖关</tspan>
 <tspan x="270.0" dy="16">系正确</tspan>
 </text>
 <title>根据维度与 rank 注释识别依赖轴，检查复制轴声明的正交性；冲突声明应拒绝。</title></g>
 <g class="unit" data-unit="diagnostic.comparator_report_relation" data-phase="diagnostic" data-level="unit" tabindex="0">
-<rect x="367.0" y="2294.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
-<text x="435.0" y="2312.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<rect x="367.0" y="2352.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
+<text x="435.0" y="2370.4" text-anchor="middle" class="node-label" style="font-size:13px">
 <tspan x="435.0" dy="0">诊断比较结果对应</tspan>
 <tspan x="435.0" dy="16">基线与目标转储</tspan>
 </text>
@@ -1044,8 +1044,8 @@
 </text>
 <title>计算计划的形状键与配置一致，分块和向量宽度满足形状约束，计划选用的实现具有对应编译实例。</title></g>
 <g class="unit" data-unit="constraint.diagnostics" data-phase="diagnostic" data-level="unit" tabindex="0">
-<rect x="532.0" y="2294.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
-<text x="600.0" y="2312.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<rect x="532.0" y="2352.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
+<text x="600.0" y="2370.4" text-anchor="middle" class="node-label" style="font-size:13px">
 <tspan x="600.0" dy="0">语法编译诊断字段</tspan>
 <tspan x="600.0" dy="16">记录</tspan>
 </text>
@@ -1113,47 +1113,47 @@
 </text>
 <title>按参与秩就绪集合交集和失败集合并集决定请求的迁移与终止。</title></g>
 <g class="unit" data-unit="diagnostic.weight_probe_generation" data-phase="diagnostic" data-level="unit" tabindex="0">
-<rect x="697.0" y="2294.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
-<text x="765.0" y="2312.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<rect x="697.0" y="2352.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
+<text x="765.0" y="2370.4" text-anchor="middle" class="node-label" style="font-size:13px">
 <tspan x="765.0" dy="0">诊断随机探针保持</tspan>
 <tspan x="765.0" dy="16">张量属性</tspan>
 </text>
 <title>为权重诊断生成的探针保持输入张量的类型、形状与设备，遵守声明的取值域且不改写输入。</title></g>
 <g class="unit" data-unit="diagnostic.weight_comparison_projection" data-phase="diagnostic" data-level="unit" tabindex="0">
-<rect x="862.0" y="2294.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
-<text x="930.0" y="2312.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<rect x="862.0" y="2352.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
+<text x="930.0" y="2370.4" text-anchor="middle" class="node-label" style="font-size:13px">
 <tspan x="930.0" dy="0">权重诊断比较表示</tspan>
 <tspan x="930.0" dy="16">与过滤</tspan>
 </text>
 <title>按名称与量化格式生成有序的待比较表示，保留逻辑名字、比较标志与数值；声明排除项仍可用于诊断但不决定相等失败。</title></g>
 <g class="unit" data-unit="diagnostic.weight_comparison_verdict" data-phase="diagnostic" data-level="unit" tabindex="0">
-<rect x="1027.0" y="2294.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
-<text x="1095.0" y="2320.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<rect x="1027.0" y="2352.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
+<text x="1095.0" y="2378.8" text-anchor="middle" class="node-label" style="font-size:14px">
 <tspan x="1095.0" dy="0">权重诊断比较判定</tspan>
 </text>
 <title>比较流的名字、标志和长度必须一致；需要比较的张量按声明相等谓词决定失败并提供对象定位，排除项差异不触发该失败。</title></g>
 <g class="unit" data-unit="diagnostic.weight_snapshot_isolation" data-phase="diagnostic" data-level="unit" tabindex="0">
-<rect x="37.0" y="2352.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
-<text x="105.0" y="2378.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<rect x="37.0" y="2410.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
+<text x="105.0" y="2436.8" text-anchor="middle" class="node-label" style="font-size:14px">
 <tspan x="105.0" dy="0">权重诊断快照隔离</tspan>
 </text>
 <title>诊断快照包含指定参数与缓冲区，保留采集时值并与后续模型状态变更隔离。</title></g>
 <g class="unit" data-unit="diagnostic.weight_probe_reset" data-phase="diagnostic" data-level="unit" tabindex="0">
-<rect x="202.0" y="2352.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
-<text x="270.0" y="2370.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<rect x="202.0" y="2410.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
+<text x="270.0" y="2428.4" text-anchor="middle" class="node-label" style="font-size:13px">
 <tspan x="270.0" dy="0">权重诊断扰动保持</tspan>
 <tspan x="270.0" dy="16">存储与排除项</tspan>
 </text>
 <title>诊断扰动按声明原地改写正常参数，保持存储身份并保留排除缓冲区的值。</title></g>
 <g class="unit" data-unit="diagnostic.weight_action_dispatch" data-phase="diagnostic" data-level="unit" tabindex="0">
-<rect x="367.0" y="2352.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
-<text x="435.0" y="2378.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<rect x="367.0" y="2410.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
+<text x="435.0" y="2436.8" text-anchor="middle" class="node-label" style="font-size:14px">
 <tspan x="435.0" dy="0">权重诊断动作分派</tspan>
 </text>
 <title>诊断接口将声明动作映射到对应处理器并返回其结果，未知动作给出明确错误。</title></g>
 <g class="unit" data-unit="diagnostic.weight_checksum_record" data-phase="diagnostic" data-level="unit" tabindex="0">
-<rect x="532.0" y="2352.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
-<text x="600.0" y="2370.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<rect x="532.0" y="2410.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
+<text x="600.0" y="2428.4" text-anchor="middle" class="node-label" style="font-size:13px">
 <tspan x="600.0" dy="0">权重诊断校验记录</tspan>
 <tspan x="600.0" dy="16">对应内容与拓扑</tspan>
 </text>
@@ -1298,9 +1298,192 @@
 <tspan x="85.0" dy="16">ank过滤</tspan>
 </text>
 <title>根据专家检查点的名字、放置方式和rank归属确定应读取的权重集合；声明保留的非专家权重与缩放元数据不得被过滤。</title></g>
-<line x1="33" y1="2439" x2="67" y2="2439" stroke="#8c6b9a" stroke-width="2"/><text x="74" y="2443" class="legend">分解</text>
-<line x1="157" y1="2439" x2="191" y2="2439" stroke="#70988c" stroke-width="2" stroke-dasharray="4 4"/><text x="198" y="2443" class="legend">前提依赖</text>
-<rect x="302" y="2427" width="30" height="22" rx="5" fill="#f3edf5" stroke="#bca6c7"/><text x="339" y="2443" class="legend">单请求状态</text>
-<rect x="482" y="2427" width="30" height="22" rx="5" fill="#e9f2ee" stroke="#8bb6a6"/><text x="519" y="2443" class="legend">跨请求／进程状态</text>
-<rect x="662" y="2427" width="30" height="22" rx="5" fill="#f0f0f2" stroke="#a9a9ae"/><text x="699" y="2443" class="legend">局部计算／部署条件</text>
+<g class="unit" data-unit="abort.request_id_binding" data-phase="abort" data-level="unit" tabindex="0">
+<rect x="1137.0" y="785.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="1205.0" y="803.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="1205.0" dy="0">取消命令与请求身</tspan>
+<tspan x="1205.0" dy="16">份绑定</tspan>
+</text>
+<title>检查丢弃流或按外部标识取消时，发出的 abort 请求与内部请求标识集合对应。</title></g>
+<g class="unit" data-unit="distributed.control_delivery" data-phase="transfer" data-level="unit" tabindex="0">
+<rect x="437.0" y="959.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="505.0" y="977.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="505.0" dy="0">跨进程请求、控制</tspan>
+<tspan x="505.0" dy="16">命令与结果交付</tspan>
+</text>
+<title>检查控制消息、请求结果和错误的交付，以及多节点响应的汇总或一致性；保留接收端与调用上下文。</title></g>
+<g class="unit" data-unit="embedding.routing_text" data-phase="ingress" data-level="unit" tabindex="0">
+<rect x="17.0" y="1539.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="85.0" y="1557.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="85.0" dy="0">向量请求的路由文</tspan>
+<tspan x="85.0" dy="16">本投影</tspan>
+</text>
+<title>检查字符串或 token 输入转换为路由文本的规则，不检查模型生成的向量数值。</title></g>
+<g class="unit" data-unit="request.declared_admission_contract" data-phase="ingress" data-level="unit" tabindex="0">
+<rect x="17.0" y="1597.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="85.0" y="1615.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="85.0" dy="0">请求接受或拒绝符</tspan>
+<tspan x="85.0" dy="16">合声明条件</tspan>
+</text>
+<title>对给定请求格式、字段范围、资源名称或参数组合，检查校验结果、错误信息或允许的 HTTP 状态集合；具体允许集合按入口记录。</title></g>
+<g class="unit" data-unit="request.field_binding" data-phase="ingress" data-level="unit" tabindex="0">
+<rect x="17.0" y="1655.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="85.0" y="1673.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="85.0" dy="0">请求字段规范化与</tspan>
+<tspan x="85.0" dy="16">传递</tspan>
+</text>
+<title>检查请求标识、采样参数、工具、前缀分离元数据或任务字段在序列化、规范化及转发中保持声明的对应关系。</title></g>
+<g class="unit" data-unit="response.batch_metadata_binding" data-phase="output" data-level="unit" tabindex="0">
+<rect x="857.0" y="1771.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="1789.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="925.0" dy="0">生成批次与返回元</tspan>
+<tspan x="925.0" dy="16">数据对应</tspan>
+</text>
+<title>检查 token、概率、路由信息、权重版本及时间戳的合并或维度约束。</title></g>
+<g class="unit" data-unit="response.failure_contract" data-phase="output" data-level="unit" tabindex="0">
+<rect x="857.0" y="1829.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="1847.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="925.0" dy="0">失败响应与超时返</tspan>
+<tspan x="925.0" dy="16">回</tspan>
+</text>
+<title>检查不可达节点、连接中断或超时的响应分类、可见字段及测试设置的时间界限。</title></g>
+<g class="unit" data-unit="response.forwarded_headers" data-phase="ingress" data-level="unit" tabindex="0">
+<rect x="17.0" y="1713.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="85.0" y="1739.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="85.0" dy="0">代理请求头传递</tspan>
+</text>
+<title>代理向下游传递允许的请求头，并按具体断言保留或过滤相应字段。</title></g>
+<g class="unit" data-unit="response.observed_payload_contract" data-phase="output" data-level="unit" tabindex="0">
+<rect x="857.0" y="1887.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="925.0" y="1905.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="925.0" dy="0">响应中的被检查字</tspan>
+<tspan x="925.0" dy="16">段与内容</tspan>
+</text>
+<title>在测试声明的请求和模拟上游输出下，比较响应状态、被断言的载荷字段、终止状态或文本。响应状态检查与内容、时序检查分别保存。</title></g>
+<g class="unit" data-unit="service.configured_request_success" data-phase="service" data-level="unit" tabindex="0">
+<rect x="997.0" y="1365.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="1065.0" y="1391.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="1065.0" dy="0">配置下请求可完成</tspan>
+</text>
+<title>在声明的路由或安全配置下检查请求完成状态；这些入口未必检查策略选择、身份一致或加密通道。</title></g>
+<g class="unit" data-unit="service.endpoint_observed_fields" data-phase="service" data-level="unit" tabindex="0">
+<rect x="997.0" y="1423.0" width="136" height="44" rx="8" fill="#f3edf5" stroke="#bca6c7" stroke-width="1.2"/>
+<text x="1065.0" y="1441.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="1065.0" dy="0">管理与服务接口的</tspan>
+<tspan x="1065.0" dy="16">可观察字段</tspan>
+</text>
+<title>对实际调用的接口检查状态与响应对象中明确断言的字段；缓存清理接口成功不代表缓存内容已逐项核验。</title></g>
+<g class="unit" data-unit="service.extension_registration" data-phase="service" data-level="unit" tabindex="0">
+<rect x="997.0" y="1481.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="1065.0" y="1499.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="1065.0" dy="0">服务扩展模块注册</tspan>
+<tspan x="1065.0" dy="16">与调用记录</tspan>
+</text>
+<title>检查扩展模块注册、移除、重复键、失败状态或执行指标。执行结果允许失败的入口不被记为扩展输出正确。</title></g>
+<g class="unit" data-unit="service.failure_admission_recovery" data-phase="service" data-level="unit" tabindex="0">
+<rect x="997.0" y="1539.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="1065.0" y="1557.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="1065.0" dy="0">服务失败后的接纳</tspan>
+<tspan x="1065.0" dy="16">、恢复与重试</tspan>
+</text>
+<title>在给定失败、取消或恢复操作序列中检查断路状态、探测数量、失败计数、请求状态或实际重试结果；未断言的阈值和次数不作为已检查性质。</title></g>
+<g class="unit" data-unit="service.inflight_accounting" data-phase="service" data-level="unit" tabindex="0">
+<rect x="997.0" y="1597.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="1065.0" y="1615.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="1065.0" dy="0">在途请求占用与释</tspan>
+<tspan x="1065.0" dy="16">放</tspan>
+</text>
+<title>检查请求完成、失败、断连和负载守卫退出后，在途计数与资源持有状态按生命周期更新。</title></g>
+<g class="unit" data-unit="service.lifecycle_health" data-phase="service" data-level="unit" tabindex="0">
+<rect x="997.0" y="1655.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="1065.0" y="1673.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="1065.0" dy="0">服务生命周期与健</tspan>
+<tspan x="1065.0" dy="16">康状态</tspan>
+</text>
+<title>在初始化、等待、睡眠、唤醒、暂停或运行错误后检查服务可用性、超时与健康状态。</title></g>
+<g class="unit" data-unit="service.measurement_record" data-phase="service" data-level="unit" tabindex="0">
+<rect x="997.0" y="1713.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="1065.0" y="1731.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="1065.0" dy="0">服务指标与追踪记</tspan>
+<tspan x="1065.0" dy="16">录</tspan>
+</text>
+<title>核对指标计数、聚合字段、跟踪标识或导出事件与输入记录和观察到的操作对应；不据此判定模型性能达标。</title></g>
+<g class="unit" data-unit="cache.block_copy_relation" data-phase="cache" data-level="unit" tabindex="0">
+<rect x="297.0" y="2003.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="365.0" y="2029.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="365.0" dy="0">缓存逻辑块复制</tspan>
+</text>
+<title>按逻辑块索引复制对应缓存内容，保留未指定目标与物理填充区域，复制后的目标值等于声明源值。</title></g>
+<g class="unit" data-unit="transfer.session_progress" data-phase="transfer" data-level="unit" tabindex="0">
+<rect x="437.0" y="1017.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="505.0" y="1035.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="505.0" dy="0">传输会话进展与失</tspan>
+<tspan x="505.0" dy="16">败恢复</tspan>
+</text>
+<title>传输会话依据确认、就绪、完成、失败和截止时间进入对应状态；可重试、终止和隔离结果分别交付，尚未终止的在途访问按状态保留。</title></g>
+<g class="unit" data-unit="transfer.session_binding" data-phase="transfer" data-level="unit" tabindex="0">
+<rect x="437.0" y="1075.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="505.0" y="1093.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="505.0" dy="0">传输会话身份与兼</tspan>
+<tspan x="505.0" dy="16">容条件</tspan>
+</text>
+<title>传输请求、确认与完成通知携带一致的会话和对象标识；版本与兼容信息匹配后才能授权，读操作的源和目标块按请求对应。</title></g>
+<g class="unit" data-unit="cache.offload_job_completion" data-phase="cache" data-level="unit" tabindex="0">
+<rect x="297.0" y="2061.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="365.0" y="2079.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="365.0" dy="0">缓存卸载任务完成</tspan>
+<tspan x="365.0" dy="16">与失败结果</tspan>
+</text>
+<title>异步卸载任务按身份汇报完成或失败，pending 任务继续等待；提交、内存注册、轮询或清理异常按约定处理，结果不被遗漏或重复交付。</title></g>
+<g class="unit" data-unit="cache.cascade_orchestration" data-phase="cache" data-level="unit" tabindex="0">
+<rect x="297.0" y="2119.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="365.0" y="2137.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="365.0" dy="0">多层缓存迁移与请</tspan>
+<tspan x="365.0" dy="16">求生命周期</tspan>
+</text>
+<title>多层缓存根据各层命中与写入状态安排下沉和晋升，保留请求上下文；共享键不重复晋升，未完成写入延迟级联和请求结束，失败或重置清理相应编排状态。</title></g>
+<g class="unit" data-unit="cache.host_mirror_ordering" data-phase="cache" data-level="unit" tabindex="0">
+<rect x="297.0" y="2177.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="365.0" y="2195.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="365.0" dy="0">主机缓存镜像的执</tspan>
+<tspan x="365.0" dy="16">行次序与写入角色</tspan>
+</text>
+<title>主机镜像按计算完成、设备传输和后续使用的依赖顺序提交；不同执行路径不重复或漏掉应镜像的层，共享区域只由指定写入者更新和确认。</title></g>
+<g class="unit" data-unit="cache.layer_storage_binding" data-phase="model_execution" data-level="unit" tabindex="0">
+<rect x="577.0" y="2235.0" width="136" height="44" rx="8" fill="#e9f2ee" stroke="#8bb6a6" stroke-width="1.2"/>
+<text x="645.0" y="2253.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="645.0" dy="0">模型层与缓存存储</tspan>
+<tspan x="645.0" dy="16">对应</tspan>
+</text>
+<title>模型层、执行器和缓存组绑定对应存储视图与跟踪状态；共享组复用同一状态，不同组隔离；重新绑定、复制与清理遵守地址和布局约束。</title></g>
+<g class="unit" data-unit="diagnostic.dimension_metadata_contract" data-phase="diagnostic" data-level="unit" tabindex="0">
+<rect x="697.0" y="2410.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
+<text x="765.0" y="2436.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="765.0" dy="0">诊断维度元数据</tspan>
+</text>
+<title>诊断工具对维度名称、融合关系、分片轴及修饰符进行解析和命名，保留声明对应关系并拒绝格式或约束冲突。</title></g>
+<g class="unit" data-unit="diagnostic.tensor_axis_alignment" data-phase="diagnostic" data-level="unit" tabindex="0">
+<rect x="862.0" y="2410.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
+<text x="930.0" y="2436.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="930.0" dy="0">诊断张量轴对齐</tspan>
+</text>
+<title>比较两侧张量时，根据维度语义建立轴置换、单例压缩和融合计划；声明冲突时返回诊断，不生成有效对齐计划。</title></g>
+<g class="unit" data-unit="diagnostic.record_schema_and_encoding" data-phase="diagnostic" data-level="unit" tabindex="0">
+<rect x="1027.0" y="2410.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
+<text x="1095.0" y="2428.4" text-anchor="middle" class="node-label" style="font-size:13px">
+<tspan x="1095.0" dy="0">诊断记录约束与表</tspan>
+<tspan x="1095.0" dy="16">达</tspan>
+</text>
+<title>诊断记录满足字段与计数约束，序列化和文字报告保留所声明的类别、字段、数值及诊断信息。</title></g>
+<g class="unit" data-unit="diagnostic.dump_input_discovery" data-phase="diagnostic" data-level="unit" tabindex="0">
+<rect x="37.0" y="2468.0" width="136" height="44" rx="8" fill="#f0f0f2" stroke="#a9a9ae" stroke-width="1.2"/>
+<text x="105.0" y="2494.8" text-anchor="middle" class="node-label" style="font-size:14px">
+<tspan x="105.0" dy="0">诊断转储输入发现</tspan>
+</text>
+<title>给定目录，优先使用已有转储文件；否则定位唯一含转储的子目录，无数据或存在多个候选时拒绝歧义。</title></g>
+<line x1="33" y1="2555" x2="67" y2="2555" stroke="#8c6b9a" stroke-width="2"/><text x="74" y="2559" class="legend">分解</text>
+<line x1="157" y1="2555" x2="191" y2="2555" stroke="#70988c" stroke-width="2" stroke-dasharray="4 4"/><text x="198" y="2559" class="legend">前提依赖</text>
+<rect x="302" y="2543" width="30" height="22" rx="5" fill="#f3edf5" stroke="#bca6c7"/><text x="339" y="2559" class="legend">单请求状态</text>
+<rect x="482" y="2543" width="30" height="22" rx="5" fill="#e9f2ee" stroke="#8bb6a6"/><text x="519" y="2559" class="legend">跨请求／进程状态</text>
+<rect x="662" y="2543" width="30" height="22" rx="5" fill="#f0f0f2" stroke="#a9a9ae"/><text x="699" y="2559" class="legend">局部计算／部署条件</text>
 </svg>

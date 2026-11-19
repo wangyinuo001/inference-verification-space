@@ -1,0 +1,289 @@
+{
+  "file_reviews": [
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/test_bf16x3_router_gemm_rocm.py",
+      "source_sha256": "20462401e063097f79fbb02069995e4e5cd06c2c8e1a24509aff080287f233bb",
+      "implementation_path": "vllm/model_executor/layers/fused_moe/router/bf16x3_router_gemm_rocm.py",
+      "implementation_sha256": "805273dc03afb41e89360dfb3b5cb157b8652f2d537c8a9a2f5e56450c4715b4",
+      "review_method": "逐段阅读调用、构造输入、模拟替身、参考及断言，程序仅提取证据和排除已归类入口"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/ir/test_layernorm.py",
+      "source_sha256": "e7c396933ac59511ac8bf3c0c1269fe91b313f1d7aaf60b92ef75e9dc81f655c",
+      "implementation_path": "vllm/ir/ops/layernorm.py",
+      "implementation_sha256": "b7621f663a97caf6908507b6cbe03adf23d0001a441d44af2b24c1ad0fc8bf57",
+      "review_method": "逐段阅读调用、构造输入、模拟替身、参考及断言，程序仅提取证据和排除已归类入口"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_rocm_unquantized_gemm.py",
+      "source_sha256": "57ed1a6da5195be0941b9fac33fd2ca0f98aa102e44b77cbfc7b361aa419b309",
+      "implementation_path": "vllm/model_executor/layers/utils.py",
+      "implementation_sha256": "95d2a54de97dbb807ec25da1d5c59c2ab65f55528726c29a896cd7326531d2f2",
+      "review_method": "逐段阅读调用、构造输入、模拟替身、参考及断言，程序仅提取证据和排除已归类入口"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/attention/test_pack_unpack_triton.py",
+      "source_sha256": "ebd4ebc2be0131a0d683307a05ce7b9ce03726573b94ac0234c367fa20cafe45",
+      "implementation_path": "vllm/v1/attention/ops/common.py",
+      "implementation_sha256": "f4da48b60dc4774acf9f05c59ae4219a611ad1af506994bf681b4e157c664209",
+      "review_method": "逐段阅读调用、构造输入、模拟替身、参考及断言，程序仅提取证据和排除已归类入口"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/attention/test_triton_mla_causal_verify_flatten.py",
+      "source_sha256": "6fab50d496a230391fababf6ebcb086bdcf9bcda2022f8a64ceb51922e6402c6",
+      "implementation_path": "vllm/v1/attention/backends/mla/triton_mla.py",
+      "implementation_sha256": "97fe4c6ffafa45411820572e8774f93284f8b4cd2fe08e0d33d6f95024509c90",
+      "review_method": "逐段阅读调用、构造输入、模拟替身、参考及断言，程序仅提取证据和排除已归类入口"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/test_gate_linear_rocm_dispatch.py",
+      "source_sha256": "e217dd0a15548a88da7eef3881c0fea33dffea6583001d8e7b0ecdcbe293d18e",
+      "implementation_path": "vllm/model_executor/layers/fused_moe/router/gate_linear.py",
+      "implementation_sha256": "18583f5a25cb2c64fc6708923ec0bf601815629fc7f72659ab2d50ecfc891575",
+      "review_method": "逐段阅读调用、构造输入、模拟替身、参考及断言，程序仅提取证据和排除已归类入口"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/attention/test_use_trtllm_attention.py",
+      "source_sha256": "ad506d5002da8080bc604236e1f75cad74f842d9850018f2bd66fc7dab2f25bd",
+      "implementation_path": "vllm/utils/flashinfer.py",
+      "implementation_sha256": "5fa15c4f29a02fb5ef72c25b45f2288e1606d2c8cee483fd069497b547cd6c77",
+      "review_method": "逐段阅读调用、构造输入、模拟替身、参考及断言，程序仅提取证据和排除已归类入口"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/quantization/test_quantization_config_args.py",
+      "source_sha256": "0ddeba71557b719ca4889fa2d8d2fd31513c5c8c2262e150e531bdf8959196e3",
+      "implementation_path": "vllm/config/quantization.py",
+      "implementation_sha256": "1dd1bd5b5e5ff40f7805b233766e7a6734e378c08ecc9c4da93e744591a32c7e",
+      "review_method": "逐段阅读调用、构造输入、模拟替身、参考及断言，程序仅提取证据和排除已归类入口"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/quantization/test_config_utils.py",
+      "source_sha256": "6520b61d9b97c869286d38aad1de249ad359d815f4ac2c22e67686ade958a5df",
+      "implementation_path": "vllm/model_executor/layers/quantization/utils/config_utils.py",
+      "implementation_sha256": "3bb806662d9a6ff986de2289a4d703cd2fac7810ec185b35f77b696c826f76a3",
+      "review_method": "逐段阅读调用、构造输入、模拟替身、参考及断言，程序仅提取证据和排除已归类入口"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/model_loader/test_stacked_shard_tracking.py",
+      "source_sha256": "7e5a795381e6c8d2538a2819f45bd59002f6e579a48aa457aa26bb8216a52638",
+      "implementation_path": "vllm/model_executor/layers/linear.py",
+      "implementation_sha256": "8d60067354890c880174f225d19f1b405bf86158587067f2fa86d8ee00cdd2f2",
+      "review_method": "逐段阅读调用、构造输入、模拟替身、参考及断言，程序仅提取证据和排除已归类入口"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/quantization/test_mxfp4_kernel_selection.py",
+      "source_sha256": "8955e1184219e6083fce2f3382fe86f8a59e678d02e79287644d2155b8f1e0b0",
+      "implementation_path": "vllm/model_executor/kernels/linear/mxfp4/emulation.py",
+      "implementation_sha256": "197a4912e8fe1c8c020401c1416ddd9e1396f3b94b05b8a5d6bb2fa6001c61cf",
+      "review_method": "逐段阅读调用、构造输入、模拟替身、参考及断言，程序仅提取证据和排除已归类入口"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/quantization/test_mxfp4_w4a8_rdna3.py",
+      "source_sha256": "7f248bc4ddcbcf9d3c2c252f95c718c68969387e6f7c42c7f500f3f671dafef2",
+      "implementation_path": "vllm/model_executor/kernels/linear/mxfp4/rdna3_hip.py",
+      "implementation_sha256": "dd57737581d370f9659ddde95cdd819155f33f76dc550f085e0193804efa2852",
+      "review_method": "逐段阅读调用、构造输入、模拟替身、参考及断言，程序仅提取证据和排除已归类入口"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/core/test_muse_spark_norms.py",
+      "source_sha256": "bcced123a6f351b6271f5bf5af639af510f318685ebfdd477d3148d9ba8e00dd",
+      "implementation_path": "vllm/models/muse_spark/common/ops/fused_rmsnorm.py",
+      "implementation_sha256": "070555cffd06e7cfc74e8b487e5367bde9e7660dec23836673db89a27c17f1e3",
+      "review_method": "逐段阅读调用、构造输入、模拟替身、参考及断言，程序仅提取证据和排除已归类入口"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/model_loader/test_registry.py",
+      "source_sha256": "8913ac420c5e6a75966df651c53c6add0e7cc3a709b1c17146b6e83b1a50bedb",
+      "implementation_path": "vllm/model_executor/model_loader/default_loader.py",
+      "implementation_sha256": "0481df10c70737761db9deaf5d6c1d77439ca14f120b2b94795b0a3895098b51",
+      "review_method": "逐段阅读调用、构造输入、模拟替身、参考及断言，程序仅提取证据和排除已归类入口"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/attention/test_rocm_aiter_mla_head_padding.py",
+      "source_sha256": "28e5caffb7b5fd3cce44c9a8341dca2ad5fd86cc11c2a3a1652aa66645808e5f",
+      "implementation_path": "vllm/v1/attention/backends/mla/rocm_aiter_mla.py",
+      "implementation_sha256": "ac3ba8f5a15d0a6429675062f613234b4e7e2aff663feccf5c3f1a96f341a005",
+      "review_method": "逐段阅读调用、构造输入、模拟替身、参考及断言，程序仅提取证据和排除已归类入口"
+    }
+  ],
+  "supporting_source_reviews": [
+    {
+      "snapshot": "vllm",
+      "path": "tests/ir/ir_test_utils.py",
+      "source_sha256": "f417fd5c9f88f945dbb516d6662d85b412e8b52de544180f9e000f9a4cd75027",
+      "review_scope": "仅核对本轮测试调用涉及的函数和分支，不表示整个文件逐项审查"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/quantization/utils.py",
+      "source_sha256": "261f78d4d3160dbae02d9e5588e68869abf6d0cc6af385c9e8874d0397abe580",
+      "review_scope": "仅核对本轮测试调用涉及的函数和分支，不表示整个文件逐项审查"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/model_executor/layers/quantization/online/base.py",
+      "source_sha256": "9a73e815ab2a43f69570c777902036efe931c8c1b1114a3a7ea5f41d01dd9651",
+      "review_scope": "仅核对本轮测试调用涉及的函数和分支，不表示整个文件逐项审查"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/model_executor/layers/quantization/compressed_tensors/utils.py",
+      "source_sha256": "e7c4b3b9d5bb2a6c7abfdb3f3546aafcebb4c1526250d13e3c90de8bda474f78",
+      "review_scope": "仅核对本轮测试调用涉及的函数和分支，不表示整个文件逐项审查"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/model_executor/layers/quantization/quark/utils.py",
+      "source_sha256": "bdd9b5e1de5b4ce33c02e4dfbc1dd89a9b441c270d2b87c59ce1b17c3e694b9f",
+      "review_scope": "仅核对本轮测试调用涉及的函数和分支，不表示整个文件逐项审查"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/model_executor/kernels/linear/__init__.py",
+      "source_sha256": "c7f0918d938d7e99f62652ca283e2a75dceb0830d676996e42a27bfd1a3e3db5",
+      "review_scope": "仅核对本轮测试调用涉及的函数和分支，不表示整个文件逐项审查"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/model_executor/kernels/linear/mxfp4/base.py",
+      "source_sha256": "59f1bc0e04ef4f83364539c1e3e7fed04e57177c5d351dd88533d151ac57b476",
+      "review_scope": "仅核对本轮测试调用涉及的函数和分支，不表示整个文件逐项审查"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/model_executor/kernels/linear/mxfp4/flashinfer.py",
+      "source_sha256": "b43b47a7b5c5f8107d5fdd7dda269a2cef9d5254291ed5cdb574da05d66fd041",
+      "review_scope": "仅核对本轮测试调用涉及的函数和分支，不表示整个文件逐项审查"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/model_executor/kernels/linear/mxfp4/xpu.py",
+      "source_sha256": "e40c8658384e3b2d38d47c215244715a3f151f68499bc7d3d912bca0f3ed3a28",
+      "review_scope": "仅核对本轮测试调用涉及的函数和分支，不表示整个文件逐项审查"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/model_executor/kernels/linear/mxfp4/aiter.py",
+      "source_sha256": "643386f8a2e551211738f58bb0fb2013eb5c6bb41c73f30fc810a1253ee1b6b4",
+      "review_scope": "仅核对本轮测试调用涉及的函数和分支，不表示整个文件逐项审查"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/model_executor/kernels/linear/mxfp4/marlin.py",
+      "source_sha256": "dae5eb9619faabb81b334b30338d262b558b7f00dee51f42ecb06215be48fbc9",
+      "review_scope": "仅核对本轮测试调用涉及的函数和分支，不表示整个文件逐项审查"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/models/muse_spark/common/layers.py",
+      "source_sha256": "208d43007915965320aebfedf51daf493aac6539b54eb01b6b854c7daface7cc",
+      "review_scope": "仅核对本轮测试调用涉及的函数和分支，不表示整个文件逐项审查"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/models/muse_spark/nvidia/model.py",
+      "source_sha256": "b7a00f26d530eb1c17c0c23ca95908ac8546bfd67362c55ccb8a8c09af63e690",
+      "review_scope": "仅核对本轮测试调用涉及的函数和分支，不表示整个文件逐项审查"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/model_executor/model_loader/__init__.py",
+      "source_sha256": "dc3b882166685d1ac1b06c605ecbb6fdfb8f04470172bf665c60956ecb63bf85",
+      "review_scope": "仅核对本轮测试调用涉及的函数和分支，不表示整个文件逐项审查"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/model_executor/layers/fused_moe/runner/moe_runner.py",
+      "source_sha256": "d99e6da5f8c2df16420dc4b39b2c6abd9950769762a955f458ca85ca2d21c9ee",
+      "review_scope": "仅核对本轮测试调用涉及的函数和分支，不表示整个文件逐项审查"
+    }
+  ],
+  "deferred": [
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/ir/test_layernorm.py",
+      "test_name": "TestRMSNorm::test_torch_opcheck",
+      "line": "129",
+      "reason": "opcheck检查自定义算子注册/编译契约，现有数值关系单元不能完整替代该性质。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/ir/test_layernorm.py",
+      "test_name": "TestFusedAddRMSNorm::test_torch_opcheck",
+      "line": "423",
+      "reason": "同上，包含alias语义与编译契约。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/attention/test_pack_unpack_triton.py",
+      "test_name": "test_pack_seq_default_negative_inf_padding_fp8",
+      "line": "82",
+      "reason": "lengths=[10,10]，结果最大长度10，result[:,10:]为空；torch.all在空张量上恒真，不能确认负无穷padding性质。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/test_gate_linear_rocm_dispatch.py",
+      "test_name": "test_rocm_bf16x3_is_reachable_for_low_m_shapes",
+      "line": "257",
+      "reason": "通过inspect.getsource检查两个字符串的位置先后，属于源码结构约束，不直接证明运行路径可达。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/quantization/test_quantization_config_args.py",
+      "test_name": "test_quant_spec_equality_ignores_explicit_field_metadata",
+      "line": "60",
+      "reason": "只检查数据对象相等性忽略显式字段元数据，不保证部署解析过程。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/quantization/test_quantization_config_args.py",
+      "test_name": "test_quant_spec_string_representation_uses_quantization_name",
+      "line": "67",
+      "reason": "仅检查配置字符串格式，暂不归为系统执行配置性质。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/quantization/test_quantization_config_args.py",
+      "test_name": "test_rocm_platform_supports_mxfp4_hadamard32",
+      "line": "320",
+      "reason": "隐式无异常检查需独立记录，本批生成器不把缺少断言当作数值或分派检查。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/quantization/test_config_utils.py",
+      "test_name": "test_get_layer_name_after_index",
+      "line": "72",
+      "reason": "字符串后缀提取工具，不单独宣称已完成层到量化配置绑定。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/quantization/test_mxfp4_kernel_selection.py",
+      "test_name": "test_can_implement_is_abstract",
+      "line": "63",
+      "reason": "只检查类具有方法属性，并未检查支持范围或实际分派。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/quantization/test_mxfp4_w4a8_rdna3.py",
+      "test_name": "test_w4a8_gemv_opcheck",
+      "line": "128",
+      "reason": "自定义算子注册/编译/alias契约，暂不混入数值一致性。"
+    }
+  ],
+  "confirmed_rows": 209
+}

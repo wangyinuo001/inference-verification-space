@@ -25,8 +25,8 @@ def test_all_entries_have_a_disposition_without_changing_reviewed_claims():
 
 
 def test_new_reviewed_mappings_have_registered_visible_units_and_receipts():
-    checked = rows(HERE/'reviewed-round10-crosswalk.tsv')
-    receipts = json.loads((HERE/'reviewed-round10-receipts.json').read_text())
+    checked = rows(HERE/'reviewed-round11-crosswalk.tsv')
+    receipts = json.loads((HERE/'reviewed-round11-receipts.json').read_text())
     assert len(checked) == len(receipts)
     assert {tuple(r[k] for k in KEY) for r in checked} == {tuple(r['key']) for r in receipts}
     graph = (HERE.parent/'space_view.html').read_text()

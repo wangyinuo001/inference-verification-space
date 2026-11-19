@@ -65,9 +65,9 @@ def main():
         pending.update({key(r): r for r in json.loads(round9_pending_path.read_text())})
     checked = {}
     for name in ("confirmed-property-crosswalk.tsv", "direct-property-crosswalk.tsv",
-                 "inherited-property-crosswalk.tsv", "reviewed-supplement-crosswalk.tsv", "reviewed-round9-crosswalk.tsv", "reviewed-round10-crosswalk.tsv"):
+                 "inherited-property-crosswalk.tsv", "reviewed-supplement-crosswalk.tsv", "reviewed-round9-crosswalk.tsv", "reviewed-round10-crosswalk.tsv", "reviewed-round11-crosswalk.tsv"):
         if not (HERE / name).exists():
-            assert name == "reviewed-round10-crosswalk.tsv"
+            assert name in {"reviewed-round10-crosswalk.tsv", "reviewed-round11-crosswalk.tsv"}
             continue
         for row in read(HERE / name):
             assert key(row) not in checked, (name, key(row))

@@ -1,0 +1,42 @@
+{
+  "mapped_entries": 282,
+  "reviewed_files": 7,
+  "already_reviewed_excluded": 0,
+  "by_file": {
+    "tests/v1/ec_connector/unit/cpu/scheduler/test_embedding_cache.py": 34,
+    "tests/v1/ec_connector/unit/test_session.py": 35,
+    "tests/v1/kv_connector/unit/offloading_connector/test_metrics.py": 39,
+    "tests/v1/kv_offload/tiering/test_fs_tier.py": 32,
+    "tests/v1/kv_offload/tiering/test_obj_tier.py": 38,
+    "tests/v1/kv_offload/tiering/test_tiering_offloading.py": 59,
+    "tests/v1/worker/test_utils.py": 45
+  },
+  "by_unit": {
+    "cache.block_copy_relation": 1,
+    "cache.capacity_plan": 1,
+    "cache.cascade_orchestration": 22,
+    "cache.event_configuration": 4,
+    "cache.event_payload_binding": 13,
+    "cache.eviction_candidate_order": 2,
+    "cache.eviction_outcome": 8,
+    "cache.host_mirror_ordering": 17,
+    "cache.layer_storage_binding": 8,
+    "cache.lifetime": 16,
+    "cache.namespace": 2,
+    "cache.offload_job_completion": 16,
+    "cache.offload_metrics": 52,
+    "cache.state_invariants": 21,
+    "cache.storage_existence_accounting": 28,
+    "cache.storage_layout_mapping": 8,
+    "cache.tier_transfer_content": 7,
+    "deployment.configuration_admissibility": 3,
+    "deployment.effective_configuration": 11,
+    "distributed.queue_wait_shutdown": 2,
+    "resource.host_registration": 2,
+    "resource.shared_host_region": 2,
+    "shared_resource.lifetime": 7,
+    "transfer.session_binding": 6,
+    "transfer.session_progress": 23
+  },
+  "runtime_execution": false
+}
