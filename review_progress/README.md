@@ -2,7 +2,7 @@
 
 [打开页面](https://wangyinuo001.github.io/inference-verification-space/review_progress/)。每个方格是 vLLM 或 SGLang 中的一个测试，按仓库和文件排列。绿色表示已经阅读测试源码，确认它检查什么，并将它放到验证空间的一个具体位置。其他颜色表示目前只找到部分信息，例如测试所在的推理环节、相关函数或检查语句；这些测试还需要继续核对。颜色表示研究进度，不表示测试是否通过。总览按仓库和源码文件路径排列；搜索与状态筛选会收拢匹配方格，点击或用方向键可查看测试详情。方格状态互斥，顶部几项统计可交叠。
 
-目前收录 31,968 个源码级测试入口，11,976 个已核对具体检查内容并映射到验证单元。本轮新增 1,569 项确认映射，涉及数值计算、缓存与传输状态、请求协议和诊断工具。另有 28,871 项从源码提取到相等、数值误差、形状、类型、异常、调用行为等检查关系，页面可按检查内容筛选并查看对应表达式。检查关系与已确认的系统性质分开记录，以上统计可以交叠。
+目前收录 31,968 个源码级测试入口，13,249 个已核对具体检查内容并映射到验证单元，占全部入口的 41.4%。本轮净增 1,273 项，涉及量化与融合计算、流式响应、模型配置、缓存及运行状态。另有 284 条已确认属于辅助检查、执行脚本、尚无有效检查或当前范围外记录，18,435 条仍需核对具体性质。另有 28,871 项从源码提取到相等、数值误差、形状、类型、异常、调用行为等检查关系，页面可按检查内容筛选并查看对应表达式。检查关系与已确认的系统性质分开记录，以上统计可以交叠。
 
 有些测试方法写在公共测试类中，再由不同模型和配置的测试类继承。程序现已为全部 1,366 个继承的源码级测试入口找到实际方法源码；其中 891 个通过核对公共方法及其检查语句，确认了任务评分、输出样本检查、停止元数据、缓存命中与数值关系、工具调用解析、多模态样本回答、推测解码、会话取消恢复及 reasoning 用量等局部检查。此前两轮继承方法审查分别净增 153 和 214 条绿色入口；[第三轮普通测试审查](../semantic_space/test_mapping_pilot/direct-property-review-round3.md)净增 251 条；[第四轮](../semantic_space/test_mapping_pilot/direct-property-review-round4.md)净增 560 条；[第五轮](../semantic_space/test_mapping_pilot/direct-property-review-round5.md)净增 454 条；[第六轮](../semantic_space/test_mapping_pilot/direct-property-review-round6.md)净增 1,106 条；[第七轮](../semantic_space/test_mapping_pilot/direct-property-review-round7.md)净增 1,066 条。继承类的模型、服务配置和门槛仍作为适用条件记录。其他继承测试只标记方法位置，继续核对具体检查内容。
 
@@ -10,7 +10,7 @@
 
 本轮扩展也保留了[逐项审查边界](../semantic_space/test_mapping_pilot/inherited-request-behavior-review.md)：停止测试只检查原因与 `matched_stop`，不检查文本截断；缓存 KL 测试只比较实际命中的样本；vLLM 工具解析的 malformed-input 公共方法没有结果断言；SGLang 混合图像批次测试只检查响应角色和文本类型，不能推出图像绑定或各请求独立。源代码中的 `xfail`、环境变量跳过及子类配置仍影响实际执行和适用范围。
 
-页面由 [`render_review_progress.py`](../semantic_space/test_mapping_pilot/render_review_progress.py) 生成。它合并[测试源码索引](../semantic_space/test_mapping_pilot/full-scan-index.tsv)、[逐项审查结果](../semantic_space/oracle-review-queue.tsv)、[推理环节定位](../semantic_space/test_mapping_pilot/stage-placement-all.tsv)、[244 个已确认的对应关系](../semantic_space/test_mapping_pilot/confirmed-property-crosswalk.tsv)、[3,713 个直接审查的对应关系](../semantic_space/test_mapping_pilot/direct-property-crosswalk.tsv)，以及[继承方法位置](../semantic_space/test_mapping_pilot/inherited-method-sources.tsv)和[891 个已核对的公共方法检查](../semantic_space/test_mapping_pilot/inherited-property-crosswalk.tsv)。每条已确认的对应关系都保留测试名称、检查内容和源码位置。
+页面由 [`render_review_progress.py`](../semantic_space/test_mapping_pilot/render_review_progress.py) 生成。它合并[测试源码索引](../semantic_space/test_mapping_pilot/full-scan-index.tsv)、[逐项审查结果](../semantic_space/oracle-review-queue.tsv)、[推理环节定位](../semantic_space/test_mapping_pilot/stage-placement-all.tsv)、[244 个已确认的对应关系](../semantic_space/test_mapping_pilot/confirmed-property-crosswalk.tsv)、[3,708 个直接审查的对应关系](../semantic_space/test_mapping_pilot/direct-property-crosswalk.tsv)，以及[继承方法位置](../semantic_space/test_mapping_pilot/inherited-method-sources.tsv)和[891 个已核对的公共方法检查](../semantic_space/test_mapping_pilot/inherited-property-crosswalk.tsv)。每条已确认的对应关系都保留测试名称、检查内容和源码位置。
 
 ```bash
 cd semantic_space/test_mapping_pilot
@@ -23,7 +23,7 @@ cp review_progress.html ../../review_progress/index.html
 
 这一页面与[验证空间交互页](../semantic_space/space_view.html)分别展示测试归类进度和推理系统的验证需求。当前展示的验证需求仍在持续核对与修订。
 
-交互页的测试 Explorer 按需读取上述 891 条继承公共方法检查和 5,096 条单独的源码确认映射；用 [`sync_inherited_space_view.py`](../semantic_space/test_mapping_pilot/sync_inherited_space_view.py) 将交叉映射写入交互页的内嵌数据。归类页的绿色单元名称可打开图中对应节点；图节点也可筛出归入它的已确认测试。显式跳过的测试类仍不在图中标亮候选单元，详情中说明其源码检查未执行。交互页仍使用早期候选空间，这一步不将映射自动转移到 76 单元的源码派生模型。
+交互页的测试 Explorer 按需读取上述 891 条继承公共方法检查和 11,876 条单独的源码确认映射；用 [`sync_inherited_space_view.py`](../semantic_space/test_mapping_pilot/sync_inherited_space_view.py) 将交叉映射写入交互页的内嵌数据。归类页的绿色单元名称可打开图中对应节点；图节点也可筛出归入它的已确认测试。显式跳过的测试类仍不在图中标亮候选单元，详情中说明其源码检查未执行。交互页仍使用早期候选空间，这一步不将映射自动转移到 76 单元的源码派生模型。
 
 ## 11 月 12 日整理
 
@@ -34,3 +34,13 @@ cp review_progress.html ../../review_progress/index.html
 ## 11 月 19 日继续核对
 
 新增结果来自请求协议、采样与请求状态、缓存传输、分片计算和验证支持工具的源码核对。76 条旧归类按实际断言重新细分，例如缓存存在性与页数量统计分别记录，分片投影结果不再直接归入整体分布式执行性质。原始判定与修订理由保存在 classification-corrections.json 和逐批 receipts 中。新增批次由统一入口校验来源及映射，27 项本地工具测试通过；本轮未执行上游 GPU 测试。
+
+## 11 月 20 日批量核对
+
+新增 1,278 条源码映射，并将 5 条旧映射改为辅助结构检查，净增 1,273 条。另修订 82 条旧映射的性质或条件。相同辅助函数先共同核对，再分别记录调用入口的输入、配置、跳过条件和断言差异。源码归类不表示已经执行这些测试。
+
+本轮把流式解码窗口与解析重放历史分开描述：前者可保留有限上下文，后者可能需要完整历史及原始分块边界。量化后端选择、融合结构改写与数值参考检查分别记录。配置测试中，字段保存、合法性拒绝、服务构造与真实启动也分别记录，避免仅凭测试名称判断性质。
+
+15—18 批逐项映射、输入条件、检查位置和源码哈希保存在 semantic_space/test_mapping_pilot 下。进度页与交互页从同一批审查结果生成；全部 31,968 个入口均保留在清单中。
+
+本次更新通过 28 项本地校验；两个页面在浏览器中检查通过，无脚本错误或横向溢出。

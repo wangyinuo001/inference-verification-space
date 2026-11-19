@@ -1,0 +1,11 @@
+[
+  {
+    "batch": "round16_work/runtime",
+    "unit_id": "diagnostic.analytic_work_estimate",
+    "snapshot": "vllm",
+    "path": "vllm/v1/metrics/perf.py",
+    "old_line": 1460,
+    "new_line": 1465,
+    "reason": "1460是空行；1465为ModelMetrics定义，1492起聚合分项计算量与字节估算。其余16个提议锚点逐个核查均为对应类或函数。"
+  }
+]

@@ -1,0 +1,1938 @@
+{
+  "file_reviews": [
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_deepseek_v4.py",
+      "source_sha256": "160c33dbc50fc4cbd726d882b1f04292a30e8261f8c4636f428baa3b84a47daf"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_engine.py",
+      "source_sha256": "788c71ae1314fd5d1658fc361c8d92e09711af0660925bad49040791f949e1a8"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_gemma4_streaming_reasoning.py",
+      "source_sha256": "69328a95c3f53ffc34a8f5398aedd37e441669925c574847571d9bbf9a9d3a28"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_inkling.py",
+      "source_sha256": "10a2e8a09b9bd9087013a0484a379248758b953f8a5164a206501d6d8ca0549e"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_parser_engine.py",
+      "source_sha256": "8326dd91459d65665f86285ebf2862066fbc8adb3a5a3e03885336673c12d10f"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "source_sha256": "bd5c0613536e48a414bc31b603b99f0ba3a7228e4c40313c3a714de02f550f44"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_chat_parsing.py",
+      "source_sha256": "503d3e7f6ce404a101c215dd8aea5dce9ced251b2274dd44d4fcae58372c11ac"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/parser/chat_parsing/response_parser.py",
+      "source_sha256": "2174901f56946ab191ef0c23eb239db1ddaf885c829ae9a8386fa2a8a090ee43"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/parser/chat_parsing/response_templates.py",
+      "source_sha256": "d68f89cbc5ee1ef11a1489acb2071b2374fc2513245c1bbe95d76adac47ae6a4"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/parser/deepseek_v4.py",
+      "source_sha256": "d3590bc8f84793e0e4f153dc3a14503f5cafaac63ad4db8a30c985a9ea0b5ee4"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/parser/engine/parser_engine.py",
+      "source_sha256": "cc30e4071cbbb683365ed27bcfb40270f871d426f242131b1d5dc3ea77f9f59a"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/parser/engine/streaming_parser_engine.py",
+      "source_sha256": "3edb287e07e5582b0875f815205dfedafee6fe888cc4af74104a5b1d67905175"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/parser/parser_manager.py",
+      "source_sha256": "35649c5ca1f43d403d58357904b8f8d58ea54a66994034343477dbaf19e007f4"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/parser/qwen3.py",
+      "source_sha256": "36e518b91e3c235d72a9ca7184449ba99b14c766e603aee71fa06fa36d93d02f"
+    }
+  ],
+  "entries": [
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_deepseek_v4.py",
+      "test_name": "TestThinkingModeConfig::test_thinking_true_starts_in_reasoning",
+      "line": "523",
+      "old_unit_id": "output.parser_format_selection",
+      "unit_id": "response.reasoning_parser_initial_state",
+      "test_source": "    def test_thinking_true_starts_in_reasoning(self):\n        cfg = deepseek_v4_config(thinking=True)\n        assert cfg.initial_state.name == \"REASONING\"",
+      "test_body_sha256": "5fa141436535d637fc4ac84c1d383307ab745b4af9136f01fa1697d3428c50e8",
+      "assertions": [
+        {
+          "line": 525,
+          "expression": "assert cfg.initial_state.name == 'REASONING'"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_deepseek_v4.py",
+      "test_name": "TestThinkingModeConfig::test_thinking_false_starts_in_content",
+      "line": "527",
+      "old_unit_id": "output.parser_format_selection",
+      "unit_id": "response.reasoning_parser_initial_state",
+      "test_source": "    def test_thinking_false_starts_in_content(self):\n        cfg = deepseek_v4_config(thinking=False)\n        assert cfg.initial_state.name == \"CONTENT\"",
+      "test_body_sha256": "bd4fee3a440400d3fa9b2f5e16b7623aa2fe9bda48a5e918c6c93f1f4b996523",
+      "assertions": [
+        {
+          "line": 529,
+          "expression": "assert cfg.initial_state.name == 'CONTENT'"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_deepseek_v4.py",
+      "test_name": "TestThinkingModeConfig::test_parser_thinking_mode_matches_tokenizer_default",
+      "line": "546",
+      "old_unit_id": "output.parser_format_selection",
+      "unit_id": "response.reasoning_parser_initial_state",
+      "test_source": "    def test_parser_thinking_mode_matches_tokenizer_default(\n        self, mock_tokenizer, chat_template_kwargs, expected_state\n    ):\n        parser = DeepSeekV4Parser(\n            mock_tokenizer,\n            chat_template_kwargs=chat_template_kwargs,\n        )\n        assert parser.parser_engine_config.initial_state.name == expected_state",
+      "test_body_sha256": "b4e940ad1d1ddf5b38b4ebbf44a86ceaf21c3fc7ae3eda93b5a6bf882fe9abad",
+      "assertions": [
+        {
+          "line": 553,
+          "expression": "assert parser.parser_engine_config.initial_state.name == expected_state"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_deepseek_v4.py",
+      "test_name": "TestThinkingModeConfig::test_reasoning_effort_none_overrides_enable_thinking",
+      "line": "579",
+      "old_unit_id": "output.parser_format_selection",
+      "unit_id": "response.reasoning_parser_initial_state",
+      "test_source": "    def test_reasoning_effort_none_overrides_enable_thinking(self, mock_tokenizer):\n        p = DeepSeekV4Parser(\n            mock_tokenizer,\n            chat_template_kwargs={\n                \"enable_thinking\": True,\n                \"reasoning_effort\": \"none\",\n            },\n        )\n        assert p.parser_engine_config.initial_state.name == \"CONTENT\"",
+      "test_body_sha256": "56a29fbe736f223c4195e7ca4c295d3a35a4aa42929192b0f8e24a3cbd610a84",
+      "assertions": [
+        {
+          "line": 587,
+          "expression": "assert p.parser_engine_config.initial_state.name == 'CONTENT'"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_deepseek_v4.py",
+      "test_name": "TestImplicitReasoningEnd::test_reasoning_end_token_ids_drop_multi_token_tool_opener",
+      "line": "639",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_reasoning_end_token_ids_drop_multi_token_tool_opener(\n        self, thinking_parser\n    ):\n        # Like the real DeepSeek-V4 tokenizer, the mock vocab has no single\n        # token for the DSML tool opener, so only </think> is tracked on the\n        # token-ID fast path; the implicit tool-call exit still goes through\n        # the text lexer.\n        assert thinking_parser.reasoning_end_token_ids == {_THINK_END_ID}\n        assert thinking_parser.find_reasoning_end([7, _THINK_END_ID, 8]) == (1, False)\n        assert thinking_parser.find_reasoning_end([7, 8]) == (2, False)",
+      "test_body_sha256": "49dd2e8df8980790c2b826bff9147ca4306416f56d2066f36729c605cd604b96",
+      "assertions": [
+        {
+          "line": 646,
+          "expression": "assert thinking_parser.reasoning_end_token_ids == {_THINK_END_ID}"
+        },
+        {
+          "line": 647,
+          "expression": "assert thinking_parser.find_reasoning_end([7, _THINK_END_ID, 8]) == (1, False)"
+        },
+        {
+          "line": 648,
+          "expression": "assert thinking_parser.find_reasoning_end([7, 8]) == (2, False)"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_engine.py",
+      "test_name": "TestTokenIdFiltering::test_lex_matched_terminal_demoted_after_token_ids_seen",
+      "line": "389",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_lex_matched_terminal_demoted_after_token_ids_seen(self):\n        \"\"\"After receiving token IDs, text that matches a token-ID\n        terminal should be treated as content, not trigger a transition.\"\"\"\n        engine = StreamingParserEngine(_hermes_config(), _make_hermes_tokenizer())\n\n        # First feed with a non-special token ID to set _ever_had_token_ids\n        engine.feed(\"prefix \", [1])\n\n        # Now feed text containing <tool_call> as literal text\n        events = engine.feed(\n            \"Use <tool_call> to invoke tools.</tool_call>\", [2, 3, 4, 5]\n        )\n        events.extend(engine.finish())\n\n        types = [e.type for e in events]\n        assert EventType.TOOL_CALL_START not in types\n        assert EventType.TEXT_CHUNK in types\n\n        text = \"\".join(e.value for e in events if e.type == EventType.TEXT_CHUNK)\n        assert \"<tool_call>\" in text",
+      "test_body_sha256": "d5156df8e1f1f0841d171bce6ae2043e9749aa095152a2b9e7c1956f263f5911",
+      "assertions": [
+        {
+          "line": 404,
+          "expression": "assert EventType.TOOL_CALL_START not in types"
+        },
+        {
+          "line": 405,
+          "expression": "assert EventType.TEXT_CHUNK in types"
+        },
+        {
+          "line": 408,
+          "expression": "assert '<tool_call>' in text"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_engine.py",
+      "test_name": "TestTokenIdFiltering::test_scanner_matched_terminal_bypasses_filter",
+      "line": "410",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_scanner_matched_terminal_bypasses_filter(self):\n        \"\"\"PreLexedTerminals from the scanner bypass the filter and\n        still trigger state transitions.\"\"\"\n        engine = StreamingParserEngine(_hermes_config(), _make_hermes_tokenizer())\n\n        events = engine.feed(\"<tool_call>\", [_TOOL_START_ID])\n        assert any(e.type == EventType.TOOL_CALL_START for e in events)\n\n        events = engine.feed('{\"name\": \"f\"}', [2, 3])\n        events.extend(engine.feed(\"</tool_call>\", [_TOOL_END_ID]))\n        events.extend(engine.finish())\n        assert any(e.type == EventType.TOOL_CALL_END for e in events)",
+      "test_body_sha256": "9b0df629d1990483fb34072a6b96e5dff904dae2858ebf17e179418d5ab76be0",
+      "assertions": [
+        {
+          "line": 416,
+          "expression": "assert any((e.type == EventType.TOOL_CALL_START for e in events))"
+        },
+        {
+          "line": 421,
+          "expression": "assert any((e.type == EventType.TOOL_CALL_END for e in events))"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_engine.py",
+      "test_name": "TestTokenIdFiltering::test_no_filtering_without_token_ids",
+      "line": "423",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_no_filtering_without_token_ids(self):\n        \"\"\"When no token IDs are ever provided (non-streaming),\n        text matching still triggers transitions.\"\"\"\n        engine = StreamingParserEngine(_hermes_config(), _make_hermes_tokenizer())\n\n        events = engine.feed('<tool_call>{\"name\": \"f\"}</tool_call>', [])\n        events.extend(engine.finish())\n\n        types = [e.type for e in events]\n        assert EventType.TOOL_CALL_START in types\n        assert EventType.TOOL_CALL_END in types",
+      "test_body_sha256": "6332b31293a7a4b82382221f731d206350e486fa64f0367db9c160b8e758c352",
+      "assertions": [
+        {
+          "line": 432,
+          "expression": "assert EventType.TOOL_CALL_START in types"
+        },
+        {
+          "line": 433,
+          "expression": "assert EventType.TOOL_CALL_END in types"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_engine.py",
+      "test_name": "TestTokenIdFiltering::test_mixed_text_then_real_tool_call",
+      "line": "435",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_mixed_text_then_real_tool_call(self):\n        \"\"\"Text mentioning tool syntax followed by a real special-token\n        tool call.\"\"\"\n        engine = StreamingParserEngine(_hermes_config(), _make_hermes_tokenizer())\n\n        events1 = engine.feed(\"Mention <tool_call> in text. \", [1, 2, 3, 4])\n        events2 = engine.feed(\"<tool_call>\", [_TOOL_START_ID])\n        events3 = engine.feed('{\"name\": \"a\"}', [5, 6])\n        events4 = engine.feed(\"</tool_call>\", [_TOOL_END_ID])\n        events4.extend(engine.finish())\n\n        all_events = events1 + events2 + events3 + events4\n\n        content = \"\".join(e.value for e in all_events if e.type == EventType.TEXT_CHUNK)\n        assert \"<tool_call>\" in content\n\n        assert sum(1 for e in all_events if e.type == EventType.TOOL_CALL_START) == 1\n        assert sum(1 for e in all_events if e.type == EventType.TOOL_CALL_END) == 1",
+      "test_body_sha256": "ed3d1bb74750b1d741fd75e44c358fa5135c875e79f3d993c4afbd5ad8a0d2e7",
+      "assertions": [
+        {
+          "line": 449,
+          "expression": "assert '<tool_call>' in content"
+        },
+        {
+          "line": 451,
+          "expression": "assert sum((1 for e in all_events if e.type == EventType.TOOL_CALL_START)) == 1"
+        },
+        {
+          "line": 452,
+          "expression": "assert sum((1 for e in all_events if e.type == EventType.TOOL_CALL_END)) == 1"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_engine.py",
+      "test_name": "TestTextOnlyFallbackFiltering::test_func_prefix_in_prose_demoted_in_strict_mode",
+      "line": "568",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_func_prefix_in_prose_demoted_in_strict_mode(self):\n        \"\"\"<function=get_time> in prose should NOT trigger a tool call\n        when strict mode is active.\"\"\"\n        engine = StreamingParserEngine(\n            _func_prefix_config(), _make_func_prefix_tokenizer()\n        )\n        engine.feed(\"prefix \", [1])\n\n        events = engine.feed(\"Use <function=get_time> to check.\", [2, 3, 4, 5])\n        events.extend(engine.finish())\n\n        types = [e.type for e in events]\n        assert EventType.TOOL_CALL_START not in types\n        assert EventType.TEXT_CHUNK in types\n        text = \"\".join(e.value for e in events if e.type == EventType.TEXT_CHUNK)\n        assert \"<function=\" in text",
+      "test_body_sha256": "6d425286121e627c955256c714bb1050905ca8d829d253b03764d8fbc87645a0",
+      "assertions": [
+        {
+          "line": 580,
+          "expression": "assert EventType.TOOL_CALL_START not in types"
+        },
+        {
+          "line": 581,
+          "expression": "assert EventType.TEXT_CHUNK in types"
+        },
+        {
+          "line": 583,
+          "expression": "assert '<function=' in text"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_engine.py",
+      "test_name": "TestTextOnlyFallbackFiltering::test_normal_flow_after_tool_start_still_works",
+      "line": "585",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_normal_flow_after_tool_start_still_works(self):\n        \"\"\"TOOL_START (special token) -> FUNC_PREFIX (text) should\n        still parse a tool call normally in strict mode.\"\"\"\n        engine = StreamingParserEngine(\n            _func_prefix_config(), _make_func_prefix_tokenizer()\n        )\n\n        events1 = engine.feed(\"<tool_call>\", [_TOOL_START_ID])\n        assert any(e.type == EventType.TOOL_CALL_START for e in events1)\n\n        events2 = engine.feed(\"<function=get_weather>\", [2, 3])\n        events3 = engine.feed(\"args\", [4])\n        events4 = engine.feed(\"</function>\", [5, 6])\n        events4.extend(engine.feed(\"</tool_call>\", [_TOOL_END_ID]))\n        events4.extend(engine.finish())\n\n        all_events = events1 + events2 + events3 + events4\n        assert sum(1 for e in all_events if e.type == EventType.TOOL_CALL_START) == 1\n        assert sum(1 for e in all_events if e.type == EventType.TOOL_CALL_END) == 1",
+      "test_body_sha256": "66a52ba32bd3fbf0ab54e8a7c7182780e3bffd1bfaa537b301a72c12e3971cb4",
+      "assertions": [
+        {
+          "line": 593,
+          "expression": "assert any((e.type == EventType.TOOL_CALL_START for e in events1))"
+        },
+        {
+          "line": 602,
+          "expression": "assert sum((1 for e in all_events if e.type == EventType.TOOL_CALL_START)) == 1"
+        },
+        {
+          "line": 603,
+          "expression": "assert sum((1 for e in all_events if e.type == EventType.TOOL_CALL_END)) == 1"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_engine.py",
+      "test_name": "TestTextOnlyFallbackFiltering::test_fallback_fires_without_token_ids",
+      "line": "605",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_fallback_fires_without_token_ids(self):\n        \"\"\"When no token IDs are provided, fallback transitions should\n        still fire normally.\"\"\"\n        engine = StreamingParserEngine(\n            _func_prefix_config(), _make_func_prefix_tokenizer()\n        )\n\n        events = engine.feed(\"<function=get_time>args</function>\", [])\n        events.extend(engine.finish())\n\n        types = [e.type for e in events]\n        assert EventType.TOOL_CALL_START in types\n        assert EventType.TOOL_CALL_END in types",
+      "test_body_sha256": "b1f0e8dbe09a14bcc5eae228e1deccb95c1c6af6c23119fa1963057575369170",
+      "assertions": [
+        {
+          "line": 616,
+          "expression": "assert EventType.TOOL_CALL_START in types"
+        },
+        {
+          "line": 617,
+          "expression": "assert EventType.TOOL_CALL_END in types"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_engine.py",
+      "test_name": "TestTextOnlyFallbackFiltering::test_tool_between_fallback_blocked_in_strict_mode",
+      "line": "619",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_tool_between_fallback_blocked_in_strict_mode(self):\n        \"\"\"The (TOOL_BETWEEN, FUNC_PREFIX) fallback should also be\n        blocked in strict mode.\"\"\"\n        engine = StreamingParserEngine(\n            _func_prefix_config(), _make_func_prefix_tokenizer()\n        )\n\n        engine.feed(\"<tool_call>\", [_TOOL_START_ID])\n        engine.feed(\"<function=a>\", [2, 3])\n        engine.feed(\"args\", [4])\n        engine.feed(\"</function>\", [5, 6])\n        engine.feed(\"</tool_call>\", [_TOOL_END_ID])\n\n        events = engine.feed(\"<function=b>more</function>\", [7, 8, 9])\n        events.extend(engine.finish())\n\n        types = [e.type for e in events]\n        assert EventType.TOOL_CALL_START not in types",
+      "test_body_sha256": "e7ff3fc94c8056a8d05a7684077d947cbc0a37acfae1f385659298ac9ca629ee",
+      "assertions": [
+        {
+          "line": 636,
+          "expression": "assert EventType.TOOL_CALL_START not in types"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_engine.py",
+      "test_name": "TestRegexTerminalInfraRemoved::test_terminals_from_literals_still_works",
+      "line": "797",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": null,
+      "test_source": "    def test_terminals_from_literals_still_works(self):\n        literals = {\"TOOL_START\": \"<tool_call>\", \"TOOL_END\": \"</tool_call>\"}\n        defs = terminals_from_literals(literals)\n        assert len(defs) == 2\n        names = {d.name for d in defs}\n        assert names == {\"TOOL_START\", \"TOOL_END\"}\n        for d in defs:\n            assert d.is_literal\n            assert d.literal in (\"<tool_call>\", \"</tool_call>\")",
+      "test_body_sha256": "e04113b709cb6f26af0909b5740f3998bd561b0f0e96f1190dccd4eaadc7d03c",
+      "assertions": [
+        {
+          "line": 800,
+          "expression": "assert len(defs) == 2"
+        },
+        {
+          "line": 802,
+          "expression": "assert names == {'TOOL_START', 'TOOL_END'}"
+        },
+        {
+          "line": 804,
+          "expression": "assert d.is_literal"
+        },
+        {
+          "line": 805,
+          "expression": "assert d.literal in ('<tool_call>', '</tool_call>')"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_engine.py",
+      "test_name": "TestTerminalAliases::test_terminal_defs_expand_every_spelling",
+      "line": "985",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": null,
+      "test_source": "    def test_terminal_defs_expand_every_spelling(self):\n        defs = terminals_from_literals({\"A\": (\"x\", \"y\"), \"B\": \"z\"})\n        assert [(d.name, d.literal) for d in defs] == [\n            (\"A\", \"x\"),\n            (\"A\", \"y\"),\n            (\"B\", \"z\"),\n        ]",
+      "test_body_sha256": "e4f30cf865d8f14622c1b69340f929c302fad4f56820d265e01c5777bf144bde",
+      "assertions": [
+        {
+          "line": 987,
+          "expression": "assert [(d.name, d.literal) for d in defs] == [('A', 'x'), ('A', 'y'), ('B', 'z')]"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_engine.py",
+      "test_name": "TestTerminalAliases::test_terminal_literal_is_canonical_spelling",
+      "line": "993",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": null,
+      "test_source": "    def test_terminal_literal_is_canonical_spelling(self):\n        cfg = _alias_config()\n        assert cfg.terminal_literal(\"TOOL_START\") == \"<tc>\"\n        assert cfg.terminal_literal(\"TOOL_END\") == \"</tc>\"\n        assert cfg.terminal_literal(\"MISSING\") is None\n        assert cfg.terminal_literals == {\"<tc>\", \"<tcx>\", \"</tc>\"}",
+      "test_body_sha256": "0085c1810a41bb23b71b6196d851dddff65af99189807b2176e409b8f3e062f0",
+      "assertions": [
+        {
+          "line": 995,
+          "expression": "assert cfg.terminal_literal('TOOL_START') == '<tc>'"
+        },
+        {
+          "line": 996,
+          "expression": "assert cfg.terminal_literal('TOOL_END') == '</tc>'"
+        },
+        {
+          "line": 997,
+          "expression": "assert cfg.terminal_literal('MISSING') is None"
+        },
+        {
+          "line": 998,
+          "expression": "assert cfg.terminal_literals == {'<tc>', '<tcx>', '</tc>'}"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_engine.py",
+      "test_name": "TestTerminalAliases::test_every_spelling_shares_transitions",
+      "line": "1002",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_every_spelling_shares_transitions(self, spelling, char_by_char):\n        engine = StreamingParserEngine(_alias_config(), None)\n        text = f\"{spelling}a</tc>\"\n        events = []\n        for chunk in list(text) if char_by_char else [text]:\n            events.extend(engine.feed(chunk, []))\n        events.extend(engine.finish())\n        assert [e.type for e in events] == [\n            EventType.TOOL_CALL_START,\n            EventType.ARG_VALUE_CHUNK,\n            EventType.TOOL_CALL_END,\n        ]",
+      "test_body_sha256": "8b3ed5f8e935237e3af175ba771530b3ca655efc4d1e3e1239bd39483412dfba",
+      "assertions": [
+        {
+          "line": 1009,
+          "expression": "assert [e.type for e in events] == [EventType.TOOL_CALL_START, EventType.ARG_VALUE_CHUNK, EventType.TOOL_CALL_END]"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_gemma4_streaming_reasoning.py",
+      "test_name": "TestGemma4IsReasoningEnd::test_is_reasoning_end",
+      "line": "1657",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_is_reasoning_end(self, ids, thinking, ended):\n        assert self._parser(thinking).is_reasoning_end(ids) is ended",
+      "test_body_sha256": "d447d849426725abff67290c071c4be0ed01a8c05f04fe80e5cb6a65e3996fdd",
+      "assertions": [
+        {
+          "line": 1658,
+          "expression": "assert self._parser(thinking).is_reasoning_end(ids) is ended"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_inkling.py",
+      "test_name": "TestPromptSeededState::test_generation_prompt_header_hides_tool_name",
+      "line": "499",
+      "old_unit_id": "output.parser_format_selection",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_generation_prompt_header_hides_tool_name(self, parser, mock_request):\n        text = \"get_weather\" + _tool_block(\"get_weather\", '{\"city\":\"SF\"}')\n        delta = parser.parse_delta(\n            text,\n            [token_id for token_id, _ in _tokenize(text)],\n            mock_request,\n            prompt_token_ids=[_TML_VOCAB[END_MESSAGE], _TML_VOCAB[MSG_MODEL]],\n            finished=True,\n        )\n        assert delta is not None\n        assert delta.content is None\n        assert delta.tool_calls[0].function.name == \"get_weather\"",
+      "test_body_sha256": "12e3c00011c23ae3936dbe7d0178e40e0e2eda37c8a972f75f370a23e9faac35",
+      "assertions": [
+        {
+          "line": 508,
+          "expression": "assert delta is not None"
+        },
+        {
+          "line": 509,
+          "expression": "assert delta.content is None"
+        },
+        {
+          "line": 510,
+          "expression": "assert delta.tool_calls[0].function.name == 'get_weather'"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_inkling.py",
+      "test_name": "TestPromptSeededState::test_generation_prompt_header_flushes_bare_text_at_finish",
+      "line": "512",
+      "old_unit_id": "output.parser_format_selection",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_generation_prompt_header_flushes_bare_text_at_finish(\n        self, parser, mock_request\n    ):\n        prompt_token_ids = [_TML_VOCAB[END_MESSAGE], _TML_VOCAB[MSG_MODEL]]\n        first = parser.parse_delta(\n            \"plain \",\n            [ord(char) for char in \"plain \"],\n            mock_request,\n            prompt_token_ids=prompt_token_ids,\n            finished=False,\n        )\n        assert first is None\n\n        second = parser.parse_delta(\n            \"answer\",\n            [ord(char) for char in \"answer\"],\n            mock_request,\n            finished=True,\n        )\n        assert second is not None\n        assert second.content == \"plain answer\"",
+      "test_body_sha256": "13dee4508c0a917883246ac1a50884c4d96e43848b85af72c4f3c1d3cb8732d8",
+      "assertions": [
+        {
+          "line": 523,
+          "expression": "assert first is None"
+        },
+        {
+          "line": 531,
+          "expression": "assert second is not None"
+        },
+        {
+          "line": 532,
+          "expression": "assert second.content == 'plain answer'"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_parser_engine.py",
+      "test_name": "TestEngineBasedPath::test_engine_based_true_when_both_parsers_engine",
+      "line": "882",
+      "old_unit_id": "output.parser_format_selection",
+      "unit_id": null,
+      "test_source": "    def test_engine_based_true_when_both_parsers_engine(self):\n        r = SimpleNamespace(engine_based_streaming=True)\n        t = SimpleNamespace(engine_based_streaming=True)\n        engine_based = r.engine_based_streaming and t.engine_based_streaming\n        assert engine_based is True",
+      "test_body_sha256": "7a045673421e4b345f2592afe5f975e9c6f1382dd5624f77532a2b555384eed5",
+      "assertions": [
+        {
+          "line": 886,
+          "expression": "assert engine_based is True"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_parser_engine.py",
+      "test_name": "TestEngineBasedPath::test_engine_based_false_when_reasoning_parser_not_engine",
+      "line": "888",
+      "old_unit_id": "output.parser_format_selection",
+      "unit_id": null,
+      "test_source": "    def test_engine_based_false_when_reasoning_parser_not_engine(self):\n        r = SimpleNamespace(engine_based_streaming=False)\n        t = SimpleNamespace(engine_based_streaming=True)\n        engine_based = r.engine_based_streaming and t.engine_based_streaming\n        assert engine_based is False",
+      "test_body_sha256": "da29e68fe95186a1cd7a3d89390d5b440c43b19cc7869f2c128bad889be36c44",
+      "assertions": [
+        {
+          "line": 892,
+          "expression": "assert engine_based is False"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_parser_engine.py",
+      "test_name": "test_parser_manager_preserves_shared_engine_adapters",
+      "line": "1002",
+      "old_unit_id": "output.parser_format_selection",
+      "unit_id": "deployment.parser_selection",
+      "test_source": "def test_parser_manager_preserves_shared_engine_adapters(monkeypatch):\n    monkeypatch.setattr(\n        ParserManager,\n        \"get_reasoning_parser\",\n        classmethod(lambda cls, name: _CombinedReasoningAdapter),\n    )\n    monkeypatch.setattr(\n        ParserManager,\n        \"get_tool_parser\",\n        classmethod(lambda cls, name, enabled, model: _CombinedToolAdapter),\n    )\n\n    parser_cls = ParserManager.get_parser(\n        tool_parser_name=\"combined\",\n        reasoning_parser_name=\"combined\",\n        enable_auto_tools=True,\n    )\n\n    assert parser_cls is not None\n    assert issubclass(parser_cls, DelegatingParser)\n    parser = parser_cls(make_mock_tokenizer(_VOCAB))\n    assert isinstance(parser.reasoning_parser, ParserEngineReasoningAdapter)\n    assert isinstance(parser.tool_parser, ParserEngineToolAdapter)\n    assert parser.reasoning_parser._parser_engine_cls is _CombinedTestEngine\n    assert parser.tool_parser._parser_engine_cls is _CombinedTestEngine\n    request = _make_delegating_request()\n    token_ids = [ord(\"a\"), ord(\"b\"), 201, ord(\"c\")]\n    reasoning, content, _ = parser.parse(\n        \"ab</think>c\",\n        request,\n        model_output_token_ids=token_ids,\n    )\n    assert reasoning == \"ab\"\n    assert content == \"c\"\n    assert parser.count_reasoning_tokens(token_ids) == 2",
+      "test_body_sha256": "6532c50569026ba845b5227c5e3a85e700f4f5661cd119d426d7caf7b70cfd1b",
+      "assertions": [
+        {
+          "line": 1020,
+          "expression": "assert parser_cls is not None"
+        },
+        {
+          "line": 1021,
+          "expression": "assert issubclass(parser_cls, DelegatingParser)"
+        },
+        {
+          "line": 1023,
+          "expression": "assert isinstance(parser.reasoning_parser, ParserEngineReasoningAdapter)"
+        },
+        {
+          "line": 1024,
+          "expression": "assert isinstance(parser.tool_parser, ParserEngineToolAdapter)"
+        },
+        {
+          "line": 1025,
+          "expression": "assert parser.reasoning_parser._parser_engine_cls is _CombinedTestEngine"
+        },
+        {
+          "line": 1026,
+          "expression": "assert parser.tool_parser._parser_engine_cls is _CombinedTestEngine"
+        },
+        {
+          "line": 1034,
+          "expression": "assert reasoning == 'ab'"
+        },
+        {
+          "line": 1035,
+          "expression": "assert content == 'c'"
+        },
+        {
+          "line": 1036,
+          "expression": "assert parser.count_reasoning_tokens(token_ids) == 2"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_parser_engine.py",
+      "test_name": "test_parser_manager_preserves_shared_engine_reasoning_wiring",
+      "line": "1039",
+      "old_unit_id": "output.parser_format_selection",
+      "unit_id": "deployment.parser_selection",
+      "test_source": "def test_parser_manager_preserves_shared_engine_reasoning_wiring():\n    parser_cls = ParserManager.get_parser(\n        tool_parser_name=\"qwen3_xml\",\n        reasoning_parser_name=\"qwen3\",\n        enable_auto_tools=True,\n    )\n\n    assert parser_cls is not None\n    parser = parser_cls(\n        make_mock_tokenizer(_VOCAB),\n        chat_template_kwargs={\"enable_thinking\": False},\n    )\n    assert isinstance(parser.reasoning_parser, ParserEngineReasoningAdapter)\n    engine = parser.reasoning_parser._parser_engine\n    assert isinstance(engine, Qwen3Parser)\n    assert engine.thinking_enabled is False",
+      "test_body_sha256": "f3152dfa4416e2b8073f970e75c5c01c615c4589f86cc226e1f1014b84885b74",
+      "assertions": [
+        {
+          "line": 1046,
+          "expression": "assert parser_cls is not None"
+        },
+        {
+          "line": 1051,
+          "expression": "assert isinstance(parser.reasoning_parser, ParserEngineReasoningAdapter)"
+        },
+        {
+          "line": 1053,
+          "expression": "assert isinstance(engine, Qwen3Parser)"
+        },
+        {
+          "line": 1054,
+          "expression": "assert engine.thinking_enabled is False"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_parser_engine.py",
+      "test_name": "test_parser_manager_preserves_reasoning_only_adapter",
+      "line": "1057",
+      "old_unit_id": "output.parser_format_selection",
+      "unit_id": "deployment.parser_selection",
+      "test_source": "def test_parser_manager_preserves_reasoning_only_adapter(monkeypatch):\n    monkeypatch.setattr(\n        ParserManager,\n        \"get_reasoning_parser\",\n        classmethod(lambda cls, name: _CombinedReasoningAdapter),\n    )\n    monkeypatch.setattr(\n        ParserManager,\n        \"get_tool_parser\",\n        classmethod(lambda cls, name, enabled, model: None),\n    )\n\n    parser_cls = ParserManager.get_parser(reasoning_parser_name=\"combined\")\n\n    assert parser_cls is not None\n    parser = parser_cls(make_mock_tokenizer(_VOCAB))\n    assert parser.reasoning_parser is not None\n    assert parser.tool_parser is None\n    reasoning, content, _ = parser.parse(\n        'ab</think><tool_call>{\"name\":\"h\",\"arguments\":{}}</tool_call>',\n        _make_delegating_request(),\n        model_output_token_ids=[ord(\"a\"), ord(\"b\"), 201],\n    )\n    assert reasoning == \"ab\"\n    assert content == '<tool_call>{\"name\":\"h\",\"arguments\":{}}</tool_call>'\n    assert parser.count_reasoning_tokens([ord(\"a\"), ord(\"b\"), 201]) == 2",
+      "test_body_sha256": "6fa33d238a7368db8e50653cbe81da95627a78331ad82fee5720db0472a930c9",
+      "assertions": [
+        {
+          "line": 1071,
+          "expression": "assert parser_cls is not None"
+        },
+        {
+          "line": 1073,
+          "expression": "assert parser.reasoning_parser is not None"
+        },
+        {
+          "line": 1074,
+          "expression": "assert parser.tool_parser is None"
+        },
+        {
+          "line": 1080,
+          "expression": "assert reasoning == 'ab'"
+        },
+        {
+          "line": 1081,
+          "expression": "assert content == '<tool_call>{\"name\":\"h\",\"arguments\":{}}</tool_call>'"
+        },
+        {
+          "line": 1082,
+          "expression": "assert parser.count_reasoning_tokens([ord('a'), ord('b'), 201]) == 2"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_parser_engine.py",
+      "test_name": "test_parser_manager_preserves_tool_only_adapter",
+      "line": "1085",
+      "old_unit_id": "output.parser_format_selection",
+      "unit_id": "deployment.parser_selection",
+      "test_source": "def test_parser_manager_preserves_tool_only_adapter(monkeypatch):\n    monkeypatch.setattr(\n        ParserManager,\n        \"get_reasoning_parser\",\n        classmethod(lambda cls, name: None),\n    )\n    monkeypatch.setattr(\n        ParserManager,\n        \"get_tool_parser\",\n        classmethod(lambda cls, name, enabled, model: _CombinedToolAdapter),\n    )\n\n    parser_cls = ParserManager.get_parser(\n        tool_parser_name=\"combined\", enable_auto_tools=True\n    )\n\n    assert parser_cls is not None\n    parser = parser_cls(make_mock_tokenizer(_VOCAB))\n    assert parser.reasoning_parser is None\n    assert parser.tool_parser is not None\n    reasoning, content, tool_calls = parser.parse(\n        \"<think>ab</think>c\",\n        _make_delegating_request(),\n        model_output_token_ids=[200, ord(\"a\"), ord(\"b\"), 201, ord(\"c\")],\n    )\n    assert reasoning is None\n    assert content == \"<think>ab</think>c\"\n    assert tool_calls == []",
+      "test_body_sha256": "c82f5d7efea56eb056451b2fa9aa674b55d5e37cb7e8a1e016cea02cf8b275e0",
+      "assertions": [
+        {
+          "line": 1101,
+          "expression": "assert parser_cls is not None"
+        },
+        {
+          "line": 1103,
+          "expression": "assert parser.reasoning_parser is None"
+        },
+        {
+          "line": 1104,
+          "expression": "assert parser.tool_parser is not None"
+        },
+        {
+          "line": 1110,
+          "expression": "assert reasoning is None"
+        },
+        {
+          "line": 1111,
+          "expression": "assert content == '<think>ab</think>c'"
+        },
+        {
+          "line": 1112,
+          "expression": "assert tool_calls == []"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_parser_engine.py",
+      "test_name": "TestToolAdapterForwardsKwargs::test_kwargs_forwarded_to_parser_engine",
+      "line": "1415",
+      "old_unit_id": "output.parser_format_selection",
+      "unit_id": "response.reasoning_parser_initial_state",
+      "test_source": "    def test_kwargs_forwarded_to_parser_engine(self, enable_thinking, expected_state):\n        from vllm.parser.qwen3 import Qwen3Parser\n\n        vocab = {\"<think>\": 100, \"</think>\": 101}\n        tokenizer = make_mock_tokenizer(vocab)\n\n        _, ToolAdapter = make_adapters(Qwen3Parser)\n        adapter = ToolAdapter(\n            tokenizer,\n            tools=None,\n            chat_template_kwargs={\"enable_thinking\": enable_thinking},\n        )\n        engine = adapter._parser_engine\n        assert engine.parser_engine_config.initial_state == expected_state",
+      "test_body_sha256": "7a8222198ea54fbae1c1f3670ee13bed0694e9097c3e354222335a75bfb4ac36",
+      "assertions": [
+        {
+          "line": 1428,
+          "expression": "assert engine.parser_engine_config.initial_state == expected_state"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_parser_engine.py",
+      "test_name": "TestExtractContentIdsNoEmptyReturn::test_returns_input_ids_without_think_end",
+      "line": "1441",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_returns_input_ids_without_think_end(self, input_ids):\n        engine = _make_engine(self._NO_THINK_CONFIG)\n        assert engine._reasoning_end_token_id is None\n        engine._reasoning_ended = True\n        assert engine.extract_content_ids(input_ids) == input_ids",
+      "test_body_sha256": "18ab7a94a6b073af9fb2863a4e89bca39d7803b137904629845547cb69543635",
+      "assertions": [
+        {
+          "line": 1443,
+          "expression": "assert engine._reasoning_end_token_id is None"
+        },
+        {
+          "line": 1445,
+          "expression": "assert engine.extract_content_ids(input_ids) == input_ids"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_parser_engine.py",
+      "test_name": "TestDropSpecialTokens::test_drops_special_token_by_id_from_content",
+      "line": "1883",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_drops_special_token_by_id_from_content(self):\n        \"\"\"A special token (not a configured terminal) is dropped when\n        it arrives as its actual token ID.\"\"\"\n        config = ParserEngineConfig(\n            name=\"drop_content_test\",\n            terminals={},\n            token_id_terminals={},\n            transitions={},\n            initial_state=ParserState.CONTENT,\n            content_events={ParserState.CONTENT: EventType.TEXT_CHUNK},\n        )\n        engine = _make_engine(\n            config=config,\n            vocab=_DROP_VOCAB,\n            special_tokens=list(_DROP_VOCAB.keys()),\n        )\n        engine._engine.reset()\n        events = engine._engine.feed(\"hello<bos>world\", [72, 204, 73])\n        delta = engine._events_to_delta(events)\n        assert delta is not None\n        assert delta.content is not None\n        assert \"<bos>\" not in delta.content\n        assert delta.content == \"helloworld\"",
+      "test_body_sha256": "9d80ebd287e745999a92def21073bcede9b060407584c9f4639cd191da3ee601",
+      "assertions": [
+        {
+          "line": 1902,
+          "expression": "assert delta is not None"
+        },
+        {
+          "line": 1903,
+          "expression": "assert delta.content is not None"
+        },
+        {
+          "line": 1904,
+          "expression": "assert '<bos>' not in delta.content"
+        },
+        {
+          "line": 1905,
+          "expression": "assert delta.content == 'helloworld'"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_parser_engine.py",
+      "test_name": "TestDropSpecialTokens::test_drops_special_token_by_id_from_reasoning",
+      "line": "1907",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_drops_special_token_by_id_from_reasoning(self):\n        engine = _make_engine(\n            vocab=_DROP_VOCAB,\n            special_tokens=list(_DROP_VOCAB.keys()),\n        )\n        engine._engine.reset()\n        events = engine._engine.feed(\"thinking<eos>more\", [72, 205, 73])\n        delta = engine._events_to_delta(events)\n        assert delta is not None\n        assert delta.reasoning is not None\n        assert \"<eos>\" not in delta.reasoning\n        assert delta.reasoning == \"thinkingmore\"",
+      "test_body_sha256": "8fae0b9d6154fb3d957aa2c10f21f48247a34a6a5e724b3d9030567b96b18c56",
+      "assertions": [
+        {
+          "line": 1915,
+          "expression": "assert delta is not None"
+        },
+        {
+          "line": 1916,
+          "expression": "assert delta.reasoning is not None"
+        },
+        {
+          "line": 1917,
+          "expression": "assert '<eos>' not in delta.reasoning"
+        },
+        {
+          "line": 1918,
+          "expression": "assert delta.reasoning == 'thinkingmore'"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_parser_engine.py",
+      "test_name": "TestDropSpecialTokens::test_drops_via_text_fallback_when_no_token_ids",
+      "line": "1920",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_drops_via_text_fallback_when_no_token_ids(self):\n        \"\"\"When no token IDs are provided, text-based lexer catches\n        drop tokens as a fallback.\"\"\"\n        engine = _make_engine(\n            vocab=_DROP_VOCAB,\n            special_tokens=list(_DROP_VOCAB.keys()),\n        )\n        engine._engine.reset()\n        events = engine._engine.feed(\"hello<bos>world\", [])\n        delta = engine._events_to_delta(events)\n        assert delta is not None\n        assert delta.reasoning is not None\n        assert \"<bos>\" not in delta.reasoning",
+      "test_body_sha256": "f75a0fe44bc02b47c2e220801d15c5032f36c6dd91982b4816d065b2f7b0bf91",
+      "assertions": [
+        {
+          "line": 1930,
+          "expression": "assert delta is not None"
+        },
+        {
+          "line": 1931,
+          "expression": "assert delta.reasoning is not None"
+        },
+        {
+          "line": 1932,
+          "expression": "assert '<bos>' not in delta.reasoning"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_parser_engine.py",
+      "test_name": "TestDropSpecialTokens::test_regular_tokens_spelling_special_survive",
+      "line": "1934",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_regular_tokens_spelling_special_survive(self):\n        \"\"\"Regular tokens that spell out a drop-token string survive\n        when token IDs prove they are not the special token.\"\"\"\n        vocab = {**_DROP_VOCAB, \"h\": 72, \"<\": 73, \"bos\": 74, \">\": 75, \"w\": 76}\n        engine = _make_engine(\n            vocab=vocab,\n            special_tokens=list(_DROP_VOCAB.keys()),\n        )\n        engine._engine.reset()\n        # Feed regular token IDs (73, 74, 75) that spell <bos>,\n        # not the special token ID 204.\n        events = engine._engine.feed(\"h<bos>w\", [72, 73, 74, 75, 76])\n        delta = engine._events_to_delta(events)\n        assert delta is not None\n        assert delta.reasoning is not None\n        assert \"<bos>\" in delta.reasoning",
+      "test_body_sha256": "854535ce0778cd133a0caa42b6d88057353542092222199ed7508c4d024f9296",
+      "assertions": [
+        {
+          "line": 1947,
+          "expression": "assert delta is not None"
+        },
+        {
+          "line": 1948,
+          "expression": "assert delta.reasoning is not None"
+        },
+        {
+          "line": 1949,
+          "expression": "assert '<bos>' in delta.reasoning"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_parser_engine.py",
+      "test_name": "TestDropSpecialTokens::test_configured_terminal_not_treated_as_drop",
+      "line": "1951",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_configured_terminal_not_treated_as_drop(self):\n        \"\"\"Tokens already in config.terminals (like <think>) are handled\n        by the state machine, not the drop mechanism.\"\"\"\n        engine = _make_engine(\n            vocab=_DROP_VOCAB,\n            special_tokens=list(_DROP_VOCAB.keys()),\n        )\n        # Start from CONTENT so <think> triggers REASONING_START\n        engine._engine.reset(initial_state=ParserState.CONTENT)\n        events = engine._engine.feed(\"<think>\", [200])\n        has_reasoning_start = any(e.type == EventType.REASONING_START for e in events)\n        assert has_reasoning_start",
+      "test_body_sha256": "74a85f400973309ee05e768d777e7bd42d193ec8e04f14684840201a2c7bba0b",
+      "assertions": [
+        {
+          "line": 1962,
+          "expression": "assert has_reasoning_start"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_parser_engine.py",
+      "test_name": "TestDropSpecialTokens::test_tool_name_not_affected_by_drops",
+      "line": "1964",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_tool_name_not_affected_by_drops(self):\n        engine = _make_engine(\n            vocab=_DROP_VOCAB,\n            special_tokens=list(_DROP_VOCAB.keys()),\n        )\n        engine._engine.reset()\n        events = [\n            SemanticEvent(EventType.TOOL_CALL_START, tool_index=0),\n            SemanticEvent(EventType.TOOL_NAME, \"get_weather\", tool_index=0),\n            SemanticEvent(EventType.ARG_VALUE_CHUNK, '{\"city\": \"NYC\"}', tool_index=0),\n            SemanticEvent(EventType.TOOL_CALL_END, tool_index=0),\n        ]\n        delta = engine._events_to_delta(events)\n        assert delta is not None\n        assert delta.tool_calls is not None\n        names = [\n            tc.function.name\n            for tc in delta.tool_calls\n            if tc.function and tc.function.name\n        ]\n        assert \"get_weather\" in names",
+      "test_body_sha256": "304d08948eca5d38a2be86bf30a5e46ec099c7f7d9baa8898d0404bbec89d149",
+      "assertions": [
+        {
+          "line": 1977,
+          "expression": "assert delta is not None"
+        },
+        {
+          "line": 1978,
+          "expression": "assert delta.tool_calls is not None"
+        },
+        {
+          "line": 1984,
+          "expression": "assert 'get_weather' in names"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_parser_engine.py",
+      "test_name": "TestDropSpecialTokens::test_adjacent_drop_tokens_by_id",
+      "line": "1986",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_adjacent_drop_tokens_by_id(self):\n        engine = _make_engine(\n            vocab=_DROP_VOCAB,\n            special_tokens=list(_DROP_VOCAB.keys()),\n        )\n        engine._engine.reset()\n        events = engine._engine.feed(\"<bos><eos>\", [204, 205])\n        delta = engine._events_to_delta(events)\n        assert delta is None",
+      "test_body_sha256": "0d63bb46c91a02bf60c594602baf6f992d490c31a9b95c9cffd1b4a64ca4973a",
+      "assertions": [
+        {
+          "line": 1994,
+          "expression": "assert delta is None"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_parser_engine.py",
+      "test_name": "TestDropSpecialTokens::test_no_special_tokens_means_no_drops",
+      "line": "1996",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_no_special_tokens_means_no_drops(self):\n        \"\"\"Engine with no special tokens passes all text through.\"\"\"\n        engine = _make_engine(special_tokens=[])\n        engine._engine.reset()\n        events = engine._engine.feed(\"hello<bos>world\", [])\n        delta = engine._events_to_delta(events)\n        assert delta is not None\n        assert delta.reasoning is not None\n        assert \"<bos>\" in delta.reasoning",
+      "test_body_sha256": "3ac3b21e4573bdbea582e1df5244c6de7106b1941a5736ea4e285370f6939492",
+      "assertions": [
+        {
+          "line": 2002,
+          "expression": "assert delta is not None"
+        },
+        {
+          "line": 2003,
+          "expression": "assert delta.reasoning is not None"
+        },
+        {
+          "line": 2004,
+          "expression": "assert '<bos>' in delta.reasoning"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_parser_engine.py",
+      "test_name": "TestDropSpecialTokens::test_drops_applied_with_skip_tool_parsing",
+      "line": "2006",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_drops_applied_with_skip_tool_parsing(self):\n        \"\"\"Drop tokens are always dropped, even with skip_tool_parsing.\n        DROP_TERMINALs have no transitions by construction, so no parser\n        pass can use them.\"\"\"\n        for initial_state in (ParserState.REASONING, ParserState.CONTENT):\n            engine = _make_engine(\n                vocab=_DROP_VOCAB,\n                special_tokens=list(_DROP_VOCAB.keys()),\n            )\n            engine._engine.skip_tool_parsing = True\n            engine._engine.reset(initial_state=initial_state)\n            events = engine._engine.feed(\"hello<bos>world\", [72, 204, 73])\n            delta = engine._events_to_delta(events)\n            assert delta is not None\n            output = (delta.reasoning or \"\") + (delta.content or \"\")\n            assert \"<bos>\" not in output, f\"<bos> leaked in state {initial_state}\"",
+      "test_body_sha256": "1f3e73208d0fbb7b9563cc5644e62459771ad143f6ec2d471ad465a3b14145c2",
+      "assertions": [
+        {
+          "line": 2019,
+          "expression": "assert delta is not None"
+        },
+        {
+          "line": 2021,
+          "expression": "assert '<bos>' not in output, f'<bos> leaked in state {initial_state}'"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_parser_engine.py",
+      "test_name": "TestDropSpecialTokens::test_transitions_unaffected_by_drop_in_reasoning_with_skip_tool_parsing",
+      "line": "2023",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_transitions_unaffected_by_drop_in_reasoning_with_skip_tool_parsing(self):\n        \"\"\"With skip_tool_parsing in REASONING state, drop tokens are\n        removed but configured terminals still fire their transitions.\"\"\"\n        engine = _make_engine(\n            vocab=_DROP_VOCAB,\n            special_tokens=list(_DROP_VOCAB.keys()),\n        )\n        engine._engine.skip_tool_parsing = True\n        engine._engine.reset()\n        events = engine._engine.feed(\"thought<bos></think>answer\", [72, 204, 201, 73])\n        types = [e.type for e in events]\n        assert EventType.REASONING_CHUNK in types\n        assert EventType.REASONING_END in types\n        assert EventType.TEXT_CHUNK in types\n        reasoning_text = \"\".join(\n            e.value for e in events if e.type == EventType.REASONING_CHUNK\n        )\n        assert \"<bos>\" not in reasoning_text",
+      "test_body_sha256": "c82482916d1bc454720f8063e0efce4dbb28ee36412580f4d2f854aff4b68aaf",
+      "assertions": [
+        {
+          "line": 2034,
+          "expression": "assert EventType.REASONING_CHUNK in types"
+        },
+        {
+          "line": 2035,
+          "expression": "assert EventType.REASONING_END in types"
+        },
+        {
+          "line": 2036,
+          "expression": "assert EventType.TEXT_CHUNK in types"
+        },
+        {
+          "line": 2040,
+          "expression": "assert '<bos>' not in reasoning_text"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_parser_engine.py",
+      "test_name": "TestDropSpecialTokens::test_drops_in_tool_args_state",
+      "line": "2042",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_drops_in_tool_args_state(self):\n        \"\"\"Drop tokens in TOOL_ARGS state are silently discarded.\"\"\"\n        vocab = {**_DROP_VOCAB, '{\"a\":1}': 300}\n        engine = _make_engine(\n            vocab=vocab,\n            special_tokens=list(_DROP_VOCAB.keys()),\n        )\n        engine._engine.reset(initial_state=ParserState.CONTENT)\n        events = engine._engine.feed(\n            '<tool_call>{\"a\":1}<bos></tool_call>',\n            [202, 300, 204, 203],\n        )\n        arg_chunks = [e.value for e in events if e.type == EventType.ARG_VALUE_CHUNK]\n        combined = \"\".join(arg_chunks)\n        assert \"<bos>\" not in combined\n        assert '{\"a\":1}' in combined",
+      "test_body_sha256": "0414733577692983519c8b1200d72cfe3b450b05ca740109b503b1a7c560b2b8",
+      "assertions": [
+        {
+          "line": 2056,
+          "expression": "assert '<bos>' not in combined"
+        },
+        {
+          "line": 2057,
+          "expression": "assert '{\"a\":1}' in combined"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_parser_engine.py",
+      "test_name": "TestDropSpecialTokens::test_mixed_configured_and_drop_terminals",
+      "line": "2059",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_mixed_configured_and_drop_terminals(self):\n        \"\"\"Configured terminals trigger transitions while drop terminals\n        are silently removed in the same stream.\"\"\"\n        engine = _make_engine(\n            vocab=_DROP_VOCAB,\n            special_tokens=list(_DROP_VOCAB.keys()),\n        )\n        engine._engine.reset()\n        events = engine._engine.feed(\"thought<bos></think>answer\", [72, 204, 201, 73])\n        types = [e.type for e in events]\n        assert EventType.REASONING_CHUNK in types\n        assert EventType.REASONING_END in types\n        assert EventType.TEXT_CHUNK in types\n        reasoning_text = \"\".join(\n            e.value for e in events if e.type == EventType.REASONING_CHUNK\n        )\n        assert \"<bos>\" not in reasoning_text",
+      "test_body_sha256": "854a399b0adb76679f283c9d99a4e1fd6a5ab59430ff275b276d9781b0237282",
+      "assertions": [
+        {
+          "line": 2069,
+          "expression": "assert EventType.REASONING_CHUNK in types"
+        },
+        {
+          "line": 2070,
+          "expression": "assert EventType.REASONING_END in types"
+        },
+        {
+          "line": 2071,
+          "expression": "assert EventType.TEXT_CHUNK in types"
+        },
+        {
+          "line": 2075,
+          "expression": "assert '<bos>' not in reasoning_text"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestIsReasoningEnd::test_think_end_token",
+      "line": "166",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_think_end_token(self, parser):\n        assert parser.is_reasoning_end([_THINK_START_ID, 1, _THINK_END_ID])",
+      "test_body_sha256": "3b21584a19ac1a994a193daf09188716ee4da5caa283150b3a5d361c91e313e9",
+      "assertions": [
+        {
+          "line": 167,
+          "expression": "assert parser.is_reasoning_end([_THINK_START_ID, 1, _THINK_END_ID])"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestIsReasoningEnd::test_no_end_token",
+      "line": "169",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_no_end_token(self, parser):\n        assert not parser.is_reasoning_end([_THINK_START_ID, 1, 2])",
+      "test_body_sha256": "e6798a2af9ff81cdf0d54d55fa8dcbb09e6ac8ad953c51bc3285bd0a4e56bfe5",
+      "assertions": [
+        {
+          "line": 170,
+          "expression": "assert not parser.is_reasoning_end([_THINK_START_ID, 1, 2])"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestIsReasoningEnd::test_start_after_end_means_not_ended",
+      "line": "172",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_start_after_end_means_not_ended(self, parser):\n        assert not parser.is_reasoning_end([_THINK_END_ID, _THINK_START_ID, 1])",
+      "test_body_sha256": "734c47e582a749b35067ce079787d5d45c7fe75a78bd858ee9c51c69bb9fae21",
+      "assertions": [
+        {
+          "line": 173,
+          "expression": "assert not parser.is_reasoning_end([_THINK_END_ID, _THINK_START_ID, 1])"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestIsReasoningEnd::test_tool_call_as_implicit_end",
+      "line": "175",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_tool_call_as_implicit_end(self, parser):\n        \"\"\"Unpaired <tool_call> is implicit reasoning end.\"\"\"\n        assert parser.is_reasoning_end([_THINK_START_ID, 1, _TOOL_CALL_ID])",
+      "test_body_sha256": "efccc88ea72d93739df5bf0c6f206d882c1a9ed19b4ab803f330486605eae54a",
+      "assertions": [
+        {
+          "line": 177,
+          "expression": "assert parser.is_reasoning_end([_THINK_START_ID, 1, _TOOL_CALL_ID])"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestIsReasoningEnd::test_prompt_tool_example_before_generation_think_not_end",
+      "line": "179",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_prompt_tool_example_before_generation_think_not_end(self, parser):\n        \"\"\"Tool examples before the generation <think> must not end reasoning.\"\"\"\n        assert not parser.is_reasoning_end([_TOOL_CALL_ID, _TEXT_ID, _THINK_START_ID])",
+      "test_body_sha256": "417ee848b83df9b348ee52d4da6e80ec406bdd67d07c7164628d9041a615cbf7",
+      "assertions": [
+        {
+          "line": 181,
+          "expression": "assert not parser.is_reasoning_end([_TOOL_CALL_ID, _TEXT_ID, _THINK_START_ID])"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestIsReasoningEnd::test_completed_tool_call_after_open_think_is_end",
+      "line": "183",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_completed_tool_call_after_open_think_is_end(self, parser):\n        assert parser.is_reasoning_end(\n            [_THINK_START_ID, 1, _TOOL_CALL_ID, 2, _TOOL_CALL_END_ID]\n        )",
+      "test_body_sha256": "d50c3f323c88d5b0f45ad855a92aa6829546f62388015831d10ede1d640115ed",
+      "assertions": [
+        {
+          "line": 184,
+          "expression": "assert parser.is_reasoning_end([_THINK_START_ID, 1, _TOOL_CALL_ID, 2, _TOOL_CALL_END_ID])"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestIsReasoningEnd::test_tool_call_after_think_end",
+      "line": "188",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_tool_call_after_think_end(self, parser):\n        \"\"\"<tool_call> after </think> — already ended.\"\"\"\n        assert parser.is_reasoning_end(\n            [_THINK_START_ID, 1, _THINK_END_ID, _TOOL_CALL_ID]\n        )",
+      "test_body_sha256": "649d58c9d9da7df8f77986c5f80f7ce9a04d7bbd42eb23d9c1948cd84cfc67a4",
+      "assertions": [
+        {
+          "line": 190,
+          "expression": "assert parser.is_reasoning_end([_THINK_START_ID, 1, _THINK_END_ID, _TOOL_CALL_ID])"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestIsReasoningEnd::test_empty_ids",
+      "line": "194",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_empty_ids(self, parser):\n        assert not parser.is_reasoning_end([])",
+      "test_body_sha256": "8254a9f30338974024e626c9327ebb54667c2a0dd153ed38ac47fc259d2ede37",
+      "assertions": [
+        {
+          "line": 195,
+          "expression": "assert not parser.is_reasoning_end([])"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestIsReasoningEndDerivedFromGrammar::test_is_reasoning_end",
+      "line": "221",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_is_reasoning_end(self, mock_tokenizer, ids, thinking, ended):\n        parser = Qwen3Parser(\n            mock_tokenizer, chat_template_kwargs={\"enable_thinking\": thinking}\n        )\n        assert parser.is_reasoning_end(ids) is ended",
+      "test_body_sha256": "3cd39f73a116351b033e78dd6cbc6625d72816dde09f7c3f0189274dbc5dadff",
+      "assertions": [
+        {
+          "line": 225,
+          "expression": "assert parser.is_reasoning_end(ids) is ended"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestIsReasoningEndDerivedFromGrammar::test_wait_for_reasoning_follows_thinking",
+      "line": "228",
+      "old_unit_id": "output.parser_format_selection",
+      "unit_id": "response.reasoning_parser_initial_state",
+      "test_source": "    def test_wait_for_reasoning_follows_thinking(self, mock_tokenizer, thinking):\n        parser = Qwen3Parser(\n            mock_tokenizer, chat_template_kwargs={\"enable_thinking\": thinking}\n        )\n        assert parser.parser_engine_config.wait_for_reasoning is thinking",
+      "test_body_sha256": "04a8aca103d85ccf6e0db680c058a891c33e12260aff210150988c08ab226822",
+      "assertions": [
+        {
+          "line": 232,
+          "expression": "assert parser.parser_engine_config.wait_for_reasoning is thinking"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestIsReasoningEndTurnBoundaries::test_injected_think_end_in_history_not_end",
+      "line": "241",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_injected_think_end_in_history_not_end(self, parser):\n        assert not parser.is_reasoning_end(\n            [_IM_START_ID, _TEXT_ID, _THINK_END_ID, _IM_END_ID, _IM_START_ID]\n        )",
+      "test_body_sha256": "c6e02d1bd6f985159839501884cbf316348c6a0e5e01baa04ead4d3c66d86837",
+      "assertions": [
+        {
+          "line": 242,
+          "expression": "assert not parser.is_reasoning_end([_IM_START_ID, _TEXT_ID, _THINK_END_ID, _IM_END_ID, _IM_START_ID])"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestIsReasoningEndTurnBoundaries::test_replayed_reasoning_block_in_history_not_end",
+      "line": "246",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_replayed_reasoning_block_in_history_not_end(self, parser):\n        assert not parser.is_reasoning_end(\n            [\n                _IM_START_ID,\n                _THINK_START_ID,\n                _TEXT_ID,\n                _THINK_END_ID,\n                _TEXT_ID,\n                _IM_END_ID,\n                _IM_START_ID,\n            ]\n        )",
+      "test_body_sha256": "1afe9da8ca0584d22b765c9aac1d5cd485dcdbf87bf1f8a17400ff1b4b210064",
+      "assertions": [
+        {
+          "line": 247,
+          "expression": "assert not parser.is_reasoning_end([_IM_START_ID, _THINK_START_ID, _TEXT_ID, _THINK_END_ID, _TEXT_ID, _IM_END_ID, _IM_START_ID])"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestIsReasoningEndTurnBoundaries::test_think_end_in_current_turn_is_end",
+      "line": "259",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_think_end_in_current_turn_is_end(self, parser):\n        assert parser.is_reasoning_end(\n            [_IM_START_ID, _TEXT_ID, _IM_END_ID, _IM_START_ID, _THINK_END_ID]\n        )",
+      "test_body_sha256": "61d9317a1cb0690a453673c8ae26955b3bf90994e1df1421c800b35bb07cd485",
+      "assertions": [
+        {
+          "line": 260,
+          "expression": "assert parser.is_reasoning_end([_IM_START_ID, _TEXT_ID, _IM_END_ID, _IM_START_ID, _THINK_END_ID])"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestIsReasoningEndTurnBoundaries::test_unpaired_tool_call_in_history_not_end",
+      "line": "264",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_unpaired_tool_call_in_history_not_end(self, parser):\n        assert not parser.is_reasoning_end(\n            [_TOOL_CALL_ID, _TEXT_ID, _IM_END_ID, _IM_START_ID]\n        )",
+      "test_body_sha256": "61382a8edb61a6af2908dfa3a3766d0606a1fa32121c7c944a121293fac52a83",
+      "assertions": [
+        {
+          "line": 265,
+          "expression": "assert not parser.is_reasoning_end([_TOOL_CALL_ID, _TEXT_ID, _IM_END_ID, _IM_START_ID])"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestIsReasoningEndTurnBoundaries::test_continued_turn_with_closed_thinking_is_end",
+      "line": "269",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_continued_turn_with_closed_thinking_is_end(self, parser):\n        assert parser.is_reasoning_end(\n            [_IM_START_ID, _THINK_START_ID, _TEXT_ID, _THINK_END_ID, _TEXT_ID]\n        )",
+      "test_body_sha256": "250e1dcd69870025f2fe806883b8edb281f8c105fed1ad6b74d5aa8265b9efdf",
+      "assertions": [
+        {
+          "line": 270,
+          "expression": "assert parser.is_reasoning_end([_IM_START_ID, _THINK_START_ID, _TEXT_ID, _THINK_END_ID, _TEXT_ID])"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestIsReasoningEndTurnBoundaries::test_continued_turn_with_open_thinking_not_end",
+      "line": "274",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_continued_turn_with_open_thinking_not_end(self, parser):\n        assert not parser.is_reasoning_end([_IM_START_ID, _THINK_START_ID, _TEXT_ID])",
+      "test_body_sha256": "83edb100995d1f758cca21fb1b2474d58e0ae5c45421e0eae57d51449f6f1633",
+      "assertions": [
+        {
+          "line": 275,
+          "expression": "assert not parser.is_reasoning_end([_IM_START_ID, _THINK_START_ID, _TEXT_ID])"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestIsReasoningEndTurnBoundaries::test_empty_boundary_config_keeps_global_walk",
+      "line": "277",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_empty_boundary_config_keeps_global_walk(self):\n        \"\"\"Configs without turn_boundary_tokens keep the pre-existing\n        behavior: any </think> in the sequence ends reasoning.\"\"\"\n        cfg = qwen3_config(turn_boundary_tokens=frozenset())\n        parser = Qwen3Parser(\n            make_mock_tokenizer(_QWEN3_VOCAB), parser_engine_config=cfg\n        )\n        assert parser.is_reasoning_end(\n            [_IM_START_ID, _TEXT_ID, _THINK_END_ID, _IM_END_ID, _IM_START_ID]\n        )",
+      "test_body_sha256": "ac08b4e021a0933bf8a062397369c6cf4387039b83f56d1ee357be16fb114e43",
+      "assertions": [
+        {
+          "line": 284,
+          "expression": "assert parser.is_reasoning_end([_IM_START_ID, _TEXT_ID, _THINK_END_ID, _IM_END_ID, _IM_START_ID])"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestIsReasoningEndTurnBoundaries::test_boundary_tokens_missing_from_vocab_keep_global_walk",
+      "line": "288",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_boundary_tokens_missing_from_vocab_keep_global_walk(self):\n        \"\"\"Boundary tokens absent from the vocabulary resolve to nothing,\n        so subclasses reusing the default on a non-ChatML vocab keep the\n        pre-existing behavior.\"\"\"\n        vocab = {\n            token: token_id\n            for token, token_id in _QWEN3_VOCAB.items()\n            if not token.startswith(\"<|im_\")\n        }\n        parser = Qwen3Parser(make_mock_tokenizer(vocab))\n        assert parser.is_reasoning_end([_TEXT_ID, _THINK_END_ID, _TEXT_ID])",
+      "test_body_sha256": "c209e091368e814ea96ea995affe20d7a346c98d8f9b6a2253dc1ebda6a2ced4",
+      "assertions": [
+        {
+          "line": 298,
+          "expression": "assert parser.is_reasoning_end([_TEXT_ID, _THINK_END_ID, _TEXT_ID])"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestIsReasoningEndTurnBoundaries::test_boundary_with_thinking_disabled_is_end",
+      "line": "300",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_boundary_with_thinking_disabled_is_end(self, mock_tokenizer):\n        \"\"\"With thinking disabled (initial state CONTENT) a walk that stops at a turn\n        boundary must report reasoning as ended: the model never emits a marker.\"\"\"\n        parser = Qwen3Parser(\n            mock_tokenizer, chat_template_kwargs={\"enable_thinking\": False}\n        )\n        assert parser.is_reasoning_end([_IM_START_ID, _TEXT_ID])",
+      "test_body_sha256": "2dac7c12a0cc00632187aaeeba3b4d31fbf01d201afa5edc7bd528f264e6648a",
+      "assertions": [
+        {
+          "line": 306,
+          "expression": "assert parser.is_reasoning_end([_IM_START_ID, _TEXT_ID])"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestIsReasoningEndTurnBoundaries::test_boundary_with_thinking_enabled_not_end",
+      "line": "308",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_boundary_with_thinking_enabled_not_end(self, parser):\n        \"\"\"With thinking disabled (initial state REASONING) a walk that stops at a turn\n        boundary must keep reasoning open\"\"\"\n        assert not parser.is_reasoning_end([_IM_START_ID, _TEXT_ID])",
+      "test_body_sha256": "7faa7ea6925f07f3bbf97d1487bd5b877ccc8f8bd2e9bfa38cb4c9530258c1b6",
+      "assertions": [
+        {
+          "line": 311,
+          "expression": "assert not parser.is_reasoning_end([_IM_START_ID, _TEXT_ID])"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestDelegatingPromptDetection::test_prompt_tool_example_does_not_skip_streaming_reasoning",
+      "line": "315",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_prompt_tool_example_does_not_skip_streaming_reasoning(\n        self, mock_tokenizer, mock_request\n    ):\n        parser = _Qwen3DelegatingParser(mock_tokenizer)\n        prompt_ids = [_TOOL_CALL_ID, _TEXT_ID, _THINK_START_ID]\n\n        delta = parser.parse_delta(\n            \"thinking\",\n            [_TEXT_ID],\n            mock_request,\n            prompt_token_ids=prompt_ids,\n            finished=False,\n        )\n\n        assert delta is not None\n        assert delta.reasoning == \"thinking\"\n        assert delta.content is None",
+      "test_body_sha256": "ab969ce9d6d51d151b1499691d1455c0ecb398809239c94a2db0135c302bd489",
+      "assertions": [
+        {
+          "line": 329,
+          "expression": "assert delta is not None"
+        },
+        {
+          "line": 330,
+          "expression": "assert delta.reasoning == 'thinking'"
+        },
+        {
+          "line": 331,
+          "expression": "assert delta.content is None"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestDelegatingPromptDetection::test_injected_think_end_in_history_keeps_streaming_reasoning",
+      "line": "333",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_injected_think_end_in_history_keeps_streaming_reasoning(\n        self, mock_tokenizer, mock_request\n    ):\n        parser = _Qwen3DelegatingParser(mock_tokenizer)\n        prompt_ids = [\n            _IM_START_ID,\n            _TEXT_ID,\n            _THINK_END_ID,\n            _TEXT_ID,\n            _IM_END_ID,\n            _IM_START_ID,\n        ]\n\n        delta = parser.parse_delta(\n            \"thinking\",\n            [_TEXT_ID],\n            mock_request,\n            prompt_token_ids=prompt_ids,\n            finished=False,\n        )\n\n        assert delta is not None\n        assert delta.reasoning == \"thinking\"\n        assert delta.content is None",
+      "test_body_sha256": "f80a54e9ae977d21814475f90aa051057ed792131d871ad165f00073a19485cc",
+      "assertions": [
+        {
+          "line": 354,
+          "expression": "assert delta is not None"
+        },
+        {
+          "line": 355,
+          "expression": "assert delta.reasoning == 'thinking'"
+        },
+        {
+          "line": 356,
+          "expression": "assert delta.content is None"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestDelegatingPromptDetection::test_think_end_in_generation_prompt_still_seeds_reasoning_ended",
+      "line": "358",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_think_end_in_generation_prompt_still_seeds_reasoning_ended(\n        self, mock_tokenizer, mock_request\n    ):\n        parser = _Qwen3DelegatingParser(mock_tokenizer)\n        prompt_ids = [\n            _IM_START_ID,\n            _TEXT_ID,\n            _IM_END_ID,\n            _IM_START_ID,\n            _THINK_START_ID,\n            _THINK_END_ID,\n        ]\n\n        delta = parser.parse_delta(\n            \"answer\",\n            [_TEXT_ID],\n            mock_request,\n            prompt_token_ids=prompt_ids,\n            finished=False,\n        )\n\n        assert delta is not None\n        assert delta.reasoning is None\n        assert delta.content == \"answer\"",
+      "test_body_sha256": "17a16a39415f19c027d174d74623357cae16bc5653e3d3c95a3c7308c7f3ceb7",
+      "assertions": [
+        {
+          "line": 379,
+          "expression": "assert delta is not None"
+        },
+        {
+          "line": 380,
+          "expression": "assert delta.reasoning is None"
+        },
+        {
+          "line": 381,
+          "expression": "assert delta.content == 'answer'"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestDelegatingPromptDetection::test_prior_turn_think_end_keeps_non_streaming_reasoning",
+      "line": "383",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_prior_turn_think_end_keeps_non_streaming_reasoning(\n        self, mock_tokenizer, mock_request\n    ):\n        parser = _Qwen3DelegatingParser(mock_tokenizer)\n        parser.set_prompt_token_ids([_THINK_END_ID, _IM_END_ID, _IM_START_ID, _TEXT_ID])\n        output_ids = [ord(\"a\"), _THINK_END_ID, ord(\"b\")]\n\n        reasoning, content, _ = parser.parse(\n            mock_tokenizer.decode(output_ids),\n            mock_request,\n            model_output_token_ids=output_ids,\n        )\n\n        assert reasoning == \"a\"\n        assert content == \"b\"\n        assert parser.count_reasoning_tokens(output_ids) > 0",
+      "test_body_sha256": "df4773b4e0b849da735bfad178b17a6bcb61f6246380331c849ab65d9195287d",
+      "assertions": [
+        {
+          "line": 396,
+          "expression": "assert reasoning == 'a'"
+        },
+        {
+          "line": 397,
+          "expression": "assert content == 'b'"
+        },
+        {
+          "line": 398,
+          "expression": "assert parser.count_reasoning_tokens(output_ids) > 0"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestDelegatingPromptDetection::test_think_end_in_current_turn_parses_output_as_content",
+      "line": "400",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_think_end_in_current_turn_parses_output_as_content(\n        self, mock_tokenizer, mock_request\n    ):\n        parser = _Qwen3DelegatingParser(mock_tokenizer)\n        parser.set_prompt_token_ids([_IM_START_ID, _THINK_START_ID, _THINK_END_ID])\n        output_ids = [ord(\"a\"), ord(\"b\")]\n\n        reasoning, content, _ = parser.parse(\n            mock_tokenizer.decode(output_ids),\n            mock_request,\n            model_output_token_ids=output_ids,\n        )\n\n        assert reasoning is None\n        assert content == \"ab\"\n        assert parser.count_reasoning_tokens(output_ids) == 0",
+      "test_body_sha256": "b2051585ec4716f16cee1c73a613624720a138d6e3320ed2310c2e3d7372c9ee",
+      "assertions": [
+        {
+          "line": 413,
+          "expression": "assert reasoning is None"
+        },
+        {
+          "line": 414,
+          "expression": "assert content == 'ab'"
+        },
+        {
+          "line": 415,
+          "expression": "assert parser.count_reasoning_tokens(output_ids) == 0"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestThinkingDisabled::test_thinking_disabled_initial_state_is_content",
+      "line": "742",
+      "old_unit_id": "output.parser_format_selection",
+      "unit_id": "response.reasoning_parser_initial_state",
+      "test_source": "    def test_thinking_disabled_initial_state_is_content(self, mock_tokenizer):\n        p = Qwen3Parser(\n            mock_tokenizer,\n            chat_template_kwargs={\"enable_thinking\": False},\n        )\n        assert p.parser_engine_config.initial_state == ParserState.CONTENT",
+      "test_body_sha256": "11c57ccf295df9b9a50bc8761efe091d08ce5cab70e3e7695699ca921200971e",
+      "assertions": [
+        {
+          "line": 747,
+          "expression": "assert p.parser_engine_config.initial_state == ParserState.CONTENT"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestThinkingDisabled::test_thinking_enabled_initial_state_is_reasoning",
+      "line": "749",
+      "old_unit_id": "output.parser_format_selection",
+      "unit_id": "response.reasoning_parser_initial_state",
+      "test_source": "    def test_thinking_enabled_initial_state_is_reasoning(self, mock_tokenizer):\n        p = Qwen3Parser(\n            mock_tokenizer,\n            chat_template_kwargs={\"enable_thinking\": True},\n        )\n        assert p.parser_engine_config.initial_state == ParserState.REASONING",
+      "test_body_sha256": "3cfa375914699a0184525eabeb5a84332398a93ee454166aff245821062055f6",
+      "assertions": [
+        {
+          "line": 754,
+          "expression": "assert p.parser_engine_config.initial_state == ParserState.REASONING"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/engine/test_qwen3_reasoning.py",
+      "test_name": "TestThinkingDisabled::test_default_initial_state_is_reasoning",
+      "line": "756",
+      "old_unit_id": "output.parser_format_selection",
+      "unit_id": "response.reasoning_parser_initial_state",
+      "test_source": "    def test_default_initial_state_is_reasoning(self, mock_tokenizer):\n        p = Qwen3Parser(mock_tokenizer)\n        assert p.parser_engine_config.initial_state == ParserState.REASONING",
+      "test_body_sha256": "e09133a3da95fc4c1f0ff234f19533ec3202de7f42369429299b55c26fcba07e",
+      "assertions": [
+        {
+          "line": 758,
+          "expression": "assert p.parser_engine_config.initial_state == ParserState.REASONING"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_chat_parsing.py",
+      "test_name": "ChatResponseTemplateParserTest::test_transform_dotted_mixed_string_rejected",
+      "line": "590",
+      "old_unit_id": "output.parser_format_selection",
+      "unit_id": "output.parser_input_contract",
+      "test_source": "    def test_transform_dotted_mixed_string_rejected(self):\n        template_spec = {\n            \"start_anchor\": \"<|assistant|>\",\n            \"fields\": {\"x\": {\"open\": \"<x>\", \"close\": \"</x>\", \"transform\": {\"v\": \"pre {content.args}\"}}},\n        }\n        with self.assertRaisesRegex(ValueError, \"mixes\"):\n            parse_response(\"\", template_spec, prefix=\"\")",
+      "test_body_sha256": "b00a333c65298c84311c53044ad31cbba46eb7faf15fa1774f9dbb6e565dd704",
+      "assertions": [
+        {
+          "line": 595,
+          "expression": "self.assertRaisesRegex(ValueError, 'mixes')"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_chat_parsing.py",
+      "test_name": "ChatResponseTemplateParserTest::test_join_validation",
+      "line": "616",
+      "old_unit_id": "output.parser_format_selection",
+      "unit_id": "output.parser_input_contract",
+      "test_source": "    def test_join_validation(self):\n        no_repeats = {\"start_anchor\": \"a\", \"fields\": {\"x\": {\"open\": \"<x>\", \"close\": \"</x>\", \"join\": \"\"}}}\n        with self.assertRaisesRegex(ValueError, \"requires 'repeats'\"):\n            parse_response(\"\", no_repeats, prefix=\"\")\n        bad_type = {\"start_anchor\": \"a\", \"fields\": {\"x\": {\"open\": \"<x>\", \"close\": \"</x>\", \"repeats\": True, \"join\": 7}}}\n        with self.assertRaisesRegex(ValueError, \"must be a string\"):\n            parse_response(\"\", bad_type, prefix=\"\")",
+      "test_body_sha256": "20507377750753b9672309ee0f229252d9541c361028c1e8f30608da0b4ff04d",
+      "assertions": [
+        {
+          "line": 618,
+          "expression": "self.assertRaisesRegex(ValueError, \"requires 'repeats'\")"
+        },
+        {
+          "line": 621,
+          "expression": "self.assertRaisesRegex(ValueError, 'must be a string')"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_chat_parsing.py",
+      "test_name": "ChatResponseTemplateParserTest::test_optional_false_raises_when_missing",
+      "line": "632",
+      "old_unit_id": "output.parser_format_selection",
+      "unit_id": "output.parser_input_contract",
+      "test_source": "    def test_optional_false_raises_when_missing(self):\n        template_spec = {\n            \"defaults\": {\"role\": \"assistant\"},\n            \"start_anchor\": \"<|assistant|>\",\n            \"fields\": {\n                \"content\": {\n                    \"open\": \"<response>\",\n                    \"close\": \"</response>\",\n                    \"content\": \"text\",\n                    \"optional\": False,\n                },\n            },\n        }\n        with self.assertRaises(ValueError) as cm:\n            parse_response(\"no response here\", template_spec, prefix=\"\")\n        self.assertIn(\"content\", str(cm.exception))",
+      "test_body_sha256": "582bcc1ff7eddfa211d0f42252c6035e91c8c9eb35788bd243a06ae61823ec71",
+      "assertions": [
+        {
+          "line": 647,
+          "expression": "self.assertIn('content', str(cm.exception))"
+        },
+        {
+          "line": 645,
+          "expression": "self.assertRaises(ValueError)"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_chat_parsing.py",
+      "test_name": "ChatResponseTemplateParserTest::test_unknown_content_parser_rejected",
+      "line": "680",
+      "old_unit_id": "output.parser_format_selection",
+      "unit_id": "output.parser_input_contract",
+      "test_source": "    def test_unknown_content_parser_rejected(self):\n        bad_template = {\n            \"defaults\": {\"role\": \"assistant\"},\n            \"start_anchor\": \"<|assistant|>\",\n            \"fields\": {\"x\": {\"open\": \"[\", \"close\": \"]\", \"content\": \"not-a-real-parser\"}},\n        }\n        with self.assertRaises(ValueError) as cm:\n            parse_response(\"[hi]\", bad_template)\n        self.assertIn(\"unknown content parser\", str(cm.exception).lower())",
+      "test_body_sha256": "049bd6a6511fac43546cf0bcd5b5fb197a4e2bfad2b706f855837744f2ef72a0",
+      "assertions": [
+        {
+          "line": 688,
+          "expression": "self.assertIn('unknown content parser', str(cm.exception).lower())"
+        },
+        {
+          "line": 686,
+          "expression": "self.assertRaises(ValueError)"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_chat_parsing.py",
+      "test_name": "ChatResponseTemplateParserTest::test_unsupported_version_rejected",
+      "line": "690",
+      "old_unit_id": "output.parser_format_selection",
+      "unit_id": "output.parser_input_contract",
+      "test_source": "    def test_unsupported_version_rejected(self):\n        bad_template = {\n            \"version\": 2,\n            \"defaults\": {\"role\": \"assistant\"},\n            \"start_anchor\": \"<|assistant|>\",\n            \"fields\": {\"content\": {\"content\": \"text\"}},\n        }\n        with self.assertRaises(ValueError) as cm:\n            parse_response(\"hello\", bad_template)\n        self.assertIn(\"version\", str(cm.exception).lower())",
+      "test_body_sha256": "5cd3723306e05bd84280e77e81f4d06e225a2c9960a1f1297a2d9d365abf6dcb",
+      "assertions": [
+        {
+          "line": 699,
+          "expression": "self.assertIn('version', str(cm.exception).lower())"
+        },
+        {
+          "line": 697,
+          "expression": "self.assertRaises(ValueError)"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_chat_parsing.py",
+      "test_name": "ChatResponseTemplateParserTest::test_two_implicit_fields_rejected",
+      "line": "701",
+      "old_unit_id": "output.parser_format_selection",
+      "unit_id": "output.parser_input_contract",
+      "test_source": "    def test_two_implicit_fields_rejected(self):\n        bad_template = {\n            \"defaults\": {\"role\": \"assistant\"},\n            \"start_anchor\": \"<|assistant|>\",\n            \"fields\": {\n                \"a\": {\"content\": \"text\"},\n                \"b\": {\"content\": \"text\"},\n            },\n        }\n        with self.assertRaises(ValueError):\n            parse_response(\"hello\", bad_template)",
+      "test_body_sha256": "9660155fb596a4a4c034f6eb7e512f5505ccd936b1733818f4cdc31a217538e8",
+      "assertions": [
+        {
+          "line": 710,
+          "expression": "self.assertRaises(ValueError)"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_chat_parsing.py",
+      "test_name": "ChatResponseTemplateParserTest::test_transform_string_interpolation_rejected",
+      "line": "713",
+      "old_unit_id": "output.parser_format_selection",
+      "unit_id": "output.parser_input_contract",
+      "test_source": "    def test_transform_string_interpolation_rejected(self):\n        bad_template = {\n            \"defaults\": {\"role\": \"assistant\"},\n            \"start_anchor\": \"<|assistant|>\",\n            \"fields\": {\n                \"tool\": {\n                    \"open\": \"<tool>\",\n                    \"close\": \"</tool>\",\n                    \"content\": \"text\",\n                    \"transform\": {\"label\": \"name: {content}\"},\n                },\n            },\n        }\n        with self.assertRaises(ValueError) as cm:\n            parse_response(\"<tool>foo</tool>\", bad_template)\n        msg = str(cm.exception)\n        self.assertIn(\"interpolation\", msg)\n        self.assertIn(\"{content}\", msg)",
+      "test_body_sha256": "9a3c831220752a6de73d9b7388f278e5ea453e2954afedbaae39189fcf774eb0",
+      "assertions": [
+        {
+          "line": 729,
+          "expression": "self.assertIn('interpolation', msg)"
+        },
+        {
+          "line": 730,
+          "expression": "self.assertIn('{content}', msg)"
+        },
+        {
+          "line": 726,
+          "expression": "self.assertRaises(ValueError)"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_chat_parsing.py",
+      "test_name": "ChatResponseTemplateParserTest::test_named_groups_without_transform_rejected",
+      "line": "732",
+      "old_unit_id": "output.parser_format_selection",
+      "unit_id": "output.parser_input_contract",
+      "test_source": "    def test_named_groups_without_transform_rejected(self):\n        bad_template = {\n            \"defaults\": {\"role\": \"assistant\"},\n            \"start_anchor\": \"<|assistant|>\",\n            \"fields\": {\n                \"tool\": {\n                    \"open_pattern\": r\"<tool name=(?P<name>\\w+)>\",\n                    \"close\": \"</tool>\",\n                    \"content\": \"text\",\n                },\n            },\n        }\n        with self.assertRaises(ValueError) as cm:\n            parse_response(\"<tool name=foo>body</tool>\", bad_template)\n        msg = str(cm.exception)\n        self.assertIn(\"transform\", msg)\n        self.assertIn(\"name\", msg)",
+      "test_body_sha256": "cf89a41f833470615ff06c19c8701d01bc364c0de68d42be30344260888d65ee",
+      "assertions": [
+        {
+          "line": 747,
+          "expression": "self.assertIn('transform', msg)"
+        },
+        {
+          "line": 748,
+          "expression": "self.assertIn('name', msg)"
+        },
+        {
+          "line": 744,
+          "expression": "self.assertRaises(ValueError)"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_chat_parsing.py",
+      "test_name": "PrefixAndTruncationTest::test_prefix_lands_inside_explicit_region",
+      "line": "1270",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_prefix_lands_inside_explicit_region(self):\n        \"\"\"A Qwen-style template emits `<|im_start|>assistant\\\\n<think>\\\\n` as the\n        assistant prefix. The model continues from inside the thinking block.\"\"\"\n        prompt = (\n            \"<|im_start|>system\\nYou are helpful<|im_end|>\\n\"\n            \"<|im_start|>user\\nHi<|im_end|>\\n\"\n            \"<|im_start|>assistant\\n<think>\\n\"\n        )\n        generated = \"Let me think...</think>\"\n        stream = ResponseParser(qwen3_template, prefix=prompt)\n        # The region_open for `thinking` surfaces via initial_events; the\n        # caller replays it before feeding model output.\n        self.assertEqual(\n            [(e[\"type\"], e[\"field\"]) for e in stream.initial_events],\n            [(\"region_open\", \"thinking\"), (\"region_chunk\", \"thinking\")],\n        )\n        events = stream.feed(generated)\n        result, _ = stream.finalize()\n        # thinking ends up with the prefill + generated body; text parser strips,\n        # so the leading \"\\n\" from the prefix is trimmed in the final value.\n        self.assertEqual(result, {\"role\": \"assistant\", \"thinking\": \"Let me think...\"})\n        # The feed stream only sees the rest of the body and the close; the\n        # prefill already emitted region_open.\n        self.assertEqual([e[\"type\"] for e in events], [\"region_chunk\", \"region_close\"])\n        self.assertEqual(events[1][\"field\"], \"thinking\")",
+      "test_body_sha256": "db093a416ef2f96c5cb9d351386ceae2e8bc81fdd0c021971b21f2d724f1437b",
+      "assertions": [
+        {
+          "line": 1282,
+          "expression": "self.assertEqual([(e['type'], e['field']) for e in stream.initial_events], [('region_open', 'thinking'), ('region_chunk', 'thinking')])"
+        },
+        {
+          "line": 1290,
+          "expression": "self.assertEqual(result, {'role': 'assistant', 'thinking': 'Let me think...'})"
+        },
+        {
+          "line": 1293,
+          "expression": "self.assertEqual([e['type'] for e in events], ['region_chunk', 'region_close'])"
+        },
+        {
+          "line": 1294,
+          "expression": "self.assertEqual(events[1]['field'], 'thinking')"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_chat_parsing.py",
+      "test_name": "PrefixAndTruncationTest::test_prefix_truncated_to_last_anchor",
+      "line": "1296",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_prefix_truncated_to_last_anchor(self):\n        \"\"\"Multiple `<|im_start|>assistant\\\\n` anchors in the prefix (multi-turn\n        conversation): only the slice after the LAST anchor matters.\"\"\"\n        prompt = (\n            \"<|im_start|>system\\nA<|im_end|>\\n\"\n            \"<|im_start|>user\\nB<|im_end|>\\n\"\n            \"<|im_start|>assistant\\nEarlier reply<|im_end|>\\n\"\n            \"<|im_start|>user\\nFollowup<|im_end|>\\n\"\n            \"<|im_start|>assistant\\n<think>\\n\"\n        )\n        stream = ResponseParser(qwen3_template, prefix=prompt)\n        # We landed inside `thinking` (from the LAST assistant turn's `<think>\\n`),\n        # not in some earlier-turn artifact.\n        opens = [e for e in stream.initial_events if e[\"type\"] == \"region_open\"]\n        self.assertEqual([e[\"field\"] for e in opens], [\"thinking\"])\n        # No earlier-turn content leaked into output.\n        stream.feed(\"done</think>\")\n        stream.finalize()\n        self.assertEqual(stream._output, {\"role\": \"assistant\", \"thinking\": \"done\"})",
+      "test_body_sha256": "2854162cb13d469148ade39eb4ad413b249095d6cba749e7db639363b7406349",
+      "assertions": [
+        {
+          "line": 1310,
+          "expression": "self.assertEqual([e['field'] for e in opens], ['thinking'])"
+        },
+        {
+          "line": 1314,
+          "expression": "self.assertEqual(stream._output, {'role': 'assistant', 'thinking': 'done'})"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_chat_parsing.py",
+      "test_name": "PrefixAndTruncationTest::test_template_without_anchor_rejected_at_load",
+      "line": "1316",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.parser_input_contract",
+      "test_source": "    def test_template_without_anchor_rejected_at_load(self):\n        \"\"\"A template missing both `start_anchor` and `start_anchor_pattern` is\n        rejected at load time. Without an anchor, a multi-turn prompt would be\n        fed through the parser in full and earlier turns would pollute the\n        current message's state.\"\"\"\n        anchorless = {k: v for k, v in qwen3_template.items() if k != \"start_anchor\"}\n        with self.assertRaises(ValueError) as cm:\n            ResponseParser(anchorless)\n        msg = str(cm.exception)\n        self.assertIn(\"start_anchor\", msg)",
+      "test_body_sha256": "460fdd8778b220137eaf655dcc43537864af3da0f31b4c7b18faedd00c8841ad",
+      "assertions": [
+        {
+          "line": 1325,
+          "expression": "self.assertIn('start_anchor', msg)"
+        },
+        {
+          "line": 1322,
+          "expression": "self.assertRaises(ValueError)"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_chat_parsing.py",
+      "test_name": "PrefixAndTruncationTest::test_prefix_anchor_not_found_falls_back",
+      "line": "1327",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_prefix_anchor_not_found_falls_back(self):\n        \"\"\"Spec has start_anchor but the prefix doesn't contain it: parser\n        falls back to processing the entire prefix (with a logged warning).\"\"\"\n        prompt = \"<think>\\n\"  # no <|im_start|>assistant\\n\n        stream = ResponseParser(qwen3_template, prefix=prompt)\n        opens = [e for e in stream.initial_events if e[\"type\"] == \"region_open\"]\n        self.assertEqual([e[\"field\"] for e in opens], [\"thinking\"])\n        stream.feed(\"hi</think>\")\n        stream.finalize()\n        self.assertEqual(stream._output, {\"role\": \"assistant\", \"thinking\": \"hi\"})",
+      "test_body_sha256": "980f3edb53ae87ea75c91ce4b97915c5162cc00a33792dfd5f3a4c180e6dd9c7",
+      "assertions": [
+        {
+          "line": 1333,
+          "expression": "self.assertEqual([e['field'] for e in opens], ['thinking'])"
+        },
+        {
+          "line": 1336,
+          "expression": "self.assertEqual(stream._output, {'role': 'assistant', 'thinking': 'hi'})"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_chat_parsing.py",
+      "test_name": "PrefixAndTruncationTest::test_round_trip_equivalence_prefix_streaming_vs_oneshot",
+      "line": "1338",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_round_trip_equivalence_prefix_streaming_vs_oneshot(self):\n        \"\"\"The load-bearing property: `prefix=p` + chunked `feed(g)` produces the\n        same dict as the one-shot `parse_response(g, prefix=p)`, regardless of how\n        `g` is chunked. (Concatenating the prompt into the response is deliberately\n        NOT equivalent -- the anchor is applied to the prefix only, never to the\n        generation; see test_history_bleed_is_guarded_by_prefix_not_by_response_anchor.)\"\"\"\n        prompt = \"<|im_start|>system\\nA<|im_end|>\\n<|im_start|>user\\nB<|im_end|>\\n<|im_start|>assistant\\n<think>\\n\"\n        for name, tmpl_dict, gen_text in _STREAMING_FIXTURES:\n            if \"thinking\" not in gen_text and \"<think>\" not in gen_text:\n                continue\n            # Only fixtures whose generation text is compatible with starting\n            # inside `thinking`. Restrict to qwen3 / smollm shape for clarity.\n            if name not in (\"qwen3\", \"smollm\"):\n                continue\n            tmpl_with_anchor = {**tmpl_dict, \"start_anchor\": \"<|im_start|>assistant\\n\"}\n            via_prefix = parse_response(gen_text, tmpl_with_anchor, prefix=prompt)\n            # Streaming forms must match the one-shot prefix form for every chunking.\n            for step in (1, 3, 7, 31):\n                with self.subTest(fixture=name, step=step):\n                    stream = ResponseParser(tmpl_with_anchor, prefix=prompt)\n                    for chunk in _chunk_fixed(gen_text, step):\n                        stream.feed(chunk)\n                    message, _ = stream.finalize()\n                    self.assertEqual(message, via_prefix)",
+      "test_body_sha256": "7f2a38c54c66a7eade6d46ba51bffd321c4c303ff8cd7806ebe0afa6a528857d",
+      "assertions": [
+        {
+          "line": 1361,
+          "expression": "self.assertEqual(message, via_prefix)"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_chat_parsing.py",
+      "test_name": "PrefixAndTruncationTest::test_history_bleed_is_guarded_by_prefix_not_by_response_anchor",
+      "line": "1363",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_history_bleed_is_guarded_by_prefix_not_by_response_anchor(self):\n        \"\"\"The `start_anchor` guards against history bleed only via `prefix=`; it is NOT\n        applied to the response. The response is the generation and may legitimately contain\n        the anchor (e.g. gpt-oss harmony opens every channel with `<|start|>assistant`), so\n        truncating it would drop real content. Passing the prompt as `prefix=` is the way to\n        keep earlier turns out of the parse.\"\"\"\n        spec = {\n            \"defaults\": {\"role\": \"assistant\"},\n            \"start_anchor\": \"<|im_start|>assistant\\n\",\n            \"fields\": {\"content\": {\"close_pattern\": r\"\\Z\", \"content\": \"text\"}},\n        }\n        prompt = \"<|im_start|>user\\nHi<|im_end|>\\n<|im_start|>assistant\\n\"\n        gen = \"Hello there!\"\n        clean = {\"role\": \"assistant\", \"content\": \"Hello there!\"}\n        # The supported guard: pass the prompt as prefix= so history is truncated off the prefix.\n        self.assertEqual(parse_response(gen, spec, prefix=prompt), clean)\n        # Pure generation parses cleanly with the explicit no-prefix opt-out (prefix=\"\").\n        self.assertEqual(parse_response(gen, spec, prefix=\"\"), clean)\n        # An anchor inside the response is treated as content, never as a history boundary:\n        # gpt-oss re-emits `<|start|>assistant` between channels, and that content survives.\n        gpt_oss_gen = (\n            \"<|channel|>analysis<|message|>thinking<|end|><|start|>assistant<|channel|>final<|message|>answer\"\n        )\n        self.assertEqual(\n            parse_response(gpt_oss_gen, gpt_oss_template, prefix=\"\"),\n            {\"role\": \"assistant\", \"thinking\": \"thinking\", \"content\": \"answer\"},\n        )",
+      "test_body_sha256": "00eed719c03b673a630578a6823e1e2f97bae8ed070a19ae8dc5e00d7a2f4ca5",
+      "assertions": [
+        {
+          "line": 1378,
+          "expression": "self.assertEqual(parse_response(gen, spec, prefix=prompt), clean)"
+        },
+        {
+          "line": 1380,
+          "expression": "self.assertEqual(parse_response(gen, spec, prefix=''), clean)"
+        },
+        {
+          "line": 1386,
+          "expression": "self.assertEqual(parse_response(gpt_oss_gen, gpt_oss_template, prefix=''), {'role': 'assistant', 'thinking': 'thinking', 'content': 'answer'})"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_chat_parsing.py",
+      "test_name": "PrefixAndTruncationTest::test_prefix_with_open_close_inside_truncated_region",
+      "line": "1391",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_prefix_with_open_close_inside_truncated_region(self):\n        \"\"\"Prefix opens AND closes a region. The full open/chunk/close event\n        sequence is surfaced via initial_events, and the closed region lands\n        in the output dict: so renderers can show prefill content.\"\"\"\n        spec = {\n            \"defaults\": {\"role\": \"assistant\"},\n            \"start_anchor\": \"[BEGIN]\",\n            \"fields\": {\n                \"tag\": {\"open\": \"<tag>\", \"close\": \"</tag>\", \"content\": \"text\"},\n                \"body\": {\"close_pattern\": r\"$\", \"content\": \"text\"},  # implicit\n            },\n        }\n        prefix = \"noise[BEGIN]<tag>silently consumed</tag>\"\n        stream = ResponseParser(spec, prefix=prefix)\n        types = [e[\"type\"] for e in stream.initial_events]\n        self.assertEqual(types, [\"region_open\", \"region_chunk\", \"region_close\"])\n        self.assertTrue(all(e[\"field\"] == \"tag\" for e in stream.initial_events))\n        self.assertEqual(stream.initial_events[-1][\"value\"], \"silently consumed\")\n        stream.feed(\"real generated body\")\n        result, _ = stream.finalize()\n        self.assertEqual(result[\"tag\"], \"silently consumed\")\n        self.assertEqual(result[\"body\"], \"real generated body\")",
+      "test_body_sha256": "dd64e8dd139f2e5f9efdb708d1ce6f9a112ac35343c592d67f1b305556b8c764",
+      "assertions": [
+        {
+          "line": 1406,
+          "expression": "self.assertEqual(types, ['region_open', 'region_chunk', 'region_close'])"
+        },
+        {
+          "line": 1407,
+          "expression": "self.assertTrue(all((e['field'] == 'tag' for e in stream.initial_events)))"
+        },
+        {
+          "line": 1408,
+          "expression": "self.assertEqual(stream.initial_events[-1]['value'], 'silently consumed')"
+        },
+        {
+          "line": 1411,
+          "expression": "self.assertEqual(result['tag'], 'silently consumed')"
+        },
+        {
+          "line": 1412,
+          "expression": "self.assertEqual(result['body'], 'real generated body')"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_chat_parsing.py",
+      "test_name": "PrefixAndTruncationTest::test_prefix_lands_inside_implicit_region",
+      "line": "1414",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_prefix_lands_inside_implicit_region(self):\n        \"\"\"Prefix wrote plaintext into the implicit region (e.g. assistant\n        prefill before the model continues). The region_open for the implicit\n        region must surface via initial_events so consumers don't miss it:\n        `_opened` will already be True by the time feed runs.\"\"\"\n        prompt = \"<|im_start|>assistant\\nSure, here is \"\n        stream = ResponseParser(smollm_template, prefix=prompt)\n        opens = [e for e in stream.initial_events if e[\"type\"] == \"region_open\"]\n        self.assertEqual([e[\"field\"] for e in opens], [\"content\"])\n        events = stream.feed(\"the answer<|im_end|>\")\n        # No second region_open from feed: the implicit region was already\n        # opened during prefill and surfaced via initial_events.\n        self.assertNotIn(\"region_open\", [e[\"type\"] for e in events])",
+      "test_body_sha256": "2614003e374de3dc1b7eb8f09fc8e48ba1010c5c3f21a7fb9d28c078aa60c89c",
+      "assertions": [
+        {
+          "line": 1422,
+          "expression": "self.assertEqual([e['field'] for e in opens], ['content'])"
+        },
+        {
+          "line": 1426,
+          "expression": "self.assertNotIn('region_open', [e['type'] for e in events])"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_chat_parsing.py",
+      "test_name": "PrefixAndTruncationTest::test_prefix_partial_pattern_at_boundary",
+      "line": "1428",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.structured_marker_boundary",
+      "test_source": "    def test_prefix_partial_pattern_at_boundary(self):\n        \"\"\"Post-truncation prefix ends mid-delimiter. The first feed completes\n        the match; initial_events is empty (no region opened within the\n        prefix yet) and the open fires from `feed()`.\"\"\"\n        prefix = \"<|im_start|>assistant\\n<th\" \"i\"  # incomplete `<think>`\n        stream = ResponseParser(qwen3_template, prefix=prefix)\n        self.assertEqual(stream.initial_events, [])\n        events = stream.feed(\"nk>real body</think>\")\n        types = [e[\"type\"] for e in events]\n        self.assertIn(\"region_open\", types)  # think opens during feed, not prefill\n        stream.finalize()\n        self.assertEqual(stream._output, {\"role\": \"assistant\", \"thinking\": \"real body\"})",
+      "test_body_sha256": "83b5b1d6b08df401d390a09adc06460687aedceebc404126cc82e0a62147a68a",
+      "assertions": [
+        {
+          "line": 1434,
+          "expression": "self.assertEqual(stream.initial_events, [])"
+        },
+        {
+          "line": 1437,
+          "expression": "self.assertIn('region_open', types)"
+        },
+        {
+          "line": 1439,
+          "expression": "self.assertEqual(stream._output, {'role': 'assistant', 'thinking': 'real body'})"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/parser/test_chat_parsing.py",
+      "test_name": "PrefixAndTruncationTest::test_prefix_is_required",
+      "line": "1441",
+      "old_unit_id": "output.structured_marker_boundary",
+      "unit_id": "output.parser_input_contract",
+      "test_source": "    def test_prefix_is_required(self):\n        spec = {\n            \"start_anchor\": \"<assistant>\",\n            \"fields\": {\"content\": {\"content\": \"text\"}},\n        }\n        with self.assertRaisesRegex(ValueError, \"requires `prefix`\"):\n            ResponseParser(spec)",
+      "test_body_sha256": "6932c8a09c77e43f5d531925ca46bb256773c299623de9d1bc6d6cc10a620f57",
+      "assertions": [
+        {
+          "line": 1446,
+          "expression": "self.assertRaisesRegex(ValueError, 'requires `prefix`')"
+        }
+      ],
+      "review_basis": "核查实际构造与断言后拆分初始化状态、解析器装配、输入规范拒绝和标记边界。"
+    }
+  ]
+}

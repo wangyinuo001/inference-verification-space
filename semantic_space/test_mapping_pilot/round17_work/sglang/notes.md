@@ -1,0 +1,1 @@
+共享方法按定义核查，继承方法保留实际消费类、启动参数、skip和flaky条件。Llama/Mistral/LFM2的多工具检查可以进入宽松分支，Qwen要求两个特定工具；不将这些判定强度等同。auto streaming只检查本地list及遍历完成，不归为工具选择正确。hidden_states检查是接口字段与片段数量，不是数值比较。

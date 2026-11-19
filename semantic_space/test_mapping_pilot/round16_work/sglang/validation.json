@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "rows": 103,
+  "file_hashes": 21,
+  "unit_counts": {
+    "service.lifecycle_health": 6,
+    "service.endpoint_observed_fields": 12,
+    "quality.sample_semantic_expectation": 41,
+    "model.execution_variant_relation": 1,
+    "response.observed_payload_contract": 3,
+    "sampling.structured_constraint": 22,
+    "output.stop_boundary": 5,
+    "spec.output_relation": 1,
+    "response.logprob_identity": 2,
+    "response.logprob_value": 2,
+    "service.configured_request_success": 6,
+    "response.batch_metadata_binding": 2
+  },
+  "gpu_or_upstream_tests_run": false
+}

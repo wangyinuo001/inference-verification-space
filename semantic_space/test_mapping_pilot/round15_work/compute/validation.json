@@ -1,0 +1,29 @@
+{
+  "validated_rows": 122,
+  "files": 6,
+  "supporting_source_files": 30,
+  "proposed_units": [
+    "compute.warmup_execution_policy",
+    "model.dummy_parameter_initialization",
+    "model.checkpoint_shard_artifact_binding"
+  ],
+  "per_file": {
+    "tests/kernels/quantization/test_zen_da8w4.py": 24,
+    "tests/model_executor/kernels/test_b12x_linear.py": 27,
+    "tests/model_executor/model_loader/test_sharded_state_loader.py": 23,
+    "tests/model_executor/test_jit_warmup_triton_launcher.py": 17,
+    "tests/model_executor/test_triton_dispatcher.py": 13,
+    "tests/model_executor/test_weight_utils.py": 18
+  },
+  "checks": [
+    "九字段与122个唯一索引入口对应",
+    "所有条目仍pending且排除round12/13/14/15其他crosswalk",
+    "断言锚点为纯path:line且存在",
+    "测试def行号匹配索引",
+    "每条conditions JSON含真实输入、fixture/helper/class及生产锚点",
+    "file_reviews与supporting_source_reviews SHA256一致",
+    "性质ID存在于seed或完整提案且条件维度有效"
+  ],
+  "upstream_execution": false,
+  "gpu_used": false
+}

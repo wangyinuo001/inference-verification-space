@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "count": 139,
+  "supporting_records": 8,
+  "file_hashes": 9,
+  "new_units": 2,
+  "unit_counts": {
+    "deployment.configuration_value_contract": 20,
+    "deployment.effective_configuration": 77,
+    "deployment.service_constructor_contract": 41,
+    "service.lifecycle_health": 1
+  },
+  "upstream_tests_run": false
+}

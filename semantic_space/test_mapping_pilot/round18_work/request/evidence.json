@@ -1,0 +1,1453 @@
+{
+  "file_reviews": [
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/config/multimodal.py",
+      "source_sha256": "01e3df4e0363dceaa59b9d2c620c099b988379b7ed87c4ddaa224317b1e5aac9"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/config/vllm.py",
+      "source_sha256": "470f875728d175f98e865e33b047d1c97a3c6337024b8e25d88b7f2910e20a61"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/config/model.py",
+      "source_sha256": "500e31385028e6cdce372e4cf644a1417375a35ea549baedf8c00519fdcc3542"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/utils/sparse_utils.py",
+      "source_sha256": "9d5fa0e567f74d4e6b62d70c98cabcbe6ef2da750e9649bf2fe0622b75311488"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/renderers/embed_utils.py",
+      "source_sha256": "5d16e6830e8a03125ef110a37f9064893b189344aa3667af41e8f0521a659c75"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/multimodal/media/image.py",
+      "source_sha256": "28d32486298b8d3692c074b8214c458074753d42bf789276edf5cd68c41f1512"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/multimodal/media/audio.py",
+      "source_sha256": "cd88790d50e7feac9b94b89721cbf58e16dcf569020e4b08fa91da0efd6474e6"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/multimodal/media/video.py",
+      "source_sha256": "d9dcfe30b80b9b63ce2f4c8527dc596c3340471a32aeaf07c07aec9d44b4e143"
+    }
+  ],
+  "entries": [
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_supports_multimodal_inputs",
+      "line": "33",
+      "source": "def test_supports_multimodal_inputs(model_id, limit_mm_per_prompt, expected):\n    \"\"\"Test supports_multimodal_inputs returns correct boolean for various\n    configs.\"\"\"\n    ctx = build_model_context(\n        model_id,\n        limit_mm_per_prompt=limit_mm_per_prompt,\n    )\n    assert ctx.model_config.supports_multimodal_inputs is expected",
+      "decorators": [
+        "pytest.mark.parametrize('model_id,limit_mm_per_prompt,expected', [('Qwen/Qwen2-0.5B-Instruct', {}, False), ('Qwen/Qwen2.5-VL-3B-Instruct', {}, True), ('Qwen/Qwen2.5-VL-3B-Instruct', {'image': 0, 'video': 0}, False), ('Qwen/Qwen2.5-VL-3B-Instruct', {'image': 0}, True)])",
+        "pytest.mark.core_model"
+      ],
+      "assertions": [
+        {
+          "line": 40,
+          "expression": "assert ctx.model_config.supports_multimodal_inputs is expected"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_mm_encoder_attn_backend_str_conversion",
+      "line": "43",
+      "source": "def test_mm_encoder_attn_backend_str_conversion():\n    config = MultiModalConfig(mm_encoder_attn_backend=\"FLASH_ATTN\")\n    assert config.mm_encoder_attn_backend == AttentionBackendEnum.FLASH_ATTN",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 45,
+          "expression": "assert config.mm_encoder_attn_backend == AttentionBackendEnum.FLASH_ATTN"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_mm_encoder_attn_backend_invalid",
+      "line": "48",
+      "source": "def test_mm_encoder_attn_backend_invalid():\n    with pytest.raises(ValueError):\n        MultiModalConfig(mm_encoder_attn_backend=\"not_a_backend\")",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 49,
+          "expression": "pytest.raises(ValueError)"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_mm_hasher_algorithm_invalid",
+      "line": "53",
+      "source": "def test_mm_hasher_algorithm_invalid():\n    with pytest.raises(ValueError, match=\"mm_hasher_algorithm\"):\n        MultiModalConfig(mm_hasher_algorithm=\"md5\")",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 54,
+          "expression": "pytest.raises(ValueError, match='mm_hasher_algorithm')"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_mm_encoder_attn_backend_hash_updates",
+      "line": "58",
+      "source": "def test_mm_encoder_attn_backend_hash_updates():\n    base_hash = MultiModalConfig().compute_hash()\n    overridden_hash = MultiModalConfig(\n        mm_encoder_attn_backend=AttentionBackendEnum.FLASH_ATTN\n    ).compute_hash()\n    assert base_hash != overridden_hash",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 63,
+          "expression": "assert base_hash != overridden_hash"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_language_model_only_does_not_affect_mm_hash",
+      "line": "66",
+      "source": "def test_language_model_only_does_not_affect_mm_hash():\n    \"\"\"language_model_only does not affect the ViT computation graph,\n    so it should not change the multimodal config hash.\"\"\"\n    base_hash = MultiModalConfig().compute_hash()\n    lm_only_hash = MultiModalConfig(language_model_only=True).compute_hash()\n    assert base_hash == lm_only_hash",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 71,
+          "expression": "assert base_hash == lm_only_hash"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_language_model_only_affects_model_hash",
+      "line": "74",
+      "source": "def test_language_model_only_affects_model_hash():\n    \"\"\"language_model_only affects the LM computation graph,\n    so it should change the model config hash.\"\"\"\n    model = \"llava-hf/llava-1.5-7b-hf\"\n    base_hash = ModelConfig(model).compute_hash()\n    lm_only_hash = ModelConfig(model, language_model_only=True).compute_hash()\n    assert base_hash != lm_only_hash",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 80,
+          "expression": "assert base_hash != lm_only_hash"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_use_gpu_video_backend_from_media_io_kwargs",
+      "line": "84",
+      "source": "def test_use_gpu_video_backend_from_media_io_kwargs(backend_arg: str):\n    config = MultiModalConfig(\n        media_io_kwargs={\"video\": {backend_arg: \"pynvvideocodec\"}}\n    )\n\n    assert config.use_gpu_video_backend()",
+      "decorators": [
+        "pytest.mark.parametrize('backend_arg', ['video_backend', 'backend'])"
+      ],
+      "assertions": [
+        {
+          "line": 89,
+          "expression": "assert config.use_gpu_video_backend()"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_mm_encoder_fp8_scale_path_requires_fp8",
+      "line": "92",
+      "source": "def test_mm_encoder_fp8_scale_path_requires_fp8():\n    with pytest.raises(ValueError, match=\"mm_encoder_attn_dtype\"):\n        MultiModalConfig(mm_encoder_fp8_scale_path=\"/tmp/scales.json\")",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 93,
+          "expression": "pytest.raises(ValueError, match='mm_encoder_attn_dtype')"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_mm_encoder_attn_dtype_hash_updates",
+      "line": "97",
+      "source": "def test_mm_encoder_attn_dtype_hash_updates(tmp_path):\n    scale_file = tmp_path / \"scales.json\"\n    scale_file.write_text(\"{}\")\n    base_hash = MultiModalConfig().compute_hash()\n    fp8_hash = MultiModalConfig(mm_encoder_attn_dtype=\"fp8\").compute_hash()\n    fp8_static_hash = MultiModalConfig(\n        mm_encoder_attn_dtype=\"fp8\",\n        mm_encoder_fp8_scale_path=str(scale_file),\n    ).compute_hash()\n    assert base_hash != fp8_hash\n    assert fp8_hash != fp8_static_hash",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 106,
+          "expression": "assert base_hash != fp8_hash"
+        },
+        {
+          "line": 107,
+          "expression": "assert fp8_hash != fp8_static_hash"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_supports_multimodal_for_mm_prefix_before_multimodal_config",
+      "line": "122",
+      "source": "def test_supports_multimodal_for_mm_prefix_before_multimodal_config():\n    \"\"\"A text-only model never builds a multimodal config, so the early\n    return must neither clear mm_prefix nor write the sticky cache.\"\"\"\n    model_config = _make_mm_prefix_model_config(_TEXT_ONLY_MODEL)\n    assert model_config.multimodal_config is None\n\n    assert model_config._supports_multimodal_for_mm_prefix() is True\n    assert not getattr(model_config, \"_supports_multimodal_inputs_cache\", None)",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 126,
+          "expression": "assert model_config.multimodal_config is None"
+        },
+        {
+          "line": 128,
+          "expression": "assert model_config._supports_multimodal_for_mm_prefix() is True"
+        },
+        {
+          "line": 129,
+          "expression": "assert not getattr(model_config, '_supports_multimodal_inputs_cache', None)"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_language_model_only_disables_via_supports_multimodal_inputs",
+      "line": "132",
+      "source": "def test_language_model_only_disables_via_supports_multimodal_inputs():\n    \"\"\"language_model_only zeros all limits, so registry reports text-only.\"\"\"\n    model_config = _make_mm_prefix_model_config(language_model_only=True)\n\n    assert model_config._supports_multimodal_for_mm_prefix() is False",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 136,
+          "expression": "assert model_config._supports_multimodal_for_mm_prefix() is False"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_convertor_clears_mm_prefix_when_multimodal_disabled",
+      "line": "139",
+      "source": "def test_convertor_clears_mm_prefix_when_multimodal_disabled():\n    hf_config = PreTrainedConfig(\n        model_type=\"gemma3\",\n        architectures=[\"Gemma3ForConditionalGeneration\"],\n    )\n    hf_config.is_mm_prefix_lm = True\n    convertor = ModelArchConfigConvertorBase(hf_config, hf_config)\n\n    assert convertor.is_mm_prefix_lm(supports_multimodal=True) is True\n    assert convertor.is_mm_prefix_lm(supports_multimodal=False) is False\n\n    enabled = convertor.convert(supports_multimodal=True)\n    disabled = convertor.convert(supports_multimodal=False)\n    assert enabled.is_mm_prefix_lm is True\n    assert disabled.is_mm_prefix_lm is False",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 147,
+          "expression": "assert convertor.is_mm_prefix_lm(supports_multimodal=True) is True"
+        },
+        {
+          "line": 148,
+          "expression": "assert convertor.is_mm_prefix_lm(supports_multimodal=False) is False"
+        },
+        {
+          "line": 152,
+          "expression": "assert enabled.is_mm_prefix_lm is True"
+        },
+        {
+          "line": 153,
+          "expression": "assert disabled.is_mm_prefix_lm is False"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_sticky_cache_survives_text_subconfig_regeneration",
+      "line": "156",
+      "source": "def test_sticky_cache_survives_text_subconfig_regeneration():\n    \"\"\"with_hf_config deepcopies the cached decision onto text submodules.\"\"\"\n    model_config = _make_mm_prefix_model_config()\n    assert model_config._supports_multimodal_for_mm_prefix() is True\n\n    # `with_hf_config` deep-copies this config and swaps `hf_config` for a\n    # text-only submodule (e.g. Gemma4ForCausalLM).\n    text_config = copy.deepcopy(model_config)\n    text_config.hf_config = model_config.hf_text_config\n    assert text_config._supports_multimodal_for_mm_prefix() is True\n\n    # Without the copied cache the submodule architecture has no registered\n    # multimodal processor, so re-querying the registry wrongly settles on\n    # text-only and would clear mm_prefix.\n    del text_config._supports_multimodal_inputs_cache\n    assert text_config._supports_multimodal_for_mm_prefix() is False",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 159,
+          "expression": "assert model_config._supports_multimodal_for_mm_prefix() is True"
+        },
+        {
+          "line": 165,
+          "expression": "assert text_config._supports_multimodal_for_mm_prefix() is True"
+        },
+        {
+          "line": 171,
+          "expression": "assert text_config._supports_multimodal_for_mm_prefix() is False"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_mm_processor_device_type_normalizes",
+      "line": "186",
+      "source": "def test_mm_processor_device_type_normalizes(device: object, expected: str | None):\n    kwargs = {} if device is None else {\"device\": device}\n    config = MultiModalConfig(mm_processor_kwargs=kwargs)\n    assert config.get_mm_processor_device_type() == expected",
+      "decorators": [
+        "pytest.mark.parametrize(('device', 'expected'), [(None, None), ('cpu', 'cpu'), ('cuda', 'cuda'), ('cuda:1', 'cuda'), (torch.device('cuda', 1), 'cuda')])"
+      ],
+      "assertions": [
+        {
+          "line": 189,
+          "expression": "assert config.get_mm_processor_device_type() == expected"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_merge_mm_processor_kwargs_scoped_precedence",
+      "line": "192",
+      "source": "def test_merge_mm_processor_kwargs_scoped_precedence():\n    configured = {\n        \"size\": {\n            \"shortest_edge\": 64,\n            \"longest_edge\": 512,\n        },\n        \"do_resize\": True,\n        \"padding\": False,\n        \"images_kwargs\": {\n            \"size\": {\"longest_edge\": 1024},\n            \"do_resize\": False,\n        },\n        \"videos_kwargs\": {\n            \"size\": {\"longest_edge\": 2048},\n        },\n    }\n    inference = {\n        \"size\": {\"shortest_edge\": 128},\n        \"do_resize\": True,\n        \"images_kwargs\": {\n            \"size\": {\"shortest_edge\": 256},\n        },\n    }\n\n    config = MultiModalConfig(\n        mm_processor_kwargs=configured,\n        mm_device_do_normalize=False,\n    )\n\n    assert config.merge_mm_processor_kwargs(inference) == {\n        \"size\": {\n            \"shortest_edge\": 128,\n            \"longest_edge\": 512,\n        },\n        \"do_resize\": True,\n        \"padding\": False,\n        \"images_kwargs\": {\n            \"size\": {\n                \"shortest_edge\": 256,\n                \"longest_edge\": 1024,\n            },\n            \"do_resize\": True,\n        },\n        \"videos_kwargs\": {\n            \"size\": {\n                \"shortest_edge\": 128,\n                \"longest_edge\": 2048,\n            },\n        },\n    }",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 221,
+          "expression": "assert config.merge_mm_processor_kwargs(inference) == {'size': {'shortest_edge': 128, 'longest_edge': 512}, 'do_resize': True, 'padding': False, 'images_kwargs': {'size': {'shortest_edge': 256, 'longest_edge': 1024}, 'do_resize': True}, 'videos_kwargs': {'size': {'shortest_edge': 128, 'longest_edge': 2048}}}"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_merge_mm_processor_kwargs_preserves_scoped_siblings_and_precedence",
+      "line": "244",
+      "source": "def test_merge_mm_processor_kwargs_preserves_scoped_siblings_and_precedence():\n    config = MultiModalConfig(\n        mm_processor_kwargs={\n            \"size\": {\n                \"shortest_edge\": 100,\n                \"longest_edge\": 1000,\n            },\n            \"videos_kwargs\": {\n                \"fps\": 2,\n                \"size\": {\"longest_edge\": 1200},\n            },\n        },\n        mm_device_do_normalize=False,\n    )\n\n    assert config.merge_mm_processor_kwargs(\n        {\n            \"size\": {\"longest_edge\": 1800},\n            \"videos_kwargs\": {\n                \"size\": {\"shortest_edge\": 200},\n            },\n        }\n    ) == {\n        \"size\": {\n            \"shortest_edge\": 100,\n            \"longest_edge\": 1800,\n        },\n        \"videos_kwargs\": {\n            \"fps\": 2,\n            \"size\": {\n                \"shortest_edge\": 200,\n                \"longest_edge\": 1800,\n            },\n        },\n    }",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 259,
+          "expression": "assert config.merge_mm_processor_kwargs({'size': {'longest_edge': 1800}, 'videos_kwargs': {'size': {'shortest_edge': 200}}}) == {'size': {'shortest_edge': 100, 'longest_edge': 1800}, 'videos_kwargs': {'fps': 2, 'size': {'shortest_edge': 200, 'longest_edge': 1800}}}"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_merge_mm_processor_kwargs_mapping_vs_replacement",
+      "line": "281",
+      "source": "def test_merge_mm_processor_kwargs_mapping_vs_replacement():\n    config = MultiModalConfig(\n        mm_processor_kwargs={\n            \"size\": {\"shortest_edge\": 64},\n            \"images_kwargs\": {\"size\": {\"longest_edge\": 1024}},\n        },\n        mm_device_do_normalize=False,\n    )\n\n    assert config.merge_mm_processor_kwargs({\"size\": 7}) == {\n        \"size\": 7,\n        \"images_kwargs\": {\"size\": 7},\n    }\n    assert config.merge_mm_processor_kwargs({\"size\": {}}) == {\n        \"size\": {\"shortest_edge\": 64},\n        \"images_kwargs\": {\n            \"size\": {\n                \"shortest_edge\": 64,\n                \"longest_edge\": 1024,\n            },\n        },\n    }",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 290,
+          "expression": "assert config.merge_mm_processor_kwargs({'size': 7}) == {'size': 7, 'images_kwargs': {'size': 7}}"
+        },
+        {
+          "line": 294,
+          "expression": "assert config.merge_mm_processor_kwargs({'size': {}}) == {'size': {'shortest_edge': 64}, 'images_kwargs': {'size': {'shortest_edge': 64, 'longest_edge': 1024}}}"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_merge_mm_processor_kwargs_empty_scopes_are_absent",
+      "line": "314",
+      "source": "def test_merge_mm_processor_kwargs_empty_scopes_are_absent(\n    configured: dict[str, object],\n    inference: dict[str, object],\n):\n    config = MultiModalConfig(\n        mm_processor_kwargs=configured,\n        mm_device_do_normalize=False,\n    )\n\n    assert config.merge_mm_processor_kwargs(inference) == {}",
+      "decorators": [
+        "pytest.mark.parametrize('configured', _EMPTY_IMAGE_SCOPE_KWARGS)",
+        "pytest.mark.parametrize('inference', _EMPTY_IMAGE_SCOPE_KWARGS)"
+      ],
+      "assertions": [
+        {
+          "line": 323,
+          "expression": "assert config.merge_mm_processor_kwargs(inference) == {}"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_merge_mm_processor_kwargs_empty_inference_scope_preserves_config_merge",
+      "line": "327",
+      "source": "def test_merge_mm_processor_kwargs_empty_inference_scope_preserves_config_merge(\n    empty_inference: dict[str, object],\n):\n    config = MultiModalConfig(\n        mm_processor_kwargs={\n            \"images_kwargs\": {\n                \"size\": {\n                    \"shortest_edge\": 64,\n                    \"longest_edge\": 512,\n                },\n            },\n        },\n        mm_device_do_normalize=False,\n    )\n    inference = {\n        \"size\": {\"shortest_edge\": 128},\n        **empty_inference,\n    }\n\n    assert config.merge_mm_processor_kwargs(inference) == {\n        \"size\": {\"shortest_edge\": 128},\n        \"images_kwargs\": {\n            \"size\": {\n                \"shortest_edge\": 128,\n                \"longest_edge\": 512,\n            },\n        },\n    }",
+      "decorators": [
+        "pytest.mark.parametrize('empty_inference', _EMPTY_IMAGE_SCOPE_KWARGS)"
+      ],
+      "assertions": [
+        {
+          "line": 346,
+          "expression": "assert config.merge_mm_processor_kwargs(inference) == {'size': {'shortest_edge': 128}, 'images_kwargs': {'size': {'shortest_edge': 128, 'longest_edge': 512}}}"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_merge_mm_processor_kwargs_empty_config_scope_allows_inference_merge",
+      "line": "358",
+      "source": "def test_merge_mm_processor_kwargs_empty_config_scope_allows_inference_merge(\n    empty_config: dict[str, object],\n):\n    config = MultiModalConfig(\n        mm_processor_kwargs={\n            \"size\": {\"longest_edge\": 512},\n            **empty_config,\n        },\n        mm_device_do_normalize=False,\n    )\n\n    assert config.merge_mm_processor_kwargs(\n        {\n            \"size\": {\"shortest_edge\": 128},\n            \"images_kwargs\": {\"size\": {\"longest_edge\": 1024}},\n        }\n    ) == {\n        \"size\": {\n            \"shortest_edge\": 128,\n            \"longest_edge\": 512,\n        },\n        \"images_kwargs\": {\n            \"size\": {\n                \"shortest_edge\": 128,\n                \"longest_edge\": 1024,\n            },\n        },\n    }",
+      "decorators": [
+        "pytest.mark.parametrize('empty_config', _EMPTY_IMAGE_SCOPE_KWARGS)"
+      ],
+      "assertions": [
+        {
+          "line": 369,
+          "expression": "assert config.merge_mm_processor_kwargs({'size': {'shortest_edge': 128}, 'images_kwargs': {'size': {'longest_edge': 1024}}}) == {'size': {'shortest_edge': 128, 'longest_edge': 512}, 'images_kwargs': {'size': {'shortest_edge': 128, 'longest_edge': 1024}}}"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_merge_mm_processor_kwargs_falsey_non_mapping_scopes_are_not_empty",
+      "line": "389",
+      "source": "def test_merge_mm_processor_kwargs_falsey_non_mapping_scopes_are_not_empty(\n    non_mapping_scope: object,\n):\n    config = MultiModalConfig(\n        mm_processor_kwargs={\"images_kwargs\": non_mapping_scope},\n        mm_device_do_normalize=False,\n    )\n\n    for empty_inference in _EMPTY_IMAGE_SCOPE_KWARGS:\n        assert config.merge_mm_processor_kwargs(empty_inference) == {\n            \"images_kwargs\": non_mapping_scope\n        }",
+      "decorators": [
+        "pytest.mark.parametrize('non_mapping_scope', [False, 0, '', [], 123])"
+      ],
+      "assertions": [
+        {
+          "line": 398,
+          "expression": "assert config.merge_mm_processor_kwargs(empty_inference) == {'images_kwargs': non_mapping_scope}"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_merge_mm_processor_kwargs_non_mapping_scope_precedence",
+      "line": "411",
+      "source": "def test_merge_mm_processor_kwargs_non_mapping_scope_precedence(\n    configured_scope: object,\n    inference_scope: object,\n    expected_scope: object,\n):\n    config = MultiModalConfig(\n        mm_processor_kwargs={\"images_kwargs\": configured_scope},\n        mm_device_do_normalize=False,\n    )\n\n    merged = config.merge_mm_processor_kwargs({\"images_kwargs\": inference_scope})\n\n    assert merged[\"images_kwargs\"] == expected_scope",
+      "decorators": [
+        "pytest.mark.parametrize(('configured_scope', 'inference_scope', 'expected_scope'), [(123, {'size': {'shortest_edge': 128}}, {'size': {'shortest_edge': 128}}), ({'size': {'shortest_edge': 64}}, 123, 123), (123, 456, 456)])"
+      ],
+      "assertions": [
+        {
+          "line": 423,
+          "expression": "assert merged['images_kwargs'] == expected_scope"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_merge_mm_processor_kwargs_none_leaf_is_explicit",
+      "line": "426",
+      "source": "def test_merge_mm_processor_kwargs_none_leaf_is_explicit():\n    config = MultiModalConfig(mm_device_do_normalize=False)\n\n    assert config.merge_mm_processor_kwargs({\"images_kwargs\": {\"do_resize\": None}}) == {\n        \"images_kwargs\": {\"do_resize\": None}\n    }",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 429,
+          "expression": "assert config.merge_mm_processor_kwargs({'images_kwargs': {'do_resize': None}}) == {'images_kwargs': {'do_resize': None}}"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_merge_mm_processor_kwargs_normalize_and_ownership",
+      "line": "434",
+      "source": "def test_merge_mm_processor_kwargs_normalize_and_ownership():\n    configured: dict[str, object] = {\n        \"images_kwargs\": {\n            \"size\": {\"shortest_edge\": 64},\n        },\n    }\n    inference: dict[str, object] = {\n        \"do_normalize\": True,\n        \"do_rescale\": True,\n        \"images_kwargs\": {\n            \"size\": {\"longest_edge\": 1024},\n        },\n    }\n    configured_before = copy.deepcopy(configured)\n    inference_before = copy.deepcopy(inference)\n\n    config = MultiModalConfig(\n        mm_processor_kwargs=configured,\n        mm_device_do_normalize=True,\n    )\n    merged = config.merge_mm_processor_kwargs(inference)\n\n    assert merged[\"do_normalize\"] is False\n    assert merged[\"do_rescale\"] is False\n    assert configured == configured_before\n    assert inference == inference_before\n    assert config.mm_processor_kwargs == configured_before\n\n    images_kwargs = merged[\"images_kwargs\"]\n    assert isinstance(images_kwargs, dict)\n    size = images_kwargs[\"size\"]\n    assert isinstance(size, dict)\n    size[\"shortest_edge\"] = 999\n\n    assert configured == configured_before\n    assert inference == inference_before\n    assert config.mm_processor_kwargs == configured_before",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 456,
+          "expression": "assert merged['do_normalize'] is False"
+        },
+        {
+          "line": 457,
+          "expression": "assert merged['do_rescale'] is False"
+        },
+        {
+          "line": 458,
+          "expression": "assert configured == configured_before"
+        },
+        {
+          "line": 459,
+          "expression": "assert inference == inference_before"
+        },
+        {
+          "line": 460,
+          "expression": "assert config.mm_processor_kwargs == configured_before"
+        },
+        {
+          "line": 463,
+          "expression": "assert isinstance(images_kwargs, dict)"
+        },
+        {
+          "line": 465,
+          "expression": "assert isinstance(size, dict)"
+        },
+        {
+          "line": 468,
+          "expression": "assert configured == configured_before"
+        },
+        {
+          "line": 469,
+          "expression": "assert inference == inference_before"
+        },
+        {
+          "line": 470,
+          "expression": "assert config.mm_processor_kwargs == configured_before"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_bad_mm_processor_device_rejected",
+      "line": "487",
+      "source": "def test_bad_mm_processor_device_rejected(ec_role: ECRole | None):\n    \"\"\"A bad device must fail during startup, not mid-request.\n\n    Rejected for every role, and on a CPU-only platform too, so a typo can never\n    silently fall through to running the processor somewhere unintended.\n    \"\"\"\n    with (\n        patch(\"vllm.platforms.current_platform.device_type\", \"cpu\"),\n        pytest.raises(ValueError, match='Invalid \"device\" in mm_processor_kwargs'),\n    ):\n        _validate_mm_processor_device(device=\"not-a-device\", ec_role=ec_role)",
+      "decorators": [
+        "pytest.mark.parametrize('ec_role', [None, 'ec_producer'])"
+      ],
+      "assertions": [
+        {
+          "line": 495,
+          "expression": "pytest.raises(ValueError, match='Invalid \"device\" in mm_processor_kwargs')"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_accelerator_mm_processor_rejected_outside_encoder_instance",
+      "line": "501",
+      "source": "def test_accelerator_mm_processor_rejected_outside_encoder_instance(\n    ec_role: ECRole | None,\n):\n    \"\"\"Only an encode-only EPD instance has the device to itself.\n\n    Every other role runs the language model in the same process, so frontend\n    accelerator work would contend with the forward pass and allocate outside\n    the memory profiled for the KV cache.\n    \"\"\"\n    with (\n        patch(\"vllm.platforms.current_platform.device_type\", \"cuda\"),\n        pytest.raises(ValueError, match=\"also runs the language model\"),\n    ):\n        _validate_mm_processor_device(device=\"cuda\", ec_role=ec_role)",
+      "decorators": [
+        "pytest.mark.parametrize('ec_role', [None, 'ec_consumer', 'ec_both'])"
+      ],
+      "assertions": [
+        {
+          "line": 512,
+          "expression": "pytest.raises(ValueError, match='also runs the language model')"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_accelerator_mm_processor_allowed_on_encoder_instance",
+      "line": "517",
+      "source": "def test_accelerator_mm_processor_allowed_on_encoder_instance():\n    with patch(\"vllm.platforms.current_platform.device_type\", \"cuda\"):\n        _validate_mm_processor_device(device=\"cuda\", ec_role=\"ec_producer\")",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 519,
+          "expression": "_validate_mm_processor_device(device='cuda', ec_role='ec_producer')"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。该入口仅以校验函数正常返回作为接受条件，没有额外结果断言。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_cpu_mm_processor_needs_no_ec_role",
+      "line": "522",
+      "source": "def test_cpu_mm_processor_needs_no_ec_role():\n    \"\"\"The gate only applies to the accelerator, so CPU stays unrestricted.\"\"\"\n    with patch(\"vllm.platforms.current_platform.device_type\", \"cuda\"):\n        _validate_mm_processor_device(device=\"cpu\", ec_role=None)",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 525,
+          "expression": "_validate_mm_processor_device(device='cpu', ec_role=None)"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。该入口仅以校验函数正常返回作为接受条件，没有额外结果断言。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_fold_mm_processor_device",
+      "line": "545",
+      "source": "def test_fold_mm_processor_device(\n    flag: str | None, kwargs: dict | None, expected: str | None\n):\n    with patch(\"vllm.platforms.current_platform.device_type\", \"cuda\"):\n        folded = MultiModalConfig.fold_mm_processor_device(kwargs, flag)\n\n    config = MultiModalConfig(mm_processor_kwargs=folded or {})\n    assert config.get_mm_processor_device_type() == expected",
+      "decorators": [
+        "pytest.mark.parametrize(('flag', 'kwargs', 'expected'), [('auto', None, None), (None, None, None), ('cpu', None, 'cpu'), ('cuda', None, 'cuda'), ('gpu', None, 'cuda'), ('cpu', {'device': 'cuda'}, 'cuda'), ('cuda', {'device': 'cpu'}, 'cpu')])"
+      ],
+      "assertions": [
+        {
+          "line": 552,
+          "expression": "assert config.get_mm_processor_device_type() == expected"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_auto_mm_processor_device_uses_accelerator_on_encoder_instance",
+      "line": "581",
+      "source": "def test_auto_mm_processor_device_uses_accelerator_on_encoder_instance():\n    \"\"\"The one deployment that has the device to itself and can hand it over.\"\"\"\n    assert _resolve_mm_processor_device(ec_role=\"ec_producer\") == \"cuda\"",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 583,
+          "expression": "assert _resolve_mm_processor_device(ec_role='ec_producer') == 'cuda'"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_auto_mm_processor_device_stays_on_cpu_off_encoder_instance",
+      "line": "587",
+      "source": "def test_auto_mm_processor_device_stays_on_cpu_off_encoder_instance(\n    ec_role: ECRole | None,\n):\n    \"\"\"Every other role runs the language model in the same process.\"\"\"\n    assert _resolve_mm_processor_device(ec_role=ec_role) is None",
+      "decorators": [
+        "pytest.mark.parametrize('ec_role', [None, 'ec_consumer', 'ec_both'])"
+      ],
+      "assertions": [
+        {
+          "line": 591,
+          "expression": "assert _resolve_mm_processor_device(ec_role=ec_role) is None"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_auto_mm_processor_device_needs_a_device_capable_transport",
+      "line": "594",
+      "source": "def test_auto_mm_processor_device_needs_a_device_capable_transport():\n    \"\"\"Other transports serialize host bytes, so the output is copied back.\"\"\"\n    assert (\n        _resolve_mm_processor_device(ec_role=\"ec_producer\", mm_tensor_ipc=\"direct_rpc\")\n        is None\n    )",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 596,
+          "expression": "assert _resolve_mm_processor_device(ec_role='ec_producer', mm_tensor_ipc='direct_rpc') is None"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_auto_mm_processor_device_leaves_an_explicit_request_alone",
+      "line": "602",
+      "source": "def test_auto_mm_processor_device_leaves_an_explicit_request_alone():\n    assert _resolve_mm_processor_device(ec_role=\"ec_producer\", device=\"cpu\") == \"cpu\"",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 603,
+          "expression": "assert _resolve_mm_processor_device(ec_role='ec_producer', device='cpu') == 'cpu'"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_ec_producer_only_enables_mm_encoder_only",
+      "line": "615",
+      "source": "def test_ec_producer_only_enables_mm_encoder_only(\n    ec_role: ECRole | None, expected: bool\n):\n    mm_config = MultiModalConfig()\n    model_config = MagicMock(spec=ModelConfig)\n    model_config.multimodal_config = mm_config\n    vllm_config = MagicMock(spec=VllmConfig)\n    vllm_config.model_config = model_config\n    vllm_config.ec_transfer_config = (\n        None\n        if ec_role is None\n        else ECTransferConfig(ec_connector=\"ECExampleConnector\", ec_role=ec_role)\n    )\n\n    VllmConfig._resolve_mm_encoder_only(vllm_config)\n\n    assert mm_config.mm_encoder_only is expected",
+      "decorators": [
+        "pytest.mark.parametrize(('ec_role', 'expected'), [(None, False), ('ec_consumer', False), ('ec_both', False), ('ec_producer', True)])"
+      ],
+      "assertions": [
+        {
+          "line": 631,
+          "expression": "assert mm_config.mm_encoder_only is expected"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_consumer_resolves_mm_embedding_inputs",
+      "line": "645",
+      "source": "def test_consumer_resolves_mm_embedding_inputs(\n    role: str, language_model_only: bool, enable_mm_embeds: bool, expected: bool\n):\n    mm_config = MultiModalConfig(\n        language_model_only=language_model_only, enable_mm_embeds=enable_mm_embeds\n    )\n    model_config = MagicMock(spec=ModelConfig)\n    model_config.multimodal_config = mm_config\n    vllm_config = MagicMock(spec=VllmConfig)\n    vllm_config.model_config = model_config\n    vllm_config.ec_transfer_config = (\n        ECTransferConfig(ec_connector=\"ECExampleConnector\", ec_role=role)\n        if role == \"ec_consumer\"\n        else None\n    )\n    vllm_config.kv_transfer_config = (\n        KVTransferConfig(kv_connector=\"ExampleConnector\", kv_role=role)\n        if role == \"kv_consumer\"\n        else None\n    )\n\n    VllmConfig._resolve_mm_embedding_inputs(vllm_config)\n\n    assert mm_config.allow_missing_mm_embeddings is expected\n    assert mm_config.enable_mm_embeds is expected",
+      "decorators": [
+        "pytest.mark.parametrize(('role', 'language_model_only', 'enable_mm_embeds', 'expected'), [('kv_consumer', False, False, True), ('kv_consumer', True, False, False), ('kv_consumer', True, True, True), ('ec_consumer', True, False, True)])"
+      ],
+      "assertions": [
+        {
+          "line": 668,
+          "expression": "assert mm_config.allow_missing_mm_embeddings is expected"
+        },
+        {
+          "line": 669,
+          "expression": "assert mm_config.enable_mm_embeds is expected"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_vllm_config_runs_the_mm_processor_device_check",
+      "line": "672",
+      "source": "def test_vllm_config_runs_the_mm_processor_device_check():\n    \"\"\"Startup must reach the check; the rule itself is covered above.\n\n    Guards the wiring, which no other test would notice going missing.\n    \"\"\"\n    model_config = MagicMock(spec=ModelConfig)\n    model_config.multimodal_config = MultiModalConfig(\n        mm_processor_kwargs={\"device\": \"cuda\"}\n    )\n    vllm_config = MagicMock(spec=VllmConfig)\n    vllm_config.model_config = model_config\n    vllm_config.ec_transfer_config = None\n\n    with (\n        patch(\"vllm.platforms.current_platform.device_type\", \"cuda\"),\n        pytest.raises(ValueError, match=\"also runs the language model\"),\n    ):\n        VllmConfig._validate_mm_processor_device(vllm_config)",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 687,
+          "expression": "pytest.raises(ValueError, match='also runs the language model')"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_auto_video_decode_uses_nvdec_on_encoder_instance",
+      "line": "729",
+      "source": "def test_auto_video_decode_uses_nvdec_on_encoder_instance():\n    \"\"\"The processor runs on the accelerator there, so decoded frames should\n    stay on-device too.\"\"\"\n    assert _resolve_mm_video_decode_device(ec_role=\"ec_producer\") == {\n        \"backend\": \"torchcodec\",\n        \"device\": \"cuda\",\n    }",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 732,
+          "expression": "assert _resolve_mm_video_decode_device(ec_role='ec_producer') == {'backend': 'torchcodec', 'device': 'cuda'}"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_auto_video_decode_stays_on_cpu_off_encoder_instance",
+      "line": "739",
+      "source": "def test_auto_video_decode_stays_on_cpu_off_encoder_instance(\n    ec_role: ECRole | None,\n):\n    \"\"\"The processor stays on CPU off encode-only instances, so video\n    decoding should too.\"\"\"\n    assert _resolve_mm_video_decode_device(ec_role=ec_role) == {}",
+      "decorators": [
+        "pytest.mark.parametrize('ec_role', [None, 'ec_consumer', 'ec_both'])"
+      ],
+      "assertions": [
+        {
+          "line": 744,
+          "expression": "assert _resolve_mm_video_decode_device(ec_role=ec_role) == {}"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_auto_video_decode_follows_explicit_processor_device",
+      "line": "747",
+      "source": "def test_auto_video_decode_follows_explicit_processor_device():\n    assert _resolve_mm_video_decode_device(ec_role=\"ec_producer\", device=\"cpu\") == {}\n    assert _resolve_mm_video_decode_device(ec_role=\"ec_producer\", device=\"cuda\") == {\n        \"backend\": \"torchcodec\",\n        \"device\": \"cuda\",\n    }",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 748,
+          "expression": "assert _resolve_mm_video_decode_device(ec_role='ec_producer', device='cpu') == {}"
+        },
+        {
+          "line": 749,
+          "expression": "assert _resolve_mm_video_decode_device(ec_role='ec_producer', device='cuda') == {'backend': 'torchcodec', 'device': 'cuda'}"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_auto_video_decode_respects_explicit_media_io_kwargs",
+      "line": "755",
+      "source": "def test_auto_video_decode_respects_explicit_media_io_kwargs():\n    assert _resolve_mm_video_decode_device(\n        ec_role=\"ec_producer\", video_kwargs={\"backend\": \"opencv\"}\n    ) == {\"backend\": \"opencv\"}\n    assert _resolve_mm_video_decode_device(\n        ec_role=\"ec_producer\", video_kwargs={\"device\": \"cpu\"}\n    ) == {\"device\": \"cpu\"}",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 756,
+          "expression": "assert _resolve_mm_video_decode_device(ec_role='ec_producer', video_kwargs={'backend': 'opencv'}) == {'backend': 'opencv'}"
+        },
+        {
+          "line": 759,
+          "expression": "assert _resolve_mm_video_decode_device(ec_role='ec_producer', video_kwargs={'device': 'cpu'}) == {'device': 'cpu'}"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/config/test_multimodal_config.py",
+      "test_name": "test_auto_video_decode_skipped_without_torchcodec",
+      "line": "764",
+      "source": "def test_auto_video_decode_skipped_without_torchcodec():\n    assert (\n        _resolve_mm_video_decode_device(\n            ec_role=\"ec_producer\",\n            torchcodec_available=False,\n        )\n        == {}\n    )",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 765,
+          "expression": "assert _resolve_mm_video_decode_device(ec_role='ec_producer', torchcodec_available=False) == {}"
+        }
+      ],
+      "conditions": "直接构造配置与解析输入；HF模型配置可能需下载，未运行模型。设备、可选库及VllmConfig/ModelConfig在角色解析用例中由明确替身控制；只检查最终配置/异常，不证明GPU执行、内存隔离或性能。嵌套kwargs检查保留覆盖优先级及输入不被改写条件。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestPromptEmbedsValidation::test_valid_dense_tensor_accepted",
+      "line": "93",
+      "source": "def test_valid_dense_tensor_accepted(self, model_config):\n        \"\"\"Baseline: Valid dense tensors should work normally.\"\"\"\n        valid_tensor = _create_valid_dense_tensor()\n        encoded = _encode_tensor(valid_tensor)\n\n        # Should not raise any exception\n        result = safe_load_prompt_embeds(model_config, encoded)\n        assert result.shape == valid_tensor.shape",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 100,
+          "expression": "assert result.shape == valid_tensor.shape"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestPromptEmbedsValidation::test_valid_sparse_tensor_accepted",
+      "line": "102",
+      "source": "def test_valid_sparse_tensor_accepted(self):\n        \"\"\"Baseline: Valid sparse tensors should load successfully.\"\"\"\n        io_handler = ImageEmbeddingMediaIO()\n\n        valid_sparse = _create_valid_sparse_tensor()\n        encoded = _encode_tensor(valid_sparse)\n\n        # Should not raise any exception (sparse tensors remain sparse)\n        result = io_handler.load_base64(\"\", encoded.decode(\"utf-8\"))\n        assert result.shape == valid_sparse.shape",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 111,
+          "expression": "assert result.shape == valid_sparse.shape"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestPromptEmbedsValidation::test_malicious_sparse_tensor_rejected",
+      "line": "113",
+      "source": "def test_malicious_sparse_tensor_rejected(self, model_config):\n        \"\"\"Security: Malicious sparse tensors should be rejected.\"\"\"\n        malicious_tensor = _create_malicious_sparse_tensor()\n        encoded = _encode_tensor(malicious_tensor)\n\n        # The invariant check raises RuntimeError from inside torch.load;\n        # safe_load_prompt_embeds now reports that as a client error so the\n        # caller gets a 400 rather than the 500 a bare RuntimeError produced.\n        with pytest.raises(VLLMValidationError) as exc_info:\n            safe_load_prompt_embeds(model_config, encoded)\n\n        # Error should indicate sparse tensor validation failure\n        error_msg = str(exc_info.value).lower()\n        assert \"sparse\" in error_msg or \"index\" in error_msg or \"bounds\" in error_msg",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 126,
+          "expression": "assert 'sparse' in error_msg or 'index' in error_msg or 'bounds' in error_msg"
+        },
+        {
+          "line": 121,
+          "expression": "pytest.raises(VLLMValidationError)"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestPromptEmbedsValidation::test_extremely_large_indices_rejected",
+      "line": "128",
+      "source": "def test_extremely_large_indices_rejected(self, model_config):\n        \"\"\"Security: Sparse tensors with extremely large indices should be rejected.\"\"\"\n        # Create tensor with indices far beyond reasonable bounds\n        indices = torch.tensor([[999999], [999999]])\n        values = torch.tensor([1.0])\n        shape = (10, 10)\n\n        malicious_tensor = torch.sparse_coo_tensor(\n            indices, values, shape, dtype=torch.float32, check_invariants=False\n        )\n        encoded = _encode_tensor(malicious_tensor)\n\n        with pytest.raises(VLLMValidationError):\n            safe_load_prompt_embeds(model_config, encoded)",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 140,
+          "expression": "pytest.raises(VLLMValidationError)"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestPromptEmbedsValidation::test_negative_indices_rejected",
+      "line": "143",
+      "source": "def test_negative_indices_rejected(self, model_config):\n        \"\"\"Security: Sparse tensors with negative indices should be rejected.\"\"\"\n        # Create tensor with negative indices\n        indices = torch.tensor([[-1], [-1]])\n        values = torch.tensor([1.0])\n        shape = (10, 10)\n\n        malicious_tensor = torch.sparse_coo_tensor(\n            indices, values, shape, dtype=torch.float32, check_invariants=False\n        )\n        encoded = _encode_tensor(malicious_tensor)\n\n        with pytest.raises(VLLMValidationError):\n            safe_load_prompt_embeds(model_config, encoded)",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 155,
+          "expression": "pytest.raises(VLLMValidationError)"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestPromptEmbedsValidation::test_hidden_size_mismatch_rejected",
+      "line": "158",
+      "source": "def test_hidden_size_mismatch_rejected(self, model_config):\n        \"\"\"Tensors whose trailing dim doesn't match the model's hidden_size\n        must be rejected at parse time.\"\"\"\n        # opt-125m has hidden_size=768, passing 512 triggers the check.\n        wrong_hidden = torch.randn(10, 512, dtype=torch.float32)\n        encoded = _encode_tensor(wrong_hidden)\n\n        with pytest.raises(VLLMValidationError, match=\"hidden_size\"):\n            safe_load_prompt_embeds(model_config, encoded)",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 165,
+          "expression": "pytest.raises(VLLMValidationError, match='hidden_size')"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestPromptEmbedsValidation::test_float_dtype_mismatch_cast_to_model_dtype",
+      "line": "168",
+      "source": "def test_float_dtype_mismatch_cast_to_model_dtype(self, model_config):\n        \"\"\"Tensors whose dtype doesn't match the model's dtype but are still\n        floating-point are cast, since API clients generally can't know the\n        server's `--dtype` setting ahead of time.\"\"\"\n        # Fixture pins model dtype to float32, upload a bfloat16 tensor.\n        mismatched_float = torch.randn(10, 768, dtype=torch.bfloat16)\n        encoded = _encode_tensor(mismatched_float)\n\n        result = safe_load_prompt_embeds(model_config, encoded)\n\n        assert result.dtype == torch.float32\n        assert result.shape == mismatched_float.shape",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 178,
+          "expression": "assert result.dtype == torch.float32"
+        },
+        {
+          "line": 179,
+          "expression": "assert result.shape == mismatched_float.shape"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestPromptEmbedsValidation::test_non_float_dtype_rejected",
+      "line": "181",
+      "source": "def test_non_float_dtype_rejected(self, model_config):\n        \"\"\"Non-floating-point dtypes cannot be safely cast for embeddings\n        (e.g. integer tensors almost certainly indicate caller confusion),\n        so they are rejected at parse time.\"\"\"\n        non_float = torch.randint(0, 100, (10, 768), dtype=torch.int32)\n        encoded = _encode_tensor(non_float)\n\n        with pytest.raises(VLLMValidationError, match=\"floating-point\"):\n            safe_load_prompt_embeds(model_config, encoded)",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 188,
+          "expression": "pytest.raises(VLLMValidationError, match='floating-point')"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestPromptEmbedsValidation::test_non_2d_tensor_rejected",
+      "line": "191",
+      "source": "def test_non_2d_tensor_rejected(self, model_config):\n        \"\"\"Tensors that aren't 2D (even after squeezing a leading dim)\n        must be rejected with a clear error.\"\"\"\n        # A 1D tensor cannot be interpreted as (num_tokens, hidden_size).\n        bad = torch.randn(768, dtype=torch.float32)\n        encoded = _encode_tensor(bad)\n\n        with pytest.raises(VLLMValidationError, match=\"2D tensor\"):\n            safe_load_prompt_embeds(model_config, encoded)",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 198,
+          "expression": "pytest.raises(VLLMValidationError, match='2D tensor')"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestPromptEmbedsValidation::test_non_tensor_payload_rejected",
+      "line": "201",
+      "source": "def test_non_tensor_payload_rejected(self, model_config):\n        \"\"\"Deserializing to a non-Tensor object must raise a clear error\n        instead of propagating an AssertionError.\"\"\"\n        # `torch.save` will serialize a plain dict; `weights_only=True` allows\n        # loading built-in containers, so this exercises the isinstance check.\n        buffer = io.BytesIO()\n        torch.save({\"not\": \"a tensor\"}, buffer)\n        buffer.seek(0)\n        encoded = base64.b64encode(buffer.read())\n\n        with pytest.raises(VLLMValidationError, match=\"torch.Tensor\"):\n            safe_load_prompt_embeds(model_config, encoded)",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 211,
+          "expression": "pytest.raises(VLLMValidationError, match='torch.Tensor')"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestImageEmbedsValidation::test_valid_dense_tensor_accepted",
+      "line": "218",
+      "source": "def test_valid_dense_tensor_accepted(self):\n        \"\"\"Baseline: Valid dense tensors should work normally.\"\"\"\n        io_handler = ImageEmbeddingMediaIO()\n\n        valid_tensor = _create_valid_dense_tensor()\n        encoded = _encode_tensor(valid_tensor)\n\n        # Should not raise any exception\n        result = io_handler.load_base64(\"\", encoded.decode(\"utf-8\"))\n        assert result.shape == valid_tensor.shape",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 227,
+          "expression": "assert result.shape == valid_tensor.shape"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestImageEmbedsValidation::test_valid_sparse_tensor_accepted",
+      "line": "229",
+      "source": "def test_valid_sparse_tensor_accepted(self):\n        \"\"\"Baseline: Valid sparse tensors should load successfully.\"\"\"\n        io_handler = AudioEmbeddingMediaIO()\n\n        valid_sparse = _create_valid_sparse_tensor()\n        encoded = _encode_tensor(valid_sparse)\n\n        # Should not raise any exception (sparse tensors remain sparse)\n        result = io_handler.load_base64(\"\", encoded.decode(\"utf-8\"))\n        assert result.shape == valid_sparse.shape",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 238,
+          "expression": "assert result.shape == valid_sparse.shape"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestImageEmbedsValidation::test_malicious_sparse_tensor_rejected",
+      "line": "240",
+      "source": "def test_malicious_sparse_tensor_rejected(self):\n        \"\"\"Security: Malicious sparse tensors should be rejected.\"\"\"\n        io_handler = ImageEmbeddingMediaIO()\n\n        malicious_tensor = _create_malicious_sparse_tensor()\n        encoded = _encode_tensor(malicious_tensor)\n\n        # Should raise RuntimeError due to invalid sparse tensor\n        with pytest.raises((RuntimeError, ValueError)) as exc_info:\n            io_handler.load_base64(\"\", encoded.decode(\"utf-8\"))\n\n        error_msg = str(exc_info.value).lower()\n        assert \"sparse\" in error_msg or \"index\" in error_msg or \"bounds\" in error_msg",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 252,
+          "expression": "assert 'sparse' in error_msg or 'index' in error_msg or 'bounds' in error_msg"
+        },
+        {
+          "line": 248,
+          "expression": "pytest.raises((RuntimeError, ValueError))"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestImageEmbedsValidation::test_load_bytes_validates",
+      "line": "254",
+      "source": "def test_load_bytes_validates(self):\n        \"\"\"Security: Validation should also work for load_bytes method.\"\"\"\n        io_handler = ImageEmbeddingMediaIO()\n\n        malicious_tensor = _create_malicious_sparse_tensor()\n        buffer = io.BytesIO()\n        torch.save(malicious_tensor, buffer)\n        buffer.seek(0)\n\n        with pytest.raises((RuntimeError, ValueError)):\n            io_handler.load_bytes(buffer.read())",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 263,
+          "expression": "pytest.raises((RuntimeError, ValueError))"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestImageEmbedsValidation::test_valid_numpy_tensor_accepted",
+      "line": "266",
+      "source": "def test_valid_numpy_tensor_accepted(self):\n        \"\"\"Numpy .npy format should load and return correct tensor.\"\"\"\n        io_handler = ImageEmbeddingMediaIO()\n\n        arr = np.array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]], dtype=np.float32)\n        buf = io.BytesIO()\n        np.save(buf, arr)\n        encoded = base64.b64encode(buf.getvalue()).decode(\"utf-8\")\n\n        result = io_handler.load_base64(\"\", encoded)\n        assert isinstance(result, torch.Tensor)\n        assert result.shape == torch.Size([2, 3])\n        assert result.dtype == torch.float32\n        assert torch.allclose(result, torch.from_numpy(arr))",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 276,
+          "expression": "assert isinstance(result, torch.Tensor)"
+        },
+        {
+          "line": 277,
+          "expression": "assert result.shape == torch.Size([2, 3])"
+        },
+        {
+          "line": 278,
+          "expression": "assert result.dtype == torch.float32"
+        },
+        {
+          "line": 279,
+          "expression": "assert torch.allclose(result, torch.from_numpy(arr))"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestImageEmbedsValidation::test_numpy_int32_tensor_accepted",
+      "line": "281",
+      "source": "def test_numpy_int32_tensor_accepted(self):\n        \"\"\"Numpy int32 arrays should round-trip correctly.\"\"\"\n        io_handler = ImageEmbeddingMediaIO()\n\n        arr = np.arange(280, dtype=np.int32)\n        buf = io.BytesIO()\n        np.save(buf, arr)\n        encoded = base64.b64encode(buf.getvalue()).decode(\"utf-8\")\n\n        result = io_handler.load_base64(\"\", encoded)\n        assert result.dtype == torch.int32\n        assert result.shape == torch.Size([280])\n        assert (result == torch.from_numpy(arr)).all()",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 291,
+          "expression": "assert result.dtype == torch.int32"
+        },
+        {
+          "line": 292,
+          "expression": "assert result.shape == torch.Size([280])"
+        },
+        {
+          "line": 293,
+          "expression": "assert (result == torch.from_numpy(arr)).all()"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestImageEmbedsValidation::test_load_file_numpy_tensor_accepted",
+      "line": "295",
+      "source": "def test_load_file_numpy_tensor_accepted(self, tmp_path):\n        \"\"\"Numpy .npy files should load correctly via load_file.\"\"\"\n        io_handler = ImageEmbeddingMediaIO()\n\n        arr = np.array([[1.5, 2.5], [3.5, 4.5]], dtype=np.float32)\n        npy_path = tmp_path / \"image_embeds.npy\"\n        np.save(npy_path, arr)\n\n        result = io_handler.load_file(npy_path)\n        assert isinstance(result, torch.Tensor)\n        assert result.shape == torch.Size([2, 2])\n        assert result.dtype == torch.float32\n        assert torch.allclose(result, torch.from_numpy(arr))",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 304,
+          "expression": "assert isinstance(result, torch.Tensor)"
+        },
+        {
+          "line": 305,
+          "expression": "assert result.shape == torch.Size([2, 2])"
+        },
+        {
+          "line": 306,
+          "expression": "assert result.dtype == torch.float32"
+        },
+        {
+          "line": 307,
+          "expression": "assert torch.allclose(result, torch.from_numpy(arr))"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestAudioEmbedsValidation::test_valid_dense_tensor_accepted",
+      "line": "313",
+      "source": "def test_valid_dense_tensor_accepted(self):\n        \"\"\"Baseline: Valid dense tensors should work normally.\"\"\"\n        io_handler = AudioEmbeddingMediaIO()\n\n        valid_tensor = _create_valid_dense_tensor()\n        encoded = _encode_tensor(valid_tensor)\n\n        # Should not raise any exception\n        result = io_handler.load_base64(\"\", encoded.decode(\"utf-8\"))\n        assert result.shape == valid_tensor.shape",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 322,
+          "expression": "assert result.shape == valid_tensor.shape"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestAudioEmbedsValidation::test_valid_sparse_tensor_accepted",
+      "line": "324",
+      "source": "def test_valid_sparse_tensor_accepted(self):\n        \"\"\"Baseline: Valid sparse tensors should be converted successfully.\"\"\"\n        io_handler = AudioEmbeddingMediaIO()\n\n        valid_sparse = _create_valid_sparse_tensor()\n        encoded = _encode_tensor(valid_sparse)\n\n        # Should not raise any exception\n        result = io_handler.load_base64(\"\", encoded.decode(\"utf-8\"))\n        assert result.is_sparse is False",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 333,
+          "expression": "assert result.is_sparse is False"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestAudioEmbedsValidation::test_malicious_sparse_tensor_rejected",
+      "line": "335",
+      "source": "def test_malicious_sparse_tensor_rejected(self):\n        \"\"\"Security: Malicious sparse tensors should be rejected.\"\"\"\n        io_handler = AudioEmbeddingMediaIO()\n\n        malicious_tensor = _create_malicious_sparse_tensor()\n        encoded = _encode_tensor(malicious_tensor)\n\n        # Should raise RuntimeError due to invalid sparse tensor\n        with pytest.raises((RuntimeError, ValueError)) as exc_info:\n            io_handler.load_base64(\"\", encoded.decode(\"utf-8\"))\n\n        error_msg = str(exc_info.value).lower()\n        assert \"sparse\" in error_msg or \"index\" in error_msg or \"bounds\" in error_msg",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 347,
+          "expression": "assert 'sparse' in error_msg or 'index' in error_msg or 'bounds' in error_msg"
+        },
+        {
+          "line": 343,
+          "expression": "pytest.raises((RuntimeError, ValueError))"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestAudioEmbedsValidation::test_load_bytes_validates",
+      "line": "349",
+      "source": "def test_load_bytes_validates(self):\n        \"\"\"Security: Validation should also work for load_bytes method.\"\"\"\n        io_handler = AudioEmbeddingMediaIO()\n\n        malicious_tensor = _create_malicious_sparse_tensor()\n        buffer = io.BytesIO()\n        torch.save(malicious_tensor, buffer)\n        buffer.seek(0)\n\n        with pytest.raises((RuntimeError, ValueError)):\n            io_handler.load_bytes(buffer.read())",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 358,
+          "expression": "pytest.raises((RuntimeError, ValueError))"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestSparseTensorValidationIntegration::test_attack_scenario_completions_api",
+      "line": "365",
+      "source": "def test_attack_scenario_completions_api(self, model_config):\n        \"\"\"Simulate a complete attack through the Completions API.\n\n        Attack scenario:\n        1. Attacker crafts malicious sparse tensor\n        2. Encodes it as base64\n        3. Sends to /v1/completions with prompt_embeds parameter\n        4. Server should reject before memory corruption occurs\n        \"\"\"\n        # Step 1-2: Attacker creates malicious payload\n        attack_payload = _encode_tensor(_create_malicious_sparse_tensor())\n\n        # Step 3-4: Server processes and should reject, as a client error\n        with pytest.raises(VLLMValidationError):\n            safe_load_prompt_embeds(model_config, attack_payload)",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 378,
+          "expression": "pytest.raises(VLLMValidationError)"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestSparseTensorValidationIntegration::test_attack_scenario_chat_api_image",
+      "line": "381",
+      "source": "def test_attack_scenario_chat_api_image(self):\n        \"\"\"Simulate attack through Chat API with image_embeds.\n\n        Verifies the image embeddings path is protected.\n        \"\"\"\n        io_handler = ImageEmbeddingMediaIO()\n        attack_payload = _encode_tensor(_create_malicious_sparse_tensor())\n\n        with pytest.raises((RuntimeError, ValueError)):\n            io_handler.load_base64(\"\", attack_payload.decode(\"utf-8\"))",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 389,
+          "expression": "pytest.raises((RuntimeError, ValueError))"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestSparseTensorValidationIntegration::test_attack_scenario_chat_api_audio",
+      "line": "392",
+      "source": "def test_attack_scenario_chat_api_audio(self):\n        \"\"\"Simulate attack through Chat API with audio_embeds.\n\n        Verifies the audio embeddings path is protected.\n        \"\"\"\n        io_handler = AudioEmbeddingMediaIO()\n        attack_payload = _encode_tensor(_create_malicious_sparse_tensor())\n\n        with pytest.raises((RuntimeError, ValueError)):\n            io_handler.load_base64(\"\", attack_payload.decode(\"utf-8\"))",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 400,
+          "expression": "pytest.raises((RuntimeError, ValueError))"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestEmbeddingDecodeSizeLimit::test_oversized_sparse_tensor_rejected",
+      "line": "448",
+      "source": "def test_oversized_sparse_tensor_rejected(self, small_decode_limit):\n        with pytest.raises(VLLMValidationError) as exc_info:\n            safe_to_dense(\n                _create_oversized_sparse_tensor(OVERSIZED_SHAPE),\n                parameter=\"prompt_embeds\",\n            )\n\n        assert \"VLLM_MAX_EMBED_DECODE_BYTES\" in str(exc_info.value)\n        assert \"prompt_embeds\" in str(exc_info.value)",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 455,
+          "expression": "assert 'VLLM_MAX_EMBED_DECODE_BYTES' in str(exc_info.value)"
+        },
+        {
+          "line": 456,
+          "expression": "assert 'prompt_embeds' in str(exc_info.value)"
+        },
+        {
+          "line": 449,
+          "expression": "pytest.raises(VLLMValidationError)"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。大小限制环境为4096字节，实际超限测试张量为1024×1024；4TiB常量只用于未纳入本类的算术/夹具检查，不分配该大小。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestEmbeddingDecodeSizeLimit::test_valid_tensors_still_densify",
+      "line": "469",
+      "source": "def test_valid_tensors_still_densify(self):\n        assert safe_to_dense(\n            _create_valid_dense_tensor(), parameter=\"prompt_embeds\"\n        ).shape == (10, 768)\n\n        dense = safe_to_dense(_create_valid_sparse_tensor(), parameter=\"image_embeds\")\n        assert dense.shape == (3, 3)\n        assert not dense.is_sparse",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 470,
+          "expression": "assert safe_to_dense(_create_valid_dense_tensor(), parameter='prompt_embeds').shape == (10, 768)"
+        },
+        {
+          "line": 475,
+          "expression": "assert dense.shape == (3, 3)"
+        },
+        {
+          "line": 476,
+          "expression": "assert not dense.is_sparse"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。大小限制环境为4096字节，实际超限测试张量为1024×1024；4TiB常量只用于未纳入本类的算术/夹具检查，不分配该大小。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestEmbeddingDecodeSizeLimit::test_limit_is_configurable",
+      "line": "478",
+      "source": "def test_limit_is_configurable(self, monkeypatch: pytest.MonkeyPatch):\n        # 32 x 32 float32 == 4096 bytes, exactly at the limit.\n        monkeypatch.setenv(\"VLLM_MAX_EMBED_DECODE_BYTES\", str(TEST_LIMIT_BYTES))\n\n        at_limit = _create_oversized_sparse_tensor((32, 32))\n        assert safe_to_dense(at_limit, parameter=\"image_embeds\").shape == (32, 32)\n\n        over_limit = _create_oversized_sparse_tensor((33, 32))\n        with pytest.raises(VLLMValidationError):\n            safe_to_dense(over_limit, parameter=\"image_embeds\")",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 483,
+          "expression": "assert safe_to_dense(at_limit, parameter='image_embeds').shape == (32, 32)"
+        },
+        {
+          "line": 486,
+          "expression": "pytest.raises(VLLMValidationError)"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。大小限制环境为4096字节，实际超限测试张量为1024×1024；4TiB常量只用于未纳入本类的算术/夹具检查，不分配该大小。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestEmbeddingDecodeSizeLimit::test_limit_can_be_disabled",
+      "line": "489",
+      "source": "def test_limit_can_be_disabled(self, monkeypatch: pytest.MonkeyPatch):\n        monkeypatch.setenv(\"VLLM_MAX_EMBED_DECODE_BYTES\", \"0\")\n        tensor = _create_oversized_sparse_tensor(OVERSIZED_SHAPE)\n\n        assert safe_to_dense(tensor, parameter=\"image_embeds\").shape == OVERSIZED_SHAPE",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 493,
+          "expression": "assert safe_to_dense(tensor, parameter='image_embeds').shape == OVERSIZED_SHAPE"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。大小限制环境为4096字节，实际超限测试张量为1024×1024；4TiB常量只用于未纳入本类的算术/夹具检查，不分配该大小。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestEmbeddingDecodeSizeLimit::test_media_io_rejects_oversized_base64",
+      "line": "496",
+      "source": "def test_media_io_rejects_oversized_base64(\n        self, io_cls, parameter, small_decode_limit\n    ):\n        encoded = _encode_tensor(_create_oversized_sparse_tensor(OVERSIZED_SHAPE))\n\n        with pytest.raises(VLLMValidationError) as exc_info:\n            io_cls().load_base64(\"\", encoded.decode(\"utf-8\"))\n\n        assert parameter in str(exc_info.value)",
+      "decorators": [
+        "pytest.mark.parametrize('io_cls,parameter', EMBEDDING_MEDIA_IO)"
+      ],
+      "assertions": [
+        {
+          "line": 504,
+          "expression": "assert parameter in str(exc_info.value)"
+        },
+        {
+          "line": 501,
+          "expression": "pytest.raises(VLLMValidationError)"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。大小限制环境为4096字节，实际超限测试张量为1024×1024；4TiB常量只用于未纳入本类的算术/夹具检查，不分配该大小。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestEmbeddingDecodeSizeLimit::test_media_io_rejects_oversized_file",
+      "line": "507",
+      "source": "def test_media_io_rejects_oversized_file(\n        self, io_cls, parameter, tmp_path, small_decode_limit\n    ):\n        path = tmp_path / \"embeds.pt\"\n        torch.save(_create_oversized_sparse_tensor(OVERSIZED_SHAPE), path)\n\n        with pytest.raises(VLLMValidationError):\n            io_cls().load_file(path)",
+      "decorators": [
+        "pytest.mark.parametrize('io_cls,parameter', EMBEDDING_MEDIA_IO)"
+      ],
+      "assertions": [
+        {
+          "line": 513,
+          "expression": "pytest.raises(VLLMValidationError)"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。大小限制环境为4096字节，实际超限测试张量为1024×1024；4TiB常量只用于未纳入本类的算术/夹具检查，不分配该大小。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestEmbeddingDecodeSizeLimit::test_media_io_rejects_non_tensor_payload",
+      "line": "517",
+      "source": "def test_media_io_rejects_non_tensor_payload(self, io_cls, parameter):\n        \"\"\"These three had no `isinstance` check, so a non-tensor payload\n        surfaced as an `AttributeError` (500) rather than a 4xx.\"\"\"\n        buffer = io.BytesIO()\n        torch.save({\"not\": \"a tensor\"}, buffer)\n        encoded = base64.b64encode(buffer.getvalue()).decode(\"utf-8\")\n\n        with pytest.raises(VLLMValidationError) as exc_info:\n            io_cls().load_base64(\"\", encoded)\n\n        assert \"torch.Tensor\" in str(exc_info.value)",
+      "decorators": [
+        "pytest.mark.parametrize('io_cls,parameter', EMBEDDING_MEDIA_IO)"
+      ],
+      "assertions": [
+        {
+          "line": 527,
+          "expression": "assert 'torch.Tensor' in str(exc_info.value)"
+        },
+        {
+          "line": 524,
+          "expression": "pytest.raises(VLLMValidationError)"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。大小限制环境为4096字节，实际超限测试张量为1024×1024；4TiB常量只用于未纳入本类的算术/夹具检查，不分配该大小。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "test_name": "TestEmbeddingDecodeSizeLimit::test_media_io_still_accepts_valid_embeddings",
+      "line": "530",
+      "source": "def test_media_io_still_accepts_valid_embeddings(self, io_cls, parameter):\n        tensor = torch.randn(4, 16, dtype=torch.float32)\n        encoded = _encode_tensor(tensor)\n\n        assert torch.equal(io_cls().load_base64(\"\", encoded.decode(\"utf-8\")), tensor)",
+      "decorators": [
+        "pytest.mark.parametrize('io_cls,parameter', EMBEDDING_MEDIA_IO)"
+      ],
+      "assertions": [
+        {
+          "line": 534,
+          "expression": "assert torch.equal(io_cls().load_base64('', encoded.decode('utf-8')), tensor)"
+        }
+      ],
+      "conditions": "构造稠密/稀疏张量并以torch.save或numpy编码，经真实读取函数检查类型、形状、值或异常。prompt配置使用OPT-125M的float32/768维；不运行模型或HTTP服务。每项仅确认实际断言，名字中的集成/安全不扩大验证结论。大小限制环境为4096字节，实际超限测试张量为1024×1024；4TiB常量只用于未纳入本类的算术/夹具检查，不分配该大小。"
+    }
+  ],
+  "shared_helpers": [
+    {
+      "path": "tests/config/test_multimodal_config.py",
+      "name": "_make_mm_prefix_model_config",
+      "line": 114,
+      "source": "def _make_mm_prefix_model_config(\n    model: str = _MULTIMODAL_MODEL,\n    *,\n    language_model_only: bool = False,\n) -> ModelConfig:\n    return ModelConfig(model, language_model_only=language_model_only)"
+    },
+    {
+      "path": "tests/config/test_multimodal_config.py",
+      "name": "_validate_mm_processor_device",
+      "line": 473,
+      "source": "def _validate_mm_processor_device(*, device: str, ec_role: ECRole | None) -> None:\n    ec_config = (\n        None\n        if ec_role is None\n        # `is_ec_producer`/`is_ec_consumer` are False without a connector, so an\n        # unset one would make every role look like \"no EC role at all\".\n        else ECTransferConfig(ec_connector=\"ECExampleConnector\", ec_role=ec_role)\n    )\n    MultiModalConfig(\n        mm_processor_kwargs={\"device\": device}\n    ).validate_mm_processor_device(ec_config)"
+    },
+    {
+      "path": "tests/config/test_multimodal_config.py",
+      "name": "_resolve_mm_processor_device",
+      "line": 555,
+      "source": "def _resolve_mm_processor_device(\n    *,\n    ec_role: ECRole | None,\n    mm_tensor_ipc: str = \"torch_shm\",\n    device: str | None = None,\n) -> str | None:\n    \"\"\"Run the `auto` resolution and report where the processor ended up.\"\"\"\n    mm_config = MultiModalConfig(\n        mm_processor_kwargs={} if device is None else {\"device\": device},\n        mm_tensor_ipc=mm_tensor_ipc,\n    )\n    model_config = MagicMock(spec=ModelConfig)\n    model_config.multimodal_config = mm_config\n    vllm_config = MagicMock(spec=VllmConfig)\n    vllm_config.model_config = model_config\n    vllm_config.ec_transfer_config = (\n        None\n        if ec_role is None\n        else ECTransferConfig(ec_connector=\"ECExampleConnector\", ec_role=ec_role)\n    )\n\n    with patch(\"vllm.platforms.current_platform.device_type\", \"cuda\"):\n        VllmConfig._resolve_mm_processor_device(vllm_config)\n    return mm_config.get_mm_processor_device_type()"
+    },
+    {
+      "path": "tests/config/test_multimodal_config.py",
+      "name": "_resolve_mm_video_decode_device",
+      "line": 692,
+      "source": "def _resolve_mm_video_decode_device(\n    *,\n    ec_role: ECRole | None,\n    mm_tensor_ipc: str = \"torch_shm\",\n    device: str | None = None,\n    video_kwargs: dict | None = None,\n    torchcodec_available: bool = True,\n) -> dict:\n    \"\"\"Run processor-device then video-decode-device resolution and report\n    the resulting video media IO kwargs.\"\"\"\n    mm_config = MultiModalConfig(\n        mm_processor_kwargs={} if device is None else {\"device\": device},\n        mm_tensor_ipc=mm_tensor_ipc,\n        media_io_kwargs={} if video_kwargs is None else {\"video\": dict(video_kwargs)},\n    )\n    model_config = MagicMock(spec=ModelConfig)\n    model_config.multimodal_config = mm_config\n    vllm_config = MagicMock(spec=VllmConfig)\n    vllm_config.model_config = model_config\n    vllm_config.ec_transfer_config = (\n        None\n        if ec_role is None\n        else ECTransferConfig(ec_connector=\"ECExampleConnector\", ec_role=ec_role)\n    )\n\n    with (\n        patch(\"vllm.platforms.current_platform.device_type\", \"cuda\"),\n        patch(\n            \"vllm.utils.import_utils.check_torchcodec_available\",\n            side_effect=None if torchcodec_available else ImportError(\"torchcodec\"),\n        ),\n    ):\n        VllmConfig._resolve_mm_processor_device(vllm_config)\n        VllmConfig._resolve_mm_video_decode_device(vllm_config)\n    return mm_config.media_io_kwargs.get(\"video\", {})"
+    },
+    {
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "name": "model_config",
+      "line": 29,
+      "source": "def model_config():\n    \"\"\"Mock ModelConfig for testing.\"\"\"\n    from vllm.config import ModelConfig\n\n    return ModelConfig(\n        model=\"facebook/opt-125m\",\n        tokenizer=\"facebook/opt-125m\",\n        tokenizer_mode=\"auto\",\n        trust_remote_code=False,\n        dtype=\"float32\",\n        seed=0,\n        enable_prompt_embeds=True,  # Required for prompt embeds tests\n    )"
+    },
+    {
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "name": "_encode_tensor",
+      "line": 44,
+      "source": "def _encode_tensor(tensor: torch.Tensor) -> bytes:\n    \"\"\"Helper to encode a tensor as base64 bytes.\"\"\"\n    buffer = io.BytesIO()\n    torch.save(tensor, buffer)\n    buffer.seek(0)\n    return base64.b64encode(buffer.read())"
+    },
+    {
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "name": "_create_malicious_sparse_tensor",
+      "line": 52,
+      "source": "def _create_malicious_sparse_tensor() -> torch.Tensor:\n    \"\"\"Create a malicious sparse COO tensor with out-of-bounds indices.\n\n    This tensor has indices that point beyond the declared shape, which would\n    cause an out-of-bounds write when converted to dense format without\n    validation.\n    \"\"\"\n    # Create a 3x3 sparse tensor but with indices pointing to (10, 10)\n    indices = torch.tensor([[10], [10]])  # Out of bounds for 3x3 shape\n    values = torch.tensor([1.0])\n    shape = (3, 3)\n\n    # Create sparse tensor (this will be invalid). Pass `check_invariants=False`\n    # explicitly so this fixture is robust to process-wide invariant-check state\n    # left enabled by other tests (the global flag isn't thread-local, and\n    # concurrent users of the `check_sparse_tensor_invariants` context manager\n    # can leak the \"enabled\" state across tests).\n    sparse_tensor = torch.sparse_coo_tensor(\n        indices, values, shape, dtype=torch.float32, check_invariants=False\n    )\n    return sparse_tensor"
+    },
+    {
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "name": "_create_valid_sparse_tensor",
+      "line": 75,
+      "source": "def _create_valid_sparse_tensor() -> torch.Tensor:\n    \"\"\"Create a valid sparse COO tensor for baseline testing.\"\"\"\n    indices = torch.tensor([[0, 1, 2], [0, 1, 2]])\n    values = torch.tensor([1.0, 2.0, 3.0])\n    shape = (3, 3)\n\n    sparse_tensor = torch.sparse_coo_tensor(indices, values, shape, dtype=torch.float32)\n    return sparse_tensor"
+    },
+    {
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "name": "_create_valid_dense_tensor",
+      "line": 85,
+      "source": "def _create_valid_dense_tensor() -> torch.Tensor:\n    \"\"\"Create a valid dense tensor for baseline testing.\"\"\"\n    return torch.randn(10, 768, dtype=torch.float32)"
+    },
+    {
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "name": "_create_oversized_sparse_tensor",
+      "line": 425,
+      "source": "def _create_oversized_sparse_tensor(shape: tuple[int, int]) -> torch.Tensor:\n    \"\"\"A *valid* sparse tensor with one stored element and a declared `shape`.\n\n    Indices are in bounds, so `check_sparse_tensor_invariants()` accepts it.\n    That is the point: the invariant checks are not what stops this one.\n    \"\"\"\n    indices = torch.tensor([[0], [0]])\n    values = torch.tensor([1.0])\n    return torch.sparse_coo_tensor(indices, values, shape, dtype=torch.float32)"
+    },
+    {
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "name": "small_decode_limit",
+      "line": 437,
+      "source": "def small_decode_limit(monkeypatch: pytest.MonkeyPatch) -> None:\n    monkeypatch.setenv(\"VLLM_MAX_EMBED_DECODE_BYTES\", str(TEST_LIMIT_BYTES))"
+    }
+  ],
+  "source_review": "逐项阅读两文件测试、共享配置构造和张量编码helper；核对配置合并/设备解析/哈希以及生产张量读取、稀疏索引和解码大小边界。",
+  "supporting_entries": [
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "line": 458,
+      "test_name": "TestEmbeddingDecodeSizeLimit::test_default_limit_would_reject_the_real_payload",
+      "source": "def test_default_limit_would_reject_the_real_payload(self):\n        \"\"\"The shipped default has to bound the actual attack, not just the\n        shrunken shape used above. Checked arithmetically so no test ever asks\n        the allocator for 4 TiB.\"\"\"\n        dense_bytes = BOMB_SHAPE[0] * BOMB_SHAPE[1] * 4\n        assert dense_bytes > envs.VLLM_MAX_EMBED_DECODE_BYTES > 0",
+      "reason": "仅检查测试输入或环境常量，未调用产品处理函数。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/renderers/test_sparse_tensor_validation.py",
+      "line": 465,
+      "test_name": "TestEmbeddingDecodeSizeLimit::test_attack_payload_is_tiny",
+      "source": "def test_attack_payload_is_tiny(self):\n        \"\"\"The payload really is small - this is amplification, not an upload.\"\"\"\n        assert len(_encode_tensor(_create_oversized_sparse_tensor(BOMB_SHAPE))) < 4096",
+      "reason": "仅检查测试输入或环境常量，未调用产品处理函数。"
+    }
+  ]
+}

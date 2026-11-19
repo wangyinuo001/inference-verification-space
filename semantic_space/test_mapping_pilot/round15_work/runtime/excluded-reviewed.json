@@ -1,0 +1,8 @@
+[
+  {
+    "snapshot": "vllm",
+    "path": "tests/v1/worker/test_gpu_batch_ordering.py",
+    "line": 287,
+    "reason": "静态 AST 源码结构检查，不直接检查运行期 decode 资格"
+  }
+]

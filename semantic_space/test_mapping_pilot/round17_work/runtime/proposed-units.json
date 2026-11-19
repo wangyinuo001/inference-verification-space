@@ -1,0 +1,115 @@
+[
+  {
+    "id": "sampling.modifier_admissibility",
+    "name": "自定义采样修饰器参数与支持范围",
+    "kind": "obligation",
+    "framework_scope": [
+      "vllm"
+    ],
+    "phase": "sampling",
+    "state_scope": "shared",
+    "conditions": [
+      "sampling_mode",
+      "logit_modifier_profile",
+      "speculative_mode"
+    ],
+    "property": "自定义修饰器校验参数类型、数值边界、未知字段和执行配置兼容性，在不支持的请求或展开布局进入计算前拒绝。",
+    "observable": [
+      "validation_error",
+      "accepted_parameters",
+      "unchanged_logits"
+    ],
+    "oracle": "逐项比较测试声明的值、结构、异常或交互记录；实际检查表达式与替身条件见各入口证据。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "examples/features/logits_processor/dry.py",
+          "line": 570,
+          "kind": "source"
+        },
+        {
+          "path": "examples/features/logits_processor/dry.py",
+          "line": 499,
+          "kind": "source"
+        },
+        {
+          "path": "examples/features/logits_processor/dry.py",
+          "line": 709,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "id": "sampling.modifier_state_initialization",
+    "name": "采样修饰状态的默认值与请求更新",
+    "kind": "obligation",
+    "framework_scope": [
+      "vllm"
+    ],
+    "phase": "sampling",
+    "state_scope": "shared",
+    "conditions": [
+      "sampling_mode",
+      "logit_modifier_profile",
+      "sampling_batch_transition_context"
+    ],
+    "property": "修饰器初始化及请求登记解析默认参数、开关和共享常量；复用槽位时清除旧请求条件，缺失外部解析条件按声明回退并记录提示。",
+    "observable": [
+      "enabled_rows",
+      "breaker_ids",
+      "default_identity",
+      "warnings"
+    ],
+    "oracle": "逐项比较测试声明的值、结构、异常或交互记录；实际检查表达式与替身条件见各入口证据。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "examples/features/logits_processor/dry.py",
+          "line": 499,
+          "kind": "source"
+        },
+        {
+          "path": "examples/features/logits_processor/dry.py",
+          "line": 659,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "id": "sampling.breaker_token_resolution",
+    "name": "采样中断文本映射到词表token集合",
+    "kind": "obligation",
+    "framework_scope": [
+      "vllm"
+    ],
+    "phase": "sampling",
+    "state_scope": "shared",
+    "conditions": [
+      "tokenization_profile",
+      "logit_modifier_profile"
+    ],
+    "property": "将声明中断字符串映射到包含其文本的token集合；范围含新增token，结果去重有序，缓存返回值不被调用者修改污染。",
+    "observable": [
+      "token_ids",
+      "index_keys",
+      "cached_results"
+    ],
+    "oracle": "逐项比较测试声明的值、结构、异常或交互记录；实际检查表达式与替身条件见各入口证据。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "examples/features/logits_processor/dry.py",
+          "line": 427,
+          "kind": "source"
+        },
+        {
+          "path": "examples/features/logits_processor/dry.py",
+          "line": 443,
+          "kind": "source"
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,13 @@
+[
+  {
+    "snapshot": "vllm",
+    "path": "tests/distributed/aux_output_connector/test_store.py",
+    "test_name": "test_store_lru_and_immutable_put",
+    "line": 1325,
+    "old_unit_id": "cache.eviction_priority",
+    "new_unit_id": "cache.eviction_outcome",
+    "reason": "本项检查实际淘汰后first/third字节可读且second缺失，不返回策略比较键；归实际淘汰结果。",
+    "property": "受控容量为8字节，每项4字节；读取first后写回first并加入third，断言first与third拼接为11113333，second读取抛出不存在异常。",
+    "conditions": "CPU本地BlockObjectStore/mmap；不启动连接器服务，不检查跨请求并发。"
+  }
+]

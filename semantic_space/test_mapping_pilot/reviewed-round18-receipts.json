@@ -1,0 +1,2771 @@
+[
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_supports_multimodal_inputs",
+      "33"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_mm_encoder_attn_backend_str_conversion",
+      "43"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_mm_encoder_attn_backend_invalid",
+      "48"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_mm_hasher_algorithm_invalid",
+      "53"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_mm_encoder_attn_backend_hash_updates",
+      "58"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_language_model_only_does_not_affect_mm_hash",
+      "66"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_language_model_only_affects_model_hash",
+      "74"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_use_gpu_video_backend_from_media_io_kwargs",
+      "84"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_mm_encoder_fp8_scale_path_requires_fp8",
+      "92"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_mm_encoder_attn_dtype_hash_updates",
+      "97"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_supports_multimodal_for_mm_prefix_before_multimodal_config",
+      "122"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_language_model_only_disables_via_supports_multimodal_inputs",
+      "132"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_convertor_clears_mm_prefix_when_multimodal_disabled",
+      "139"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_sticky_cache_survives_text_subconfig_regeneration",
+      "156"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_mm_processor_device_type_normalizes",
+      "186"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_merge_mm_processor_kwargs_scoped_precedence",
+      "192"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_merge_mm_processor_kwargs_preserves_scoped_siblings_and_precedence",
+      "244"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_merge_mm_processor_kwargs_mapping_vs_replacement",
+      "281"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_merge_mm_processor_kwargs_empty_scopes_are_absent",
+      "314"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_merge_mm_processor_kwargs_empty_inference_scope_preserves_config_merge",
+      "327"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_merge_mm_processor_kwargs_empty_config_scope_allows_inference_merge",
+      "358"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_merge_mm_processor_kwargs_falsey_non_mapping_scopes_are_not_empty",
+      "389"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_merge_mm_processor_kwargs_non_mapping_scope_precedence",
+      "411"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_merge_mm_processor_kwargs_none_leaf_is_explicit",
+      "426"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_merge_mm_processor_kwargs_normalize_and_ownership",
+      "434"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_bad_mm_processor_device_rejected",
+      "487"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_accelerator_mm_processor_rejected_outside_encoder_instance",
+      "501"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_accelerator_mm_processor_allowed_on_encoder_instance",
+      "517"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_cpu_mm_processor_needs_no_ec_role",
+      "522"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_fold_mm_processor_device",
+      "545"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_auto_mm_processor_device_uses_accelerator_on_encoder_instance",
+      "581"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_auto_mm_processor_device_stays_on_cpu_off_encoder_instance",
+      "587"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_auto_mm_processor_device_needs_a_device_capable_transport",
+      "594"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_auto_mm_processor_device_leaves_an_explicit_request_alone",
+      "602"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_ec_producer_only_enables_mm_encoder_only",
+      "615"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_consumer_resolves_mm_embedding_inputs",
+      "645"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_vllm_config_runs_the_mm_processor_device_check",
+      "672"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_auto_video_decode_uses_nvdec_on_encoder_instance",
+      "729"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_auto_video_decode_stays_on_cpu_off_encoder_instance",
+      "739"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_auto_video_decode_follows_explicit_processor_device",
+      "747"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_auto_video_decode_respects_explicit_media_io_kwargs",
+      "755"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/config/test_multimodal_config.py",
+      "test_auto_video_decode_skipped_without_torchcodec",
+      "764"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0",
+    "oracle_source_sha256": {
+      "tests/config/test_multimodal_config.py": "8ad9586a1b46ca456c1347f71b4e9323d4a69f94cfdc5c97bae4e491e4e013f0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestPromptEmbedsValidation::test_valid_dense_tensor_accepted",
+      "93"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestPromptEmbedsValidation::test_valid_sparse_tensor_accepted",
+      "102"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestPromptEmbedsValidation::test_malicious_sparse_tensor_rejected",
+      "113"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestPromptEmbedsValidation::test_extremely_large_indices_rejected",
+      "128"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestPromptEmbedsValidation::test_negative_indices_rejected",
+      "143"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestPromptEmbedsValidation::test_hidden_size_mismatch_rejected",
+      "158"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestPromptEmbedsValidation::test_float_dtype_mismatch_cast_to_model_dtype",
+      "168"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestPromptEmbedsValidation::test_non_float_dtype_rejected",
+      "181"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestPromptEmbedsValidation::test_non_2d_tensor_rejected",
+      "191"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestPromptEmbedsValidation::test_non_tensor_payload_rejected",
+      "201"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestImageEmbedsValidation::test_valid_dense_tensor_accepted",
+      "218"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestImageEmbedsValidation::test_valid_sparse_tensor_accepted",
+      "229"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestImageEmbedsValidation::test_malicious_sparse_tensor_rejected",
+      "240"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestImageEmbedsValidation::test_load_bytes_validates",
+      "254"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestImageEmbedsValidation::test_valid_numpy_tensor_accepted",
+      "266"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestImageEmbedsValidation::test_numpy_int32_tensor_accepted",
+      "281"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestImageEmbedsValidation::test_load_file_numpy_tensor_accepted",
+      "295"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestAudioEmbedsValidation::test_valid_dense_tensor_accepted",
+      "313"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestAudioEmbedsValidation::test_valid_sparse_tensor_accepted",
+      "324"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestAudioEmbedsValidation::test_malicious_sparse_tensor_rejected",
+      "335"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestAudioEmbedsValidation::test_load_bytes_validates",
+      "349"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestSparseTensorValidationIntegration::test_attack_scenario_completions_api",
+      "365"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestSparseTensorValidationIntegration::test_attack_scenario_chat_api_image",
+      "381"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestSparseTensorValidationIntegration::test_attack_scenario_chat_api_audio",
+      "392"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestEmbeddingDecodeSizeLimit::test_oversized_sparse_tensor_rejected",
+      "448"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestEmbeddingDecodeSizeLimit::test_valid_tensors_still_densify",
+      "469"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestEmbeddingDecodeSizeLimit::test_limit_is_configurable",
+      "478"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestEmbeddingDecodeSizeLimit::test_limit_can_be_disabled",
+      "489"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestEmbeddingDecodeSizeLimit::test_media_io_rejects_oversized_base64",
+      "496"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestEmbeddingDecodeSizeLimit::test_media_io_rejects_oversized_file",
+      "507"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestEmbeddingDecodeSizeLimit::test_media_io_rejects_non_tensor_payload",
+      "517"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/renderers/test_sparse_tensor_validation.py",
+      "TestEmbeddingDecodeSizeLimit::test_media_io_still_accepts_valid_embeddings",
+      "530"
+    ],
+    "review_file": "round18_work/request/crosswalk.tsv",
+    "source_sha256": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326",
+    "oracle_source_sha256": {
+      "tests/renderers/test_sparse_tensor_validation.py": "ca0b5d03ce3a3edf0e4937611ae49b8f658d4f309d8c622b6543708ff42c4326"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestEnumConversions::test_policy_from_str_covers_all_variants",
+      "38"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestEnumConversions::test_policy_from_str_none",
+      "54"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestEnumConversions::test_backend_from_str",
+      "57"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestEnumConversions::test_history_backend_from_str",
+      "66"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestEnumConversions::test_role_from_str",
+      "80"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestPyOracleConfig::test_defaults",
+      "91"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestPyOracleConfig::test_invalid_pool_min_zero",
+      "101"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestPyOracleConfig::test_invalid_pool_max_below_min",
+      "105"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestPyOracleConfig::test_full_config",
+      "109"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestPyPostgresConfig::test_defaults",
+      "126"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestPyPostgresConfig::test_with_values",
+      "131"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestPyRedisConfig::test_defaults",
+      "138"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestPyRedisConfig::test_persistent_retention",
+      "144"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestPyApiKeyEntry::test_default_role_is_user",
+      "150"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestPyApiKeyEntry::test_admin_role",
+      "157"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestPyJwtConfig::test_defaults_have_role_claim",
+      "163"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestPyJwtConfig::test_custom_role_claim",
+      "173"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestPyControlPlaneAuthConfig::test_default_audit_enabled",
+      "185"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestPyControlPlaneAuthConfig::test_with_jwt_and_keys",
+      "193"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestBuildControlPlaneAuthConfig::test_returns_none_when_no_auth",
+      "207"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestBuildControlPlaneAuthConfig::test_returns_none_when_only_audit_set",
+      "210"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestBuildControlPlaneAuthConfig::test_audit_default_when_unspecified",
+      "217"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestBuildControlPlaneAuthConfig::test_jwt_role_claim_threaded_through",
+      "231"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestBuildControlPlaneAuthConfig::test_jwt_default_role_claim",
+      "247"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestBuildControlPlaneAuthConfig::test_warns_when_jwt_incomplete",
+      "254"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestParseControlPlaneApiKeys::test_valid",
+      "270"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestParseControlPlaneApiKeys::test_invalid_format",
+      "279"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestParseControlPlaneApiKeys::test_invalid_role",
+      "283"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestParseControlPlaneApiKeys::test_key_with_colons_preserved",
+      "287"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestParseControlPlaneApiKeys::test_empty",
+      "294"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestParseJwtRoleMapping::test_valid",
+      "300"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestParseJwtRoleMapping::test_invalid_format",
+      "306"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestParseJwtRoleMapping::test_invalid_role",
+      "310"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestParseJwtRoleMapping::test_empty",
+      "314"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestRouterFromArgsKitchenSink::test_minimal_regular_mode",
+      "325"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestRouterFromArgsKitchenSink::test_pd_mode",
+      "335"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestRouterFromArgsKitchenSink::test_all_policies_construct",
+      "347"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestRouterFromArgsKitchenSink::test_kitchen_sink_passes_every_field",
+      "371"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestRouterFromArgsKitchenSink::test_oracle_history_backend",
+      "479"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestRouterFromArgsKitchenSink::test_postgres_history_backend",
+      "492"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestRouterFromArgsKitchenSink::test_redis_history_backend",
+      "502"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestRouterFromArgsKitchenSink::test_redis_persistent_retention",
+      "513"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestBootstrapPortAnnotation::test_user_value_preserved_through_from_cli_args",
+      "527"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestBootstrapPortAnnotation::test_default_value",
+      "538"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestNewBindingFields::test_jwt_role_claim_default",
+      "549"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestNewBindingFields::test_audit_enabled_default_off",
+      "553"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestNewBindingFields::test_audit_enabled_via_cli_flag",
+      "562"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestNewBindingFields::test_default_audit_via_cli_is_off",
+      "568"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestNewBindingFields::test_http_pool_defaults",
+      "574"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestNewBindingFields::test_enable_wasm_default",
+      "581"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestNewBindingFields::test_http_pool_via_cli",
+      "585"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestNewBindingFields::test_jwt_role_claim_via_cli",
+      "607"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestNewBindingFields::test_jwt_role_claim_end_to_end",
+      "622"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestPolicyChoiceListConsistency::test_main_policy_accepts",
+      "664"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestPolicyChoiceListConsistency::test_prefill_policy_accepts",
+      "683"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py",
+      "TestPolicyChoiceListConsistency::test_decode_policy_accepts",
+      "712"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_pyo3_binding.py": "b7d38c6bf9acac82f70e80d37995ca9bd1abcf13c5d05fcf3e2ae21e22cff4b6"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_valid_basic_config",
+      "19"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_valid_pd_config",
+      "34"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_pd_config_without_urls_allowed",
+      "56"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_pd_config_with_service_discovery_allows_empty_urls",
+      "74"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_regular_mode_without_workers_allows_empty_urls",
+      "93"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_cache_threshold_validation",
+      "107"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_balance_threshold_validation",
+      "120"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_timeout_validation",
+      "132"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_retry_config_validation",
+      "146"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_circuit_breaker_config_validation",
+      "164"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_health_check_config_validation",
+      "180"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_rate_limiting_config_validation",
+      "196"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_service_discovery_config_validation",
+      "210"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_pd_service_discovery_config_validation",
+      "224"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_prometheus_config_validation",
+      "240"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_cors_config_validation",
+      "247"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_dp_aware_config_validation",
+      "263"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_request_id_headers_validation",
+      "270"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_policy_consistency_validation",
+      "282"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_policy_fallback_validation",
+      "304"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_policy_enum_conversion",
+      "326"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_invalid_policy_enum_conversion",
+      "334"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_config_immutability",
+      "339"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_config_defaults_consistency",
+      "352"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_config_serialization",
+      "364"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_config_with_none_values",
+      "381"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_config_with_empty_lists",
+      "404"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+      "TestRouterConfigValidation::test_config_with_empty_dicts",
+      "416"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_router_config.py": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+      "TestPolicyFromStr::test_policy_conversion_in_startup",
+      "75"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+      "TestPolicyFromStr::test_invalid_policy_in_startup",
+      "90"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+      "TestRouterInitialization::test_router_initialization_basic",
+      "99"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+      "TestRouterInitialization::test_router_initialization_pd_mode",
+      "141"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+      "TestRouterInitialization::test_router_initialization_with_service_discovery",
+      "181"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+      "TestRouterInitialization::test_router_initialization_with_retry_config",
+      "221"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+      "TestRouterInitialization::test_router_initialization_with_circuit_breaker_config",
+      "267"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+      "TestRouterInitialization::test_router_initialization_with_rate_limiting_config",
+      "310"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+      "TestRouterInitialization::test_router_initialization_with_health_check_config",
+      "350"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+      "TestRouterInitialization::test_router_initialization_with_prometheus_config",
+      "393"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+      "TestRouterInitialization::test_router_initialization_with_cors_config",
+      "424"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+      "TestStartupValidation::test_pd_mode_validation_during_startup",
+      "465"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+      "TestStartupValidation::test_pd_mode_with_service_discovery_validation",
+      "484"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+      "TestStartupValidation::test_policy_warning_during_startup",
+      "504"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+      "TestStartupValidation::test_policy_info_during_startup",
+      "534"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+      "TestStartupValidation::test_policy_info_decode_only_during_startup",
+      "563"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+      "TestStartupErrorHandling::test_router_creation_error_handling",
+      "595"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+      "TestStartupErrorHandling::test_router_start_error_handling",
+      "616"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+      "test_router_defaults_and_start",
+      "716"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+      "test_find_available_ports_and_wait_health",
+      "762"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+      "test_launch_server_process_and_cleanup",
+      "797"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+      "TestStartupFlow::test_complete_startup_flow_basic",
+      "882"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+      "TestStartupFlow::test_complete_startup_flow_pd_mode",
+      "904"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+      "TestStartupFlow::test_complete_startup_flow_with_all_features",
+      "932"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestURLValidation::test_valid_worker_urls",
+      "17"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestURLValidation::test_valid_prefill_urls",
+      "33"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestURLValidation::test_valid_decode_urls",
+      "47"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestURLValidation::test_malformed_urls",
+      "61"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestPortValidation::test_valid_ports",
+      "83"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestPortValidation::test_invalid_ports",
+      "91"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestPortValidation::test_bootstrap_port_validation",
+      "103"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestParameterValidation::test_cache_threshold_validation",
+      "115"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestParameterValidation::test_balance_threshold_validation",
+      "124"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestParameterValidation::test_timeout_validation",
+      "138"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestParameterValidation::test_retry_parameter_validation",
+      "155"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestParameterValidation::test_circuit_breaker_parameter_validation",
+      "184"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestParameterValidation::test_health_check_parameter_validation",
+      "207"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestParameterValidation::test_rate_limiting_parameter_validation",
+      "230"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestParameterValidation::test_tree_size_validation",
+      "250"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestParameterValidation::test_payload_size_validation",
+      "259"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestConfigurationValidation::test_pd_mode_validation",
+      "279"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestConfigurationValidation::test_service_discovery_validation",
+      "292"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestConfigurationValidation::test_pd_service_discovery_validation",
+      "307"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestConfigurationValidation::test_policy_validation",
+      "322"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestConfigurationValidation::test_pd_policy_validation",
+      "331"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestConfigurationValidation::test_cors_validation",
+      "348"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestConfigurationValidation::test_logging_validation",
+      "363"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestConfigurationValidation::test_prometheus_validation",
+      "372"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestConfigurationValidation::test_request_id_headers_validation",
+      "385"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestLaunchValidation::test_pd_mode_allows_empty_urls",
+      "403"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestLaunchValidation::test_pd_mode_with_service_discovery_allows_empty_urls",
+      "422"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestLaunchValidation::test_regular_mode_allows_empty_worker_urls",
+      "441"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestLaunchValidation::test_launch_with_valid_config",
+      "455"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestLaunchValidation::test_launch_with_pd_config",
+      "474"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/bindings/python/tests/test_validation.py",
+      "TestLaunchValidation::test_launch_with_service_discovery_config",
+      "493"
+    ],
+    "review_file": "round18_work/sglang/crosswalk.tsv",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/bindings/python/tests/test_validation.py": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+    }
+  }
+]

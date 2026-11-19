@@ -1,0 +1,177 @@
+[
+  {
+    "id": "diagnostic.analytic_work_estimate",
+    "name": "模型计算量与内存流量估算",
+    "kind": "obligation",
+    "framework_scope": [
+      "vllm"
+    ],
+    "phase": "diagnostic",
+    "state_scope": "diagnostic_artifact",
+    "conditions": [
+      "diagnostic_record_contract",
+      "parallel_topology",
+      "numeric_format",
+      "request_phase"
+    ],
+    "property": "根据声明模型结构、并行配置、计算精度与执行上下文生成FLOPs和读写字节估算，分项聚合及变更比例符合指定公式；不能表达的组件按约定拒绝。",
+    "observable": [
+      "parsed_fields",
+      "flops_breakdown",
+      "read_bytes",
+      "write_bytes",
+      "per_rank_average",
+      "invalid_component"
+    ],
+    "oracle": "逐项比较测试声明的值、结构、异常或交互记录；实际检查表达式与替身条件见各入口证据。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/v1/metrics/perf.py",
+          "line": 333,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/metrics/perf.py",
+          "line": 407,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/metrics/perf.py",
+          "line": 491,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/metrics/perf.py",
+          "line": 773,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/metrics/perf.py",
+          "line": 1134,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/metrics/perf.py",
+          "line": 1460,
+          "kind": "source"
+        }
+      ]
+    },
+    "semantic_domain": "diagnostic_support"
+  },
+  {
+    "id": "diagnostic.request_statistics_record",
+    "name": "请求统计记录与来源累加",
+    "kind": "obligation",
+    "framework_scope": [
+      "vllm"
+    ],
+    "phase": "diagnostic",
+    "state_scope": "diagnostic_artifact",
+    "conditions": [
+      "diagnostic_record_contract",
+      "request_phase",
+      "cache_state"
+    ],
+    "property": "请求与调度统计保留声明字段，缓存来源、抢占和计算量分类按规则累加；输出状态更新和序列化保留对应请求记录。",
+    "observable": [
+      "token_counts",
+      "hit_sources",
+      "request_id",
+      "scheduler_details",
+      "watermark_flag",
+      "serialized_fields"
+    ],
+    "oracle": "逐项比较测试声明的值、结构、异常或交互记录；实际检查表达式与替身条件见各入口证据。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/v1/metrics/stats.py",
+          "line": 121,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/metrics/stats.py",
+          "line": 308,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/metrics/stats.py",
+          "line": 426,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/v1/metrics/stats.py",
+          "line": 474,
+          "kind": "source"
+        }
+      ]
+    },
+    "semantic_domain": "diagnostic_support"
+  },
+  {
+    "id": "deployment.numa_process_binding",
+    "name": "进程NUMA绑定的拓扑解析与回退",
+    "kind": "obligation",
+    "framework_scope": [
+      "vllm"
+    ],
+    "phase": "preflight",
+    "state_scope": "shared",
+    "conditions": [
+      "deployment_configuration",
+      "parallel_topology",
+      "configuration_resolution_profile"
+    ],
+    "property": "根据显式设置或可检测的本地设备拓扑生成CPU与内存绑定参数，自动策略遵守环境可用性与现有亲和限制；拒绝的策略降级并记录实际配置，子进程上下文退出后恢复环境和解释器。",
+    "observable": [
+      "numactl_args",
+      "numa_nodes",
+      "effective_bind_flag",
+      "environment",
+      "spawn_executable",
+      "probe_failure"
+    ],
+    "oracle": "逐项比较测试声明的值、结构、异常或交互记录；实际检查表达式与替身条件见各入口证据。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/utils/numa_utils.py",
+          "line": 60,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/utils/numa_utils.py",
+          "line": 144,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/utils/numa_utils.py",
+          "line": 346,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/utils/numa_utils.py",
+          "line": 421,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/utils/numa_utils.py",
+          "line": 463,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/utils/numa_utils.py",
+          "line": 558,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/utils/numa_utils.py",
+          "line": 637,
+          "kind": "source"
+        }
+      ]
+    }
+  }
+]

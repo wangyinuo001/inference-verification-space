@@ -1,0 +1,1568 @@
+{
+  "file_reviews": [
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "source_sha256": "4fec9dfe8f2cff0b321fa064d5bb0000823955faab4e673c576138eb7e451a3d"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/entrypoints/scale_out/derender/serving.py",
+      "source_sha256": "588be09890dd6303a7e017d3da705b5e1ccb91d0307a5bf2f04cbd672bfd32ff"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "vllm/renderers/online_derenderer.py",
+      "source_sha256": "8cd4720ed0bc16c54bf7c5697339bc9178b2330d25ba26c526e1bca44d2754da"
+    }
+  ],
+  "entries": [
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_roundtrip",
+      "line": "105",
+      "source": "async def test_derender_chat_roundtrip(client):\n    \"\"\"Render then derender: decoded content should be a non-empty string.\"\"\"\n    gen_req = await _render_chat(client)\n    # Use the first 5 rendered token IDs as synthetic \"generated\" tokens.\n    synthetic_ids = gen_req[\"token_ids\"][:5]\n\n    response = await client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_response\": _make_generate_response(synthetic_ids),\n        },\n    )\n    assert response.status_code == 200\n    data = response.json()\n    assert data[\"object\"] == \"chat.completion\"\n    assert len(data[\"choices\"]) == 1\n    assert data[\"choices\"][0][\"message\"][\"content\"]\n    assert data[\"choices\"][0][\"message\"][\"role\"] == \"assistant\"",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 118,
+          "expression": "assert response.status_code == 200"
+        },
+        {
+          "line": 120,
+          "expression": "assert data['object'] == 'chat.completion'"
+        },
+        {
+          "line": 121,
+          "expression": "assert len(data['choices']) == 1"
+        },
+        {
+          "line": 122,
+          "expression": "assert data['choices'][0]['message']['content']"
+        },
+        {
+          "line": 123,
+          "expression": "assert data['choices'][0]['message']['role'] == 'assistant'"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_passes_stop_reason_through",
+      "line": "127",
+      "source": "async def test_derender_chat_passes_stop_reason_through(client):\n    \"\"\"The coupled server reports the stop string or token id that ended\n    generation; derender must carry the generate value through unchanged.\"\"\"\n    gen_req = await _render_chat(client)\n    generate_response = _make_generate_response(gen_req[\"token_ids\"][:3])\n    generate_response[\"choices\"][0][\"stop_reason\"] = \"\\n\\n\"\n\n    response = await client.post(\n        \"/v1/chat/completions/derender\",\n        json={\"model\": MODEL_NAME, \"generate_response\": generate_response},\n    )\n    assert response.status_code == 200\n    assert response.json()[\"choices\"][0][\"stop_reason\"] == \"\\n\\n\"",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 138,
+          "expression": "assert response.status_code == 200"
+        },
+        {
+          "line": 139,
+          "expression": "assert response.json()['choices'][0]['stop_reason'] == '\\n\\n'"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_returns_requested_prompt_token_ids",
+      "line": "145",
+      "source": "async def test_derender_chat_returns_requested_prompt_token_ids(\n    client, return_token_ids, stream\n):\n    \"\"\"Like the coupled endpoint, prompt_token_ids is returned only on request.\"\"\"\n    gen_req = await _render_chat(client)\n    prompt_ids = gen_req[\"token_ids\"]\n    generate_response = _make_generate_response(prompt_ids[:3])\n    generate_response[\"prompt_token_ids\"] = prompt_ids\n    chat_request = {\n        \"model\": MODEL_NAME,\n        \"messages\": [{\"role\": \"user\", \"content\": \"Hello\"}],\n        \"return_token_ids\": return_token_ids,\n    }\n    body: dict = {\"model\": MODEL_NAME, \"chat_request\": chat_request}\n    if stream:\n        body[\"stream\"] = True\n        body[\"generate_chunk\"] = generate_response\n    else:\n        body[\"generate_response\"] = generate_response\n\n    response = await client.post(\"/v1/chat/completions/derender\", json=body)\n\n    assert response.status_code == 200\n    data = response.json()[\"chunk\"] if stream else response.json()\n    assert data.get(\"prompt_token_ids\") == (prompt_ids if return_token_ids else None)",
+      "decorators": [
+        "pytest.mark.asyncio",
+        "pytest.mark.parametrize('return_token_ids', [False, True])",
+        "pytest.mark.parametrize('stream', [False, True])"
+      ],
+      "assertions": [
+        {
+          "line": 167,
+          "expression": "assert response.status_code == 200"
+        },
+        {
+          "line": 169,
+          "expression": "assert data.get('prompt_token_ids') == (prompt_ids if return_token_ids else None)"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_completion_passes_stop_reason_through",
+      "line": "173",
+      "source": "async def test_derender_completion_passes_stop_reason_through(client):\n    gen_req = await _render_completion(client, \"Hello world\")\n    generate_response = _make_completion_generate_response(\n        gen_req[\"token_ids\"][:3], \"gen-stop\"\n    )\n    generate_response[\"choices\"][0][\"stop_reason\"] = 151645\n\n    response = await client.post(\n        \"/v1/completions/derender\",\n        json={\"model\": MODEL_NAME, \"generate_responses\": [generate_response]},\n    )\n    assert response.status_code == 200\n    assert response.json()[\"choices\"][0][\"stop_reason\"] == 151645",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 184,
+          "expression": "assert response.status_code == 200"
+        },
+        {
+          "line": 185,
+          "expression": "assert response.json()['choices'][0]['stop_reason'] == 151645"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_usage",
+      "line": "189",
+      "source": "async def test_derender_chat_usage(client):\n    \"\"\"Supplied prompt_tokens flows through into usage correctly.\"\"\"\n    gen_req = await _render_chat(client)\n    synthetic_ids = gen_req[\"token_ids\"][:3]\n\n    response = await client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_response\": _make_generate_response(synthetic_ids),\n            \"prompt_tokens\": 10,\n        },\n    )\n    assert response.status_code == 200\n    usage = response.json()[\"usage\"]\n    assert usage[\"prompt_tokens\"] == 10\n    assert usage[\"completion_tokens\"] == len(synthetic_ids)\n    assert usage[\"total_tokens\"] == 10 + len(synthetic_ids)",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 202,
+          "expression": "assert response.status_code == 200"
+        },
+        {
+          "line": 204,
+          "expression": "assert usage['prompt_tokens'] == 10"
+        },
+        {
+          "line": 205,
+          "expression": "assert usage['completion_tokens'] == len(synthetic_ids)"
+        },
+        {
+          "line": 206,
+          "expression": "assert usage['total_tokens'] == 10 + len(synthetic_ids)"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_usage_default",
+      "line": "210",
+      "source": "async def test_derender_chat_usage_default(client):\n    \"\"\"Omitting prompt_tokens gives usage.prompt_tokens == 0.\"\"\"\n    gen_req = await _render_chat(client)\n    synthetic_ids = gen_req[\"token_ids\"][:3]\n\n    response = await client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_response\": _make_generate_response(synthetic_ids),\n        },\n    )\n    assert response.status_code == 200\n    usage = response.json()[\"usage\"]\n    assert usage[\"prompt_tokens\"] == 0",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 222,
+          "expression": "assert response.status_code == 200"
+        },
+        {
+          "line": 224,
+          "expression": "assert usage['prompt_tokens'] == 0"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_logprobs",
+      "line": "228",
+      "source": "async def test_derender_chat_logprobs(client):\n    \"\"\"Integer token ids are decoded to real strings by derender.\"\"\"\n    gen_req = await _render_chat(client)\n    synthetic_ids = gen_req[\"token_ids\"][:3]\n    token_id = synthetic_ids[0]\n\n    response = await client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_response\": _make_generate_response(\n                synthetic_ids,\n                logprobs=_make_generate_logprobs(token_id),\n            ),\n        },\n    )\n    assert response.status_code == 200\n    data = response.json()\n    logprobs = data[\"choices\"][0][\"logprobs\"]\n    assert logprobs is not None\n    content = logprobs[\"content\"]\n    assert content is not None and len(content) == 1\n    token_str = content[0][\"token\"]\n    assert token_str and not token_str.startswith(\"token_id:\"), (\n        f\"token id was not decoded: {token_str!r}\"\n    )",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 244,
+          "expression": "assert response.status_code == 200"
+        },
+        {
+          "line": 247,
+          "expression": "assert logprobs is not None"
+        },
+        {
+          "line": 249,
+          "expression": "assert content is not None and len(content) == 1"
+        },
+        {
+          "line": 251,
+          "expression": "assert token_str and (not token_str.startswith('token_id:')), f'token id was not decoded: {token_str!r}'"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_logprobs_bytes",
+      "line": "257",
+      "source": "async def test_derender_chat_logprobs_bytes(client):\n    \"\"\"Resolved logprob entries have bytes populated as list[int].\"\"\"\n    gen_req = await _render_chat(client)\n    synthetic_ids = gen_req[\"token_ids\"][:3]\n    token_id = synthetic_ids[0]\n\n    response = await client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_response\": _make_generate_response(\n                synthetic_ids,\n                logprobs=_make_generate_logprobs(token_id),\n            ),\n        },\n    )\n    assert response.status_code == 200\n    content = response.json()[\"choices\"][0][\"logprobs\"][\"content\"]\n    bytes_field = content[0][\"bytes\"]\n    assert isinstance(bytes_field, list)\n    assert len(bytes_field) > 0\n    assert all(isinstance(b, int) for b in bytes_field)",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 273,
+          "expression": "assert response.status_code == 200"
+        },
+        {
+          "line": 276,
+          "expression": "assert isinstance(bytes_field, list)"
+        },
+        {
+          "line": 277,
+          "expression": "assert len(bytes_field) > 0"
+        },
+        {
+          "line": 278,
+          "expression": "assert all((isinstance(b, int) for b in bytes_field))"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。bytes 只检查列表非空及整数类型，不检查实际字节值。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_top_logprobs",
+      "line": "282",
+      "source": "async def test_derender_chat_top_logprobs(client):\n    \"\"\"top_logprobs entries are decoded too.\"\"\"\n    gen_req = await _render_chat(client)\n    synthetic_ids = gen_req[\"token_ids\"][:3]\n    token_id = synthetic_ids[0]\n\n    response = await client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_response\": _make_generate_response(\n                synthetic_ids,\n                logprobs=_make_generate_logprobs(token_id),\n            ),\n        },\n    )\n    assert response.status_code == 200\n    content = response.json()[\"choices\"][0][\"logprobs\"][\"content\"]\n    top = content[0][\"top_logprobs\"]\n    assert len(top) == 1\n    assert not top[0][\"token\"].startswith(\"token_id:\"), (\n        f\"top_logprobs token id not decoded: {top[0]['token']!r}\"\n    )",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 298,
+          "expression": "assert response.status_code == 200"
+        },
+        {
+          "line": 301,
+          "expression": "assert len(top) == 1"
+        },
+        {
+          "line": 302,
+          "expression": "assert not top[0]['token'].startswith('token_id:'), f\"top_logprobs token id not decoded: {top[0]['token']!r}\""
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_prompt_logprobs_passthrough",
+      "line": "308",
+      "source": "async def test_derender_chat_prompt_logprobs_passthrough(client):\n    \"\"\"prompt_logprobs on GenerateResponse passes through unchanged.\"\"\"\n    gen_req = await _render_chat(client)\n    synthetic_ids = gen_req[\"token_ids\"][:3]\n    # prompt_logprobs is a list[dict[int, Logprob] | None]; use None entries.\n    prompt_logprobs = [None, None]\n\n    response = await client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_response\": _make_generate_response(\n                synthetic_ids, prompt_logprobs=prompt_logprobs\n            ),\n        },\n    )\n    assert response.status_code == 200\n    assert response.json()[\"prompt_logprobs\"] == prompt_logprobs",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 324,
+          "expression": "assert response.status_code == 200"
+        },
+        {
+          "line": 325,
+          "expression": "assert response.json()['prompt_logprobs'] == prompt_logprobs"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_kv_transfer_params_passthrough",
+      "line": "329",
+      "source": "async def test_derender_chat_kv_transfer_params_passthrough(client):\n    \"\"\"kv_transfer_params passes through to the ChatCompletionResponse.\"\"\"\n    gen_req = await _render_chat(client)\n    synthetic_ids = gen_req[\"token_ids\"][:3]\n    kv = {\"key\": \"value\"}\n\n    response = await client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_response\": _make_generate_response(\n                synthetic_ids, kv_transfer_params=kv\n            ),\n        },\n    )\n    assert response.status_code == 200\n    assert response.json()[\"kv_transfer_params\"] == kv",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 344,
+          "expression": "assert response.status_code == 200"
+        },
+        {
+          "line": 345,
+          "expression": "assert response.json()['kv_transfer_params'] == kv"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_metrics_passthrough",
+      "line": "349",
+      "source": "async def test_derender_chat_metrics_passthrough(client):\n    gen_req = await _render_chat(client)\n    metrics = {\n        \"speculative_decoding\": {\n            \"mean_acceptance_length\": 2.0,\n            \"draft_acceptance_rate\": 0.5,\n            \"acceptance_histogram\": [0, 1],\n            \"num_spec_steps\": 1,\n            \"num_accepted_draft_tokens\": 1,\n            \"num_draft_tokens\": 2,\n            \"num_spec_tokens\": 1,\n        }\n    }\n    response = await client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_response\": _make_generate_response(\n                gen_req[\"token_ids\"][:3], metrics=metrics\n            ),\n        },\n    )\n    assert response.status_code == 200\n    actual = response.json()[\"metrics\"]\n    assert set(actual) == {\n        \"time_to_first_token_ms\",\n        \"generation_time_ms\",\n        \"queue_time_ms\",\n        \"mean_itl_ms\",\n        \"tokens_per_second\",\n        \"speculative_decoding\",\n    }\n    assert all(\n        actual[name] is None for name in actual if name != \"speculative_decoding\"\n    )\n    assert actual[\"speculative_decoding\"] == {\n        **metrics[\"speculative_decoding\"],\n        \"per_step_accepted\": None,\n        \"per_step_drafted\": None,\n    }",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 371,
+          "expression": "assert response.status_code == 200"
+        },
+        {
+          "line": 373,
+          "expression": "assert set(actual) == {'time_to_first_token_ms', 'generation_time_ms', 'queue_time_ms', 'mean_itl_ms', 'tokens_per_second', 'speculative_decoding'}"
+        },
+        {
+          "line": 381,
+          "expression": "assert all((actual[name] is None for name in actual if name != 'speculative_decoding'))"
+        },
+        {
+          "line": 384,
+          "expression": "assert actual['speculative_decoding'] == {**metrics['speculative_decoding'], 'per_step_accepted': None, 'per_step_drafted': None}"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。此项检查指标字段投影和空值，不测量响应性能。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_empty_token_ids",
+      "line": "392",
+      "source": "async def test_derender_chat_empty_token_ids(client):\n    \"\"\"Empty token_ids list returns 400.\"\"\"\n    response = await client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_response\": _make_generate_response([]),\n        },\n    )\n    assert response.status_code == 400",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 401,
+          "expression": "assert response.status_code == 400"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_null_token_ids",
+      "line": "405",
+      "source": "async def test_derender_chat_null_token_ids(client):\n    \"\"\"Null token_ids returns 400.\"\"\"\n    response = await client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_response\": _make_generate_response(None),\n        },\n    )\n    assert response.status_code == 400",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 414,
+          "expression": "assert response.status_code == 400"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_unknown_model",
+      "line": "418",
+      "source": "async def test_derender_chat_unknown_model(client):\n    \"\"\"Unknown model returns 404.\"\"\"\n    gen_req = await _render_chat(client)\n    synthetic_ids = gen_req[\"token_ids\"][:3]\n\n    response = await client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": \"does-not-exist\",\n            \"generate_response\": _make_generate_response(synthetic_ids),\n        },\n    )\n    assert response.status_code == 404",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 430,
+          "expression": "assert response.status_code == 404"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_model_omitted_resolves_served_name",
+      "line": "434",
+      "source": "async def test_derender_chat_model_omitted_resolves_served_name(client):\n    \"\"\"Omitting `model` resolves the served name rather than rejecting.\n\n    Mirrors test_serving_chat.py's \"full name is returned when no model is\n    specified\" assertion for the derender path. Asserts the resolved value,\n    not just the status, so the fallback is proven to have fired.\n    \"\"\"\n    gen_req = await _render_chat(client)\n    synthetic_ids = gen_req[\"token_ids\"][:3]\n\n    response = await client.post(\n        \"/v1/chat/completions/derender\",\n        json={\"generate_response\": _make_generate_response(synthetic_ids)},\n    )\n    assert response.status_code == 200\n    assert response.json()[\"model\"] == MODEL_NAME",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 448,
+          "expression": "assert response.status_code == 200"
+        },
+        {
+          "line": 449,
+          "expression": "assert response.json()['model'] == MODEL_NAME"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_leading_space_seeded_from_prompt",
+      "line": "453",
+      "source": "async def test_derender_chat_leading_space_seeded_from_prompt(client, tokenizer):\n    \"\"\"prompt_token_ids keeps the first token's leading space on this\n    Metaspace tokenizer, matching the coupled path.\"\"\"\n    gen_req = await _render_chat(client)\n    prompt_token_ids = gen_req[\"token_ids\"]\n    output_ids = tokenizer.encode(\"Hello there, output\", add_special_tokens=False)\n\n    unseeded = await client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_response\": _make_generate_response(output_ids),\n        },\n    )\n    seeded = await client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_response\": _make_generate_response(output_ids),\n            \"prompt_token_ids\": prompt_token_ids,\n        },\n    )\n    assert unseeded.status_code == 200\n    assert seeded.status_code == 200\n    unseeded_content = unseeded.json()[\"choices\"][0][\"message\"][\"content\"]\n    seeded_content = seeded.json()[\"choices\"][0][\"message\"][\"content\"]\n\n    assert not unseeded_content.startswith(\" \")\n    assert seeded_content.startswith(\" \")\n    assert seeded_content.lstrip(\" \") == unseeded_content",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 475,
+          "expression": "assert unseeded.status_code == 200"
+        },
+        {
+          "line": 476,
+          "expression": "assert seeded.status_code == 200"
+        },
+        {
+          "line": 480,
+          "expression": "assert not unseeded_content.startswith(' ')"
+        },
+        {
+          "line": 481,
+          "expression": "assert seeded_content.startswith(' ')"
+        },
+        {
+          "line": 482,
+          "expression": "assert seeded_content.lstrip(' ') == unseeded_content"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。检查提示词上下文导致的前导空格及去空格后文本一致性。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_oversized_prompt_token_ids_rejected",
+      "line": "486",
+      "source": "async def test_derender_chat_oversized_prompt_token_ids_rejected(client):\n    \"\"\"prompt_token_ids longer than max_model_len returns 400.\"\"\"\n    gen_req = await _render_chat(client)\n    synthetic_ids = gen_req[\"token_ids\"][:3]\n    oversized_prompt_ids = [42] * 1_000_000\n\n    response = await client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_response\": _make_generate_response(synthetic_ids),\n            \"prompt_token_ids\": oversized_prompt_ids,\n        },\n    )\n    assert response.status_code == 400\n    assert \"max_model_len\" in response.json()[\"error\"][\"message\"]",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 500,
+          "expression": "assert response.status_code == 400"
+        },
+        {
+          "line": 501,
+          "expression": "assert 'max_model_len' in response.json()['error']['message']"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_completion_roundtrip",
+      "line": "544",
+      "source": "async def test_derender_completion_roundtrip(client):\n    \"\"\"Two prompts rendered, two GenerateResponses → two choices with indices 0, 1.\"\"\"\n    gr1 = await _render_completion(client, \"Hello world\")\n    gr2 = await _render_completion(client, \"Goodbye world\")\n\n    ids1 = gr1[\"token_ids\"][:4]\n    ids2 = gr2[\"token_ids\"][:4]\n\n    response = await client.post(\n        \"/v1/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_responses\": [\n                _make_completion_generate_response(ids1, gr1[\"request_id\"]),\n                _make_completion_generate_response(ids2, gr2[\"request_id\"]),\n            ],\n        },\n    )\n    assert response.status_code == 200\n    data = response.json()\n    assert data[\"object\"] == \"text_completion\"\n    choices = data[\"choices\"]\n    assert len(choices) == 2\n    assert choices[0][\"index\"] == 0\n    assert choices[1][\"index\"] == 1\n    assert choices[0][\"text\"]\n    assert choices[1][\"text\"]",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 562,
+          "expression": "assert response.status_code == 200"
+        },
+        {
+          "line": 564,
+          "expression": "assert data['object'] == 'text_completion'"
+        },
+        {
+          "line": 566,
+          "expression": "assert len(choices) == 2"
+        },
+        {
+          "line": 567,
+          "expression": "assert choices[0]['index'] == 0"
+        },
+        {
+          "line": 568,
+          "expression": "assert choices[1]['index'] == 1"
+        },
+        {
+          "line": 569,
+          "expression": "assert choices[0]['text']"
+        },
+        {
+          "line": 570,
+          "expression": "assert choices[1]['text']"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_completion_usage_aggregation",
+      "line": "574",
+      "source": "async def test_derender_completion_usage_aggregation(client):\n    \"\"\"prompt_tokens=[5, 10] is aggregated correctly into usage.\"\"\"\n    gr1 = await _render_completion(client, \"Hello\")\n    gr2 = await _render_completion(client, \"World\")\n\n    ids1 = gr1[\"token_ids\"][:3]\n    ids2 = gr2[\"token_ids\"][:4]\n\n    response = await client.post(\n        \"/v1/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_responses\": [\n                _make_completion_generate_response(ids1, gr1[\"request_id\"]),\n                _make_completion_generate_response(ids2, gr2[\"request_id\"]),\n            ],\n            \"prompt_tokens\": [5, 10],\n        },\n    )\n    assert response.status_code == 200\n    usage = response.json()[\"usage\"]\n    assert usage[\"prompt_tokens\"] == 15\n    assert usage[\"completion_tokens\"] == len(ids1) + len(ids2)\n    assert usage[\"total_tokens\"] == 15 + len(ids1) + len(ids2)",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 593,
+          "expression": "assert response.status_code == 200"
+        },
+        {
+          "line": 595,
+          "expression": "assert usage['prompt_tokens'] == 15"
+        },
+        {
+          "line": 596,
+          "expression": "assert usage['completion_tokens'] == len(ids1) + len(ids2)"
+        },
+        {
+          "line": 597,
+          "expression": "assert usage['total_tokens'] == 15 + len(ids1) + len(ids2)"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_completion_prompt_tokens_length_mismatch",
+      "line": "601",
+      "source": "async def test_derender_completion_prompt_tokens_length_mismatch(client):\n    \"\"\"len(prompt_tokens) != len(generate_responses) returns 400.\"\"\"\n    gr1 = await _render_completion(client, \"Hello\")\n    ids1 = gr1[\"token_ids\"][:3]\n\n    response = await client.post(\n        \"/v1/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_responses\": [\n                _make_completion_generate_response(ids1, gr1[\"request_id\"]),\n            ],\n            \"prompt_tokens\": [5, 10],\n        },\n    )\n    assert response.status_code == 400",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 616,
+          "expression": "assert response.status_code == 400"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_completion_prompt_token_ids_length_mismatch",
+      "line": "620",
+      "source": "async def test_derender_completion_prompt_token_ids_length_mismatch(client):\n    \"\"\"len(prompt_token_ids) != len(generate_responses) returns 400, the\n    same as the existing prompt_tokens length check.\"\"\"\n    gr1 = await _render_completion(client, \"Hello\")\n    ids1 = gr1[\"token_ids\"][:3]\n\n    response = await client.post(\n        \"/v1/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_responses\": [\n                _make_completion_generate_response(ids1, gr1[\"request_id\"]),\n            ],\n            \"prompt_token_ids\": [[1, 2], [3, 4]],\n        },\n    )\n    assert response.status_code == 400",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 636,
+          "expression": "assert response.status_code == 400"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_completion_leading_space_seeded_from_prompt",
+      "line": "640",
+      "source": "async def test_derender_completion_leading_space_seeded_from_prompt(client, tokenizer):\n    \"\"\"Completions counterpart of\n    test_derender_chat_leading_space_seeded_from_prompt.\"\"\"\n    gr1 = await _render_completion(client, \"Hello world\")\n    prompt_token_ids = gr1[\"token_ids\"]\n    output_ids = tokenizer.encode(\"Hello there, output\", add_special_tokens=False)\n\n    unseeded = await client.post(\n        \"/v1/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_responses\": [\n                _make_completion_generate_response(output_ids, gr1[\"request_id\"]),\n            ],\n        },\n    )\n    seeded = await client.post(\n        \"/v1/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_responses\": [\n                _make_completion_generate_response(output_ids, gr1[\"request_id\"]),\n            ],\n            \"prompt_token_ids\": [prompt_token_ids],\n        },\n    )\n    assert unseeded.status_code == 200\n    assert seeded.status_code == 200\n    unseeded_text = unseeded.json()[\"choices\"][0][\"text\"]\n    seeded_text = seeded.json()[\"choices\"][0][\"text\"]\n\n    assert not unseeded_text.startswith(\" \")\n    assert seeded_text.startswith(\" \")\n    assert seeded_text.lstrip(\" \") == unseeded_text",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 666,
+          "expression": "assert unseeded.status_code == 200"
+        },
+        {
+          "line": 667,
+          "expression": "assert seeded.status_code == 200"
+        },
+        {
+          "line": 671,
+          "expression": "assert not unseeded_text.startswith(' ')"
+        },
+        {
+          "line": 672,
+          "expression": "assert seeded_text.startswith(' ')"
+        },
+        {
+          "line": 673,
+          "expression": "assert seeded_text.lstrip(' ') == unseeded_text"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。检查提示词上下文导致的前导空格及去空格后文本一致性。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_completion_oversized_prompt_token_ids_rejected",
+      "line": "677",
+      "source": "async def test_derender_completion_oversized_prompt_token_ids_rejected(client):\n    \"\"\"A prompt_token_ids entry longer than max_model_len returns 400.\"\"\"\n    gr1 = await _render_completion(client, \"Hello\")\n    ids1 = gr1[\"token_ids\"][:3]\n    oversized_prompt_ids = [42] * 1_000_000\n\n    response = await client.post(\n        \"/v1/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_responses\": [\n                _make_completion_generate_response(ids1, gr1[\"request_id\"]),\n            ],\n            \"prompt_token_ids\": [oversized_prompt_ids],\n        },\n    )\n    assert response.status_code == 400\n    assert \"max_model_len\" in response.json()[\"error\"][\"message\"]",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 693,
+          "expression": "assert response.status_code == 400"
+        },
+        {
+          "line": 694,
+          "expression": "assert 'max_model_len' in response.json()['error']['message']"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_completion_empty_generate_responses",
+      "line": "698",
+      "source": "async def test_derender_completion_empty_generate_responses(client):\n    \"\"\"Empty generate_responses list returns 400.\"\"\"\n    response = await client.post(\n        \"/v1/completions/derender\",\n        json={\"model\": MODEL_NAME, \"generate_responses\": []},\n    )\n    assert response.status_code == 400",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 704,
+          "expression": "assert response.status_code == 400"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_completion_logprobs",
+      "line": "708",
+      "source": "async def test_derender_completion_logprobs(client):\n    \"\"\"Integer token ids are decoded; CompletionLogProbs flat-list structure is\n    returned with non-empty tokens and text_offsets.\"\"\"\n    gr1 = await _render_completion(client, \"Hello world\")\n    ids1 = gr1[\"token_ids\"][:3]\n    token_id = ids1[0]\n\n    response = await client.post(\n        \"/v1/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_responses\": [\n                _make_completion_generate_response(\n                    ids1,\n                    gr1[\"request_id\"],\n                    logprobs=_make_generate_logprobs(token_id),\n                ),\n            ],\n        },\n    )\n    assert response.status_code == 200\n    logprobs = response.json()[\"choices\"][0][\"logprobs\"]\n    assert logprobs is not None\n    tokens = logprobs[\"tokens\"]\n    assert len(tokens) == 1\n    assert not tokens[0].startswith(\"token_id:\"), (\n        f\"token id was not decoded: {tokens[0]!r}\"\n    )\n    assert len(logprobs[\"token_logprobs\"]) == 1\n    assert isinstance(logprobs[\"token_logprobs\"][0], float)\n    assert len(logprobs[\"text_offset\"]) == 1\n    assert logprobs[\"text_offset\"][0] == 0",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 728,
+          "expression": "assert response.status_code == 200"
+        },
+        {
+          "line": 730,
+          "expression": "assert logprobs is not None"
+        },
+        {
+          "line": 732,
+          "expression": "assert len(tokens) == 1"
+        },
+        {
+          "line": 733,
+          "expression": "assert not tokens[0].startswith('token_id:'), f'token id was not decoded: {tokens[0]!r}'"
+        },
+        {
+          "line": 736,
+          "expression": "assert len(logprobs['token_logprobs']) == 1"
+        },
+        {
+          "line": 737,
+          "expression": "assert isinstance(logprobs['token_logprobs'][0], float)"
+        },
+        {
+          "line": 738,
+          "expression": "assert len(logprobs['text_offset']) == 1"
+        },
+        {
+          "line": 739,
+          "expression": "assert logprobs['text_offset'][0] == 0"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_completion_prompt_logprobs_passthrough",
+      "line": "743",
+      "source": "async def test_derender_completion_prompt_logprobs_passthrough(client):\n    \"\"\"Each GenerateResponse's prompt_logprobs reaches that prompt's choices.\n\n    Regression test: /v1/completions/derender used to drop the prompt\n    logprobs the engine had already computed and returned, while the direct\n    /v1/completions endpoint attaches them to every choice of the prompt.\n    \"\"\"\n    gr1 = await _render_completion(client, \"Hello\")\n    gr2 = await _render_completion(client, \"World\")\n    tok = get_tokenizer(MODEL_NAME)\n    # A --tokens-only generate server has no tokenizer: decoded_token is null.\n    plp1 = [None, {str(gr1[\"token_ids\"][0]): {\"logprob\": -0.5, \"rank\": 1}}]\n    plp2 = [None, {str(gr2[\"token_ids\"][0]): {\"logprob\": -0.25, \"rank\": 2}}]\n\n    response = await client.post(\n        \"/v1/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_responses\": [\n                _make_completion_generate_response(\n                    gr1[\"token_ids\"][:3], gr1[\"request_id\"], prompt_logprobs=plp1\n                ),\n                _make_completion_generate_response(\n                    gr2[\"token_ids\"][:3], gr2[\"request_id\"], prompt_logprobs=plp2\n                ),\n            ],\n        },\n    )\n    assert response.status_code == 200\n    choices = response.json()[\"choices\"]\n    assert len(choices) == 2\n    for choice, gr, plp in zip(choices, (gr1, gr2), (plp1, plp2)):\n        tid = gr[\"token_ids\"][0]\n        (text,) = convert_ids_list_to_tokens(tok, [tid])\n        entry = choice[\"prompt_logprobs\"][1][str(tid)]\n        assert plp[1] is not None\n        assert choice[\"prompt_logprobs\"][0] is None\n        assert entry[\"decoded_token\"] == text\n        assert entry[\"logprob\"] == plp[1][str(tid)][\"logprob\"]\n        assert entry[\"rank\"] == plp[1][str(tid)][\"rank\"]",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 771,
+          "expression": "assert response.status_code == 200"
+        },
+        {
+          "line": 773,
+          "expression": "assert len(choices) == 2"
+        },
+        {
+          "line": 778,
+          "expression": "assert plp[1] is not None"
+        },
+        {
+          "line": 779,
+          "expression": "assert choice['prompt_logprobs'][0] is None"
+        },
+        {
+          "line": 780,
+          "expression": "assert entry['decoded_token'] == text"
+        },
+        {
+          "line": 781,
+          "expression": "assert entry['logprob'] == plp[1][str(tid)]['logprob']"
+        },
+        {
+          "line": 782,
+          "expression": "assert entry['rank'] == plp[1][str(tid)]['rank']"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_prompt_logprobs_decoded_token",
+      "line": "786",
+      "source": "async def test_derender_chat_prompt_logprobs_decoded_token(client):\n    \"\"\"Null decoded_token is filled (unknown ids as \"\"); given ones and empty\n    entries are kept.\"\"\"\n    gen_req = await _render_chat(client)\n    ids = gen_req[\"token_ids\"][:3]\n    tok = get_tokenizer(MODEL_NAME)\n    plp = [\n        None,\n        {str(ids[0]): {\"logprob\": -0.5, \"rank\": 1}},\n        {str(ids[1]): {\"logprob\": -0.1, \"rank\": 1, \"decoded_token\": \"kept\"}},\n        {},\n        {str(len(tok) + 1000): {\"logprob\": -1.0, \"rank\": 1}},\n    ]\n    response = await client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_response\": _make_generate_response(ids, prompt_logprobs=plp),\n        },\n    )\n    assert response.status_code == 200\n    out = response.json()[\"prompt_logprobs\"]\n    assert (\n        out[1][str(ids[0])][\"decoded_token\"]\n        == (convert_ids_list_to_tokens(tok, [ids[0]])[0])\n    )\n    assert out[2][str(ids[1])][\"decoded_token\"] == \"kept\"\n    assert out[3] == {}\n    assert out[4][str(len(tok) + 1000)][\"decoded_token\"] == \"\"",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 806,
+          "expression": "assert response.status_code == 200"
+        },
+        {
+          "line": 808,
+          "expression": "assert out[1][str(ids[0])]['decoded_token'] == convert_ids_list_to_tokens(tok, [ids[0]])[0]"
+        },
+        {
+          "line": 812,
+          "expression": "assert out[2][str(ids[1])]['decoded_token'] == 'kept'"
+        },
+        {
+          "line": 813,
+          "expression": "assert out[3] == {}"
+        },
+        {
+          "line": 814,
+          "expression": "assert out[4][str(len(tok) + 1000)]['decoded_token'] == ''"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_completion_kv_transfer_params_passthrough",
+      "line": "818",
+      "source": "async def test_derender_completion_kv_transfer_params_passthrough(client):\n    \"\"\"kv_transfer_params passes through to CompletionResponse.\"\"\"\n    gr1 = await _render_completion(client, \"Hello\")\n    ids1 = gr1[\"token_ids\"][:3]\n    kv = {\"node\": \"abc\"}\n\n    response = await client.post(\n        \"/v1/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_responses\": [\n                _make_completion_generate_response(\n                    ids1, gr1[\"request_id\"], kv_transfer_params=kv\n                ),\n            ],\n        },\n    )\n    assert response.status_code == 200\n    assert response.json()[\"kv_transfer_params\"] == kv",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 835,
+          "expression": "assert response.status_code == 200"
+        },
+        {
+          "line": 836,
+          "expression": "assert response.json()['kv_transfer_params'] == kv"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_bounded_payload_succeeds",
+      "line": "845",
+      "source": "async def test_derender_chat_bounded_payload_succeeds(client):\n    \"\"\"Normal bounded derender payload succeeds (positive control).\"\"\"\n    gen_req = await _render_chat(client)\n    synthetic_ids = gen_req[\"token_ids\"][:5]\n\n    response = await client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_response\": _make_generate_response(synthetic_ids),\n        },\n    )\n    assert response.status_code == 200\n    data = response.json()\n    assert len(data[\"choices\"]) == 1\n    assert data[\"choices\"][0][\"message\"][\"content\"]",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 857,
+          "expression": "assert response.status_code == 200"
+        },
+        {
+          "line": 859,
+          "expression": "assert len(data['choices']) == 1"
+        },
+        {
+          "line": 860,
+          "expression": "assert data['choices'][0]['message']['content']"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_oversized_token_ids_rejected",
+      "line": "864",
+      "source": "async def test_derender_chat_oversized_token_ids_rejected(client):\n    \"\"\"token_ids longer than max_model_len returns 400.\"\"\"\n    response = await client.get(\"/v1/models\")\n    assert response.status_code == 200\n\n    # Use a token_ids list that exceeds any reasonable max_model_len.\n    # The tiny-random model has max_model_len of 2048.\n    oversized_ids = [42] * 1_000_000\n\n    response = await client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_response\": _make_generate_response(oversized_ids),\n        },\n    )\n    assert response.status_code == 400\n    assert \"max_model_len\" in response.json()[\"error\"][\"message\"]",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 867,
+          "expression": "assert response.status_code == 200"
+        },
+        {
+          "line": 880,
+          "expression": "assert response.status_code == 400"
+        },
+        {
+          "line": 881,
+          "expression": "assert 'max_model_len' in response.json()['error']['message']"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_too_many_choices_rejected",
+      "line": "885",
+      "source": "async def test_derender_chat_too_many_choices_rejected(client):\n    \"\"\"Choices count exceeding VLLM_MAX_N_SEQUENCES returns 400.\"\"\"\n    # Default VLLM_MAX_N_SEQUENCES is 16384; use a larger count.\n    oversized_choices = [\n        {\"index\": i, \"token_ids\": [42], \"finish_reason\": \"stop\"} for i in range(20_000)\n    ]\n    response = await client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_response\": {\n                \"request_id\": \"test-choices-bound\",\n                \"choices\": oversized_choices,\n            },\n        },\n    )\n    assert response.status_code == 400\n    assert \"choices count\" in response.json()[\"error\"][\"message\"]",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 901,
+          "expression": "assert response.status_code == 400"
+        },
+        {
+          "line": 902,
+          "expression": "assert 'choices count' in response.json()['error']['message']"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_completion_too_many_generate_responses_rejected",
+      "line": "906",
+      "source": "async def test_derender_completion_too_many_generate_responses_rejected(client):\n    \"\"\"generate_responses count exceeding limit returns 400.\"\"\"\n    oversized_responses = [\n        {\n            \"request_id\": f\"gen-{i}\",\n            \"choices\": [{\"index\": 0, \"token_ids\": [42], \"finish_reason\": \"stop\"}],\n        }\n        for i in range(20_000)\n    ]\n    response = await client.post(\n        \"/v1/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_responses\": oversized_responses,\n        },\n    )\n    assert response.status_code == 400\n    assert \"generate_responses count\" in response.json()[\"error\"][\"message\"]",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 922,
+          "expression": "assert response.status_code == 400"
+        },
+        {
+          "line": 923,
+          "expression": "assert 'generate_responses count' in response.json()['error']['message']"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_negative_token_ids_rejected",
+      "line": "927",
+      "source": "async def test_derender_chat_negative_token_ids_rejected(client):\n    \"\"\"Negative token_ids are rejected at the protocol validation level.\"\"\"\n    response = await client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_response\": _make_generate_response([-1, 42, 100]),\n        },\n    )\n    # vLLM's validation_exception_handler converts Pydantic errors to 400\n    assert response.status_code == 400",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 937,
+          "expression": "assert response.status_code == 400"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_oversized_logprobs_rejected",
+      "line": "941",
+      "source": "async def test_derender_chat_oversized_logprobs_rejected(client):\n    \"\"\"logprobs.content longer than max_model_len returns 400.\"\"\"\n    oversized_logprobs: dict = {\n        \"content\": [\n            {\"token_id\": 42, \"logprob\": -1.0, \"rank\": 1, \"top_logprobs\": []}\n            for _ in range(1_000_000)\n        ]\n    }\n    response = await client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_response\": {\n                \"request_id\": \"test-logprobs-bound\",\n                \"choices\": [\n                    {\n                        \"index\": 0,\n                        \"token_ids\": [42],\n                        \"finish_reason\": \"stop\",\n                        \"logprobs\": oversized_logprobs,\n                    }\n                ],\n            },\n        },\n    )\n    assert response.status_code == 400\n    assert \"logprobs.content length\" in response.json()[\"error\"][\"message\"]",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 966,
+          "expression": "assert response.status_code == 400"
+        },
+        {
+          "line": 967,
+          "expression": "assert 'logprobs.content length' in response.json()['error']['message']"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_oversized_top_logprobs_rejected",
+      "line": "971",
+      "source": "async def test_derender_chat_oversized_top_logprobs_rejected(client):\n    \"\"\"top_logprobs count exceeding max_logprobs (default 20) returns 400.\"\"\"\n    oversized_top_logprobs = {\n        \"content\": [\n            {\n                \"token_id\": 42,\n                \"logprob\": -1.0,\n                \"rank\": 1,\n                \"top_logprobs\": [\n                    {\"token_id\": i, \"logprob\": -float(i), \"rank\": i + 1}\n                    for i in range(25)\n                ],\n            }\n        ]\n    }\n    response = await client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_response\": {\n                \"request_id\": \"test-top-logprobs-bound\",\n                \"choices\": [\n                    {\n                        \"index\": 0,\n                        \"token_ids\": [42],\n                        \"finish_reason\": \"stop\",\n                        \"logprobs\": oversized_top_logprobs,\n                    }\n                ],\n            },\n        },\n    )\n    assert response.status_code == 400\n    msg = response.json()[\"error\"][\"message\"]\n    assert \"top_logprobs count\" in msg\n    assert \"max_logprobs\" in msg",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 1003,
+          "expression": "assert response.status_code == 400"
+        },
+        {
+          "line": 1005,
+          "expression": "assert 'top_logprobs count' in msg"
+        },
+        {
+          "line": 1006,
+          "expression": "assert 'max_logprobs' in msg"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_completion_oversized_token_ids_rejected",
+      "line": "1010",
+      "source": "async def test_derender_completion_oversized_token_ids_rejected(client):\n    \"\"\"Completion endpoint also rejects oversized token_ids.\"\"\"\n    oversized_ids = [42] * 1_000_000\n    response = await client.post(\n        \"/v1/completions/derender\",\n        json={\n            \"model\": MODEL_NAME,\n            \"generate_responses\": [\n                {\n                    \"request_id\": \"gen-0\",\n                    \"choices\": [\n                        {\n                            \"index\": 0,\n                            \"token_ids\": oversized_ids,\n                            \"finish_reason\": \"stop\",\n                        }\n                    ],\n                }\n            ],\n        },\n    )\n    assert response.status_code == 400\n    assert \"max_model_len\" in response.json()[\"error\"][\"message\"]",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 1031,
+          "expression": "assert response.status_code == 400"
+        },
+        {
+          "line": 1032,
+          "expression": "assert 'max_model_len' in response.json()['error']['message']"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_e2e_plain_roundtrip",
+      "line": "1131",
+      "source": "async def test_e2e_plain_roundtrip(parser_client, parser_tokenizer):\n    \"\"\"Plain text without reasoning markers roundtrips correctly.\n\n    Markerless output has no ``</think>``, which deepseek_r1 classifies\n    wholly as reasoning, so the text lands there rather than in content.\n    What this pins is detokenization fidelity through the parser path.\n    \"\"\"\n    messages = [{\"role\": \"user\", \"content\": \"What is 2+2?\"}]\n    gen_req = await _e2e_render_chat(parser_client, PARSER_MODEL, messages)\n\n    answer = \"The answer is four.\"\n    output_ids = _encode(parser_tokenizer, answer)\n    expected = _decoded(parser_tokenizer, output_ids)\n\n    resp = await parser_client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": PARSER_MODEL,\n            \"generate_response\": _e2e_generate_response(output_ids),\n            \"prompt_tokens\": len(gen_req[\"token_ids\"]),\n            \"chat_request\": {\"model\": PARSER_MODEL, \"messages\": messages},\n        },\n    )\n    assert resp.status_code == 200, resp.text\n    message = resp.json()[\"choices\"][0][\"message\"]\n    assert message[\"reasoning\"] == expected\n    assert message[\"content\"] is None",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 1154,
+          "expression": "assert resp.status_code == 200, resp.text"
+        },
+        {
+          "line": 1156,
+          "expression": "assert message['reasoning'] == expected"
+        },
+        {
+          "line": 1157,
+          "expression": "assert message['content'] is None"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_e2e_token_identity",
+      "line": "1161",
+      "source": "async def test_e2e_token_identity(parser_client, parser_tokenizer):\n    \"\"\"encode(derender(token_ids)) == token_ids (RL invariant).\n\n    Markerless output comes back as reasoning (see\n    ``test_e2e_plain_roundtrip``), so re-encode that.\n    \"\"\"\n    messages = [{\"role\": \"user\", \"content\": \"Hi\"}]\n    gen_req = await _e2e_render_chat(parser_client, PARSER_MODEL, messages)\n\n    answer = \"Hello! How can I help?\"\n    output_ids = _encode(parser_tokenizer, answer)\n\n    resp = await parser_client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": PARSER_MODEL,\n            \"generate_response\": _e2e_generate_response(output_ids),\n            \"prompt_tokens\": len(gen_req[\"token_ids\"]),\n            \"chat_request\": {\"model\": PARSER_MODEL, \"messages\": messages},\n        },\n    )\n    assert resp.status_code == 200\n    reasoning = resp.json()[\"choices\"][0][\"message\"][\"reasoning\"]\n    re_encoded = _encode(parser_tokenizer, reasoning)\n    assert output_ids == re_encoded",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 1182,
+          "expression": "assert resp.status_code == 200"
+        },
+        {
+          "line": 1185,
+          "expression": "assert output_ids == re_encoded"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_e2e_non_ascii_roundtrip",
+      "line": "1189",
+      "source": "async def test_e2e_non_ascii_roundtrip(parser_client, parser_tokenizer):\n    \"\"\"CJK + emoji roundtrip without U+FFFD.\n\n    Markerless output comes back as reasoning (see\n    ``test_e2e_plain_roundtrip``).\n    \"\"\"\n    messages = [{\"role\": \"user\", \"content\": \"Reply in Chinese\"}]\n    gen_req = await _e2e_render_chat(parser_client, PARSER_MODEL, messages)\n\n    answer = \"你好世界 😀\"\n    output_ids = _encode(parser_tokenizer, answer)\n\n    resp = await parser_client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": PARSER_MODEL,\n            \"generate_response\": _e2e_generate_response(output_ids),\n            \"prompt_tokens\": len(gen_req[\"token_ids\"]),\n            \"chat_request\": {\"model\": PARSER_MODEL, \"messages\": messages},\n        },\n    )\n    assert resp.status_code == 200\n    reasoning = resp.json()[\"choices\"][0][\"message\"][\"reasoning\"]\n    assert \"�\" not in reasoning",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 1210,
+          "expression": "assert resp.status_code == 200"
+        },
+        {
+          "line": 1212,
+          "expression": "assert '�' not in reasoning"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。此项只排除替换字符，并未完整比较原文。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_e2e_parsed_reasoning",
+      "line": "1216",
+      "source": "async def test_e2e_parsed_reasoning(parser_client, parser_tokenizer):\n    \"\"\"<think>...</think> splits into reasoning + content.\"\"\"\n    messages = [{\"role\": \"user\", \"content\": \"What is 2+3?\"}]\n    gen_req = await _e2e_render_chat(parser_client, PARSER_MODEL, messages)\n\n    reasoning_text = \"The user wants 2 plus 3. That is 5.\"\n    answer_text = \"The answer is 5.\"\n    output_text = f\"<think>{reasoning_text}</think>{answer_text}\"\n    output_ids = _require_markers_survive(parser_tokenizer, output_text, \"</think>\")\n\n    resp = await parser_client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": PARSER_MODEL,\n            \"generate_response\": _e2e_generate_response(output_ids),\n            \"prompt_tokens\": len(gen_req[\"token_ids\"]),\n            \"chat_request\": {\n                \"model\": PARSER_MODEL,\n                \"messages\": messages,\n                \"include_reasoning\": True,\n            },\n        },\n    )\n    assert resp.status_code == 200, resp.text\n    msg = resp.json()[\"choices\"][0][\"message\"]\n    assert msg[\"reasoning\"] is not None\n    assert reasoning_text in msg[\"reasoning\"]\n    assert answer_text in msg[\"content\"]\n    assert \"<think>\" not in msg[\"content\"]",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 1239,
+          "expression": "assert resp.status_code == 200, resp.text"
+        },
+        {
+          "line": 1241,
+          "expression": "assert msg['reasoning'] is not None"
+        },
+        {
+          "line": 1242,
+          "expression": "assert reasoning_text in msg['reasoning']"
+        },
+        {
+          "line": 1243,
+          "expression": "assert answer_text in msg['content']"
+        },
+        {
+          "line": 1244,
+          "expression": "assert '<think>' not in msg['content']"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_e2e_parsed_logprobs_follow_include_reasoning",
+      "line": "1249",
+      "source": "async def test_e2e_parsed_logprobs_follow_include_reasoning(\n    parser_client, parser_tokenizer, include_reasoning\n):\n    \"\"\"With a parser configured, batch derender returns logprobs only when\n    reasoning is shown. Hidden reasoning drops them, as the coupled chat\n    endpoint does, because decoded logprob tokens would reveal it.\"\"\"\n    messages = [{\"role\": \"user\", \"content\": \"What is 2+3?\"}]\n    gen_req = await _e2e_render_chat(parser_client, PARSER_MODEL, messages)\n    output_ids = _require_markers_survive(\n        parser_tokenizer, \"<think>Two plus three.</think>Five.\", \"</think>\"\n    )\n    generate_response = _e2e_generate_response(output_ids)\n    generate_response[\"choices\"][0][\"logprobs\"] = {\n        \"content\": [\n            {\"token_id\": tid, \"logprob\": -0.5, \"rank\": 1, \"top_logprobs\": []}\n            for tid in output_ids\n        ]\n    }\n    resp = await parser_client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": PARSER_MODEL,\n            \"generate_response\": generate_response,\n            \"prompt_tokens\": len(gen_req[\"token_ids\"]),\n            \"chat_request\": {\n                \"model\": PARSER_MODEL,\n                \"messages\": messages,\n                \"include_reasoning\": include_reasoning,\n            },\n        },\n    )\n    assert resp.status_code == 200, resp.text\n    choice = resp.json()[\"choices\"][0]\n    assert choice[\"message\"][\"content\"] == \"Five.\"\n    if include_reasoning:\n        assert choice[\"message\"][\"reasoning\"]\n        assert len(choice[\"logprobs\"][\"content\"]) == len(output_ids)\n    else:\n        assert choice[\"message\"][\"reasoning\"] is None\n        assert choice[\"logprobs\"] is None",
+      "decorators": [
+        "pytest.mark.asyncio",
+        "pytest.mark.parametrize('include_reasoning', [True, False])"
+      ],
+      "assertions": [
+        {
+          "line": 1280,
+          "expression": "assert resp.status_code == 200, resp.text"
+        },
+        {
+          "line": 1282,
+          "expression": "assert choice['message']['content'] == 'Five.'"
+        },
+        {
+          "line": 1284,
+          "expression": "assert choice['message']['reasoning']"
+        },
+        {
+          "line": 1285,
+          "expression": "assert len(choice['logprobs']['content']) == len(output_ids)"
+        },
+        {
+          "line": 1287,
+          "expression": "assert choice['message']['reasoning'] is None"
+        },
+        {
+          "line": 1288,
+          "expression": "assert choice['logprobs'] is None"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_e2e_parsed_tool_call",
+      "line": "1292",
+      "source": "async def test_e2e_parsed_tool_call(parser_client, parser_tokenizer):\n    \"\"\"<tool_call> extracted into tool_calls field.\"\"\"\n    messages = [{\"role\": \"user\", \"content\": \"Weather in Paris?\"}]\n    gen_req = await _e2e_render_chat(parser_client, PARSER_MODEL, messages)\n\n    output_text = (\n        \"<think>Let me check the weather.</think>\"\n        '<tool_call>\\n{\"name\": \"get_weather\", '\n        '\"arguments\": {\"city\": \"Paris\"}}\\n</tool_call>'\n    )\n    output_ids = _require_markers_survive(\n        parser_tokenizer,\n        output_text,\n        \"</think>\",\n        \"<tool_call>\",\n        \"</tool_call>\",\n    )\n\n    resp = await parser_client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": PARSER_MODEL,\n            \"generate_response\": _e2e_generate_response(output_ids),\n            \"prompt_tokens\": len(gen_req[\"token_ids\"]),\n            \"chat_request\": {\n                \"model\": PARSER_MODEL,\n                \"messages\": messages,\n                \"tools\": _E2E_TOOLS,\n                \"tool_choice\": \"auto\",\n            },\n        },\n    )\n    assert resp.status_code == 200, resp.text\n    choice = resp.json()[\"choices\"][0]\n    assert choice[\"message\"][\"tool_calls\"]\n    assert choice[\"message\"][\"tool_calls\"][0][\"function\"][\"name\"] == \"get_weather\"",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 1324,
+          "expression": "assert resp.status_code == 200, resp.text"
+        },
+        {
+          "line": 1326,
+          "expression": "assert choice['message']['tool_calls']"
+        },
+        {
+          "line": 1327,
+          "expression": "assert choice['message']['tool_calls'][0]['function']['name'] == 'get_weather'"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_e2e_parsed_reasoning_and_tool_call",
+      "line": "1331",
+      "source": "async def test_e2e_parsed_reasoning_and_tool_call(parser_client, parser_tokenizer):\n    \"\"\"Reasoning + tool call in the same output.\"\"\"\n    messages = [{\"role\": \"user\", \"content\": \"Weather in Paris?\"}]\n    gen_req = await _e2e_render_chat(parser_client, PARSER_MODEL, messages)\n\n    reasoning_text = \"I should look up the weather.\"\n    tool_text = (\n        '<tool_call>\\n{\"name\": \"get_weather\", '\n        '\"arguments\": {\"city\": \"Paris\"}}\\n</tool_call>'\n    )\n    output_text = f\"<think>{reasoning_text}</think>{tool_text}\"\n    output_ids = _require_markers_survive(\n        parser_tokenizer, output_text, \"</think>\", \"<tool_call>\"\n    )\n\n    resp = await parser_client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": PARSER_MODEL,\n            \"generate_response\": _e2e_generate_response(output_ids),\n            \"prompt_tokens\": len(gen_req[\"token_ids\"]),\n            \"chat_request\": {\n                \"model\": PARSER_MODEL,\n                \"messages\": messages,\n                \"tools\": _E2E_TOOLS,\n                \"tool_choice\": \"auto\",\n                \"include_reasoning\": True,\n            },\n        },\n    )\n    assert resp.status_code == 200, resp.text\n    choice = resp.json()[\"choices\"][0]\n    assert choice[\"message\"][\"reasoning\"] is not None\n    assert reasoning_text in choice[\"message\"][\"reasoning\"]\n    assert choice[\"message\"][\"tool_calls\"]",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 1361,
+          "expression": "assert resp.status_code == 200, resp.text"
+        },
+        {
+          "line": 1363,
+          "expression": "assert choice['message']['reasoning'] is not None"
+        },
+        {
+          "line": 1364,
+          "expression": "assert reasoning_text in choice['message']['reasoning']"
+        },
+        {
+          "line": 1365,
+          "expression": "assert choice['message']['tool_calls']"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_e2e_no_chat_request_rejected",
+      "line": "1369",
+      "source": "async def test_e2e_no_chat_request_rejected(parser_client, parser_tokenizer):\n    \"\"\"Without chat_request a parser configured model rejects with 400\n    rather than silently falling back to plain detokenization. This is to\n    prevent the leak of raw reasoning/tool markup into content.\"\"\"\n    messages = [{\"role\": \"user\", \"content\": \"Hello\"}]\n    gen_req = await _e2e_render_chat(parser_client, PARSER_MODEL, messages)\n\n    answer = \"Hi there!\"\n    output_ids = _encode(parser_tokenizer, answer)\n\n    resp = await parser_client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": PARSER_MODEL,\n            \"generate_response\": _e2e_generate_response(output_ids),\n            \"prompt_tokens\": len(gen_req[\"token_ids\"]),\n        },\n    )\n    assert resp.status_code == 400\n    assert \"chat_request\" in resp.json()[\"error\"][\"message\"]",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 1387,
+          "expression": "assert resp.status_code == 400"
+        },
+        {
+          "line": 1388,
+          "expression": "assert 'chat_request' in resp.json()['error']['message']"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_e2e_parser_uses_caller_prompt_token_ids",
+      "line": "1414",
+      "source": "async def test_e2e_parser_uses_caller_prompt_token_ids(qwen3_client):\n    \"\"\"The parser reads the caller's prompt_token_ids, so output after a\n    prompt that already closes reasoning is content. Generate omits\n    prompt_token_ids unless return_token_ids is set.\"\"\"\n    messages = [\n        {\"role\": \"user\", \"content\": \"What is 6*7?\"},\n        {\"role\": \"assistant\", \"content\": \"<think>\\nEasy.\\n</think>\\n\\nThe answer\"},\n    ]\n    continuation = {\"add_generation_prompt\": False, \"continue_final_message\": True}\n    gen_req = await _e2e_render_chat(\n        qwen3_client, QWEN3_MODEL, messages, **continuation\n    )\n    output_ids = _encode(get_tokenizer(QWEN3_MODEL), \" is 42.\")\n\n    resp = await qwen3_client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": QWEN3_MODEL,\n            \"generate_response\": _e2e_generate_response(output_ids),\n            \"prompt_token_ids\": gen_req[\"token_ids\"],\n            \"chat_request\": {\n                \"model\": QWEN3_MODEL,\n                \"messages\": messages,\n                **continuation,\n            },\n        },\n    )\n    assert resp.status_code == 200, resp.text\n    message = resp.json()[\"choices\"][0][\"message\"]\n    assert message[\"content\"] == \" is 42.\"\n    assert message[\"reasoning\"] is None",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 1441,
+          "expression": "assert resp.status_code == 200, resp.text"
+        },
+        {
+          "line": 1443,
+          "expression": "assert message['content'] == ' is 42.'"
+        },
+        {
+          "line": 1444,
+          "expression": "assert message['reasoning'] is None"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_e2e_harmony_plain_roundtrip",
+      "line": "1524",
+      "source": "async def test_e2e_harmony_plain_roundtrip(harmony_client, harmony_tokenizer):\n    \"\"\"GPT-OSS content-only roundtrip.\"\"\"\n    messages = [{\"role\": \"user\", \"content\": \"What is 2+2?\"}]\n    gen_req = await _e2e_render_chat(harmony_client, HARMONY_MODEL, messages)\n\n    assistant_msg = {\"role\": \"assistant\", \"content\": \"Four.\"}\n    output_ids = _harmony_extract_assistant_ids(harmony_tokenizer, assistant_msg)\n\n    resp = await harmony_client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": HARMONY_MODEL,\n            \"generate_response\": _e2e_generate_response(output_ids),\n            \"prompt_tokens\": len(gen_req[\"token_ids\"]),\n            \"chat_request\": {\n                \"model\": HARMONY_MODEL,\n                \"messages\": messages,\n            },\n        },\n    )\n    assert resp.status_code == 200, resp.text\n    content = resp.json()[\"choices\"][0][\"message\"][\"content\"]\n    assert content is not None and len(content) > 0\n    assert \"Four\" in content",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 1544,
+          "expression": "assert resp.status_code == 200, resp.text"
+        },
+        {
+          "line": 1546,
+          "expression": "assert content is not None and len(content) > 0"
+        },
+        {
+          "line": 1547,
+          "expression": "assert 'Four' in content"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_e2e_harmony_tool_choice_none_drops_tool_calls",
+      "line": "1553",
+      "source": "async def test_e2e_harmony_tool_choice_none_drops_tool_calls(\n    harmony_client, harmony_tokenizer, tool_choice, stream\n):\n    \"\"\"HarmonyParser extracts tool calls whatever the tool_choice, so\n    /derender must drop them for \"none\", like coupled chat, batch and\n    streaming alike. \"auto\" checks the tokens really parse as a tool call.\"\"\"\n    messages = [{\"role\": \"user\", \"content\": \"Weather in Paris?\"}]\n    gen_req = await _e2e_render_chat(harmony_client, HARMONY_MODEL, messages)\n\n    assistant_msg = {\n        \"role\": \"assistant\",\n        \"tool_calls\": [\n            {\n                \"type\": \"function\",\n                \"function\": {\n                    \"name\": \"get_weather\",\n                    \"arguments\": '{\"city\": \"Paris\"}',\n                },\n            }\n        ],\n    }\n    output_ids = _harmony_extract_assistant_ids(harmony_tokenizer, assistant_msg)\n    if \"get_weather\" not in harmony_tokenizer.decode(output_ids):\n        pytest.skip(\"Harmony template did not render the tool call\")\n\n    body: dict = {\n        \"model\": HARMONY_MODEL,\n        \"prompt_tokens\": len(gen_req[\"token_ids\"]),\n        \"prompt_token_ids\": gen_req[\"token_ids\"],\n        \"chat_request\": {\n            \"model\": HARMONY_MODEL,\n            \"messages\": messages,\n            \"tools\": _E2E_TOOLS,\n            \"tool_choice\": tool_choice,\n        },\n    }\n    if stream:\n        body[\"stream\"] = True\n        body[\"generate_chunk\"] = _e2e_generate_response(output_ids)\n    else:\n        body[\"generate_response\"] = _e2e_generate_response(output_ids)\n\n    resp = await harmony_client.post(\"/v1/chat/completions/derender\", json=body)\n    assert resp.status_code == 200, resp.text\n    if stream:\n        choice = resp.json()[\"chunk\"][\"choices\"][0]\n        tool_calls = choice[\"delta\"].get(\"tool_calls\")\n    else:\n        choice = resp.json()[\"choices\"][0]\n        tool_calls = choice[\"message\"].get(\"tool_calls\")\n    assert bool(tool_calls) == (tool_choice == \"auto\")\n    assert choice[\"finish_reason\"] == (\n        \"tool_calls\" if tool_choice == \"auto\" else \"stop\"\n    )",
+      "decorators": [
+        "pytest.mark.asyncio",
+        "pytest.mark.parametrize('stream', [False, True])",
+        "pytest.mark.parametrize('tool_choice', ['auto', 'none'])"
+      ],
+      "assertions": [
+        {
+          "line": 1596,
+          "expression": "assert resp.status_code == 200, resp.text"
+        },
+        {
+          "line": 1603,
+          "expression": "assert bool(tool_calls) == (tool_choice == 'auto')"
+        },
+        {
+          "line": 1604,
+          "expression": "assert choice['finish_reason'] == ('tool_calls' if tool_choice == 'auto' else 'stop')"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_e2e_harmony_reasoning_default_parser",
+      "line": "1634",
+      "source": "async def test_e2e_harmony_reasoning_default_parser(\n    harmony_default_client, harmony_tokenizer\n):\n    \"\"\"GPT-OSS reasoning parses on a bare launch (no parser flags).\"\"\"\n    messages = [{\"role\": \"user\", \"content\": \"Add 2 and 3.\"}]\n    gen_req = await _e2e_render_chat(harmony_default_client, HARMONY_MODEL, messages)\n\n    reasoning_text = \"The user wants 2 plus 3.\"\n    answer_text = \"The answer is 5.\"\n    assistant_msg = {\n        \"role\": \"assistant\",\n        \"thinking\": reasoning_text,\n        \"content\": answer_text,\n    }\n    output_ids = _harmony_extract_assistant_ids(harmony_tokenizer, assistant_msg)\n\n    decoded = harmony_tokenizer.decode(output_ids)\n    if reasoning_text not in decoded:\n        pytest.skip(\"Harmony template did not render thinking\")\n\n    resp = await harmony_default_client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": HARMONY_MODEL,\n            \"generate_response\": _e2e_generate_response(output_ids),\n            \"prompt_tokens\": len(gen_req[\"token_ids\"]),\n            \"chat_request\": {\n                \"model\": HARMONY_MODEL,\n                \"messages\": messages,\n                \"include_reasoning\": True,\n            },\n        },\n    )\n    assert resp.status_code == 200, resp.text\n    msg = resp.json()[\"choices\"][0][\"message\"]\n    assert msg[\"reasoning\"] is not None\n    assert reasoning_text in msg[\"reasoning\"]\n    assert answer_text in (msg[\"content\"] or \"\")\n    assert \"<|channel|>\" not in (msg[\"content\"] or \"\")",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 1667,
+          "expression": "assert resp.status_code == 200, resp.text"
+        },
+        {
+          "line": 1669,
+          "expression": "assert msg['reasoning'] is not None"
+        },
+        {
+          "line": 1670,
+          "expression": "assert reasoning_text in msg['reasoning']"
+        },
+        {
+          "line": 1671,
+          "expression": "assert answer_text in (msg['content'] or '')"
+        },
+        {
+          "line": 1672,
+          "expression": "assert '<|channel|>' not in (msg['content'] or '')"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_e2e_harmony_reasoning",
+      "line": "1676",
+      "source": "async def test_e2e_harmony_reasoning(harmony_client, harmony_tokenizer):\n    \"\"\"GPT-OSS reasoning: analysis channel extracted.\"\"\"\n    messages = [{\"role\": \"user\", \"content\": \"Add 2 and 3.\"}]\n    gen_req = await _e2e_render_chat(harmony_client, HARMONY_MODEL, messages)\n\n    reasoning_text = \"The user wants 2 plus 3.\"\n    answer_text = \"The answer is 5.\"\n    assistant_msg = {\n        \"role\": \"assistant\",\n        \"thinking\": reasoning_text,\n        \"content\": answer_text,\n    }\n    output_ids = _harmony_extract_assistant_ids(harmony_tokenizer, assistant_msg)\n\n    decoded = harmony_tokenizer.decode(output_ids)\n    if reasoning_text not in decoded:\n        pytest.skip(\"Harmony template did not render thinking\")\n\n    resp = await harmony_client.post(\n        \"/v1/chat/completions/derender\",\n        json={\n            \"model\": HARMONY_MODEL,\n            \"generate_response\": _e2e_generate_response(output_ids),\n            \"prompt_tokens\": len(gen_req[\"token_ids\"]),\n            \"chat_request\": {\n                \"model\": HARMONY_MODEL,\n                \"messages\": messages,\n                \"include_reasoning\": True,\n            },\n        },\n    )\n    assert resp.status_code == 200, resp.text\n    msg = resp.json()[\"choices\"][0][\"message\"]\n    assert msg[\"reasoning\"] is not None\n    assert reasoning_text in msg[\"reasoning\"]\n    assert answer_text in (msg[\"content\"] or \"\")",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 1707,
+          "expression": "assert resp.status_code == 200, resp.text"
+        },
+        {
+          "line": 1709,
+          "expression": "assert msg['reasoning'] is not None"
+        },
+        {
+          "line": 1710,
+          "expression": "assert reasoning_text in msg['reasoning']"
+        },
+        {
+          "line": 1711,
+          "expression": "assert answer_text in (msg['content'] or '')"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_finish_reason_matches_chat_completion",
+      "line": "1767",
+      "source": "def test_derender_chat_finish_reason_matches_chat_completion(\n    tool_choice, text, engine_finish_reason, expected_finish_reason\n):\n    \"\"\"/derender applies the same finish_reason rule as the coupled chat\n    path: ``tool_calls`` only for a real call at a natural stop.\"\"\"\n    choice = _derender_hermes_chat(text, tool_choice, engine_finish_reason)\n\n    assert choice.finish_reason == expected_finish_reason\n    assert bool(choice.message.tool_calls) == (text == _HERMES_TOOL_CALL_TEXT)",
+      "decorators": [
+        "pytest.mark.parametrize(('tool_choice', 'text', 'engine_finish_reason', 'expected_finish_reason'), [('auto', _HERMES_TOOL_CALL_TEXT, 'stop', 'tool_calls'), ('auto', _HERMES_TOOL_CALL_TEXT, 'length', 'length'), ('required', 'Hello there', 'stop', 'stop')])"
+      ],
+      "assertions": [
+        {
+          "line": 1774,
+          "expression": "assert choice.finish_reason == expected_finish_reason"
+        },
+        {
+          "line": 1775,
+          "expression": "assert bool(choice.message.tool_calls) == (text == _HERMES_TOOL_CALL_TEXT)"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_tool_call_id_matches_chat_completion",
+      "line": "1778",
+      "source": "def test_derender_chat_tool_call_id_matches_chat_completion():\n    \"\"\"Batch /derender uses the coupled chat's default tool call ID format.\"\"\"\n    choice = _derender_hermes_chat(_HERMES_TOOL_CALL_TEXT)\n\n    (tool_call,) = choice.message.tool_calls\n    assert tool_call.id.startswith(\"chatcmpl-tool-\")",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 1783,
+          "expression": "assert tool_call.id.startswith('chatcmpl-tool-')"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_keeps_parser_tool_call_id",
+      "line": "1786",
+      "source": "def test_derender_chat_keeps_parser_tool_call_id():\n    \"\"\"Batch /derender keeps the parser's tool call ID (Kimi K2 style\n    ``functions.<name>:<idx>``), since chat templates reference it in\n    multi-turn history.\"\"\"\n\n    class _KimiIdParser:\n        tool_parser_cls = object\n\n        def __init__(self, *args, **kwargs):\n            pass\n\n        def parse(self, model_output, request, **kwargs):\n            call = FunctionCall(\n                id=\"functions.get_weather:1\",\n                name=\"get_weather\",\n                arguments='{\"city\": \"Paris\"}',\n            )\n            return None, None, [call]\n\n    choice = _derender_hermes_chat(_HERMES_TOOL_CALL_TEXT, parser_cls=_KimiIdParser)\n\n    (tool_call,) = choice.message.tool_calls\n    assert tool_call.id == \"functions.get_weather:1\"",
+      "decorators": [],
+      "assertions": [
+        {
+          "line": 1808,
+          "expression": "assert tool_call.id == 'functions.get_weather:1'"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_chat_drops_tool_calls_without_tool_choice",
+      "line": "1812",
+      "source": "def test_derender_chat_drops_tool_calls_without_tool_choice(use_stub_parser):\n    \"\"\"/derender drops parsed tool calls for ``tool_choice=None`` and for a\n    parser that ignores ``tool_choice=\"none\"`` (Harmony), like coupled chat.\"\"\"\n\n    class _IgnoresToolChoiceParser:\n        tool_parser_cls = object\n\n        def __init__(self, *args, **kwargs):\n            pass\n\n        def parse(self, model_output, request, **kwargs):\n            call = FunctionCall(name=\"get_weather\", arguments='{\"city\": \"Paris\"}')\n            return None, None, [call]\n\n    choice = _derender_hermes_chat(\n        _HERMES_TOOL_CALL_TEXT,\n        tool_choice=\"none\" if use_stub_parser else None,\n        parser_cls=_IgnoresToolChoiceParser if use_stub_parser else None,\n    )\n\n    assert not choice.message.tool_calls\n    assert choice.finish_reason == \"stop\"",
+      "decorators": [
+        "pytest.mark.parametrize('use_stub_parser', [False, True])"
+      ],
+      "assertions": [
+        {
+          "line": 1832,
+          "expression": "assert not choice.message.tool_calls"
+        },
+        {
+          "line": 1833,
+          "expression": "assert choice.finish_reason == 'stop'"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_batch_trims_stop_like_engine",
+      "line": "1880",
+      "source": "def test_derender_batch_trims_stop_like_engine(\n    tokenizer, endpoint, last, finish_reason, stop_reason, request_kwargs, text, reason\n):\n    \"\"\"Generate returns every token, so batch derender must cut the stop\n    token and stop string from the text and report stop_reason the way the\n    engine's detokenizer and check_stop do. \"stop_id\" is a client stop token\n    (\"!\") and \"config_eos\" a generation_config EOS id (\"?\").\"\"\"\n    ids = {\n        \"eos\": tokenizer.eos_token_id,\n        \"stop_id\": tokenizer.encode(\"!\", add_special_tokens=False)[-1],\n        \"config_eos\": tokenizer.encode(\"?\", add_special_tokens=False)[-1],\n    }\n    stop_reason = ids.get(stop_reason, stop_reason)\n    reason = ids.get(reason, reason)\n    if request_kwargs.get(\"stop_token_ids\"):\n        request_kwargs = {**request_kwargs, \"stop_token_ids\": [ids[\"stop_id\"]]}\n    derenderer = _make_derenderer(\n        tokenizer, {\"eos_token_id\": [tokenizer.eos_token_id, ids[\"config_eos\"]]}\n    )\n    token_ids = tokenizer.encode(_STOP_TEXT, add_special_tokens=False)\n    if last is not None:\n        token_ids.append(ids[last])\n    payload = _make_generate_response(token_ids, finish_reason=finish_reason)\n    payload[\"choices\"][0][\"stop_reason\"] = stop_reason\n    response = GenerateTokensResponse.model_validate(payload)\n    # Keep special tokens so a leaked EOS would show up in the text.\n    request_kwargs = {\"skip_special_tokens\": False, **request_kwargs}\n\n    if endpoint == \"chat\":\n        request = ChatCompletionRequest(\n            model=MODEL_NAME,\n            messages=[{\"role\": \"user\", \"content\": \"Count\"}],\n            **request_kwargs,\n        )\n        (choice,), _ = derenderer._derender_chat(response, request)\n        output_text = choice.message.content\n    else:\n        request = CompletionRequest(model=MODEL_NAME, prompt=\"Count\", **request_kwargs)\n        (choice,), _, _ = derenderer._derender_completion([response], None, request)\n        output_text = choice.text\n\n    assert output_text == text\n    assert choice.stop_reason == reason",
+      "decorators": [
+        "pytest.mark.parametrize('endpoint', ['chat', 'completion'])",
+        "pytest.mark.parametrize(('last', 'finish_reason', 'stop_reason', 'request_kwargs', 'text', 'reason'), [(None, 'stop', 'three', {}, 'one two ', 'three'), (None, 'stop', 'three', {'include_stop_str_in_output': True}, 'one two three', 'three'), (None, 'stop', None, {'stop': ['three', 'two']}, 'one ', 'two'), (None, 'stop', None, {'stop': 'two', 'min_tokens': 2}, _STOP_TEXT, None), (None, 'length', None, {'stop': 'two'}, _STOP_TEXT, None), ('stop_id', 'stop', 'stop_id', {'stop': 'two'}, _STOP_TEXT, 'stop_id'), ('eos', 'stop', None, {}, _STOP_TEXT, None), ('stop_id', 'stop', None, {'stop_token_ids': True}, _STOP_TEXT, 'stop_id'), ('config_eos', 'stop', None, {}, _STOP_TEXT, 'config_eos'), ('config_eos', 'stop', None, {'ignore_eos': True}, _STOP_TEXT + ' ?', None), ('eos', 'stop', None, {'stop': 'four'}, 'one two three ', 'four')])"
+      ],
+      "assertions": [
+        {
+          "line": 1921,
+          "expression": "assert output_text == text"
+        },
+        {
+          "line": 1922,
+          "expression": "assert choice.stop_reason == reason"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_completion_stream_leaves_out_stop_token",
+      "line": "1926",
+      "source": "async def test_derender_completion_stream_leaves_out_stop_token(tokenizer):\n    \"\"\"Streaming completions drops the final stop token like chat does and\n    reports the stop_reason an older generate host leaves out.\"\"\"\n    derenderer = _make_derenderer(tokenizer)\n    bang = tokenizer.encode(\"!\", add_special_tokens=False)[-1]\n    payload = _make_generate_response(\n        tokenizer.encode(_STOP_TEXT, add_special_tokens=False) + [bang]\n    )\n    response, _ = await derenderer.derender_completion_stream(\n        MODEL_NAME,\n        GenerateTokensStreamResponse.model_validate(payload),\n        completion_request=CompletionRequest(\n            model=MODEL_NAME, prompt=\"Count\", stop_token_ids=[bang]\n        ),\n    )\n    assert response.choices[0].text == _STOP_TEXT\n    assert response.choices[0].stop_reason == bang",
+      "decorators": [
+        "pytest.mark.asyncio"
+      ],
+      "assertions": [
+        {
+          "line": 1941,
+          "expression": "assert response.choices[0].text == _STOP_TEXT"
+        },
+        {
+          "line": 1942,
+          "expression": "assert response.choices[0].stop_reason == bang"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/entrypoints/scale_out/derender/test_derender.py",
+      "test_name": "test_derender_completion_preserves_requested_token_ids",
+      "line": "1948",
+      "source": "async def test_derender_completion_preserves_requested_token_ids(\n    tokenizer, return_token_ids, stream\n):\n    derenderer = _make_derenderer(tokenizer)\n    token_ids = tokenizer.encode(\"Hello world\", add_special_tokens=False)\n    request = CompletionRequest(\n        model=MODEL_NAME, prompt=\"Hi\", return_token_ids=return_token_ids\n    )\n    prompt_ids = tokenizer.encode(\"Hi\")\n    payload = _make_generate_response(token_ids, finish_reason=\"length\")\n    payload[\"prompt_token_ids\"] = prompt_ids\n    if stream:\n        response, _ = await derenderer.derender_completion_stream(\n            MODEL_NAME,\n            GenerateTokensStreamResponse.model_validate(payload),\n            completion_request=request,\n        )\n        choices = response.choices\n    else:\n        choices, _, _ = await derenderer.derender_completion(\n            [GenerateTokensResponse.model_validate(payload)],\n            completion_request=request,\n        )\n    assert choices[0].token_ids == (token_ids if return_token_ids else None)\n    assert choices[0].prompt_token_ids == (prompt_ids if return_token_ids else None)",
+      "decorators": [
+        "pytest.mark.asyncio",
+        "pytest.mark.parametrize('return_token_ids', [None, False, True])",
+        "pytest.mark.parametrize('stream', [False, True])"
+      ],
+      "assertions": [
+        {
+          "line": 1971,
+          "expression": "assert choices[0].token_ids == (token_ids if return_token_ids else None)"
+        },
+        {
+          "line": 1972,
+          "expression": "assert choices[0].prompt_token_ids == (prompt_ids if return_token_ids else None)"
+        }
+      ],
+      "conditions": "真实 tokenizer/OnlineDerenderer；输入为手工构造的生成 token 与元数据，不运行模型生成。HTTP入口由 render server fixture 执行；直接方法测试中的 renderer/model_config 和部分 parser 使用明确替身。具体 parser、模型、输入和 stream 分支见完整函数及fixture。未执行上游测试。"
+    }
+  ],
+  "shared_helpers": [
+    {
+      "name": "server",
+      "line": 28,
+      "source": "def server():\n    with RemoteLaunchRenderServer(MODEL_NAME, []) as remote_server:\n        yield remote_server"
+    },
+    {
+      "name": "client",
+      "line": 34,
+      "source": "async def client(server):\n    async with httpx.AsyncClient(\n        base_url=server.url_for(\"\"), timeout=30.0\n    ) as http_client:\n        yield http_client"
+    },
+    {
+      "name": "tokenizer",
+      "line": 42,
+      "source": "def tokenizer():\n    return get_tokenizer(MODEL_NAME)"
+    },
+    {
+      "name": "_render_chat",
+      "line": 51,
+      "source": "async def _render_chat(client: httpx.AsyncClient) -> dict:\n    \"\"\"Render a minimal chat request and return the GenerateRequest dict.\"\"\"\n    resp = await client.post(\n        \"/v1/chat/completions/render\",\n        json={\n            \"model\": MODEL_NAME,\n            \"messages\": [{\"role\": \"user\", \"content\": \"Hello\"}],\n        },\n    )\n    assert resp.status_code == 200\n    return resp.json()"
+    },
+    {
+      "name": "_make_generate_response",
+      "line": 64,
+      "source": "def _make_generate_response(\n    token_ids: list[int] | None,\n    request_id: str = \"chatcmpl-test-id\",\n    finish_reason: str = \"stop\",\n    logprobs: dict | None = None,\n    prompt_logprobs: list | None = None,\n    kv_transfer_params: dict | None = None,\n    metrics: dict | None = None,\n) -> dict:\n    choice: dict = {\n        \"index\": 0,\n        \"token_ids\": token_ids,\n        \"finish_reason\": finish_reason,\n        \"logprobs\": logprobs,\n    }\n    return {\n        \"request_id\": request_id,\n        \"choices\": [choice],\n        \"prompt_logprobs\": prompt_logprobs,\n        \"kv_transfer_params\": kv_transfer_params,\n        \"metrics\": metrics,\n    }"
+    },
+    {
+      "name": "_make_generate_logprobs",
+      "line": 88,
+      "source": "def _make_generate_logprobs(token_id: int = 1234) -> dict:\n    \"\"\"A `GenerateLogProbs` payload: integer token ids, no token/bytes.\"\"\"\n    entry = {\n        \"token_id\": token_id,\n        \"logprob\": -1.0,\n        \"rank\": 1,\n        \"top_logprobs\": [{\"token_id\": token_id + 1, \"logprob\": -2.0, \"rank\": 2}],\n    }\n    return {\"content\": [entry]}"
+    },
+    {
+      "name": "_render_completion",
+      "line": 509,
+      "source": "async def _render_completion(client: httpx.AsyncClient, prompt: str) -> dict:\n    \"\"\"Render a completion prompt and return the first GenerateRequest dict.\"\"\"\n    resp = await client.post(\n        \"/v1/completions/render\",\n        json={\"model\": MODEL_NAME, \"prompt\": prompt},\n    )\n    assert resp.status_code == 200\n    data = resp.json()\n    assert isinstance(data, list) and len(data) >= 1\n    return data[0]"
+    },
+    {
+      "name": "_make_completion_generate_response",
+      "line": 521,
+      "source": "def _make_completion_generate_response(\n    token_ids: list[int],\n    request_id: str,\n    kv_transfer_params: dict | None = None,\n    logprobs: dict | None = None,\n    prompt_logprobs: list | None = None,\n) -> dict:\n    return {\n        \"request_id\": request_id,\n        \"choices\": [\n            {\n                \"index\": 0,\n                \"token_ids\": token_ids,\n                \"finish_reason\": \"stop\",\n                \"logprobs\": logprobs,\n            }\n        ],\n        \"prompt_logprobs\": prompt_logprobs,\n        \"kv_transfer_params\": kv_transfer_params,\n    }"
+    },
+    {
+      "name": "parser_server",
+      "line": 1057,
+      "source": "def parser_server():\n    args = [\n        \"--enable-auto-tool-choice\",\n        \"--tool-call-parser\",\n        \"hermes\",\n        \"--reasoning-parser\",\n        \"deepseek_r1\",\n    ]\n    with RemoteLaunchRenderServer(PARSER_MODEL, args) as remote_server:\n        yield remote_server"
+    },
+    {
+      "name": "parser_client",
+      "line": 1070,
+      "source": "async def parser_client(parser_server):\n    async with httpx.AsyncClient(\n        base_url=parser_server.url_for(\"\"), timeout=60.0\n    ) as http_client:\n        yield http_client"
+    },
+    {
+      "name": "parser_tokenizer",
+      "line": 1078,
+      "source": "def parser_tokenizer():\n    return get_tokenizer(PARSER_MODEL)"
+    },
+    {
+      "name": "_encode",
+      "line": 1082,
+      "source": "def _encode(tokenizer, text: str) -> list[int]:\n    return tokenizer.encode(text, add_special_tokens=False)"
+    },
+    {
+      "name": "_decoded",
+      "line": 1086,
+      "source": "def _decoded(tokenizer, token_ids: list[int]) -> str:\n    return tokenizer.decode(token_ids, skip_special_tokens=True)"
+    },
+    {
+      "name": "_require_markers_survive",
+      "line": 1090,
+      "source": "def _require_markers_survive(tokenizer, text: str, *markers: str) -> list[int]:\n    \"\"\"Encode text and skip the test if any marker is lost in roundtrip.\"\"\"\n    ids = _encode(tokenizer, text)\n    decoded = tokenizer.decode(ids, skip_special_tokens=False)\n    for m in markers:\n        if m not in decoded:\n            pytest.skip(f\"Marker {m!r} lost in encode->decode roundtrip\")\n    return ids"
+    },
+    {
+      "name": "_e2e_render_chat",
+      "line": 1100,
+      "source": "async def _e2e_render_chat(\n    client: httpx.AsyncClient,\n    model: str,\n    messages: list[dict],\n    **extra,\n) -> dict:\n    resp = await client.post(\n        \"/v1/chat/completions/render\",\n        json={\"model\": model, \"messages\": messages, **extra},\n    )\n    assert resp.status_code == 200, resp.text\n    return resp.json()"
+    },
+    {
+      "name": "_e2e_generate_response",
+      "line": 1114,
+      "source": "def _e2e_generate_response(\n    token_ids: list[int],\n    request_id: str = \"chatcmpl-e2e-test\",\n) -> dict:\n    return {\n        \"request_id\": request_id,\n        \"choices\": [\n            {\n                \"index\": 0,\n                \"token_ids\": token_ids,\n                \"finish_reason\": \"stop\",\n            }\n        ],\n    }"
+    },
+    {
+      "name": "qwen3_server",
+      "line": 1399,
+      "source": "def qwen3_server():\n    args = [\"--reasoning-parser\", \"qwen3\"]\n    with RemoteLaunchRenderServer(QWEN3_MODEL, args) as remote_server:\n        yield remote_server"
+    },
+    {
+      "name": "qwen3_client",
+      "line": 1406,
+      "source": "async def qwen3_client(qwen3_server):\n    async with httpx.AsyncClient(\n        base_url=qwen3_server.url_for(\"\"), timeout=60.0\n    ) as http_client:\n        yield http_client"
+    },
+    {
+      "name": "_ensure_harmony_vocab",
+      "line": 1454,
+      "source": "def _ensure_harmony_vocab():\n    \"\"\"Pre-cache the o200k_base BPE file needed by openai-harmony.\n\n    The Rust tiktoken-rs backend downloads from Azure Blob Storage, which\n    may be unreachable in some environments.  When the cache is cold we\n    fetch the file ourselves and place it in ``/tmp/tiktoken-rs-cache/``\n    using the SHA-1(URL) filename that tiktoken-rs expects.\n    \"\"\"\n    import hashlib\n    import urllib.request\n    from pathlib import Path\n\n    url = \"https://openaipublic.blob.core.windows.net/encodings/o200k_base.tiktoken\"\n    cache_dir = Path(\"/tmp/tiktoken-rs-cache\")\n    cache_key = hashlib.sha1(url.encode()).hexdigest()\n    cache_file = cache_dir / cache_key\n    if not cache_file.exists():\n        cache_dir.mkdir(parents=True, exist_ok=True)\n        urllib.request.urlretrieve(url, cache_file)"
+    },
+    {
+      "name": "harmony_server",
+      "line": 1476,
+      "source": "def harmony_server():\n    _ensure_harmony_vocab()\n    args = [\n        \"--trust-remote-code\",\n        \"--enable-auto-tool-choice\",\n        \"--tool-call-parser\",\n        \"openai\",\n        \"--reasoning-parser\",\n        \"openai_gptoss\",\n    ]\n    with RemoteLaunchRenderServer(HARMONY_MODEL, args) as remote_server:\n        yield remote_server"
+    },
+    {
+      "name": "harmony_client",
+      "line": 1491,
+      "source": "async def harmony_client(harmony_server):\n    async with httpx.AsyncClient(\n        base_url=harmony_server.url_for(\"\"), timeout=60.0\n    ) as http_client:\n        yield http_client"
+    },
+    {
+      "name": "harmony_tokenizer",
+      "line": 1499,
+      "source": "def harmony_tokenizer():\n    return get_tokenizer(HARMONY_MODEL, trust_remote_code=True)"
+    },
+    {
+      "name": "_harmony_extract_assistant_ids",
+      "line": 1503,
+      "source": "def _harmony_extract_assistant_ids(\n    tokenizer, assistant_msg: dict, user_content: str = \"test\"\n) -> list[int]:\n    \"\"\"Extract assistant token IDs via apply_chat_template diff.\"\"\"\n    prompt = [{\"role\": \"user\", \"content\": user_content}]\n    full = prompt + [assistant_msg]\n    text_prompt = tokenizer.apply_chat_template(\n        prompt, add_generation_prompt=True, tokenize=False\n    )\n    text_full = tokenizer.apply_chat_template(\n        full, add_generation_prompt=False, tokenize=False\n    )\n    prompt_ids = tokenizer.encode(text_prompt)\n    full_ids = tokenizer.encode(text_full)\n    assistant_ids = list(full_ids[len(prompt_ids) :])\n    if not assistant_ids:\n        pytest.skip(\"Could not extract assistant tokens for Harmony\")\n    return assistant_ids"
+    },
+    {
+      "name": "harmony_default_server",
+      "line": 1610,
+      "source": "def harmony_default_server():\n    \"\"\"gpt-oss render server with NO parser flags.\n\n    Regression fixture: the model-default reasoning parser\n    (\"openai_gptoss\", applied by verify_and_update_config) must be\n    resolved by the render server without any --reasoning-parser flag,\n    otherwise harmony markup leaks unparsed into derender output.\n    \"\"\"\n    _ensure_harmony_vocab()\n    with RemoteLaunchRenderServer(\n        HARMONY_MODEL, [\"--trust-remote-code\"]\n    ) as remote_server:\n        yield remote_server"
+    },
+    {
+      "name": "harmony_default_client",
+      "line": 1626,
+      "source": "async def harmony_default_client(harmony_default_server):\n    async with httpx.AsyncClient(\n        base_url=harmony_default_server.url_for(\"\"), timeout=60.0\n    ) as http_client:\n        yield http_client"
+    },
+    {
+      "name": "_derender_hermes_chat",
+      "line": 1719,
+      "source": "def _derender_hermes_chat(\n    text: str,\n    tool_choice: str | None = \"auto\",\n    engine_finish_reason: str = \"stop\",\n    parser_cls: type | None = None,\n):\n    tokenizer = get_tokenizer(MODEL_NAME)\n    renderer = MagicMock()\n    renderer.get_tokenizer.return_value = tokenizer\n    model_config = MagicMock()\n    model_config.model = MODEL_NAME\n    model_config.hf_config.model_type = \"llama\"\n    derenderer = OnlineDerenderer(\n        model_config,\n        renderer,\n        request_logger=None,\n        chat_template=\"{{ messages }}\",\n        chat_template_content_format=\"auto\",\n        enable_auto_tools=True,\n        tool_parser=\"hermes\",\n    )\n    if parser_cls is not None:\n        derenderer.parser = parser_cls\n    request = ChatCompletionRequest(\n        model=MODEL_NAME,\n        messages=[{\"role\": \"user\", \"content\": \"Weather in Paris?\"}],\n        tools=_E2E_TOOLS,\n        tool_choice=tool_choice,\n    )\n    response = GenerateTokensResponse.model_validate(\n        _make_generate_response(\n            tokenizer.encode(text, add_special_tokens=False),\n            finish_reason=engine_finish_reason,\n        )\n    )\n\n    (choice,), _ = derenderer._derender_chat(response, request)\n    return choice"
+    },
+    {
+      "name": "_make_derenderer",
+      "line": 1836,
+      "source": "def _make_derenderer(tokenizer, generation_config: dict | None = None):\n    renderer = MagicMock()\n    renderer.get_tokenizer.return_value = tokenizer\n    renderer.get_eos_token_id.return_value = tokenizer.eos_token_id\n    renderer._executor = None\n    model_config = MagicMock()\n    model_config.model = MODEL_NAME\n    model_config.hf_config.model_type = \"llama\"\n    model_config.try_get_generation_config.return_value = generation_config or {}\n    return OnlineDerenderer(\n        model_config,\n        renderer,\n        request_logger=None,\n        chat_template=None,\n        chat_template_content_format=\"string\",\n    )"
+    }
+  ],
+  "source_review": "读取测试调用/断言、render server和tokenizer fixtures、构造响应helper及生产ServingDerender/OnlineDerenderer。具体输出检查不推广为模型正确性。"
+}

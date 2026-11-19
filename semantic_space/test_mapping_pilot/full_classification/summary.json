@@ -1,14 +1,14 @@
 {
   "entries": 31968,
   "dispositions": {
-    "source_relation_classified": 17824,
+    "source_relation_classified": 16607,
     "non_python_review": 96,
-    "supporting_record": 182,
-    "reviewed_property": 11976,
-    "unresolved_check": 1711,
+    "supporting_record": 193,
+    "reviewed_property": 13249,
+    "unresolved_check": 1640,
     "helper_check": 105,
     "outside_scope": 68,
-    "incomplete_test": 6
+    "incomplete_test": 10
   },
   "entries_with_relation": 28871,
   "relation_counts": {
@@ -28,10 +28,10 @@
     "mock_interaction": 901,
     "warning": 3
   },
-  "checked_system_property_entries": 11976,
+  "checked_system_property_entries": 13249,
   "new_system_property_confirmations": 0,
   "records_with_multiple_relations": 14277,
-  "index_sha256": "ad796b7193a711d69fb4587ca2639cfdf4c7e756cd5f4f57b1824376bec7b006",
+  "index_sha256": "d8547bcadb773078bb54e8c375890a5a80b5e96d8d03b15d394e6a04cf9450ad",
   "labels": {
     "numeric_tolerance": "数值误差",
     "equality": "值相等",

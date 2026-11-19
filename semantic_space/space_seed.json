@@ -3350,6 +3350,21 @@
             "path": "tests/v1/core/test_single_type_kv_cache_manager.py",
             "line": 929,
             "kind": "existing_oracle"
+          },
+          {
+            "path": "vllm/distributed/aux_output_connector/store.py",
+            "line": 130,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/distributed/aux_output_connector/store.py",
+            "line": 153,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/distributed/aux_output_connector/store.py",
+            "line": 218,
+            "kind": "source"
           }
         ],
         "sglang": [
@@ -3379,7 +3394,12 @@
             "kind": "existing_oracle"
           }
         ]
-      }
+      },
+      "framework_scope": [
+        "vllm",
+        "sglang"
+      ],
+      "framework_difference": "此实现为CPU辅助输出对象池，按LRU及保护集合淘汰；SGLang优先级函数仅计算排序键，故旧行不能继续归eviction_priority。"
     },
     {
       "id": "cache.tier_transfer_content",
@@ -5077,6 +5097,11 @@
             "path": "tests/entrypoints/multimodal/openai/chat_completion/test_vision.py",
             "line": 324,
             "kind": "existing_oracle"
+          },
+          {
+            "path": "vllm/entrypoints/scale_out/derender/serving.py",
+            "line": 186,
+            "kind": "source"
           }
         ],
         "sglang": [
@@ -5236,6 +5261,11 @@
             "path": "tests/v1/sample/test_logprobs.py",
             "line": 932,
             "kind": "existing_oracle"
+          },
+          {
+            "path": "vllm/renderers/online_derenderer.py",
+            "line": 1362,
+            "kind": "source"
           }
         ],
         "sglang": [
@@ -8081,6 +8111,11 @@
             "path": "tests/detokenizer/test_stop_strings.py",
             "line": 35,
             "kind": "existing_oracle"
+          },
+          {
+            "path": "vllm/renderers/online_derenderer.py",
+            "line": 203,
+            "kind": "source"
           }
         ],
         "sglang": [
@@ -8493,10 +8528,33 @@
             "line": 88,
             "kind": "existing_oracle"
           }
+        ],
+        "vllm": [
+          {
+            "path": "vllm/parser/engine/streaming_parser_engine.py",
+            "line": 226,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/parser/engine/streaming_parser_engine.py",
+            "line": 361,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/parser/engine/parser_engine.py",
+            "line": 733,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/parser/chat_parsing/response_parser.py",
+            "line": 185,
+            "kind": "source"
+          }
         ]
       },
       "framework_scope": [
-        "sglang"
+        "sglang",
+        "vllm"
       ]
     },
     {
@@ -12945,6 +13003,11 @@
             "path": "rust/src/chat/tests/chat.rs",
             "line": 639,
             "kind": "existing_test"
+          },
+          {
+            "path": "vllm/entrypoints/scale_out/derender/serving.py",
+            "line": 63,
+            "kind": "source"
           }
         ]
       },
@@ -13198,6 +13261,11 @@
             "path": "rust/src/chat/tests/chat.rs",
             "line": 326,
             "kind": "existing_test"
+          },
+          {
+            "path": "vllm/entrypoints/scale_out/derender/serving.py",
+            "line": 142,
+            "kind": "source"
           }
         ]
       },
@@ -14323,7 +14391,8 @@
       ],
       "oracle": "检查构造后的标记、状态和配置字段；文本分离结果由相应解析检查另外给出。",
       "framework_scope": [
-        "sglang"
+        "sglang",
+        "vllm"
       ],
       "semantic_domain": "inference_request",
       "evidence": {
@@ -14333,6 +14402,23 @@
             "line": 1057,
             "kind": "source",
             "source_sha256": "6e2518a9952af1cf96469d213b800f37363e5c7522e05dcfee625f4f1abad76f"
+          }
+        ],
+        "vllm": [
+          {
+            "path": "vllm/parser/qwen3.py",
+            "line": 352,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/parser/deepseek_v4.py",
+            "line": 210,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/parser/engine/parser_engine.py",
+            "line": 119,
+            "kind": "source"
           }
         ]
       }
@@ -14904,7 +14990,8 @@
       ],
       "oracle": "构造模板与词表组合，检查解析器/编码标识及规则优先级；显式配置和 auto 配置分别验证。",
       "framework_scope": [
-        "sglang"
+        "sglang",
+        "vllm"
       ],
       "semantic_domain": "inference_request",
       "evidence": {
@@ -14926,6 +15013,18 @@
             "line": 288,
             "kind": "source",
             "source_sha256": "3217a5a23dd0388c9506b80f343c584a9261210c0e0571f7071d6f7e3ee58278"
+          }
+        ],
+        "vllm": [
+          {
+            "path": "vllm/parser/parser_manager.py",
+            "line": 98,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/parser/parser_manager.py",
+            "line": 152,
+            "kind": "source"
           }
         ]
       }
@@ -15858,6 +15957,1382 @@
           }
         ]
       }
+    },
+    {
+      "id": "compute.decode_mode_eligibility",
+      "name": "执行批次的阶段与图模式资格",
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "phase": "model_execution",
+      "state_scope": "shared",
+      "conditions": [
+        "request_phase",
+        "speculative_mode",
+        "execution_variant",
+        "request_batch_profile"
+      ],
+      "property": "请求进度、上下文和草稿字段决定本批属于 prefill、decode 或可用 decode 图的扩展；批次排列后仍按请求状态索引判断，形状一致本身不代替阶段条件。",
+      "observable": [
+        "request_ids",
+        "is_prefilling",
+        "decode_graph_eligible",
+        "uniform_token_count"
+      ],
+      "oracle": "逐项比较测试声明的值、结构、异常或交互记录；实际检查表达式与替身条件见各入口证据。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/worker/gpu/model_runner.py",
+            "line": 1374,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "cache.block_table_addressing",
+      "name": "缓存块表与请求槽位对应",
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "phase": "cache",
+      "state_scope": "shared",
+      "conditions": [
+        "execution_layout",
+        "parallel_topology",
+        "cache_state",
+        "forward_buffer_context"
+      ],
+      "property": "按请求行、缓存组、块大小与并行布局，将逻辑位置映射到相应物理槽位；追加和覆盖更新保持计数，失效、填充、窗口外及退出批次的行按规则清零或使用无效槽位，外部输出不改写共享表。",
+      "observable": [
+        "block_ids",
+        "row_counts",
+        "slot_mappings",
+        "padding",
+        "table_contents",
+        "data_ptr"
+      ],
+      "oracle": "逐项比较测试声明的值、结构、异常或交互记录；实际检查表达式与替身条件见各入口证据。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/worker/gpu/block_table.py",
+            "line": 125,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/worker/gpu/block_table.py",
+            "line": 160,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/worker/gpu/block_table.py",
+            "line": 213,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/worker/gpu/block_table.py",
+            "line": 229,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "model.encoder_feature_binding",
+      "name": "编码特征按请求区间与模态绑定",
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "phase": "model_execution",
+      "state_scope": "shared",
+      "conditions": [
+        "modality",
+        "input_form",
+        "request_phase",
+        "speculative_mode",
+        "cache_state"
+      ],
+      "property": "根据请求当前处理区间选择相应编码特征，保留位置、模态和批次顺序；预编码输入按规则直通缓存，目标与草稿边界的缺失特征分别遵守声明的拒绝或回退条件。",
+      "observable": [
+        "embedding_values",
+        "modality_tags",
+        "placeholder_mask",
+        "feature_ids",
+        "encoder_inputs",
+        "missing_feature_error"
+      ],
+      "oracle": "逐项比较测试声明的值、结构、异常或交互记录；实际检查表达式与替身条件见各入口证据。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/worker/gpu/mm/encoder_runner.py",
+            "line": 81,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/worker/gpu/mm/encoder_runner.py",
+            "line": 150,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/worker/gpu/mm/encoder_runner.py",
+            "line": 207,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "model.encoder_cache_lifecycle",
+      "name": "编码输入与结果的请求局部生命周期",
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "phase": "model_execution",
+      "state_scope": "shared",
+      "conditions": [
+        "modality",
+        "cache_state",
+        "request_identity_lifecycle_context"
+      ],
+      "property": "编码结果按标识保存，未调度输入不调用编码；释放某请求的原始输入不改变其他请求或保留的占位/结果，重建输入后可再次编码。",
+      "observable": [
+        "feature_data",
+        "request_features",
+        "encoder_outputs",
+        "source_identity",
+        "weak_reference",
+        "encode_calls"
+      ],
+      "oracle": "逐项比较测试声明的值、结构、异常或交互记录；实际检查表达式与替身条件见各入口证据。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/worker/gpu/mm/encoder_cache.py",
+            "line": 20,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/worker/gpu/mm/encoder_cache.py",
+            "line": 29,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/worker/gpu/mm/encoder_cache.py",
+            "line": 52,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "diagnostic.encoder_operation_metrics",
+      "name": "编码操作统计按请求累积并读取清空",
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "phase": "diagnostic",
+      "state_scope": "diagnostic_artifact",
+      "conditions": [
+        "diagnostic_record_contract",
+        "concurrent_request_profile"
+      ],
+      "property": "启用统计后，编码操作次数与计时按声明规则记入参与请求；读取汇总后清除已交付的记录。",
+      "observable": [
+        "request_ids",
+        "num_encoder_calls",
+        "encoder_forward_secs",
+        "registry_after_read"
+      ],
+      "oracle": "逐项比较测试声明的值、结构、异常或交互记录；实际检查表达式与替身条件见各入口证据。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/worker/gpu/mm/encoder_runner.py",
+            "line": 178,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/worker/gpu/mm/encoder_runner.py",
+            "line": 198,
+            "kind": "source"
+          }
+        ]
+      },
+      "semantic_domain": "diagnostic_support"
+    },
+    {
+      "id": "sampling.reasoning_budget_state",
+      "name": "推理预算与标记状态控制采样",
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "phase": "sampling",
+      "state_scope": "shared",
+      "conditions": [
+        "sampling_mode",
+        "logit_modifier_profile",
+        "request_phase",
+        "stop_pattern_kind"
+      ],
+      "property": "根据请求 token 历史的最近推理开始/自然结束标记与预算决定是否强制下一个结束标记；多 token 标记可续写，历史扫描状态按提交进度推进，槽位复用清除旧请求策略。",
+      "observable": [
+        "logits",
+        "forced_end_token",
+        "cached_scan_position",
+        "request_budget",
+        "active_request"
+      ],
+      "oracle": "逐项比较测试声明的值、结构、异常或交互记录；实际检查表达式与替身条件见各入口证据。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/worker/cpu/sampler.py",
+            "line": 90,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/worker/cpu/sampler.py",
+            "line": 119,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/worker/cpu/sampler.py",
+            "line": 150,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/worker/gpu/sample/thinking_budget.py",
+            "line": 113,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sampling.trace_token_binding",
+      "name": "采样重放 token 按请求与步数绑定",
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "phase": "sampling",
+      "state_scope": "shared",
+      "conditions": [
+        "request_phase",
+        "sampling_mode",
+        "sampling_batch_transition_context"
+      ],
+      "property": "声明重放序列的请求在相应 decode 步使用对应 token；无效映射、未启用及超出序列范围的行保持原结果，请求槽位复用更新有效长度。",
+      "observable": [
+        "sampled_tokens",
+        "request_indices",
+        "decode_steps",
+        "trace_lengths"
+      ],
+      "oracle": "逐项比较测试声明的值、结构、异常或交互记录；实际检查表达式与替身条件见各入口证据。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/worker/cpu/sampler.py",
+            "line": 234,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/worker/cpu/sampler.py",
+            "line": 244,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sampling.logit_support_record",
+      "name": "采样支持集与非有限值记录",
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "phase": "sampling",
+      "state_scope": "shared",
+      "conditions": [
+        "numeric_format",
+        "logit_modifier_profile",
+        "request_batch_profile"
+      ],
+      "property": "逐行记录非有限值或有限 token 支持集；紧凑 token、位图和数量按词表及有效采样行对应，支持集超过紧凑容量时保留完整集合表示。",
+      "observable": [
+        "nan_counts",
+        "support_counts",
+        "token_ids",
+        "packed_mask",
+        "active_rows"
+      ],
+      "oracle": "逐项比较测试声明的值、结构、异常或交互记录；实际检查表达式与替身条件见各入口证据。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/worker/cpu/sampler.py",
+            "line": 47,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/worker/cpu/sampler.py",
+            "line": 437,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sampling.watermark_context_policy",
+      "name": "水印采样的上下文与请求策略",
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "phase": "sampling",
+      "state_scope": "shared",
+      "conditions": [
+        "sampling_mode",
+        "logit_modifier_profile",
+        "request_phase",
+        "sampling_statistical_profile"
+      ],
+      "property": "水印采样按逐请求开关、温度与声明上下文执行；重复上下文依据历史范围决定跳过策略，普通行与贪心行采用其对应路径，相同输入与种子遵守声明重现关系。",
+      "observable": [
+        "context_tokens",
+        "repeated_contexts",
+        "skip_mask",
+        "sampled_tokens",
+        "output_logits"
+      ],
+      "oracle": "逐项比较测试声明的值、结构、异常或交互记录；实际检查表达式与替身条件见各入口证据。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/worker/cpu/sampler.py",
+            "line": 891,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/worker/cpu/sampler.py",
+            "line": 961,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/worker/cpu/sampler.py",
+            "line": 977,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "distributed.expert_placement",
+      "name": "专家逻辑与物理放置关系",
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "phase": "model_execution",
+      "state_scope": "shared",
+      "conditions": [
+        "parallel_topology",
+        "parameter_mapping",
+        "execution_layout"
+      ],
+      "property": "给定负载和拓扑，专家放置及反向映射保持索引范围、覆盖和副本总数；具体均衡策略由声明算法决定，局部重排保留同设备已有专家并保持新的专家多重集合。",
+      "observable": [
+        "physical_to_logical",
+        "logical_to_physical",
+        "replica_counts",
+        "retained_slots"
+      ],
+      "oracle": "逐项比较测试声明的值、结构、异常或交互记录；实际检查表达式与替身条件见各入口证据。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/distributed/eplb/policy/default.py",
+            "line": 191,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/distributed/eplb/policy/default.py",
+            "line": 273,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/distributed/eplb/eplb_state.py",
+            "line": 1316,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "distributed.expert_migration_plan",
+      "name": "专家迁移的端点与接收位置",
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "phase": "model_execution",
+      "state_scope": "shared",
+      "conditions": [
+        "parallel_topology",
+        "parameter_mapping",
+        "tensor_transport_profile"
+      ],
+      "property": "新旧放置决定迁移源、目的、专家与接收行；按策略合并同端点流并避开批内端点冲突，本地已有副本不重复传输，重复目标从指定接收行复制。",
+      "observable": [
+        "migration_flows",
+        "batches",
+        "source_rank",
+        "destination_rank",
+        "expert_id",
+        "receive_row"
+      ],
+      "oracle": "逐项比较测试声明的值、结构、异常或交互记录；实际检查表达式与替身条件见各入口证据。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/distributed/eplb/migration_scheduler.py",
+            "line": 20,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/distributed/eplb/migration_scheduler.py",
+            "line": 106,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/distributed/eplb/rebalance_execute.py",
+            "line": 305,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/distributed/eplb/rebalance_execute.py",
+            "line": 501,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "model.weight_publish_ownership",
+      "name": "权重发布的所有者与参与者元数据",
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "phase": "model_execution",
+      "state_scope": "shared",
+      "conditions": [
+        "parameter_mapping",
+        "parameter_lifecycle",
+        "parallel_topology"
+      ],
+      "property": "权重名称按元数据归属生产 rank 与发布组；各 rank 对整体元数据形成一致计划，错误归属拒绝；存活消费者标识去重后与计数一致，并作为本轮发布与释放门禁参数。",
+      "observable": [
+        "group_names",
+        "owner_sets",
+        "name_owner_class",
+        "live_consumer_ids",
+        "live_count",
+        "published_groups",
+        "metadata_digest"
+      ],
+      "oracle": "逐项比较测试声明的值、结构、异常或交互记录；实际检查表达式与替身条件见各入口证据。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/distributed/weight_transfer/sharded_rdt_trainer.py",
+            "line": 1063,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/distributed/weight_transfer/sharded_rdt_trainer.py",
+            "line": 1106,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/distributed/weight_transfer/sharded_rdt_trainer.py",
+            "line": 1201,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/distributed/weight_transfer/sharded_rdt_trainer.py",
+            "line": 1227,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sampling.draft_logit_snapshot",
+      "name": "草稿概率缓存保留对应步的输入 logits",
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "phase": "sampling",
+      "state_scope": "shared",
+      "conditions": [
+        "numeric_format",
+        "execution_layout",
+        "speculative_mode"
+      ],
+      "property": "草稿采样缓存按请求和步数保存温度变换前的输入 logits 位值；跨步写入不覆盖既有列，宽度与布局满足目标缓存要求。",
+      "observable": [
+        "logits_bits",
+        "cache_columns",
+        "cache_strides",
+        "untouched_values",
+        "rejection"
+      ],
+      "oracle": "逐项比较测试声明的值、结构、异常或交互记录；实际检查表达式与替身条件见各入口证据。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/worker/gpu/sample/gumbel.py",
+            "line": 349,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "compute.warmup_execution_policy",
+      "name": "计算预热并发策略与执行上下文隔离",
+      "kind": "obligation",
+      "phase": "model_execution",
+      "state_scope": "deployment",
+      "conditions": [
+        "kernel_selection_profile",
+        "execution_layout"
+      ],
+      "property": "计算预热或调优按声明的并发、串行及分组策略执行；预热退出或失败后其编译上下文不残留到正式执行，已预热实例按计划复用，正式执行首次遇到的新实例按运行时策略编译。",
+      "observable": [
+        "compile_thread",
+        "active_compile_context",
+        "warmup_calls",
+        "runtime_calls",
+        "compile_count",
+        "failure"
+      ],
+      "oracle": "记录编译/调优调用与线程身份，使用同步屏障或异常注入检查实际并发及退出；核对预热后缓存命中与运行时首次编译，并声明编译器和计算内核的替身范围。",
+      "framework_scope": [
+        "vllm"
+      ],
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/model_executor/warmup/jit_warmup_triton_helper.py",
+            "line": 237,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/model_executor/warmup/jit_warmup_triton_helper.py",
+            "line": 270,
+            "kind": "source"
+          },
+          {
+            "path": "tests/model_executor/test_jit_warmup_triton_launcher.py",
+            "line": 127,
+            "kind": "existing_test"
+          }
+        ]
+      }
+    },
+    {
+      "id": "model.dummy_parameter_initialization",
+      "name": "占位参数初始化遵守格式与中性值",
+      "kind": "obligation",
+      "phase": "model_execution",
+      "state_scope": "deployment",
+      "conditions": [
+        "parameter_lifecycle",
+        "numeric_format",
+        "parameter_mapping"
+      ],
+      "property": "用于无真实检查点启动或性能探针的占位参数按类型、名称与显式中性值初始化：浮点取值满足声明的有限范围，编码缩放量和打包字节保持可用且确定，标记的归一化参数取中性值，声明保留的宽整数索引不改写。",
+      "observable": [
+        "initialized_parameter",
+        "encoded_bytes",
+        "finite_fraction",
+        "nonzero_fraction",
+        "deterministic_values",
+        "preserved_indices"
+      ],
+      "oracle": "按初始化策略核对取值域、缩放指数字节、中性常数及重复结果，并比较保留项初始化前后的值；占位值不构成真实模型精度证据。",
+      "framework_scope": [
+        "vllm"
+      ],
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/model_executor/model_loader/weight_utils.py",
+            "line": 1682,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/model_executor/layers/layernorm.py",
+            "line": 70,
+            "kind": "source"
+          },
+          {
+            "path": "tests/model_executor/test_weight_utils.py",
+            "line": 420,
+            "kind": "existing_test"
+          }
+        ]
+      }
+    },
+    {
+      "id": "model.checkpoint_shard_artifact_binding",
+      "name": "分片检查点文件与执行rank对应",
+      "kind": "obligation",
+      "phase": "model_execution",
+      "state_scope": "deployment",
+      "conditions": [
+        "parallel_topology",
+        "parameter_mapping",
+        "parameter_lifecycle"
+      ],
+      "property": "分片检查点的文件集合按声明的并行rank和part编号命名及分卷，模板须区分所有活动rank维；别名和子张量按共享存储关系去重，不安全或未知模板在写入前拒绝并保留既有文件。",
+      "observable": [
+        "shard_filename",
+        "part_sequence",
+        "retained_tensor_keys",
+        "tensor_identity",
+        "existing_file_bytes",
+        "rejection"
+      ],
+      "oracle": "给定rank拓扑和模板逐项比较名称及分卷序列，用共享/切片张量核对序列化集合，并在无效模板条件下检查写入前后文件状态；记录保存函数是否替身，名称检查不替代权重内容校验。",
+      "framework_scope": [
+        "vllm"
+      ],
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/model_executor/model_loader/sharded_state_loader.py",
+            "line": 70,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/model_executor/model_loader/sharded_state_loader.py",
+            "line": 269,
+            "kind": "source"
+          },
+          {
+            "path": "tests/model_executor/model_loader/test_sharded_state_loader.py",
+            "line": 375,
+            "kind": "existing_test"
+          }
+        ]
+      }
+    },
+    {
+      "id": "output.parser_input_contract",
+      "name": "解析配置与必需输入校验",
+      "kind": "obligation",
+      "phase": "output",
+      "state_scope": "request",
+      "conditions": [
+        "output_parse_profile"
+      ],
+      "property": "解析器检查模板字段与版本的支持范围、必需的提示前缀和结果字段，按声明规则拒绝不完整或不合法输入。",
+      "observable": [
+        "exception_type",
+        "exception_message",
+        "required_fields"
+      ],
+      "oracle": "构造缺失前缀、无锚点模板、非法变换和缺失必需输出字段，检查异常类型与提示；具体条件按每项断言记录。",
+      "framework_scope": [
+        "vllm"
+      ],
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/parser/chat_parsing/response_templates.py",
+            "line": 129,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/parser/chat_parsing/response_templates.py",
+            "line": 147,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/parser/chat_parsing/response_templates.py",
+            "line": 219,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/parser/chat_parsing/response_parser.py",
+            "line": 137,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/parser/chat_parsing/response_parser.py",
+            "line": 211,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "diagnostic.analytic_work_estimate",
+      "name": "模型计算量与内存流量估算",
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "phase": "diagnostic",
+      "state_scope": "diagnostic_artifact",
+      "conditions": [
+        "diagnostic_record_contract",
+        "parallel_topology",
+        "numeric_format",
+        "request_phase"
+      ],
+      "property": "根据声明模型结构、并行配置、计算精度与执行上下文生成FLOPs和读写字节估算，分项聚合及变更比例符合指定公式；不能表达的组件按约定拒绝。",
+      "observable": [
+        "parsed_fields",
+        "flops_breakdown",
+        "read_bytes",
+        "write_bytes",
+        "per_rank_average",
+        "invalid_component"
+      ],
+      "oracle": "逐项比较测试声明的值、结构、异常或交互记录；实际检查表达式与替身条件见各入口证据。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/metrics/perf.py",
+            "line": 333,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/metrics/perf.py",
+            "line": 407,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/metrics/perf.py",
+            "line": 491,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/metrics/perf.py",
+            "line": 773,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/metrics/perf.py",
+            "line": 1134,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/metrics/perf.py",
+            "line": 1465,
+            "kind": "source"
+          }
+        ]
+      },
+      "semantic_domain": "diagnostic_support"
+    },
+    {
+      "id": "diagnostic.request_statistics_record",
+      "name": "请求统计记录与来源累加",
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "phase": "diagnostic",
+      "state_scope": "diagnostic_artifact",
+      "conditions": [
+        "diagnostic_record_contract",
+        "request_phase",
+        "cache_state"
+      ],
+      "property": "请求与调度统计保留声明字段，缓存来源、抢占和计算量分类按规则累加；输出状态更新和序列化保留对应请求记录。",
+      "observable": [
+        "token_counts",
+        "hit_sources",
+        "request_id",
+        "scheduler_details",
+        "watermark_flag",
+        "serialized_fields"
+      ],
+      "oracle": "逐项比较测试声明的值、结构、异常或交互记录；实际检查表达式与替身条件见各入口证据。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/metrics/stats.py",
+            "line": 121,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/metrics/stats.py",
+            "line": 308,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/metrics/stats.py",
+            "line": 426,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/v1/metrics/stats.py",
+            "line": 474,
+            "kind": "source"
+          }
+        ]
+      },
+      "semantic_domain": "diagnostic_support"
+    },
+    {
+      "id": "deployment.numa_process_binding",
+      "name": "进程NUMA绑定的拓扑解析与回退",
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "phase": "preflight",
+      "state_scope": "shared",
+      "conditions": [
+        "deployment_configuration",
+        "parallel_topology",
+        "configuration_resolution_profile"
+      ],
+      "property": "根据显式设置或可检测的本地设备拓扑生成CPU与内存绑定参数，自动策略遵守环境可用性与现有亲和限制；拒绝的策略降级并记录实际配置，子进程上下文退出后恢复环境和解释器。",
+      "observable": [
+        "numactl_args",
+        "numa_nodes",
+        "effective_bind_flag",
+        "environment",
+        "spawn_executable",
+        "probe_failure"
+      ],
+      "oracle": "逐项比较测试声明的值、结构、异常或交互记录；实际检查表达式与替身条件见各入口证据。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/utils/numa_utils.py",
+            "line": 60,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/utils/numa_utils.py",
+            "line": 144,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/utils/numa_utils.py",
+            "line": 346,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/utils/numa_utils.py",
+            "line": 421,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/utils/numa_utils.py",
+            "line": 463,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/utils/numa_utils.py",
+            "line": 558,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/utils/numa_utils.py",
+            "line": 637,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "response.stream_state_contract",
+      "name": "流式响应状态的连续性与边界",
+      "kind": "obligation",
+      "phase": "output",
+      "state_scope": "request",
+      "conditions": [
+        "request_phase",
+        "execution_layout"
+      ],
+      "property": "分块响应携带的解码窗口、偏移、分块长度及上下文保持一致；空增量保留必要状态，非法偏移或长度组合按契约拒绝，声明有界的窗口不超出对应上限。解析重放历史与有界解码窗口分别记录，不能混为同一种状态。",
+      "observable": [
+        "decode_window",
+        "offsets",
+        "chunk_lengths",
+        "history",
+        "validation_error"
+      ],
+      "oracle": "检查具体输入下状态字段、序列化往返及输出关系，比较非法构造的异常和声明窗口上界。样例窗口检查不作为所有输入下的复杂度证明。",
+      "framework_scope": [
+        "vllm"
+      ],
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/entrypoints/scale_out/token_in_token_out/protocol.py",
+            "line": 813,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/renderers/online_derenderer.py",
+            "line": 539,
+            "kind": "source"
+          },
+          {
+            "path": "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+            "line": 602,
+            "kind": "existing_test"
+          }
+        ]
+      }
+    },
+    {
+      "id": "execution.host_executor_dispatch",
+      "name": "主机计算按约定交给执行线程",
+      "kind": "obligation",
+      "phase": "output",
+      "state_scope": "shared",
+      "conditions": [
+        "execution_layout"
+      ],
+      "property": "指定的主机计算在配置的执行线程运行，避免占用负责响应的事件循环线程。",
+      "observable": [
+        "execution_thread",
+        "executor_thread",
+        "event_loop_thread"
+      ],
+      "oracle": "记录真实调用线程身份并与执行线程及事件循环线程比较；该身份检查不证明性能收益。",
+      "framework_scope": [
+        "vllm"
+      ],
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/renderers/online_derenderer.py",
+            "line": 143,
+            "kind": "source"
+          },
+          {
+            "path": "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+            "line": 986,
+            "kind": "existing_test"
+          }
+        ]
+      }
+    },
+    {
+      "id": "deployment.computation_config_identity",
+      "name": "计算配置标识随有效配置变化",
+      "kind": "obligation",
+      "phase": "preflight",
+      "state_scope": "deployment",
+      "conditions": [
+        "configuration_resolution_profile"
+      ],
+      "property": "计算产物使用的配置标识包含影响目标计算的字段，并排除该计算范围外的字段；相同配置保持相同标识，声明会改变目标计算的配置产生不同标识。",
+      "observable": [
+        "configuration_hash",
+        "changed_fields",
+        "unchanged_fields"
+      ],
+      "oracle": "按明确的字段变更逐对比较标识相同或不同；区分模型与编码器的计算范围，不将若干样例比较当作无哈希碰撞证明。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/config/multimodal.py",
+            "line": 673,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/config/model.py",
+            "line": 468,
+            "kind": "source"
+          },
+          {
+            "path": "tests/config/test_multimodal_config.py",
+            "line": 58,
+            "kind": "existing_test"
+          }
+        ]
+      },
+      "framework_scope": [
+        "vllm"
+      ]
+    },
+    {
+      "id": "input.embedding_decode_contract",
+      "name": "外部向量读取的表示与边界",
+      "property": "外部向量按声明格式解码为张量，类型、形状、精度转换及值保持对应；非法稀疏索引、非张量数据、模型维度不匹配与超过配置解码容量的输入被拒绝。不同模态允许的表示及检查范围作为条件保留。",
+      "kind": "obligation",
+      "phase": "ingress",
+      "state_scope": "request",
+      "conditions": [
+        "request_api_kind",
+        "input_error_profile",
+        "deployment_configuration"
+      ],
+      "observable": [
+        "decoded_tensor",
+        "shape",
+        "dtype",
+        "sparse_layout",
+        "value",
+        "validation_error",
+        "declared_dense_bytes"
+      ],
+      "oracle": "比较解码字段或参考张量，并对边界输入检查异常。仅检查形状的测试不作为数值一致证据；索引合法性与稠密化容量分别检查。",
+      "framework_scope": [
+        "vllm"
+      ],
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/utils/sparse_utils.py",
+            "line": 37,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/renderers/embed_utils.py",
+            "line": 41,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/multimodal/media/image.py",
+            "line": 150,
+            "kind": "source"
+          },
+          {
+            "path": "tests/renderers/test_sparse_tensor_validation.py",
+            "line": 113,
+            "kind": "existing_test"
+          }
+        ]
+      },
+      "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+    },
+    {
+      "id": "sampling.modifier_admissibility",
+      "name": "自定义采样修饰器参数与支持范围",
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "phase": "sampling",
+      "state_scope": "shared",
+      "conditions": [
+        "sampling_mode",
+        "logit_modifier_profile",
+        "speculative_mode"
+      ],
+      "property": "自定义修饰器校验参数类型、数值边界、未知字段和执行配置兼容性，在不支持的请求或展开布局进入计算前拒绝。",
+      "observable": [
+        "validation_error",
+        "accepted_parameters",
+        "unchanged_logits"
+      ],
+      "oracle": "逐项比较测试声明的值、结构、异常或交互记录；实际检查表达式与替身条件见各入口证据。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "examples/features/logits_processor/dry.py",
+            "line": 570,
+            "kind": "source"
+          },
+          {
+            "path": "examples/features/logits_processor/dry.py",
+            "line": 499,
+            "kind": "source"
+          },
+          {
+            "path": "examples/features/logits_processor/dry.py",
+            "line": 709,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sampling.modifier_state_initialization",
+      "name": "采样修饰状态的默认值与请求更新",
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "phase": "sampling",
+      "state_scope": "shared",
+      "conditions": [
+        "sampling_mode",
+        "logit_modifier_profile",
+        "sampling_batch_transition_context"
+      ],
+      "property": "修饰器初始化及请求登记解析默认参数、开关和共享常量；复用槽位时清除旧请求条件，缺失外部解析条件按声明回退并记录提示。",
+      "observable": [
+        "enabled_rows",
+        "breaker_ids",
+        "default_identity",
+        "warnings"
+      ],
+      "oracle": "逐项比较测试声明的值、结构、异常或交互记录；实际检查表达式与替身条件见各入口证据。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "examples/features/logits_processor/dry.py",
+            "line": 499,
+            "kind": "source"
+          },
+          {
+            "path": "examples/features/logits_processor/dry.py",
+            "line": 659,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sampling.breaker_token_resolution",
+      "name": "采样中断文本映射到词表token集合",
+      "kind": "obligation",
+      "framework_scope": [
+        "vllm"
+      ],
+      "phase": "sampling",
+      "state_scope": "shared",
+      "conditions": [
+        "tokenization_profile",
+        "logit_modifier_profile"
+      ],
+      "property": "将声明中断字符串映射到包含其文本的token集合；范围含新增token，结果去重有序，缓存返回值不被调用者修改污染。",
+      "observable": [
+        "token_ids",
+        "index_keys",
+        "cached_results"
+      ],
+      "oracle": "逐项比较测试声明的值、结构、异常或交互记录；实际检查表达式与替身条件见各入口证据。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "examples/features/logits_processor/dry.py",
+            "line": 427,
+            "kind": "source"
+          },
+          {
+            "path": "examples/features/logits_processor/dry.py",
+            "line": 443,
+            "kind": "source"
+          }
+        ]
+      }
+    },
+    {
+      "id": "compute.fusion_pattern_binding",
+      "name": "融合候选与计算数据流对应",
+      "kind": "obligation",
+      "phase": "model_execution",
+      "state_scope": "deployment",
+      "conditions": [
+        "kernel_selection_profile",
+        "execution_layout",
+        "numeric_format"
+      ],
+      "property": "融合候选由原计算数据流、模块结构及每实例形状决定；识别出的投影、路由、共享分支与归一化参数对应原计算，未识别或不满足约束的结构按声明规则拒绝或回退。",
+      "observable": [
+        "matched_candidate",
+        "projection_names",
+        "router_metadata",
+        "normalization_parameters",
+        "eligibility",
+        "fallback"
+      ],
+      "oracle": "构造具有明确连接关系、尺寸及模块状态的计算图，逐项对照匹配字段和接受/拒绝结果；仅结构断言不视为融合后数值等价证据。",
+      "framework_scope": [
+        "vllm"
+      ],
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/model_executor/models/transformers/fusers/qkv.py",
+            "line": 83,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/model_executor/models/transformers/fusers/rms_norm.py",
+            "line": 161,
+            "kind": "source"
+          },
+          {
+            "path": "tests/models/transformers/fusers/test_moe.py",
+            "line": 418,
+            "kind": "existing_test"
+          }
+        ]
+      }
+    },
+    {
+      "id": "compute.fusion_rewrite_structure",
+      "name": "融合改写结构与适用约束",
+      "kind": "obligation",
+      "phase": "model_execution",
+      "state_scope": "deployment",
+      "conditions": [
+        "kernel_selection_profile",
+        "execution_layout"
+      ],
+      "property": "融合改写将被选计算替换为声明的合并调用和切分表达式，保留未消费的控制流与名称语义；仅在已证明条件下折叠存在性判断，输入重绑定、别名修改或不安全引用使改写拒绝。",
+      "observable": [
+        "rewritten_ast",
+        "call_names",
+        "split_expression",
+        "preserved_control_flow",
+        "rejection"
+      ],
+      "oracle": "比较改写前后AST、调用名称及常量表达式，并对重绑定、原地写入、共享视图或非存在性引用验证拒绝；数值等价由单独执行关系测试验证。",
+      "framework_scope": [
+        "vllm"
+      ],
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/model_executor/models/transformers/fx_utils.py",
+            "line": 409,
+            "kind": "source"
+          },
+          {
+            "path": "vllm/model_executor/models/transformers/fusers/base.py",
+            "line": 189,
+            "kind": "source"
+          },
+          {
+            "path": "tests/models/transformers/fusers/test_linear.py",
+            "line": 1005,
+            "kind": "existing_test"
+          }
+        ]
+      }
+    },
+    {
+      "id": "deployment.configuration_value_contract",
+      "name": "部署配置值的表示与约束",
+      "property": "配置值按接口声明转换为对应字段或枚举，并对不合法的取值、结构或组合给出约定异常。具体规则与验证所在边界分别保留。",
+      "observable": [
+        "effective_value",
+        "converted_enum",
+        "exception_type",
+        "exception_message"
+      ],
+      "oracle": "逐项检查字段、枚举及异常；不由字段读取推断服务运行行为。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "sgl-model-gateway/bindings/python/src/sglang_router/router.py",
+            "line": 22,
+            "kind": "source"
+          },
+          {
+            "path": "sgl-model-gateway/bindings/python/src/sglang_router/router.py",
+            "line": 39,
+            "kind": "source"
+          },
+          {
+            "path": "sgl-model-gateway/bindings/python/src/sglang_router/router_args.py",
+            "line": 1110,
+            "kind": "source"
+          },
+          {
+            "path": "sgl-model-gateway/bindings/python/src/lib.rs",
+            "line": 243,
+            "kind": "source"
+          }
+        ]
+      },
+      "kind": "obligation",
+      "phase": "preflight",
+      "state_scope": "deployment",
+      "conditions": [
+        "deployment_configuration",
+        "configuration_resolution_profile"
+      ],
+      "framework_scope": [
+        "sglang"
+      ]
+    },
+    {
+      "id": "deployment.service_constructor_contract",
+      "name": "服务构造与启动调用约定",
+      "property": "部署入口将生效参数传入服务构造器，并按启动流程调用实例；构造或启动异常按接口约定返回或传播；清理阶段按进程存活状态发出终止或强制结束调用。",
+      "observable": [
+        "constructor_arguments",
+        "constructed_type",
+        "start_call",
+        "propagated_error",
+        "diagnostic_message",
+        "cleanup_signal_calls"
+      ],
+      "oracle": "区分真实构造器与测试替身，分别检查参数、构造结果类型、调用次数或异常，不由构造成功推断服务已可用。",
+      "evidence": {
+        "sglang": [
+          {
+            "path": "sgl-model-gateway/bindings/python/src/sglang_router/launch_router.py",
+            "line": 21,
+            "kind": "source"
+          },
+          {
+            "path": "sgl-model-gateway/bindings/python/src/sglang_router/router.py",
+            "line": 230,
+            "kind": "source"
+          },
+          {
+            "path": "sgl-model-gateway/bindings/python/src/sglang_router/router.py",
+            "line": 336,
+            "kind": "source"
+          },
+          {
+            "path": "sgl-model-gateway/bindings/python/src/lib.rs",
+            "line": 766,
+            "kind": "source"
+          },
+          {
+            "path": "sgl-model-gateway/bindings/python/src/sglang_router/launch_server.py",
+            "line": 86,
+            "kind": "source"
+          },
+          {
+            "path": "sgl-model-gateway/bindings/python/src/sglang_router/launch_server.py",
+            "line": 129,
+            "kind": "source"
+          }
+        ]
+      },
+      "kind": "obligation",
+      "phase": "preflight",
+      "state_scope": "deployment",
+      "conditions": [
+        "deployment_configuration",
+        "configuration_resolution_profile"
+      ],
+      "framework_scope": [
+        "sglang"
+      ]
     }
   ],
   "relations": [

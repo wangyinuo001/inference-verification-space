@@ -1,0 +1,106 @@
+[
+  {
+    "id": "deployment.configuration_value_contract",
+    "name": "部署配置值的表示与约束",
+    "property": "配置值按接口声明转换为对应字段或枚举，并对不合法的取值、结构或组合给出约定异常。具体规则与验证所在边界分别保留。",
+    "observable": [
+      "effective_value",
+      "converted_enum",
+      "exception_type",
+      "exception_message"
+    ],
+    "oracle": "逐项检查字段、枚举及异常；不由字段读取推断服务运行行为。",
+    "evidence": {
+      "sglang": [
+        {
+          "path": "sgl-model-gateway/bindings/python/src/sglang_router/router.py",
+          "line": 22,
+          "kind": "source"
+        },
+        {
+          "path": "sgl-model-gateway/bindings/python/src/sglang_router/router.py",
+          "line": 39,
+          "kind": "source"
+        },
+        {
+          "path": "sgl-model-gateway/bindings/python/src/sglang_router/router_args.py",
+          "line": 1110,
+          "kind": "source"
+        },
+        {
+          "path": "sgl-model-gateway/bindings/python/src/lib.rs",
+          "line": 243,
+          "kind": "source"
+        }
+      ]
+    },
+    "kind": "obligation",
+    "phase": "preflight",
+    "state_scope": "deployment",
+    "conditions": [
+      "deployment_configuration",
+      "configuration_resolution_profile"
+    ],
+    "framework_scope": [
+      "sglang"
+    ]
+  },
+  {
+    "id": "deployment.service_constructor_contract",
+    "name": "服务构造与启动调用约定",
+    "property": "部署入口将生效参数传入服务构造器，并按启动流程调用实例；构造或启动异常按接口约定返回或传播；清理阶段按进程存活状态发出终止或强制结束调用。",
+    "observable": [
+      "constructor_arguments",
+      "constructed_type",
+      "start_call",
+      "propagated_error",
+      "diagnostic_message",
+      "cleanup_signal_calls"
+    ],
+    "oracle": "区分真实构造器与测试替身，分别检查参数、构造结果类型、调用次数或异常，不由构造成功推断服务已可用。",
+    "evidence": {
+      "sglang": [
+        {
+          "path": "sgl-model-gateway/bindings/python/src/sglang_router/launch_router.py",
+          "line": 21,
+          "kind": "source"
+        },
+        {
+          "path": "sgl-model-gateway/bindings/python/src/sglang_router/router.py",
+          "line": 230,
+          "kind": "source"
+        },
+        {
+          "path": "sgl-model-gateway/bindings/python/src/sglang_router/router.py",
+          "line": 336,
+          "kind": "source"
+        },
+        {
+          "path": "sgl-model-gateway/bindings/python/src/lib.rs",
+          "line": 766,
+          "kind": "source"
+        },
+        {
+          "path": "sgl-model-gateway/bindings/python/src/sglang_router/launch_server.py",
+          "line": 86,
+          "kind": "source"
+        },
+        {
+          "path": "sgl-model-gateway/bindings/python/src/sglang_router/launch_server.py",
+          "line": 129,
+          "kind": "source"
+        }
+      ]
+    },
+    "kind": "obligation",
+    "phase": "preflight",
+    "state_scope": "deployment",
+    "conditions": [
+      "deployment_configuration",
+      "configuration_resolution_profile"
+    ],
+    "framework_scope": [
+      "sglang"
+    ]
+  }
+]

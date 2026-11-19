@@ -1,0 +1,92 @@
+[
+  {
+    "id": "deployment.computation_config_identity",
+    "name": "计算配置标识随有效配置变化",
+    "kind": "obligation",
+    "phase": "preflight",
+    "state_scope": "deployment",
+    "conditions": [
+      "configuration_resolution_profile"
+    ],
+    "property": "计算产物使用的配置标识包含影响目标计算的字段，并排除该计算范围外的字段；相同配置保持相同标识，声明会改变目标计算的配置产生不同标识。",
+    "observable": [
+      "configuration_hash",
+      "changed_fields",
+      "unchanged_fields"
+    ],
+    "oracle": "按明确的字段变更逐对比较标识相同或不同；区分模型与编码器的计算范围，不将若干样例比较当作无哈希碰撞证明。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/config/multimodal.py",
+          "line": 673,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/config/model.py",
+          "line": 468,
+          "kind": "source"
+        },
+        {
+          "path": "tests/config/test_multimodal_config.py",
+          "line": 58,
+          "kind": "existing_test"
+        }
+      ]
+    },
+    "framework_scope": [
+      "vllm"
+    ]
+  },
+  {
+    "id": "input.embedding_decode_contract",
+    "name": "外部向量读取的表示与边界",
+    "property": "外部向量按声明格式解码为张量，类型、形状、精度转换及值保持对应；非法稀疏索引、非张量数据、模型维度不匹配与超过配置解码容量的输入被拒绝。不同模态允许的表示及检查范围作为条件保留。",
+    "kind": "obligation",
+    "phase": "ingress",
+    "state_scope": "request",
+    "conditions": [
+      "request_api_kind",
+      "input_error_profile",
+      "deployment_configuration"
+    ],
+    "observable": [
+      "decoded_tensor",
+      "shape",
+      "dtype",
+      "sparse_layout",
+      "value",
+      "validation_error",
+      "declared_dense_bytes"
+    ],
+    "oracle": "比较解码字段或参考张量，并对边界输入检查异常。仅检查形状的测试不作为数值一致证据；索引合法性与稠密化容量分别检查。",
+    "framework_scope": [
+      "vllm"
+    ],
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/utils/sparse_utils.py",
+          "line": 37,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/renderers/embed_utils.py",
+          "line": 41,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/multimodal/media/image.py",
+          "line": 150,
+          "kind": "source"
+        },
+        {
+          "path": "tests/renderers/test_sparse_tensor_validation.py",
+          "line": 113,
+          "kind": "existing_test"
+        }
+      ]
+    },
+    "mapping_status": "使用已逐项审查的 Rust 合约；外部协议依赖映射到声明的公开入口，不推断其内部实现。"
+  }
+]

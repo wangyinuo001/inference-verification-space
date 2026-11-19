@@ -1,0 +1,9 @@
+{
+  "full_scope": 31968,
+  "new_reviewed_mappings": 287,
+  "proposed_unit_mappings_pending": 0,
+  "by_framework": {
+    "vllm": 287
+  },
+  "complete": false
+}

@@ -1,0 +1,3733 @@
+[
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/quantization/test_zen_da8w4.py",
+      "test_da8w4_eligible_for_symmetric_bf16_layer",
+      "209"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7",
+    "oracle_source_sha256": {
+      "tests/kernels/quantization/test_zen_da8w4.py": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/quantization/test_zen_da8w4.py",
+      "test_da8w4_not_eligible",
+      "230"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7",
+    "oracle_source_sha256": {
+      "tests/kernels/quantization/test_zen_da8w4.py": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/quantization/test_zen_da8w4.py",
+      "test_da8w4_not_eligible_when_env_disabled",
+      "241"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7",
+    "oracle_source_sha256": {
+      "tests/kernels/quantization/test_zen_da8w4.py": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/quantization/test_zen_da8w4.py",
+      "test_da8w4_process_weights_layout",
+      "257"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7",
+    "oracle_source_sha256": {
+      "tests/kernels/quantization/test_zen_da8w4.py": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/quantization/test_zen_da8w4.py",
+      "test_da8w4_falls_back_to_w4a16_when_op_missing",
+      "305"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7",
+    "oracle_source_sha256": {
+      "tests/kernels/quantization/test_zen_da8w4.py": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/quantization/test_zen_da8w4.py",
+      "test_can_implement_requires_zen_cpu",
+      "316"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7",
+    "oracle_source_sha256": {
+      "tests/kernels/quantization/test_zen_da8w4.py": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/quantization/test_zen_da8w4.py",
+      "test_can_implement_accepts_shapes_cpuwna16_rejects",
+      "327"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7",
+    "oracle_source_sha256": {
+      "tests/kernels/quantization/test_zen_da8w4.py": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/quantization/test_zen_da8w4.py",
+      "test_can_implement_group_size_must_divide_k",
+      "370"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7",
+    "oracle_source_sha256": {
+      "tests/kernels/quantization/test_zen_da8w4.py": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/quantization/test_zen_da8w4.py",
+      "test_zen_cpu_first_in_cpu_backend_priority",
+      "424"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7",
+    "oracle_source_sha256": {
+      "tests/kernels/quantization/test_zen_da8w4.py": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/quantization/test_zen_da8w4.py",
+      "test_zen_cpu_process_weights_layout",
+      "432"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7",
+    "oracle_source_sha256": {
+      "tests/kernels/quantization/test_zen_da8w4.py": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/quantization/test_zen_da8w4.py",
+      "test_zen_cpu_repack_is_value_exact",
+      "452"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7",
+    "oracle_source_sha256": {
+      "tests/kernels/quantization/test_zen_da8w4.py": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/quantization/test_zen_da8w4.py",
+      "test_zen_cpu_int8_decode_keeps_full_width_values",
+      "471"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7",
+    "oracle_source_sha256": {
+      "tests/kernels/quantization/test_zen_da8w4.py": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/quantization/test_zen_da8w4.py",
+      "test_zen_cpu_num_bits_gating",
+      "532"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7",
+    "oracle_source_sha256": {
+      "tests/kernels/quantization/test_zen_da8w4.py": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/quantization/test_zen_da8w4.py",
+      "test_zen_cpu_rejects_unknown_checkpoint_format",
+      "544"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7",
+    "oracle_source_sha256": {
+      "tests/kernels/quantization/test_zen_da8w4.py": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/quantization/test_zen_da8w4.py",
+      "test_zen_cpu_group_size_gating",
+      "564"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7",
+    "oracle_source_sha256": {
+      "tests/kernels/quantization/test_zen_da8w4.py": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/quantization/test_zen_da8w4.py",
+      "test_zen_cpu_rejects_zero_points_but_takes_bias",
+      "580"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7",
+    "oracle_source_sha256": {
+      "tests/kernels/quantization/test_zen_da8w4.py": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/quantization/test_zen_da8w4.py",
+      "test_zen_cpu_rejects_moe_wna16_layout",
+      "594"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7",
+    "oracle_source_sha256": {
+      "tests/kernels/quantization/test_zen_da8w4.py": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/quantization/test_zen_da8w4.py",
+      "test_zen_cpu_disabled_by_env",
+      "617"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7",
+    "oracle_source_sha256": {
+      "tests/kernels/quantization/test_zen_da8w4.py": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/quantization/test_zen_da8w4.py",
+      "test_zen_cpu_backend_maps_to_experts_class",
+      "630"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7",
+    "oracle_source_sha256": {
+      "tests/kernels/quantization/test_zen_da8w4.py": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/quantization/test_zen_da8w4.py",
+      "test_zen_experts_support_predicates",
+      "640"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7",
+    "oracle_source_sha256": {
+      "tests/kernels/quantization/test_zen_da8w4.py": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/quantization/test_zen_da8w4.py",
+      "test_zen_experts_score_every_routing_method_they_accept",
+      "673"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7",
+    "oracle_source_sha256": {
+      "tests/kernels/quantization/test_zen_da8w4.py": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/quantization/test_zen_da8w4.py",
+      "test_zen_experts_take_routing_config_off_the_layer",
+      "696"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7",
+    "oracle_source_sha256": {
+      "tests/kernels/quantization/test_zen_da8w4.py": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/quantization/test_zen_da8w4.py",
+      "test_swigluoai_perm_only_for_zen_swigluoai",
+      "754"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7",
+    "oracle_source_sha256": {
+      "tests/kernels/quantization/test_zen_da8w4.py": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/quantization/test_zen_da8w4.py",
+      "test_swigluoai_perm_interleaves_weights_scales_and_bias",
+      "764"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7",
+    "oracle_source_sha256": {
+      "tests/kernels/quantization/test_zen_da8w4.py": "f8993ea222416a9ac2ca2726301d6adb38840ac976dd26d08d02b839592416a7"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/kernels/test_b12x_linear.py",
+      "test_b12x_backend_registration_priority_and_selection",
+      "102"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28",
+    "oracle_source_sha256": {
+      "tests/model_executor/kernels/test_b12x_linear.py": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/kernels/test_b12x_linear.py",
+      "test_b12x_module_lookup_is_dynamo_safe",
+      "136"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28",
+    "oracle_source_sha256": {
+      "tests/model_executor/kernels/test_b12x_linear.py": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/kernels/test_b12x_linear.py",
+      "test_b12x_tensor_fp8_can_implement_supported_config",
+      "157"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28",
+    "oracle_source_sha256": {
+      "tests/model_executor/kernels/test_b12x_linear.py": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/kernels/test_b12x_linear.py",
+      "test_b12x_block_fp8_checks_runtime_support",
+      "172"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28",
+    "oracle_source_sha256": {
+      "tests/model_executor/kernels/test_b12x_linear.py": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/kernels/test_b12x_linear.py",
+      "test_b12x_block_fp8_requires_matching_supported_dtypes",
+      "193"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28",
+    "oracle_source_sha256": {
+      "tests/model_executor/kernels/test_b12x_linear.py": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/kernels/test_b12x_linear.py",
+      "test_b12x_block_fp8_requires_aligned_features",
+      "222"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28",
+    "oracle_source_sha256": {
+      "tests/model_executor/kernels/test_b12x_linear.py": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/kernels/test_b12x_linear.py",
+      "test_b12x_tensor_fp8_process_weights_packs_modelopt_layout",
+      "243"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28",
+    "oracle_source_sha256": {
+      "tests/model_executor/kernels/test_b12x_linear.py": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/kernels/test_b12x_linear.py",
+      "test_b12x_tensor_fp8_apply_quantizes_and_uses_packed_weight",
+      "296"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28",
+    "oracle_source_sha256": {
+      "tests/model_executor/kernels/test_b12x_linear.py": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/kernels/test_b12x_linear.py",
+      "test_b12x_mxfp8_can_implement_supported_config",
+      "367"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28",
+    "oracle_source_sha256": {
+      "tests/model_executor/kernels/test_b12x_linear.py": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/kernels/test_b12x_linear.py",
+      "test_b12x_mxfp8_support_check_reports_missing_import",
+      "376"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28",
+    "oracle_source_sha256": {
+      "tests/model_executor/kernels/test_b12x_linear.py": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/kernels/test_b12x_linear.py",
+      "test_b12x_mxfp8_support_respects_runtime_probe",
+      "393"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28",
+    "oracle_source_sha256": {
+      "tests/model_executor/kernels/test_b12x_linear.py": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/kernels/test_b12x_linear.py",
+      "test_b12x_mxfp8_process_weights_packs_modelopt_layout",
+      "414"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28",
+    "oracle_source_sha256": {
+      "tests/model_executor/kernels/test_b12x_linear.py": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/kernels/test_b12x_linear.py",
+      "test_b12x_mxfp8_reload_reuses_packed_tensor_addresses",
+      "462"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28",
+    "oracle_source_sha256": {
+      "tests/model_executor/kernels/test_b12x_linear.py": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/kernels/test_b12x_linear.py",
+      "test_b12x_block_fp8_process_weights_keeps_native_block_layout",
+      "543"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28",
+    "oracle_source_sha256": {
+      "tests/model_executor/kernels/test_b12x_linear.py": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/kernels/test_b12x_linear.py",
+      "test_b12x_block_fp8_upcasts_e8m0_weight_scales",
+      "573"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28",
+    "oracle_source_sha256": {
+      "tests/model_executor/kernels/test_b12x_linear.py": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/kernels/test_b12x_linear.py",
+      "test_b12x_mxfp8_apply_uses_packed_weight",
+      "596"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28",
+    "oracle_source_sha256": {
+      "tests/model_executor/kernels/test_b12x_linear.py": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/kernels/test_b12x_linear.py",
+      "test_b12x_block_fp8_apply_uses_b12x_recipe_api",
+      "638"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28",
+    "oracle_source_sha256": {
+      "tests/model_executor/kernels/test_b12x_linear.py": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/kernels/test_b12x_linear.py",
+      "test_b12x_mxfp4_requires_dynamic_activations",
+      "676"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28",
+    "oracle_source_sha256": {
+      "tests/model_executor/kernels/test_b12x_linear.py": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/kernels/test_b12x_linear.py",
+      "test_b12x_fp4_processes_scale_and_preserves_loader",
+      "705"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28",
+    "oracle_source_sha256": {
+      "tests/model_executor/kernels/test_b12x_linear.py": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/kernels/test_b12x_linear.py",
+      "test_b12x_mxfp4_apply_calls_native_blockscaled_gemm",
+      "733"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28",
+    "oracle_source_sha256": {
+      "tests/model_executor/kernels/test_b12x_linear.py": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/kernels/test_b12x_linear.py",
+      "test_b12x_nvfp4_can_implement_supported_config",
+      "779"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28",
+    "oracle_source_sha256": {
+      "tests/model_executor/kernels/test_b12x_linear.py": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/kernels/test_b12x_linear.py",
+      "test_b12x_backend_selects_w4a16",
+      "786"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28",
+    "oracle_source_sha256": {
+      "tests/model_executor/kernels/test_b12x_linear.py": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/kernels/test_b12x_linear.py",
+      "test_b12x_nvfp4_apply_calls_native_blockscaled_gemm",
+      "809"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28",
+    "oracle_source_sha256": {
+      "tests/model_executor/kernels/test_b12x_linear.py": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/kernels/test_b12x_linear.py",
+      "test_b12x_nvfp4_w4a16_uses_weight_only_scale_and_a16_dispatch",
+      "865"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28",
+    "oracle_source_sha256": {
+      "tests/model_executor/kernels/test_b12x_linear.py": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/kernels/test_b12x_linear.py",
+      "test_b12x_nvfp4_w4a16_preserves_bf16_activations_under_graph_replay",
+      "924"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28",
+    "oracle_source_sha256": {
+      "tests/model_executor/kernels/test_b12x_linear.py": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/kernels/test_b12x_linear.py",
+      "test_b12x_block_quant_dense_compiled_graph",
+      "992"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28",
+    "oracle_source_sha256": {
+      "tests/model_executor/kernels/test_b12x_linear.py": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/kernels/test_b12x_linear.py",
+      "test_b12x_q8_embedding_graph",
+      "1041"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28",
+    "oracle_source_sha256": {
+      "tests/model_executor/kernels/test_b12x_linear.py": "c9aeef6a3ecb1649a67a69e5ce5cd4162f0aaf9c49b086722c6262e78bbd0c28"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_sharded_state_loader.py",
+      "test_filter_subtensors",
+      "36"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_sharded_state_loader.py": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_sharded_state_loader.py",
+      "test_load_weights_resolves_hf_repo_id",
+      "87"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_sharded_state_loader.py": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_sharded_state_loader.py",
+      "test_get_default_pattern",
+      "128"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_sharded_state_loader.py": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_sharded_state_loader.py",
+      "test_render_default_pattern_default_tp",
+      "134"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_sharded_state_loader.py": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_sharded_state_loader.py",
+      "test_render_default_pattern_default_pp",
+      "143"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_sharded_state_loader.py": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_sharded_state_loader.py",
+      "test_render_default_pattern_custom_tp_only",
+      "152"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_sharded_state_loader.py": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_sharded_state_loader.py",
+      "test_render_default_pattern_tp_only_with_pp_fails",
+      "163"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_sharded_state_loader.py": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_sharded_state_loader.py",
+      "test_render_default_pattern_pp_pattern_without_pp_fails",
+      "172"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_sharded_state_loader.py": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_sharded_state_loader.py",
+      "test_render_default_pattern_custom_pp",
+      "181"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_sharded_state_loader.py": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_sharded_state_loader.py",
+      "test_render_default_pattern_incomplete_custom_patterns_fail",
+      "209"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_sharded_state_loader.py": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_sharded_state_loader.py",
+      "test_render_default_pattern_no_rank_field_with_tp_fails",
+      "218"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_sharded_state_loader.py": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_sharded_state_loader.py",
+      "test_render_default_pattern_custom_pp_tp1_allows_pp_only",
+      "227"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_sharded_state_loader.py": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_sharded_state_loader.py",
+      "test_render_default_pattern_escaped_field_not_rank_field",
+      "255"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_sharded_state_loader.py": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_sharded_state_loader.py",
+      "test_render_default_pattern_tp_aliases_accepted",
+      "287"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_sharded_state_loader.py": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_sharded_state_loader.py",
+      "test_render_default_pattern_unsupported_field_fails",
+      "301"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_sharded_state_loader.py": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_sharded_state_loader.py",
+      "test_render_default_pattern_non_zero_ranks",
+      "318"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_sharded_state_loader.py": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_sharded_state_loader.py",
+      "test_render_default_pattern_part_wildcard",
+      "329"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_sharded_state_loader.py": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_sharded_state_loader.py",
+      "test_save_model_pp_aware_filenames",
+      "338"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_sharded_state_loader.py": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_sharded_state_loader.py",
+      "test_save_model_part_split",
+      "356"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_sharded_state_loader.py": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_sharded_state_loader.py",
+      "test_save_model_rejects_bad_pattern_before_overwrite",
+      "381"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_sharded_state_loader.py": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_sharded_state_loader.py",
+      "test_sharded_state_loader",
+      "441"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_sharded_state_loader.py": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_sharded_state_loader.py",
+      "test_sharded_state_loader_pp",
+      "626"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_sharded_state_loader.py": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_sharded_state_loader.py",
+      "test_sharded_state_loader_pp_tp",
+      "636"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_sharded_state_loader.py": "c466d8d1cda40d8d29e9b045528001ad7570ed06d8b4495b3d5157c24710813d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_jit_warmup_triton_launcher.py",
+      "test_triton_launcher_supports_compile_and_runtime_adapters",
+      "105"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_jit_warmup_triton_launcher.py": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_jit_warmup_triton_launcher.py",
+      "test_failed_parallel_warmup_does_not_leak_into_runtime",
+      "127"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_jit_warmup_triton_launcher.py": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_jit_warmup_triton_launcher.py",
+      "test_autotuning_warmup_stays_serial",
+      "149"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_jit_warmup_triton_launcher.py": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_jit_warmup_triton_launcher.py",
+      "test_registered_warmup_overlaps_kernels_and_runtime_stays_serial",
+      "172"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_jit_warmup_triton_launcher.py": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_jit_warmup_triton_launcher.py",
+      "test_triton_launcher_supports_cpu_function_wrappers",
+      "228"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_jit_warmup_triton_launcher.py": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_jit_warmup_triton_launcher.py",
+      "test_triton_kernel_decorator_returns_launcher",
+      "250"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_jit_warmup_triton_launcher.py": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_jit_warmup_triton_launcher.py",
+      "test_triton_kernel_decorator_without_triton",
+      "319"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_jit_warmup_triton_launcher.py": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_jit_warmup_triton_launcher.py",
+      "test_triton_kernel_decorator_exhausts_large_ranges_before_deduplication",
+      "339"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_jit_warmup_triton_launcher.py": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_jit_warmup_triton_launcher.py",
+      "test_triton_kernel_decorator_propagates_dispatch_assertions",
+      "368"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_jit_warmup_triton_launcher.py": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_jit_warmup_triton_launcher.py",
+      "test_triton_kernel_dispatch_uses_device_fake_tensors",
+      "390"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_jit_warmup_triton_launcher.py": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_jit_warmup_triton_launcher.py",
+      "test_triton_kernel_decorates_native_launchers",
+      "419"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_jit_warmup_triton_launcher.py": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_jit_warmup_triton_launcher.py",
+      "test_triton_warmup_inputs_expands_explicit_pointer_dtypes",
+      "453"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_jit_warmup_triton_launcher.py": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_jit_warmup_triton_launcher.py",
+      "test_warmup_pointer_specializes_like_the_live_tensor",
+      "484"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_jit_warmup_triton_launcher.py": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_jit_warmup_triton_launcher.py",
+      "test_warmup_pointer_range_survives_the_fake_tensor_fallback",
+      "514"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_jit_warmup_triton_launcher.py": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_jit_warmup_triton_launcher.py",
+      "test_triton_key_derivation_applies_wrappers_and_runtime_options",
+      "557"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_jit_warmup_triton_launcher.py": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_jit_warmup_triton_launcher.py",
+      "test_triton_key_derivation_covers_autotune_configs_and_jit_identity",
+      "594"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_jit_warmup_triton_launcher.py": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_jit_warmup_triton_launcher.py",
+      "test_compute_slot_mapping_uses_named_launcher_inputs",
+      "630"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_jit_warmup_triton_launcher.py": "f90bd09824fe7eb8260b35bd1c319a09d899f3baa6e2cb8aeb2aba0b064c51bd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_triton_dispatcher.py",
+      "test_override_patches_defining_module_and_warmup_owner",
+      "61"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "9492e498a5dd1ed6033cab331c7a0f1d93654edb0809612ce9b9e311b319f083",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_triton_dispatcher.py": "9492e498a5dd1ed6033cab331c7a0f1d93654edb0809612ce9b9e311b319f083"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_triton_dispatcher.py",
+      "test_override_forwards_positionally_for_mismatched_names",
+      "87"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "9492e498a5dd1ed6033cab331c7a0f1d93654edb0809612ce9b9e311b319f083",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_triton_dispatcher.py": "9492e498a5dd1ed6033cab331c7a0f1d93654edb0809612ce9b9e311b319f083"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_triton_dispatcher.py",
+      "test_override_covers_from_import_copies",
+      "106"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "9492e498a5dd1ed6033cab331c7a0f1d93654edb0809612ce9b9e311b319f083",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_triton_dispatcher.py": "9492e498a5dd1ed6033cab331c7a0f1d93654edb0809612ce9b9e311b319f083"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_triton_dispatcher.py",
+      "test_override_owner_launch_goes_through_impl",
+      "125"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "9492e498a5dd1ed6033cab331c7a0f1d93654edb0809612ce9b9e311b319f083",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_triton_dispatcher.py": "9492e498a5dd1ed6033cab331c7a0f1d93654edb0809612ce9b9e311b319f083"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_triton_dispatcher.py",
+      "test_override_forwards_grid_to_kernel_like_impl",
+      "143"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "9492e498a5dd1ed6033cab331c7a0f1d93654edb0809612ce9b9e311b319f083",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_triton_dispatcher.py": "9492e498a5dd1ed6033cab331c7a0f1d93654edb0809612ce9b9e311b319f083"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_triton_dispatcher.py",
+      "test_override_plain_impl_never_sees_grid",
+      "183"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "9492e498a5dd1ed6033cab331c7a0f1d93654edb0809612ce9b9e311b319f083",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_triton_dispatcher.py": "9492e498a5dd1ed6033cab331c7a0f1d93654edb0809612ce9b9e311b319f083"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_triton_dispatcher.py",
+      "test_override_delegates_warmup_to_impl",
+      "201"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "9492e498a5dd1ed6033cab331c7a0f1d93654edb0809612ce9b9e311b319f083",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_triton_dispatcher.py": "9492e498a5dd1ed6033cab331c7a0f1d93654edb0809612ce9b9e311b319f083"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_triton_dispatcher.py",
+      "test_override_warmup_noop_without_impl_warmup",
+      "226"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "9492e498a5dd1ed6033cab331c7a0f1d93654edb0809612ce9b9e311b319f083",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_triton_dispatcher.py": "9492e498a5dd1ed6033cab331c7a0f1d93654edb0809612ce9b9e311b319f083"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_triton_dispatcher.py",
+      "test_register_triton_kernel_swaps_raw_for_device_function",
+      "244"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "9492e498a5dd1ed6033cab331c7a0f1d93654edb0809612ce9b9e311b319f083",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_triton_dispatcher.py": "9492e498a5dd1ed6033cab331c7a0f1d93654edb0809612ce9b9e311b319f083"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_triton_dispatcher.py",
+      "test_register_non_triton_impl_is_wrapped",
+      "290"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "9492e498a5dd1ed6033cab331c7a0f1d93654edb0809612ce9b9e311b319f083",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_triton_dispatcher.py": "9492e498a5dd1ed6033cab331c7a0f1d93654edb0809612ce9b9e311b319f083"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_triton_dispatcher.py",
+      "test_register_kernel_auto_imports_defining_module",
+      "309"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "9492e498a5dd1ed6033cab331c7a0f1d93654edb0809612ce9b9e311b319f083",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_triton_dispatcher.py": "9492e498a5dd1ed6033cab331c7a0f1d93654edb0809612ce9b9e311b319f083"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_triton_dispatcher.py",
+      "test_real_triton_kernel_override_end_to_end",
+      "367"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "9492e498a5dd1ed6033cab331c7a0f1d93654edb0809612ce9b9e311b319f083",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_triton_dispatcher.py": "9492e498a5dd1ed6033cab331c7a0f1d93654edb0809612ce9b9e311b319f083"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_triton_dispatcher.py",
+      "test_cpu_slot_mapping_override_forwards_kernel_arguments",
+      "392"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "9492e498a5dd1ed6033cab331c7a0f1d93654edb0809612ce9b9e311b319f083",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_triton_dispatcher.py": "9492e498a5dd1ed6033cab331c7a0f1d93654edb0809612ce9b9e311b319f083"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_weight_utils.py",
+      "test_attention_sink_loader_shapes",
+      "27"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_weight_utils.py": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_weight_utils.py",
+      "test_attention_sink_loader_rejects_invalid_shapes",
+      "60"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_weight_utils.py": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_weight_utils.py",
+      "test_attention_sink_loader_keeps_param_dtype",
+      "73"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_weight_utils.py": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_weight_utils.py",
+      "test_attention_sink_loader_accepts_cpu_checkpoint",
+      "84"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_weight_utils.py": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_weight_utils.py",
+      "test_make_attention_sink_registers_loader_and_padding",
+      "103"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_weight_utils.py": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_weight_utils.py",
+      "TestMaybeRemapKvScaleName::test_non_scale_name_unchanged",
+      "199"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_weight_utils.py": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_weight_utils.py",
+      "TestMaybeRemapKvScaleName::test_nvfp4_weight_scale_not_remapped",
+      "239"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_weight_utils.py": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_weight_utils.py",
+      "TestMaybeRemapKvScaleName::test_nvfp4_input_scale_not_remapped",
+      "245"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_weight_utils.py": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_weight_utils.py",
+      "TestMaybeRemapKvScaleName::test_missing_target_returns_none",
+      "251"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_weight_utils.py": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_weight_utils.py",
+      "test_checkpoint_weight_mapper_discards_serialized_g_idx",
+      "260"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_weight_utils.py": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_weight_utils.py",
+      "TestKvCacheScaleMapper::test_remap",
+      "345"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_weight_utils.py": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_weight_utils.py",
+      "TestKvCacheScaleMapper::test_idempotent",
+      "357"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_weight_utils.py": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_weight_utils.py",
+      "TestKvCacheScaleMapper::test_composes_with_qkv_mapper",
+      "362"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_weight_utils.py": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_weight_utils.py",
+      "test_dummy_fp8_weight_is_not_degenerate",
+      "406"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_weight_utils.py": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_weight_utils.py",
+      "test_dummy_e8m0_scale_is_fixed_exponent",
+      "420"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_weight_utils.py": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_weight_utils.py",
+      "test_dummy_packed_weight_gets_random_bytes",
+      "428"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_weight_utils.py": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_weight_utils.py",
+      "test_dummy_wide_integer_param_is_untouched",
+      "440"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_weight_utils.py": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/test_weight_utils.py",
+      "test_dummy_norm_weights_are_neutral",
+      "447"
+    ],
+    "review_file": "round15_work/compute/crosswalk.tsv",
+    "source_sha256": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4",
+    "oracle_source_sha256": {
+      "tests/model_executor/test_weight_utils.py": "4e11c466d236ce2691900ce11e0fde9d4d04de1df2ec645de391a23ea1147fe4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_eplb_algo.py",
+      "test_eplb_load_stats_reduce_across_ranks",
+      "16"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "9d8521e77d0c933674f04c8245dba7482fede1f6594bf4d04bdfb03d1cc42489",
+    "oracle_source_sha256": {
+      "tests/distributed/test_eplb_algo.py": "9d8521e77d0c933674f04c8245dba7482fede1f6594bf4d04bdfb03d1cc42489"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_eplb_algo.py",
+      "test_basic_rebalance",
+      "32"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "9d8521e77d0c933674f04c8245dba7482fede1f6594bf4d04bdfb03d1cc42489",
+    "oracle_source_sha256": {
+      "tests/distributed/test_eplb_algo.py": "9d8521e77d0c933674f04c8245dba7482fede1f6594bf4d04bdfb03d1cc42489"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_eplb_algo.py",
+      "test_single_gpu_case",
+      "95"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "9d8521e77d0c933674f04c8245dba7482fede1f6594bf4d04bdfb03d1cc42489",
+    "oracle_source_sha256": {
+      "tests/distributed/test_eplb_algo.py": "9d8521e77d0c933674f04c8245dba7482fede1f6594bf4d04bdfb03d1cc42489"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_eplb_algo.py",
+      "test_equal_weights",
+      "118"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "9d8521e77d0c933674f04c8245dba7482fede1f6594bf4d04bdfb03d1cc42489",
+    "oracle_source_sha256": {
+      "tests/distributed/test_eplb_algo.py": "9d8521e77d0c933674f04c8245dba7482fede1f6594bf4d04bdfb03d1cc42489"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_eplb_algo.py",
+      "test_extreme_weight_imbalance",
+      "142"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "9d8521e77d0c933674f04c8245dba7482fede1f6594bf4d04bdfb03d1cc42489",
+    "oracle_source_sha256": {
+      "tests/distributed/test_eplb_algo.py": "9d8521e77d0c933674f04c8245dba7482fede1f6594bf4d04bdfb03d1cc42489"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_eplb_algo.py",
+      "test_multiple_layers",
+      "165"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "9d8521e77d0c933674f04c8245dba7482fede1f6594bf4d04bdfb03d1cc42489",
+    "oracle_source_sha256": {
+      "tests/distributed/test_eplb_algo.py": "9d8521e77d0c933674f04c8245dba7482fede1f6594bf4d04bdfb03d1cc42489"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_eplb_algo.py",
+      "test_parameter_validation",
+      "198"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "9d8521e77d0c933674f04c8245dba7482fede1f6594bf4d04bdfb03d1cc42489",
+    "oracle_source_sha256": {
+      "tests/distributed/test_eplb_algo.py": "9d8521e77d0c933674f04c8245dba7482fede1f6594bf4d04bdfb03d1cc42489"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_eplb_algo.py",
+      "test_small_scale_hierarchical",
+      "216"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "9d8521e77d0c933674f04c8245dba7482fede1f6594bf4d04bdfb03d1cc42489",
+    "oracle_source_sha256": {
+      "tests/distributed/test_eplb_algo.py": "9d8521e77d0c933674f04c8245dba7482fede1f6594bf4d04bdfb03d1cc42489"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_eplb_algo.py",
+      "test_global_load_balance_fallback",
+      "246"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "9d8521e77d0c933674f04c8245dba7482fede1f6594bf4d04bdfb03d1cc42489",
+    "oracle_source_sha256": {
+      "tests/distributed/test_eplb_algo.py": "9d8521e77d0c933674f04c8245dba7482fede1f6594bf4d04bdfb03d1cc42489"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_eplb_algo.py",
+      "test_device_compatibility",
+      "268"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "9d8521e77d0c933674f04c8245dba7482fede1f6594bf4d04bdfb03d1cc42489",
+    "oracle_source_sha256": {
+      "tests/distributed/test_eplb_algo.py": "9d8521e77d0c933674f04c8245dba7482fede1f6594bf4d04bdfb03d1cc42489"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_eplb_algo.py",
+      "test_additional_cases",
+      "292"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "9d8521e77d0c933674f04c8245dba7482fede1f6594bf4d04bdfb03d1cc42489",
+    "oracle_source_sha256": {
+      "tests/distributed/test_eplb_algo.py": "9d8521e77d0c933674f04c8245dba7482fede1f6594bf4d04bdfb03d1cc42489"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_eplb_algo.py",
+      "test_compute_logical_maps_with_negative_indices",
+      "324"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "9d8521e77d0c933674f04c8245dba7482fede1f6594bf4d04bdfb03d1cc42489",
+    "oracle_source_sha256": {
+      "tests/distributed/test_eplb_algo.py": "9d8521e77d0c933674f04c8245dba7482fede1f6594bf4d04bdfb03d1cc42489"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_eplb_algo.py",
+      "test_preserve_intragpu_slots",
+      "492"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "9d8521e77d0c933674f04c8245dba7482fede1f6594bf4d04bdfb03d1cc42489",
+    "oracle_source_sha256": {
+      "tests/distributed/test_eplb_algo.py": "9d8521e77d0c933674f04c8245dba7482fede1f6594bf4d04bdfb03d1cc42489"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_eplb_migration_scheduler.py",
+      "test_migration_batching_is_disabled_by_default_and_can_be_enabled",
+      "49"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "1abaa2666a2ebe59a52237108de6f6de837372011a01bdef85fb47591da36cd4",
+    "oracle_source_sha256": {
+      "tests/distributed/test_eplb_migration_scheduler.py": "1abaa2666a2ebe59a52237108de6f6de837372011a01bdef85fb47591da36cd4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_eplb_migration_scheduler.py",
+      "test_migration_batching_only_applies_to_async_eplb",
+      "54"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "1abaa2666a2ebe59a52237108de6f6de837372011a01bdef85fb47591da36cd4",
+    "oracle_source_sha256": {
+      "tests/distributed/test_eplb_migration_scheduler.py": "1abaa2666a2ebe59a52237108de6f6de837372011a01bdef85fb47591da36cd4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_eplb_migration_scheduler.py",
+      "test_schedule_migration_batches_is_deterministic",
+      "67"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "1abaa2666a2ebe59a52237108de6f6de837372011a01bdef85fb47591da36cd4",
+    "oracle_source_sha256": {
+      "tests/distributed/test_eplb_migration_scheduler.py": "1abaa2666a2ebe59a52237108de6f6de837372011a01bdef85fb47591da36cd4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_eplb_migration_scheduler.py",
+      "test_schedule_migration_batches_coalesces_rank_pair",
+      "93"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "1abaa2666a2ebe59a52237108de6f6de837372011a01bdef85fb47591da36cd4",
+    "oracle_source_sha256": {
+      "tests/distributed/test_eplb_migration_scheduler.py": "1abaa2666a2ebe59a52237108de6f6de837372011a01bdef85fb47591da36cd4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_eplb_migration_scheduler.py",
+      "test_schedule_migration_batches_covers_random_instructions",
+      "111"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "1abaa2666a2ebe59a52237108de6f6de837372011a01bdef85fb47591da36cd4",
+    "oracle_source_sha256": {
+      "tests/distributed/test_eplb_migration_scheduler.py": "1abaa2666a2ebe59a52237108de6f6de837372011a01bdef85fb47591da36cd4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_eplb_migration_scheduler.py",
+      "test_schedule_migration_batches_excludes_local_copies",
+      "131"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "1abaa2666a2ebe59a52237108de6f6de837372011a01bdef85fb47591da36cd4",
+    "oracle_source_sha256": {
+      "tests/distributed/test_eplb_migration_scheduler.py": "1abaa2666a2ebe59a52237108de6f6de837372011a01bdef85fb47591da36cd4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_eplb_migration_scheduler.py",
+      "test_schedule_migration_batches_requires_matching_shapes",
+      "141"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "1abaa2666a2ebe59a52237108de6f6de837372011a01bdef85fb47591da36cd4",
+    "oracle_source_sha256": {
+      "tests/distributed/test_eplb_migration_scheduler.py": "1abaa2666a2ebe59a52237108de6f6de837372011a01bdef85fb47591da36cd4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_eplb_migration_scheduler.py",
+      "test_schedule_migration_batches_balances_replicas",
+      "149"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "1abaa2666a2ebe59a52237108de6f6de837372011a01bdef85fb47591da36cd4",
+    "oracle_source_sha256": {
+      "tests/distributed/test_eplb_migration_scheduler.py": "1abaa2666a2ebe59a52237108de6f6de837372011a01bdef85fb47591da36cd4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_eplb_migration_scheduler.py",
+      "test_schedule_migration_batches_for_layers_matches_individual_calls",
+      "163"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "1abaa2666a2ebe59a52237108de6f6de837372011a01bdef85fb47591da36cd4",
+    "oracle_source_sha256": {
+      "tests/distributed/test_eplb_migration_scheduler.py": "1abaa2666a2ebe59a52237108de6f6de837372011a01bdef85fb47591da36cd4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_eplb_migration_scheduler.py",
+      "test_move_to_buffer_uses_multiple_batches",
+      "174"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "1abaa2666a2ebe59a52237108de6f6de837372011a01bdef85fb47591da36cd4",
+    "oracle_source_sha256": {
+      "tests/distributed/test_eplb_migration_scheduler.py": "1abaa2666a2ebe59a52237108de6f6de837372011a01bdef85fb47591da36cd4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_eplb_migration_scheduler.py",
+      "test_move_to_buffer_uses_primary_duplicate_destination",
+      "204"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "1abaa2666a2ebe59a52237108de6f6de837372011a01bdef85fb47591da36cd4",
+    "oracle_source_sha256": {
+      "tests/distributed/test_eplb_migration_scheduler.py": "1abaa2666a2ebe59a52237108de6f6de837372011a01bdef85fb47591da36cd4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_eplb_migration_scheduler.py",
+      "test_push_recv_rows_match_receiver_rows",
+      "328"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "1abaa2666a2ebe59a52237108de6f6de837372011a01bdef85fb47591da36cd4",
+    "oracle_source_sha256": {
+      "tests/distributed/test_eplb_migration_scheduler.py": "1abaa2666a2ebe59a52237108de6f6de837372011a01bdef85fb47591da36cd4"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_sharded_rdt_trainer.py",
+      "TestShardedRDTTrainerInitInfo::test_declares_backend",
+      "156"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232",
+    "oracle_source_sha256": {
+      "tests/distributed/test_sharded_rdt_trainer.py": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_sharded_rdt_trainer.py",
+      "TestShardedRDTTrainerInitInfo::test_rank_is_keyword_only_and_drives_is_sender",
+      "159"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232",
+    "oracle_source_sha256": {
+      "tests/distributed/test_sharded_rdt_trainer.py": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_sharded_rdt_trainer.py",
+      "TestShardedRDTTrainerInitInfo::test_registered_in_trainer_factory",
+      "166"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232",
+    "oracle_source_sha256": {
+      "tests/distributed/test_sharded_rdt_trainer.py": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_sharded_rdt_trainer.py",
+      "test_sharded_rdt_trainer_init_requires_source",
+      "171"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232",
+    "oracle_source_sha256": {
+      "tests/distributed/test_sharded_rdt_trainer.py": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_sharded_rdt_trainer.py",
+      "test_sharded_rdt_worker_init_info_is_group_major",
+      "180"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232",
+    "oracle_source_sha256": {
+      "tests/distributed/test_sharded_rdt_trainer.py": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_sharded_rdt_trainer.py",
+      "test_sharded_rdt_send_weights_drives_client_in_order",
+      "207"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232",
+    "oracle_source_sha256": {
+      "tests/distributed/test_sharded_rdt_trainer.py": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_sharded_rdt_trainer.py",
+      "test_sharded_rdt_send_weights_group_order_mismatch_raises",
+      "227"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232",
+    "oracle_source_sha256": {
+      "tests/distributed/test_sharded_rdt_trainer.py": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_sharded_rdt_trainer.py",
+      "test_sharded_rdt_non_sender_skips_client",
+      "252"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232",
+    "oracle_source_sha256": {
+      "tests/distributed/test_sharded_rdt_trainer.py": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_sharded_rdt_trainer.py",
+      "test_sharded_rdt_send_weights_surfaces_update_error",
+      "281"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232",
+    "oracle_source_sha256": {
+      "tests/distributed/test_sharded_rdt_trainer.py": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_sharded_rdt_trainer.py",
+      "test_sharded_rdt_plans_ownership_from_metadata",
+      "329"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232",
+    "oracle_source_sha256": {
+      "tests/distributed/test_sharded_rdt_trainer.py": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_sharded_rdt_trainer.py",
+      "test_sharded_rdt_publishes_only_the_groups_it_owns",
+      "354"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232",
+    "oracle_source_sha256": {
+      "tests/distributed/test_sharded_rdt_trainer.py": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_sharded_rdt_trainer.py",
+      "test_sharded_rdt_rejects_owners_outside_the_trainer",
+      "371"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232",
+    "oracle_source_sha256": {
+      "tests/distributed/test_sharded_rdt_trainer.py": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_sharded_rdt_trainer.py",
+      "test_sharded_rdt_begin_sync_carries_the_live_count",
+      "389"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232",
+    "oracle_source_sha256": {
+      "tests/distributed/test_sharded_rdt_trainer.py": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_sharded_rdt_trainer.py",
+      "TestLiveCountPlumbing::test_none_counts_the_whole_provisioned_fleet",
+      "424"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232",
+    "oracle_source_sha256": {
+      "tests/distributed/test_sharded_rdt_trainer.py": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_sharded_rdt_trainer.py",
+      "TestLiveCountPlumbing::test_a_live_set_counts_its_distinct_members",
+      "429"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232",
+    "oracle_source_sha256": {
+      "tests/distributed/test_sharded_rdt_trainer.py": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_sharded_rdt_trainer.py",
+      "TestLiveCountPlumbing::test_a_full_live_set_matches_the_provisioned_count",
+      "434"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232",
+    "oracle_source_sha256": {
+      "tests/distributed/test_sharded_rdt_trainer.py": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_sharded_rdt_trainer.py",
+      "TestLiveCountPlumbing::test_which_consumers_died_does_not_matter_only_how_many",
+      "440"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232",
+    "oracle_source_sha256": {
+      "tests/distributed/test_sharded_rdt_trainer.py": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_sharded_rdt_trainer.py",
+      "TestLiveCountPlumbing::test_the_live_ids_travel_with_the_count",
+      "450"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232",
+    "oracle_source_sha256": {
+      "tests/distributed/test_sharded_rdt_trainer.py": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_sharded_rdt_trainer.py",
+      "test_sharded_rdt_worker_init_info_carries_the_ownership_table",
+      "460"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232",
+    "oracle_source_sha256": {
+      "tests/distributed/test_sharded_rdt_trainer.py": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_sharded_rdt_trainer.py",
+      "test_sharded_rdt_rejects_metadata_disagreement_across_ranks",
+      "478"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232",
+    "oracle_source_sha256": {
+      "tests/distributed/test_sharded_rdt_trainer.py": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_sharded_rdt_trainer.py",
+      "test_serve_does_not_reuse_packed_views_of_another_shape",
+      "536"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232",
+    "oracle_source_sha256": {
+      "tests/distributed/test_sharded_rdt_trainer.py": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_sharded_rdt_trainer.py",
+      "test_serve_does_not_reuse_packed_views_of_another_dtype",
+      "558"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232",
+    "oracle_source_sha256": {
+      "tests/distributed/test_sharded_rdt_trainer.py": "201156446f63325567730c7b4d60432d366f728b934f1360c3df760f8230b232"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_gumbel_sample.py",
+      "test_random_and_mixed_rows_match_reference",
+      "216"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "7cbcd4eba658dca648a040c53ff23339903e7ed2009e83b3b8bd49b2bf0f8be2",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_gumbel_sample.py": "7cbcd4eba658dca648a040c53ff23339903e7ed2009e83b3b8bd49b2bf0f8be2"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_gumbel_sample.py",
+      "test_greedy_supports_dtypes_strides_and_invalid_mapping",
+      "248"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "7cbcd4eba658dca648a040c53ff23339903e7ed2009e83b3b8bd49b2bf0f8be2",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_gumbel_sample.py": "7cbcd4eba658dca648a040c53ff23339903e7ed2009e83b3b8bd49b2bf0f8be2"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_gumbel_sample.py",
+      "test_pre_scaled_logits_match_temperature_application",
+      "266"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "7cbcd4eba658dca648a040c53ff23339903e7ed2009e83b3b8bd49b2bf0f8be2",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_gumbel_sample.py": "7cbcd4eba658dca648a040c53ff23339903e7ed2009e83b3b8bd49b2bf0f8be2"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_gumbel_sample.py",
+      "test_sampling_states_apply_temperature",
+      "294"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "7cbcd4eba658dca648a040c53ff23339903e7ed2009e83b3b8bd49b2bf0f8be2",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_gumbel_sample.py": "7cbcd4eba658dca648a040c53ff23339903e7ed2009e83b3b8bd49b2bf0f8be2"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_gumbel_sample.py",
+      "test_sampling_states_apply_min_p",
+      "308"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "7cbcd4eba658dca648a040c53ff23339903e7ed2009e83b3b8bd49b2bf0f8be2",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_gumbel_sample.py": "7cbcd4eba658dca648a040c53ff23339903e7ed2009e83b3b8bd49b2bf0f8be2"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_gumbel_sample.py",
+      "test_sampling_matches_target_distribution",
+      "337"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "7cbcd4eba658dca648a040c53ff23339903e7ed2009e83b3b8bd49b2bf0f8be2",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_gumbel_sample.py": "7cbcd4eba658dca648a040c53ff23339903e7ed2009e83b3b8bd49b2bf0f8be2"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_gumbel_sample.py",
+      "test_full_vocab_distribution_fidelity",
+      "349"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "7cbcd4eba658dca648a040c53ff23339903e7ed2009e83b3b8bd49b2bf0f8be2",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_gumbel_sample.py": "7cbcd4eba658dca648a040c53ff23339903e7ed2009e83b3b8bd49b2bf0f8be2"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_gumbel_sample.py",
+      "test_greedy_temperature_zero_returns_argmax",
+      "370"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "7cbcd4eba658dca648a040c53ff23339903e7ed2009e83b3b8bd49b2bf0f8be2",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_gumbel_sample.py": "7cbcd4eba658dca648a040c53ff23339903e7ed2009e83b3b8bd49b2bf0f8be2"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_gumbel_sample.py",
+      "test_zero_count_tokens_are_never_sampled",
+      "384"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "7cbcd4eba658dca648a040c53ff23339903e7ed2009e83b3b8bd49b2bf0f8be2",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_gumbel_sample.py": "7cbcd4eba658dca648a040c53ff23339903e7ed2009e83b3b8bd49b2bf0f8be2"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_gumbel_sample.py",
+      "test_single_nonzero_token_is_always_sampled",
+      "395"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "7cbcd4eba658dca648a040c53ff23339903e7ed2009e83b3b8bd49b2bf0f8be2",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_gumbel_sample.py": "7cbcd4eba658dca648a040c53ff23339903e7ed2009e83b3b8bd49b2bf0f8be2"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_gumbel_sample.py",
+      "test_vocab_size_not_multiple_of_block",
+      "405"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "7cbcd4eba658dca648a040c53ff23339903e7ed2009e83b3b8bd49b2bf0f8be2",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_gumbel_sample.py": "7cbcd4eba658dca648a040c53ff23339903e7ed2009e83b3b8bd49b2bf0f8be2"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_sampler.py",
+      "test_cpu_thinking_budget_forces_and_continues_end_marker",
+      "135"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_sampler.py": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_sampler.py",
+      "test_cpu_thinking_budget_uses_distinct_forced_end_marker",
+      "157"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_sampler.py": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_sampler.py",
+      "test_cpu_thinking_budget_stops_after_natural_end",
+      "177"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_sampler.py": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_sampler.py",
+      "test_cpu_thinking_budget_ignores_plain_request",
+      "189"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_sampler.py": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_sampler.py",
+      "test_cpu_thinking_budget_does_not_force_before_budget",
+      "201"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_sampler.py": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_sampler.py",
+      "test_cpu_thinking_budget_uses_latest_start_boundary",
+      "212"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_sampler.py": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_sampler.py",
+      "test_cpu_thinking_budget_continues_end_prefix_from_resumed_prompt",
+      "224"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_sampler.py": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_sampler.py",
+      "test_cpu_thinking_budget_clamps_oversized_budget",
+      "237"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_sampler.py": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_sampler.py",
+      "test_cpu_thinking_budget_scans_new_committed_tokens_incrementally",
+      "248"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_sampler.py": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_sampler.py",
+      "test_cpu_thinking_budget_clears_reused_slot",
+      "264"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_sampler.py": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_sampler.py",
+      "test_cpu_greedy_sampling_applies_thinking_budget",
+      "276"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_sampler.py": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_sampler.py",
+      "test_cpu_trace_replay_uses_current_decode_step",
+      "306"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_sampler.py": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_sampler.py",
+      "test_cpu_trace_replay_maps_requests_and_skips_inactive_rows",
+      "319"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_sampler.py": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_sampler.py",
+      "test_cpu_trace_replay_clears_reused_slot",
+      "348"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_sampler.py": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_sampler.py",
+      "test_cpu_nan_count",
+      "360"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_sampler.py": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_sampler.py",
+      "test_cpu_sampling_mask_tracks_finite_tokens",
+      "371"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_sampler.py": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_sampler.py",
+      "test_cpu_sampling_mask_matches_wide_finite_support",
+      "390"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_sampler.py": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_sampler.py",
+      "test_cpu_sampler_applies_top_k_top_p",
+      "450"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_sampler.py": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_sampler.py",
+      "test_cpu_sampler_applies_temperature",
+      "470"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_sampler.py": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_sampler.py",
+      "test_cpu_sampler_only_processes_active_requests",
+      "488"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_sampler.py": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_sampler.py",
+      "test_cpu_sampler_clears_processing_when_slot_is_reused",
+      "519"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_sampler.py": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_sampler.py",
+      "test_cpu_sampler_greedy_returns_argmax",
+      "539"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_sampler.py": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_sampler.py",
+      "test_cpu_watermark_sampler_uses_cpu_sampler_pipeline",
+      "559"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_sampler.py": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_sampler.py",
+      "test_cpu_watermark_sampler_handles_mixed_rows",
+      "623"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_sampler.py": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_sampler.py",
+      "test_cpu_watermark_sampler_detects_repeated_context",
+      "683"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_sampler.py": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/cpu/test_cpu_sampler.py",
+      "test_cpu_watermark_deduplication_scope_and_partial_context",
+      "702"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/cpu/test_cpu_sampler.py": "88c6d0078b9cded8fa08c92df2dffec35dcd4b772e821de4204f57914b10de2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_encoder_runner.py",
+      "test_encoder_graph_configuration",
+      "48"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_encoder_runner.py": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_encoder_runner.py",
+      "test_encoder_graph_unsupported_modality_uses_eager_output",
+      "64"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_encoder_runner.py": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_encoder_runner.py",
+      "test_draft_lookahead_uses_boundary_feature_when_cached",
+      "157"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_encoder_runner.py": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_encoder_runner.py",
+      "test_draft_lookahead_tolerates_missing_boundary_feature",
+      "175"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_encoder_runner.py": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_encoder_runner.py",
+      "test_draft_lookahead_ignores_freed_feature",
+      "194"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_encoder_runner.py": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_encoder_runner.py",
+      "test_draft_lookahead_raises_on_interior_miss",
+      "217"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_encoder_runner.py": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_encoder_runner.py",
+      "test_target_path_raises_on_encoder_cache_miss",
+      "228"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_encoder_runner.py": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_encoder_runner.py",
+      "test_multi_request_batch_gathers_per_request",
+      "239"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_encoder_runner.py": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_encoder_runner.py",
+      "test_gather_preserves_mixed_modalities",
+      "277"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_encoder_runner.py": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_encoder_runner.py",
+      "test_execute_mm_encoder_caches_outputs_without_gathering",
+      "300"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_encoder_runner.py": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_encoder_runner.py",
+      "test_execute_mm_encoder_sorts_by_modality",
+      "326"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_encoder_runner.py": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_encoder_runner.py",
+      "test_execute_mm_encoder_is_a_noop_without_scheduled_items",
+      "341"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_encoder_runner.py": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_encoder_runner.py",
+      "test_prepare_mm_inputs_passes_prompt_embeds_through",
+      "362"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_encoder_runner.py": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_encoder_runner.py",
+      "test_prepare_mm_inputs_skips_cached_prompt_embeds",
+      "389"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_encoder_runner.py": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_encoder_runner.py",
+      "test_execute_mm_encoder_skips_encoder_for_prompt_embeds_only",
+      "402"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_encoder_runner.py": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_encoder_runner.py",
+      "test_encoder_timing_stats_registry",
+      "415"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_encoder_runner.py": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_encoder_runner.py",
+      "test_consumed_cpu_input_updates_are_request_local_and_replayable",
+      "431"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_encoder_runner.py": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_encoder_runner.py",
+      "test_consumed_cpu_input_releases_storage_before_request_finishes",
+      "463"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_encoder_runner.py": "e7c033e17d5f95ebd261681437ab87735ca0831368d2fb4e9ace658d00aa81c0"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_batch_ordering.py",
+      "test_spec_decode_batch_is_uniform_decode",
+      "86"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "12210d5f907b26447e647213bccfb1b838f6364903f21bcd82fc00b984ac8113",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_batch_ordering.py": "12210d5f907b26447e647213bccfb1b838f6364903f21bcd82fc00b984ac8113"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_batch_ordering.py",
+      "test_adaptive_verification_sizes_only_batches_with_drafts",
+      "92"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "12210d5f907b26447e647213bccfb1b838f6364903f21bcd82fc00b984ac8113",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_batch_ordering.py": "12210d5f907b26447e647213bccfb1b838f6364903f21bcd82fc00b984ac8113"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_batch_ordering.py",
+      "test_prompt_chunk_of_decode_query_len_is_not_uniform_decode",
+      "119"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "12210d5f907b26447e647213bccfb1b838f6364903f21bcd82fc00b984ac8113",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_batch_ordering.py": "12210d5f907b26447e647213bccfb1b838f6364903f21bcd82fc00b984ac8113"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_batch_ordering.py",
+      "test_one_new_prompt_token_over_context_runs_as_decode",
+      "133"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "12210d5f907b26447e647213bccfb1b838f6364903f21bcd82fc00b984ac8113",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_batch_ordering.py": "12210d5f907b26447e647213bccfb1b838f6364903f21bcd82fc00b984ac8113"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_batch_ordering.py",
+      "test_one_token_prompt_tail_with_prior_context_is_uniform_decode",
+      "157"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "12210d5f907b26447e647213bccfb1b838f6364903f21bcd82fc00b984ac8113",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_batch_ordering.py": "12210d5f907b26447e647213bccfb1b838f6364903f21bcd82fc00b984ac8113"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_batch_ordering.py",
+      "test_padded_prompt_tail_with_prior_context_is_uniform_decode",
+      "171"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "12210d5f907b26447e647213bccfb1b838f6364903f21bcd82fc00b984ac8113",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_batch_ordering.py": "12210d5f907b26447e647213bccfb1b838f6364903f21bcd82fc00b984ac8113"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_batch_ordering.py",
+      "test_dummy_batches_stay_uniform_decode",
+      "192"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "12210d5f907b26447e647213bccfb1b838f6364903f21bcd82fc00b984ac8113",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_batch_ordering.py": "12210d5f907b26447e647213bccfb1b838f6364903f21bcd82fc00b984ac8113"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_batch_ordering.py",
+      "test_sort_batch_req_ids_no_spec",
+      "206"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "12210d5f907b26447e647213bccfb1b838f6364903f21bcd82fc00b984ac8113",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_batch_ordering.py": "12210d5f907b26447e647213bccfb1b838f6364903f21bcd82fc00b984ac8113"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_batch_ordering.py",
+      "test_sort_batch_req_ids_spec_decode",
+      "212"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "12210d5f907b26447e647213bccfb1b838f6364903f21bcd82fc00b984ac8113",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_batch_ordering.py": "12210d5f907b26447e647213bccfb1b838f6364903f21bcd82fc00b984ac8113"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_batch_ordering.py",
+      "test_spec_decodes_lead_short_prefill_tail",
+      "219"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "12210d5f907b26447e647213bccfb1b838f6364903f21bcd82fc00b984ac8113",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_batch_ordering.py": "12210d5f907b26447e647213bccfb1b838f6364903f21bcd82fc00b984ac8113"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_batch_ordering.py",
+      "test_uniform_decode_uses_state_index_not_batch_position",
+      "239"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "12210d5f907b26447e647213bccfb1b838f6364903f21bcd82fc00b984ac8113",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_batch_ordering.py": "12210d5f907b26447e647213bccfb1b838f6364903f21bcd82fc00b984ac8113"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_batch_ordering.py",
+      "test_uniform_decode_predicate",
+      "279"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "12210d5f907b26447e647213bccfb1b838f6364903f21bcd82fc00b984ac8113",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_batch_ordering.py": "12210d5f907b26447e647213bccfb1b838f6364903f21bcd82fc00b984ac8113"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_block_table.py",
+      "test_block_tables_apply_staged_writes_fuses_kv_groups",
+      "17"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "6fd49acf96d0f5bebebba1a5900822d8c6cb420f65256ea0078ea5ae0b94a9f1",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_block_table.py": "6fd49acf96d0f5bebebba1a5900822d8c6cb420f65256ea0078ea5ae0b94a9f1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_block_table.py",
+      "test_block_tables_fused_write_spans_multiple_chunks",
+      "109"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "6fd49acf96d0f5bebebba1a5900822d8c6cb420f65256ea0078ea5ae0b94a9f1",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_block_table.py": "6fd49acf96d0f5bebebba1a5900822d8c6cb420f65256ea0078ea5ae0b94a9f1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_block_table.py",
+      "test_block_tables_apply_staged_writes_single_group",
+      "128"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "6fd49acf96d0f5bebebba1a5900822d8c6cb420f65256ea0078ea5ae0b94a9f1",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_block_table.py": "6fd49acf96d0f5bebebba1a5900822d8c6cb420f65256ea0078ea5ae0b94a9f1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_block_table.py",
+      "test_block_tables_skip_custom_slot_mapping_groups",
+      "152"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "6fd49acf96d0f5bebebba1a5900822d8c6cb420f65256ea0078ea5ae0b94a9f1",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_block_table.py": "6fd49acf96d0f5bebebba1a5900822d8c6cb420f65256ea0078ea5ae0b94a9f1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_block_table.py",
+      "test_dcp_slot_mapping_only_shards_sharded_groups",
+      "188"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "6fd49acf96d0f5bebebba1a5900822d8c6cb420f65256ea0078ea5ae0b94a9f1",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_block_table.py": "6fd49acf96d0f5bebebba1a5900822d8c6cb420f65256ea0078ea5ae0b94a9f1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_block_table.py",
+      "test_v1_block_table_move_row_clears_vacated_row",
+      "232"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "6fd49acf96d0f5bebebba1a5900822d8c6cb420f65256ea0078ea5ae0b94a9f1",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_block_table.py": "6fd49acf96d0f5bebebba1a5900822d8c6cb420f65256ea0078ea5ae0b94a9f1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_block_table.py",
+      "test_get_dummy_block_tables_returns_zeroed_rows",
+      "261"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "6fd49acf96d0f5bebebba1a5900822d8c6cb420f65256ea0078ea5ae0b94a9f1",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_block_table.py": "6fd49acf96d0f5bebebba1a5900822d8c6cb420f65256ea0078ea5ae0b94a9f1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_block_table.py",
+      "test_dummy_request_slot_mapping_is_pad",
+      "293"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "6fd49acf96d0f5bebebba1a5900822d8c6cb420f65256ea0078ea5ae0b94a9f1",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_block_table.py": "6fd49acf96d0f5bebebba1a5900822d8c6cb420f65256ea0078ea5ae0b94a9f1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_block_table.py",
+      "test_gather_block_tables_nulls_blocks_below_sliding_window",
+      "330"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "6fd49acf96d0f5bebebba1a5900822d8c6cb420f65256ea0078ea5ae0b94a9f1",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_block_table.py": "6fd49acf96d0f5bebebba1a5900822d8c6cb420f65256ea0078ea5ae0b94a9f1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_block_table.py",
+      "test_shared_block_tables_clear_rows_from_larger_batch",
+      "402"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "6fd49acf96d0f5bebebba1a5900822d8c6cb420f65256ea0078ea5ae0b94a9f1",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_block_table.py": "6fd49acf96d0f5bebebba1a5900822d8c6cb420f65256ea0078ea5ae0b94a9f1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_block_table.py",
+      "test_external_block_table_output_preserves_shared_rows",
+      "433"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "6fd49acf96d0f5bebebba1a5900822d8c6cb420f65256ea0078ea5ae0b94a9f1",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_block_table.py": "6fd49acf96d0f5bebebba1a5900822d8c6cb420f65256ea0078ea5ae0b94a9f1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_block_table.py",
+      "test_larger_draft_batch_uses_null_kpool_slots",
+      "452"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "6fd49acf96d0f5bebebba1a5900822d8c6cb420f65256ea0078ea5ae0b94a9f1",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_block_table.py": "6fd49acf96d0f5bebebba1a5900822d8c6cb420f65256ea0078ea5ae0b94a9f1"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_gumbel_sample.py",
+      "test_murmur3_known_answers",
+      "78"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "c53b6577b9d5f1c4055e965fecd116247a7c0aeacf65222113ca65a1d4797c7d",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_gumbel_sample.py": "c53b6577b9d5f1c4055e965fecd116247a7c0aeacf65222113ca65a1d4797c7d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_gumbel_sample.py",
+      "test_uniform64_excludes_endpoints",
+      "125"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "c53b6577b9d5f1c4055e965fecd116247a7c0aeacf65222113ca65a1d4797c7d",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_gumbel_sample.py": "c53b6577b9d5f1c4055e965fecd116247a7c0aeacf65222113ca65a1d4797c7d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_gumbel_sample.py",
+      "test_sampling_matches_target_distribution",
+      "231"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "c53b6577b9d5f1c4055e965fecd116247a7c0aeacf65222113ca65a1d4797c7d",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_gumbel_sample.py": "c53b6577b9d5f1c4055e965fecd116247a7c0aeacf65222113ca65a1d4797c7d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_gumbel_sample.py",
+      "test_full_vocab_distribution_fidelity",
+      "253"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "c53b6577b9d5f1c4055e965fecd116247a7c0aeacf65222113ca65a1d4797c7d",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_gumbel_sample.py": "c53b6577b9d5f1c4055e965fecd116247a7c0aeacf65222113ca65a1d4797c7d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_gumbel_sample.py",
+      "test_drafting_uses_a_separate_noise_stream",
+      "287"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "c53b6577b9d5f1c4055e965fecd116247a7c0aeacf65222113ca65a1d4797c7d",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_gumbel_sample.py": "c53b6577b9d5f1c4055e965fecd116247a7c0aeacf65222113ca65a1d4797c7d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_gumbel_sample.py",
+      "test_greedy_temperature_zero_returns_argmax",
+      "336"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "c53b6577b9d5f1c4055e965fecd116247a7c0aeacf65222113ca65a1d4797c7d",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_gumbel_sample.py": "c53b6577b9d5f1c4055e965fecd116247a7c0aeacf65222113ca65a1d4797c7d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_gumbel_sample.py",
+      "test_zero_count_tokens_are_never_sampled",
+      "352"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "c53b6577b9d5f1c4055e965fecd116247a7c0aeacf65222113ca65a1d4797c7d",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_gumbel_sample.py": "c53b6577b9d5f1c4055e965fecd116247a7c0aeacf65222113ca65a1d4797c7d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_gumbel_sample.py",
+      "test_single_nonzero_token_is_always_sampled",
+      "364"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "c53b6577b9d5f1c4055e965fecd116247a7c0aeacf65222113ca65a1d4797c7d",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_gumbel_sample.py": "c53b6577b9d5f1c4055e965fecd116247a7c0aeacf65222113ca65a1d4797c7d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_gumbel_sample.py",
+      "test_vocab_size_not_multiple_of_block",
+      "375"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "c53b6577b9d5f1c4055e965fecd116247a7c0aeacf65222113ca65a1d4797c7d",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_gumbel_sample.py": "c53b6577b9d5f1c4055e965fecd116247a7c0aeacf65222113ca65a1d4797c7d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_gumbel_sample.py",
+      "test_logits_cache_stores_input_logits_bitwise",
+      "407"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "c53b6577b9d5f1c4055e965fecd116247a7c0aeacf65222113ca65a1d4797c7d",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_gumbel_sample.py": "c53b6577b9d5f1c4055e965fecd116247a7c0aeacf65222113ca65a1d4797c7d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_gumbel_sample.py",
+      "test_logits_cache_columns_stay_separate_across_steps",
+      "464"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "c53b6577b9d5f1c4055e965fecd116247a7c0aeacf65222113ca65a1d4797c7d",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_gumbel_sample.py": "c53b6577b9d5f1c4055e965fecd116247a7c0aeacf65222113ca65a1d4797c7d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_gumbel_sample.py",
+      "test_logits_cache_narrower_than_logits_is_rejected",
+      "510"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "c53b6577b9d5f1c4055e965fecd116247a7c0aeacf65222113ca65a1d4797c7d",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_gumbel_sample.py": "c53b6577b9d5f1c4055e965fecd116247a7c0aeacf65222113ca65a1d4797c7d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_gumbel_sample.py",
+      "test_greedy_argmax_matches_torch",
+      "536"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "c53b6577b9d5f1c4055e965fecd116247a7c0aeacf65222113ca65a1d4797c7d",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_gumbel_sample.py": "c53b6577b9d5f1c4055e965fecd116247a7c0aeacf65222113ca65a1d4797c7d"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_thinking_budget.py",
+      "test_v2_thinking_budget_forces_end_after_budget_reached",
+      "99"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "1ac701dcdfcde9af30432f0ed0283f2857432495b7fda08578d747cb844e7f2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_thinking_budget.py": "1ac701dcdfcde9af30432f0ed0283f2857432495b7fda08578d747cb844e7f2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_thinking_budget.py",
+      "test_v2_thinking_budget_restores_masked_end_token",
+      "113"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "1ac701dcdfcde9af30432f0ed0283f2857432495b7fda08578d747cb844e7f2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_thinking_budget.py": "1ac701dcdfcde9af30432f0ed0283f2857432495b7fda08578d747cb844e7f2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_thinking_budget.py",
+      "test_v2_thinking_budget_allows_tokens_before_budget",
+      "126"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "1ac701dcdfcde9af30432f0ed0283f2857432495b7fda08578d747cb844e7f2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_thinking_budget.py": "1ac701dcdfcde9af30432f0ed0283f2857432495b7fda08578d747cb844e7f2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_thinking_budget.py",
+      "test_v2_thinking_budget_continues_multi_token_end_marker",
+      "138"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "1ac701dcdfcde9af30432f0ed0283f2857432495b7fda08578d747cb844e7f2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_thinking_budget.py": "1ac701dcdfcde9af30432f0ed0283f2857432495b7fda08578d747cb844e7f2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_thinking_budget.py",
+      "test_v2_thinking_budget_uses_distinct_forced_end_marker",
+      "156"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "1ac701dcdfcde9af30432f0ed0283f2857432495b7fda08578d747cb844e7f2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_thinking_budget.py": "1ac701dcdfcde9af30432f0ed0283f2857432495b7fda08578d747cb844e7f2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_thinking_budget.py",
+      "test_v2_thinking_budget_stops_after_natural_end_marker",
+      "174"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "1ac701dcdfcde9af30432f0ed0283f2857432495b7fda08578d747cb844e7f2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_thinking_budget.py": "1ac701dcdfcde9af30432f0ed0283f2857432495b7fda08578d747cb844e7f2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_thinking_budget.py",
+      "test_v2_thinking_budget_ignores_plain_request",
+      "189"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "1ac701dcdfcde9af30432f0ed0283f2857432495b7fda08578d747cb844e7f2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_thinking_budget.py": "1ac701dcdfcde9af30432f0ed0283f2857432495b7fda08578d747cb844e7f2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_thinking_budget.py",
+      "test_v2_greedy_sampling_applies_thinking_budget",
+      "201"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "1ac701dcdfcde9af30432f0ed0283f2857432495b7fda08578d747cb844e7f2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_thinking_budget.py": "1ac701dcdfcde9af30432f0ed0283f2857432495b7fda08578d747cb844e7f2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_thinking_budget.py",
+      "test_v2_thinking_budget_latest_prefill_end_disables_forcing",
+      "239"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "1ac701dcdfcde9af30432f0ed0283f2857432495b7fda08578d747cb844e7f2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_thinking_budget.py": "1ac701dcdfcde9af30432f0ed0283f2857432495b7fda08578d747cb844e7f2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_thinking_budget.py",
+      "test_v2_thinking_budget_uses_latest_prefill_start_boundary",
+      "254"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "1ac701dcdfcde9af30432f0ed0283f2857432495b7fda08578d747cb844e7f2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_thinking_budget.py": "1ac701dcdfcde9af30432f0ed0283f2857432495b7fda08578d747cb844e7f2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_thinking_budget.py",
+      "test_v2_thinking_budget_incrementally_scans_long_generation",
+      "269"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "1ac701dcdfcde9af30432f0ed0283f2857432495b7fda08578d747cb844e7f2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_thinking_budget.py": "1ac701dcdfcde9af30432f0ed0283f2857432495b7fda08578d747cb844e7f2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_thinking_budget.py",
+      "test_v2_thinking_budget_clamps_oversized_budget",
+      "288"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "1ac701dcdfcde9af30432f0ed0283f2857432495b7fda08578d747cb844e7f2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_thinking_budget.py": "1ac701dcdfcde9af30432f0ed0283f2857432495b7fda08578d747cb844e7f2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_thinking_budget.py",
+      "test_v2_thinking_budget_continues_end_prefix_from_prompt",
+      "301"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "1ac701dcdfcde9af30432f0ed0283f2857432495b7fda08578d747cb844e7f2c",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_thinking_budget.py": "1ac701dcdfcde9af30432f0ed0283f2857432495b7fda08578d747cb844e7f2c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_warmup_blocks.py",
+      "test_warmup_kernels_reserves_lookahead_blocks",
+      "179"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "91f469b04d8367713adfabbf58779e7698f34f9a645c090d78a379e9490d3c34",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_warmup_blocks.py": "91f469b04d8367713adfabbf58779e7698f34f9a645c090d78a379e9490d3c34"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_warmup_blocks.py",
+      "test_mixed_warmup_reserves_lookahead_blocks",
+      "193"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "91f469b04d8367713adfabbf58779e7698f34f9a645c090d78a379e9490d3c34",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_warmup_blocks.py": "91f469b04d8367713adfabbf58779e7698f34f9a645c090d78a379e9490d3c34"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_warmup_blocks.py",
+      "test_warmup_sizes_batches_by_the_rank_agreed_committable_count",
+      "217"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "91f469b04d8367713adfabbf58779e7698f34f9a645c090d78a379e9490d3c34",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_warmup_blocks.py": "91f469b04d8367713adfabbf58779e7698f34f9a645c090d78a379e9490d3c34"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_warmup_blocks.py",
+      "test_mixed_warmup_skips_when_ranks_agree_too_few_blocks",
+      "237"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "91f469b04d8367713adfabbf58779e7698f34f9a645c090d78a379e9490d3c34",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_warmup_blocks.py": "91f469b04d8367713adfabbf58779e7698f34f9a645c090d78a379e9490d3c34"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_warmup_blocks.py",
+      "test_context_prefill_warmup_attends_to_the_requested_context",
+      "251"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "91f469b04d8367713adfabbf58779e7698f34f9a645c090d78a379e9490d3c34",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_warmup_blocks.py": "91f469b04d8367713adfabbf58779e7698f34f9a645c090d78a379e9490d3c34"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_warmup_blocks.py",
+      "test_context_prefill_warmup_stays_within_the_context_and_vocabulary",
+      "278"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "91f469b04d8367713adfabbf58779e7698f34f9a645c090d78a379e9490d3c34",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_warmup_blocks.py": "91f469b04d8367713adfabbf58779e7698f34f9a645c090d78a379e9490d3c34"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_warmup_blocks.py",
+      "test_context_prefill_warmup_is_capped_by_the_committable_blocks",
+      "295"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "91f469b04d8367713adfabbf58779e7698f34f9a645c090d78a379e9490d3c34",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_warmup_blocks.py": "91f469b04d8367713adfabbf58779e7698f34f9a645c090d78a379e9490d3c34"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_warmup_blocks.py",
+      "test_warmup_reserves_mamba_speculative_blocks",
+      "309"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "91f469b04d8367713adfabbf58779e7698f34f9a645c090d78a379e9490d3c34",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_warmup_blocks.py": "91f469b04d8367713adfabbf58779e7698f34f9a645c090d78a379e9490d3c34"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_warmup_blocks.py",
+      "test_reserved_block_count_matches_real_kv_cache_manager",
+      "368"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "91f469b04d8367713adfabbf58779e7698f34f9a645c090d78a379e9490d3c34",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_warmup_blocks.py": "91f469b04d8367713adfabbf58779e7698f34f9a645c090d78a379e9490d3c34"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_warmup_blocks.py",
+      "test_reserved_block_count_scales_dcp_sharded_blocks",
+      "442"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "91f469b04d8367713adfabbf58779e7698f34f9a645c090d78a379e9490d3c34",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_warmup_blocks.py": "91f469b04d8367713adfabbf58779e7698f34f9a645c090d78a379e9490d3c34"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_warmup_blocks.py",
+      "test_num_lookahead_tokens_per_method",
+      "511"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "91f469b04d8367713adfabbf58779e7698f34f9a645c090d78a379e9490d3c34",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_warmup_blocks.py": "91f469b04d8367713adfabbf58779e7698f34f9a645c090d78a379e9490d3c34"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_warmup_blocks.py",
+      "test_num_lookahead_tokens_without_speculation",
+      "537"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "91f469b04d8367713adfabbf58779e7698f34f9a645c090d78a379e9490d3c34",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_warmup_blocks.py": "91f469b04d8367713adfabbf58779e7698f34f9a645c090d78a379e9490d3c34"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/worker/test_gpu_warmup_blocks.py",
+      "test_sizing_warmup_requests_prompt_logprobs_on_its_prefill",
+      "544"
+    ],
+    "review_file": "round15_work/runtime/crosswalk.tsv",
+    "source_sha256": "91f469b04d8367713adfabbf58779e7698f34f9a645c090d78a379e9490d3c34",
+    "oracle_source_sha256": {
+      "tests/v1/worker/test_gpu_warmup_blocks.py": "91f469b04d8367713adfabbf58779e7698f34f9a645c090d78a379e9490d3c34"
+    }
+  }
+]

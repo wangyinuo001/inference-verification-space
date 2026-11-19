@@ -1,0 +1,20 @@
+[
+  {
+    "unit_id": "compute.warmup_execution_policy",
+    "path": "tests/model_executor/test_jit_warmup_triton_launcher.py",
+    "old_line": 113,
+    "new_line": 127
+  },
+  {
+    "unit_id": "model.dummy_parameter_initialization",
+    "path": "tests/model_executor/test_weight_utils.py",
+    "old_line": 414,
+    "new_line": 420
+  },
+  {
+    "unit_id": "model.checkpoint_shard_artifact_binding",
+    "path": "vllm/model_executor/model_loader/sharded_state_loader.py",
+    "old_line": 276,
+    "new_line": 269
+  }
+]

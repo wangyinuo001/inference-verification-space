@@ -2,14 +2,14 @@
   "source_entries": 31968,
   "indexed_source_files": 3643,
   "review_status": {
-    "review_call_inputs_and_property": 18959,
+    "review_call_inputs_and_property": 17691,
     "test_script_reviewed": 13,
-    "supporting_record_reviewed": 182,
-    "property_reviewed": 11976,
-    "refine_property_or_space": 365,
-    "locate_check_or_helper": 399,
+    "supporting_record_reviewed": 193,
+    "property_reviewed": 13249,
+    "refine_property_or_space": 363,
+    "locate_check_or_helper": 381,
     "outside_current_scope": 68,
-    "incomplete_test_reviewed": 6
+    "incomplete_test_reviewed": 10
   },
   "source_status": {
     "definition_located": 29879,
@@ -18,7 +18,7 @@
     "inherited_definition_located": 1366
   },
   "runtime_entries": 2119,
-  "pending_groups": 4456,
+  "pending_groups": 4277,
   "consistency_issues": 0,
   "interpretation": "All source entries re-opened and accounted for; property_reviewed alone records reviewed semantic placement."
 }

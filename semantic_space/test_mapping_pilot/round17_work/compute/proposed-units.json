@@ -1,0 +1,88 @@
+[
+  {
+    "id": "compute.fusion_pattern_binding",
+    "name": "融合候选与计算数据流对应",
+    "kind": "obligation",
+    "phase": "model_execution",
+    "state_scope": "deployment",
+    "conditions": [
+      "kernel_selection_profile",
+      "execution_layout",
+      "numeric_format"
+    ],
+    "property": "融合候选由原计算数据流、模块结构及每实例形状决定；识别出的投影、路由、共享分支与归一化参数对应原计算，未识别或不满足约束的结构按声明规则拒绝或回退。",
+    "observable": [
+      "matched_candidate",
+      "projection_names",
+      "router_metadata",
+      "normalization_parameters",
+      "eligibility",
+      "fallback"
+    ],
+    "oracle": "构造具有明确连接关系、尺寸及模块状态的计算图，逐项对照匹配字段和接受/拒绝结果；仅结构断言不视为融合后数值等价证据。",
+    "framework_scope": [
+      "vllm"
+    ],
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/model_executor/models/transformers/fusers/qkv.py",
+          "line": 83,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/model_executor/models/transformers/fusers/rms_norm.py",
+          "line": 161,
+          "kind": "source"
+        },
+        {
+          "path": "tests/models/transformers/fusers/test_moe.py",
+          "line": 418,
+          "kind": "existing_test"
+        }
+      ]
+    }
+  },
+  {
+    "id": "compute.fusion_rewrite_structure",
+    "name": "融合改写结构与适用约束",
+    "kind": "obligation",
+    "phase": "model_execution",
+    "state_scope": "deployment",
+    "conditions": [
+      "kernel_selection_profile",
+      "execution_layout"
+    ],
+    "property": "融合改写将被选计算替换为声明的合并调用和切分表达式，保留未消费的控制流与名称语义；仅在已证明条件下折叠存在性判断，输入重绑定、别名修改或不安全引用使改写拒绝。",
+    "observable": [
+      "rewritten_ast",
+      "call_names",
+      "split_expression",
+      "preserved_control_flow",
+      "rejection"
+    ],
+    "oracle": "比较改写前后AST、调用名称及常量表达式，并对重绑定、原地写入、共享视图或非存在性引用验证拒绝；数值等价由单独执行关系测试验证。",
+    "framework_scope": [
+      "vllm"
+    ],
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/model_executor/models/transformers/fx_utils.py",
+          "line": 409,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/model_executor/models/transformers/fusers/base.py",
+          "line": 189,
+          "kind": "source"
+        },
+        {
+          "path": "tests/models/transformers/fusers/test_linear.py",
+          "line": 1005,
+          "kind": "existing_test"
+        }
+      ]
+    }
+  }
+]

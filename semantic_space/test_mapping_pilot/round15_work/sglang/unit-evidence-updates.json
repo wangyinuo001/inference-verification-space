@@ -1,0 +1,77 @@
+[
+  {
+    "unit_id": "output.structured_marker_boundary",
+    "add_framework_scope": [
+      "vllm"
+    ],
+    "add_evidence": {
+      "vllm": [
+        {
+          "path": "vllm/parser/engine/streaming_parser_engine.py",
+          "line": 226,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/parser/engine/streaming_parser_engine.py",
+          "line": 361,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/parser/engine/parser_engine.py",
+          "line": 733,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/parser/chat_parsing/response_parser.py",
+          "line": 185,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "unit_id": "response.reasoning_parser_initial_state",
+    "add_framework_scope": [
+      "vllm"
+    ],
+    "add_evidence": {
+      "vllm": [
+        {
+          "path": "vllm/parser/qwen3.py",
+          "line": 352,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/parser/deepseek_v4.py",
+          "line": 210,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/parser/engine/parser_engine.py",
+          "line": 119,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "unit_id": "deployment.parser_selection",
+    "add_framework_scope": [
+      "vllm"
+    ],
+    "add_evidence": {
+      "vllm": [
+        {
+          "path": "vllm/parser/parser_manager.py",
+          "line": 98,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/parser/parser_manager.py",
+          "line": 152,
+          "kind": "source"
+        }
+      ]
+    }
+  }
+]

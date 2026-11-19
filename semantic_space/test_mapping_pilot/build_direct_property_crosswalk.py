@@ -1061,6 +1061,15 @@ def main() -> dict[str, int]:
                 "conditions": CONDITIONS[rule],
                 "rule_id": rule,
             })
+    from reviewed_batches import source_review_corrections, apply_source_review_correction
+    corrections = source_review_corrections(HERE)
+    rows = [apply_source_review_correction(r, corrections)[0] for r in rows]
+    role_path = HERE / 'reviewed-record-roles.json'
+    if role_path.exists():
+        excluded = {tuple(str(r[k]) for k in ('snapshot', 'path', 'test_name', 'line'))
+                    for r in json.loads(role_path.read_text())
+                    if not r.get('counted_as_completed_test_mapping', False)}
+        rows = [r for r in rows if tuple(r[k] for k in ('snapshot', 'path', 'test_name', 'line')) not in excluded]
     keys = [(r["snapshot"], r["path"], r["test_name"], r["line"]) for r in rows]
     assert len(keys) == len(set(keys))
     rows.sort(key=lambda r: (r["snapshot"], r["path"], int(r["line"])))

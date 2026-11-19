@@ -1,0 +1,29 @@
+[
+  {
+    "unit_id": "cache.eviction_outcome",
+    "snapshot": "vllm",
+    "framework_scope": [
+      "vllm"
+    ],
+    "evidence": [
+      {
+        "path": "vllm/distributed/aux_output_connector/store.py",
+        "line": 130,
+        "kind": "source"
+      },
+      {
+        "path": "vllm/distributed/aux_output_connector/store.py",
+        "line": 153,
+        "kind": "source"
+      },
+      {
+        "path": "vllm/distributed/aux_output_connector/store.py",
+        "line": 218,
+        "kind": "source"
+      }
+    ],
+    "source_sha256": "245a6967bae72c3752b50add1133dc1c2a295a54202377d7af0de187dbf6d6a6",
+    "source_excerpt": "def put(\n        self,\n        objects: list[BlockObject],\n        *,\n        retain_keys: Iterable[str] = (),\n        release_keys: Iterable[str] = (),\n    ) -> None:\n        retains = tuple(retain_keys)\n        releases = tuple(release_keys)\n        if not objects and not retains and not releases:\n            return\n        if self._closed:\n            raise RuntimeError(\"auxiliary output store is closed\")\n        self._queue.put((objects, retains, releases))\n        self._raise_if_failed()\n\ndef get_concatenated(self, keys: list[str]) -> bytes:\n        self._queue.join()\n        self._raise_if_failed()\n        return self._store.get_concatenated(keys)\n\ndef _evict_to_fit(self, protected: set[str]) -> None:\n        excess = len(self._slots) - self.num_slots\n        if excess <= 0:\n            return\n        victims = []\n        for key in self._lru:\n            if key not in protected:\n                victims.append(key)\n                if len(victims) == excess:\n                    break\n        for victim in victims:\n            del self._lru[victim]\n            slot = self._slots.pop(victim)\n            if slot != self._UNALLOCATED_SLOT:\n                self._free_slots.append(slot)\n\ndef put(\n        self,\n        objects: list[BlockObject],\n        *,\n        retain_keys: Iterable[str] = (),\n        release_keys: Iterable[str] = (),\n    ) -> None:\n        arena = self._arena\n        if arena is None:\n            raise RuntimeError(\"auxiliary output store is closed\")\n        unique = {obj.key: obj for obj in objects}\n        for key in unique.keys() & self._lru.keys():\n            del self._lru[key]\n            slot = self._slots.pop(key)\n            if slot != self._UNALLOCATED_SLOT:\n                self._free_slots.append(slot)\n        self._retain(retain_keys)\n        terminal_order = self._release(release_keys)\n        for key in unique:\n            self._slots.setdefault(key, self._UNALLOCATED_SLOT)\n            if key not in self._references:\n                self._lru[key] = None\n                self._lru.move_to_end(key)\n        for key in terminal_order:\n            if key in self._lru:\n                self._lru.move_to_end(key)\n        self._evict_to_fit(set(unique) - set(terminal_order))\n        if (nbytes := len(self._slots) * self.object_nbytes) > len(arena):\n            nbytes = max(nbytes, 2 * len(arena))\n            logger.warning(\n                \"Auxiliary output store grows to %d bytes: all objects are referenced.\",\n                nbytes,\n            )\n            grown = mmap.mmap(-1, nbytes)\n            grown[: len(arena)] = arena\n            self._arena = arena = grown\n            self.num_slots = len(grown) // self.object_nbytes\n        for object_id, obj in unique.items():\n            if self._slots.get(object_id) != self._UNALLOCATED_SLOT:\n                continue\n            slot = self._allocate_slot()\n            offset = slot * self.object_nbytes\n            arena[offset : offset + self.object_nbytes] = obj.payload\n            self._slots[object_id] = slot\n\ndef get_concatenated(self, keys: list[str]) -> bytes:\n        arena_obj = self._arena\n        if arena_obj is None:\n            raise RuntimeError(\"auxiliary output store is closed\")\n        try:\n            entries = [self._slots[key] for key in keys]\n        except KeyError as error:\n            raise BlockObjectStoreError(\n                \"auxiliary output object does not exist; the object may have been \"\n                f\"evicted (used={len(self._slots)}, \"\n                f\"limit={self.num_slots} objects).\"\n            ) from error\n        arena = memoryview(arena_obj)\n        try:\n            payload = b\"\".join(\n                arena[slot * self.object_nbytes : (slot + 1) * self.object_nbytes]\n                for slot in entries\n            )\n        finally:\n            arena.release()\n        for key in keys:\n            if key in self._lru:\n                self._lru.move_to_end(key)\n        return payload",
+    "semantic_difference": "此实现为CPU辅助输出对象池，按LRU及保护集合淘汰；SGLang优先级函数仅计算排序键，故旧行不能继续归eviction_priority。"
+  }
+]

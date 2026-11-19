@@ -1,0 +1,1 @@
+本批核查4个gateway Python配置/启动/绑定测试文件。读取产品dataclass/CLI、字符串转换、认证配置转换、启动入口、PyO3构造器及进程辅助函数。每条保留实际断言和替身边界。名称validation/immutability/serialization不能替代实际断言。4个本地复制logger测试、3个skip、嵌套未调用测试单列。Rust对象构造未启动服务；mock构造不证明Rust参数或路由策略运行。

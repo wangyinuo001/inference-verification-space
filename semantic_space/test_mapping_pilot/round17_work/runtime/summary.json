@@ -1,0 +1,23 @@
+{
+  "mapped_entries": 67,
+  "reviewed_files": 2,
+  "already_reviewed_excluded": 0,
+  "by_file": {
+    "tests/v1/sample/test_dry.py": 36,
+    "tests/v1/sample/test_topk_topp_sampler.py": 31
+  },
+  "by_unit": {
+    "cache.eviction_outcome": 1,
+    "compute.execution_relation": 2,
+    "compute.kernel_dispatch_binding": 3,
+    "deployment.effective_configuration": 1,
+    "deployment.extension_dispatch_contract": 1,
+    "sampling.breaker_token_resolution": 3,
+    "sampling.distribution_relation": 1,
+    "sampling.logit_transform_relation": 39,
+    "sampling.modifier_admissibility": 9,
+    "sampling.modifier_state_initialization": 6,
+    "sampling.policy": 1
+  },
+  "runtime_execution": false
+}

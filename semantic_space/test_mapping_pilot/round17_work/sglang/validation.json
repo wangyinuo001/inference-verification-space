@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "count": 139,
+  "inherited_candidates": 92,
+  "file_hashes": 7,
+  "unit_counts": {
+    "response.observed_payload_contract": 81,
+    "response.delivery": 2,
+    "service.configured_request_success": 8,
+    "input.error_response_classification": 28,
+    "response.batch_metadata_binding": 20
+  },
+  "unconfirmed": 0,
+  "upstream_tests_run": false
+}

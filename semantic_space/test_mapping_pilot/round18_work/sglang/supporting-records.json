@@ -1,0 +1,98 @@
+[
+  {
+    "snapshot": "sglang",
+    "path": "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+    "test_name": "TestRouterConfigValidation::test_tokenizer_config_validation",
+    "line": "258",
+    "definition_path": "sgl-model-gateway/bindings/python/tests/test_router_config.py",
+    "definition_line": "258",
+    "entry_kind": "python_test_definition",
+    "reason": "函数无条件pytest.skip，无实际验证断言。",
+    "test_source": "    def test_tokenizer_config_validation(self):\n        \"\"\"Test tokenizer configuration validation.\"\"\"\n        # Note: model_path and tokenizer_path are not available in current RouterArgs\n        pytest.skip(\"Tokenizer configuration not available in current implementation\")",
+    "source_sha256": "fcbd199e22f9116c575f964d3cc07c66e26ce564e5793c4085a66a0ce87d9890"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+    "test_name": "TestSetupLogger::test_setup_logger_returns_logger",
+    "line": "37",
+    "definition_path": "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+    "definition_line": "37",
+    "entry_kind": "python_test_definition",
+    "reason": "测试文件内部复制的setup_logger，未调用产品实现；属于测试自带辅助逻辑。",
+    "test_source": "    def test_setup_logger_returns_logger(self):\n        \"\"\"Test that setup_logger returns a logger instance.\"\"\"\n        logger = setup_logger()\n\n        assert isinstance(logger, logging.Logger)\n        assert logger.name == \"router\"\n        assert logger.level == logging.INFO",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+    "test_name": "TestSetupLogger::test_setup_logger_has_handler",
+    "line": "45",
+    "definition_path": "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+    "definition_line": "45",
+    "entry_kind": "python_test_definition",
+    "reason": "测试文件内部复制的setup_logger，未调用产品实现；属于测试自带辅助逻辑。",
+    "test_source": "    def test_setup_logger_has_handler(self):\n        \"\"\"Test that setup_logger configures a handler.\"\"\"\n        logger = setup_logger()\n\n        assert len(logger.handlers) > 0\n        handler = logger.handlers[0]\n        assert isinstance(handler, logging.StreamHandler)",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+    "test_name": "TestSetupLogger::test_setup_logger_has_formatter",
+    "line": "53",
+    "definition_path": "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+    "definition_line": "53",
+    "entry_kind": "python_test_definition",
+    "reason": "测试文件内部复制的setup_logger，未调用产品实现；属于测试自带辅助逻辑。",
+    "test_source": "    def test_setup_logger_has_formatter(self):\n        \"\"\"Test that setup_logger configures a formatter.\"\"\"\n        logger = setup_logger()\n\n        handler = logger.handlers[0]\n        formatter = handler.formatter\n\n        assert formatter is not None\n        assert \"[Router (Python)]\" in formatter._fmt",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+    "test_name": "TestSetupLogger::test_setup_logger_multiple_calls",
+    "line": "63",
+    "definition_path": "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+    "definition_line": "63",
+    "entry_kind": "python_test_definition",
+    "reason": "测试文件内部复制的setup_logger，未调用产品实现；属于测试自带辅助逻辑。",
+    "test_source": "    def test_setup_logger_multiple_calls(self):\n        \"\"\"Test that multiple calls to setup_logger work correctly.\"\"\"\n        logger1 = setup_logger()\n        logger2 = setup_logger()\n\n        # Should return the same logger instance\n        assert logger1 is logger2",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+    "test_name": "TestRouterInitialization::test_router_initialization_with_tokenizer_config",
+    "line": "456",
+    "definition_path": "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+    "definition_line": "456",
+    "entry_kind": "python_test_definition",
+    "reason": "函数无条件pytest.skip，无实际验证断言。",
+    "test_source": "    def test_router_initialization_with_tokenizer_config(self):\n        \"\"\"Test router initialization with tokenizer configuration.\"\"\"\n        # Note: model_path and tokenizer_path are not available in current RouterArgs\n        pytest.skip(\"Tokenizer configuration not available in current implementation\")",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+    "test_name": "test_launch_server_process_and_cleanup::test_validation_error_handling",
+    "line": "859",
+    "definition_path": "sgl-model-gateway/bindings/python/tests/test_startup_sequence.py",
+    "definition_line": "859",
+    "entry_kind": "python_test_definition",
+    "reason": "嵌套在test_launch_server_process_and_cleanup中，未调用且不是独立pytest收集方法；预期异常与当前允许空URL实现不符。",
+    "test_source": "    def test_validation_error_handling(self):\n        \"\"\"Test error handling when validation fails.\"\"\"\n        args = RouterArgs(\n            pd_disaggregation=True,\n            prefill_urls=[],\n            decode_urls=[],\n            service_discovery=False,\n        )\n\n        with patch(\"sglang_router.launch_router.logger\") as mock_logger:\n\n            with pytest.raises(\n                ValueError, match=\"PD disaggregation mode requires --prefill\"\n            ):\n                launch_router(args)\n\n            # Should log error for validation failures\n            mock_logger.error.assert_called_once()",
+    "source_sha256": "e77985a6d9e742b80aeb1998a10af924da619b1503c8c1f9eb7afe243ad1e808"
+  },
+  {
+    "snapshot": "sglang",
+    "path": "sgl-model-gateway/bindings/python/tests/test_validation.py",
+    "test_name": "TestConfigurationValidation::test_tokenizer_validation",
+    "line": "380",
+    "definition_path": "sgl-model-gateway/bindings/python/tests/test_validation.py",
+    "definition_line": "380",
+    "entry_kind": "python_test_definition",
+    "reason": "函数无条件pytest.skip，无实际验证断言。",
+    "test_source": "    def test_tokenizer_validation(self):\n        \"\"\"Test tokenizer configuration validation.\"\"\"\n        # Note: model_path and tokenizer_path are not available in current RouterArgs\n        pytest.skip(\"Tokenizer configuration not available in current implementation\")",
+    "source_sha256": "098fdbfebb7a13887a8d5486f83a1cdee8fb164e254e32773982a3f2e27f2593"
+  }
+]

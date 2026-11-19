@@ -1,0 +1,51 @@
+[
+  {
+    "id": "output.parser_input_contract",
+    "name": "解析配置与必需输入校验",
+    "kind": "obligation",
+    "phase": "output",
+    "state_scope": "request",
+    "conditions": [
+      "output_parse_profile"
+    ],
+    "property": "解析器检查模板字段与版本的支持范围、必需的提示前缀和结果字段，按声明规则拒绝不完整或不合法输入。",
+    "observable": [
+      "exception_type",
+      "exception_message",
+      "required_fields"
+    ],
+    "oracle": "构造缺失前缀、无锚点模板、非法变换和缺失必需输出字段，检查异常类型与提示；具体条件按每项断言记录。",
+    "framework_scope": [
+      "vllm"
+    ],
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/parser/chat_parsing/response_templates.py",
+          "line": 129,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/parser/chat_parsing/response_templates.py",
+          "line": 147,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/parser/chat_parsing/response_templates.py",
+          "line": 219,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/parser/chat_parsing/response_parser.py",
+          "line": 137,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/parser/chat_parsing/response_parser.py",
+          "line": 211,
+          "kind": "source"
+        }
+      ]
+    }
+  }
+]

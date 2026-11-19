@@ -1,0 +1,19 @@
+{
+  "mapped_entries": 120,
+  "reviewed_files": 3,
+  "already_reviewed_excluded": 0,
+  "by_file": {
+    "tests/utils_/test_numa_utils.py": 51,
+    "tests/v1/metrics/test_perf_metrics.py": 53,
+    "tests/v1/metrics/test_stats.py": 16
+  },
+  "by_unit": {
+    "deployment.configuration_admissibility": 2,
+    "deployment.effective_configuration": 2,
+    "deployment.numa_process_binding": 46,
+    "diagnostic.analytic_work_estimate": 53,
+    "diagnostic.record_schema_and_encoding": 1,
+    "diagnostic.request_statistics_record": 16
+  },
+  "runtime_execution": false
+}

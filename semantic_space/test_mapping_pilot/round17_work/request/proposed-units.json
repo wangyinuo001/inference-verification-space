@@ -1,0 +1,78 @@
+[
+  {
+    "id": "response.stream_state_contract",
+    "name": "流式响应状态的连续性与边界",
+    "kind": "obligation",
+    "phase": "output",
+    "state_scope": "request",
+    "conditions": [
+      "request_phase",
+      "execution_layout"
+    ],
+    "property": "分块响应携带的解码窗口、偏移、分块长度及上下文保持一致；空增量保留必要状态，非法偏移或长度组合按契约拒绝，声明有界的窗口不超出对应上限。解析重放历史与有界解码窗口分别记录，不能混为同一种状态。",
+    "observable": [
+      "decode_window",
+      "offsets",
+      "chunk_lengths",
+      "history",
+      "validation_error"
+    ],
+    "oracle": "检查具体输入下状态字段、序列化往返及输出关系，比较非法构造的异常和声明窗口上界。样例窗口检查不作为所有输入下的复杂度证明。",
+    "framework_scope": [
+      "vllm"
+    ],
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/entrypoints/scale_out/token_in_token_out/protocol.py",
+          "line": 813,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/renderers/online_derenderer.py",
+          "line": 539,
+          "kind": "source"
+        },
+        {
+          "path": "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+          "line": 602,
+          "kind": "existing_test"
+        }
+      ]
+    }
+  },
+  {
+    "id": "execution.host_executor_dispatch",
+    "name": "主机计算按约定交给执行线程",
+    "kind": "obligation",
+    "phase": "output",
+    "state_scope": "shared",
+    "conditions": [
+      "execution_layout"
+    ],
+    "property": "指定的主机计算在配置的执行线程运行，避免占用负责响应的事件循环线程。",
+    "observable": [
+      "execution_thread",
+      "executor_thread",
+      "event_loop_thread"
+    ],
+    "oracle": "记录真实调用线程身份并与执行线程及事件循环线程比较；该身份检查不证明性能收益。",
+    "framework_scope": [
+      "vllm"
+    ],
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/renderers/online_derenderer.py",
+          "line": 143,
+          "kind": "source"
+        },
+        {
+          "path": "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+          "line": 986,
+          "kind": "existing_test"
+        }
+      ]
+    }
+  }
+]

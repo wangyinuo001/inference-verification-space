@@ -1,0 +1,24 @@
+{
+  "validated_rows": 142,
+  "files": 5,
+  "supporting_source_files": 51,
+  "proposed_units": [],
+  "per_file": {
+    "tests/quantization/test_compressed_tensors.py": 16,
+    "tests/quantization/test_modelopt.py": 32,
+    "tests/quantization/test_online.py": 18,
+    "tests/quantization/test_quark.py": 38,
+    "tests/quantization/test_turboquant.py": 38
+  },
+  "checks": [
+    "九字段与唯一索引入口对应",
+    "所有条目仍pending且排除round12/13/14/15/16其他crosswalk",
+    "断言及实现锚点为纯path:line且指向非空行",
+    "测试def行号匹配索引",
+    "每条conditions JSON含真实输入、fixture/helper/class及生产锚点",
+    "file_reviews与supporting_source_reviews SHA256一致",
+    "性质ID存在于seed或完整提案且条件维度有效"
+  ],
+  "upstream_execution": false,
+  "gpu_used": false
+}

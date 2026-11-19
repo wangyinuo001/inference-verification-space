@@ -143,7 +143,7 @@ def main():
             assert record["source_sha256"] == src["hash"], k
             property_text = record["purpose"]
             decision = ("test_script_reviewed" if record["role"] in {"shell_test", "manual_execution_test", "generated_test_methods", "external_test_launcher"}
-                        else "incomplete_test_reviewed" if record["role"] in {"empty_file", "manual_demonstration"}
+                        else "incomplete_test_reviewed" if record["role"] in {"empty_file", "manual_demonstration", "unconditional_skip", "uninvoked_nested_test"}
                         else "supporting_record_reviewed")
         elif k in rust_reviews:
             record = rust_reviews[k]

@@ -1,0 +1,4630 @@
+[
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_linear.py",
+      "test_detects_and_rewrites_glu",
+      "791"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_linear.py": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_linear.py",
+      "test_glu_fuses_alongside_unrelated_projections",
+      "822"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_linear.py": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_linear.py",
+      "test_glu_identifies_down_projection",
+      "835"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_linear.py": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_linear.py",
+      "test_detects_and_rewrites_qkv",
+      "854"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_linear.py": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_linear.py",
+      "test_qkv_identifies_output_projection",
+      "898"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_linear.py": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_linear.py",
+      "test_fuses_gemma4_qkv_obstacles",
+      "924"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_linear.py": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_linear.py",
+      "test_qkv_refuses_unsound_rewrites",
+      "968"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_linear.py": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_linear.py",
+      "test_bypass_existence_guard_folds_identity_none_check",
+      "1005"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_linear.py": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_linear.py",
+      "test_bypass_existence_guard_folds_bare_truthiness",
+      "1025"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_linear.py": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_linear.py",
+      "test_bypass_existence_guard_folds_bare_if_statement",
+      "1040"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_linear.py": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_linear.py",
+      "test_bypass_existence_guard_refuses_non_guard_reference",
+      "1071"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_linear.py": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_linear.py",
+      "test_fuses_real_gemma4_attention",
+      "1084"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_linear.py": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_linear.py",
+      "test_merged_column_fuser_folds_existence_guard",
+      "1112"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_linear.py": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_linear.py",
+      "test_merged_column_fuser_rejects_input_mutation",
+      "1137"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_linear.py": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_linear.py",
+      "test_merged_name_is_unique_per_linear_names",
+      "1199"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_linear.py": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_linear.py",
+      "test_heterogeneous_instances_fall_back_to_merged_column_fuser",
+      "1210"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_linear.py": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_linear.py",
+      "test_detects_and_rewrites_packed_qkv",
+      "1234"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_linear.py": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_linear.py",
+      "test_per_head_split_is_not_packed_qkv",
+      "1267"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_linear.py": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_linear.py",
+      "test_non_matching_modules_return_none",
+      "1284"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_linear.py": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_linear.py",
+      "test_untraceable_tail_still_fuses",
+      "1290"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_linear.py": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_linear.py",
+      "test_weight_mappings_are_scoped_to_fused_prefixes",
+      "1306"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_linear.py": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_linear.py",
+      "test_unfusable_modules_are_not_fused",
+      "1363"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_linear.py": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_linear.py",
+      "test_act_and_mul_derived_from_module",
+      "1372"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_linear.py": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_linear.py",
+      "test_head_counts_come_from_the_module_not_the_model",
+      "1406"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_linear.py": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_linear.py",
+      "test_validate_accepts_a_layer_the_model_wide_head_size_would_reject",
+      "1441"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_linear.py": "deb591609a537c805676f4e8e31c20e2250b0e00c04596d8b1e9ce919690430b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_moe.py",
+      "test_moe_fuser_detects_router",
+      "418"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_moe.py": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_moe.py",
+      "test_moe_fuser_matches_router_scoring_the_selection",
+      "429"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_moe.py": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_moe.py",
+      "test_moe_fuser_matches_scaled_router",
+      "441"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_moe.py": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_moe.py",
+      "test_moe_fuser_reads_renormalize_from_the_gate",
+      "457"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_moe.py": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_moe.py",
+      "test_moe_fuser_matches_grouped_router",
+      "469"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_moe.py": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_moe.py",
+      "test_moe_fuser_matches_correction_router",
+      "479"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_moe.py": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_moe.py",
+      "test_moe_fuser_reads_router_dtype_from_the_gate",
+      "489"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_moe.py": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_moe.py",
+      "test_moe_fuser_detects_shared_experts",
+      "501"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_moe.py": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_moe.py",
+      "test_moe_fuser_shared_without_gate",
+      "510"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_moe.py": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_moe.py",
+      "test_moe_fuser_detects_non_glu_shared_expert",
+      "519"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_moe.py": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_moe.py",
+      "test_moe_fuser_declines_unsupported",
+      "543"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_moe.py": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_moe.py",
+      "test_moe_fuser_ignores_nested_returns",
+      "549"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_moe.py": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_moe.py",
+      "test_moe_fuser_router_requires_connected_dataflow",
+      "557"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_moe.py": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_moe.py",
+      "test_moe_fuser_unrecognized_router_moves_shared_expert",
+      "565"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_moe.py": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_moe.py",
+      "test_moe_fuser_divided_shared_output",
+      "582"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_moe.py": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_moe.py",
+      "test_moe_fuser_scaled_output_needs_vllm_routing",
+      "589"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_moe.py": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_moe.py",
+      "test_moe_fuser_matches_experts_called_by_keyword",
+      "596"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_moe.py": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_moe.py",
+      "test_moe_fuser_scaled_output_with_vllm_routing",
+      "602"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_moe.py": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_moe.py",
+      "test_moe_fuser_looks_through_casts_and_identity",
+      "612"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_moe.py": "5568fea5d2436ad00fbae63fbceafe91c5ae996eccbadb27b23c7dd9cc1b07ee"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_rms_norm.py",
+      "test_detects_rms_norm_variants",
+      "217"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "f18974dcfbbe310f837446477e177d28cd8be20084bd2ef9b4ba3ec2a97664dd",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_rms_norm.py": "f18974dcfbbe310f837446477e177d28cd8be20084bd2ef9b4ba3ec2a97664dd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_rms_norm.py",
+      "test_non_rms_norms_are_not_matched",
+      "225"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "f18974dcfbbe310f837446477e177d28cd8be20084bd2ef9b4ba3ec2a97664dd",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_rms_norm.py": "f18974dcfbbe310f837446477e177d28cd8be20084bd2ef9b4ba3ec2a97664dd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_rms_norm.py",
+      "test_gated_rms_norm_is_not_fused",
+      "234"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "f18974dcfbbe310f837446477e177d28cd8be20084bd2ef9b4ba3ec2a97664dd",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_rms_norm.py": "f18974dcfbbe310f837446477e177d28cd8be20084bd2ef9b4ba3ec2a97664dd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_rms_norm.py",
+      "test_rms_norm_builds_vllm_class",
+      "251"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "f18974dcfbbe310f837446477e177d28cd8be20084bd2ef9b4ba3ec2a97664dd",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_rms_norm.py": "f18974dcfbbe310f837446477e177d28cd8be20084bd2ef9b4ba3ec2a97664dd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_rms_norm.py",
+      "test_pow_spelled_norm_fuses_to_equivalent_math",
+      "278"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "f18974dcfbbe310f837446477e177d28cd8be20084bd2ef9b4ba3ec2a97664dd",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_rms_norm.py": "f18974dcfbbe310f837446477e177d28cd8be20084bd2ef9b4ba3ec2a97664dd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_rms_norm.py",
+      "test_weightless_norm_has_no_hidden_size",
+      "296"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "f18974dcfbbe310f837446477e177d28cd8be20084bd2ef9b4ba3ec2a97664dd",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_rms_norm.py": "f18974dcfbbe310f837446477e177d28cd8be20084bd2ef9b4ba3ec2a97664dd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_rms_norm.py",
+      "test_fused_rms_norm_op_default_eps",
+      "314"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "f18974dcfbbe310f837446477e177d28cd8be20084bd2ef9b4ba3ec2a97664dd",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_rms_norm.py": "f18974dcfbbe310f837446477e177d28cd8be20084bd2ef9b4ba3ec2a97664dd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_rms_norm.py",
+      "test_eps_is_derived_per_instance",
+      "330"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "f18974dcfbbe310f837446477e177d28cd8be20084bd2ef9b4ba3ec2a97664dd",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_rms_norm.py": "f18974dcfbbe310f837446477e177d28cd8be20084bd2ef9b4ba3ec2a97664dd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_rms_norm.py",
+      "test_eps_attr_is_found_by_value_not_name",
+      "343"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "f18974dcfbbe310f837446477e177d28cd8be20084bd2ef9b4ba3ec2a97664dd",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_rms_norm.py": "f18974dcfbbe310f837446477e177d28cd8be20084bd2ef9b4ba3ec2a97664dd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_rms_norm.py",
+      "test_literal_eps_is_not_mistaken_for_an_attribute",
+      "356"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "f18974dcfbbe310f837446477e177d28cd8be20084bd2ef9b4ba3ec2a97664dd",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_rms_norm.py": "f18974dcfbbe310f837446477e177d28cd8be20084bd2ef9b4ba3ec2a97664dd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_rms_norm.py",
+      "test_ambiguous_eps_attrs_are_disambiguated",
+      "370"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "f18974dcfbbe310f837446477e177d28cd8be20084bd2ef9b4ba3ec2a97664dd",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_rms_norm.py": "f18974dcfbbe310f837446477e177d28cd8be20084bd2ef9b4ba3ec2a97664dd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_rms_norm.py",
+      "test_fused_norm_is_gather_capable",
+      "387"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "f18974dcfbbe310f837446477e177d28cd8be20084bd2ef9b4ba3ec2a97664dd",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_rms_norm.py": "f18974dcfbbe310f837446477e177d28cd8be20084bd2ef9b4ba3ec2a97664dd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/models/transformers/fusers/test_rms_norm.py",
+      "test_gathered_norm_rejects_uneven_sharding",
+      "410"
+    ],
+    "review_file": "round17_work/compute/crosswalk.tsv",
+    "source_sha256": "f18974dcfbbe310f837446477e177d28cd8be20084bd2ef9b4ba3ec2a97664dd",
+    "oracle_source_sha256": {
+      "tests/models/transformers/fusers/test_rms_norm.py": "f18974dcfbbe310f837446477e177d28cd8be20084bd2ef9b4ba3ec2a97664dd"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "test_non_streaming_derender_initializes_parser_prefix",
+      "328"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "test_parsed_derender_leaves_out_stop_token_like_engine",
+      "378"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "test_derender_text_choices_builds_request_from_parse_context",
+      "458"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "test_derender_text_choices_drops_tool_calls_without_tool_choice",
+      "498"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDetokenizeDelta::test_single_chunk",
+      "540"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDetokenizeDelta::test_two_equal_chunks",
+      "547"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDetokenizeDelta::test_single_token_per_chunk",
+      "556"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDetokenizeDelta::test_empty_delta_passthrough",
+      "564"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDetokenizeDelta::test_multibyte_char_split_across_chunks",
+      "578"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDetokenizeDelta::test_state_carries_across_calls",
+      "591"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDetokenizeDelta::test_state_window_stays_bounded",
+      "602"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDetokenizeDelta::test_truncated_multibyte_char_is_held_back",
+      "622"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDetokenizeDelta::test_decode_params_mirror_engine",
+      "658"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDetokenizeDelta::test_decode_params_default_without_request",
+      "673"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDetokenizeDelta::test_decode_params_mistral_parser_follows_request",
+      "677"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDetokenizeDelta::test_n_independent_streams_same_result",
+      "690"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestSeedStreamState::test_seeds_prev_token_ids_from_prompt_tail",
+      "754"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestSeedStreamState::test_byte_fallback_survives_state_round_trip",
+      "760"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestSeedStreamState::test_none_prompt_token_ids_returns_empty_state",
+      "789"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestSeedStreamState::test_empty_prompt_token_ids_returns_empty_state",
+      "795"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestPromptSeededLeadingSpace::test_chat_batch_seeded_via_explicit_prompt_token_ids",
+      "807"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestPromptSeededLeadingSpace::test_chat_batch_seeded_via_generate_response_fallback",
+      "825"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestPromptSeededLeadingSpace::test_chat_batch_explicit_takes_precedence_over_fallback",
+      "843"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestPromptSeededLeadingSpace::test_chat_batch_without_prompt_context_stays_unseeded",
+      "863"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestPromptSeededLeadingSpace::test_completion_batch_seeded",
+      "880"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestPromptSeededLeadingSpace::test_chat_stream_first_chunk_seeded",
+      "899"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestPromptSeededLeadingSpace::test_completion_stream_first_chunk_seeded",
+      "928"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestPromptSeededLeadingSpace::test_parser_path_ephemeral_state_seeded",
+      "951"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "test_streaming_detokenization_runs_off_event_loop",
+      "986"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderCompletionStream::test_chunked_equals_oneshot",
+      "1023"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderCompletionStream::test_usage_chunk_passthrough",
+      "1045"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderCompletionStream::test_prompt_tokens_in_usage",
+      "1058"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderCompletionStream::test_none_state_initialises_correctly",
+      "1073"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderCompletionStream::test_skip_special_tokens_threaded",
+      "1087"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderCompletionStream::test_finish_reason_forwarded",
+      "1109"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderCompletionStream::test_stop_reason_forwarded",
+      "1119"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestStreamLogprobs::test_chat_stream_logprobs_resolved_per_chunk",
+      "1137"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestStreamLogprobs::test_chat_stream_logprobs_multibyte_across_chunks",
+      "1158"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestStreamLogprobs::test_completion_stream_logprobs_text_offset_absolute",
+      "1188"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestStreamLogprobs::test_completion_offsets_include_skipped_special_tokens",
+      "1219"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestStreamLogprobs::test_stream_logprob_state_stays_bounded",
+      "1272"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestStreamLogprobs::test_stream_without_logprobs_unchanged",
+      "1288"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderChatStream::test_role_on_first_chunk_only",
+      "1302"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderChatStream::test_metrics_passthrough",
+      "1323"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderChatStream::test_chunked_equals_oneshot",
+      "1343"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderChatStream::test_parser_configured_missing_chat_request_raises",
+      "1367"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderChatStreamParsed::test_dispatches_and_emits_content",
+      "1398"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderChatStreamParsed::test_role_sent_once",
+      "1412"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderChatStreamParsed::test_finish_only_chunk_flushes",
+      "1431"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderChatStreamParsed::test_chunking_invariance",
+      "1450"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderChatStreamParsed::test_replay_preserves_chunk_boundaries",
+      "1501"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderChatStreamParsed::test_tool_call_id_pinned_across_chunks",
+      "1549"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderChatStreamParsed::test_finish_reason_rewritten_to_tool_calls",
+      "1582"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderChatStreamParsed::test_finish_reason_stop_for_named_tool_choice",
+      "1602"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderChatStreamParsed::test_include_reasoning_false_suppresses_reasoning",
+      "1621"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderChatStreamParsed::test_logprobs_attached_to_each_parsed_delta",
+      "1638"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderChatStreamParsed::test_top_logprobs_follow_the_chat_cut",
+      "1681"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderChatStreamParsed::test_logprobs_kept_when_parser_swallows_chunk",
+      "1704"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderChatStreamParsed::test_include_reasoning_false_drops_logprobs_on_every_chunk",
+      "1727"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderChatStreamParsed::test_logprobs_multibyte_across_chunks",
+      "1748"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderChatStreamParsed::test_logprob_context_advances_without_logprobs",
+      "1773"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderChatStreamHarmony::test_reasoning_never_leaks_as_content_midstream",
+      "1909"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderChatStreamHarmony::test_stream_matches_batch",
+      "1946"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderStreamStateValidation::test_negative_prefix_offset_rejected",
+      "1978"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderStreamStateValidation::test_negative_read_offset_rejected",
+      "1982"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderStreamStateValidation::test_prev_token_ids_over_cap_rejected",
+      "1986"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderStreamStateValidation::test_prev_token_ids_at_cap_accepted",
+      "1990"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderStreamStateValidation::test_output_chunk_lens_mismatch_rejected",
+      "1994"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderStreamStateValidation::test_output_chunk_lens_zero_entry_rejected",
+      "1998"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestDerenderStreamStateValidation::test_output_chunk_lens_matching_accepted",
+      "2002"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "test_negative_prompt_token_ids_rejected",
+      "2032"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestServingDerenderStreamErrorHandling::test_completion_stream_bad_state_returns_400",
+      "2059"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestServingDerenderStreamErrorHandling::test_chat_stream_bad_state_returns_400",
+      "2073"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestServingDerenderStreamValidation::test_missing_chat_request_with_parser_rejected",
+      "2108"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestServingDerenderStreamValidation::test_missing_chat_request_without_parser_ok",
+      "2122"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestServingDerenderStreamValidation::test_chat_stop_strings_rejected",
+      "2134"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestServingDerenderStreamValidation::test_completion_stop_strings_rejected",
+      "2152"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestServingDerenderStreamValidation::test_missing_prompt_token_ids_with_parser_rejected",
+      "2169"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestServingDerenderStreamValidation::test_prompt_token_ids_present_with_parser_ok",
+      "2188"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestServingDerenderStreamValidation::test_oversized_output_token_ids_rejected",
+      "2201"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestServingDerenderStreamValidation::test_oversized_prompt_token_ids_rejected",
+      "2218"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "TestServingDerenderStreamValidation::test_too_many_choices_rejected",
+      "2238"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "test_streaming_completion_derender_roundtrip",
+      "2293"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "test_streaming_chat_derender_roundtrip",
+      "2364"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "test_streaming_derender_invalid_body_returns_400",
+      "2438"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "test_streaming_derender_non_object_body_returns_400",
+      "2451"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "test_streaming_usage_chunk",
+      "2461"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "test_stream_parsed_matches_batch_reasoning",
+      "2594"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "test_stream_parsed_matches_batch_tool_call",
+      "2651"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "test_stream_parsed_cjk_across_chunk_boundaries",
+      "2732"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "test_stream_parsed_include_reasoning_false",
+      "2765"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "test_stream_parsed_missing_chat_request_rejected",
+      "2791"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py",
+      "test_stream_parsed_missing_prompt_token_ids_rejected",
+      "2811"
+    ],
+    "review_file": "round17_work/request/crosswalk.tsv",
+    "source_sha256": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84",
+    "oracle_source_sha256": {
+      "tests/entrypoints/scale_out/derender/test_derender_stream.py": "9d9313720ed304cba8162971e60a105e61c1b819989feeb75aca4305fe752e84"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_worked_example",
+      "50"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_z_box_equality_boundary",
+      "59"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_exponent_clamp_float32_semantics",
+      "68"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_long_repeat_saturates_to_neg_inf",
+      "79"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_allowed_length_threshold",
+      "100"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_breakers_cap_and_exclude",
+      "107"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_short_windows_are_safe",
+      "114"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_breaker_containment_resolution",
+      "130"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_validate_params_rejects_json_booleans",
+      "148"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_validate_params",
+      "159"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_validate_params_rejects_unknown_dry_keys",
+      "183"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_validate_params_raises_plain_valueerror",
+      "191"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_differential_against_oracle",
+      "236"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_double_pow_saturation",
+      "262"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_dry_core_rejects_j_budget_over_the_budget",
+      "289"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_v2_worked_example_and_window_bounds",
+      "380"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_v2_disabled_and_gating",
+      "405"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_v2_penalty_last_n_window",
+      "419"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_spec_decode_is_refused_at_construction",
+      "439"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_v2_draft_expanded_logits_raise",
+      "452"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_constructs_without_speculative_config",
+      "478"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_v2_matches_reference_fuzz",
+      "485"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_v2_batch_sharded_sampling_matches_unsharded",
+      "552"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_v2_breaker_strings_resolve_and_reach_dry_core",
+      "626"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_breaker_mask_cache_is_bounded",
+      "658"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_default_breaker_set_is_resolved_eagerly",
+      "671"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_init_warms_up_dry_core_once",
+      "689"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_no_tokenizer_warns_once_and_still_penalizes",
+      "728"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_v2_degenerate_base_routes_to_unclamped_slow_path",
+      "742"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_breaker_resolution_covers_added_tokens",
+      "764"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_breaker_index_matches_containment_scan",
+      "800"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_loads_through_the_loader_by_fqcn",
+      "911"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_admission_validator_rejects_bad_extra_args",
+      "950"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_dry_int_params_upper_bound",
+      "968"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_dry_base_below_one_warns_that_it_disabled_dry",
+      "978"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_dry.py",
+      "test_result_does_not_depend_on_the_chunk_budget",
+      "999"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_dry.py": "e79ac4c43768053917f52d7a641d956b84c5b51a2304d0337c7d0114aafc28df"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "test_sampler_threads_fp64_gumbel_to_topk_topp_sampler",
+      "64"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "test_rocm_aiter_sampler_defers_import_when_generators_force_native",
+      "74"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "test_random_sample_uses_fp64_exponential_race_when_requested",
+      "123"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "test_topk_impl_equivalence",
+      "146"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "test_flashinfer_sampler_fallback_when_jit_cannot_target_gpu",
+      "174"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "test_flashinfer_sampler_fallback_when_flashinfer_disabled",
+      "209"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "TestTritonTopkTopp::test_topk_only",
+      "298"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "TestTritonTopkTopp::test_topp_only",
+      "314"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "TestTritonTopkTopp::test_topk_and_topp",
+      "328"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "TestTritonTopkTopp::test_topk_and_topp_large_vocab",
+      "349"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "TestTritonTopkTopp::test_both_disabled",
+      "365"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "TestTritonTopkTopp::test_extreme_k_values",
+      "376"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "TestTritonTopkTopp::test_extreme_p_values",
+      "395"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "TestTritonTopkTopp::test_large_batch",
+      "414"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "TestTritonTopkTopp::test_large_batch_int64_row_offset",
+      "426"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "TestTritonTopkTopp::test_noncontiguous_logits_match_contiguous",
+      "468"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "TestTritonTopkTopp::test_topk_with_neginf_logits",
+      "519"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "TestTritonTopkTopp::test_topp_with_neginf_logits",
+      "553"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "TestTritonTopkTopp::test_topk_topp_with_neginf_logits",
+      "580"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "TestTritonTopkTopp::test_all_neginf_logits",
+      "609"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "TestTritonTopkTopp::test_few_valid_tokens_with_neginf",
+      "638"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "TestTritonTopkTopp::test_equal_logits_few_valid",
+      "683"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "TestTritonTopkTopp::test_nearly_equal_logits_topp",
+      "725"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "TestTritonTopkTopp::test_mixed_neginf_and_normal_rows",
+      "757"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "TestTritonTopkTopp::test_mixed_batch_grammar_rows_get_topp",
+      "787"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "TestTritonTopkTopp::test_skip_split_without_topp_only_rows",
+      "826"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "TestTritonTopkTopp::test_topp_tie_break_deterministic",
+      "857"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "TestTritonTopkTopp::test_topp_keeps_forced_huge_logit",
+      "896"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "TestTritonTopkTopp::test_topp_ties_across_blocks",
+      "922"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "TestFlashInferTopkToppRobustness::test_flashinfer_handles_pathological_logits",
+      "1060"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/sample/test_topk_topp_sampler.py",
+      "TestFlashInferDistributionMatch::test_distribution_matches_theoretical",
+      "1137"
+    ],
+    "review_file": "round17_work/runtime/crosswalk.tsv",
+    "source_sha256": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb",
+    "oracle_source_sha256": {
+      "tests/v1/sample/test_topk_topp_sampler.py": "5c077ae55f34715659cde20fa46c7c045d4beedcd459c5c066710580eeaea7bb"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestOpenAIServerFunctionCalling::test_function_calling_format",
+      "109"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestOpenAIServerFunctionCalling::test_function_calling_streaming_simple",
+      "163"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestOpenAIServerFunctionCalling::test_function_calling_streaming_args_parsing",
+      "239"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestOpenAIServerFunctionCalling::test_function_call_strict",
+      "327"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestOpenAIServerFunctionCalling::test_function_call_required",
+      "381"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestOpenAIServerFunctionCalling::test_function_call_specific",
+      "464"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestOpenAIServerFunctionCalling::test_streaming_multiple_choices_finish_reason",
+      "534"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestOpenAIServerFunctionCalling::test_function_calling_streaming_no_tool_call",
+      "609"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestOpenAIServerFunctionCalling::test_streaming_multiple_choices_without_tools",
+      "675"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestOpenAIPythonicFunctionCalling::test_pythonic_tool_call_prompt",
+      "737"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestOpenAIPythonicFunctionCalling::test_pythonic_tool_call_streaming",
+      "756"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "_TestToolChoiceBase::test_tool_choice_auto_non_streaming",
+      "936"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "_TestToolChoiceBase::test_tool_choice_auto_streaming",
+      "955"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "_TestToolChoiceBase::test_tool_choice_required_non_streaming",
+      "985"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "_TestToolChoiceBase::test_tool_choice_required_streaming",
+      "1007"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "_TestToolChoiceBase::test_tool_choice_specific_function_non_streaming",
+      "1033"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "_TestToolChoiceBase::test_tool_choice_specific_function_streaming",
+      "1059"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "_TestToolChoiceBase::test_required_streaming_arguments_chunks_json",
+      "1096"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "_TestToolChoiceBase::test_complex_parameters_required_non_streaming",
+      "1159"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "_TestToolChoiceBase::test_multi_tool_scenario_auto",
+      "1239"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "_TestToolChoiceBase::test_multi_tool_scenario_required",
+      "1278"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "_TestToolChoiceBase::test_error_handling_invalid_tool_choice",
+      "1324"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "_TestToolChoiceBase::test_invalid_tool_missing_name",
+      "1348"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "_TestToolChoiceBase::test_conflicting_defs_required_tool_choice",
+      "1396"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceMistral::test_complex_parameters_required_non_streaming",
+      "1527"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceMistral::test_multi_tool_scenario_required",
+      "1539"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLlama32::test_tool_choice_auto_non_streaming",
+      "198"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLlama32::test_tool_choice_auto_streaming",
+      "215"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLlama32::test_tool_choice_required_non_streaming",
+      "243"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLlama32::test_tool_choice_required_streaming",
+      "263"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLlama32::test_tool_choice_specific_function_non_streaming",
+      "287"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLlama32::test_tool_choice_specific_function_streaming",
+      "311"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLlama32::test_required_streaming_arguments_chunks_json",
+      "346"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLlama32::test_complex_parameters_required_non_streaming",
+      "408"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLlama32::test_multi_tool_scenario_auto",
+      "488"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLlama32::test_multi_tool_scenario_required",
+      "529"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLlama32::test_error_handling_invalid_tool_choice",
+      "579"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLlama32::test_invalid_tool_missing_name",
+      "604"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLlama32::test_invalid_json_schema_in_tool",
+      "650"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLlama32::test_conflicting_defs_required_tool_choice",
+      "695"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceMistral::test_tool_choice_required_non_streaming",
+      "821"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceMistral::test_multi_tool_scenario_required",
+      "826"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceMistral::test_complex_parameters_required_non_streaming",
+      "831"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py",
+      "BaseTestOpenAIServerWithHiddenStates::test_completion",
+      "35"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e",
+    "oracle_source_sha256": {
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py",
+      "BaseTestOpenAIServerWithHiddenStates::test_completion_stream",
+      "45"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e",
+    "oracle_source_sha256": {
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py",
+      "BaseTestOpenAIServerWithHiddenStates::test_chat_completion",
+      "56"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e",
+    "oracle_source_sha256": {
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py",
+      "BaseTestOpenAIServerWithHiddenStates::test_chat_completion_stream",
+      "65"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e",
+    "oracle_source_sha256": {
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceLlama::test_complex_parameters_required_non_streaming",
+      "1480"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceLlama::test_conflicting_defs_required_tool_choice",
+      "1480"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceLlama::test_error_handling_invalid_tool_choice",
+      "1480"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceLlama::test_invalid_tool_missing_name",
+      "1480"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceLlama::test_multi_tool_scenario_auto",
+      "1480"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceLlama::test_multi_tool_scenario_required",
+      "1480"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceLlama::test_required_streaming_arguments_chunks_json",
+      "1480"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceLlama::test_tool_choice_auto_non_streaming",
+      "1480"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceLlama::test_tool_choice_auto_streaming",
+      "1480"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceLlama::test_tool_choice_required_non_streaming",
+      "1480"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceLlama::test_tool_choice_required_streaming",
+      "1480"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceLlama::test_tool_choice_specific_function_non_streaming",
+      "1480"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceLlama::test_tool_choice_specific_function_streaming",
+      "1480"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceQwen::test_complex_parameters_required_non_streaming",
+      "1500"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceQwen::test_conflicting_defs_required_tool_choice",
+      "1500"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceQwen::test_error_handling_invalid_tool_choice",
+      "1500"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceQwen::test_invalid_tool_missing_name",
+      "1500"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceQwen::test_multi_tool_scenario_auto",
+      "1500"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceQwen::test_multi_tool_scenario_required",
+      "1500"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceQwen::test_required_streaming_arguments_chunks_json",
+      "1500"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceQwen::test_tool_choice_auto_non_streaming",
+      "1500"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceQwen::test_tool_choice_auto_streaming",
+      "1500"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceQwen::test_tool_choice_required_non_streaming",
+      "1500"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceQwen::test_tool_choice_required_streaming",
+      "1500"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceQwen::test_tool_choice_specific_function_non_streaming",
+      "1500"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceQwen::test_tool_choice_specific_function_streaming",
+      "1500"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceMistral::test_conflicting_defs_required_tool_choice",
+      "1517"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceMistral::test_error_handling_invalid_tool_choice",
+      "1517"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceMistral::test_invalid_tool_missing_name",
+      "1517"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceMistral::test_multi_tool_scenario_auto",
+      "1517"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceMistral::test_required_streaming_arguments_chunks_json",
+      "1517"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceMistral::test_tool_choice_auto_non_streaming",
+      "1517"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceMistral::test_tool_choice_auto_streaming",
+      "1517"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceMistral::test_tool_choice_required_non_streaming",
+      "1517"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceMistral::test_tool_choice_required_streaming",
+      "1517"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceMistral::test_tool_choice_specific_function_non_streaming",
+      "1517"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py",
+      "TestToolChoiceMistral::test_tool_choice_specific_function_streaming",
+      "1517"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264",
+    "oracle_source_sha256": {
+      "sgl-model-gateway/e2e_test/chat_completions/test_function_calling.py": "6eaea5d251146be44c34483ca1287468149f3765369a9e7eac7d109e20956264"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceQwen25::test_complex_parameters_required_non_streaming",
+      "767"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceQwen25::test_conflicting_defs_required_tool_choice",
+      "767"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceQwen25::test_error_handling_invalid_tool_choice",
+      "767"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceQwen25::test_invalid_json_schema_in_tool",
+      "767"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceQwen25::test_invalid_tool_missing_name",
+      "767"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceQwen25::test_multi_tool_scenario_auto",
+      "767"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceQwen25::test_multi_tool_scenario_required",
+      "767"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceQwen25::test_required_streaming_arguments_chunks_json",
+      "767"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceQwen25::test_tool_choice_auto_non_streaming",
+      "767"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceQwen25::test_tool_choice_auto_streaming",
+      "767"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceQwen25::test_tool_choice_required_non_streaming",
+      "767"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceQwen25::test_tool_choice_required_streaming",
+      "767"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceQwen25::test_tool_choice_specific_function_non_streaming",
+      "767"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceQwen25::test_tool_choice_specific_function_streaming",
+      "767"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceMistral::test_conflicting_defs_required_tool_choice",
+      "792"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceMistral::test_error_handling_invalid_tool_choice",
+      "792"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceMistral::test_invalid_json_schema_in_tool",
+      "792"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceMistral::test_invalid_tool_missing_name",
+      "792"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceMistral::test_multi_tool_scenario_auto",
+      "792"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceMistral::test_required_streaming_arguments_chunks_json",
+      "792"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceMistral::test_tool_choice_auto_non_streaming",
+      "792"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceMistral::test_tool_choice_auto_streaming",
+      "792"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceMistral::test_tool_choice_required_streaming",
+      "792"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceMistral::test_tool_choice_specific_function_non_streaming",
+      "792"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceMistral::test_tool_choice_specific_function_streaming",
+      "792"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLfm2::test_complex_parameters_required_non_streaming",
+      "865"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLfm2::test_conflicting_defs_required_tool_choice",
+      "865"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLfm2::test_error_handling_invalid_tool_choice",
+      "865"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLfm2::test_invalid_json_schema_in_tool",
+      "865"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLfm2::test_invalid_tool_missing_name",
+      "865"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLfm2::test_multi_tool_scenario_auto",
+      "865"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLfm2::test_multi_tool_scenario_required",
+      "865"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLfm2::test_required_streaming_arguments_chunks_json",
+      "865"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLfm2::test_tool_choice_auto_non_streaming",
+      "865"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLfm2::test_tool_choice_auto_streaming",
+      "865"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLfm2::test_tool_choice_required_non_streaming",
+      "865"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLfm2::test_tool_choice_required_streaming",
+      "865"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLfm2::test_tool_choice_specific_function_non_streaming",
+      "865"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/manual/openai_server/function_call/test_tool_choice.py",
+      "TestToolChoiceLfm2::test_tool_choice_specific_function_streaming",
+      "865"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3",
+    "oracle_source_sha256": {
+      "test/manual/openai_server/function_call/test_tool_choice.py": "8be6e9b03562a4ce9b6fa2e54cf31147cf1b1560fedc9208ef84a0056fb44bd3"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py",
+      "TestOpenAIServerWithHiddenStatesEnabled::test_chat_completion",
+      "213"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e",
+    "oracle_source_sha256": {
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py",
+      "TestOpenAIServerWithHiddenStatesEnabled::test_chat_completion_stream",
+      "213"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e",
+    "oracle_source_sha256": {
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py",
+      "TestOpenAIServerWithHiddenStatesEnabled::test_completion",
+      "213"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e",
+    "oracle_source_sha256": {
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py",
+      "TestOpenAIServerWithHiddenStatesEnabled::test_completion_stream",
+      "213"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e",
+    "oracle_source_sha256": {
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py",
+      "TestOpenAIServerWithHiddenStatesEnabledAndCUDAGraphDisabled::test_chat_completion",
+      "239"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e",
+    "oracle_source_sha256": {
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py",
+      "TestOpenAIServerWithHiddenStatesEnabledAndCUDAGraphDisabled::test_chat_completion_stream",
+      "239"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e",
+    "oracle_source_sha256": {
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py",
+      "TestOpenAIServerWithHiddenStatesEnabledAndCUDAGraphDisabled::test_completion",
+      "239"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e",
+    "oracle_source_sha256": {
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py",
+      "TestOpenAIServerWithHiddenStatesEnabledAndCUDAGraphDisabled::test_completion_stream",
+      "239"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e",
+    "oracle_source_sha256": {
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py",
+      "TestOpenAIServerWithEAGLEAndHiddenStatesEnabled::test_chat_completion",
+      "265"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e",
+    "oracle_source_sha256": {
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py",
+      "TestOpenAIServerWithEAGLEAndHiddenStatesEnabled::test_chat_completion_stream",
+      "265"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e",
+    "oracle_source_sha256": {
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py",
+      "TestOpenAIServerWithEAGLEAndHiddenStatesEnabled::test_completion",
+      "265"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e",
+    "oracle_source_sha256": {
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py",
+      "TestOpenAIServerWithEAGLEAndHiddenStatesEnabled::test_completion_stream",
+      "265"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e",
+    "oracle_source_sha256": {
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py",
+      "TestOpenAIServerWithEAGLE3AndHiddenStatesEnabled::test_chat_completion",
+      "310"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e",
+    "oracle_source_sha256": {
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py",
+      "TestOpenAIServerWithEAGLE3AndHiddenStatesEnabled::test_chat_completion_stream",
+      "310"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e",
+    "oracle_source_sha256": {
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py",
+      "TestOpenAIServerWithEAGLE3AndHiddenStatesEnabled::test_completion",
+      "310"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e",
+    "oracle_source_sha256": {
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py",
+      "TestOpenAIServerWithEAGLE3AndHiddenStatesEnabled::test_completion_stream",
+      "310"
+    ],
+    "review_file": "round17_work/sglang/crosswalk.tsv",
+    "source_sha256": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e",
+    "oracle_source_sha256": {
+      "test/registered/openai_server/features/test_openai_server_hidden_states.py": "370292dc613dee4cb7ca85a334bb535402df2b178dd378d7019f4dd74ba7ab9e"
+    }
+  }
+]

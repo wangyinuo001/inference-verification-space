@@ -34,6 +34,18 @@ class ReviewDeliveryTest(unittest.TestCase):
         visible = set(re.findall(r'data-unit="([^"]+)"', graph))
         self.assertFalse({r["unit_id"] for r in checked} - visible)
 
+    def test_reviewed_helpers_and_nonexecuted_cases_do_not_turn_green(self):
+        delivery = {key(r): r for r in rows("full_delivery/all-entries.tsv")}
+        records = json.loads((HERE / "reviewed-record-roles.json").read_text())
+        selected = [r for r in records if r.get("review_source", "").startswith("round18_work/")]
+        self.assertEqual(len(selected), 10)
+        for record in selected:
+            actual = delivery[key(record)]["review_status"]
+            expected = ("incomplete_test_reviewed"
+                        if record["role"] in {"unconditional_skip", "uninvoked_nested_test"}
+                        else "supporting_record_reviewed")
+            self.assertEqual(actual, expected, key(record))
+
     def test_remote_evidence_does_not_automatically_mark_entries_reviewed(self):
         execution = {key(r): r for r in rows("background_evidence/runtime-entries.tsv")}
         delivery = {key(r): r for r in rows("full_delivery/all-entries.tsv")}

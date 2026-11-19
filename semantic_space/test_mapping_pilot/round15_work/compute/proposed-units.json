@@ -1,0 +1,133 @@
+[
+  {
+    "id": "compute.warmup_execution_policy",
+    "name": "计算预热并发策略与执行上下文隔离",
+    "kind": "obligation",
+    "phase": "model_execution",
+    "state_scope": "deployment",
+    "conditions": [
+      "kernel_selection_profile",
+      "execution_layout"
+    ],
+    "property": "计算预热或调优按声明的并发、串行及分组策略执行；预热退出或失败后其编译上下文不残留到正式执行，已预热实例按计划复用，正式执行首次遇到的新实例按运行时策略编译。",
+    "observable": [
+      "compile_thread",
+      "active_compile_context",
+      "warmup_calls",
+      "runtime_calls",
+      "compile_count",
+      "failure"
+    ],
+    "oracle": "记录编译/调优调用与线程身份，使用同步屏障或异常注入检查实际并发及退出；核对预热后缓存命中与运行时首次编译，并声明编译器和计算内核的替身范围。",
+    "framework_scope": [
+      "vllm"
+    ],
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/model_executor/warmup/jit_warmup_triton_helper.py",
+          "line": 237,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/model_executor/warmup/jit_warmup_triton_helper.py",
+          "line": 270,
+          "kind": "source"
+        },
+        {
+          "path": "tests/model_executor/test_jit_warmup_triton_launcher.py",
+          "line": 113,
+          "kind": "existing_test"
+        }
+      ]
+    }
+  },
+  {
+    "id": "model.dummy_parameter_initialization",
+    "name": "占位参数初始化遵守格式与中性值",
+    "kind": "obligation",
+    "phase": "model_execution",
+    "state_scope": "deployment",
+    "conditions": [
+      "parameter_lifecycle",
+      "numeric_format",
+      "parameter_mapping"
+    ],
+    "property": "用于无真实检查点启动或性能探针的占位参数按类型、名称与显式中性值初始化：浮点取值满足声明的有限范围，编码缩放量和打包字节保持可用且确定，标记的归一化参数取中性值，声明保留的宽整数索引不改写。",
+    "observable": [
+      "initialized_parameter",
+      "encoded_bytes",
+      "finite_fraction",
+      "nonzero_fraction",
+      "deterministic_values",
+      "preserved_indices"
+    ],
+    "oracle": "按初始化策略核对取值域、缩放指数字节、中性常数及重复结果，并比较保留项初始化前后的值；占位值不构成真实模型精度证据。",
+    "framework_scope": [
+      "vllm"
+    ],
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/model_executor/model_loader/weight_utils.py",
+          "line": 1682,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/model_executor/layers/layernorm.py",
+          "line": 70,
+          "kind": "source"
+        },
+        {
+          "path": "tests/model_executor/test_weight_utils.py",
+          "line": 414,
+          "kind": "existing_test"
+        }
+      ]
+    }
+  },
+  {
+    "id": "model.checkpoint_shard_artifact_binding",
+    "name": "分片检查点文件与执行rank对应",
+    "kind": "obligation",
+    "phase": "model_execution",
+    "state_scope": "deployment",
+    "conditions": [
+      "parallel_topology",
+      "parameter_mapping",
+      "parameter_lifecycle"
+    ],
+    "property": "分片检查点的文件集合按声明的并行rank和part编号命名及分卷，模板须区分所有活动rank维；别名和子张量按共享存储关系去重，不安全或未知模板在写入前拒绝并保留既有文件。",
+    "observable": [
+      "shard_filename",
+      "part_sequence",
+      "retained_tensor_keys",
+      "tensor_identity",
+      "existing_file_bytes",
+      "rejection"
+    ],
+    "oracle": "给定rank拓扑和模板逐项比较名称及分卷序列，用共享/切片张量核对序列化集合，并在无效模板条件下检查写入前后文件状态；记录保存函数是否替身，名称检查不替代权重内容校验。",
+    "framework_scope": [
+      "vllm"
+    ],
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/model_executor/model_loader/sharded_state_loader.py",
+          "line": 70,
+          "kind": "source"
+        },
+        {
+          "path": "vllm/model_executor/model_loader/sharded_state_loader.py",
+          "line": 276,
+          "kind": "source"
+        },
+        {
+          "path": "tests/model_executor/model_loader/test_sharded_state_loader.py",
+          "line": 375,
+          "kind": "existing_test"
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "snapshot": "vllm",
+    "path": "tests/parser/engine/test_engine.py",
+    "test_name": "TestRegexTerminalInfraRemoved::test_terminals_from_literals_still_works",
+    "line": "797",
+    "unit_id": "output.structured_marker_boundary",
+    "property": "terminals from literals still works. Direct checks for the test's parser input: assert len(defs) == 2; assert names == {\"TOOL_START\", \"TOOL_END\"}; assert d.is_literal; assert d.literal in (\"<tool_call>\", \"</tool_call>\")",
+    "oracle_source": "tests/parser/engine/test_engine.py:800;tests/parser/engine/test_engine.py:802;tests/parser/engine/test_engine.py:804;tests/parser/engine/test_engine.py:805",
+    "conditions": "Pinned vLLM snapshot; model-specific parser grammar, mocked tokenizer and exact text/token/chunk inputs at the linked definition. Parser output only; no model generation.",
+    "rule_id": "vllm_parser_family_review",
+    "reason": "只检查局部布尔表达式或终结符配置结构，不执行解析输入路径。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/parser/engine/test_engine.py",
+    "test_name": "TestTerminalAliases::test_terminal_defs_expand_every_spelling",
+    "line": "985",
+    "unit_id": "output.structured_marker_boundary",
+    "property": "terminal defs expand every spelling. Direct checks for the test's parser input: assert [(d.name, d.literal) for d in defs] == [ (\"A\", \"x\"), (\"A\", \"y\"), (\"B\", \"z\"), ]",
+    "oracle_source": "tests/parser/engine/test_engine.py:987",
+    "conditions": "Pinned vLLM snapshot; model-specific parser grammar, mocked tokenizer and exact text/token/chunk inputs at the linked definition. Parser output only; no model generation.",
+    "rule_id": "vllm_parser_family_review",
+    "reason": "只检查局部布尔表达式或终结符配置结构，不执行解析输入路径。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/parser/engine/test_engine.py",
+    "test_name": "TestTerminalAliases::test_terminal_literal_is_canonical_spelling",
+    "line": "993",
+    "unit_id": "output.structured_marker_boundary",
+    "property": "terminal literal is canonical spelling. Direct checks for the test's parser input: assert cfg.terminal_literal(\"TOOL_START\") == \"<tc>\"; assert cfg.terminal_literal(\"TOOL_END\") == \"</tc>\"; assert cfg.terminal_literal(\"MISSING\") is None; assert cfg.terminal_literals == {\"<tc>\", \"<tcx>\", \"</tc>\"}",
+    "oracle_source": "tests/parser/engine/test_engine.py:995;tests/parser/engine/test_engine.py:996;tests/parser/engine/test_engine.py:997;tests/parser/engine/test_engine.py:998",
+    "conditions": "Pinned vLLM snapshot; model-specific parser grammar, mocked tokenizer and exact text/token/chunk inputs at the linked definition. Parser output only; no model generation.",
+    "rule_id": "vllm_parser_family_review",
+    "reason": "只检查局部布尔表达式或终结符配置结构，不执行解析输入路径。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/parser/engine/test_parser_engine.py",
+    "test_name": "TestEngineBasedPath::test_engine_based_true_when_both_parsers_engine",
+    "line": "882",
+    "unit_id": "output.parser_format_selection",
+    "property": "engine based true when both parsers engine. Direct checks under the test's parser configuration: assert engine_based is True",
+    "oracle_source": "tests/parser/engine/test_parser_engine.py:886",
+    "conditions": "Pinned vLLM snapshot; mocked tokenizer, declared parser transitions and input events/chunks in the linked test. Local parser/adaptor assertions only.",
+    "rule_id": "vllm_parser_engine_review",
+    "reason": "只检查局部布尔表达式或终结符配置结构，不执行解析输入路径。"
+  },
+  {
+    "snapshot": "vllm",
+    "path": "tests/parser/engine/test_parser_engine.py",
+    "test_name": "TestEngineBasedPath::test_engine_based_false_when_reasoning_parser_not_engine",
+    "line": "888",
+    "unit_id": "output.parser_format_selection",
+    "property": "engine based false when reasoning parser not engine. Direct checks under the test's parser configuration: assert engine_based is False",
+    "oracle_source": "tests/parser/engine/test_parser_engine.py:892",
+    "conditions": "Pinned vLLM snapshot; mocked tokenizer, declared parser transitions and input events/chunks in the linked test. Local parser/adaptor assertions only.",
+    "rule_id": "vllm_parser_engine_review",
+    "reason": "只检查局部布尔表达式或终结符配置结构，不执行解析输入路径。"
+  }
+]
