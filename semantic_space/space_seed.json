@@ -12227,6 +12227,230 @@
         ]
       },
       "snapshot_evidence_note": "Only fixed vLLM commit is asserted. This storage-page mapping obligation is distinct from P/D request transfer placement and from actual completed tier IO. No SGLang TP-portable storage-layout equivalence is claimed for admitted 49e384ce9d304648e9959666ecb8ce8cd98d0deb; a separate body-level comparison is required."
+    },
+    {
+      "id": "cache.offload_metrics",
+      "name": "缓存卸载统计与操作对应",
+      "kind": "obligation",
+      "phase": "cache",
+      "state_scope": "shared",
+      "conditions": [
+        "cache_state",
+        "cache_storage_transition",
+        "deployment_configuration"
+      ],
+      "property": "存储、加载、失败、跳过与收集操作产生的计数、容量标签、使用量与直方图符合实际操作及配置；重置遵守统计周期。",
+      "observable": [
+        "cache_usage",
+        "allocation_histogram",
+        "skipped_stores",
+        "capacity_labels"
+      ],
+      "oracle": "按本单元关联测试中记录的输入、操作序列和断言逐项判定，各项检查范围保留在对应关系中。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/kv_offload/cpu/manager.py",
+            "line": 494,
+            "kind": "source",
+            "source_sha256": "009678096e610616119829c840037fda6b78c0b7ce05b7f55f8c583a7a4cf898",
+            "source": "    def get_stats(self) -> OffloadingConnectorStats | None:"
+          }
+        ]
+      },
+      "framework_scope": [
+        "vllm"
+      ],
+      "mapping_status": "已核对 vLLM 源码与测试；其他框架实现映射待补充"
+    },
+    {
+      "id": "cache.offload_admission",
+      "name": "缓存卸载接收与请求去重",
+      "kind": "obligation",
+      "phase": "cache",
+      "state_scope": "shared",
+      "conditions": [
+        "cache_state",
+        "cache_eviction_policy_profile",
+        "concurrent_request_profile"
+      ],
+      "property": "按每请求去重访问、阈值和容量决定接收哪些存储键；失败重试不重复计数，已就绪缓存仍可访问。",
+      "observable": [
+        "admitted_keys",
+        "request_access_count",
+        "store_miss_callbacks"
+      ],
+      "oracle": "按本单元关联测试中记录的输入、操作序列和断言逐项判定，各项检查范围保留在对应关系中。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/kv_offload/cpu/manager.py",
+            "line": 268,
+            "kind": "source",
+            "source_sha256": "009678096e610616119829c840037fda6b78c0b7ce05b7f55f8c583a7a4cf898",
+            "source": "    def prepare_store("
+          }
+        ]
+      },
+      "framework_scope": [
+        "vllm"
+      ],
+      "mapping_status": "已核对 vLLM 源码与测试；其他框架实现映射待补充"
+    },
+    {
+      "id": "cache.offload_backpressure",
+      "name": "缓存卸载背压与恢复",
+      "kind": "obligation",
+      "phase": "cache",
+      "state_scope": "shared",
+      "conditions": [
+        "cache_storage_transition",
+        "storage_backend_profile",
+        "cache_event_profile"
+      ],
+      "property": "根据完成延迟、失败历史和声明水位更新压力状态，按策略限流存储；健康、冷却、恢复和重置保持对应决策及资源引用。",
+      "observable": [
+        "pressure_state",
+        "latency_ema",
+        "admit_or_drop",
+        "pinned_blocks"
+      ],
+      "oracle": "按本单元关联测试中记录的输入、操作序列和断言逐项判定，各项检查范围保留在对应关系中。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/v1/kv_offload/tiering/backpressure.py",
+            "line": 341,
+            "kind": "source",
+            "source_sha256": "8401b477fe426f2b8a59cea6c393f2307ccbf61e1de33d30053c0d092b3f28b1",
+            "source": "    def on_store_completed(self, elapsed_s: float, num_bytes: int) -> None:"
+          }
+        ]
+      },
+      "framework_scope": [
+        "vllm"
+      ],
+      "mapping_status": "已核对 vLLM 源码与测试；其他框架实现映射待补充"
+    },
+    {
+      "id": "distributed.tensor_pack_contract",
+      "name": "张量打包与解包对应",
+      "kind": "obligation",
+      "phase": "transfer",
+      "state_scope": "shared",
+      "conditions": [
+        "tensor_transport_profile",
+        "numeric_format",
+        "shared_buffer_profile"
+      ],
+      "property": "传输前后的张量表示保留逻辑名字、顺序、shape、dtype、值及声明的共享视图关系；块容量与设备身份决定打包边界与接收可用性。",
+      "observable": [
+        "tensor_names",
+        "shape_dtype",
+        "values",
+        "storage_alias",
+        "chunk_metadata"
+      ],
+      "oracle": "按本单元关联测试中记录的输入、操作序列和断言逐项判定，各项检查范围保留在对应关系中。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/distributed/weight_transfer/packed_tensor.py",
+            "line": 27,
+            "kind": "source",
+            "source_sha256": "b9410fa1c99c76c3d0e98da1699b7c6f21bd511405d1f607779ba21d72074d82",
+            "source": "def unpack_tensor("
+          }
+        ]
+      },
+      "framework_scope": [
+        "vllm"
+      ],
+      "mapping_status": "已核对 vLLM 源码与测试；其他框架实现映射待补充"
+    },
+    {
+      "id": "distributed.tensor_buffer_lifetime",
+      "name": "异步张量传输缓冲生命周期",
+      "kind": "obligation",
+      "phase": "transfer",
+      "state_scope": "shared",
+      "conditions": [
+        "tensor_transport_profile",
+        "shared_resource_lifecycle_profile",
+        "execution_variant"
+      ],
+      "property": "缓冲在接收完成后才能读取，在所有待执行消费者完成前不能覆盖或复用；设备 stream 的依赖与存储生命周期保持一致。",
+      "observable": [
+        "receive_events",
+        "pending_replay",
+        "buffer_addresses",
+        "observed_values"
+      ],
+      "oracle": "按本单元关联测试中记录的输入、操作序列和断言逐项判定，各项检查范围保留在对应关系中。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/distributed/weight_transfer/packed_tensor.py",
+            "line": 196,
+            "kind": "source",
+            "source_sha256": "b9410fa1c99c76c3d0e98da1699b7c6f21bd511405d1f607779ba21d72074d82",
+            "source": "def packed_nccl_broadcast_consumer("
+          }
+        ]
+      },
+      "framework_scope": [
+        "vllm"
+      ],
+      "mapping_status": "已核对 vLLM 源码与测试；其他框架实现映射待补充"
+    },
+    {
+      "id": "model.checkpoint_expert_selection",
+      "name": "专家检查点识别与rank过滤",
+      "kind": "obligation",
+      "phase": "preflight",
+      "state_scope": "deployment",
+      "conditions": [
+        "parameter_mapping",
+        "execution_layout"
+      ],
+      "property": "根据专家检查点的名字、放置方式和rank归属确定应读取的权重集合；声明保留的非专家权重与缩放元数据不得被过滤。",
+      "observable": [
+        "parsed_expert_id",
+        "rank_expert_ids",
+        "skip_decision",
+        "returned_weight_names",
+        "returned_weight_values"
+      ],
+      "oracle": "按本单元关联测试中记录的输入、操作序列和断言逐项判定，各项检查范围保留在对应关系中。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/model_executor/model_loader/ep_weight_filter.py",
+            "line": 21,
+            "kind": "source",
+            "source_sha256": "c6e020abeed0d9d78eb6f6705376ea6b63abe95fbbadace6f7faec17c69396dc",
+            "source": "    \"\"\"Return the expert id embedded in *weight_name*, or ``None`` if it is"
+          },
+          {
+            "path": "tests/model_executor/model_loader/test_ep_weight_filter.py",
+            "line": 27,
+            "kind": "existing_test",
+            "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+            "source": "    def test_routed_expert(self):"
+          },
+          {
+            "path": "tests/model_executor/model_loader/test_ep_weight_filter.py",
+            "line": 338,
+            "kind": "existing_test",
+            "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+            "source": "        assert \"model.layers.0.mlp.shared_experts.gate_proj.weight\" in loaded"
+          }
+        ]
+      },
+      "framework_scope": [
+        "vllm"
+      ],
+      "mapping_status": "已核对 vLLM 源码与测试；其他框架实现映射待补充"
     }
   ],
   "relations": [

@@ -1,0 +1,945 @@
+{
+  "file_reviews": [
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "source_sha256": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "python/sglang/srt/utils/hf_transformers/common.py",
+      "source_sha256": "07c06ada18b78b1901eaca49bc5eeac224f8f8407f7a854ee50fc9e026c990d2"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "python/sglang/srt/utils/hf_transformers_patches.py",
+      "source_sha256": "55b0195e2bf58b2a038cf7cd2dc610519da2207dc4d41c0d9f072901ffc1c26e"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "python/sglang/srt/entrypoints/openai/serving_chat.py",
+      "source_sha256": "3217a5a23dd0388c9506b80f343c584a9261210c0e0571f7071d6f7e3ee58278"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "python/sglang/srt/entrypoints/openai/serving_base.py",
+      "source_sha256": "c36339a71bb3332a9cff40ebcf8b98df1819185e61d27372c7f94a7ba0cea0a5"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "python/sglang/srt/entrypoints/openai/encoding_dsv4.py",
+      "source_sha256": "012e4dc254c4046f600674eaa799d59dffe5e4a46450da7b4629cf16706fc6c3"
+    }
+  ],
+  "entries": [
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "test_name": "ServingChatTestCase::test_stop_str_isolation_between_requests",
+      "line": 712,
+      "unit_id": "request.effective_sampling_parameters",
+      "assertions": [
+        {
+          "line": 747,
+          "expression": "self.assertEqual(result1.stop, expected_stop1)"
+        },
+        {
+          "line": 750,
+          "expression": "self.assertEqual(conv_ins.stop_str, initial_stop_str)"
+        },
+        {
+          "line": 761,
+          "expression": "self.assertEqual(result2.stop, initial_stop_str)"
+        },
+        {
+          "line": 762,
+          "expression": "self.assertNotIn(\"CUSTOM_STOP\", result2.stop)"
+        },
+        {
+          "line": 763,
+          "expression": "self.assertEqual(conv_ins.stop_str, initial_stop_str)"
+        }
+      ],
+      "test_body_sha256": "3fa42a73233e393b2d4b8d0a9b5e16b22405904f0213cef1e80d4a7afe7e9b3c"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "test_name": "ServingChatTestCase::test_kimi_k2_non_streaming_tool_call_id_format",
+      "line": 896,
+      "unit_id": "response.delivery",
+      "assertions": [
+        {
+          "line": 928,
+          "expression": "self.assertIsNotNone(tool_calls)"
+        },
+        {
+          "line": 929,
+          "expression": "self.assertEqual(len(tool_calls), 1)"
+        },
+        {
+          "line": 930,
+          "expression": "self.assertEqual(tool_calls[0].id, \"functions.get_weather:0\")"
+        },
+        {
+          "line": 931,
+          "expression": "self.assertEqual(tool_calls[0].function.name, \"get_weather\")"
+        }
+      ],
+      "test_body_sha256": "28d520e9056ecca0cc94f6676d2ce822a03bfc51f67e4cc73924f452bac5ba72"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "test_name": "ServingChatTestCase::test_kimi_k2_streaming_tool_call_id_format",
+      "line": 933,
+      "unit_id": "response.delivery",
+      "assertions": [
+        {
+          "line": 981,
+          "expression": "self.assertIsNotNone(line)"
+        },
+        {
+          "line": 982,
+          "expression": "self.assertTrue(line.startswith(\"data: \"))"
+        },
+        {
+          "line": 986,
+          "expression": "self.assertEqual(tool_calls[0][\"id\"], \"functions.get_weather:0\")"
+        }
+      ],
+      "test_body_sha256": "ed8e9578a3410f52e4cc499085d3480d89c2ac963d50539556bd8e8e9fc836a3"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "test_name": "ServingChatTestCase::test_kimi_k2_non_streaming_tool_call_id_with_history",
+      "line": 988,
+      "unit_id": "response.delivery",
+      "assertions": [
+        {
+          "line": 1069,
+          "expression": "self.assertEqual(history_tool_calls_cnt, 1)"
+        },
+        {
+          "line": 1070,
+          "expression": "self.assertIsNotNone(tool_calls)"
+        },
+        {
+          "line": 1071,
+          "expression": "self.assertEqual(len(tool_calls), 2)"
+        },
+        {
+          "line": 1072,
+          "expression": "self.assertEqual(tool_calls[0].id, \"functions.get_weather:1\")"
+        },
+        {
+          "line": 1073,
+          "expression": "self.assertEqual(tool_calls[0].function.name, \"get_weather\")"
+        },
+        {
+          "line": 1074,
+          "expression": "self.assertEqual(tool_calls[1].id, \"functions.get_weather:2\")"
+        },
+        {
+          "line": 1075,
+          "expression": "self.assertEqual(tool_calls[1].function.name, \"get_weather\")"
+        }
+      ],
+      "test_body_sha256": "ead117305fa1ff10a8789993819912cdf099fc9c4f606270b4be88fef4afdd96"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "test_name": "ServingChatTestCase::test_kimi_k2_streaming_tool_call_id_with_history",
+      "line": 1077,
+      "unit_id": "response.delivery",
+      "assertions": [
+        {
+          "line": 1156,
+          "expression": "self.assertIsNotNone(line)"
+        },
+        {
+          "line": 1157,
+          "expression": "self.assertTrue(line.startswith(\"data: \"))"
+        },
+        {
+          "line": 1161,
+          "expression": "self.assertEqual(tool_calls[0][\"id\"], \"functions.get_weather:1\")"
+        }
+      ],
+      "test_body_sha256": "7cbd18e162746a16cecd4b18262bb166cfd58dc96fd94905fbb9f4e5376b1013"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "test_name": "ServingChatTestCase::test_dsv4_content_parts_list_normalized",
+      "line": 1277,
+      "unit_id": "input.prompt_text_rendering",
+      "assertions": [
+        {
+          "line": 1302,
+          "expression": "self.assertIn(\"<｜User｜>say hi\", out)"
+        },
+        {
+          "line": 1320,
+          "expression": "self.assertIn(\"<｜User｜>describe\", out)"
+        },
+        {
+          "line": 1321,
+          "expression": "self.assertNotIn(\"image_url\", out)"
+        }
+      ],
+      "test_body_sha256": "c7e9f489b96069e76d226a08aea657bd7ef9fc9cd8e6367ec8a7f671cbbbff05"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "test_name": "ServingChatTestCase::test_dsv4_task_and_reminder_encode_end_to_end",
+      "line": 1323,
+      "unit_id": "input.prompt_text_rendering",
+      "assertions": [
+        {
+          "line": 1337,
+          "expression": "self.assertIn(\"<｜domain｜>\", out)"
+        },
+        {
+          "line": 1338,
+          "expression": "self.assertTrue(out.rstrip().endswith(\"<｜domain｜>\"))"
+        },
+        {
+          "line": 1339,
+          "expression": "self.assertNotIn(\"<｜Assistant｜>\", out)"
+        },
+        {
+          "line": 1351,
+          "expression": "self.assertIn(\"<｜Assistant｜>\", out)"
+        },
+        {
+          "line": 1352,
+          "expression": "self.assertIn(\"<think>\", out)"
+        },
+        {
+          "line": 1353,
+          "expression": "self.assertTrue(out.rstrip().endswith(\"<｜action｜>\"))"
+        },
+        {
+          "line": 1366,
+          "expression": "self.assertIn(\"<｜latest_reminder｜>Be terse.\", out)"
+        },
+        {
+          "line": 1367,
+          "expression": "self.assertIn(\"<｜User｜>Hello\", out)"
+        },
+        {
+          "line": 1368,
+          "expression": "self.assertLess(\n            out.index(\"<｜latest_reminder｜>\"),\n            out.index(\"<｜User｜>\"),\n        )"
+        },
+        {
+          "line": 1372,
+          "expression": "self.assertIn(\"<｜Assistant｜>\", out)"
+        }
+      ],
+      "test_body_sha256": "04e3ce34c74fcfc87664e2549ebc8b41e27d7d420d0e0215d0d450baf693b904"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "test_name": "ServingChatTestCase::test_streaming_abort_yields_error",
+      "line": 1374,
+      "unit_id": "response.delivery",
+      "assertions": [
+        {
+          "line": 1439,
+          "expression": "self.assertIsNotNone(error_chunk_data, \"Error chunk not found in stream\")"
+        },
+        {
+          "line": 1440,
+          "expression": "self.assertEqual(error_chunk_data[\"error\"][\"message\"], err_msg)"
+        },
+        {
+          "line": 1441,
+          "expression": "self.assertEqual(error_chunk_data[\"error\"][\"code\"], err_code.value)"
+        },
+        {
+          "line": 1445,
+          "expression": "self.assertEqual(chunks[-1], \"data: [DONE]\\n\\n\")"
+        },
+        {
+          "line": 1448,
+          "expression": "self.assertEqual(len(chunks), 2)"
+        },
+        {
+          "line": 1449,
+          "expression": "self.assertIn(\"error\", chunks[0])"
+        }
+      ],
+      "test_body_sha256": "19d5ec7146ad605b723e2cb7f4de22446756c7af2c3062350ab889ae071aff20"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "test_name": "ServingChatTestCase::test_non_streaming_cached_tokens_details_emits_sglext",
+      "line": 1451,
+      "unit_id": "response.delivery",
+      "assertions": [
+        {
+          "line": 1482,
+          "expression": "self.assertIsNotNone(response.sglext)"
+        },
+        {
+          "line": 1483,
+          "expression": "self.assertEqual(\n            response.sglext.cached_tokens_details.model_dump(exclude_none=True),\n            {\n                \"device\": 4,\n                \"host\": 1,\n                \"storage\": 1,\n                \"storage_backend\": \"file\",\n            },\n        )"
+        }
+      ],
+      "test_body_sha256": "d8080d283b5b957ba3974844c5ece9daa412bf251eb3264377bb8d5467d3535a"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "test_name": "ServingChatTestCase::test_non_streaming_chat_response_returns_requested_prompt_ids_and_meta_info",
+      "line": 1493,
+      "unit_id": "response.delivery",
+      "assertions": [
+        {
+          "line": 1520,
+          "expression": "self.assertEqual(choice.prompt_token_ids, [11, 12, 13])"
+        },
+        {
+          "line": 1521,
+          "expression": "self.assertEqual(choice.meta_info, ret[0][\"meta_info\"])"
+        },
+        {
+          "line": 1523,
+          "expression": "self.assertEqual(dumped_choice[\"prompt_token_ids\"], [11, 12, 13])"
+        },
+        {
+          "line": 1524,
+          "expression": "self.assertEqual(dumped_choice[\"meta_info\"], ret[0][\"meta_info\"])"
+        }
+      ],
+      "test_body_sha256": "d31fa071322343d5d3f5c2a2f83e4b1f9f54a7f5a0d2513e415bed09f5c0e186"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "test_name": "ServingChatTestCase::test_streaming_cached_tokens_details_emits_sglext",
+      "line": 1526,
+      "unit_id": "response.delivery",
+      "assertions": [
+        {
+          "line": 1592,
+          "expression": "self.assertEqual(len(sglext_chunks), 1)"
+        },
+        {
+          "line": 1593,
+          "expression": "self.assertEqual(sglext_chunks[0][\"choices\"], [])"
+        },
+        {
+          "line": 1594,
+          "expression": "self.assertEqual(\n            sglext_chunks[0][\"sglext\"][\"cached_tokens_details\"],\n            {\n                \"device\": 4,\n                \"host\": 1,\n                \"storage\": 1,\n                \"storage_backend\": \"file\",\n            },\n        )"
+        }
+      ],
+      "test_body_sha256": "123c0a03dcab2ae0fe86b28b14d237bc733bd2d2b3877a85bd658a7b4871da76"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "test_name": "ServingChatTestCase::test_incremental_streaming_output_delta",
+      "line": 1605,
+      "unit_id": "response.stream_payload_consistency",
+      "assertions": [
+        {
+          "line": 1686,
+          "expression": "self.assertEqual(\n            joined,\n            \"I am a large language model.\",\n            f\"Streaming deltas produced broken text: {deltas!r}\",\n        )"
+        }
+      ],
+      "test_body_sha256": "e3cb3d4d40d03f2c20f1ba13a50cb07eb70b2f80efd47763d60966660f518d87"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "test_name": "ServingChatTestCase::test_extract_routed_dp_rank_from_header_invalid",
+      "line": 1717,
+      "unit_id": "input.error_response_classification",
+      "assertions": [
+        {
+          "line": 1726,
+          "expression": "self.assertEqual(context.exception.status_code, 400)"
+        },
+        {
+          "line": 1727,
+          "expression": "self.assertIn(\"must be an integer\", context.exception.detail)"
+        },
+        {
+          "line": 1722,
+          "expression": "self.assertRaises(HTTPException)"
+        }
+      ],
+      "test_body_sha256": "e7155c8cfad4ff8a5a65271da539b763fbd081447c9054f1f5f9ee345c24a630"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "test_name": "ServingChatTestCase::test_non_stream_reasoning_response_preserves_payload_whitespace",
+      "line": 1748,
+      "unit_id": "response.reasoning_content_partition",
+      "assertions": [
+        {
+          "line": 1776,
+          "expression": "self.assertEqual(message.reasoning_content, \"\\nLet me think\\n\")"
+        },
+        {
+          "line": 1777,
+          "expression": "self.assertEqual(message.content, \"\\n\\nThe answer is 42.\\n\")"
+        }
+      ],
+      "test_body_sha256": "0d168505dd8e356d70ad3425a132207473412bbb798c08a266b392984d2baaf3"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "test_name": "ServingChatTestCase::test_build_chat_response_qwen3_thinking_forces_reasoning",
+      "line": 1918,
+      "unit_id": "response.reasoning_content_partition",
+      "assertions": [
+        {
+          "line": 1945,
+          "expression": "self.assertEqual(msg.content, \"\")"
+        },
+        {
+          "line": 1946,
+          "expression": "self.assertEqual(msg.reasoning_content, \"42\")"
+        }
+      ],
+      "test_body_sha256": "4dbec953d2976d6fc2cdd6a602c88533c57074209dc32eb0ad285e30fee03b7b"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "test_name": "ServingChatTestCase::test_decode_response_returns_text",
+      "line": 2000,
+      "unit_id": "response.delivery",
+      "assertions": [
+        {
+          "line": 2004,
+          "expression": "self.assertEqual(result, \"Hello world\")"
+        }
+      ],
+      "test_body_sha256": "ef5a37a22f9c2084b0835bf34137321de816ba3e432ab0f30dc98c013f7dfa3d"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "test_name": "ServingChatTestCase::test_get_parsed_response_fields_passthrough",
+      "line": 2006,
+      "unit_id": "response.delivery",
+      "assertions": [
+        {
+          "line": 2011,
+          "expression": "self.assertEqual(r, reasoning)"
+        },
+        {
+          "line": 2012,
+          "expression": "self.assertEqual(t, tool_calls)"
+        }
+      ],
+      "test_body_sha256": "03989010f54069dad58f87d86040f8b8eb6f5c48896a478892d5d929d625e025"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestNormalizeRopeScalingCompat::test_adds_type_from_rope_type",
+      "line": 36,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 40,
+          "expression": "self.assertEqual(cfg.rope_scaling[\"type\"], \"llama3\")"
+        }
+      ],
+      "test_body_sha256": "a1efe897123750f264b93c5040386b8c56968d22af451271ec08b10532959164"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestNormalizeRopeScalingCompat::test_preserves_existing_type",
+      "line": 42,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 46,
+          "expression": "self.assertEqual(cfg.rope_scaling[\"type\"], \"custom\")"
+        }
+      ],
+      "test_body_sha256": "3c54be623f55df5b356b933c444aaf2c516acfa096f3844b1bd65d05e1a25142"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestNormalizeRopeScalingCompat::test_no_op_when_no_rope_scaling",
+      "line": 48,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 51,
+          "expression": "self.assertIsNone(getattr(cfg, \"rope_scaling\", None))"
+        }
+      ],
+      "test_body_sha256": "1bdabf85ccd8dcc927bba1f0326234a14d60fc6620254cec516e8b65f27f3409"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestNormalizeRopeScalingCompat::test_no_op_when_rope_scaling_is_none",
+      "line": 53,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 57,
+          "expression": "self.assertIsNone(cfg.rope_scaling)"
+        }
+      ],
+      "test_body_sha256": "e39965bca95cf7c7b64b2628cec34246427cb8b2b9309421dceed2dd29e7acc5"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestNormalizeRopeScalingCompat::test_recurses_into_text_config",
+      "line": 59,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 65,
+          "expression": "self.assertEqual(text_cfg.rope_scaling[\"type\"], \"yarn\")"
+        }
+      ],
+      "test_body_sha256": "9a3457d0bb00d997a7acce904ef813d6bd533822109987b3e074516d55cdd12f"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestNormalizeRopeScalingCompat::test_recurses_into_llm_config",
+      "line": 67,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 73,
+          "expression": "self.assertEqual(llm_cfg.rope_scaling[\"type\"], \"dynamic\")"
+        }
+      ],
+      "test_body_sha256": "e0ddc1713c28743a97f1d15f3e261c04bc94ff08a1df2b0439d9cbc45f0cc2b0"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestNormalizeRopeScalingCompat::test_no_crash_on_non_dict_rope_scaling",
+      "line": 75,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 79,
+          "expression": "self.assertEqual(cfg.rope_scaling, \"not_a_dict\")"
+        }
+      ],
+      "test_body_sha256": "7f037873418f91e4e0a75940acc0dd41dd39edcdbfdc9f6b841350d3b472f30a"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestNormalizeRopeScalingCompat::test_no_crash_on_dict_without_rope_type",
+      "line": 81,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 85,
+          "expression": "self.assertNotIn(\"type\", cfg.rope_scaling)"
+        }
+      ],
+      "test_body_sha256": "ef0fde9b6546dbd5124d57d36287cb1f22995a1340c925f3ff79de7c34e5a861"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestGetRopeConfig::test_v5_rope_parameters",
+      "line": 94,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 98,
+          "expression": "self.assertEqual(theta, 10000.0)"
+        },
+        {
+          "line": 99,
+          "expression": "self.assertIs(params, cfg.rope_parameters)"
+        }
+      ],
+      "test_body_sha256": "455ca454395961e671af4cc9b2714d3dde9dc09190aedbc3be3acb938cf45f54"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestGetRopeConfig::test_v4_fallback_remote_code_config",
+      "line": 101,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 108,
+          "expression": "self.assertEqual(theta, 500000.0)"
+        },
+        {
+          "line": 109,
+          "expression": "self.assertEqual(params, {\"type\": \"llama3\", \"factor\": 8.0})"
+        }
+      ],
+      "test_body_sha256": "89d3e0e17afb6001693acc47d91e2549b92e66f11d9a06d5e29be4696f6c296d"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestGetRopeConfig::test_v4_no_scaling",
+      "line": 111,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 114,
+          "expression": "self.assertEqual(theta, 10000.0)"
+        },
+        {
+          "line": 115,
+          "expression": "self.assertIsNone(params)"
+        }
+      ],
+      "test_body_sha256": "d00d09850eea28b60f7e1e739ca74df0eda75f71c1d92c37f72547d81d2da036"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestPatchTextConfig::test_propagates_parent_to_text",
+      "line": 124,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 135,
+          "expression": "self.assertEqual(result.pad_token_id, 0)"
+        },
+        {
+          "line": 136,
+          "expression": "self.assertEqual(result.bos_token_id, 1)"
+        },
+        {
+          "line": 137,
+          "expression": "self.assertEqual(result.eos_token_id, 2)"
+        },
+        {
+          "line": 138,
+          "expression": "self.assertIs(result, text)"
+        }
+      ],
+      "test_body_sha256": "f8640b8532d5afbb497e2a89f3ae0baf7f352b62aa896b68313363a3cb972d8c"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestPatchTextConfig::test_propagates_text_to_parent",
+      "line": 140,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 146,
+          "expression": "self.assertEqual(parent.pad_token_id, 42)"
+        }
+      ],
+      "test_body_sha256": "597f10fd77b13410334fd3b7e6d4ce4c3f2506c0996d5eb5260aabb3b04d2247"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestPatchTextConfig::test_no_overwrite_when_both_have_attr",
+      "line": 148,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 155,
+          "expression": "self.assertEqual(parent.pad_token_id, 0)"
+        },
+        {
+          "line": 156,
+          "expression": "self.assertEqual(text.pad_token_id, 99)"
+        }
+      ],
+      "test_body_sha256": "069265f9f53c300ffd1a3ceb4874aac5ecb0cb80af1bd2a24ef103c89b38c250"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestGetContextLength::test_max_position_embeddings",
+      "line": 165,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 168,
+          "expression": "self.assertEqual(get_context_length(cfg), 4096)"
+        }
+      ],
+      "test_body_sha256": "d2343986cd4ad4791bc9a19b53df7c54c84acd3c0de9c380b30c29c21dd85f5c"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestGetContextLength::test_max_sequence_length_takes_priority",
+      "line": 170,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 174,
+          "expression": "self.assertEqual(get_context_length(cfg), 8192)"
+        }
+      ],
+      "test_body_sha256": "7c223701d2fd2add6d76245f57df93b2d774af4c36c829aa20886aadb48358f3"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestGetContextLength::test_rope_scaling_factor",
+      "line": 176,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 180,
+          "expression": "self.assertEqual(get_context_length(cfg), 16384)"
+        }
+      ],
+      "test_body_sha256": "20be6158347cc5b53ce1abdc58819312148dbaf4c514b2f67412973b5aaf3984"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestGetContextLength::test_rope_scaling_llama3_ignores_factor",
+      "line": 182,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 186,
+          "expression": "self.assertEqual(get_context_length(cfg), 131072)"
+        }
+      ],
+      "test_body_sha256": "cedf7bbbe8efd331fb3f51a9de132470fbb45290ac9d1a28e52aa8f9ba8379bf"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestGetContextLength::test_original_max_position_embeddings_ignores_factor",
+      "line": 188,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 195,
+          "expression": "self.assertEqual(get_context_length(cfg), 131072)"
+        }
+      ],
+      "test_body_sha256": "56f4d24ff7328196b659dccb57a9bc038bf81e2dbe6603c881747a4659291728"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestGetContextLength::test_default_when_no_keys",
+      "line": 197,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 199,
+          "expression": "self.assertEqual(get_context_length(cfg), 2048)"
+        }
+      ],
+      "test_body_sha256": "e65f53caee677f927fea02fcc992eb72338023821eee2dfed49a31e7323a803b"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestOverrideVHeadDimIfZero::test_patches_zero_v_head_dim",
+      "line": 272,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 277,
+          "expression": "self.assertEqual(text_cfg.v_head_dim, 128)"
+        }
+      ],
+      "test_body_sha256": "bc07bdadd90df6a40eb010af83d66dd752a44e33d857f802e0d4cfc679730bd5"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestOverrideVHeadDimIfZero::test_custom_patch_value",
+      "line": 279,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 284,
+          "expression": "self.assertEqual(text_cfg.v_head_dim, 64)"
+        }
+      ],
+      "test_body_sha256": "089f8f18f26516a140cb47f60e3c4c0fac4b0222c727ea1ba8c73bdf006cce34"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestOverrideVHeadDimIfZero::test_no_patch_when_nonzero",
+      "line": 286,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 291,
+          "expression": "self.assertEqual(text_cfg.v_head_dim, 256)"
+        }
+      ],
+      "test_body_sha256": "c8317a1dcc50d7fab9106777183dc5638039b9757d79908e03fb8057d3e358ba"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestOverrideVHeadDimIfZero::test_dict_sub_config",
+      "line": 293,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 297,
+          "expression": "self.assertEqual(cfg.text_config[\"v_head_dim\"], 128)"
+        }
+      ],
+      "test_body_sha256": "32269bb87c4da138f36fccb960e8457569b6da9b18827b579df39727bbd636d9"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestGetHfTextConfig::test_returns_config_for_pure_text_model",
+      "line": 310,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 314,
+          "expression": "self.assertIs(result, cfg)"
+        }
+      ],
+      "test_body_sha256": "3f26dc6f3599a3bdc2d7caf159a691b56878236a38d24cf8fd56b8b6c8aa0a20"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestGetHfTextConfig::test_returns_text_config_for_multimodal",
+      "line": 316,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 323,
+          "expression": "self.assertIs(result, text_cfg)"
+        }
+      ],
+      "test_body_sha256": "7b1689222feab1203344301acde1c58bbf280b4d9fd744ec2a83ef2510b39eca"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestGetHfTextConfig::test_llm_config_priority_over_text_config",
+      "line": 325,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 335,
+          "expression": "self.assertIs(result, llm_cfg)"
+        }
+      ],
+      "test_body_sha256": "5e99a576e5c59d2581f353a985934272734ebcc3e89771725757a2dabf7f1d22"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestGetHfTextConfig::test_thinker_config_highest_priority",
+      "line": 337,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 344,
+          "expression": "self.assertIs(result, thinker_cfg)"
+        }
+      ],
+      "test_body_sha256": "bbd91e7e0d245c6e9d1943cb5b19fb643be84fdb9ce83ca43e1668356f119e1f"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestGetHfTextConfig::test_thinker_config_with_text_sub_config",
+      "line": 346,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 356,
+          "expression": "self.assertIs(result, inner_text)"
+        },
+        {
+          "line": 357,
+          "expression": "self.assertEqual(inner_text.torch_dtype, \"float16\")"
+        }
+      ],
+      "test_body_sha256": "29467b1a238e650789309da8f9884ecc9669e9159c42c22cfc12252fdec4a0a1"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestGetHfTextConfig::test_converts_dict_sub_config",
+      "line": 359,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 367,
+          "expression": "self.assertIsInstance(cfg.text_config, PretrainedConfig)"
+        },
+        {
+          "line": 368,
+          "expression": "self.assertEqual(result.num_attention_heads, 32)"
+        }
+      ],
+      "test_body_sha256": "9dc165372ac7933b15c14cabdfa46c223af1625f4b3405177b37be535b600e52"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestGetHfTextConfig::test_llava_returns_parent_config",
+      "line": 370,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 377,
+          "expression": "self.assertIs(result, cfg)"
+        }
+      ],
+      "test_body_sha256": "c1038c7854df6a6e2c13b9fba0697511eb1fe4bdbdd0b1f5566904376ccd639b"
+    },
+    {
+      "snapshot": "sglang",
+      "path": "test/registered/unit/utils/test_hf_transformers.py",
+      "test_name": "TestGetHfTextConfig::test_calls_normalize_rope_scaling",
+      "line": 379,
+      "unit_id": "deployment.effective_configuration",
+      "assertions": [
+        {
+          "line": 384,
+          "expression": "self.assertIn(\"type\", cfg.rope_scaling)"
+        },
+        {
+          "line": 385,
+          "expression": "self.assertEqual(cfg.rope_scaling[\"type\"], \"llama3\")"
+        }
+      ],
+      "test_body_sha256": "da9911d72ad5a2f354489e009d3868c284b7793e805565f6f4db3d970fdb87a4"
+    }
+  ],
+  "method": "Explicitly reviewed class/function bodies and relevant implementation sections; only pending index entries admitted; assertions preserved verbatim with source anchors. No test execution.",
+  "count": 49
+}

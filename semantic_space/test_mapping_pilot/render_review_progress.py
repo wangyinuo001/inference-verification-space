@@ -83,6 +83,11 @@ def main() -> None:
     round9 = {key(row): row for row in read(round9_path)} if round9_path.exists() else {}
     assert not (round9.keys() & direct_properties.keys())
     direct_properties.update(round9)
+    round10_path = HERE / "reviewed-round10-crosswalk.tsv"
+    if round10_path.exists():
+        extra = {key(row): row for row in read(round10_path)}
+        assert not (extra.keys() & direct_properties.keys())
+        direct_properties.update(extra)
     pending_path = HERE / "reviewed-supplement-pending.json"
     pending = {key(r): r for r in json.loads(pending_path.read_text())} if pending_path.exists() else {}
     runtime_path = HERE / "background_evidence/runtime-entries.tsv"
@@ -95,6 +100,11 @@ def main() -> None:
     unit_names = {unit["id"]: unit.get("name") or unit.get("title") or unit.get("property", "")
                   for unit in json.loads((SPACE / "space_seed.json").read_text(encoding="utf-8"))["units"]}
     assert len(scan) == len(review) == len(placement) == 31968
+    relation_path = HERE / "full_classification/page-details.json"
+    relations = {key(r): r for r in json.loads(relation_path.read_text())} if relation_path.exists() else {}
+    if relations:
+        assert relations.keys() == {key(r) for r in scan}
+    from classify_all_contracts import LABELS as RELATION_LABELS
     files: list[list[str]] = []
     file_ids: dict[tuple[str, str], int] = {}
     entries: list[list[str | int]] = []
@@ -138,6 +148,8 @@ def main() -> None:
             int(execution.get("instances", 0)),
             int(execution.get("calls_and_assertions", 0)),
             int(execution.get("truncated_instances", 0)),
+            relations.get(item_key, {}).get("relations", ""),
+            relations.get(item_key, {}).get("examples", []),
         ])
     assert sum(counts.values()) == len(entries) == len({key(row) for row in scan})
     payload = json.dumps({
@@ -146,6 +158,8 @@ def main() -> None:
         "linkedStageCount": linked_stage_count,
         "oracleCount": sum(bool(row["oracle_forms"]) for row in review.values()),
         "unitNames": unit_names,
+        "relationLabels": RELATION_LABELS,
+        "relationEntryCount": sum(bool(r.get("relations")) for r in relations.values()),
         "runtimeEntryCount": len(runtime),
         "frameworkCounts": {name: dict(value) for name, value in framework_counts.items()},
     }, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")

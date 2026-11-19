@@ -1,0 +1,147 @@
+[
+  {
+    "id": "cache.offload_metrics",
+    "name": "缓存卸载统计与操作对应",
+    "kind": "obligation",
+    "phase": "cache",
+    "state_scope": "shared",
+    "conditions": [
+      "cache_state",
+      "cache_storage_transition",
+      "deployment_configuration"
+    ],
+    "property": "存储、加载、失败、跳过与收集操作产生的计数、容量标签、使用量与直方图符合实际操作及配置；重置遵守统计周期。",
+    "observable": [
+      "cache_usage",
+      "allocation_histogram",
+      "skipped_stores",
+      "capacity_labels"
+    ],
+    "oracle": "按具体测试输入、操作序列、直接断言与辅助断言检查；参见 crosswalk.tsv 和 evidence.json。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/v1/kv_offload/cpu/manager.py",
+          "line": 494,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "id": "cache.offload_admission",
+    "name": "缓存卸载接收与请求去重",
+    "kind": "obligation",
+    "phase": "cache",
+    "state_scope": "shared",
+    "conditions": [
+      "cache_state",
+      "cache_eviction_policy_profile",
+      "concurrent_request_profile"
+    ],
+    "property": "按每请求去重访问、阈值和容量决定接收哪些存储键；失败重试不重复计数，已就绪缓存仍可访问。",
+    "observable": [
+      "admitted_keys",
+      "request_access_count",
+      "store_miss_callbacks"
+    ],
+    "oracle": "按具体测试输入、操作序列、直接断言与辅助断言检查；参见 crosswalk.tsv 和 evidence.json。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/v1/kv_offload/cpu/manager.py",
+          "line": 268,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "id": "cache.offload_backpressure",
+    "name": "缓存卸载背压与恢复",
+    "kind": "obligation",
+    "phase": "cache",
+    "state_scope": "shared",
+    "conditions": [
+      "cache_storage_transition",
+      "storage_backend_profile",
+      "cache_event_profile"
+    ],
+    "property": "根据完成延迟、失败历史和声明水位更新压力状态，按策略限流存储；健康、冷却、恢复和重置保持对应决策及资源引用。",
+    "observable": [
+      "pressure_state",
+      "latency_ema",
+      "admit_or_drop",
+      "pinned_blocks"
+    ],
+    "oracle": "按具体测试输入、操作序列、直接断言与辅助断言检查；参见 crosswalk.tsv 和 evidence.json。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/v1/kv_offload/tiering/backpressure.py",
+          "line": 341,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "id": "distributed.tensor_pack_contract",
+    "name": "张量打包与解包对应",
+    "kind": "obligation",
+    "phase": "transfer",
+    "state_scope": "shared",
+    "conditions": [
+      "tensor_transport_profile",
+      "numeric_format",
+      "shared_buffer_profile"
+    ],
+    "property": "传输前后的张量表示保留逻辑名字、顺序、shape、dtype、值及声明的共享视图关系；块容量与设备身份决定打包边界与接收可用性。",
+    "observable": [
+      "tensor_names",
+      "shape_dtype",
+      "values",
+      "storage_alias",
+      "chunk_metadata"
+    ],
+    "oracle": "按具体测试输入、操作序列、直接断言与辅助断言检查；参见 crosswalk.tsv 和 evidence.json。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/distributed/weight_transfer/packed_tensor.py",
+          "line": 27,
+          "kind": "source"
+        }
+      ]
+    }
+  },
+  {
+    "id": "distributed.tensor_buffer_lifetime",
+    "name": "异步张量传输缓冲生命周期",
+    "kind": "obligation",
+    "phase": "transfer",
+    "state_scope": "shared",
+    "conditions": [
+      "tensor_transport_profile",
+      "shared_resource_lifecycle_profile",
+      "execution_variant"
+    ],
+    "property": "缓冲在接收完成后才能读取，在所有待执行消费者完成前不能覆盖或复用；设备 stream 的依赖与存储生命周期保持一致。",
+    "observable": [
+      "receive_events",
+      "pending_replay",
+      "buffer_addresses",
+      "observed_values"
+    ],
+    "oracle": "按具体测试输入、操作序列、直接断言与辅助断言检查；参见 crosswalk.tsv 和 evidence.json。",
+    "evidence": {
+      "vllm": [
+        {
+          "path": "vllm/distributed/weight_transfer/packed_tensor.py",
+          "line": 196,
+          "kind": "source"
+        }
+      ]
+    }
+  }
+]

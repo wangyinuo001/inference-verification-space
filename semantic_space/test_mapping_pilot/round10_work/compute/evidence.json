@@ -1,0 +1,287 @@
+{
+  "file_reviews": [
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_pooler_activations.py",
+      "source_sha256": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83",
+      "implementation_path": "vllm/model_executor/layers/pooler/activations.py",
+      "implementation_sha256": "d609854d0b6d97903716aa3abdf0f8b5b890d662e20201e7c594eb5c55ac1e0e",
+      "method": "人工逐段阅读测试构造、调用、参考与断言，程序仅提取行号/断言及排除已确认入口"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+      "implementation_path": "vllm/model_executor/layers/fused_moe/routed_experts.py",
+      "implementation_sha256": "799e7816d55ff20c62c80d78c8fd21bd337b7a5586424a5402849fa20daf200f",
+      "method": "人工逐段阅读测试构造、调用、参考与断言，程序仅提取行号/断言及排除已确认入口"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_mm_input_norm.py",
+      "source_sha256": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03",
+      "implementation_path": "vllm/model_executor/layers/fusion/mm_input_norm.py",
+      "implementation_sha256": "fa23a04f9ab321b3043ff96a7f17994d6b45ea38da1ef59db8e04985103e7b6a",
+      "method": "人工逐段阅读测试构造、调用、参考与断言，程序仅提取行号/断言及排除已确认入口"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+      "implementation_path": "vllm/model_executor/model_loader/ep_weight_filter.py",
+      "implementation_sha256": "c6e020abeed0d9d78eb6f6705376ea6b63abe95fbbadace6f7faec17c69396dc",
+      "status": "proposed-unit-not-in-confirmed-crosswalk"
+    }
+  ],
+  "confirmed_rows": 82,
+  "deferred": [
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_pooler_activations.py",
+      "test_name": "TestPoolerClassify::test_default_num_labels_is_none",
+      "line": "124",
+      "proposed_unit": "model.output_transform_selection",
+      "reason": "池化配置选择的激活模块类型或对象身份；需要独立于数值变换的接口选择性质。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_pooler_activations.py",
+      "test_name": "TestGetActFn::test_regression",
+      "line": "156",
+      "proposed_unit": "model.output_transform_selection",
+      "reason": "池化配置选择的激活模块类型或对象身份；需要独立于数值变换的接口选择性质。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_pooler_activations.py",
+      "test_name": "TestGetActFn::test_single_label_classification",
+      "line": "161",
+      "proposed_unit": "model.output_transform_selection",
+      "reason": "池化配置选择的激活模块类型或对象身份；需要独立于数值变换的接口选择性质。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_pooler_activations.py",
+      "test_name": "TestGetActFn::test_multi_label_classification",
+      "line": "169",
+      "proposed_unit": "model.output_transform_selection",
+      "reason": "池化配置选择的激活模块类型或对象身份；需要独立于数值变换的接口选择性质。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_pooler_activations.py",
+      "test_name": "TestGetActFn::test_sentence_transformers_activation",
+      "line": "174",
+      "proposed_unit": "model.output_transform_selection",
+      "reason": "池化配置选择的激活模块类型或对象身份；需要独立于数值变换的接口选择性质。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_pooler_activations.py",
+      "test_name": "TestGetActFn::test_sbert_activation",
+      "line": "184",
+      "proposed_unit": "model.output_transform_selection",
+      "reason": "池化配置选择的激活模块类型或对象身份；需要独立于数值变换的接口选择性质。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_pooler_activations.py",
+      "test_name": "TestGetActFn::test_default_fallback",
+      "line": "194",
+      "proposed_unit": "model.output_transform_selection",
+      "reason": "池化配置选择的激活模块类型或对象身份；需要独立于数值变换的接口选择性质。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_pooler_activations.py",
+      "test_name": "TestGetActFn::test_sentence_transformers_takes_priority",
+      "line": "199",
+      "proposed_unit": "model.output_transform_selection",
+      "reason": "池化配置选择的激活模块类型或对象身份；需要独立于数值变换的接口选择性质。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_pooler_activations.py",
+      "test_name": "TestGetActFn::test_rejects_non_torch_activation",
+      "line": "210",
+      "proposed_unit": "model.output_transform_selection",
+      "reason": "池化配置选择的激活模块类型或对象身份；需要独立于数值变换的接口选择性质。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_pooler_activations.py",
+      "test_name": "TestResolveClassifierActFn::test_delegates_to_get_act_fn_when_none",
+      "line": "223",
+      "proposed_unit": "model.output_transform_selection",
+      "reason": "池化配置选择的激活模块类型或对象身份；需要独立于数值变换的接口选择性质。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_pooler_activations.py",
+      "test_name": "TestResolveClassifierActFn::test_passes_through_provided_act_fn",
+      "line": "231",
+      "proposed_unit": "model.output_transform_selection",
+      "reason": "池化配置选择的激活模块类型或对象身份；需要独立于数值变换的接口选择性质。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "test_name": "TestGetHiddenDim::test_2d_non_transposed_w2",
+      "line": "31",
+      "proposed_unit": "model.parameter_axis_mapping",
+      "reason": "仅计算权重hidden轴编号及非法shard_dim异常，没有执行参数加载。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "test_name": "TestGetHiddenDim::test_2d_non_transposed_w13",
+      "line": "35",
+      "proposed_unit": "model.parameter_axis_mapping",
+      "reason": "仅计算权重hidden轴编号及非法shard_dim异常，没有执行参数加载。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "test_name": "TestGetHiddenDim::test_2d_transposed_w2",
+      "line": "39",
+      "proposed_unit": "model.parameter_axis_mapping",
+      "reason": "仅计算权重hidden轴编号及非法shard_dim异常，没有执行参数加载。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "test_name": "TestGetHiddenDim::test_2d_transposed_w13",
+      "line": "43",
+      "proposed_unit": "model.parameter_axis_mapping",
+      "reason": "仅计算权重hidden轴编号及非法shard_dim异常，没有执行参数加载。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "test_name": "TestGetHiddenDim::test_3d_non_transposed_w2",
+      "line": "47",
+      "proposed_unit": "model.parameter_axis_mapping",
+      "reason": "仅计算权重hidden轴编号及非法shard_dim异常，没有执行参数加载。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "test_name": "TestGetHiddenDim::test_3d_non_transposed_w13",
+      "line": "51",
+      "proposed_unit": "model.parameter_axis_mapping",
+      "reason": "仅计算权重hidden轴编号及非法shard_dim异常，没有执行参数加载。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "test_name": "TestGetHiddenDim::test_3d_transposed_w2",
+      "line": "55",
+      "proposed_unit": "model.parameter_axis_mapping",
+      "reason": "仅计算权重hidden轴编号及非法shard_dim异常，没有执行参数加载。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "test_name": "TestGetHiddenDim::test_3d_transposed_w13",
+      "line": "59",
+      "proposed_unit": "model.parameter_axis_mapping",
+      "reason": "仅计算权重hidden轴编号及非法shard_dim异常，没有执行参数加载。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "test_name": "TestGetHiddenDim::test_1d_returns_zero",
+      "line": "63",
+      "proposed_unit": "model.parameter_axis_mapping",
+      "reason": "仅计算权重hidden轴编号及非法shard_dim异常，没有执行参数加载。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "test_name": "TestGetHiddenDim::test_invalid_shard_dim_raises",
+      "line": "68",
+      "proposed_unit": "model.parameter_axis_mapping",
+      "reason": "仅计算权重hidden轴编号及非法shard_dim异常，没有执行参数加载。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_mm_input_norm.py",
+      "test_name": "TestFusedMMInputInputLayoutConfig::test_default_is_pcl",
+      "line": "410",
+      "proposed_unit": "compute.normalization_configuration_binding",
+      "reason": "归一化配置、启用状态、布局或构造类型判断；没有实际运行像素数值计算。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_mm_input_norm.py",
+      "test_name": "TestFusedMMInputInputLayoutConfig::test_accepts_valid_string",
+      "line": "415",
+      "proposed_unit": "compute.normalization_configuration_binding",
+      "reason": "归一化配置、启用状态、布局或构造类型判断；没有实际运行像素数值计算。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_mm_input_norm.py",
+      "test_name": "TestFusedMMInputInputLayoutConfig::test_layout_literal_members",
+      "line": "423",
+      "proposed_unit": "compute.normalization_configuration_binding",
+      "reason": "归一化配置、启用状态、布局或构造类型判断；没有实际运行像素数值计算。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_mm_input_norm.py",
+      "test_name": "TestFusedMMInputInputLayoutConfig::test_input_dtype_and_enabled",
+      "line": "428",
+      "proposed_unit": "compute.normalization_configuration_binding",
+      "reason": "归一化配置、启用状态、布局或构造类型判断；没有实际运行像素数值计算。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_mm_input_norm.py",
+      "test_name": "TestFusedMMInputNormConstruction::test_input_norm_is_always_enabled",
+      "line": "533",
+      "proposed_unit": "compute.normalization_configuration_binding",
+      "reason": "归一化配置、启用状态、布局或构造类型判断；没有实际运行像素数值计算。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_mm_input_norm.py",
+      "test_name": "TestFusedMMInputNormConstruction::test_is_identity_params",
+      "line": "577",
+      "proposed_unit": "compute.normalization_configuration_binding",
+      "reason": "归一化配置、启用状态、布局或构造类型判断；没有实际运行像素数值计算。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_mm_input_norm.py",
+      "test_name": "TestBuildMMInputNorm::test_layout_passthrough",
+      "line": "647",
+      "proposed_unit": "compute.normalization_configuration_binding",
+      "reason": "归一化配置、启用状态、布局或构造类型判断；没有实际运行像素数值计算。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_mm_input_norm.py",
+      "test_name": "TestBuildMMInputNorm::test_default_layout_is_pcl",
+      "line": "653",
+      "proposed_unit": "compute.normalization_configuration_binding",
+      "reason": "归一化配置、启用状态、布局或构造类型判断；没有实际运行像素数值计算。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_mm_input_norm.py",
+      "test_name": "TestBuildMMInputNorm::test_identity_params_return_identity_norm",
+      "line": "659",
+      "proposed_unit": "compute.normalization_configuration_binding",
+      "reason": "归一化配置、启用状态、布局或构造类型判断；没有实际运行像素数值计算。"
+    },
+    {
+      "snapshot": "vllm",
+      "path": "tests/model_executor/layers/test_mm_input_norm.py",
+      "test_name": "TestBuildMMInputNorm::test_normalize_disabled_returns_identity_norm",
+      "line": "664",
+      "proposed_unit": "compute.normalization_configuration_binding",
+      "reason": "归一化配置、启用状态、布局或构造类型判断；没有实际运行像素数值计算。"
+    }
+  ]
+}

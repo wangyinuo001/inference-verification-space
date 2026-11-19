@@ -1,0 +1,8 @@
+{
+  "tests/distributed/test_events.py": "948b589ebf8b86e3d89c0b0544d65a3bf39965d212bb5c8e8adc2d7053094537",
+  "tests/distributed/test_packed_tensor.py": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e",
+  "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+  "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+  "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+  "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+}

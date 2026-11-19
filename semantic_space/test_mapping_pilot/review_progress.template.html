@@ -90,7 +90,7 @@
   </header>
   <div class="metrics">
     <div class="metric green"><strong id="greenCount">—</strong><span id="greenCaption">已确认测试检查什么</span><div class="progress"><i id="progressBar"></i></div></div>
-    <div class="metric"><strong id="linkedCount">—</strong><span>被测函数结果关联到检查语句</span></div>
+    <div class="metric"><strong id="linkedCount">—</strong><span>已识别源码中的检查关系</span></div>
     <div class="metric"><strong id="stageCount">—</strong><span>初步定位推理环节</span></div>
     <div class="metric"><strong id="totalCount">—</strong><span>收录的测试</span></div>
   </div>
@@ -102,6 +102,7 @@
         </div>
         <input id="search" type="search" placeholder="搜索文件或测试名" aria-label="搜索文件或测试名">
         <select id="statusFilter" aria-label="按检查进度筛选"><option value="all">全部状态</option><option value="g">已确认检查内容</option><option value="i">继承方法已定位，性质待核</option><option value="l">找到被测函数和检查</option><option value="h">找到检查，位置待核</option><option value="r">已读源码，还需细分</option><option value="s">找到相关函数</option><option value="m">找到相关代码</option><option value="p">大致找到所属环节</option><option value="x">涉及多处，待核对</option><option value="a">框架周边功能</option><option value="d">其他信息</option><option value="u">还没找到检查位置</option><option value="o">暂不属于推理验证</option></select>
+        <select id="relationFilter" aria-label="按检查内容筛选"><option value="all">全部检查内容</option></select>
         <span class="match-count" id="matchCount" aria-live="polite"></span>
         <p class="view-hint" id="viewHint">方格颜色是互斥的当前状态。总览按仓库和文件路径排列；搜索或筛选后收拢匹配入口，聚焦图后可用方向键浏览。</p>
         <p class="unit-context" id="unitContext" hidden></p>
@@ -122,6 +123,8 @@
         <div class="detail-row"><b>适用条件</b><div class="detail-value" id="detailConditions"></div></div>
         <div class="detail-row"><b>本次远端运行记录</b><div class="detail-value" id="detailRuntime"></div></div>
         <div class="detail-row"><b>所属环节与依据</b><div class="detail-value" id="detailStage"></div></div>
+        <div class="detail-row"><b>源码中的检查关系</b><div class="detail-value" id="detailRelations"></div></div>
+        <div class="detail-row"><b>检查表达式</b><div class="detail-value" id="detailExpressions"></div></div>
         <div class="detail-row"><b>检查方式</b><div class="detail-value" id="detailOracle"></div></div>
         <div class="detail-row"><b>源码中的检查位置</b><div class="detail-value" id="detailSubject"></div></div>
       </div>
@@ -140,6 +143,9 @@ const STAGES={deployment_preflight:'部署配置',request_entry:'请求进入',s
 const OVERVIEW_COLS=320, CELL=4, GAP_ROWS=5;
 const canvas=document.getElementById('grid'), wrap=document.getElementById('canvasWrap'), ctx=canvas.getContext('2d');
 const search=document.getElementById('search'), statusFilter=document.getElementById('statusFilter');
+const relationFilter=document.getElementById('relationFilter');
+for(const [id,label] of Object.entries(DATA.relationLabels||{})){if(!entriesHaveRelation(id))continue;const option=document.createElement('option');option.value=id;option.textContent=label;relationFilter.append(option);}
+function entriesHaveRelation(id){return DATA.entries.some(e=>(e[19]||'').split(';').includes(id));}
 const unitFilter=new URLSearchParams(location.search).get('unit');
 if(unitFilter){const box=document.getElementById('unitContext');box.hidden=false;box.textContent=`单元：${DATA.unitNames[unitFilter]||unitFilter} · 仅显示已确认关联的测试。`;const clear=document.createElement('a');clear.href=location.pathname;clear.textContent='清除单元筛选';box.append(clear);}
 const files=DATA.files, entries=DATA.entries;
@@ -148,7 +154,7 @@ let cellByPosition=new Map(), positionByEntry=new Map();
 const fmt=n=>n.toLocaleString('zh-CN');
 document.getElementById('greenCount').textContent=fmt(DATA.counts.g||0);
 document.getElementById('totalCount').textContent=fmt(entries.length);
-document.getElementById('linkedCount').textContent=fmt(DATA.linkedStageCount||0);
+document.getElementById('linkedCount').textContent=fmt(DATA.relationEntryCount||0);
 document.getElementById('stageCount').textContent=fmt(DATA.stageCount||0);
 document.getElementById('greenCaption').textContent=`已确认检查内容，占全部测试 ${((DATA.counts.g||0)/entries.length*100).toFixed(1)}%`;
 document.getElementById('progressBar').style.width=((DATA.counts.g||0)/entries.length*100)+'%';
@@ -162,13 +168,13 @@ for(const status of ['g','i','l','h','r','s','m','p','x','a','d','u','o']){
 }
 function buildLayout(){
   shown=[]; layout=[]; hover=-1; cellByPosition=new Map(); positionByEntry=new Map();
-  const q=search.value.trim().toLowerCase(), filter=statusFilter.value, active=!!q||filter!=='all'||!!unitFilter;
+  const q=search.value.trim().toLowerCase(), filter=statusFilter.value, active=!!q||filter!=='all'||!!unitFilter||relationFilter.value!=='all';
   baseCount=0;
   for(let i=0;i<entries.length;i++){
     const e=entries[i], file=files[e[0]];
     if(framework!=='all'&&file[0]!==framework)continue;
     baseCount++;
-    if((filter==='all'||e[3]===filter)&&(!q||(file[1]+' '+e[1]).toLowerCase().includes(q))&&
+    if((filter==='all'||e[3]===filter)&&(relationFilter.value==='all'||(e[19]||'').split(';').includes(relationFilter.value))&&(!q||(file[1]+' '+e[1]).toLowerCase().includes(q))&&
        (!unitFilter||(e[3]==='g'&&e[4].split(/[;,]/).includes(unitFilter))))shown.push(i);
   }
   const aspect=Math.max(1,wrap.clientWidth)/Math.max(1,wrap.clientHeight);
@@ -244,6 +250,8 @@ function show(index){
     ? `记录了 ${e[16]} 个运行实例，其中 ${e[17]} 个同时观察到产品调用和断言。${e[18]?'部分记录达到采集上限。':''}具体性质仍按源码检查确认。`
     : '本次远端 CPU 队列没有该入口的运行记录。';
   document.getElementById('detailStage').textContent=e[7]?`${STAGES[e[7]]||e[7]}：${EVIDENCE[e[8]]||'仍需核对'}${e[9]?'；被测函数 '+e[9]:''}`:'尚未确定单一环节';
+  document.getElementById('detailRelations').textContent=e[19]?e[19].split(';').map(id=>DATA.relationLabels[id]||id).join('、'):'尚需展开辅助检查或其他语言源码';
+  document.getElementById('detailExpressions').textContent=(e[20]||[]).map(x=>x.source+'\n'+x.expression).join('\n\n')||'暂无表达式摘要';
   document.getElementById('detailOracle').textContent=e[5]?e[5].split(',').map(x=>CHECKS[x]||'其他检查').join('、'):'尚未找到检查语句';
   document.getElementById('detailSubject').textContent=e[12]||e[6]||'尚未找到';
 }
@@ -261,6 +269,7 @@ canvas.addEventListener('keydown',event=>{
 });
 document.getElementById('frameworkButtons').addEventListener('click',event=>{const button=event.target.closest('button[data-framework]');if(!button)return;framework=button.dataset.framework;pinned=-1;document.querySelectorAll('#frameworkButtons button').forEach(b=>{b.classList.toggle('active',b===button);b.setAttribute('aria-pressed',String(b===button));});buildLayout();show(-1);});
 let searchTimer;search.addEventListener('input',()=>{clearTimeout(searchTimer);searchTimer=setTimeout(()=>{pinned=-1;buildLayout();show(-1);},90);});
+relationFilter.addEventListener('change',()=>{pinned=-1;buildLayout();show(-1);});
 statusFilter.addEventListener('change',()=>{pinned=-1;buildLayout();show(-1);});
 new ResizeObserver(()=>{sizeCanvas();}).observe(wrap);
 search.value=new URLSearchParams(location.search).get('q')||'';

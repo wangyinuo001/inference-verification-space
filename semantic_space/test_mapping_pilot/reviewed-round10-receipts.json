@@ -1,0 +1,5085 @@
+[
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_pooler_activations.py",
+      "TestPoolerIdentity::test_returns_input_unchanged",
+      "26"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_pooler_activations.py": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_pooler_activations.py",
+      "TestPoolerIdentity::test_forward_list",
+      "32"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_pooler_activations.py": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_pooler_activations.py",
+      "TestPoolerNormalize::test_output_has_unit_norm",
+      "45"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_pooler_activations.py": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_pooler_activations.py",
+      "TestPoolerNormalize::test_single_vector",
+      "52"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_pooler_activations.py": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_pooler_activations.py",
+      "TestPoolerNormalize::test_forward_list",
+      "59"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_pooler_activations.py": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_pooler_activations.py",
+      "TestPoolerMultiLabelClassify::test_output_in_zero_one",
+      "72"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_pooler_activations.py": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_pooler_activations.py",
+      "TestPoolerMultiLabelClassify::test_large_positive_maps_near_one",
+      "78"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_pooler_activations.py": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_pooler_activations.py",
+      "TestPoolerMultiLabelClassify::test_large_negative_maps_near_zero",
+      "84"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_pooler_activations.py": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_pooler_activations.py",
+      "TestPoolerClassify::test_infers_from_shape_when_num_labels_none",
+      "95"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_pooler_activations.py": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_pooler_activations.py",
+      "TestPoolerClassify::test_sigmoid_when_num_labels_lt_2",
+      "103"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_pooler_activations.py": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_pooler_activations.py",
+      "TestPoolerClassify::test_num_labels_zero_uses_sigmoid",
+      "109"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_pooler_activations.py": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_pooler_activations.py",
+      "TestPoolerClassify::test_num_labels_ge_2_uses_softmax",
+      "116"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_pooler_activations.py": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_pooler_activations.py",
+      "TestLambdaPoolerActivation::test_applies_custom_fn",
+      "133"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_pooler_activations.py": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_pooler_activations.py",
+      "TestLambdaPoolerActivation::test_forward_list",
+      "140"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_pooler_activations.py": "d779cb1988ade221fcdc2b59771e65fc307b11dd349d1385fc2605769b2edb83"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestOrientFusedWeight::test_w13_standard_orientation_is_untouched",
+      "82"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestOrientFusedWeight::test_w13_transposed_checkpoint_is_normalised",
+      "87"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestOrientFusedWeight::test_w2_standard_orientation_is_untouched",
+      "93"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestOrientFusedWeight::test_w2_transposed_checkpoint_is_normalised",
+      "98"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestOrientFusedWeight::test_w13_per_channel_scale_is_untouched",
+      "103"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestOrientFusedWeight::test_w2_per_channel_scale_is_untouched",
+      "111"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestOrientFusedWeight::test_block_scale_is_untouched",
+      "116"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestOrientFusedWeight::test_qwen3_vl_transposed_block_scale_uses_explicit_layout",
+      "132"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestNarrowExpertDataForPadding::test_no_narrowing_when_shapes_match",
+      "146"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestNarrowExpertDataForPadding::test_narrow_w2_hidden_dim",
+      "155"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestNarrowExpertDataForPadding::test_narrow_w13_hidden_dim",
+      "164"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestNarrowExpertDataForPadding::test_narrow_transposed_w2",
+      "173"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestNarrowExpertDataForPadding::test_narrow_3d_full_load",
+      "183"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestNarrowExpertDataForPadding::test_narrow_1d_scale",
+      "192"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestNarrowExpertDataForPadding::test_scalar_weight_no_op",
+      "201"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestNarrowExpertDataForPadding::test_no_narrowing_when_loaded_weight_larger",
+      "211"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestNarrowExpertDataForPadding::test_negative_hidden_dim_is_noop",
+      "221"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestNarrowExpertDataForPadding::test_only_narrows_hidden_dim",
+      "232"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestNarrowExpertDataForPadding::test_narrowed_data_shares_storage",
+      "243"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestWeightLoadingWithPaddedHiddenSize::test_load_w2_chunks_noncontiguous_cpu_source_to_padded_cuda",
+      "263"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestWeightLoadingWithPaddedHiddenSize::test_load_w2_with_padding",
+      "311"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestWeightLoadingWithPaddedHiddenSize::test_load_w13_with_padding",
+      "333"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestWeightLoadingWithPaddedHiddenSize::test_load_transposed_w2_with_padding",
+      "356"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestWeightLoadingWithPaddedHiddenSize::test_no_padding_is_noop",
+      "374"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestWeightLoadingWithPaddedHiddenSize::test_narrow_shard_dim",
+      "390"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestUnquantizedTrtLlmPrePadding::test_rounds_intermediate_before_weight_allocation",
+      "451"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestLoadWeightsExpertBias::test_bias_free_experts_ignore_checkpoint_biases",
+      "515"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestLoadWeightsExpertBias::test_experts_with_bias_params_load_checkpoint_biases",
+      "520"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestLoadWeightsExpertBias::test_missing_non_bias_param_names_the_weight",
+      "525"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestLoadWeightsExpertBias::test_fused_bias_names_are_not_skipped",
+      "543"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestLoadWeightsExpertMapping::test_per_expert_weights_keep_all_physical_destinations",
+      "617"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestLoadWeightsExpertMapping::test_per_expert_fused_gate_up_keeps_both_halves",
+      "650"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestLoadWeightsExpertMapping::test_non_gated_mapping_uses_stacked_up_proj_without_warning",
+      "666"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestLoadWeightsExpertMapping::test_gated_mapping_with_unknown_names_warns_and_skips_fused",
+      "682"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestLoadWeightsExpertMapping::test_stacked_non_gated_tensors_load_unsplit",
+      "691"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestLoadWeightsExpertMapping::test_mixed_weights_reset_mapping_and_keep_fused_layout",
+      "716"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestLoadWeightsExpertMapping::test_fused_weights_stop_after_first_matching_run",
+      "752"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestLoadWeightsExpertMapping::test_repeated_experts_prefix_does_not_hide_later_matches",
+      "763"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestLoadWeightsExpertMapping::test_unmatched_names_do_not_load_experts",
+      "780"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestLoadWeightsExpertMapping::test_unusual_matching_entries_are_not_silently_skipped",
+      "786"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestPerTensorScaleCoercion::test_collapses_to_scalar",
+      "800"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/kernels/moe/test_moe_weight_loading_padded.py",
+      "TestPerTensorScaleCoercion::test_rejects_non_scalar",
+      "807"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf",
+    "oracle_source_sha256": {
+      "tests/kernels/moe/test_moe_weight_loading_padded.py": "855b1fdc27688da40e20f4f0ce803d42901941106b924a27f192919376ce73cf"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_mm_input_norm.py",
+      "TestFusedMMInputNormModule::test_dummy_loading_preserves_image_normalization",
+      "142"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_mm_input_norm.py": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_mm_input_norm.py",
+      "TestFusedMMInputNormModule::test_matches_reference_above_cudnn_grid_limit",
+      "160"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_mm_input_norm.py": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_mm_input_norm.py",
+      "TestFusedMMInputNormModule::test_identity_passthrough",
+      "169"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_mm_input_norm.py": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_mm_input_norm.py",
+      "TestFusedMMInputNormDtypes::test_dtype_combinations",
+      "195"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_mm_input_norm.py": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_mm_input_norm.py",
+      "TestFusedMMInputNormShapes::test_channel_variants",
+      "222"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_mm_input_norm.py": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_mm_input_norm.py",
+      "TestFusedMMInputNormShapes::test_block_boundaries",
+      "236"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_mm_input_norm.py": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_mm_input_norm.py",
+      "TestFusedMMInputNormShapes::test_rejects_indivisible_pcl_size",
+      "244"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_mm_input_norm.py": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_mm_input_norm.py",
+      "TestFusedMMInputNormInputHandling::test_non_contiguous_input_matches_reference",
+      "256"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_mm_input_norm.py": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_mm_input_norm.py",
+      "TestFusedMMInputNormBCHWLayout::test_dtype_combinations_bchw",
+      "285"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_mm_input_norm.py": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_mm_input_norm.py",
+      "TestFusedMMInputNormBCHWLayout::test_channel_variants_bchw",
+      "310"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_mm_input_norm.py": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_mm_input_norm.py",
+      "TestFusedMMInputNormBCHWLayout::test_spatial_shapes_bchw",
+      "325"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_mm_input_norm.py": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_mm_input_norm.py",
+      "TestFusedMMInputNormBCHWLayout::test_bchw_matches_pcl_equivalent",
+      "334"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_mm_input_norm.py": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_mm_input_norm.py",
+      "TestFusedMMInputNormBCHWLayout::test_large_batch_bchw",
+      "357"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_mm_input_norm.py": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_mm_input_norm.py",
+      "TestFusedMMInputNormBCHWValidation::test_rejects_2d_input",
+      "376"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_mm_input_norm.py": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_mm_input_norm.py",
+      "TestFusedMMInputNormBCHWValidation::test_rejects_5d_input",
+      "381"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_mm_input_norm.py": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_mm_input_norm.py",
+      "TestFusedMMInputNormBCHWValidation::test_rejects_channel_mismatch",
+      "386"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_mm_input_norm.py": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_mm_input_norm.py",
+      "TestFusedMMInputNormBCHWValidation::test_non_contiguous_bchw_matches_reference",
+      "391"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_mm_input_norm.py": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_mm_input_norm.py",
+      "TestFusedMMInputInputLayoutConfig::test_invalid_layout_raises",
+      "419"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_mm_input_norm.py": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_mm_input_norm.py",
+      "TestFusedMMInputNormOOTAndIdentity::test_forward_oot_matches_native",
+      "441"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_mm_input_norm.py": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_mm_input_norm.py",
+      "TestFusedMMInputNormOOTAndIdentity::test_identity_passthrough_bchw",
+      "454"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_mm_input_norm.py": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_mm_input_norm.py",
+      "TestFusedMMInputNormKernel::test_channel_boundary_crossing",
+      "478"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_mm_input_norm.py": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_mm_input_norm.py",
+      "TestFusedMMInputNormKernel::test_non_contiguous_inputs_materialized",
+      "493"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_mm_input_norm.py": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_mm_input_norm.py",
+      "TestFusedMMInputNormKernel::test_rejects_mismatched_output_shape",
+      "509"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_mm_input_norm.py": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_mm_input_norm.py",
+      "TestFusedMMInputNormConstruction::test_identity_config_buffers",
+      "550"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_mm_input_norm.py": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_mm_input_norm.py",
+      "TestFusedMMInputNormConstruction::test_non_identity_buffers",
+      "561"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_mm_input_norm.py": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/layers/test_mm_input_norm.py",
+      "TestFusedMMInputNormConstruction::test_buffers_initialized_on_default_device",
+      "589"
+    ],
+    "review_file": "round10_work/compute/crosswalk.tsv",
+    "source_sha256": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03",
+    "oracle_source_sha256": {
+      "tests/model_executor/layers/test_mm_input_norm.py": "37a0ce014a771c28b4a0ed347a0f5919573e0c23e5418c445e4ea0602221de03"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestParseExpertId::test_routed_expert",
+      "27"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestParseExpertId::test_large_expert_id",
+      "31"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestParseExpertId::test_expert_scale",
+      "62"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestParseExpertId::test_expert_zero_id",
+      "67"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestComputeLocalExpertIds::test_ep_disabled",
+      "78"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestComputeLocalExpertIds::test_even_split",
+      "81"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestComputeLocalExpertIds::test_uneven_split",
+      "89"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestComputeLocalExpertIds::test_384_experts_ep8",
+      "104"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestComputeLocalExpertIds::test_384_experts_ep16",
+      "118"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestComputeLocalExpertIds::test_384_experts_ep24",
+      "123"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestComputeLocalExpertIds::test_round_robin_basic",
+      "131"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestComputeLocalExpertIds::test_round_robin_full_coverage",
+      "139"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestComputeLocalExpertIds::test_round_robin_uneven",
+      "150"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestShouldSkipWeight::test_no_filter",
+      "172"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestShouldSkipWeight::test_dense_not_skipped",
+      "175"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestShouldSkipWeight::test_local_expert_not_skipped",
+      "180"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestShouldSkipWeight::test_remote_expert_skipped",
+      "185"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestShouldSkipWeight::test_local_packed_expert_not_skipped",
+      "190"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestShouldSkipWeight::test_remote_packed_expert_skipped",
+      "195"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestShouldSkipWeight::test_remote_expert_scale_not_skipped",
+      "200"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestShouldSkipWeight::test_boundary_expert",
+      "205"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestShouldSkipWeight::test_shared_expert_not_skipped",
+      "214"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestShouldSkipWeight::test_embedding_not_skipped",
+      "219"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestShouldSkipWeight::test_fused_3d_expert_not_skipped",
+      "222"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestSafetensorsWeightsIteratorWithEpFilter::test_no_filter_returns_all",
+      "257"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestSafetensorsWeightsIteratorWithEpFilter::test_empty_filter_skips_experts_only",
+      "265"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestEpFilterOnSyntheticMoeWeights::test_no_filter_returns_all",
+      "310"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestEpFilterOnSyntheticMoeWeights::test_ep2_rank0_gets_half_experts",
+      "315"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestEpFilterOnSyntheticMoeWeights::test_ep2_rank1_gets_other_half",
+      "340"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestEpFilterOnSyntheticMoeWeights::test_ep8_each_rank_gets_one_expert",
+      "353"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/model_executor/model_loader/test_ep_weight_filter.py",
+      "TestEpFilterOnSyntheticMoeWeights::test_tensor_values_match",
+      "369"
+    ],
+    "review_file": "round10_work/compute/proposed-crosswalk.tsv",
+    "source_sha256": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b",
+    "oracle_source_sha256": {
+      "tests/model_executor/model_loader/test_ep_weight_filter.py": "8d8794ebc47cca2bef161b716b90093bc12e3145bdbfc67959ae3b4b4f73464b"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_events.py",
+      "test_basic_publishing",
+      "42"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "948b589ebf8b86e3d89c0b0544d65a3bf39965d212bb5c8e8adc2d7053094537",
+    "oracle_source_sha256": {
+      "tests/distributed/test_events.py": "948b589ebf8b86e3d89c0b0544d65a3bf39965d212bb5c8e8adc2d7053094537"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_events.py",
+      "test_multiple_events",
+      "60"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "948b589ebf8b86e3d89c0b0544d65a3bf39965d212bb5c8e8adc2d7053094537",
+    "oracle_source_sha256": {
+      "tests/distributed/test_events.py": "948b589ebf8b86e3d89c0b0544d65a3bf39965d212bb5c8e8adc2d7053094537"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_events.py",
+      "test_replay_mechanism",
+      "77"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "948b589ebf8b86e3d89c0b0544d65a3bf39965d212bb5c8e8adc2d7053094537",
+    "oracle_source_sha256": {
+      "tests/distributed/test_events.py": "948b589ebf8b86e3d89c0b0544d65a3bf39965d212bb5c8e8adc2d7053094537"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_events.py",
+      "test_replay_includes_topic",
+      "98"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "948b589ebf8b86e3d89c0b0544d65a3bf39965d212bb5c8e8adc2d7053094537",
+    "oracle_source_sha256": {
+      "tests/distributed/test_events.py": "948b589ebf8b86e3d89c0b0544d65a3bf39965d212bb5c8e8adc2d7053094537"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_events.py",
+      "test_full_replay_with_slow_subscriber",
+      "117"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "948b589ebf8b86e3d89c0b0544d65a3bf39965d212bb5c8e8adc2d7053094537",
+    "oracle_source_sha256": {
+      "tests/distributed/test_events.py": "948b589ebf8b86e3d89c0b0544d65a3bf39965d212bb5c8e8adc2d7053094537"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_events.py",
+      "test_buffer_limit",
+      "158"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "948b589ebf8b86e3d89c0b0544d65a3bf39965d212bb5c8e8adc2d7053094537",
+    "oracle_source_sha256": {
+      "tests/distributed/test_events.py": "948b589ebf8b86e3d89c0b0544d65a3bf39965d212bb5c8e8adc2d7053094537"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_events.py",
+      "test_topic_filtering",
+      "182"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "948b589ebf8b86e3d89c0b0544d65a3bf39965d212bb5c8e8adc2d7053094537",
+    "oracle_source_sha256": {
+      "tests/distributed/test_events.py": "948b589ebf8b86e3d89c0b0544d65a3bf39965d212bb5c8e8adc2d7053094537"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_events.py",
+      "test_high_volume",
+      "215"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "948b589ebf8b86e3d89c0b0544d65a3bf39965d212bb5c8e8adc2d7053094537",
+    "oracle_source_sha256": {
+      "tests/distributed/test_events.py": "948b589ebf8b86e3d89c0b0544d65a3bf39965d212bb5c8e8adc2d7053094537"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_events.py",
+      "test_data_parallel_rank_tagging",
+      "261"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "948b589ebf8b86e3d89c0b0544d65a3bf39965d212bb5c8e8adc2d7053094537",
+    "oracle_source_sha256": {
+      "tests/distributed/test_events.py": "948b589ebf8b86e3d89c0b0544d65a3bf39965d212bb5c8e8adc2d7053094537"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_events.py",
+      "test_event_publisher_factory",
+      "325"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "948b589ebf8b86e3d89c0b0544d65a3bf39965d212bb5c8e8adc2d7053094537",
+    "oracle_source_sha256": {
+      "tests/distributed/test_events.py": "948b589ebf8b86e3d89c0b0544d65a3bf39965d212bb5c8e8adc2d7053094537"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_events.py",
+      "test_offset_endpoint_port_keeps_port_zero",
+      "383"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "948b589ebf8b86e3d89c0b0544d65a3bf39965d212bb5c8e8adc2d7053094537",
+    "oracle_source_sha256": {
+      "tests/distributed/test_events.py": "948b589ebf8b86e3d89c0b0544d65a3bf39965d212bb5c8e8adc2d7053094537"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_events.py",
+      "test_ephemeral_publishers_report_bound_endpoints",
+      "391"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "948b589ebf8b86e3d89c0b0544d65a3bf39965d212bb5c8e8adc2d7053094537",
+    "oracle_source_sha256": {
+      "tests/distributed/test_events.py": "948b589ebf8b86e3d89c0b0544d65a3bf39965d212bb5c8e8adc2d7053094537"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_events.py",
+      "test_ephemeral_bind_needs_a_node_ip",
+      "439"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "948b589ebf8b86e3d89c0b0544d65a3bf39965d212bb5c8e8adc2d7053094537",
+    "oracle_source_sha256": {
+      "tests/distributed/test_events.py": "948b589ebf8b86e3d89c0b0544d65a3bf39965d212bb5c8e8adc2d7053094537"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_packed_tensor.py",
+      "TestPackedBroadcastProducer::test_producer_empty_iterator",
+      "77"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_packed_tensor.py": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_packed_tensor.py",
+      "TestPackedBroadcastRoundtrip::test_roundtrip_different_dtypes",
+      "101"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_packed_tensor.py": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_packed_tensor.py",
+      "TestPackedBroadcastRoundtrip::test_roundtrip_mixed_dtypes",
+      "143"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_packed_tensor.py": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_packed_tensor.py",
+      "TestPackedBroadcastRoundtrip::test_roundtrip_different_batch_sizes",
+      "191"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_packed_tensor.py": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_packed_tensor.py",
+      "TestPackedBroadcastRoundtrip::test_roundtrip_non_contiguous_tensors",
+      "233"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_packed_tensor.py": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_packed_tensor.py",
+      "TestPackedBroadcastDeferredConsumer::test_deferred_read_is_ordered_after_receive",
+      "343"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_packed_tensor.py": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_packed_tensor.py",
+      "TestPackedBroadcastDeferredConsumer::test_freed_pack_not_reused_while_replay_pending",
+      "387"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_packed_tensor.py": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_packed_tensor.py",
+      "TestUnpackTensor::test_unpack_returns_views",
+      "460"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_packed_tensor.py": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_packed_tensor.py",
+      "TestPackTensors::test_pack_basic",
+      "485"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_packed_tensor.py": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_packed_tensor.py",
+      "TestPackTensors::test_pack_respects_buffer_limit",
+      "505"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_packed_tensor.py": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_packed_tensor.py",
+      "TestPackTensors::test_pack_empty_iterator",
+      "521"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_packed_tensor.py": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_packed_tensor.py",
+      "TestPackTensors::test_pack_single_tensor_larger_than_buffer_warns",
+      "530"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_packed_tensor.py": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_packed_tensor.py",
+      "TestPackTensors::test_pack_unpack_roundtrip",
+      "548"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_packed_tensor.py": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_packed_tensor.py",
+      "TestPackTensors::test_pack_multiple_chunks",
+      "578"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_packed_tensor.py": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_packed_tensor.py",
+      "TestPackedIpcProducer::test_producer_yields_chunks",
+      "605"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_packed_tensor.py": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_packed_tensor.py",
+      "TestPackedIpcProducer::test_producer_ipc_handle_has_uuid",
+      "622"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_packed_tensor.py": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_packed_tensor.py",
+      "TestPackedIpcProducer::test_producer_dtype_names_are_strings",
+      "637"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_packed_tensor.py": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_packed_tensor.py",
+      "TestPackedIpcProducer::test_producer_empty_iterator",
+      "655"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_packed_tensor.py": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_packed_tensor.py",
+      "TestPackedIpcRoundtrip::test_consumer_wrong_uuid_raises",
+      "883"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_packed_tensor.py": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/distributed/test_packed_tensor.py",
+      "test_pack_unpack_scalar",
+      "912"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e",
+    "oracle_source_sha256": {
+      "tests/distributed/test_packed_tensor.py": "3c9ae5b985b402503f9ff7b005e1f6932128ccf15f235f2f142c3ee71532ff1e"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_connector_without_divergent_hit_support_uses_common_lookup",
+      "44"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_capable_connector_uses_divergent_partial_hit_lookup",
+      "61"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_dcp_fine_hit_retention_uses_hash_alignment",
+      "166"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_mamba_align_split_partial_tail_schedule",
+      "237"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_mamba_align_split_when_block_exceeds_scheduling_budget",
+      "291"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_mamba_align_split_when_block_exceeds_long_prefill_threshold",
+      "330"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_hybrid_mamba_align_partial_hash_hit",
+      "371"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_eagle_group_registers_unaligned_tail_under_partial_hash_hits",
+      "446"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_hybrid_mamba_partial_tail_owner_uses_cow_on_continue",
+      "520"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_partial_hit_then_internal_checkpoint_uses_distinct_mamba_blocks",
+      "593"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_internal_checkpoint_uses_partial_hash_lifecycle",
+      "643"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_internal_checkpoint_publication_respects_retention",
+      "688"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_transient_checkpoint_evicts_retained_boundary_hash",
+      "751"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_prompt_end_checkpoint_survives_block_aligned_cache_count",
+      "783"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_intermediate_chunk_checkpoint_reserved_only_under_dense_retention",
+      "818"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_eagle_block_aligned_checkpoint_replaces_newer_hash",
+      "857"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_hash_aligned_query_end_uses_regular_partial_tail",
+      "884"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_external_mamba_hit_same_block_uses_running_cow_on_continue",
+      "911"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_boundary_state_offloads_returns_cow_target",
+      "983"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_finished_partial_tail_uses_table_source_once",
+      "1061"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_connector_finish_registers_partial_tail_before_cleanup",
+      "1127"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_boundary_state_offload_dropped_when_request_freed_before_drain",
+      "1168"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_boundary_state_offloads_block_aligned_prompt",
+      "1216"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_truncate_computed_blocks_preserves_sparse_prefix_positions",
+      "1269"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_truncate_computed_blocks_allows_short_mamba_group_only",
+      "1325"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_hybrid_mamba_partial_tail_owner_continue_preserves_later_hit",
+      "1389"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_hybrid_mamba_moved_partial_entry_defers_same_step_hit",
+      "1466"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_hybrid_full_attention_partial_hash_hit_uses_cow",
+      "1528"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_hybrid_partial_hit_cow_target_starts_uncached",
+      "1602"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_hybrid_partial_hash_truncates_full_attention_hit_length",
+      "1685"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_cow_retained_blocks_returned_for_release",
+      "1757"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_free_cow_retained_blocks_defers_until_copy_step_processed",
+      "1810"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_full_attention_eagle_drops_one_hash_unit",
+      "1846"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_hybrid_partial_hit_with_eagle_stays_within_group_blocks",
+      "1921"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_mamba_align_split_stops_below_eagle_proof_boundary",
+      "1982"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_mamba_partial_tail_hits_below_eagle_proof_boundary",
+      "2020"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_mamba_coarse_checkpoint_retained_below_eagle_proof_boundary",
+      "2086"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_hybrid_sliding_window_group_disables_partial_hash_hits",
+      "2155"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_resolved_cache_hit_alignment_matches_coordinator",
+      "2227"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_opted_out_scratch_group_keeps_partial_hash_hits",
+      "2292"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_kpool_tail_supports_128_token_partial_hash_hits",
+      "2348"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_hybrid_partial_hash_hit_uses_cow_under_dcp",
+      "2412"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_dcp_partial_hit_resumes_on_replicated_mamba_snapshot",
+      "2457"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_dcp_joint_hit_is_bounded_by_replicated_mamba_snapshots",
+      "2503"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_dcp_partial_hit_with_eagle_rewinds_one_hash_unit",
+      "2533"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_retention_snapshots_handed_off_with_exact_block_ids",
+      "2588"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_snapshot_handoff_dense_default_retention",
+      "2629"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_boundary_state_offer_includes_more_mamba_groups_than_two",
+      "2680"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_boundary_states_offered_past_prompt_for_resumed_prefill",
+      "2724"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_prompt_end_checkpoint_survives_sparse_retention_with_coarse_hash",
+      "2769"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py",
+      "test_checkpoint_reservation_matches_worker",
+      "2820"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a",
+    "oracle_source_sha256": {
+      "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": "f81ed5be56b3b6163e9c640062036ae40e41a24e6f7218a1c96bbae2e356d64a"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_cpu_stored_event_carries_request_context",
+      "154"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_cpu_eviction_removed_precedes_stored",
+      "168"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_already_stored_chunk_not_evicted_during_prepare_store",
+      "188"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_filter_reused_manager_reports_stores_skipped_counter",
+      "236"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_cpu_manager_reports_no_config_info_without_info",
+      "261"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_cpu_manager_reports_cache_usage_gauge",
+      "273"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_cpu_manager_reports_allocation_size_histogram",
+      "308"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_cpu_manager_reports_allocation_size_on_allocation_failure",
+      "331"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_cpu_manager_reports_allocation_size_on_eviction_failure",
+      "350"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_cpu_manager_reports_cache_write_and_read_usage_gauges",
+      "366"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_cpu_manager_clears_write_usage_after_failed_store",
+      "390"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_cpu_manager",
+      "400"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_prepare_load_preserves_key_order",
+      "517"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_lru_batch_eviction_failure_is_atomic",
+      "554"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_lru_repeated_pin_cycles_compact_lazy_heap_entries",
+      "571"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_reset_discards_stale_request_access_classification",
+      "589"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "TestARCPolicy::test_basic",
+      "628"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "TestARCPolicy::test_t1_to_t2_promotion",
+      "667"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "TestARCPolicy::test_eviction_with_load",
+      "688"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "TestARCPolicy::test_adaptive_target",
+      "728"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "TestARCPolicy::test_t1_t2_eviction_policy",
+      "755"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "TestARCPolicy::test_batch_eviction_scans_t1_and_t2_once",
+      "788"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "TestARCPolicy::test_batch_eviction_falls_back_after_t1_iterator_exhausted",
+      "834"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "TestARCPolicy::test_store_falls_back_to_t1_when_t2_cannot_satisfy_eviction",
+      "883"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "TestARCPolicy::test_batch_eviction_failure_is_atomic",
+      "927"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "TestARCPolicy::test_ghost_list_bounds",
+      "943"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "TestARCPolicy::test_reuse_ordering",
+      "962"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "TestARCPolicy::test_failed_store",
+      "994"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "TestARCPolicy::test_full_scenario",
+      "1022"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_take_events_prunes_retried_cleanup_and_drains_once",
+      "1061"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_filter_reused_manager",
+      "1082"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_filter_reused_manager_oversized_offer_makes_progress",
+      "1130"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_store_threshold_does_not_hide_ready_reuse",
+      "1152"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_store_threshold_does_not_count_retries_of_a_failed_offer",
+      "1195"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_store_threshold_counts_a_key_once_per_request",
+      "1231"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_evictable_cache_chunk_count",
+      "1265"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_request_finish_orders_lru_prefix_independent_of_store_completion",
+      "1358"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_request_finish_orders_lru_prefix_independent_of_load_completion",
+      "1380"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_late_old_completion_does_not_override_newer_request_recency",
+      "1404"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_arc_counts_reuse_once_and_keeps_insertions_in_t1",
+      "1426"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_arc_reuse_wins_if_same_request_later_reinserts_key",
+      "1457"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_request_finish_forwards_grouped_deduplicated_accesses",
+      "1485"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_failed_store_records_access_once_and_uses_store_miss_hook",
+      "1525"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_arc_ghost_hit_adapts_once_per_request_before_insertion",
+      "1571"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_arc_pending_chunk_is_not_a_frequency_hit",
+      "1612"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_request_key_positions_override_store_observation_order",
+      "1632"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_request_key_positions_order_tails_across_kv_groups",
+      "1650"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_unfinished_lru_prefix_survives_pressure_across_store_batches",
+      "1674"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_unfinished_lru_reused_prefix_outlives_new_tail",
+      "1706"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_unfinished_lru_backfill_orders_by_token_position",
+      "1731"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_lru_failed_store_retry_preserves_prefix_order",
+      "1746"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_lru_reset_discards_unfinished_request_recency",
+      "1763"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_older_lru_request_does_not_demote_a_newer_shared_access",
+      "1785"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_lru_incremental_stores_do_not_rescan_the_prefix",
+      "1808"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/cpu/test_manager.py",
+      "test_lru_insert_orders_positioned_chunks_without_followup_access",
+      "1828"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/cpu/test_manager.py": "ed205dc82216320849afccb370ba6bc3b2c7260a5391f2be311086ef7a83d41c"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_pre_registered_specs_can_be_imported",
+      "57"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_cpu_spec_registered",
+      "63"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_tiering_spec_registered",
+      "68"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_get_spec_cls_returns_registered_class",
+      "73"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_get_spec_cls_defaults_to_cpu",
+      "78"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_create_cpu_offloading_spec",
+      "85"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_cpu_spec_sizes_normalized_worker_layout",
+      "91"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_cpu_spec_zero_worker_bytes_produces_empty_cache",
+      "111"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_cpu_config_info_converts_slots_to_tokens",
+      "121"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_cpu_config_info_capacity_accounts_for_tensor_parallel_copies",
+      "144"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_cpu_config_info_capacity_dedups_a_replicated_layout",
+      "166"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_cpu_config_info_mirrors_spec_sizing",
+      "193"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_cpu_config_info_zero_capacity_is_exact_not_unknown",
+      "219"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_cpu_config_info_capacity_shrinks_when_a_second_group_shares_slots",
+      "231"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_cpu_config_info_no_token_capacity_without_a_kv_cache_group",
+      "249"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_cpu_config_info_no_token_capacity_without_max_model_len",
+      "258"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_tiering_primary_tier_publishes_the_cpu_labels",
+      "267"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_tiering_spec_passes_the_cpu_facts_to_the_primary_tier",
+      "297"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_tiering_spec_aligns_row_size",
+      "329"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_tiering_spec_replicated_sizing_removes_world_factor",
+      "348"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_tiering_spec_create_worker_uses_single_slot_for_replicated_layout",
+      "365"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_tiering_spec_create_worker_uses_worker_rank_for_sharded_layout",
+      "403"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_cpu_spec_replicated_sizing_on_shared_region",
+      "434"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_cpu_spec_replicated_disabled_without_shared_region",
+      "458"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_cpu_spec_replicated_layout_truth_matrix",
+      "491"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_cpu_spec_create_worker_uses_mmap_on_cuda",
+      "519"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_cpu_spec_create_worker_uses_tensor_path_without_shared_region",
+      "558"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_cpu_spec_create_worker_skips_mmap_for_empty_cache",
+      "590"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_cpu_spec_create_worker_rank_assignment",
+      "630"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_offloading_spec_has_replicated_layout_default",
+      "662"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_offloading_spec_uses_normalized_chunk_geometry",
+      "667"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_create_dynamic_spec_receives_config",
+      "683"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_dynamic_load_via_spec_module_path",
+      "695"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_unregistered_spec_without_module_path_raises",
+      "706"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_cpu_spec_missing_cpu_bytes_to_use_raises",
+      "715"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_duplicate_registration_raises",
+      "720"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_build_metric_definitions_below_threshold",
+      "727"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_build_metric_definitions_allocation_size_histogram",
+      "738"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_build_metric_definitions_returns_counter_at_threshold",
+      "760"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/test_factory.py",
+      "test_tiering_spec_rejects_secondary_tiers_across_nodes",
+      "780"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/test_factory.py": "0229a2732dd2d6c77dcbd1751edaa1d24b0bf9715877fdd7f731a235b517d7db"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestDefaultConfig::test_fs_gets_local_watermarks",
+      "139"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestDefaultConfig::test_obj_gets_network_watermarks",
+      "144"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestDefaultConfig::test_p2p_gets_local_watermarks",
+      "149"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestDefaultConfig::test_fs_with_remote_locality_gets_network_watermarks",
+      "154"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestDefaultConfig::test_fs_with_local_locality_gets_local_watermarks",
+      "159"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestDefaultConfig::test_failure_threshold_only_for_storage_tiers",
+      "172"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestIdleDecay::test_ema_decays_while_under_pressure",
+      "189"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestIdleDecay::test_ema_stays_pressured_if_not_enough_decay",
+      "201"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestIdleDecay::test_no_decay_before_warmup",
+      "213"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestIdleDecay::test_no_decay_applied_during_new_sample",
+      "225"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestIdleDecay::test_reset_clears_last_update",
+      "242"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestBackpressure::test_throttled_stores_update_metrics_and_release_pins",
+      "296"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestBackpressure::test_ema_updates_on_store_completion",
+      "333"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestBackpressure::test_pressure_activates_above_high_water",
+      "368"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestBackpressure::test_pressure_clears_below_low_water",
+      "391"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestBackpressure::test_hysteresis_prevents_oscillation",
+      "417"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestBackpressure::test_stores_skipped_under_pressure",
+      "455"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestBackpressure::test_stores_resume_after_pressure_clears",
+      "469"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestBackpressure::test_dropped_store_count_tracked",
+      "485"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestBackpressure::test_metrics_reported_via_get_stats",
+      "502"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestBackpressure::test_reset_cache_clears_backpressure",
+      "526"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestBackpressure::test_request_level_tier_respects_backpressure",
+      "536"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestBackpressure::test_loads_continue_under_pressure",
+      "566"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestBackpressure::test_failed_stores_activate_pressure",
+      "587"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestStoreFailures::test_failures_ignored_without_threshold",
+      "632"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestStoreFailures::test_success_resets_failure_streak",
+      "640"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestStoreFailures::test_failure_pressure_drops_all_stores",
+      "651"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestStoreFailures::test_failure_pressure_decays_before_warmup",
+      "658"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestStoreFailures::test_probe_after_decay",
+      "669"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestThrottledDropPolicy::test_no_drop_when_not_under_pressure",
+      "707"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestThrottledDropPolicy::test_no_drop_at_exactly_high_water",
+      "712"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestThrottledDropPolicy::test_partial_drop_at_moderate_pressure",
+      "719"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestThrottledDropPolicy::test_full_drop_at_severe_pressure",
+      "727"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestThrottledDropPolicy::test_drop_rate_increases_with_severity",
+      "734"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestThrottledDropPolicy::test_explicit_drop_store_policy_still_drops_all",
+      "746"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestThrottledDropPolicy::test_drop_count_tracks_rate",
+      "760"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestThrottledDropPolicy::test_drop_count_tracks_changing_rates",
+      "770"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestThrottledDropPolicy::test_fractional_state_survives_healthy_endpoints_and_metrics",
+      "783"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestSharedDropAccounting::test_pop_returns_and_resets",
+      "817"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestSharedDropAccounting::test_reset_clears_counters",
+      "825"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestSharedDropAccounting::test_throttled_reset_restarts_decisions",
+      "831"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestHealthyBypass::test_not_healthy_initially",
+      "858"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestHealthyBypass::test_healthy_after_streak",
+      "862"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestHealthyBypass::test_healthy_resets_on_high_latency",
+      "873"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestHealthyBypass::test_healthy_bypasses_policy",
+      "885"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestHealthyBypass::test_reset_clears_healthy_streak",
+      "891"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestCooldown::test_cooldown_throttles_stores",
+      "911"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestCooldown::test_no_cooldown_when_never_pressured",
+      "928"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestCooldown::test_no_cooldown_after_window_expires",
+      "933"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "vllm",
+      "tests/v1/kv_offload/tiering/test_backpressure.py",
+      "TestCooldown::test_reset_clears_cooldown",
+      "939"
+    ],
+    "review_file": "round10_work/runtime/crosswalk.tsv",
+    "source_sha256": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9",
+    "oracle_source_sha256": {
+      "tests/v1/kv_offload/tiering/test_backpressure.py": "983b533c95bc4479284ce3663a3181046b0ce7f2cc8e08015c83bbaeaa698ad9"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "ServingChatTestCase::test_stop_str_isolation_between_requests",
+      "712"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0",
+    "oracle_source_sha256": {
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "ServingChatTestCase::test_kimi_k2_non_streaming_tool_call_id_format",
+      "896"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0",
+    "oracle_source_sha256": {
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "ServingChatTestCase::test_kimi_k2_streaming_tool_call_id_format",
+      "933"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0",
+    "oracle_source_sha256": {
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "ServingChatTestCase::test_kimi_k2_non_streaming_tool_call_id_with_history",
+      "988"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0",
+    "oracle_source_sha256": {
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "ServingChatTestCase::test_kimi_k2_streaming_tool_call_id_with_history",
+      "1077"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0",
+    "oracle_source_sha256": {
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "ServingChatTestCase::test_dsv4_content_parts_list_normalized",
+      "1277"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0",
+    "oracle_source_sha256": {
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "ServingChatTestCase::test_dsv4_task_and_reminder_encode_end_to_end",
+      "1323"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0",
+    "oracle_source_sha256": {
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "ServingChatTestCase::test_streaming_abort_yields_error",
+      "1374"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0",
+    "oracle_source_sha256": {
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "ServingChatTestCase::test_non_streaming_cached_tokens_details_emits_sglext",
+      "1451"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0",
+    "oracle_source_sha256": {
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "ServingChatTestCase::test_non_streaming_chat_response_returns_requested_prompt_ids_and_meta_info",
+      "1493"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0",
+    "oracle_source_sha256": {
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "ServingChatTestCase::test_streaming_cached_tokens_details_emits_sglext",
+      "1526"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0",
+    "oracle_source_sha256": {
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "ServingChatTestCase::test_incremental_streaming_output_delta",
+      "1605"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0",
+    "oracle_source_sha256": {
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "ServingChatTestCase::test_extract_routed_dp_rank_from_header_invalid",
+      "1717"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0",
+    "oracle_source_sha256": {
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "ServingChatTestCase::test_non_stream_reasoning_response_preserves_payload_whitespace",
+      "1748"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0",
+    "oracle_source_sha256": {
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "ServingChatTestCase::test_build_chat_response_qwen3_thinking_forces_reasoning",
+      "1918"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0",
+    "oracle_source_sha256": {
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "ServingChatTestCase::test_decode_response_returns_text",
+      "2000"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0",
+    "oracle_source_sha256": {
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py",
+      "ServingChatTestCase::test_get_parsed_response_fields_passthrough",
+      "2006"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0",
+    "oracle_source_sha256": {
+      "test/registered/unit/entrypoints/openai/test_serving_chat.py": "37eb00863f430a85d8a2705918b299436fb3c9c7f943d64c3b07a2408a90d9a0"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestNormalizeRopeScalingCompat::test_adds_type_from_rope_type",
+      "36"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestNormalizeRopeScalingCompat::test_preserves_existing_type",
+      "42"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestNormalizeRopeScalingCompat::test_no_op_when_no_rope_scaling",
+      "48"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestNormalizeRopeScalingCompat::test_no_op_when_rope_scaling_is_none",
+      "53"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestNormalizeRopeScalingCompat::test_recurses_into_text_config",
+      "59"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestNormalizeRopeScalingCompat::test_recurses_into_llm_config",
+      "67"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestNormalizeRopeScalingCompat::test_no_crash_on_non_dict_rope_scaling",
+      "75"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestNormalizeRopeScalingCompat::test_no_crash_on_dict_without_rope_type",
+      "81"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestGetRopeConfig::test_v5_rope_parameters",
+      "94"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestGetRopeConfig::test_v4_fallback_remote_code_config",
+      "101"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestGetRopeConfig::test_v4_no_scaling",
+      "111"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestPatchTextConfig::test_propagates_parent_to_text",
+      "124"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestPatchTextConfig::test_propagates_text_to_parent",
+      "140"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestPatchTextConfig::test_no_overwrite_when_both_have_attr",
+      "148"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestGetContextLength::test_max_position_embeddings",
+      "165"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestGetContextLength::test_max_sequence_length_takes_priority",
+      "170"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestGetContextLength::test_rope_scaling_factor",
+      "176"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestGetContextLength::test_rope_scaling_llama3_ignores_factor",
+      "182"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestGetContextLength::test_original_max_position_embeddings_ignores_factor",
+      "188"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestGetContextLength::test_default_when_no_keys",
+      "197"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestOverrideVHeadDimIfZero::test_patches_zero_v_head_dim",
+      "272"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestOverrideVHeadDimIfZero::test_custom_patch_value",
+      "279"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestOverrideVHeadDimIfZero::test_no_patch_when_nonzero",
+      "286"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestOverrideVHeadDimIfZero::test_dict_sub_config",
+      "293"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestGetHfTextConfig::test_returns_config_for_pure_text_model",
+      "310"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestGetHfTextConfig::test_returns_text_config_for_multimodal",
+      "316"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestGetHfTextConfig::test_llm_config_priority_over_text_config",
+      "325"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestGetHfTextConfig::test_thinker_config_highest_priority",
+      "337"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestGetHfTextConfig::test_thinker_config_with_text_sub_config",
+      "346"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestGetHfTextConfig::test_converts_dict_sub_config",
+      "359"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestGetHfTextConfig::test_llava_returns_parent_config",
+      "370"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  },
+  {
+    "key": [
+      "sglang",
+      "test/registered/unit/utils/test_hf_transformers.py",
+      "TestGetHfTextConfig::test_calls_normalize_rope_scaling",
+      "379"
+    ],
+    "review_file": "round10_work/sglang/crosswalk.tsv",
+    "source_sha256": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7",
+    "oracle_source_sha256": {
+      "test/registered/unit/utils/test_hf_transformers.py": "90d5ecbdf00486369ce3636f541b90cb30d5c05228c38e4c5643138d13d1c6a7"
+    }
+  }
+]

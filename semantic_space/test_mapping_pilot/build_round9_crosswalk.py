@@ -29,11 +29,13 @@ def hashes(name):
         result[(x.get('snapshot','sglang' if name=='sglang' else 'vllm'),path)]=x.get('source_sha256',x.get('sha256'))
     return result
 
-def main():
+def main(batch=None, label="round9", names=None, prior=()):
+    global BATCH
+    BATCH = batch or HERE/"round9_work"
     index={key(r):r for r in read(HERE/'full-scan-index.tsv')}
     origins={key(r):r for r in read(HERE/'inherited-method-sources.tsv')}
     existing=set()
-    for name in ['confirmed-property-crosswalk.tsv','direct-property-crosswalk.tsv','inherited-property-crosswalk.tsv','reviewed-supplement-crosswalk.tsv']:
+    for name in ['confirmed-property-crosswalk.tsv','direct-property-crosswalk.tsv','inherited-property-crosswalk.tsv','reviewed-supplement-crosswalk.tsv', *prior]:
         existing.update(key(r) for r in read(HERE/name))
     existing.update(key(r) for r in read(HERE.parent/'oracle-review-queue.tsv') if r['source_review_status']=='mapped' and r['source_reviewed_units'])
     units={u['id'] for u in json.loads((HERE.parent/'space_seed.json').read_text())['units']}
@@ -48,7 +50,7 @@ def main():
                 nodes={n.lineno:n for n in ast.walk(tree) if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef))}
             cache[k]=(hashlib.sha256(raw).hexdigest(),text.splitlines(),nodes)
         return cache[k]
-    for name in ['sglang','vllm_other','vllm_runtime','rust','auto_round','low_latency_gemm','skinny_gemm']:
+    for name in (names if names is not None else ['sglang','vllm_other','vllm_runtime','rust','auto_round','low_latency_gemm','skinny_gemm']):
         if not (BATCH/name/'crosswalk.tsv').exists():continue
         expected=hashes(name)
         for filename in ['crosswalk.tsv','proposed-crosswalk.tsv']:
@@ -86,11 +88,11 @@ def main():
                 out[k]=r
                 receipts.append({'key':k,'review_file':str(path.relative_to(HERE)),'source_sha256':digest,'oracle_source_sha256':check_hashes})
     rows=sorted(out.values(),key=lambda r:(r['snapshot'],r['path'],int(r['line']),r['test_name']))
-    with (HERE/'reviewed-round9-crosswalk.tsv').open('w',newline='',encoding='utf-8') as f:
+    with (HERE/f'reviewed-{label}-crosswalk.tsv').open('w',newline='',encoding='utf-8') as f:
         w=csv.DictWriter(f,FIELDS,delimiter='\t',lineterminator='\n');w.writeheader();w.writerows(rows)
-    (HERE/'reviewed-round9-pending.json').write_text(json.dumps(pending,ensure_ascii=False,indent=2)+'\n')
-    (HERE/'reviewed-round9-receipts.json').write_text(json.dumps(receipts,ensure_ascii=False,indent=2)+'\n')
+    (HERE/f'reviewed-{label}-pending.json').write_text(json.dumps(pending,ensure_ascii=False,indent=2)+'\n')
+    (HERE/f'reviewed-{label}-receipts.json').write_text(json.dumps(receipts,ensure_ascii=False,indent=2)+'\n')
     summary={'full_scope':len(index),'new_reviewed_mappings':len(rows),'proposed_unit_mappings_pending':len(pending),'by_framework':dict(Counter(r['snapshot'] for r in rows)),'complete':False}
-    (HERE/'reviewed-round9-summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2)+'\n')
+    (HERE/f'reviewed-{label}-summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2)+'\n')
     print(json.dumps(summary,ensure_ascii=False));return summary
 if __name__=='__main__':main()

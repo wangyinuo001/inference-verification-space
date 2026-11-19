@@ -1,0 +1,18 @@
+[
+  {
+    "id": "request.reasoning_mode_resolution",
+    "name": "请求的推理模式由显式参数与模板默认值确定",
+    "property": "请求显式 thinking/enable_thinking/reasoning_effort 与模板默认规则共同确定内部 require_reasoning；默认规则和模型专用覆写应按声明优先级生效。",
+    "reason": "现有 response.reasoning_content_partition 负责输出分离；这些测试只检查进入生成前的布尔模式，不能归作已验证输出分离。",
+    "evidence": "test/registered/unit/entrypoints/openai/test_serving_chat.py:199,241,284,1729,1780,1799,1818,1846,1853,1867,1881,1895,1909,1950",
+    "status": "proposed_not_admitted"
+  },
+  {
+    "id": "input.chat_message_preparation",
+    "name": "消息和工具字段向模板的传递与归一化",
+    "property": "角色、工具模式、工具历史实参和文本分块按声明规则归一化后传给模板；不支持的历史实参类型应在模板执行前拒绝。",
+    "reason": "测试核对 apply_chat_template.call_args、参数字典或 normalize_tool_content 的直接返回值，不能据此确认最终渲染文本或 token 序列正确。",
+    "evidence": "test/registered/unit/entrypoints/openai/test_serving_chat.py:327,362,398,434,467,561,600,639,2090,2094,2101,2106,2109,2112,2117",
+    "status": "proposed_not_admitted"
+  }
+]

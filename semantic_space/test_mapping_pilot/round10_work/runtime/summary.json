@@ -1,0 +1,41 @@
+{
+  "mapped_entries": 229,
+  "reviewed_files": 6,
+  "already_reviewed_excluded": 4,
+  "by_file": {
+    "tests/distributed/test_events.py": 13,
+    "tests/distributed/test_packed_tensor.py": 20,
+    "tests/v1/core/prefix_cache/test_partial_prefix_cache_hits.py": 51,
+    "tests/v1/kv_offload/cpu/test_manager.py": 55,
+    "tests/v1/kv_offload/test_factory.py": 40,
+    "tests/v1/kv_offload/tiering/test_backpressure.py": 50
+  },
+  "by_unit": {
+    "cache.capacity_plan": 7,
+    "cache.event_configuration": 6,
+    "cache.event_metadata_lifetime": 1,
+    "cache.event_payload_binding": 2,
+    "cache.eviction_candidate_order": 20,
+    "cache.eviction_outcome": 7,
+    "cache.hit_accounting": 17,
+    "cache.lifetime": 12,
+    "cache.offload_admission": 8,
+    "cache.offload_backpressure": 40,
+    "cache.offload_metrics": 25,
+    "cache.state_invariants": 17,
+    "cache.storage_layout_mapping": 9,
+    "deployment.configuration_admissibility": 5,
+    "deployment.effective_configuration": 11,
+    "disagg.kv_mapping": 7,
+    "distributed.message_delivery": 9,
+    "distributed.remote_endpoint_binding": 2,
+    "distributed.tensor_buffer_lifetime": 2,
+    "distributed.tensor_pack_contract": 18,
+    "schedule.segment_continuity": 4
+  },
+  "not_promoted": [
+    "test_backpressure.py::test_shared_base 仅继承关系断言",
+    "test_events.py::test_null_publisher 仅执行不报错，无事件交付断言"
+  ],
+  "runtime_execution": false
+}

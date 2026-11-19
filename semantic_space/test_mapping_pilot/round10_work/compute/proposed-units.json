@@ -1,0 +1,57 @@
+{
+  "proposals": [
+    {
+      "id": "model.output_transform_selection",
+      "property": "按池化任务配置与显式覆盖选择输出变换的模块类型和参数，保留显式提供的可调用对象。"
+    },
+    {
+      "id": "model.parameter_axis_mapping",
+      "property": "权重布局、张量阶数与分片轴确定参数的逻辑hidden轴；拒绝不在数据轴范围内的分片轴。"
+    },
+    {
+      "id": "compute.normalization_configuration_binding",
+      "property": "预处理归一化配置和布局声明确定归一化实现、启用状态及布局字段。"
+    },
+    {
+      "id": "model.checkpoint_expert_selection",
+      "name": "专家检查点识别与rank过滤",
+      "kind": "obligation",
+      "phase": "preflight",
+      "state_scope": "deployment",
+      "conditions": [
+        "parameter_mapping",
+        "execution_layout"
+      ],
+      "property": "根据专家检查点的名字、放置方式和rank归属确定应读取的权重集合；声明保留的非专家权重与缩放元数据不得被过滤。",
+      "observable": [
+        "parsed_expert_id",
+        "rank_expert_ids",
+        "skip_decision",
+        "returned_weight_names",
+        "returned_weight_values"
+      ],
+      "oracle": "按声明名称语法和linear/round_robin规则检查ID及集合；以合成safetensors或无过滤读取对照返回名称和张量。",
+      "evidence": {
+        "vllm": [
+          {
+            "path": "vllm/model_executor/model_loader/ep_weight_filter.py",
+            "line": 21,
+            "kind": "source"
+          },
+          {
+            "path": "tests/model_executor/model_loader/test_ep_weight_filter.py",
+            "line": 27,
+            "kind": "existing_test"
+          },
+          {
+            "path": "tests/model_executor/model_loader/test_ep_weight_filter.py",
+            "line": 338,
+            "kind": "existing_test"
+          }
+        ]
+      }
+    }
+  ],
+  "pending_entry_count": 31,
+  "additional_proposed_rows": 31
+}
